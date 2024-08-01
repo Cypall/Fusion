@@ -3,17 +3,27 @@ unit Main;
 interface
 
 uses
-	{Delphi VCL units}
-	Windows, MMSystem, Messages, SysUtils, Variants, Classes, Graphics, Controls,
-	Forms, ShellApi, Dialogs, ScktComp, StdCtrls, ExtCtrls, IniFiles, WinSock,
-	ComCtrls,
+    {Delphi VCL units (Windows Only)}
+        {$IFDEF MSWINDOWS} //Saying to load this if WINDOWS
+        Windows, Messages, MMSystem, Forms, ShellApi, Graphics, Controls, Dialogs,
+        Menus, ScktComp, StdCtrls, ExtCtrls, WinSock, ComCtrls,
+        {$ENDIF}
+    {Delphi/Kylix CLX units (Linux)}
+        {$IFDEF LINUX}
+        QExtCtrls, QComCtrls, QGraphics, QControls, QDialogs, QMenus, Qt, QStdCtrls,
+        {$ENDIF}
+    {Shared}
+        SysUtils, Variants, Classes, IniFiles, Types,
 	{Fusion Units}
-	Login, CharaSel, Script, Game, Path, Database, Common, MonsterAI, Buttons,
-	SQLData, FusionSQL, Math, Game_Master, Player_Skills, WeissINI, JCon, Globals,
-	{3rd Party Units}
-	List32, Zip, Menus;
+    	Login, CharaSel, Script, Game, Path, Database, Common, MonsterAI, Buttons,
+    	SQLData, FusionSQL, Math, Game_Master, Player_Skills, WeissINI, JCon, Globals,
+        PacketProcesses, ISCS, WAC,
+    {3rd Party Units}
+    	List32, Zip, WSocket;
 
 const
+    {I know these are windows based, keep away from linux XD}
+    {$IFDEF MSWINDOWS}
 	REALTIME_PRIORITY_CLASS = $100;
 	HIGH_PRIORITY_CLASS = $80;
 	ABOVE_NORMAL_PRIORITY_CLASS = $8000;
@@ -22,6 +32,7 @@ const
 	IDLE_PRIORITY_CLASS = $40;
 	WM_NOTIFYICON  = WM_USER+333;
 	htTitleBtn = htSizeLast + 1;
+    {$ENDIF}
 
 
 type
@@ -49,8 +60,6 @@ type
     Stop1: TMenuItem;
     TabSheet3: TTabSheet;
     ListBox1: TListBox;
-    Edit2: TEdit;
-    Label1: TLabel;
     Label2: TLabel;
     Edit3: TEdit;
     Label3: TLabel;
@@ -179,6 +188,177 @@ type
     Button13: TButton;
     Button14: TButton;
     Button15: TButton;
+    S1: TMenuItem;
+    ConnecttoISCS1: TMenuItem;
+    EnableWebAccountCreator1: TMenuItem;
+    Label60: TLabel;
+    Edit5: TEdit;
+    TabSheet7: TTabSheet;
+    Edit53: TEdit;
+    Label65: TLabel;
+    DNSUpdateTimer: TTimer;
+    PageControl3: TPageControl;
+    TabSheet6: TTabSheet;
+    Label95: TLabel;
+    Label96: TLabel;
+    ListBox3: TListBox;
+    Button17: TButton;
+    Button18: TButton;
+    Edit8: TEdit;
+    Button19: TButton;
+    Button20: TButton;
+    Button21: TButton;
+    TabSheet9: TTabSheet;
+    Label61: TLabel;
+    Label63: TLabel;
+    Label64: TLabel;
+    Label67: TLabel;
+    Label62: TLabel;
+    Label66: TLabel;
+    Label68: TLabel;
+    Label69: TLabel;
+    Label70: TLabel;
+    Label71: TLabel;
+    Label72: TLabel;
+    Label73: TLabel;
+    Label74: TLabel;
+    Label75: TLabel;
+    Label76: TLabel;
+    Label77: TLabel;
+    Label78: TLabel;
+    Label79: TLabel;
+    Label80: TLabel;
+    Label94: TLabel;
+    Label93: TLabel;
+    Label92: TLabel;
+    Label91: TLabel;
+    Label90: TLabel;
+    Label89: TLabel;
+    Label88: TLabel;
+    Label87: TLabel;
+    Label86: TLabel;
+    Label84: TLabel;
+    Label83: TLabel;
+    Label82: TLabel;
+    Label81: TLabel;
+    Label98: TLabel;
+    Label99: TLabel;
+    Label102: TLabel;
+    Label101: TLabel;
+    Label100: TLabel;
+    Label103: TLabel;
+    Label104: TLabel;
+    Label105: TLabel;
+    Label106: TLabel;
+    Label107: TLabel;
+    Label108: TLabel;
+    Label109: TLabel;
+    Label114: TLabel;
+    Label112: TLabel;
+    Label113: TLabel;
+    Label117: TLabel;
+    Label118: TLabel;
+    Edit52: TEdit;
+    Edit15: TEdit;
+    Edit14: TEdit;
+    Edit10: TEdit;
+    ListBox2: TListBox;
+    Edit11: TEdit;
+    Edit12: TEdit;
+    Edit13: TEdit;
+    Edit16: TEdit;
+    Edit36: TEdit;
+    Edit41: TEdit;
+    Edit46: TEdit;
+    Edit47: TEdit;
+    Edit48: TEdit;
+    Edit49: TEdit;
+    Edit50: TEdit;
+    Edit51: TEdit;
+    Button16: TButton;
+    Edit67: TEdit;
+    Edit66: TEdit;
+    Edit65: TEdit;
+    Edit64: TEdit;
+    Edit63: TEdit;
+    Edit61: TEdit;
+    Edit59: TEdit;
+    Edit57: TEdit;
+    Edit56: TEdit;
+    Edit55: TEdit;
+    Edit54: TEdit;
+    Edit60: TEdit;
+    Edit62: TEdit;
+    Edit68: TEdit;
+    Edit69: TEdit;
+    Edit70: TEdit;
+    Edit71: TEdit;
+    Edit72: TEdit;
+    Edit73: TEdit;
+    Edit74: TEdit;
+    TabSheet10: TTabSheet;
+    Label119: TLabel;
+    Label120: TLabel;
+    Label121: TLabel;
+    Label122: TLabel;
+    Label123: TLabel;
+    Label124: TLabel;
+    Label125: TLabel;
+    Label126: TLabel;
+    Label127: TLabel;
+    Label97: TLabel;
+    ListBox4: TListBox;
+    CheckBox1: TCheckBox;
+    ComboBox19: TComboBox;
+    Edit58: TEdit;
+    Edit75: TEdit;
+    Edit76: TEdit;
+    Edit77: TEdit;
+    Edit78: TEdit;
+    Button22: TButton;
+    Edit85: TEdit;
+    TabSheet14: TTabSheet;
+    ListBox5: TListBox;
+    ListBox6: TListBox;
+    Label128: TLabel;
+    Label129: TLabel;
+    Label130: TLabel;
+    Label85: TLabel;
+    ListBox7: TListBox;
+    ListBox8: TListBox;
+    Label110: TLabel;
+    Label111: TLabel;
+    Button23: TButton;
+    Button24: TButton;
+    ComboBox20: TComboBox;
+    Label115: TLabel;
+    CheckBox2: TCheckBox;
+    Label116: TLabel;
+    Label131: TLabel;
+    Button25: TButton;
+    Edit79: TEdit;
+    Edit80: TEdit;
+    Label132: TLabel;
+    Label133: TLabel;
+    Label134: TLabel;
+    Label135: TLabel;
+    Menu1: TMenuItem;
+    Console1: TMenuItem;
+    Options1: TMenuItem;
+    Administration1: TMenuItem;
+    Accounts1: TMenuItem;
+    Characters1: TMenuItem;
+    Label1: TLabel;
+    Combo_ISCS: TComboBox;
+    Label136: TLabel;
+    ListBox9: TListBox;
+    Label137: TLabel;
+    ComboBox21: TComboBox;
+    Label139: TLabel;
+    ComboBox22: TComboBox;
+    Help1: TMenuItem;
+    Bugtracker1: TMenuItem;
+    FusionHomepage1: TMenuItem;
 
 		procedure FormResize(Sender: TObject); overload;
 		procedure DBsaveTimerTimer(Sender: TObject);
@@ -196,9 +376,12 @@ type
 		procedure CharaSplash2(tc:TChara;Tick:cardinal);
 		procedure CharaAttack(tc:TChara;Tick:cardinal);
 		procedure CharaAttack2(tc:TChara;Tick:cardinal);
+
+        {Maybe a place to put all the passive processes besides main?}
 		procedure CharaPassive(tc:TChara;Tick:cardinal);
 		procedure SkillPassive(tc:TChara;Tick:Cardinal);
 		procedure PetPassive(tc:TChara; _Tick:Cardinal);
+        function  MapPassive(tm:TMap; Tick:Cardinal) : boolean;
 
 		function  NPCAction(tm:TMap;tn:TNPC;Tick:cardinal;tc:TChara) : Integer;
 
@@ -248,6 +431,7 @@ type
     procedure Exit1Click(Sender: TObject);
     procedure PageControl1Change(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
+    procedure ListBox9Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
@@ -268,7 +452,35 @@ type
     procedure Button13Click(Sender: TObject);
     procedure Button14Click(Sender: TObject);
     procedure Button15Click(Sender: TObject);
-		//procedure cbxPriorityChange(Sender: TObject);
+    procedure S1Click(Sender: TObject);
+    procedure ConnecttoISCS1Click(Sender: TObject);
+    procedure EnableWebAccountCreator1Click(Sender: TObject);
+    procedure Button16Click(Sender: TObject);
+    procedure ListBox2Click(Sender: TObject);
+    procedure PageControl3Change(Sender: TObject);
+    procedure Button17Click(Sender: TObject);
+    procedure Button18Click(Sender: TObject);
+    procedure ListBox3Click(Sender: TObject);
+    procedure Edit8KeyPress(Sender: TObject; var Key: Char);
+    procedure Button19Click(Sender: TObject);
+    procedure Button20Click(Sender: TObject);
+    procedure Button21Click(Sender: TObject);
+    procedure ListBox4Click(Sender: TObject);
+    procedure DNSUpdateTimerTimer(Sender: TObject);
+    procedure Button22Click(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
+    procedure ListBox7Click(Sender: TObject);
+    procedure Button23Click(Sender: TObject);
+    procedure Button25Click(Sender: TObject);
+    procedure Button24Click(Sender: TObject);
+    procedure ListBox8Click(Sender: TObject);
+    procedure Options1Click(Sender: TObject);
+    procedure Console1Click(Sender: TObject);
+    procedure Accounts1Click(Sender: TObject);
+    procedure Characters1Click(Sender: TObject);
+    procedure Bugtracker1Click(Sender: TObject);
+    procedure FusionHomepage1Click(Sender: TObject);
+    	//procedure cbxPriorityChange(Sender: TObject);
 
 
 	private
@@ -312,9 +524,6 @@ var
 	//Icon
 	TrayIcon      : TNotifyIconData;
 
-
-
-
 implementation
 
 {$R *.dfm}
@@ -333,155 +542,83 @@ var
 	b : integer;
 	c : integer;
 
+    hostName : array [0..255] of char;
+    hostEnt : PHostEnt;
+    addr : PChar;
+    IP : String;
+
 begin
 
 	AppPath := ExtractFilePath(ParamStr(0));
+    Caption := ' Fusion Server Software - ' + RELEASE_VERSION;
+
+    Combo_ISCS.ItemIndex := 0;
 
 	//Alex' new GM command initialization
 	load_commands();
+    init_globals();
 
-	Randomize;
-	timeBeginPeriod(1);
-	timeEndPeriod(1);
-	SetLength(TrueBoolStrs, 4);
-	TrueBoolStrs[0] := '1';
-	TrueBoolStrs[1] := '-1';
-	TrueBoolStrs[2] := 'true';
-	TrueBoolStrs[3] := 'True';
-	SetLength(FalseBoolStrs, 3);
-	FalseBoolStrs[0] := '0';
-	FalseBoolStrs[1] := 'false';
-	FalseBoolStrs[2] := 'False';
-
-	//NowAccountID := 0;
-	NowUsers := 0;
-	NowLoginID := 0;
-	NowItemID := 10000;
-	NowMobID := 1000000;
-	NowCharaID := 0;
-	//NowNPCID := 50000;
-
-	NowPetID := 0;
-
-	DebugOut := txtDebug;
-
-	Caption := ' The Fusion Project: RO Server Software'; //ExtractFileName(ChangeFileExt(ParamStr(0), ''));
-
-	ScriptList := TStringList.Create;
-
-	ItemDB := TIntList32.Create;
-	ItemDB.Sorted := true;
-	ItemDBName := TStringList.Create;
-	ItemDBName.CaseSensitive := True;
-
-	MaterialDB := TIntList32.Create;
-	MaterialDB.Sorted := true;
-
-	MobDB := TIntList32.Create;
-	MobDB.Sorted := true;
-
-	MobAIDB := TIntList32.Create;
-	MobAIDB.Sorted := true;
-
-	//MobAIDBAegis:= TStringList.Create;
-	//MobAIDBAegis.CaseSensitive := False;
-	MobAIDBFusion := TIntList32.Create;
-	MobAIDBFusion.Sorted := true;
-
-        GlobalVars := TStringList.Create;
-
-       // PharmacyDB := TIntList32.Create;
-       // PharmacyDB.Sorted := true;
-
-	MobDBName := TStringList.Create;
-	MobDBName.CaseSensitive := True;
-	SlaveDBName := TStringList.Create;
-	SlaveDBName.CaseSensitive := True;
-
-	{Arrow Creation Database}
-	MArrowDB := TIntList32.Create;
-	MArrowDB.Sorted := true;
-
-	WarpDatabase := TStringList.Create;
-
-	IDTableDB := TIntList32.Create;
-	IDTableDB.Sorted := true;
-
-	SkillDB := TIntList32.Create;
-	SkillDBName := TStringList.Create;
-	PlayerName := TStringList.Create;
-	PlayerName.CaseSensitive := True;
-	Player := TIntList32.Create;
-	CharaName := TStringList.Create;
-	CharaName.CaseSensitive := True;
-	Chara := TIntList32.Create;
-	CharaPID := TIntList32.Create;
-
-	PartyNameList := TStringList.Create;
-	PartyNameList.CaseSensitive := True;
-	CastleList := TStringList.Create;
-	CastleList.CaseSensitive := True;
-	TerritoryList := TStringList.Create;
-	TerritoryList.CaseSensitive := True;
-	EmpList := TStringList.Create;
-	EmpList.CaseSensitive := True;
-
-	ChatRoomList := TIntList32.Create;
-
-	VenderList := TIntList32.Create;
-
-	DealingList := TIntList32.Create;
-
-	PetDB  := TIntList32.Create;
-	PetList := TIntList32.Create;
-
-	{Chrstphr 2004/04/19 -- this list is now created/loaded in the
-	DataLoad proc in the Database.pas module }
-	//SummonMobList := TIntList32.Create;
-	SummonMobListMVP := TStringList.Create;
-
-	SummonIOBList  := TStringList.Create;//Changed for lower memory/ease of use
-	SummonIOVList  := TStringList.Create;//Ditto
-	SummonICAList  := TStringList.Create;//
-	SummonIGBList  := TStringList.Create;//
-	SummonIOWBList := TStringList.Create;//
-
-	ServerFlag := TStringList.Create;
-	MapInfo    := TStringList.Create;
-
-	GuildList := TIntList32.Create;
-	GSkillDB := TIntList32.Create;
-
-	Map := TStringList.Create;
-	MapList := TStringList.Create;
 	sl := TStringList.Create;
 	sl.QuoteChar := '"';
 	sl.Delimiter := ',';
+    sl.Clear;
+
+    ini := TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'));
+    ini.ReadSectionValues('Version', sl);
+        if not (sl.Values['VER'] = '1.212 S - R.E.E.D Beta 4 Release') then begin
+            DeleteFile(AppPath + 'weiss.ini');
+        end;
+    ini.Free;
+
 
 	ini := TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'));
-	sl.Clear;
+
 	ini.ReadSectionValues('Server', sl);
 
 	sl1 := TStringList.Create;
 	sl1.Delimiter := '.';
-	sl1.DelimitedText := sl.Values['IP'];
-	if sl1.Count = 4 then begin
-		ServerIP := cardinal(inet_addr(PChar(sl.Values['IP'])));
-	end else begin
-		ServerIP := cardinal(inet_addr('127.0.0.1'));
-		//ServerIP := $0100007f;
-	end;
+
+
+    { -- Automatically assigning LAN_IP -- }
+    gethostname(hostName, sizeof (hostName));
+    hostEnt := gethostbyname(hostName);
+    addr := hostEnt^.h_addr_list^;
+    LAN_IP := Format ('%d.%d.%d.%d', [byte (addr [0]), byte (addr [1]), byte (addr [2]), byte (addr [3])]);
+    LAN_ADDR := cardinal(inet_addr(PChar(LAN_IP)));
+    { -- Automatically assigning LAN_IP -- }
+
+    { -- Resolving WAN_IP -- }
+	sl1.DelimitedText := sl.Values['WAN_IP'];
+    WAN_IP := sl.Values['WAN_IP'];
+    WAN_ADDR := cardinal(inet_addr(PChar(WAN_IP)));
+    hostEnt := gethostbyname(PChar(WAN_IP));
+    try
+        addr := hostEnt^.h_addr_list^;
+        IP := Format ('%d.%d.%d.%d', [byte (addr [0]), byte (addr [1]), byte (addr [2]), byte (addr [3])]);
+        WAN_ADDR := cardinal(inet_addr(PChar(IP)));
+    except
+        on EAccessViolation do begin
+            WAN_ADDR := LAN_ADDR;
+        end;
+    end;
+    { -- Resolving WAN_IP -- }
+
+
 	if sl.IndexOfName('Name') > -1 then begin
 		ServerName := sl.Values['Name'];
 	end else begin
 		ServerName := 'weiss';
 	end;
-	if sl.IndexOfName('NPCID') > -1 then begin
+	{if sl.IndexOfName('NPCID') > -1 then begin
 		DefaultNPCID := StrToInt(sl.Values['NPCID']);
 	end else begin
 		DefaultNPCID := 50000;
-	end;
-	NowNPCID := DefaultNPCID;
+	end;}
+    
+    //Tsusai : NPC ID's start with this number, so why is it needed for user modification?
+    //50000 is a nice static start point for npc id's
+	NowNPCID := 50000;
+
 	if sl.IndexOfName('sv1port') > -1 then begin
 		sv1port := StrToInt(sl.Values['sv1port']);
 	end else begin
@@ -500,6 +637,12 @@ begin
 		sv3port := 5121;
 	end;
 	sv3.Port := sv3port;
+	if sl.IndexOfName('wacport') > -1 then begin
+		wacport := StrToInt(sl.Values['wacport']);
+	end else begin
+		wacport := 80;
+	end;
+
 	if sl.IndexOfName('WarpDebug') > -1 then begin
 		WarpDebugFlag := StrToBool(sl.Values['WarpDebug']);
 	end else begin
@@ -607,6 +750,11 @@ begin
 	end else begin
 		EnableLowerClassDyes := false;
 	end;
+    if sl.IndexOfName('DisableAdv2ndDye') > -1 then begin
+		DisableAdv2ndDye := StrToBool(sl.Values['DisableAdv2ndDye']);
+	end else begin
+		DisableAdv2ndDye := false;
+    end;
 	if sl.IndexOfName('DisableFleeDown') > -1 then begin
 		DisableFleeDown := StrToBool(sl.Values['DisableFleeDown']);
 	end else begin
@@ -626,7 +774,7 @@ begin
 	if sl.IndexOfName('DefaultMap') > -1 then begin
 		DefaultMap := sl.Values['DefaultMap'];
 	end else begin
-		DefaultMap := 'new_zone01';
+		DefaultMap := 'new_1-1';
 	end;
 	if sl.IndexOfName('DefaultPoint_X') > -1 then begin
 		DefaultPoint_X := StrToInt(sl.Values['DefaultPoint_X']);
@@ -709,12 +857,18 @@ begin
 	end else begin
 		Timer := true;
 	end;
+
 {U0x008a_fix_end}
 	sl.Clear;
 
 	ini.ReadSectionValues('Fusion', sl);
 	if sl.IndexOfName('Option_PVP') > -1 then begin
+                    try
                         Option_PVP := StrToBool(sl.Values['Option_PVP']);
+                    except
+                        on EConvertError do
+                            Option_PVP := False;
+                    end;
                 end else begin
                         Option_PVP := false;
                 end;
@@ -732,6 +886,11 @@ begin
 		Option_AutoBackup := StrToInt(sl.Values['Option_AutoBackup']);
 	end else begin
 		Option_AutoBackup := 0;
+	end;
+    if sl.IndexOfName('Option_DNS_Update') > -1 then begin
+		Option_DNS_Update := StrToInt(sl.Values['Option_DNS_Update']);
+	end else begin
+		Option_DNS_Update := 0;
 	end;
 	if sl.IndexOfName('Option_WelcomeMsg') > -1 then begin
 		Option_WelcomeMsg := StrToBool(sl.Values['Option_WelcomeMsg']);
@@ -774,23 +933,83 @@ begin
 	if sl.IndexOfName('Option_Font_Color') > -1 then begin
                         Option_Font_Color := sl.Values['Option_Font_Color'];
                 end else begin
-                        Option_Font_Color := '797979';
+                        Option_Font_Color := '14BB85';
                 end;
 	if sl.IndexOfName('Option_Font_Size') > -1 then begin
                         Option_Font_Size := strtoint(sl.Values['Option_Font_Size']);
                 end else begin
-                        Option_Font_Size := 9;
+                        Option_Font_Size := 8;
                 end;
 	if sl.IndexOfName('Option_Font_Face') > -1 then begin
                         Option_Font_Face := sl.Values['Option_Font_Face'];
                 end else begin
-                        Option_Font_Face := 'Century Gothic';
+                        Option_Font_Face := 'Lucida Sans Unicode';
                 end;
 	if sl.IndexOfName('Option_Font_Style') > -1 then begin
 		Option_Font_Style := sl.Values['Option_Font_Style'];
 	end else begin
-		Option_Font_Style := 'B';
+		Option_Font_Style := '';
 	end;
+
+
+    if sl.IndexOfName('Option_Enable_WAC') > -1 then begin
+        try
+            Option_Enable_WAC := StrToBool(sl.Values['Option_Enable_WAC']);
+        except
+            on EConvertError do Option_Enable_WAC := False;
+        end;
+    end else begin
+        Option_Enable_WAC := False;
+    end;
+
+    if sl.IndexOfName('Option_Enable_ISCS') > -1 then begin
+        try
+            Option_Enable_ISCS := StrToBool(sl.Values['Option_Enable_ISCS']);
+        except
+            on EConvertError do Option_Enable_ISCS := True;
+        end;
+    end else begin
+        Option_Enable_ISCS := True;
+    end;
+
+    if sl.IndexOfName('Option_Use_UPnP') > -1 then begin
+        try
+            Option_Use_UPnP := StrToBool(sl.Values['Option_Use_UPnP']);
+        except
+            on EConvertError do Option_Use_UPnP := True;
+        end;
+    end else begin
+        Option_Use_UPnP := True;
+    end;
+
+
+    if (Option_Use_UPnP) then begin
+        create_upnp(sv1port, 'Fusion Login Zone');
+        create_upnp(sv2port, 'Fusion Character Zone');
+        create_upnp(sv3port, 'Fusion Game Zone');
+    end;
+
+    if (Option_Enable_WAC) then begin
+        create_wac();
+        EnableWebAccountCreator1.Caption := 'Disable Web Account Creator';
+    end;
+
+    if sl.IndexOfName('Option_Minimize_Tray') > -1 then begin
+        try
+            Option_Minimize_Tray := StrToBool(sl.Values['Option_Minimize_Tray']);
+        except
+            on EConvertError do Option_Minimize_Tray := False;
+        end;
+    end else begin
+        Option_Minimize_Tray := False;
+    end;
+
+
+	if sl.IndexOfName('Option_Mob_Spawn_Rate') > -1 then begin
+                        Option_Mob_Spawn_Rate := StrToInt(sl.Values['Option_Mob_Spawn_Rate']);
+                end else begin
+                        Option_Mob_Spawn_Rate := 100;
+                end;
 	if sl.IndexOfName('Option_Pet_Capture_Rate') > -1 then begin
                         Option_Pet_Capture_Rate := StrToInt(sl.Values['Option_Pet_Capture_Rate']);
                 end else begin
@@ -816,6 +1035,27 @@ begin
                 end else begin
                         Option_PVP_XPLoss := True;
                 end;
+
+    if sl.IndexOfName('Option_FireWall_Cap') > -1 then begin
+                        Option_FireWall_Cap := StrToInt(sl.Values['Option_FireWall_Cap']);
+                end else begin
+                        Option_FireWall_Cap := 3;
+                end;
+    if sl.IndexOfName('Option_IceWall_Cap') > -1 then begin
+                        Option_IceWall_Cap := StrToInt(sl.Values['Option_IceWall_Cap']);
+                end else begin
+                        Option_IceWall_Cap := 3;
+                end;
+
+    if sl.IndexOfName('Option_Packet_Out') > -1 then begin
+        try
+            Option_Packet_Out := StrToBool(sl.Values['Option_Packet_Out']);
+        except
+            on EConvertError do Option_Packet_Out := True;
+        end;
+    end else begin
+        Option_Packet_Out := False;
+    end;
 
                 sl.Clear;
                 sl1.Clear;
@@ -926,6 +1166,11 @@ begin
   end else begin
     TokenDrop := false;
   end;
+  if sl.IndexOfName('MapUnloadTime') <> -1 then begin   //Time To Unload a map in minutes
+    MapUnloadTime := StrToInt(sl.Values['MapUnloadTime']);
+  end else begin
+    MapUnloadTime := 0;
+  end;
 
 	{ChrstphrR 2004/05/09 - Debug section added to INI file
 	Controls options that allow/supress when errors occur - these features
@@ -994,12 +1239,14 @@ begin
 	SL.Free;
 
 	Show;
+
 	//データ読み込み
 	DatabaseLoad(Handle);
 	if UseSQL then
 		SQLDataLoad()
 	else
 	DataLoad();
+
 
 	//MapLoad('moc_vilg00');
 	//MapLoad('moc_vilg01');
@@ -1016,7 +1263,7 @@ begin
         debugout.lines.add('[' + TimeToStr(Now) + '] ' + '');
 
 	cmdStart.Enabled := true;
-  
+
 	//cbxPriorityClick(Sender);
 	if AutoStart then PostMessage(cmdStart.Handle, BM_CLICK, 0, 0);
 {U0x003b}
@@ -1030,6 +1277,19 @@ begin
         BackupTimer.Enabled := True;
         BackupTimer.Interval := Option_AutoBackup * 1000;
     end;
+
+    if (Option_DNS_Update = 0) then begin
+        DNSUpdateTimer.Enabled := False;
+    end
+    else begin
+        DNSUpdateTimer.Enabled := True;
+        DNSUpdateTimer.Interval := Option_DNS_Update * 1000;
+    end;
+
+
+    if (Option_Enable_ISCS) then frmMain.ConnecttoISCS1Click(self);
+
+
 {U0x003bココまで}
 end;
 //------------------------------------------------------------------------------
@@ -1039,8 +1299,14 @@ var
 	Idx : Integer; // Loop Iterator for freeing our global lists.
 begin
 
+    destroy_wac(True);
 	save_commands();
-    weiss_ini_save();
+
+    if (Option_Use_UPnP) then begin
+        destroy_upnp(sv1port);
+        destroy_upnp(sv2port);
+        destroy_upnp(sv3port);
+    end;
 
 	if FindFirst(AppPath + 'map\tmpFiles\*.out', $27, sr) = 0 then begin
 		repeat
@@ -1064,149 +1330,66 @@ begin
 		FormHeight := Height;
 	end;
 
+    weiss_ini_save();
+
 	if UseSQL then
 		SQLDataSave
 	else
-		DataSave;
+		DataSave(false);
 
 	{ Mitch: Doesnt hurt to make sure the tray icon was deleted }
 	Shell_notifyIcon(NIM_DELETE, @TrayIcon);
-	{ChrstphrR 2004/04/27 -- I'm pretty sure this cleans up the 4k a bare Delphi
-	app leaks because code in the RTL that Borland hasn't fixed - Bravo!}
 
-	ScriptList.Free; //CR only stores strings, ergo safe as is.
 
-	{ChrstphrR 2004/04/27 - My apologies for such dirty fixes to the lists ...
-	Objects[] of a TSL or TIL are not freed up on Clear or Free, so the following
-	for loops do so safely and properly - the Assigned() checks ensure that the
-	object isn't NIL -- freeing NIL is one of those Zen riddles you just don't
-	want to toy with in Delphi!  The Lists are grouped with some not looped
-	through, because there often pairs or groups of lists that index the same
-	list of objects. Pure StringLists / IntLists are just free'd and are marked
-	explicitly.}
+    //---- We need to clear this memory in a CLEAN way once and for all ----//
+    fnl_lists(ScriptList, nil);
+    fnl_lists(ItemDBName, ItemDB);
+    fnl_lists(nil, MaterialDB);
+    fnl_lists(MobDBName, MobDB);
+    fnl_lists(nil, MArrowDB);
+    fnl_lists(WarpDatabase, nil);
+    fnl_lists(nil, MobAIDB);
+    fnl_lists(nil, MobAIDBFusion);
+    fnl_lists(GlobalVars, nil);
+    fnl_lists(nil, IDTableDB);
+    fnl_lists(SlaveDBName, nil);
+    fnl_lists(SkillDBName, SkillDB);
+    fnl_lists(PlayerName, Player);
+    fnl_lists(CharaName, Chara);
+    //fnl_lists(nil, CharaPID);
+    FreeAndNil(CharaPID);
+    fnl_lists(nil, ChatRoomList);
+    fnl_lists(PartyNameList, PartyList);
+    fnl_lists(CastleList, nil);
+    fnl_lists(TerritoryList, nil);
+    fnl_lists(EmpList, nil);
+    fnl_lists(nil, PetDB);
+    fnl_lists(nil, PetList);
+    fnl_lists(nil, VenderList);
+    fnl_lists(nil, DealingList);
+    fnl_lists(SummonMobListMVP, nil);
+    fnl_lists(SummonIOBList, nil);
+    fnl_lists(SummonIOVList, nil);
+    fnl_lists(SummonICAList, nil);
+    fnl_lists(SummonIGBList, nil);
+    fnl_lists(SUmmonIOWBList, nil);
+    fnl_lists(ServerFlag, nil);
+    fnl_lists(nil, GuildList);
+    fnl_lists(nil, GSkillDB);
+    fnl_lists(Map, nil);
+    fnl_lists(MapInfo, nil);
+    fnl_lists(MapList, nil);
+    fnl_lists(BanList, nil);
 
-	for Idx := ItemDB.Count-1 downto 0 do
-		if Assigned(ItemDB.Objects[Idx]) then
-			(ItemDB.Objects[Idx] AS TItemDB).Free;
-	ItemDB.Free; //CR - Frees up 1.4Mb properly on close down that is leaked.
-	ItemDBName.Free;
+    FreeAndNil(SummonMobList);
+    //---- The rest is the dirty shit commented out in case I need it ----//
 
-{アイテム製造追加}
-	for Idx := MaterialDB.Count-1 downto 0 do
-		if Assigned(MaterialDB.Objects[Idx]) then
-			(MaterialDB.Objects[Idx] AS TMaterialDB).Free;
-	MaterialDB.Free;
-{アイテム製造追加ココまで}
-	for Idx := MobDB.Count-1 downto 0 do
-		if Assigned(MobDB.Objects[Idx]) then
-			(MobDB.Objects[Idx] AS TMobDB).Free;
-	MobDB.Free;
-	MobDBName.Free;
 
-	for Idx := MArrowDB.Count-1 downto 0 do
-		if Assigned(MArrowDB.Objects[Idx]) then
-			(MArrowDB.Objects[Idx] AS TMArrowDB).Free;
-	MArrowDB.Free;
 
-	for Idx := WarpDatabase.Count-1 downto 0 do
-		if Assigned(WarpDatabase.Objects[Idx]) then
-			(WarpDatabase.Objects[Idx] AS TWarpDatabase).Free;
-	WarpDatabase.Free;
 
-	MobAIDB.Free; //CR - Empty list.
 
-	for Idx := MobAIDBFusion.Count-1 downto 0 do
-		if Assigned(MobAIDBFusion.Objects[Idx]) then
-			(MobAIDBFusion.Objects[Idx] AS TMobAIDBFusion).Free;
-	MobAIDBFusion.Free;
-
-	GlobalVars.Free;
-	//PharmacyDB.Free;
-
-	for Idx := IDTableDB.Count-1 downto 0 do
-		if Assigned(IDTableDB.Objects[Idx]) then
-			(IDTableDB.Objects[Idx] AS TIDTbl).Free;
-	IDTableDB.Free;
-
-	for Idx := SlaveDBName.Count-1 downto 0 do
-		if Assigned(SlaveDBName.Objects[Idx]) then
-			(SlaveDBName.Objects[Idx] AS TSlaveDB).Free;
-	SlaveDBName.Free;
-
-	//CR - both of these are the same count, same objects - free objects on one
-	// and leave the other objects[] list alone - only free the object once!! :)
-	for Idx := SkillDB.Count-1 downto 0 do
-		if Assigned(SkillDB.Objects[Idx]) then
-			(SkillDB.Objects[Idx] AS TSkillDB).Free;
-	SkillDB.Free;
-	SkillDBName.Free;
-
-	for Idx := Player.Count-1 downto 0 do
-		if Assigned(Player.Objects[Idx]) then
-			(Player.Objects[Idx] AS TPlayer).Free;
-	Player.Free;
-	PlayerName.Free;
-
-	for Idx := Chara.Count-1 downto 0 do
-		if Assigned(Chara.Objects[Idx]) then
-			(Chara.Objects[Idx] AS TChara).Free;
-	Chara.Free;
-	CharaName.Free;
-	CharaPID.Free;
-{チャットルーム機能追加}
-	for Idx := ChatRoomList.Count-1 downto 0 do
-		if Assigned(ChatRoomList.Objects[Idx]) then
-			(ChatRoomList.Objects[Idx] AS TChatRoom).Free;
-	ChatRoomList.Free;
-{チャットルーム機能追加ココまで}
-{パーティー機能追加}
-	for Idx := PartyNameList.Count-1 downto 0 do
-		if Assigned(PartyNameList.Objects[Idx]) then
-			(PartyNameList.Objects[Idx] AS TParty).Free;
-	PartyNameList.Free;
-
-	for Idx := CastleList.Count-1 downto 0 do
-		if Assigned(CastleList.Objects[Idx]) then
-			(CastleList.Objects[Idx] AS TCastle).Free;
-	CastleList.Free;
-
-	for Idx := TerritoryList.Count-1 downto 0 do
-		if Assigned(TerritoryList.Objects[Idx]) then
-			(TerritoryList.Objects[Idx] AS TTerritoryDB).Free;
-	TerritoryList.Free;
-
-	for Idx := EmpList.Count-1 downto 0 do
-		if Assigned(EmpList.Objects[Idx]) then
-			(EmpList.Objects[Idx] AS TEmp).Free;
-	EmpList.Free;
-{パーティー機能追加ココまで}
-{キューペット}
-	for Idx := PetDB.Count-1 downto 0 do
-		if Assigned(PetDB.Objects[Idx]) then
-			(PetDB.Objects[Idx] AS TPetDB).Free;
-	PetDB.Free;
-
-	for Idx := PetList.Count-1 downto 0 do
-		if Assigned(PetList.Objects[Idx]) then
-			(PetList.Objects[Idx] AS TPet).Free;
-	PetList.Free;
-{キューペットここまで}
-{露店スキル追加}
-	for Idx := VenderList.Count-1 downto 0 do
-		if Assigned(VenderList.Objects[Idx]) then
-			(VenderList.Objects[Idx] AS TVender).Free;
-	VenderList.Free;
-{露店スキル追加ココまで}
-{取引機能追加}
-
-	for Idx := DealingList.Count-1 downto 0 do
-		if Assigned(DealingList.Objects[Idx]) then
-			(DealingList.Objects[Idx] AS TDealings).Free;
-	DealingList.Free;
-{取引機能追加ココまで}
-{氏{箱追加}
-	SummonMobList.Free;  //ChrstphrR - 2004/04/19 - This list is now leak free.
-	SummonMobListMVP.Free; {CR - empty list 2004/04/23 - leaving be}
+	{SummonMobList.Free;  //ChrstphrR - 2004/04/19 - This list is now leak free.
+	SummonMobListMVP.Free;} {CR - empty list 2004/04/23 - leaving be}
 
 	{ChrstphrR 2004/04/26 -- Summon???Lists cleaned up here by converting them to
 	TStringLists -- now instead of using a TIntList32 that was:
@@ -1218,36 +1401,213 @@ begin
 	structure until I make them equivalent to the TRandList derived objects that
 	TSummonMobList is.
 	}
-	SummonIOBList.Free; //Changed to TStringList
+	{SummonIOBList.Free; //Changed to TStringList
 	SummonIOVList.Free; //" " "
 	SummonICAList.Free; //" " "
 	SummonIGBList.Free; //" " "
-	SummonIOWBList.Free;//" " "
+	SummonIOWBList.Free;//" " "}
 {氏{箱追加ココまで}
 {NPCイベント追加}
-	ServerFlag.Free;//Strings Only List - safe as is.
+	//ServerFlag.Free;//Strings Only List - safe as is.
+
+
+	{ChrstphrR 2004/04/27 -- I'm pretty sure this cleans up the 4k a bare Delphi
+	app leaks because code in the RTL that Borland hasn't fixed - Bravo!}
+
+
+    { Alex: This is really bizarre. The scriptlist is created on form create
+      thus freeing it at this point should not give an access violation.
+      Oh well, I'll put the try-except-end around it just to prevent crashes. }
+    {try
+    	ScriptList.Free; //CR only stores strings, ergo safe as is.
+    except
+    end;}
+
+	{ChrstphrR 2004/04/27 - My apologies for such dirty fixes to the lists ...
+	Objects[] of a TSL or TIL are not freed up on Clear or Free, so the following
+	for loops do so safely and properly - the Assigned() checks ensure that the
+	object isn't NIL -- freeing NIL is one of those Zen riddles you just don't
+	want to toy with in Delphi!  The Lists are grouped with some not looped
+	through, because there often pairs or groups of lists that index the same
+	list of objects. Pure StringLists / IntLists are just free'd and are marked
+	explicitly.}
+
+	{for Idx := ItemDB.Count - 1 downto 0 do begin
+        try
+            if Assigned(ItemDB.Objects[Idx]) then (ItemDB.Objects[Idx] AS TItemDB).Free;
+        except
+            on EAccessViolation do Continue;
+        end;
+    end;
+
+    try
+    	ItemDB.Free; //CR - Frees up 1.4Mb properly on close down that is leaked.
+	    ItemDBName.Free;
+    except
+        on EAccessViolation do ;
+    end;}
+
+{アイテム製造追加}
+
+
+
+	{for Idx := MaterialDB.Count-1 downto 0 do
+		if Assigned(MaterialDB.Objects[Idx]) then
+			(MaterialDB.Objects[Idx] AS TMaterialDB).Free;
+	MaterialDB.Free;
+
+{アイテム製造追加ココまで}
+	{for Idx := MobDB.Count-1 downto 0 do
+		if Assigned(MobDB.Objects[Idx]) then
+			(MobDB.Objects[Idx] AS TMobDB).Free;
+	MobDB.Free;
+	MobDBName.Free;}
+
+	{for Idx := MArrowDB.Count-1 downto 0 do
+		if Assigned(MArrowDB.Objects[Idx]) then
+			(MArrowDB.Objects[Idx] AS TMArrowDB).Free;
+	MArrowDB.Free;}
+
+	{for Idx := WarpDatabase.Count-1 downto 0 do
+		if Assigned(WarpDatabase.Objects[Idx]) then
+			(WarpDatabase.Objects[Idx] AS TWarpDatabase).Free;
+	WarpDatabase.Free;}
+
+	//MobAIDB.Free; //CR - Empty list.
+
+	{for Idx := MobAIDBFusion.Count-1 downto 0 do
+		if Assigned(MobAIDBFusion.Objects[Idx]) then
+			(MobAIDBFusion.Objects[Idx] AS TMobAIDBFusion).Free;
+	MobAIDBFusion.Free;}
+
+	//GlobalVars.Free;
+	//PharmacyDB.Free;
+
+	{for Idx := IDTableDB.Count-1 downto 0 do
+		if Assigned(IDTableDB.Objects[Idx]) then
+			(IDTableDB.Objects[Idx] AS TIDTbl).Free;
+	IDTableDB.Free;}
+
+	{for Idx := SlaveDBName.Count-1 downto 0 do
+		if Assigned(SlaveDBName.Objects[Idx]) then
+			(SlaveDBName.Objects[Idx] AS TSlaveDB).Free;
+	SlaveDBName.Free;}
+
+	//CR - both of these are the same count, same objects - free objects on one
+	// and leave the other objects[] list alone - only free the object once!! :)
+	{for Idx := SkillDB.Count-1 downto 0 do
+		if Assigned(SkillDB.Objects[Idx]) then
+			(SkillDB.Objects[Idx] AS TSkillDB).Free;
+	SkillDB.Free;
+	SkillDBName.Free;}
+
+	{for Idx := Player.Count-1 downto 0 do
+		if Assigned(Player.Objects[Idx]) then
+			(Player.Objects[Idx] AS TPlayer).Free;
+	Player.Free;
+	PlayerName.Free;}
+
+	{for Idx := Chara.Count-1 downto 0 do
+		if Assigned(Chara.Objects[Idx]) then
+			(Chara.Objects[Idx] AS TChara).Free;
+	Chara.Free;
+	CharaName.Free;
+	CharaPID.Free;}
+{チャットルーム機能追加}
+	{for Idx := ChatRoomList.Count-1 downto 0 do
+		if Assigned(ChatRoomList.Objects[Idx]) then
+			(ChatRoomList.Objects[Idx] AS TChatRoom).Free;
+	ChatRoomList.Free;}
+{チャットルーム機能追加ココまで}
+{パーティー機能追加}
+	{for Idx := PartyNameList.Count-1 downto 0 do
+		if Assigned(PartyNameList.Objects[Idx]) then
+			(PartyNameList.Objects[Idx] AS TParty).Free;
+	PartyNameList.Free;}
+
+	{for Idx := CastleList.Count-1 downto 0 do
+		if Assigned(CastleList.Objects[Idx]) then
+			(CastleList.Objects[Idx] AS TCastle).Free;
+	CastleList.Free;}
+
+	{for Idx := TerritoryList.Count-1 downto 0 do
+		if Assigned(TerritoryList.Objects[Idx]) then
+			(TerritoryList.Objects[Idx] AS TTerritoryDB).Free;
+	TerritoryList.Free;}
+
+	{for Idx := EmpList.Count-1 downto 0 do
+		if Assigned(EmpList.Objects[Idx]) then
+			(EmpList.Objects[Idx] AS TEmp).Free;
+	EmpList.Free;}
+{パーティー機能追加ココまで}
+{キューペット}
+	{for Idx := PetDB.Count-1 downto 0 do
+		if Assigned(PetDB.Objects[Idx]) then
+			(PetDB.Objects[Idx] AS TPetDB).Free;
+	PetDB.Free;}
+
+	{for Idx := PetList.Count-1 downto 0 do
+		if Assigned(PetList.Objects[Idx]) then
+			(PetList.Objects[Idx] AS TPet).Free;
+	PetList.Free;}
+{キューペットここまで}
+{露店スキル追加}
+	{for Idx := VenderList.Count-1 downto 0 do
+		if Assigned(VenderList.Objects[Idx]) then
+			(VenderList.Objects[Idx] AS TVender).Free;
+	VenderList.Free;}
+{露店スキル追加ココまで}
+{取引機能追加}
+
+	{for Idx := DealingList.Count-1 downto 0 do
+		if Assigned(DealingList.Objects[Idx]) then
+			(DealingList.Objects[Idx] AS TDealings).Free;
+	DealingList.Free;}
+{取引機能追加ココまで}
+{氏{箱追加}
+	{SummonMobList.Free;  //ChrstphrR - 2004/04/19 - This list is now leak free.
+	SummonMobListMVP.Free;} {CR - empty list 2004/04/23 - leaving be}
+
+	{ChrstphrR 2004/04/26 -- Summon???Lists cleaned up here by converting them to
+	TStringLists -- now instead of using a TIntList32 that was:
+	- storing an integer the same number as the index of the nodes in Integers[]
+	- storing a string in a TObject (think, tossing a dime into a fridge)
+	- failing to free the strings AND the Objects when cleaning up...
+	Now we have a semi-inefficient StringLists that are used for random item
+	generation when someone uses a Old Blue Box, etc.  This is a compromise data
+	structure until I make them equivalent to the TRandList derived objects that
+	TSummonMobList is.
+	}
+	{SummonIOBList.Free; //Changed to TStringList
+	SummonIOVList.Free; //" " "
+	SummonICAList.Free; //" " "
+	SummonIGBList.Free; //" " "
+	SummonIOWBList.Free;//" " "}
+{氏{箱追加ココまで}
+{NPCイベント追加}
+	//ServerFlag.Free;//Strings Only List - safe as is.
 
 {NPCイベント追加ココまで}
 {ギルド機能追加}
-	for Idx := GuildList.Count-1 downto 0 do
+	{for Idx := GuildList.Count-1 downto 0 do
 		if Assigned(GuildList.Objects[Idx]) then
 			(GuildList.Objects[Idx] AS TGuild).Free;
-	GuildList.Free;
+	GuildList.Free;}
 
 	//Static list loaded up at beginning, need to free properly at the end.
-	for Idx := GSkillDB.Count-1 downto 0 do
+	{for Idx := GSkillDB.Count-1 downto 0 do
 		if Assigned(GSkillDB.Objects[Idx]) then
 			(GSkillDB.Objects[Idx] AS TSkillDB).Free;
-	GSkillDB.Free;
+	GSkillDB.Free;}
 {ギルド機能追加ココまで}
 	{ChrstphrR 2004/04/23 - Runtime list, Map list is filled up as characters
 	move about in the game}
-	for Idx := Map.Count-1 downto 0 do
+	{for Idx := Map.Count-1 downto 0 do
 		if Assigned(Map.Objects[Idx]) then
 			(Map.Objects[Idx] AS TMap).Free;
-	Map.Free;
+	Map.Free;}
 
-	for Idx := MapInfo.Count-1 downto 0 do
+	{for Idx := MapInfo.Count-1 downto 0 do
 		if Assigned(MapInfo.Objects[Idx]) then
 			(MapInfo.Objects[Idx] AS MapTbl).Free;
 	MapInfo.Free;
@@ -1255,7 +1615,7 @@ begin
 	for Idx := MapList.Count-1 downto 0 do
 		if Assigned(MapList.Objects[Idx]) then
 			(MapList.Objects[Idx] AS TMapList).Free;
-	MapList.Free;
+	MapList.Free;}
 end;//proc TfrmMain.FormCloseQuery()
 //------------------------------------------------------------------------------
 
@@ -1321,7 +1681,10 @@ procedure TfrmMain.sv1ClientError(Sender: TObject;
 	Socket: TCustomWinSocket; ErrorEvent: TErrorEvent;
 	var ErrorCode: Integer);
 begin
+    { Alex: Server owners do not need to see this. It'll make them
+    think something is wrong and start bitching.
         debugout.lines.add('[' + TimeToStr(Now) + '] ' + Socket.RemoteAddress + ': Login Server -> Player has been disconnected from server. Player did not exit via Exit button');
+    }
 	if ErrorCode = 10053 then Socket.Close;
 	ErrorCode := 0;
 end;
@@ -1366,7 +1729,10 @@ procedure TfrmMain.sv2ClientError(Sender: TObject;
 	Socket: TCustomWinSocket; ErrorEvent: TErrorEvent;
 	var ErrorCode: Integer);
 begin
+    { Alex: Server owners do not need to see this. It'll make them
+    think something is wrong and start bitching.
         debugout.lines.add('[' + TimeToStr(Now) + '] ' + Socket.RemoteAddress + ': Character Server -> Player has been disconnected from server. Player did not exit via Exit button');
+    }
 	if ErrorCode = 10053 then Socket.Close;
 	ErrorCode := 0;
 end;
@@ -1403,65 +1769,75 @@ procedure TfrmMain.sv3ClientDisconnect(Sender: TObject;
 var
 	tc  :TChara;
 	tp  :TPlayer;
+    tm  :TMap;
 
 	i,j :integer;
 	mi  :MapTbl;
 
 begin
 
-        // AlexKreuz: Random 10053 Bug Fix
-        if Assigned(Socket.Data) then begin
-					tc := Socket.Data;
-        	SendCLeave(tc, 2);
-                {NPCイベント追加}
-         if MapInfo.IndexOf(tc.Map) <> -1 then begin
-        	i := MapInfo.IndexOf(tc.Map);
-        	j := -1;
-        	if (i <> -1) then begin
-        		mi := MapInfo.Objects[i] as MapTbl;
-        		if (mi.noSave = true) then j := 0;
-        	end;
-        	if (tc.Sit = 1) or (j = 0) then begin
-                        {NPCイベント追加ココまで}
-        		tc.Map := tc.SaveMap;
-        		tc.Point.X := tc.SavePoint.X;
-        		tc.Point.Y := tc.SavePoint.Y;
-        	end;
-        	tc.Login := 0;
-        	tp := tc.PData;
-        	tp.Login := 0;
-                if UseSQL then SQLDataSave();
-         end;
-        end;
+    iscs_console_disconnect(Socket.Data);
+    DataSave();
 
-        // AlexKreuz: Random 10053 Bug Fix
-        //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Socket.RemoteAddress + ': Game Server -> Disconnect');
-        NowUsers := sv3.Socket.ActiveConnections;
-        if NowUsers > 0 then Dec(NowUsers);
-        statusbar1.Panels.Items[0].Text := ' Users Online: ' +inttostr(NowUsers); // AlexKreuz (Status Bar)
+    if Assigned(Socket.Data) then begin
+        tc := Socket.Data;
+        tm := tc.MData;
+        SendCLeave(tc, 2);
+
+        if MapInfo.IndexOf(tc.Map) <> -1 then begin
+            i := MapInfo.IndexOf(tc.Map);
+            j := -1;
+
+            if (i <> -1) then begin
+                mi := MapInfo.Objects[i] as MapTbl;
+                if (mi.noSave = true) then j := 0;
+            end;
+
+        	if (tc.Sit = 1) or (j = 0) then begin
+                tc.Map := tc.SaveMap;
+                tc.Point.X := tc.SavePoint.X;
+                tc.Point.Y := tc.SavePoint.Y;
+            end;
+
+            tc.Login := 0;
+            tp := tc.PData;
+            tp.Login := false;
+
+            if UseSQL then SQLDataSave();
+        end;
+    end;
+
+    tc.OnTouchIDs.Free;
+
+    NowUsers := sv3.Socket.ActiveConnections;
+    if NowUsers > 0 then Dec(NowUsers);
+
+    statusbar1.Panels.Items[0].Text := ' Users Online: ' +inttostr(NowUsers);
+
+    // Already calculated in SendCLeave above.
+    // Can't recalculate because SendCLeave deleted the tm.CList.
+    // if mi.PvP then CalcPvPRank(tm);
 
 end;
 //------------------------------------------------------------------------------
 procedure TfrmMain.sv3ClientError(Sender: TObject;
 	Socket: TCustomWinSocket; ErrorEvent: TErrorEvent;
 	var ErrorCode: Integer);
-//var
-//	tc  :TChara;
-//	tp  :TPlayer;
 begin
+
+    iscs_console_disconnect(Socket.Data);
+    DataSave();
+
 	if UseSQL then SQLDataSave();
-	if ErrorCode = 10053 then begin
-    	Socket.Close;
-        debugout.lines.add('[' + TimeToStr(Now) + '] ' + Socket.RemoteAddress + ': Game Server -> Player has been disconnected from server. Player did not exit via Exit button');
-    end;
-	if ErrorCode = 10054 then begin
-    	Socket.Close;
-        debugout.lines.add('[' + TimeToStr(Now) + '] ' + Socket.RemoteAddress + ': Game Server -> Player has been disconnected from server. Player tried to log in twice with the same account');
-    end;
+
+    //DebugOut.Lines.Add(Socket.RemoteAddress + ': Game Server -> Error: ' + inttostr(ErrorCode));
+	if ErrorCode = 10053 then Socket.Close;
+	if ErrorCode = 10054 then Socket.Close;
 
 	ErrorCode := 0;
 	NowUsers := sv3.Socket.ActiveConnections;
 end;
+
 //------------------------------------------------------------------------------
 procedure TfrmMain.sv3ClientRead(Sender: TObject;
 	Socket: TCustomWinSocket);
@@ -1516,7 +1892,8 @@ begin
 	if ts.Data.isDontMove then
 		ts.MoveWait := $FFFFFFFF
 	else
-		ts.MoveWait := Tick + 5000 + Cardinal(Random(10000));
+
+    ts.MoveWait := Tick + 5000 + Cardinal(Random(10000));
 	ts.Speed := ts.Data.Speed;
 	ts.ATarget := 0;
 	ts.ARangeFlag := false;
@@ -1524,6 +1901,7 @@ begin
 	ts.DEFPer := 100;
 	ts.DmgTick := 0;
 	ts.Status := 'IDLE_ST';
+    ts.pcnt := 0;
 	if ts.Data.Loaded = false then LoadMonsterAIData(tm, ts, Tick);
 	for j := 0 to 31 do begin
 		ts.EXPDist[j].CData := nil;
@@ -1993,7 +2371,13 @@ begin
 		j := GuildList.IndexOf(tc.GuildID);
 		if (j <> -1) then begin
 			tg := GuildList.Objects[j] as TGuild;
-			ge := l * tg.PosEXP[tc1.GuildPos] div 100;
+
+            try
+    			ge := l * tg.PosEXP[tc1.GuildPos] div 100;
+            except
+                ge := 4294967295;
+            end;
+
 			if (ge > l) then ge := l;
 			if (ge > 0) then begin
 				l := l - ge;
@@ -2269,13 +2653,19 @@ begin
 		Delay := (1000 - (4 * param[1]) - (2 * param[4]) + 300);
 
 		if Arms = 0 then begin
-			crit := boolean((SkillPer = 0) and (Random(100) < Critical - ts.Data.LUK * 0.2));
+            if Weapon = 16 then begin
+                crit := boolean((SkillPer = 0) and (Random(100) < (Critical * 2) - ts.Data.LUK * 0.2));
+            end else begin
+                crit := boolean((SkillPer = 0) and (Random(100) < Critical - ts.Data.LUK * 0.2));
+            end;
 		end else begin //二刀流右手
 			crit := boolean(dmg[5] = 10);
 		end;
 		miss := boolean((Random(100) >= i) and (not crit));
 		//DAチェック
 		if NOT miss and (Arms = 0) and (SkillPer = 0) and (Random(100) < DAPer) then begin
+      tatk := false;
+      datk := false;
 			if Skill[263].Lv > 0 then tatk := true;
 			if Skill[48].Lv > 0 then datk := true;
 			crit := false;
@@ -2608,7 +2998,7 @@ var
 	tn        :TNPC;
 begin
     CalculateSkillIf(tm, ts, Tick);
-    if ts.Hidden then Exit;
+    if ts.Hidden then exit;
 	if tc.TargetedTick <> Tick then begin
 		if DisableFleeDown then begin
 			tc.TargetedFix := 10;
@@ -3449,7 +3839,7 @@ begin
 		Result := False;
 	end else begin
     // Character has died
-    CharaDie(tm, tc1, Tick, 1);
+    CharaDie(tm, tc1, Tick, tc);
                 {tc1.Sit := 1;
                 tc1.HP := 0;
                 SendCStat1(tc1, 0, 5, tc1.HP);
@@ -3685,7 +4075,8 @@ begin
                                                 ((dy <> 0) and (abs(Point.X - tc1.Point.X) < 16) and (Point.Y = tc1.Point.Y - dy * 15)) then begin
                                                         //出現通知
                                                         //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		Chara %s Add', [tc1.Name]));
-                                                        SendNData( tc1.Socket, tn, tc1.ver2 );
+                                                        //Darkhelmet, I found you you stupid bastard!  YOU ARE CAUSING OUR BARD PROBLEMS
+                                                        SendNData( tc1.Socket, tn, tc1.ver2, tc );
                                                         //移動通知
                                                         if (abs(Point.X - tc1.Point.X) < 16) and (abs(Point.Y - tc1.Point.Y) < 16) then begin
                                                                 //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		Chara %s Move (%d,%d)-(%d,%d)', [Name, xy.X, xy.Y, Point.X, Point.Y]));
@@ -3801,19 +4192,19 @@ with tc do begin
                         if tn.CType = 3 then begin
                             WFIFOW(0, $00a1);
                             WFIFOL(2, tn.ID);
-                            Socket.SendBuf(buf, 6);
+                            if tc.Login <> 0 then Socket.SendBuf(buf, 6);
                         end else if tn.CType = 4 then begin
                             WFIFOW(0, $0120);
                             WFIFOL(2, tn.ID);
-                            Socket.SendBuf(buf, 6);
+                            if tc.Login <> 0 then Socket.SendBuf(buf, 6);
                         end else begin
                             WFIFOW(0, $0080);
                             WFIFOL(2, tn.ID);
                             WFIFOB(6, 0);
-                            Socket.SendBuf(buf, 7);
+                            if tc.Login <> 0 then Socket.SendBuf(buf, 7);
                         end;
                     end;
-                    
+
                     if ((dx <> 0) and (abs(Point.Y - tn.Point.Y) < 16) and (Point.X = tn.Point.X - dx * 15)) or
                     ((dy <> 0) and (abs(Point.X - tn.Point.X) < 16) and (Point.Y = tn.Point.Y - dy * 15)) then begin
                         //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		NPC %s Add', [tn.Name]));
@@ -3823,10 +4214,10 @@ with tc do begin
                         //end;
 
                         if (tn.Enable = true) then begin
-                            SendNData(Socket, tn, tc.ver2);
+                            SendNData(Socket, tn, tc.ver2, tc);
                             if (tn.ScriptInitS <> -1) and (tn.ScriptInitD = false) then begin
                                 //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('OnInit Event(%d)', [tn.ID]));
-    
+
                                 tc1 := TChara.Create;
                                 tc1.TalkNPCID := tn.ID;
                                 tc1.ScriptStep := tn.ScriptInitS;
@@ -3862,13 +4253,13 @@ with tc do begin
                                 end;
                             end;
                         end;
-    
+
                     end;
                 end;
                 
                 for k := 0 to tm.Block[m][n].CList.Count - 1 do begin
                     tc1 := tm.Block[m][n].CList.Objects[k] as TChara;
-                    
+
                     if tc <> tc1 then begin
                         if ((dx <> 0) and (abs(xy.Y - tc1.Point.Y) < 16) and (xy.X = tc1.Point.X + dx * 15)) or
                         ((dy <> 0) and (abs(xy.X - tc1.Point.X) < 16) and (xy.Y = tc1.Point.Y + dy * 15)) then begin
@@ -3885,13 +4276,13 @@ with tc do begin
                         if ((dx <> 0) and (abs(Point.Y - tc1.Point.Y) < 16) and (Point.X = tc1.Point.X - dx * 15)) or
                         ((dy <> 0) and (abs(Point.X - tc1.Point.X) < 16) and (Point.Y = tc1.Point.Y - dy * 15)) then begin
                             //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		Chara %s Add', [tc1.Name]));
-    
+
                             SendCData(tc, tc1);
                             SendCData(tc1, tc);
                             
                             if (abs(Point.X - tc1.Point.X) < 16) and (abs(Point.Y - tc1.Point.Y) < 16) then begin
                                 //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		Chara %s Move (%d,%d)-(%d,%d)', [Name, xy.X, xy.Y, Point.X, Point.Y]));
-    
+
                                 SendCMove(tc1.Socket, tc, Point, tgtPoint);
                             end;
                         end;
@@ -3906,7 +4297,7 @@ with tc do begin
                     ((dy <> 0) and (abs(xy.X - ts.Point.X) < 16) and (xy.Y = ts.Point.Y + dy * 15)) then begin
                         //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		Mob %s Delete', [ts.Name]));
                         
-                        UpdateMonsterDead(tm, ts, 0);
+                        UpdateMonsterDead(tm, ts, 0, tc);
                         {WFIFOW(0, $0080);
                         WFIFOL(2, ts.ID);
                         WFIFOB(6, 0);
@@ -3934,7 +4325,7 @@ with tc do begin
                 //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'BlockDelete ' + inttostr(IndexOf(IntToStr(ID))));
                 Delete(IndexOf(ID));
             end;
-            
+
             tm.Block[Point.X div 8][Point.Y div 8].CList.AddObject(ID, tc);
             //debugout.lines.add('[' + TimeToStr(Now) + '] ' + '		BlockMove OK');
         end;
@@ -3949,7 +4340,7 @@ with tc do begin
 
                             if (abs(Point.X - tn.Point.X) <= tn.WarpSize.X) and
                             (abs(Point.Y - tn.Point.Y) <= tn.WarpSize.Y) then begin
-                            
+
                                 if (tc.Skill[144].Lv = 0) then HPTick := Tick;
 
                                 HPRTick := Tick - 500;
@@ -3959,12 +4350,38 @@ with tc do begin
                                 Map := tn.WarpMap;
                                 Point := tn.WarpPoint;
                                 MapMove(Socket, Map, Point);
-                                
+
                                 NextPoint := Point;
                                 Result := True;
                                 Exit;
                             end;
                         end;
+
+                        if (tn.CType = NPC_TYPE_SCRIPT) and (tn.Enable = true) and (tn.OnTouch = true) then begin
+
+                            if (abs(Point.X - tn.Point.X) <= tn.WarpSize.X) and
+                            (abs(Point.Y - tn.Point.Y) <= tn.WarpSize.Y) then begin
+                                if tc.OnTouchIDs.IndexOf(tn.ID) = -1 then begin
+                                    tc.TalkNPCID := tn.ID;
+                                    if tn.OnTouchLabel <> 0 then tc.ScriptStep := tn.OnTouchLabel
+                                    else tc.ScriptStep := 0;
+                                    tc.AMode := 3;
+                                    if (tc.Option and 6 <> 0) then begin
+                                        tc.Option := tc.Option and $FFF9;
+                                        //見た目変更  Lit. "The eye modification which you saw"
+                                        UpdateOption(tm, tc);
+                                    end;
+                                    tc.AData := tn;
+                                    tc.OnTouchIDs.Add(tn.ID);
+                                    NPCScript(tc);
+                                end;
+                            end else begin
+                                if tc.OnTouchIDs.IndexOf(tn.ID) <> -1 then
+                                    tc.OnTouchIDs.Delete(tc.OnTouchIDs.IndexOf(tn.ID));
+                            end;
+                        end;
+
+
                     end;
                 end;
             end;
@@ -3974,7 +4391,7 @@ with tc do begin
             Sit := 3;
 
             if (tc.Skill[144].Lv = 0) then HPTick := Tick;
-            
+
             HPRTick := Tick - 500;
             SPRTick := Tick;
             pcnt := 0;
@@ -3988,11 +4405,11 @@ with tc do begin
                 end;
             end;
             }
-            
+
             //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('		Move OK', [ID]));
             break;
         end;
-        
+
         MoveTick := MoveTick + cardinal(spd);
     end;
 end;
@@ -4019,7 +4436,7 @@ begin
 	with tc do begin
 		ts := AData;
 		tm := MData;
-		if ts.Hidden = True then exit;  //Monster is hidden so you can't hit it.
+		if ts.Hidden = True then ts.AMode := 0;  //Monster is hidden so you can't hit it.
 
 		if ts.HP <= 0 then begin
 			//Monster is Dead
@@ -4994,6 +5411,7 @@ begin
 				xy.X := MPoint.X;
 				xy.Y := MPoint.Y;
 				tn := SetSkillUnit(tm, ID, xy, Tick, $8d, tl.Data2[MUseLV], MUseLV * 5000);
+                IceWallCount := IceWallCount + 1;
 				tn.CData  := tc;
 				tn.MSkill := MSkill;
 				tn.MUseLV := MUseLV;
@@ -5004,12 +5422,14 @@ begin
 
 				DirMove(tm, xy, b, bb);
 				tn := SetSkillUnit(tm, ID, xy, Tick, $8d, tl.Data2[MUseLV], MUseLV * 5000);
+                IceWallCount := IceWallCount + 1;
 				tn.CData  := tc;
 				tn.MSkill := MSkill;
 				tn.MUseLV := MUseLV;
 
 				DirMove(tm, xy, b, bb);
 				tn := SetSkillUnit(tm, ID, xy, Tick, $8d, tl.Data2[MUseLV], MUseLV * 5000);
+                IceWallCount := IceWallCount + 1;
 				tn.CData  := tc;
 				tn.MSkill := MSkill;
 				tn.MUseLV := MUseLV;
@@ -5020,15 +5440,18 @@ begin
 
 				DirMove(tm, xy, b, bb);
 				tn := SetSkillUnit(tm, ID, xy, Tick, $8d, tl.Data2[MUseLV], MUseLV * 5000);
+                IceWallCount := IceWallCount + 1;
 				tn.CData := tc;
 				tn.MSkill := MSkill;
 				tn.MUseLV := MUseLV;
 
 				DirMove(tm, xy, b, bb);
 				tn := SetSkillUnit(tm, ID, xy, Tick, $8d, tl.Data2[MUseLV], MUseLV * 5000);
+                IceWallCount := IceWallCount + 1;
 				tn.CData := tc;
 				tn.MSkill := MSkill;
 				tn.MUseLV := MUseLV;
+
 				{Colus, 20031219: Removed stair-step pattern for diagonal IWs
 				if (b mod 2) <> 0 then begin
 					//斜め向き
@@ -5708,6 +6131,7 @@ begin
 
 						tn := SetSkillUnit(tm, ID, xy, Tick, $9a, 10, tc.Skill[MSkill].Data.Data1[MUseLV] * 1000, tc);
 
+                        tn.CharacterReceivedList.Add(tc.ID);
 						tn.MSkill := MSkill;
 						tn.MUseLV := MUseLV;
 					end;
@@ -5757,6 +6181,7 @@ begin
 
 						tn := SetSkillUnit(tm, ID, xy, Tick, $9b, 10, tc.Skill[MSkill].Data.Data1[MUseLV] * 1000, tc);
 
+                        tn.CharacterReceivedList.Add(tc.ID);
 						tn.MSkill := MSkill;
 						tn.MUseLV := MUseLV;
 					end;
@@ -5774,6 +6199,7 @@ begin
 
 						tn := SetSkillUnit(tm, ID, xy, Tick, $9c, 10, tc.Skill[MSkill].Data.Data1[MUseLV] * 1000, tc);
 
+                        tn.CharacterReceivedList.Add(tc.ID);
 						tn.MSkill := MSkill;
 						tn.MUseLV := MUseLV;
 					end;
@@ -5791,6 +6217,7 @@ begin
 
 						tn := SetSkillUnit(tm, ID, xy, Tick, $9d, 10, tc.Skill[MSkill].Data.Data1[MUseLV] * 1000, tc);
 
+                        tn.CharacterReceivedList.Add(tc.ID);
 						tn.MSkill := MSkill;
 						tn.MUseLV := MUseLV;
 					end;
@@ -5858,6 +6285,7 @@ begin
 							//tn.CData := tc;
 							tn.MSkill := MSkill;
 							tn.MUseLV := MUseLV;
+                            tn.CharacterReceivedList.Add(tc.ID);
 							tc.SongTick := Tick + Cardinal(tc.Skill[MSkill].Data.Data1[MUseLV] * 1000);
 							//i1 := i1 + 2;
 							//1 := j1 + 2;
@@ -6412,6 +6840,8 @@ begin
 	if tpe.Accessory <> 0 then begin
 		with tn1 do begin
 
+            if not assigned(tpe.Data) then Exit;
+
 			if tpe.Data.SkillTime > 0 then begin
 				//Tick System needs to be redone
 				{if tpe.SkillTick < _Tick - 60000 + (tpe.Data.SkillTime * 1000) then begin
@@ -6572,73 +7002,128 @@ end;
 
 
 //------------------------------------------------------------------------------
+function TfrmMain.MapPassive(tm:TMap; Tick:Cardinal) : boolean;
+var
+    i,j   :   cardinal;
+    tn    :   TNPC;
+    itemCount : integer; //The Number of items on the map
+
+begin
+    Result := false;  //We are going to assume it fails
+    if NOT tm.NeedToUnload then begin
+
+        //if tm.LastAction < tm.UnloadTime then tm.LastAction := tm.UnloadTime + 1000;
+
+        //try
+        //    j := Tick - tm.LastAction;
+        //except
+        //    j := tm.UnloadTime + 50000;
+        //end;
+
+        if tm.CList.Count > 0 then exit; //Map has characters on the map
+        itemCount := 0;
+        for i := 0 to tm.NPC.Count - 1 do begin
+            tn := tm.NPC.Objects[i] as TNPC;
+            if tn.CType = 3 then Inc(itemCount);
+        end;
+        if itemCount > 0 then exit; //Map has items currently on it
+
+        //It passed all of our tests, lets check it's tick
+        Result := true;
+
+        if Tick > tm.lastAction then j := Tick - tm.LastAction
+        else j := 0;
+
+        if j < tm.UnloadTime then exit;  //Map has had actions and will not be unloaded
+
+        //DebugOut.Lines.Add('[' + TimeToStr(Now) + '] ' + 'Map ' + tm.Name + ' Has ' + IntToStr(tm.NPC.Count) + ' NPCs');
+        //DebugOut.Lines.Add('[' + TimeToStr(Now) + '] ' + IntToStr(itemCount) + ' items are on the map of those NPCs');
+        //DebugOut.Lines.Add('[' + TimeToStr(Now) + '] ' + 'Map ' + tm.Name + ' Has been idle for ' + IntToStr(j) + ' ms and needs to be unloaded');
+
+        tm.NeedToUnload := true;
+
+    end;
+
+end;
+
+{Darkhelmet - July 28, 2004.
+   Sigh, in all of fusions time not one developer has tackled this function.  I made some crappy
+   additions to it, but it contains some vital bandwidth problems of over updating so
+   I am hoping to conqure them now.
+}
 function TfrmMain.NPCAction(tm:TMap;tn:TNPC;Tick:cardinal;tc:TChara) : Integer;
 var
 	k,m,c,c1: Integer;
 	i,j:Integer;
 	i1,j1,k1:integer;
 	i2,j2,k2:integer;
-        p1,p2:integer;
+    p1,p2:integer;
 	tc1:TChara;
-        tMonster:TMob;
+    tMonster:TMob;
 	ts1:TMob;
-        tc2:TChara;
+    tc2:TChara;
 	tl	:TSkillDB;
 	xy:TPoint;
-  b:integer;
+    b:integer;
 	bb:array of byte;
 	sl:TStringList;
-        sl2:TStringList;
+    sl2:TStringList;
 	flag:Boolean;
-        mi :MapTbl;
+    mi :MapTbl;
 begin
-        mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
+    // Get the Maps Info
+    mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
+
 	k := 0;
+
+    // If the NPC is an item
 	if (tn.CType = 3) and (tn.Tick <= Tick) then begin
-                if tn.JID  = $F1 then begin
-                        WFIFOW(0, $00a1);
-		        WFIFOL(2, 1118);
-		        SendBCmd(tm, tn.Point, 6);
-                        with tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC do
-			        Delete(IndexOf(1118));
-                        tn.Free;
-                end;
-		//アイテム撤去
+        if tn.JID  = $F1 then begin  //If its biocannabliaze begin
+            WFIFOW(0, $00a1);
+            WFIFOL(2, 1118);
+            SendBCmd(tm, tn.Point, 6);
+            {Delte the plant}
+            with tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC do
+                Delete(IndexOf(1118));
+
+            tn.Free;  //Free the NPC
+        end;
+		//This is a normal NPC
 		WFIFOW(0, $00a1);
 		WFIFOL(2, tn.ID);
 		SendBCmd(tm, tn.Point, 6);
-		//アイテム削除
+		//Remove from NPC index
 		tm.NPC.Delete(tm.NPC.IndexOf(tn.ID));
 		with tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC do
 			Delete(IndexOf(tn.ID));
 			tn.Free;
-	end else if (tn.CType = 4) then begin //スキル効能地
-		if tn.Tick <= Tick then begin
+	end else if (tn.CType = 4) then begin //If its a skill
+		if tn.Tick <= Tick then begin  //It's tick has expired
 			case tn.JID of
-        $8D: // Icewall ends
-          begin
-						DelSkillUnit(tm, tn, tc);
-						Dec(k);
-     			end;
+                $8D: // Icewall ends
+                    begin
+                        DelSkillUnit(tm, tn, tc);
+                        Dec(k);
+     			    end;
 				$81:// Warp Portal Opens
-					begin
+                    begin
 						tn.JID := $80;
-            UpdateLook(tm, tn, 0, tn.JID, 0, true);
+                        UpdateLook(tm, tn, 0, tn.JID, 0, true);
 						tn.Tick := Tick + 20000;
 					end;
 				$8F:// Blast Mine activated
 					begin
 						tn.JID := $74;
-            UpdateLook(tm, tn, 0, tn.JID, 0, true);
+                        UpdateLook(tm, tn, 0, tn.JID, 0, true);
 						tn.Tick := Tick + 2000;
 					end;
-        $99: // Talkie Box Activated
-          begin
+                $99: // Talkie Box Activated
+                    begin
 						tn.JID := $8c;
-            //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Talkie changed');
-            UpdateLook(tm, tn, 0, tn.JID, 0, true);
+                        //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Talkie changed');
+                        UpdateLook(tm, tn, 0, tn.JID, 0, true);
 						tn.Tick := Tick + 60000;
-          end;
+                    end;
         { $8c: // Talkie Box fires
           begin
             WFIFOW(0, $0191);
@@ -6647,15 +7132,15 @@ begin
             SendBCmd(tm, tn.Point, 86);
           end;}
 
-				else
-					begin
-						//スキル効能地撤去
-						DelSkillUnit(tm, tn, tc);
-						Dec(k);
-					end;
+            else  //Not a special case, so we are going to delete it as normal
+                begin
+                    //Remove the graphic
+                    DelSkillUnit(tm, tn, tc);
+                    Dec(k);
+                end;
 			end;
 		end else begin
-			//スキル効能地効果 Chara踏み型
+			//It is still active, so let's do it's effects
 			c := 0;
 			while (c >= 0) and (c < tm.Block[tn.Point.X div 8][tn.Point.Y div 8].CList.Count) do begin
 				tc1 := tm.Block[tn.Point.X div 8][tn.Point.Y div 8].CList.Objects[c] as TChara;
@@ -6663,7 +7148,7 @@ begin
 				if tc1 = nil then continue;
 				if (tc1.pcnt = 0) and (tc1.Point.X = tn.Point.X) and (tc1.Point.Y = tn.Point.Y) then begin
 					case tn.JID of
-						$80: //ポータル発動後
+						$80: //Chat room
 							begin
                                                                 {チャットルーム機能追加}
 								if (tc1.ChatRoomID <> 0) then continue;
@@ -6682,29 +7167,29 @@ begin
 									Dec(c);
 								end;
 							end;
-            $99: // Talkie Box fires
-            begin
-             //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Talkie fire self');
-              WFIFOW(0, $0191);
-              WFIFOL(2, tc1.ID);
-              WFIFOS(6, tn.Name, 80);
-              //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Name %s', [tn.Name]));
-              SendBCmd(tm, tn.Point, 86);
-            end;
-            $8c: // Talkie Box fires
-            begin
-              WFIFOW(0, $0191);
-              //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Name %s', [tn.Name]));
-              WFIFOL(2, tn.ID);
-              WFIFOS(6, tn.Name, 80);
-              SendBCmd(tm, tn.Point, 86);
-            end;
+                        $99: // Talkie Box fires
+                            begin
+                                //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Talkie fire self');
+                                WFIFOW(0, $0191);
+                                WFIFOL(2, tc1.ID);
+                                WFIFOS(6, tn.Name, 80);
+                                //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Name %s', [tn.Name]));
+                                SendBCmd(tm, tn.Point, 86);
+                            end;
+                        $8c: // Talkie Box fires
+                            begin
+                                WFIFOW(0, $0191);
+                                //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Name %s', [tn.Name]));
+                                WFIFOL(2, tn.ID);
+                                WFIFOS(6, tn.Name, 80);
+                                SendBCmd(tm, tn.Point, 86);
+                            end;
 					end;
 				end;
 			end;
 
 			tc1 := tn.CData;
-                        tMonster := tn.MData;
+            tMonster := tn.MData;
 
 			tl := SkillDB.IndexOfObject(tn.MSkill) as TSkillDB;
 			if tl <> nil then begin
@@ -6712,36 +7197,40 @@ begin
 			end else begin
 				m := 0;
 			end;
-			//場所指定スキル 範囲型
-		  flag := False;
-                        sl2 := TStringList.Create;
-                        for p1 := (tn.Point.Y - m) div 8 to (tn.Point.Y + m) div 8 do begin
+			//Start Searching
+		    flag := False;
+            sl2 := TStringList.Create;
+
+            {Find Characters in area}
+            for p1 := (tn.Point.Y - m) div 8 to (tn.Point.Y + m) div 8 do begin
 				for i1 := (tn.Point.X - m) div 8 to (tn.Point.X + m) div 8 do begin
 					for c1 := 0 to tm.Block[i1][p1].Clist.Count -1 do begin
-                                                if (tm.Block[i1][p1].Clist.Objects[c1] is TChara) then begin
-						tc2 := tm.Block[i1][p1].CList.Objects[c1] as TChara;
-						if tc2 = nil then Continue;
-						if (abs(tc2.Point.X - tn.Point.X) <= m) and (abs(tc2.Point.Y - tn.Point.Y) <= m) then
-							sl2.AddObject(IntToStr(tc2.ID),tc2);
-						if (tc2.Point.X = tn.Point.X) and (tc2.Point.Y = tn.Point.Y) then
-							flag := True;
-					end;
-				end;
+                        if (tm.Block[i1][p1].Clist.Objects[c1] is TChara) then begin
+						    tc2 := tm.Block[i1][p1].CList.Objects[c1] as TChara;
+						    if tc2 = nil then Continue;
+						    if (abs(tc2.Point.X - tn.Point.X) <= m) and (abs(tc2.Point.Y - tn.Point.Y) <= m) then
+							    sl2.AddObject(IntToStr(tc2.ID),tc2);
+						    if (tc2.Point.X = tn.Point.X) and (tc2.Point.Y = tn.Point.Y) then
+							    flag := True;
+					    end;
+				    end;
+			    end;
 			end;
-			end;
-                        if tMonster <> nil then begin
-                            if tMonster.isCasting then begin
-                                if sl2.Count <> 0 then begin
-                                        for c1 := 0 to sl2.Count - 1 do begin
-                                                tc2 := sl2.Objects[c1] as TChara;
-                                                case tn.JID of
-                                                        $88: //Meteor
-							begin
-								//if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
+
+            //Monster casting sysem I randomly placed... needs to be moved to monsterAI under a call
+            if tMonster <> nil then begin
+                if tMonster.isCasting then begin
+                    if sl2.Count <> 0 then begin
+                        for c1 := 0 to sl2.Count - 1 do begin
+                            tc2 := sl2.Objects[c1] as TChara;
+                            case tn.JID of
+                                $88: //Meteor
+							    begin
+								    //if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
 									//dmg[0] := tc1.MATK1 + Random(tc1.MATK2 - tc1.MATK1 + 1) * tc1.MATKFix div 100 * tl.Data1[tn.MUseLV] div 100;
 									//dmg[0] := dmg[0] * (100 - tc2.MDEF1 + tc2.MDEF2) div 100; //MDEF%
 									//dmg[0] := dmg[0] - tc2.Param[3]; //MDEF-
-                  MobSkillDamageCalc(tm, tc2, tn.MData, Tick);
+                                    MobSkillDamageCalc(tm, tc2, tn.MData, Tick);
 
 									if dmg[0] < 1 then dmg[0] := 1;
 
@@ -6769,15 +7258,15 @@ begin
 										Inc(tn.Count);	//Countを発動発数とSkillLVに使用
 										if tn.Count = 3 then tn.Tick := Tick
 									end;
-								//end;
-                                                        end;
 
-                                                        $86:    {Lord of Vermillion Damage}
-							begin
+                                end;
+
+                                $86:    {Lord of Vermillion Damage}
+							    begin
 								//if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
-                                                                        MobSkillDamageCalc(tm, tc2, tn.MData, Tick);
-                                                                        dmg[0] := dmg[0] * tMonster.Data.Param[3];
-                                                                        if dmg[0] > 15000 then dmg[0] := 15000;
+                                    MobSkillDamageCalc(tm, tc2, tn.MData, Tick);
+                                    dmg[0] := dmg[0] * tMonster.Data.Param[3];
+                                    if dmg[0] > 15000 then dmg[0] := 15000;
 									//dmg[0] := tc1.MATK1 + Random(tc1.MATK2 - tc1.MATK1 + 1) * tc1.MATKFix div 100 * tl.Data1[tn.MUseLV] div 100;
 									dmg[0] := dmg[0] * (100 - tc2.MDEF1 + tc2.MDEF2) div 100; //MDEF%
 									dmg[0] := dmg[0] - tc2.Param[3]; //Magic Defence
@@ -6797,7 +7286,7 @@ begin
 									WFIFOW(28, tn.MUseLV);
 									WFIFOW(30, tl.Data2[tn.MUseLV]);
 									WFIFOB(32, 8);
-                                                                        SendBCmd(tm, tn.Point, 33);
+                                    SendBCmd(tm, tn.Point, 33);
 
 									DamageProcess3(tm, tn.MData, tc2, dmg[0], Tick);
 
@@ -6805,51 +7294,29 @@ begin
 										Inc(tn.Count);	//Countを発動発数とSkillLVに使用
 										if tn.Count = 3 then tn.Tick := Tick
 									end;
-								//end;
-							end;
-                                                end;  //End Case
+							    end;
+                            end;  //End Case
                                         //tMonster.IsCasting := false;
                                         //Exit;
-                                        end;
-                                end;
-                            end;
                         end;
+                    end;
+                end;
+            end;  //End of monster Casting
 
-                        if sl2.Count <> 0 then begin
-                                for c1 := 0 to sl2.Count - 1 do begin
-                                        tc2 := sl2.Objects[c1] as TChara;
-                                        if (tc2.NoTarget = false) and (tc2.HP > 0) then begin
-                                          case tn.JID of
-                                                {//$46: //Sanctuary
-                                                     begin
-                                                                if tc2.MTick < Tick then begin
-									dmg[0] := tn.CData.Skill[70].Data.Data2[tn.MUseLV];
-
-									tn.Tick := Tick;
-                                                     
-                                                                        tc2.HP := tc2.HP + dmg[0];
-						                        if tc2.HP > tc2.MAXHP then tc2.HP := tc2.MAXHP;
-                                                                        WFIFOW( 0, $011a);
-                                                                        WFIFOW( 2, tn.MSkill);
-                                                                        WFIFOW( 4, dmg[0]);
-                                                                        WFIFOL( 6, tc2.ID);
-                                                                        WFIFOL(10, tn.ID);
-                                                                        WFIFOB(14, 1);
-							                SendBCmd(tm, tc2.Point, 15);
-						                        SendCStat1(tc2, 0, 5, tc2.HP);
-									SendBCmd(tm, tn.Point, 31);
-
-                                                                        tc2.MTick := Tick + 1000;
-                                                                end;
-                                                     end;}
-                                                $8d: {Ice Wall}
+            //Pvp Area effects begin
+            if sl2.Count <> 0 then begin
+                for c1 := 0 to sl2.Count - 1 do begin
+                    tc2 := sl2.Objects[c1] as TChara;
+                    if (tc2.NoTarget = false) and (tc2.HP > 0) then begin
+                        case tn.JID of
+                            $8d: {Ice Wall}
 							begin
-                {Colus, 20030113: Put the bounce back in until pathing works right again.}
+                                {Colus, 20030113: Put the bounce back in until pathing works right again.}
 								SetLength(bb, 1);
 								bb[0] := 4;     // 1->4
 								//bb[1] := 0;
-                                                                xy := tc2.Point;
-                                                                //tc2.Dir := 8 - tc2.Dir;
+                                xy := tc2.Point;
+                                //tc2.Dir := 8 - tc2.Dir;
 								DirMove(tm, tc2.Point, tc2.Dir, bb);
 								//ブロック移動
 								if (xy.X div 8 <> tc2.Point.X div 8) or (xy.Y div 8 <> tc2.Point.Y div 8) then begin
@@ -6860,159 +7327,135 @@ begin
 									tm.Block[tc2.Point.X div 8][tc2.Point.Y div 8].Clist.AddObject(tc2.ID, tc2);
 								end;
 								tc2.pcnt := 0;
-			      					//Update Players Location
+                                //Update Players Location
 								UpdatePlayerLocation(tm, tc2);
 							end;
-                                                $46:    {Sanctuary}
-                                                        begin
-                                                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
 
-                                                                //if tc2.Skill[tn.MSkill].Tick < Tick then begin;
-                                                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
-                                                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
-                                                                if tc2.SkillTick > tc2.Skill[tn.MSkill].Tick then begin
-                                                                        tc2.SkillTick := tc2.Skill[tn.MSkill].Tick;
-                                                                        tc2.SkillTickID := tn.MSkill;
+                            $46:    {Sanctuary}
+                            begin
+                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
 
-                                                                end;
-                                                                tc2.InField := true;
-                                                        end;
-                                                           $b3:    // Gospel
-                                                        begin
-                                                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
+                                //if tc2.Skill[tn.MSkill].Tick < Tick then begin;
+                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
+                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
+                                if tc2.SkillTick > tc2.Skill[tn.MSkill].Tick then begin
+                                    tc2.SkillTick := tc2.Skill[tn.MSkill].Tick;
+                                    tc2.SkillTickID := tn.MSkill;
 
-                                                                //if tc2.Skill[tn.MSkill].Tick < Tick then begin;
-                                                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
-                                                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
-                                                                if tc2.SkillTick > tc2.Skill[tn.MSkill].Tick then begin
-                                                                        tc2.SkillTick := tc2.Skill[tn.MSkill].Tick;
-                                                                        tc2.SkillTickID := tn.MSkill;
-
-                                                                end;
-                                                                tc2.InField := true;
-                                                        end;
-                                                $49:    {Ragnarok}
-                                                        begin
-                                                                j := Random(10);
-                                                        end;
-                                                $9a:    {Volcano Effect}
-                                                        begin
-                                                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
-
-                                                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
-                                                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
-
-                                                                CalcStat(tc2, Tick);
-                                                                CalcSageSkill(tc2, Tick);
-
-                                                                //SendCStat(tc2);
-                                                                tc2.InField := true;
-
-                                                        end;
-                                                $9b,$9c: {Deluge, Violent Gale}
-                                                        begin
-                                                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
-
-                                                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
-                                                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
-
-                                                                CalcStat(tc2, Tick);
-                                                                CalcSageSkill(tc2, Tick);
-
-                                                                SendCStat(tc2);
-                                                                tc2.InField := true;
-                                                        end;
-
-
-                                                $9e,$9f,$a0,$a1,$a2,$a4,$a5,$a6,$a7,$a8,$a9,$aa,$ab,$ac,$ad,$ae,$af:
-                                                {Mr Rich Man A Kim}
-                                                        begin
-                                                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
-
-                                                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
-                                                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
-                                                                if tc2.SkillTick > tc2.Skill[tn.MSkill].Tick then begin
-                                                                        tc2.SkillTick := tc2.Skill[tn.MSkill].Tick;
-                                                                        tc2.SkillTickID := tn.MSkill;
-                                                                end;
-
-                                                                CalcSongStat(tc2, Tick);
-
-                                                                CalcSongSkill(tc2, Tick);
-
-                                                                SendCStat(tc2);
-                                                                tc2.InField := true;
-
-                                                        end;
-                                                {//$a7:    Whistle Effect
-                                                        begin
-                                                                //if tc2.MTick < Tick then begin
-                                                                //if not flag then Break;
-                                                                if tc2.Skill[319].Tick > Tick then break;
-                                                                        {tc2.FLEE1 := tc2.FLEE1 - (tc2.FLEE1 * tc2.Skill[319].Effect1 div 100);
-                                                                        tc2.Bonus[5] := tc2.Bonus[5] - (tc2.Param[5] * tc2.Skill[319].Effect1 div 100);
-                                                                end;
-                                                                tc2.Skill[319].Tick := tn.Tick;
-                                                                        {tc2.FLEE1 := tc2.FLEE1 + (tc2.FLEE1 * tn.CData.Skill[319].Data.Data2[tn.MUseLV] div 100);
-                                                                        tc2.Bonus[5] := tc2.Param[5] * tn.CData.Skill[319].Data.Data2[tn.MUseLV] div 100;
-                                                                        {CalcStat(tc2, Tick);
-                                                                        SendCStat1(tc2, 0, 5, tc2.FLEE1);
-                                                                        SendCStat1(tc2, 0, 5, tc2.Bonus[5]);
-                                                                        SendBCmd(tm, tn.Point, 31);
-                                                                tc2.Skill[319].EffectLV := tn.MUseLV;
-                                                                tc2.Skill[319].Effect1 := tc2.Skill[319].Data.Data2[tn.MUseLV];
-						                if tc2.SkillTick > tc2.Skill[319].Tick then begin
-							                tc2.SkillTick := tc2.Skill[319].Tick;
-							                tc2.SkillTickID := 319;
-						                end;
-                                                                CalcSkill(tc2, Tick);
-                                                                SendCStat(tc2);
-                                                                tn.Tick := Tick;
-                                                                //flag := false;
-
-                                                        end;}
-                                                {//$a8:    {Assassain Cross At Sunset
-                                                        begin
-                                                                tc2.Skill[320].Tick := Tick + tn.CData.Skill[320].Data.Data1[tn.MUseLV];
-
-                                                        end;}
-                                                end;
                                 end;
-                        end;
-                        end;
-                        if (mi.PvP = true) then begin
-                        if sl2.Count <> 0 then begin
-                                for c1 := 0 to sl2.Count - 1 do begin
-                                        tc2 := sl2.Objects[c1] as TChara;
-                                    if (tc2 <> tn.CData) and (tc2.NoTarget = false) and (tc2.HP > 0) then begin
+                                tc2.InField := true;
+                            end;
 
-                                        // Colus, 20040317: Alex commented this out, beita undid it, I recommented.
-                                        // Caused crashes with parties in PvP maps
-                                        {if (tc2.PartyName <> '') and (tn.CData.Partyname <> '') then begin
-                                                if (tc2.PartyName = tn.CData.Partyname) then break;
-                                        end;}
-                                        
-                                        case tn.JID of
-                                                $74://ブラストマイン発動
-							begin
-								dmg[0] := (tc1.Param[4] + 75) * (100 + tc1.Param[3]) div 100;
-								dmg[0] := dmg[0] * tn.Count;
-								if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
-								tn.Tick := Tick;
-								WFIFOW( 0, $01de);
-								WFIFOW( 2, $74);
-								WFIFOL( 4, tn.ID);
-								WFIFOL( 8, tc2.ID);
-								WFIFOL(12, Tick);
-								WFIFOL(16, tc1.aMotion);
-								WFIFOL(20, tc2.dMotion);
-								WFIFOL(24, dmg[0]);
-								WFIFOW(28, tn.Count);
-								WFIFOW(30, 1);
-								WFIFOB(32, 5);
-								SendBCmd(tm, tn.Point, 33);
-								DamageProcess2(tm, tc1, tc2, dmg[0], tick);
-							end;
+                            $b3:    // Gospel
+                            begin
+                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
+
+                                //if tc2.Skill[tn.MSkill].Tick < Tick then begin;
+                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
+                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
+                                if tc2.SkillTick > tc2.Skill[tn.MSkill].Tick then begin
+                                    tc2.SkillTick := tc2.Skill[tn.MSkill].Tick;
+                                    tc2.SkillTickID := tn.MSkill;
+
+                                end;
+                                tc2.InField := true;
+                            end;
+
+                            $49:    {Ragnarok}  //UNCODED
+                            begin
+                                j := Random(10);
+                            end;
+
+                            $9a:    {Volcano Effect}
+                            begin
+                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
+
+                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
+                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
+
+                                CalcStat(tc2, Tick);
+                                CalcSageSkill(tc2, Tick);
+
+                                //SendCStat(tc2);
+                                tc2.InField := true;
+
+                            end;
+
+                            $9b,$9c: {Deluge, Violent Gale}
+                            begin
+                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
+
+                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
+                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
+
+                                CalcStat(tc2, Tick);
+                                CalcSageSkill(tc2, Tick);
+
+                                SendCStat(tc2);
+                                tc2.InField := true;
+                            end;
+
+
+                            $9e,$9f,$a0,$a1,$a2,$a4,$a5,$a6,$a7,$a8,$a9,$aa,$ab,$ac,$ad,$ae,$af:
+                            {Mr Rich Man A Kim.. and like every bard skill starts here}
+                            begin
+                                tc2.Skill[tn.MSkill].Tick := tn.Tick;
+
+                                tc2.Skill[tn.MSkill].EffectLV := tn.MUseLV;
+                                tc2.Skill[tn.MSkill].Effect1 := tc2.Skill[tn.MSkill].Data.Data2[tn.MUseLV];
+                                if tc2.SkillTick > tc2.Skill[tn.MSkill].Tick then begin
+                                    tc2.SkillTick := tc2.Skill[tn.MSkill].Tick;
+                                    tc2.SkillTickID := tn.MSkill;
+                                end;
+
+                                CalcSongStat(tc2, Tick);
+
+                                CalcSongSkill(tc2, Tick);
+
+                                SendCStat(tc2);
+                                tc2.InField := true;
+
+                            end;
+
+                        end;
+                    end;
+                end;
+            end;  //End of friendly Pvp Skills
+
+            //Damage PvP begins
+            if (mi.PvP = true) then begin
+                if sl2.Count <> 0 then begin
+                    for c1 := 0 to sl2.Count - 1 do begin
+                        tc2 := sl2.Objects[c1] as TChara;
+                        if (tc2 <> tn.CData) and (tc2.NoTarget = false) and (tc2.HP > 0) then begin
+
+                            // Colus, 20040317: Alex commented this out, beita undid it, I recommented.
+                            // Caused crashes with parties in PvP maps
+                            {if (tc2.PartyName <> '') and (tn.CData.Partyname <> '') then begin
+                                if (tc2.PartyName = tn.CData.Partyname) then break;
+                            end;}
+
+                            case tn.JID of
+                                $74://Unsure... what  this is exactly... I Don't see anywhere that calls it
+                                begin
+								    dmg[0] := (tc1.Param[4] + 75) * (100 + tc1.Param[3]) div 100;
+								    dmg[0] := dmg[0] * tn.Count;
+							    	if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
+								    tn.Tick := Tick;
+								    WFIFOW( 0, $01de);
+								    WFIFOW( 2, $74);
+								    WFIFOL( 4, tn.ID);
+								    WFIFOL( 8, tc2.ID);
+								    WFIFOL(12, Tick);
+								    WFIFOL(16, tc1.aMotion);
+								    WFIFOL(20, tc2.dMotion);
+								    WFIFOL(24, dmg[0]);
+								    WFIFOW(28, tn.Count);
+								    WFIFOW(30, 1);
+								    WFIFOB(32, 5);
+								    SendBCmd(tm, tn.Point, 33);
+								    DamageProcess2(tm, tc1, tc2, dmg[0], tick);
+							    end;
 
 						{//$7f: //ファイアーウォール
 							begin
@@ -7097,89 +7540,93 @@ begin
                   end;
 							end;  }
 {追加:119ココまで}
-						$86: //LoV
-							begin
-								if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
-									dmg[0] := tc1.MATK1 * (80 + 20 * tl.Data1[tn.MUseLV]) div 400;
-									dmg[0] := dmg[0] * (100 - (tc2.MDEF1 + tc2.MDEF2)) div 100; //MDEF%
-									dmg[0] := dmg[0] - tc2.Param[3]; //MDEF-
-									if dmg[0] < 1 then dmg[0] := 1;
-									//dmg[0] := dmg[0] * tl.Data2[tn.MUseLV];
-									if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
-									WFIFOW( 0, $01de);
-									WFIFOW( 2, 85);
-									WFIFOL( 4, tn.ID);
-									WFIFOL( 8, tc2.ID);
-									WFIFOL(12, Tick);
-									WFIFOL(16, tc1.aMotion);
-									WFIFOL(20, tc2.dMotion);
-									WFIFOL(24, dmg[0]);
-									WFIFOW(28, tn.MUseLV);
-									WFIFOW(30, tl.Data2[tn.MUseLV]);
-									WFIFOB(32, 8);
-									SendBCmd(tm, tn.Point, 33);
-									DamageProcess2(tm,tc1,tc2,dmg[0],tick);
-									if c1 = (sl2.Count -1) then begin
-										Inc(tn.Count);	//Countを発動発数とSkillLVに使用
-										if tn.Count = 1 then tn.Tick := Tick
-									end;
-								end;
-							end;
-						$87: //FP
-							begin
-								//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Hit') ;
-								{if not flag then Break;} //踏んでない
-								tn.Tick := Tick;
-								dmg[0] := (tc1.MATK1 + Random(tc1.MATK2 - tc1.MATK1 + 1)) * tc1.MATKFix div 500 + 50;
-								if dmg[0] < 51 then dmg[0] := 51;
-								dmg[0] := dmg[0] * tl.Data2[tn.Count];
-								if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
-								//無理やりエフェクトを出してみる
-								{SetSkillUnit(tm,tc1.ID,tn.Point,Tick,$88,0,4000);}
+						    $86: //LoV
+							    begin
+								    if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
+									    dmg[0] := tc1.MATK1 * (80 + 20 * tl.Data1[tn.MUseLV]) div 400;
+									    dmg[0] := dmg[0] * (100 - (tc2.MDEF1 + tc2.MDEF2)) div 100; //MDEF%
+									    dmg[0] := dmg[0] - tc2.Param[3]; //MDEF-
+									    if dmg[0] < 1 then dmg[0] := 1;
+								    	//dmg[0] := dmg[0] * tl.Data2[tn.MUseLV];
+								    	if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
+									    WFIFOW( 0, $01de);
+									    WFIFOW( 2, 85);
+									    WFIFOL( 4, tn.ID);
+									    WFIFOL( 8, tc2.ID);
+									    WFIFOL(12, Tick);
+									    WFIFOL(16, tc1.aMotion);
+									    WFIFOL(20, tc2.dMotion);
+									    WFIFOL(24, dmg[0]);
+									    WFIFOW(28, tn.MUseLV);
+									    WFIFOW(30, tl.Data2[tn.MUseLV]);
+									    WFIFOB(32, 8);
+									    SendBCmd(tm, tn.Point, 33);
+									    DamageProcess2(tm,tc1,tc2,dmg[0],tick);
+									    if c1 = (sl2.Count -1) then begin
+										    Inc(tn.Count);	//Countを発動発数とSkillLVに使用
+										    if tn.Count = 1 then tn.Tick := Tick
+									    end;
+								    end;
+							    end;
+						    $87: //FP
+							    begin
+								    //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Hit') ;
+								    {if not flag then Break;} //踏んでない
+								    tn.Tick := Tick;
+								    dmg[0] := (tc1.MATK1 + Random(tc1.MATK2 - tc1.MATK1 + 1)) * tc1.MATKFix div 500 + 50;
+								    if dmg[0] < 51 then dmg[0] := 51;
+								    dmg[0] := dmg[0] * tl.Data2[tn.Count];
+								    if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
+								    //無理やりエフェクトを出してみる
+								    {SetSkillUnit(tm,tc1.ID,tn.Point,Tick,$88,0,4000);}
 
-								WFIFOW( 0, $01de);
-								WFIFOW( 2, tn.JID);
-								WFIFOL( 4, tn.ID);
-								WFIFOL( 8, tc2.ID);
-								WFIFOL(12, Tick);
-								WFIFOL(16, tc1.aMotion);
-								WFIFOL(20, tc2.dMotion);
-								WFIFOL(24, dmg[0]);
-								WFIFOW(28, tn.Count);
-								WFIFOW(30, tl.Data2[tn.Count]);
-								WFIFOB(32, 8);
-								SendBCmd(tm, tn.Point, 33);
-								DamageProcess2(tm,tc1,tc2,dmg[0],Tick);
-							end;
+								    WFIFOW( 0, $01de);
+								    WFIFOW( 2, tn.JID);
+								    WFIFOL( 4, tn.ID);
+								    WFIFOL( 8, tc2.ID);
+								    WFIFOL(12, Tick);
+								    WFIFOL(16, tc1.aMotion);
+								    WFIFOL(20, tc2.dMotion);
+								    WFIFOL(24, dmg[0]);
+								    WFIFOW(28, tn.Count);
+								    WFIFOW(30, tl.Data2[tn.Count]);
+								    WFIFOB(32, 8);
+								    SendBCmd(tm, tn.Point, 33);
+								    DamageProcess2(tm,tc1,tc2,dmg[0],Tick);
+							    end;
 
-                                                $88: //Meteor
-							begin
-								if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
-									dmg[0] := tc1.MATK1 + Random(tc1.MATK2 - tc1.MATK1 + 1) * tc1.MATKFix div 100 * tl.Data1[tn.MUseLV] div 100;
-									dmg[0] := dmg[0] * (100 - tc2.MDEF1 + tc2.MDEF2) div 100; //MDEF%
-									dmg[0] := dmg[0] - tc2.Param[3]; //MDEF-
-									if dmg[0] < 1 then dmg[0] := 1;
-									dmg[0] := dmg[0] * tl.Data2[tn.MUseLV];
-									if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
-									WFIFOW( 0, $01de);
-									WFIFOW( 2, 83);
-									WFIFOL( 4, tn.ID);
-									WFIFOL( 8, tc2.ID);
-									WFIFOL(12, Tick);
-									WFIFOL(16, tc1.aMotion);
-									WFIFOL(20, tc2.dMotion);
-									WFIFOL(24, dmg[0]);
-									WFIFOW(28, tn.MUseLV);
-									WFIFOW(30, tl.Data2[tn.MUseLV]);
-									WFIFOB(32, 8);
-                                                                        SendBCmd(tm, tn.Point, 33);
-									DamageProcess2(tm,tc1,tc2,dmg[0],tick);
-									if c1 = (sl2.Count -1) then begin
-										Inc(tn.Count);	//Countを発動発数とSkillLVに使用
-										if tn.Count = 3 then tn.Tick := Tick
-									end;
-								end;
-                                                        end;
+                            $88: //Meteor
+							    begin
+								    if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
+									    dmg[0] := tc1.MATK1 + Random(tc1.MATK2 - tc1.MATK1 + 1) * tc1.MATKFix div 100 * tl.Data1[tn.MUseLV] div 100;
+									    dmg[0] := dmg[0] * (100 - tc2.MDEF1 + tc2.MDEF2) div 100; //MDEF%
+									    dmg[0] := dmg[0] - tc2.Param[3]; //MDEF-
+									    if dmg[0] < 1 then dmg[0] := 1;
+									    dmg[0] := dmg[0] * tl.Data2[tn.MUseLV];
+									    if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
+                                        //if tn.LastPacketSendTick + tn.PacketSendDelay < Tick then begin
+                                            //UpdateGroundEffect(tm, 83, tn.ID, tc2.ID, Tick, tc1.aMotion, tc2.dMotion, dmg[0], tn.MUseLV, tl.Data2[tn.MUseLV], 8, tn.Point);
+                                            //tn.LastPacketSendTick := Tick;
+                                        //end;
+									    WFIFOW( 0, $01de);
+									    WFIFOW( 2, 83);
+									    WFIFOL( 4, tn.ID);
+									    WFIFOL( 8, tc2.ID);
+									    WFIFOL(12, Tick);
+									    WFIFOL(16, tc1.aMotion);
+									    WFIFOL(20, tc2.dMotion);
+									    WFIFOL(24, dmg[0]);
+									    WFIFOW(28, tn.MUseLV);
+									    WFIFOW(30, tl.Data2[tn.MUseLV]);
+									    WFIFOB(32, 8);
+                                        SendBCmd(tm, tn.Point, 33);
+									    DamageProcess2(tm,tc1,tc2,dmg[0],tick);
+									    if c1 = (sl2.Count -1) then begin
+										    Inc(tn.Count);	//Countを発動発数とSkillLVに使用
+										    if tn.Count = 3 then tn.Tick := Tick
+									    end;
+								    end;
+                                end;
                                                 {//$89: //Quagmire
                                                         begin
 								if (tn.Tick + 1000 * tn.Count) < (Tick + 3000) then begin
@@ -8471,7 +8918,7 @@ begin
 		tc1 := AData;
 		if tc1.GraceTick > Tick then exit;
 
-		if tc1.Skill[255].Tick > Tick then begin
+		if (tc1.Skill[255].Tick > Tick) and (assigned(tc1.Crusader)) then begin
 			tc2 := tc1.Crusader;
 			if (tc2.Login <> 2) and (tc1 <> tc2) then begin
 				tc2 := nil;
@@ -9364,9 +9811,35 @@ begin
 	try
 		cmdStart.Enabled := false;
 
-		sv1.Active := true;
-		sv2.Active := true;
-		sv3.Active := true;
+        try
+    		sv1.Active := true;
+        except
+            on ESocketError do begin
+                cmdStart.Enabled := True;
+                debugout.Lines.add('The Login port (' + IntToStr(sv1port) + ') is in use. You can not run Fusion on this port.');
+                Exit;
+            end;
+        end;
+
+        try
+		    sv2.Active := true;
+        except
+            on ESocketError do begin
+                cmdStart.Enabled := True;
+                debugout.Lines.add('The Character port '+ IntToStr(sv2port) +' is in use. You can not run Fusion on this port.');
+                Exit;
+            end;
+        end;
+
+        try
+		    sv3.Active := true;
+        except
+            on ESocketError do begin
+                cmdStart.Enabled := True;
+                debugout.Lines.add('The Zone port '+ IntToStr(sv3port) +' is in use. You can not run Fusion on this port.');
+                Exit;
+            end;
+        end;
 
 		ServerRunning := true;
 		cmdStop.Enabled := true;
@@ -9375,6 +9848,8 @@ begin
 		OnlineTime := timeGetTime(); // AlexKreuz
 
 		DelDelayNum := 0; // mf
+
+        if (Option_Minimize_Tray) then frmMain.MinimizetoTray2Click(self);
 
 		repeat
 
@@ -9804,6 +10279,13 @@ begin
 									end;
 
 									ts := tm.Block[a][b].Mob.Objects[k] as TMob;
+
+                                    {Mercenary Handling}
+                                    if ts.MercID <> 0 then begin
+                                        if ts.MercMoveTick < Tick then
+                                            if (ts.OwnerID = tc.ID) and (ts.MercMoveTick < Tick) then MercenaryAI(tc, ts, tm, Tick);
+                                    end;
+                                    
 									Inc(k);
 									if ts = nil then Continue;
 									if (ts.HP = 0) and (ts.SpawnTick + ts.SpawnDelay1 + cardinal(Random(ts.SpawnDelay2 + 1)) <= Tick) then begin
@@ -10007,7 +10489,7 @@ begin
 								WFIFOL( 2, tn.ID );
 								WFIFOB( 6, 0 );
 								SendBCmd( tm, tn.Point, 7 ,tc);
-
+                                
 								//Delete block
 								l := tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.IndexOf(tn.ID);
 								if l <> -1 then begin
@@ -10061,6 +10543,13 @@ begin
 							end;
 						end;
 
+                        if tpe.Data = nil then begin
+                            debugout.Lines.Add('Pet ' + tpe.Name + ' not defined in pet_db.txt');
+                            debugout.Lines.Add('Server terminated.');
+                            cmdStop.Click;
+                            Exit;
+                        end;
+
 						//Auto PetIsHungrier system
 						if tpe.Fullness > 0 then begin
 							if ( tn.HungryTick + tpe.Data.HungryDelay ) < Tick then begin
@@ -10081,8 +10570,40 @@ begin
 				ExitWarpSearch:
 			end;
 
+            {Check to unload maps}
+{
+
+Alex:
+
+This stuff doesnt work,
+don't uncomment.
+
+
+
+        if tm.UnloadTime > 0 then begin
+            for k := 0 to Map.Count - 1 do begin
+                tm := Map.Objects[k] as TMap;
+                if NOT MapPassive(tm, Tick) then tm.LastAction := Tick;
+                if tm.NeedToUnload then begin
+                    //DebugOut.Lines.Add('[' + TimeToStr(Now) + '] ' + 'Map ' + tm.Name + 'Has been destroyed');
+                    i := Map.IndexOf(tm.Name);
+                    if i <> -1 then begin
+                        Map.Delete(i);
+                        tm.Destroy;
+                    //    DebugOut.Lines.Add('[' + TimeToStr(Now) + '] ' + 'Current Map Count ' + IntToStr(Map.Count))
+                    end else DebugOut.Lines.Add('[' + TimeToStr(Now) + '] ' + 'Map ' + tm.Name + 'Not Found');
+                    Break;
+                end;
+            end;
+        end;
+
+        }
+
 	{NPCイベント追加}
 			for k := 0 to Map.Count - 1 do begin
+
+                if Map.Objects[k] = nil then Continue;
+
 				tm := Map.Objects[k] as TMap;
 				with tm do begin
 					if (TimerAct.Count > 0) then begin
@@ -10197,606 +10718,125 @@ var
 label ExitParse;
 begin
 
-        if Copy(Edit1.Text, 1, 1) = '-' then begin
+    if (Combo_ISCS.ItemIndex = 1) and (ISCS_ON) then begin
+        iscs_console_send(Edit1.Text);
+    end else if Copy(Edit1.Text, 1, 1) = '-' then begin
 
-                sl := TStringList.Create;
-                sl.DelimitedText := Copy(Edit1.Text, 2, 256);
+        sl := TStringList.Create;
+        sl.DelimitedText := Copy(Edit1.Text, 2, 256);
 
-                if sl.Count = 0 then goto ExitParse;
-
-                if sl.Strings[0] = 'users' then begin
-                // Displays List of Online Users
-                // Syntax: -users [global]
-
-                        str := 'Users Currently Logged in: ';
-
-                        k := 0;
-                        for i := 0 to CharaName.Count - 1 do begin
-        		              tc1 := CharaName.Objects[i] as TChara;
-        			              if (tc1.Login = 2) and (tc1 <> tc2) then begin
-                                        if k = 0 then begin
-                                          tc2 := tc1;
-                                          str := str + tc1.Name;
-                                          k := k + 1
-                                        end else begin
-                                          tc2 := tc1;
-                                          str := str + ', ' + tc1.Name;
-                                          k := k + 1;
-                                        end;
-                                end;
-                        end;
-
-                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + str);
-
-                        if sl.Count = 2 then begin
-                                if sl.Strings[1] = 'global' then begin
-                                        edit1.Text := str;
-                                        button1.Click;
-                                end;
-                        end;
-
-                end
-
-                else if sl.strings[0] = 'save' then begin
-                // Save data
-                    DataSave();
-                    debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Player data has been saved.');
-                end
-
-                else if sl.Strings[0] = 'reload' then begin
+        if sl.Count = 0 then goto ExitParse;
+            if sl.Strings[0] = 'reload' then begin
                 // Reloads Databases. Warning, does not save Data.
-                    MapList.Clear;
-                    ItemDB.Clear;
-                    ItemDBName.Clear;
-                    MaterialDB.Clear;
-                    MobDB.Clear;
-                    MobDBName.Clear;
-                    SummonMobList.Clear;
-                    SummonMobListMVP.Clear; //Safe 2004/05/23
-                    SummonIOBList.Clear;//Safe 2004/04/26
-                    SummonIOVList.Clear;//Safe 2004/04/26
-                    SummonICAList.Clear;//Safe 2004/04/26
-                    SummonIGBList.Clear;//Safe 2004/04/26
-                    SummonIOWBList.Clear;//Safe 2004/04/26
-                    PetDB.Clear;
-                    MapInfo.Clear;
-                    SkillDB.Clear;
-                    SkillDBName.Clear; 
-                    GSkillDB.Clear;
-                    SlaveDBName.Clear;
-                    //PharmacyDB.Clear;
-                    MobAIDB.Clear;
-                    MobAIDBFusion.Clear;
-                    GlobalVars.Clear;
-                    MArrowDB.Clear;
-                    WarpDatabase.Clear;
-                    IDTableDB.Clear;
-                    Playername.Clear;
-                    Player.Clear;
-                    Charaname.Clear;
-                    Chara.Clear;
-                    Castlelist.Clear;
-                    Partynamelist.Clear;
-                    Guildlist.Clear;
-                    PetList.Clear;
-                	DatabaseLoad(Handle);
-	                DataLoad();
-                    debugout.lines.add('[' + TimeToStr(Now) + '] ' + '');
-                    debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Databases Reload Completed ...');
-                    debugout.lines.add('[' + TimeToStr(Now) + '] ' + '');
-                end
+                MapList.Clear;
+                ItemDB.Clear;
+                ItemDBName.Clear;
+                MaterialDB.Clear;
+                MobDB.Clear;
+                MobDBName.Clear;
+                SummonMobList.Clear;
+                SummonMobListMVP.Clear; //Safe 2004/05/23
+                SummonIOBList.Clear;//Safe 2004/04/26
+                SummonIOVList.Clear;//Safe 2004/04/26
+                SummonICAList.Clear;//Safe 2004/04/26
+                SummonIGBList.Clear;//Safe 2004/04/26
+                SummonIOWBList.Clear;//Safe 2004/04/26
+                PetDB.Clear;
+                MapInfo.Clear;
+                SkillDB.Clear;
+                SkillDBName.Clear;
+                GSkillDB.Clear;
+                SlaveDBName.Clear;
+                //PharmacyDB.Clear;
+                MercenariesList.Clear;
+                MobAIDB.Clear;
+                MobAIDBFusion.Clear;
+                GlobalVars.Clear;
+                MArrowDB.Clear;
+                WarpDatabase.Clear;
+                IDTableDB.Clear;
+                Playername.Clear;
+                Player.Clear;
+                Charaname.Clear;
+                Chara.Clear;
+                Castlelist.Clear;
+                Partynamelist.Clear;
+                Guildlist.Clear;
+                PetList.Clear;
+                DatabaseLoad(Handle);
+                DataLoad();
+                debugout.lines.add('[' + TimeToStr(Now) + '] ' + '');
+                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Databases Reload Completed ...');
+                debugout.lines.add('[' + TimeToStr(Now) + '] ' + '');
+            end
 
-                else if sl.Strings[0] = 'uptime' then begin
+            else if sl.Strings[0] = 'uptime' then begin
                 // Displays Uptime Stats in Console
                 // Syntax: -uptime [global]
-
-                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Fusion Server Uptime: '+floattostr(ElapsedD) +' Days, '+ floattostr(ElapsedH) +' Hours, '+ floattostr(ElapsedM) +' Minutes, '+ floattostr(ElapsedS) +' Seconds.');
-
-                        if sl.Count = 2 then begin
-                                if sl.Strings[1] = 'global' then begin
-                                        edit1.Text := 'Fusion Server Uptime: '+floattostr(ElapsedD) +' Days, '+ floattostr(ElapsedH) +' Hours, '+ floattostr(ElapsedM) +' Minutes, '+ floattostr(ElapsedS) +' Seconds.';
-                                        button1.Click;
-                                end;
-                        end;
-                end
-
-                else if sl.Strings[0] = 'kick' then begin
-                // Kicks User
-                // Syntax: -kick username [global]
-
-                        if sl.Count > 1 then begin
-                                for i := 0 to CharaName.Count - 1 do begin
-                                        tc1 := CharaName.Objects[i] as TChara;
-                                        if (tc1.Name = sl.Strings[1]) then begin
-                                                if tc1.Login = 2 then begin
-                                                        WFIFOW(0, $00b3);
-                                                        WFIFOB(2, $0001);
-                                                        tc1.Socket.SendBuf(buf, 3);
-                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + sl.Strings[1] + ' has been kicked.');
-                                                        
-                                                        if sl.Count > 2 then begin
-                                                                if sl.Strings[2] = 'global' then begin
-                                                                        edit1.Text := sl.Strings[1] + ' has been kicked.';
-                                                                        button1.Click;
-                                                                end;
-                                                        end;
-                                                end else begin
-                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + sl.Strings[1] + ' is not online.');
-                                                end;
-                                        end;
-                                end;
-                        end;
-                end
-
-                else if str = '-ban' then begin
-                // Bans IP Address [global]
-                // Syntax: -ban ip.address
-
-                end
-
-                else if str = '-unban' then begin
-                // Unbans IP Address [global]
-                // Syntax: -unban ip.addresss
-
-                end
-
-                else if str = '-userstats' then begin
-                // Relocates on or off-line character
-                // Syntax: -move chara_name map_name x_coord y_coord
-
-                end
-
-                else if str = '-take' then begin
-                // Removes an posession from a character
-                // Type: zeny, item, level, jlevel, bexp, jexp, skill
-                // Value: ID Number (item, skill only)
-                // Quantity: Amount to remove
-                // Syntax: -take type value quantity
-
-                end
-
-                else if str = '-give' then begin
-                // Gives a posession to a character
-                // Type: zeny, item, level, jlevel, bexp, jexp, skill
-                // Value: ID Number (item, skill only)
-                // Quantity: Amount to remove
-                // Syntax: -give type value quantity
-
-                end
-
-                else if str = '-help' then begin
-                // Displays list of Console Commands
-                // Syntax: -help
-
-                end
-
-                else if str = '-move' then begin
-                // Relocates on or off-line player
-                // Syntax: -move chara_name map_name x_coord y_coord
-
-                end
-
-                else if sl.Strings[0] = 'sql' then begin
-                // Pseudo SQL Database Administration
-
-			if sl.Count > 1 then begin
-		        	if sl.Strings[1] = 'update' then begin
-					if sl.Count > 2 then begin
-
-                                                // Player Data Begin
-				        	if sl.Strings[2] = 'player' then begin
-							if sl.Count > 3 then begin
-						        	if sl.Strings[3] = 'set' then begin
-									if sl.Count > 4 then begin
-								        	if sl.Strings[4] = 'gender' then begin
-											if sl.Count > 5 then begin
-										        	if sl.Strings[5] = '=' then begin
-													if sl.Count > 6 then begin
-														if sl.Count > 7 then begin
-													        	if sl.Strings[7] = 'where' then begin
-																if sl.Count > 8 then begin
-															        	if sl.Strings[8] = 'username' then begin
-																		if sl.Count > 9 then begin
-																	        	if sl.Strings[9] = '=' then begin
-																			        if sl.Count > 10 then begin
-                                                                                                                                                                        if PlayerName.IndexOf(sl.Strings[10]) = -1 then begin
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That username does not exist.');
-                                                                                                                                                                        end
-                                                                                                                                                                        else begin
-                                                                                                                                                                                tp1 := PlayerName.Objects[PlayerName.IndexOf(sl.Strings[10])] as TPlayer;
-
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Username: '+sl.Strings[10]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Old Gender: '+inttostr(tp1.Gender));
-                                                                                                                                                                                tp1.Gender := strtoint(sl.Strings[6]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'New Gender: '+sl.Strings[6]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Gender change was successful.');
-                                                                                                                                                                        end;
-                                                                                                                               			        	end;
-                                                                                                                                                        end;
-																	        end;
-															        	end;
-															        end;
-													        	end;
-													        end;
-												        end;
-										        	end;
-										        end;
-								        	end else
-
-                                                                                if sl.Strings[4] = 'password' then begin
-											if sl.Count > 5 then begin
-										        	if sl.Strings[5] = '=' then begin
-													if sl.Count > 6 then begin
-														if sl.Count > 7 then begin
-													        	if sl.Strings[7] = 'where' then begin
-																if sl.Count > 8 then begin
-															        	if sl.Strings[8] = 'username' then begin
-																		if sl.Count > 9 then begin
-																	        	if sl.Strings[9] = '=' then begin
-																			        if sl.Count > 10 then begin
-                                                                                                                                                                        if PlayerName.IndexOf(sl.Strings[10]) = -1 then begin
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That username does not exist.');
-                                                                                                                                                                        end
-                                                                                                                                                                        else begin
-                                                                                                                                                                                tp1 := PlayerName.Objects[PlayerName.IndexOf(sl.Strings[10])] as TPlayer;
-
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Username: '+sl.Strings[10]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Old Password: '+ tp1.Pass);
-                                                                                                                                                                                tp1.Pass := sl.Strings[6];
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'New Password: '+sl.Strings[6]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Password change was successful.');
-                                                                                                                                                                        end;
-                                                                                                                               			        	end;
-                                                                                                                                                        end;
-																	        end;
-															        	end else
-
-                                                                                                                                        if sl.Strings[8] = 'charaname' then begin
-																		if sl.Count > 9 then begin
-																	        	if sl.Strings[9] = '=' then begin
-																			        if sl.Count > 10 then begin
-                                                                                                                                                                        counter := 11;
-                                                                                                                                                                        while sl.Count > counter do begin
-                                                                                                                                                                                sl.Strings[10] := sl.Strings[10] + ' ' + sl.Strings[counter];
-                                                                                                                                                                                counter := counter + 1;
-                                                                                                                                                                        end;
-
-                                                                                                                                                                        if CharaName.IndexOf(sl.Strings[10]) = -1 then begin
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That character does not exist.');
-                                                                                                                                                                        end
-                                                                                                                                                                        else begin
-                                                                                                                                                                                tc1 := CharaName.Objects[CharaName.IndexOf(sl.Strings[10])] as TChara;
-                                                                                                                                                                                tp1 := Player.IndexOfObject(tc1.ID) as TPlayer;
-
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Username: '+sl.Strings[10]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Old Password: '+ tp1.Pass);
-                                                                                                                                                                                tp1.Pass := sl.Strings[6];
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'New Password: '+sl.Strings[6]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Password change was successful.');
-                                                                                                                                                                        end;
-                                                                                                                               			        	end;
-                                                                                                                                                        end;
-																	        end;
-                                                                                                                                        end;
-															        end;
-													        	end;
-													        end;
-												        end;
-										        	end;
-										        end;
-								        	end;
-								        end;
-						        	end;
-						        end;
-				        	end
-                                                // Player Data End
-
-                                                // Character Data Begin
-				        	else if sl.Strings[2] = 'chara' then begin
-							if sl.Count > 3 then begin
-						        	if sl.Strings[3] = 'set' then begin
-									if sl.Count > 4 then begin
-								        	if sl.Strings[4] = 'zeny' then begin
-											if sl.Count > 5 then begin
-										        	if sl.Strings[5] = '=' then begin
-													if sl.Count > 6 then begin
-														if sl.Count > 7 then begin
-													        	if sl.Strings[7] = 'where' then begin
-																if sl.Count > 8 then begin
-															        	if sl.Strings[8] = 'charaname' then begin
-																		if sl.Count > 9 then begin
-																	        	if sl.Strings[9] = '=' then begin
-																			        if sl.Count > 10 then begin
-                                                                                                                                                                        counter := 11;
-                                                                                                                                                                        while sl.Count > counter do begin
-                                                                                                                                                                                sl.Strings[10] := sl.Strings[10] + ' ' + sl.Strings[counter];
-                                                                                                                                                                                counter := counter + 1;
-                                                                                                                                                                        end;
-
-                                                                                                                                                                        if CharaName.IndexOf(sl.Strings[10]) = -1 then begin
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That character does not exist.');
-                                                                                                                                                                        end
-                                                                                                                                                                        else begin
-                                                                                                                                                                                tc1 := CharaName.Objects[CharaName.IndexOf(sl.Strings[10])] as TChara;
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Character Name: ' + sl.Strings[10]);
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Total Zeny: ' + inttostr(tc1.Zeny));
-
-                                                                                                                                                                                if (copy(sl.Strings[6],1,1) = '+') or (copy(sl.Strings[6],1,1) = '-') then begin
-                                                                                                                                                                                        if tc1.Zeny + Cardinal(strtoint(sl.Strings[6])) < 0 then begin
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Not enough Zeny. Zeny command was un-successful.');
-                                                                                                                                                                                        end else begin
-                                                                                                                                                                                                tc1.Zeny := tc1.Zeny + Cardinal(strtoint(sl.Strings[6]));
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Zeny command was successful.');
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Updated Total: ' + inttostr(tc1.Zeny));
-                                                                                                                                                                                        end;
-                                                                                                                                                                                end else begin
-                                                                                                                                                                                        tc1.Zeny := strtoint(sl.Strings[6]);
-                                                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Zeny command was successful.');
-                                                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Updated Total: ' + inttostr(tc1.Zeny));
-                                                                                                                                                                                end;
-
-                                                                                                                                                                                if tc1.Login = 2 then begin
-                                                                                                                                                                                                      SendCStat1(tc1, 1, $0014, tc1.Zeny);
-                                                                                                                                                                                end;
-                                                                                                                                                                        end;
-                                                                                                                               			        	end;
-                                                                                                                                                        end;
-																	        end;
-															        	end;
-															        end;
-													        	end;
-													        end;
-												        end;
-										        	end;
-										        end;
-								        	end;
-
-								        	if sl.Strings[4] = 'location' then begin
-											if sl.Count > 5 then begin
-										        	if sl.Strings[5] = '=' then begin
-													if sl.Count > 6 then begin
-														if sl.Count > 7 then begin
-                                                                                                                        if sl.Count > 8 then begin
-                                                                                                                                if sl.Count > 9 then begin
-                													        	if sl.Strings[9] = 'where' then begin
-                																if sl.Count > 10 then begin
-		                													        	if sl.Strings[10] = 'charaname' then begin
-				                														if sl.Count > 11 then begin
-						                											        	if sl.Strings[11] = '=' then begin
-								                											        if sl.Count > 12 then begin
-                                                                                                                                                                                        counter := 13;
-                                                                                                                                                                                        while sl.Count > counter do begin
-                                                                                                                                                                                                sl.Strings[12] := sl.Strings[12] + ' ' + sl.Strings[counter];
-                                                                                                                                                                                                counter := counter + 1;
-                                                                                                                                                                                        end;
-
-                                                                                                                                                                                        if CharaName.IndexOf(sl.Strings[12]) = -1 then begin
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That character does not exist.');
-                                                                                                                                                                                        end else begin
-
-                                                                                                                                                                                                tc1 := CharaName.Objects[CharaName.IndexOf(sl.Strings[12])] as TChara;
-
-                                                                                                                                                                                                if MapList.IndexOf(sl.Strings[6]) <> -1 then begin
-                                                                                                                                                                                                        ta := MapList.Objects[MapList.IndexOf(sl.Strings[6])] as TMapList;
-                                                                                                                                                                                                        if (strtoint(sl.Strings[7]) >= 0) and (strtoint(sl.Strings[7]) < ta.Size.X) and (strtoint(sl.Strings[8]) >= 0) and (strtoint(sl.Strings[8]) < ta.Size.Y) then begin
-                                                                                                                                                                                                                if tc1.Login = 2 then begin
-                                                                                                                                                                                                                        // User is online
-                                                                                                                                                                                                                        if (tc1.Option and 64 = 0) then SendCLeave(tc1, 2);
-                                                                                                                                                                                                                        MapMove(tc1.Socket, sl.Strings[6], Point(strtoint(sl.Strings[7]),strtoint(sl.Strings[8])));
-                                                                                                                                                                                                                        tc1.Map := sl.Strings[6];
-                                                                                                                                                                                                                        tc1.Point.X := strtoint(sl.Strings[7]);
-                                                                                                                                                                                                                        tc1.Point.Y := strtoint(sl.Strings[8]);
-                                                                                                                                                                                                                end else begin
-                                                                                                                                                                                                                        // User is not online
-                                                                                                                                                                                                                        tc1.Map := sl.Strings[6];
-                                                                                                                                                                                                                        tc1.Point.X := strtoint(sl.Strings[7]);
-                                                                                                                                                                                                                        tc1.Point.Y := strtoint(sl.Strings[8]);
-                                                                                                                                                                                                                end;
-                                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + tc1.Name + ' was moved successfully to ' + sl.Strings[6] + ' ' + sl.Strings[7] + ' ' + sl.Strings[8] + '.');
-                                                                                                                                                                                                        end else begin
-                                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + tc1.Name + ' was not moved. Bad Map Coordinates.');
-                                                                                                                                                                                                        end;
-                                                                                                                                                                                                end else begin
-                                                                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + tc1.Name + ' was not moved. Bad Map Name.');
-                                                                                                                                                                                                end;
-                                                                                                                                                                                        end;
-                                                                                                                                                                                end;
-                                                                                                                                                                        end;
-                                                                                                                               			        	end;
-                                                                                                                                                        end;
-																	        end;
-															        	end;
-															        end;
-													        	end;
-													        end;
-												        end;
-										        	end;
-										        end;
-								        	end;
-
-								        	{if sl.Strings[4] = 'item' then begin
-											if sl.Count > 5 then begin
-										        	if sl.Strings[5] = '=' then begin
-													if sl.Count > 6 then begin
-														if sl.Count > 7 then begin
-													        	if sl.Strings[7] = 'where' then begin
-																if sl.Count > 8 then begin
-															        	if sl.Strings[8] = 'charaname' then begin
-																		if sl.Count > 9 then begin
-																	        	if sl.Strings[9] = '=' then begin
-																			        if sl.Count > 10 then begin
-                                                                                                                                                                        counter := 11;
-                                                                                                                                                                        while sl.Count > counter do begin
-                                                                                                                                                                                sl.Strings[10] := sl.Strings[10] + ' ' + sl.Strings[counter];
-                                                                                                                                                                                counter := counter + 1;
-                                                                                                                                                                        end;
-
-                                                                                                                                                                        if CharaName.IndexOf(sl.Strings[10]) = -1 then begin
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That character does not exist.');
-                                                                                                                                                                        end
-                                                                                                                                                                        else begin
-                                                                                                                                                                                tc1 := CharaName.Objects[CharaName.IndexOf(sl.Strings[10])] as TChara;
-                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Character Name: ' + sl.Strings[10]);
-                                                                                                                                                                                //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Total Zeny: ' + inttostr(tc1.Zeny));
-
-                                                                                                                                                                                if (copy(sl.Strings[7],1,1) = '+') or (copy(sl.Strings[7],1,1) = '-') then begin
-                                                                                                                                                                                        if tc1.Item[sl.Strings[6]].Amount + strtoint(sl.Strings[7]) < 0 then begin
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Not enough quantity. Item command was un-successful.');
-                                                                                                                                                                                        end else begin
-                                                                                                                                                                                                tc1.Item[sl.Strings[6]
-                                                                                                                                                                                                tc1.Zeny := tc1.Zeny + strtoint(sl.Strings[6]);
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Zeny command was successful.');
-                                                                                                                                                                                                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Updated Total: ' + inttostr(tc1.Zeny));
-                                                                                                                                                                                        end;
-                                                                                                                                                                                end else begin
-                                                                                                                                                                                        tc1.Zeny := strtoint(sl.Strings[6]);
-                                                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Zeny command was successful.');
-                                                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Updated Total: ' + inttostr(tc1.Zeny));
-                                                                                                                                                                                end;
-
-                                                                                                                                                                                if tc1.Login = 2 then begin
-                                                                                                                                                                                        WFIFOW(0, $00b1);
-	        		                        																WFIFOW(2, $0014);
-                                																			WFIFOL(4, tc1.Zeny);
-			        																	                tc1.Socket.SendBuf(buf, 8);
-                                                                                                                                                                                end;
-                                                                                                                                                                        end;
-                                                                                                                               			        	end;
-                                                                                                                                                        end;
-																	        end;
-															        	end;
-															        end;
-													        	end;
-													        end;
-												        end;
-										        	end;
-										        end;
-								        	end;}
-								        end;
-						        	end;
-						        end;
-				        	end;
-                                                // Character Data End
-
-				        end;
-		        	end;
-
-		        	if sl.Strings[1] = 'select' then begin
-					if sl.Count > 2 then begin
-
-                                                // Character Data Begin
-				        	if sl.Strings[2] = 'items' then begin
-							if sl.Count > 3 then begin
-						        	if sl.Strings[3] = 'from' then begin
-									if sl.Count > 4 then begin
-								        	if sl.Strings[4] = 'chara' then begin
-											if sl.Count > 5 then begin
-										        	if sl.Strings[5] = 'where' then begin
-													if sl.Count > 6 then begin
-                                                                                                                if sl.Strings[6] = 'charaname' then begin
-														        if sl.Count > 7 then begin
-													        	        if sl.Strings[7] = '=' then begin
-																        if sl.Count > 8 then begin
-                                                                                                                                                counter := 9;
-                                                                                                                                                while sl.Count > counter do begin
-                                                                                                                                                        sl.Strings[8] := sl.Strings[8] + ' ' + sl.Strings[counter];
-                                                                                                                                                        counter := counter + 1;
-                                                                                                                                                end;
-
-                                                                                                                                                if CharaName.IndexOf(sl.Strings[8]) = -1 then begin
-                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'That character does not exist.');
-                                                                                                                                                end
-                                                                                                                                                else begin
-                                                                                                                                                        tc1 := CharaName.Objects[CharaName.IndexOf(sl.Strings[8])] as TChara;
-                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Character Name: ' + sl.Strings[8]);
-                                                                                                                                                        i := 0;
-                                                                                                                                			for j := 1 to 100 do begin
-                                                                                                                                				if tc1.Item[j].ID <> 0 then begin
-                                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Call Number: '+inttostr(j)+', ID: '+inttostr(tc1.Item[j].ID)+', Quantity: '+inttostr(tc1.Item[j].Amount));
-                                                                                                                                					{sl.Add(IntToStr(tc.Item[j].ID));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Amount));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Equip));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Identify));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Refine));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Attr));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Card[0]));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Card[1]));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Card[2]));
-                                                                                                                                					sl.Add(IntToStr(tc.Item[j].Card[3]));}
-                                                                                                                                					Inc(i);
-                                                                                                                                				end;
-                                                                                                                                			end;
-                                                                                                                                                        debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Total Items: ' + inttostr(i));
-																	        end;
-															        	end;
-															        end;
-													        	end;
-													        end;
-												        end;
-										        	end;
-										        end;
-								        	end;
-								        end;
-						        	end;
-						        end;
-				        	end;
-                                                // Character Data End
-
-				        end;
-		        	end;
-		        end;
-                end
-
-                else if str = '-' then begin
-                // Relocates on or off-line player
-                // Syntax: -move chara_name map_name x_coord y_coord
-
+                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Fusion Server Uptime: '+floattostr(ElapsedD) +' Days, '+ floattostr(ElapsedH) +' Hours, '+ floattostr(ElapsedM) +' Minutes, '+ floattostr(ElapsedS) +' Seconds.');
+                if sl.Count = 2 then begin
+                    if sl.Strings[1] = 'global' then begin
+                        edit1.Text := 'Fusion Server Uptime: '+floattostr(ElapsedD) +' Days, '+ floattostr(ElapsedH) +' Hours, '+ floattostr(ElapsedM) +' Minutes, '+ floattostr(ElapsedS) +' Seconds.';
+                        button1.Click;
+                    end;
                 end;
+            end
 
-ExitParse:
+            else if sl.Strings[0] = 'ban' then begin
+            // Bans IP Address [global]
+            // Syntax: -ban ip.address
+            end
 
-                sl.free();
-        end
+            else if sl.Strings[0] = 'unban' then begin
+            // Unbans IP Address [global]
+            // Syntax: -unban ip.addresss
+            end
 
-        else begin
-        // Sends GM Messages via Server Console
+            else if sl.Strings[0] = 'help' then begin
+            // Displays list of Console Commands
+            // Syntax: -help
+            end
 
-                str := edit1.text;
+            else if sl.Strings[0] = 'move' then begin
+            // Relocates on or off-line player
+            // Syntax: -move chara_name map_name x_coord y_coord
+            end;
 
-                //RFIFOW(2, w);
-        	//str := RFIFOS(4, w - 4);
+        ExitParse:
 
-                w := 200;
-        	WFIFOW(0, $009a);
-	        WFIFOW(2, w);
-	        WFIFOS(4, str, w);
-        	//Socket.SendBuf(buf, w);
+        sl.free();
+    end
 
-                for k := 0 to CharaName.Count - 1 do begin
-                        tc1 := CharaName.Objects[k] as TChara;
-		        if tc1.Login = 2 then tc1.Socket.SendBuf(buf, w);
-                end;
-
-                debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Server: ' + str);
+    else begin
+    // Sends GM Messages via Server Console
+        str := 'Server: ' + edit1.text;
+        w := 200;
+        WFIFOW(0, $009a);
+        WFIFOW(2, w);
+        WFIFOS(4, str, w);
+        for k := 0 to CharaName.Count - 1 do begin
+            tc1 := CharaName.Objects[k] as TChara;
+            if tc1.Login = 2 then tc1.Socket.SendBuf(buf, w);
         end;
 
-        edit1.Clear;
+        debugout.lines.add('[' + TimeToStr(Now) + '] ' + str);
+    end;
+
+    edit1.Clear;
 
 end;
 
 procedure TfrmMain.Edit1KeyPress(Sender: TObject; var Key: Char);
-
 begin
-
-        if Key = #13 then begin
-                button1.Click;
-        end;
-
+    if Key = #13 then begin
+        button1.Click;
+    end;
 end;
 
 procedure TfrmMain.CMClickIcon(var msg: TMessage);
 begin
   if msg.lparam = WM_LBUTTONDBLCLK then begin
+        Option_Minimize_Tray := False;
         frmMain.Visible := true;
         Application.BringToFront;
         ShowWindow(Application.Handle, SW_SHOWNORMAL);
@@ -10926,14 +10966,20 @@ end;
 
 procedure TfrmMain.Exit1Click(Sender: TObject);
 begin
+    if (ISCS_ON) then iscs_console_disconnect();
 	frmMain.Close;
 end;
 
 
 procedure TfrmMain.Save1Click(Sender: TObject);
 begin
-    DataSave();
+    DataSave(false);
     debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Player data has been saved.');
+end;
+
+procedure TfrmMain.S1Click(Sender: TObject);
+begin
+    DataSave(true);
 end;
 
 procedure TfrmMain.Backup1Click(Sender: TObject);
@@ -10944,6 +10990,10 @@ end;
 
 procedure TfrmMain.MinimizetoTray2Click(Sender: TObject);
 begin
+    {$IFDEF MSWINDOWS}
+    Option_Minimize_Tray := True;
+    weiss_ini_save();
+
     //Add Icon to System Tray
                 TrayIcon.cbSize := SizeOf(TrayIcon);
                 TrayIcon.Wnd := Self.Handle;
@@ -10951,7 +11001,7 @@ begin
                 TrayIcon.uFlags := NIF_ICON or NIF_TIP or NIF_MESSAGE;
                 TrayIcon.uCallbackMessage := WM_NOTIFYICON;
                 TrayIcon.hIcon := Application.Icon.Handle;
-                TrayIcon.szTip := 'Fusion';
+                TrayIcon.szTip := RELEASE_VERSION;
                 Shell_notifyIcon(NIM_ADD, @TrayIcon);
                 frmMain.Visible := false;
                 Application.Minimize;
@@ -10960,6 +11010,10 @@ begin
                 GetWindowLong(Application.Handle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW );
                 //Sets Windows Extended Styles WS_EX_TOOLWINDOW to true
                 // (Don't ToolWindows don't show in taskbar by default)
+    {$ENDIF}
+    {$IFDEF LINUX}
+        ShowMessage('This Option is not available under Linux.');
+    {$ENDIF}
 end;
 
 procedure TfrmMain.PageControl1Change(Sender: TObject);
@@ -10969,12 +11023,22 @@ begin
 		JCon_Accounts_Load();
     end else if (TabSheet4.Showing) then begin
     	JCon_INI_Server_Load();
+    end else if (TabSheet6.Showing) then begin
+        JCon_Characters_Online();
+        //ShowMessage('Under Development, This section does not work.');
     end;
+
+
 end;
 
 procedure TfrmMain.ListBox1Click(Sender: TObject);
 begin
-	JCon_Accounts_Populate();
+	JCon_Accounts_Populate(0);
+end;
+
+procedure TfrmMain.ListBox9Click(Sender: TObject);
+begin
+    JCon_Accounts_Populate(1);
 end;
 
 procedure TfrmMain.Button3Click(Sender: TObject);
@@ -11054,6 +11118,194 @@ end;
 procedure TfrmMain.Button2Click(Sender: TObject);
 begin
 	JCon_INI_Game_Save();
+end;
+
+procedure TfrmMain.ConnecttoISCS1Click(Sender: TObject);
+begin
+    if not (ISCS_ON) then begin
+        ConnecttoISCS1.Caption := 'Disconnect from ISCS';
+        Option_Enable_ISCS := True;
+        iscs_console_connect();
+        debugout.Lines.Add('- Inter-Server Communication System Activated -');
+        Combo_ISCS.ItemIndex := 1;
+    end
+
+    else begin
+        ConnecttoISCS1.Caption := 'Connect to ISCS';
+        Option_Enable_ISCS := False;
+        iscs_console_disconnect();
+        debugout.Lines.Add('- Inter-Server Communication System Deactivated -');
+        Combo_ISCS.ItemIndex := 0;
+    end;
+end;
+
+procedure TfrmMain.EnableWebAccountCreator1Click(Sender: TObject);
+begin
+    if not (Option_Enable_WAC) then begin
+        EnableWebAccountCreator1.Caption := 'Disable Web Account Creator';
+        Option_Enable_WAC := True;
+        create_wac();
+    end
+
+    else begin
+        Option_Enable_WAC := False;
+        EnableWebAccountCreator1.Caption := 'Enable Web Account Creator';
+        destroy_wac();
+    end;
+end;
+
+procedure TfrmMain.ListBox2Click(Sender: TObject);
+begin
+    JCon_Characters_Populate();
+end;
+
+procedure TfrmMain.Button16Click(Sender: TObject);
+begin
+    JCon_Characters_Save();
+end;
+
+//character tabs
+procedure TfrmMain.PageControl3Change(Sender: TObject);
+begin
+	if (TabSheet6.Showing) then begin
+    	JCon_Characters_Online();
+    end else if (TabSheet9.Showing) then begin
+    	JCon_Characters_Load();
+    end else if (TabSheet10.Showing) then begin
+        JCon_Chara_Inv_Load();
+        JCon_Chara_Cart_Load();
+        JCon_Chara_Store_Load();
+    end else if (TabSheet14.Showing) then begin
+        JCon_Chara_Flag_Load();
+        frmMain.CheckBox2.Checked := True;  //this controls skill load
+    end;
+end;
+
+//online refresh
+procedure TfrmMain.Button17Click(Sender: TObject);
+begin
+    JCon_Characters_Online();
+end;
+
+//online list kick
+procedure TfrmMain.Button18Click(Sender: TObject);
+begin
+    JCon_Chara_KickProcess;
+end;
+
+//Kick Ban
+procedure TfrmMain.Button20Click(Sender: TObject);
+begin
+    JCon_Chara_KickProcess(True);
+end;
+
+//setting a temp name for the online list
+procedure TfrmMain.ListBox3Click(Sender: TObject);
+begin
+    JCon_Chara_Online_Populate();
+end;
+
+//Hitting enter for CharaPM
+procedure TfrmMain.Edit8KeyPress(Sender: TObject; var Key: Char);
+begin
+    if Key = #13 then begin
+        JCon_Chara_Online_PM();
+    end;
+end;
+
+//charaPM
+procedure TfrmMain.Button19Click(Sender: TObject);
+begin
+    JCon_Chara_Online_PM();
+end;
+
+//Move a stuck character to last saved location (ex. out of a wall, or isolated area)
+procedure TfrmMain.Button21Click(Sender: TObject);
+begin
+    JCon_Chara_Online_Rescue();
+end;
+
+procedure TfrmMain.ListBox4Click(Sender: TObject);
+begin
+    JCon_Chara_Inv_Populate();
+end;
+
+procedure TfrmMain.DNSUpdateTimerTimer(Sender: TObject);
+begin
+    WAN_ADDR := cardinal(wsocket_inet_addr(PChar(WAN_IP)));
+    //WAN_ADDR := cardinal(inet_addr(PChar(WAN_IP)));
+    weiss_ini_save();
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'DNS Update Complete.');
+end;
+
+procedure TfrmMain.Button22Click(Sender: TObject);
+begin
+    JCon_Chara_Inv_Save();
+end;
+
+procedure TfrmMain.CheckBox2Click(Sender: TObject);
+begin
+    if frmMain.CheckBox2.Checked = true then
+        JCon_Chara_Skill_Load(true)
+    else JCon_Chara_Skill_Load(false);
+end;
+
+procedure TfrmMain.ListBox7Click(Sender: TObject);
+begin
+    JCon_Chara_Skill_Populate();
+end;
+
+procedure TfrmMain.Button23Click(Sender: TObject);
+begin
+    JCon_Chara_Skill_Save();
+end;
+
+procedure TfrmMain.Button25Click(Sender: TObject);
+begin
+    JCon_Chara_Flag_Delete();
+end;
+
+procedure TfrmMain.Button24Click(Sender: TObject);
+begin
+    JCon_Chara_Flag_Save();
+end;
+
+procedure TfrmMain.ListBox8Click(Sender: TObject);
+begin
+    JCon_Chara_Flag_Populate();
+end;
+
+procedure TfrmMain.Options1Click(Sender: TObject);
+begin
+    JCon_INI_Server_Load();
+    TabSheet2.Show;
+end;
+
+procedure TfrmMain.Console1Click(Sender: TObject);
+begin
+    TabSheet1.Show;
+end;
+
+procedure TfrmMain.Accounts1Click(Sender: TObject);
+begin
+    JCon_Accounts_Load();
+    TabSheet3.Show;
+end;
+
+procedure TfrmMain.Characters1Click(Sender: TObject);
+begin
+    JCon_Characters_Online();
+    TabSheet7.Show;
+end;
+
+procedure TfrmMain.Bugtracker1Click(Sender: TObject);
+begin
+    ShellExecute(self.WindowHandle,'open','http://fusion.cobax.net/bugtracker',nil,nil, SW_SHOWNORMAL);
+end;
+
+procedure TfrmMain.FusionHomepage1Click(Sender: TObject);
+begin
+    ShellExecute(self.WindowHandle,'open','http://fusion.cobax.net',nil,nil, SW_SHOWNORMAL);
 end;
 
 end.

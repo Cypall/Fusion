@@ -6,7 +6,18 @@ interface
 
 uses
 //Windows, Forms, Classes, SysUtils, Math, ScktComp, Common;
-	Windows, SysUtils, ScktComp, Common, SQLData, FusionSQL;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+	Windows, ScktComp,
+    {$ENDIF}
+    {Kylix/Delphi CLX}
+    {$IFDEF LINUX}
+    Qt,
+    {$ENDIF}
+    {Shared}
+    SysUtils,
+    {Fusion}
+    Common, SQLData, FusionSQL, Database, Globals, REED_DELETE;
 
 //==============================================================================
 // 関数定義
@@ -64,14 +75,14 @@ begin
                                         // Character Loads should be in Character Select Area
                                         // Speeds up login time, needed especially for SQL
                                         if UseSQL then Call_Characters(tp.ID);
-                                        if tp.Login = 1 then begin
+                                        if tp.Login then begin
                                                 count := 0;
                                                 while count < 8 do begin
                                                         if (tp.CData[count] <> nil)and(tp.CData[count].Login <> 0) then begin
                                                         WFIFOW(0, $0081);
                                                         WFIFOB(2, 08);
                                                         Socket.SendBuf(buf, 3);
-                                                        tp.Login := 0;
+                                                        tp.Login := false;
                                                         tp.CData[count].Login := 0;
                                                         end;
                                                         inc(count);
@@ -89,7 +100,7 @@ begin
 						WFIFOW(0, $006b);
 						cnt := 0;
 						if tp.ver2 = 9 then w := 24 else w := 4;
-						if tp.ver2 = 9 then j := 5 else j := 3;
+						if tp.ver2 = 9 then j := 9 else j := 3;
 						for i := 0 to j - 1 do begin
 							if tp.CData[i] <> nil then begin
 								ZeroMemory(@buf[w+(cnt*106)], 106);
@@ -102,12 +113,16 @@ begin
 								end;
 								tc.SkillTick := $FFFFFFFF;
 								tc.Option := tc.Option and $DFFE;
-                                                                if (tc.Option and 6 <> 0) then begin
-                                                                        tc.Option := tc.Option and $FFF9;
-                                                                        tc.Hidden := false;
-                                                                end;
-                tc.Stat1 := 0;
-                tc.Stat2 := 0;
+                                if (tc.Option and 6 <> 0) then begin
+                                    tc.Option := tc.Option and $FFF9;
+                                    tc.Hidden := false;
+                                end;
+                                tc.Stat1 := 0;
+                                tc.Stat2 := 0;
+
+                                // Inter-Server Communcation System
+                                tc.ISCS := False;
+
 								with tc do begin
 									WFIFOL(w+(cnt*106)+  0, CID);
 									WFIFOL(w+(cnt*106)+  4, BaseEXP);
@@ -154,72 +169,76 @@ begin
 				end;
 			end;
 		$0066: //キャラクタ選択要求
+            begin
+                if Socket.Data = nil then exit;
+                tp := Socket.Data;
+                {2重ログインチェック}
+
+                count := 0;
+                while count < 8 do begin
+                    if (tp.CData[count] <> nil)and(tp.CData[count].Login <> 0) then begin
+                        //debugout.lines.add('[' + TimeToStr(Now) + '] ' + '2重ログインされました。');
+                        //2重ログイン
+                        WFIFOW( 0, $0081);
+                        WFIFOB( 2, 08);
+                        tp.CData[count].Socket.SendBuf(buf, 3);
+                    end;
+                    inc(count);
+                end;
+                {2重ログインチェック　ここまで}
+
+                RFIFOB(2, b);
+
+                //if UseSQL then GetCharaPartyGuild(tp.CID[b]);
+                tc := tp.CData[b];
+
+                if UseSQL then Load_Parties(tc.CID);
+                if UseSQL then Load_Pets(tc.ID);
+                if UseSQL then Load_Guilds(tc.CID);
+
+                {NPCイベント追加}
+                i := MapInfo.IndexOf(tc.Map);
+                j := -1;
+                if (i <> -1) then begin
+                    mi := MapInfo.Objects[i] as MapTbl;
+                    if (mi.noSave = true) then j := 0;
+                end;
+                if (j = 0) then begin
+                    tc.Map := tc.SaveMap;
+                    tc.Point.X := tc.SavePoint.X;
+                    tc.Point.Y := tc.SavePoint.Y;
+                end;
+                {NPCイベント追加ココまで}
+
+                tp.Login := true;
+
+                WFIFOW(0, $0071);
+                WFIFOL(2, tc.CID);
+                WFIFOS(6, tc.Map + '.rsw', 24);
+
+                if uselan(tp.IP) then WFIFOL(22, LAN_ADDR)
+                else WFIFOL(22, WAN_ADDR);
+
+                WFIFOW(26, sv3port);
+                Socket.SendBuf(buf, 28);
+            end;
+		$0067: { -- Create New Character -- }
 			begin
 				if Socket.Data = nil then exit;
 				tp := Socket.Data;
-                                {2重ログインチェック}
-                                    count := 0;
-                                    while count < 8 do
-                                    begin
-                                      if (tp.CData[count] <> nil)and(tp.CData[count].Login <> 0) then
-                                      begin
-                                        //debugout.lines.add('[' + TimeToStr(Now) + '] ' + '2重ログインされました。');
-                                        //2重ログイン
-			        	      WFIFOW( 0, $0081);
-			       	              WFIFOB( 2, 08);
-			         	      tp.CData[count].Socket.SendBuf(buf, 3);
-                                      end;
-                                      inc(count);
-                                    end;
-                                  {2重ログインチェック　ここまで}
 
-				RFIFOB(2, b);
-				if b > 4 then exit;
-
-
-			  //if UseSQL then GetCharaPartyGuild(tp.CID[b]);
-				if tp.CData[b] <> nil then begin
-					tc := tp.CData[b];
-
-                                        if UseSQL then Load_Parties(tc.CID);
-                                        if UseSQL then Load_Pets(tc.ID);
-                                        if UseSQL then Load_Guilds(tc.CID);
-{NPCイベント追加}
-					i := MapInfo.IndexOf(tc.Map);
-					j := -1;
-					if (i <> -1) then begin
-						mi := MapInfo.Objects[i] as MapTbl;
-						if (mi.noSave = true) then j := 0;
-					end;
-					if (j = 0) then begin
-						tc.Map := tc.SaveMap;
-						tc.Point.X := tc.SavePoint.X;
-						tc.Point.Y := tc.SavePoint.Y;
-					end;
-{NPCイベント追加ココまで}
-					WFIFOW(0, $0071);
-					WFIFOL(2, tc.CID);
-					WFIFOS(6, tc.Map + '.rsw', 24);
-					WFIFOL(22, ServerIP);
-					WFIFOW(26, sv3port);
-					Socket.SendBuf(buf, 28);
-				end;
-			end;
-		$0067: //キャラ作成要求
-			begin
-				if Socket.Data = nil then exit;
-				tp := Socket.Data;
-
-				//スロットがあいているかどうかチェック
+				{ - Retrieve Character Slot -}
 				RFIFOB(32, b);
-				if b > 4 then exit;
+
+                { - Fail character creation: Slot contains character data - }
 				if tp.CData[b] <> nil then begin
 					WFIFOW(0, $006e);
 					WFIFOB(2, 2);
 					Socket.SendBuf(buf, 3);
 					exit;
 				end;
-				//パラメータに不正がないかチェック
+
+				{ - Fail character creation: Stat points exceed 9 or are below 1 - }
 				b := 0;
 				for i := 0 to 5 do begin
 					RFIFOB(i+26, bb[i]);
@@ -232,39 +251,47 @@ begin
 						b := b + bb[i];
 					end;
 				end;
+
+                { - Fail character creation: Total stat points are not 30 - }
 				if b <> 30 then begin
 					WFIFOW(0, $006e);
 					WFIFOB(2, 2);
 					Socket.SendBuf(buf, 3);
 					exit;
 				end;
-				//名前が既に使われていないかチェック
+
+				{ - Fail character creation: Character name already exists - }
 				str1 := RFIFOS(2, 24);
 				if UseSQL then begin
-				  if CheckUserExist(str1) then begin
-			  		WFIFOW(0, $006e);
-			  		WFIFOB(2, 0);
-			  		Socket.SendBuf(buf, 3);
-			  		exit;
-			  	end;
+                    if CheckUserExist(str1) then begin
+			  		    WFIFOW(0, $006e);
+			  		    WFIFOB(2, 0);
+			  		    Socket.SendBuf(buf, 3);
+			  		    exit;
+			  	    end;
 				end else begin
-				if CharaName.IndexOf(str1) <> -1 then begin
-					WFIFOW(0, $006e);
-					WFIFOB(2, 0);
-					Socket.SendBuf(buf, 3);
-					exit;
-				end;
+				    if CharaName.IndexOf(str1) <> -1 then begin
+					    WFIFOW(0, $006e);
+    					WFIFOB(2, 0);
+	    				Socket.SendBuf(buf, 3);
+		    			exit;
+			    	end;
 				end;
 
-				//キャラデータ作成
+				{ - Character creation successful - }
 				tc := TChara.Create;
 				with tc do begin
 					ID := tp.ID;
 					Gender := tp.Gender;
 					if UseSQL then CID := GetNowCharaID()
 					else begin
+
 					CID := NowCharaID;
 					Inc(NowCharaID);
+
+                    if tc.CID < 100001 then tc.CID := tc.CID + 100001;
+                    if tc.CID >= NowCharaID then NowCharaID := tc.CID + 1;
+
 					end;
 					Name := str1;
 					Gender := tp.Gender;
@@ -344,9 +371,18 @@ begin
 				if UseSQL then SaveCharaData(tc);
 				CharaName.AddObject(tc.Name, tc);
 				Chara.AddObject(tc.CID, tc);
+
 				RFIFOB(32, b);
 				tp.CName[b] := tc.Name;
 				tp.CData[b] := tc;
+
+                tc.PData := tp;
+
+                // Enable / Disable to save.
+                tp.Login := true;
+                DataSave();
+                tp.Login := false;
+                // TP should be disconnected at this point.
 
 				//キャラデータ送信
 				with tc do begin
@@ -386,73 +422,82 @@ begin
 				end;
 				Socket.SendBuf(buf, 108);
 			end;
-		$0068: //キャラ削除要求
-			begin
-				if Socket.Data = nil then exit;
-				tp := Socket.Data;
+		$0068: { Request to Delete Character }
+            begin
+                if Socket.Data = nil then exit;
+                tp := Socket.Data;
 
-				RFIFOL(2, l);
-				str1 := RFIFOS(6, 40);
-				if str1 = tp.Mail then begin
-					i := Chara.IndexOf(l);
-					if (i <> -1) then begin
-						//削除。
-						tc := Chara.Objects[i] as TChara;
-						for k := 0 to 4 do begin
-							if tp.CData[k] = tc then begin
-								tp.CName[k] := '';
-								tp.CData[k] := nil;
-								break;
-							end;
-						end;
-            { Mitch 02-06-2004: Fix character delete/blank char in guild bug }
-            if (tc.GuildID <> 0) then begin
-              j := GuildList.IndexOf(tc.GuildID);
-              if (j <> -1) then begin
-                tg := GuildList.Objects[j] as TGuild;
-                if (tg.MasterName <> tc.Name) then begin
-                  for k := tc.GuildPos to 35 do begin
-						        tg.MemberID[k] := tg.MemberID[k + 1];
-						        tg.Member[k] := tg.Member[k + 1];
-						        tg.MemberPos[k] := tg.MemberPos[k + 1];
-						        tg.MemberEXP[k] := tg.MemberEXP[k + 1];
-                  end;
-                end else begin
-                  //Lets delete all the members.
-                  for k := 0 to 35 do begin
-                    if tg.MemberID[k] <> 0 then begin
-                      m := Chara.IndexOf(tg.MemberID[k]);
-                      if m <> -1 then begin
-                        tc1 := Chara.Objects[m] as TChara;
-                        tc1.GuildID := 0;
-                        tc1.GuildPos := 0;
-                        tc1.GuildName := '';
-                        tc1.Classname := '';
-                      end;
+                RFIFOL(2, l);
+                str1 := RFIFOS(6, 40);
+                if str1 = tp.Mail then begin
+                    i := Chara.IndexOf(l);
+                    if (i <> -1) then begin
+                        tc := Chara.Objects[i] as TChara;
+
+                        { Alex: this 4 needs to be changed to 8 when 9 Character
+                          Slots become available. }
+                        for k := 0 to 4 do begin
+                            if tp.CData[k] = tc then begin
+                                tp.CName[k] := '';
+                                tp.CData[k] := nil;
+                                break;
+                            end;
+                        end;
+
+                        { Mitch 02-06-2004: Fix character delete/blank char in guild bug }
+                        if (tc.GuildID <> 0) then begin
+                            j := GuildList.IndexOf(tc.GuildID);
+                            if (j <> -1) then begin
+                                tg := GuildList.Objects[j] as TGuild;
+                                if (tg.MasterName <> tc.Name) then begin
+                                    for k := tc.GuildPos to 35 do begin
+                                        tg.MemberID[k] := tg.MemberID[k + 1];
+                                        tg.Member[k] := tg.Member[k + 1];
+                                        tg.MemberPos[k] := tg.MemberPos[k + 1];
+                                        tg.MemberEXP[k] := tg.MemberEXP[k + 1];
+                                    end;
+                                end else begin
+                                    //Lets delete all the members.
+                                    for k := 0 to 35 do begin
+                                        if tg.MemberID[k] <> 0 then begin
+                                            m := Chara.IndexOf(tg.MemberID[k]);
+                                            if m <> -1 then begin
+                                                tc1 := Chara.Objects[m] as TChara;
+                                                tc1.GuildID := 0;
+                                                tc1.GuildPos := 0;
+                                                tc1.GuildName := '';
+                                                tc1.Classname := '';
+                                            end;
+                                        end;
+                                    end;
+                                    GuildList.Delete(j);
+                                end;
+                            end;
+                        end;
+
+                        if UseSQL then begin
+                            DeleteChar(tc.CID);
+                            CharaName.Delete(CharaName.IndexOf(tc.Name));
+                            Chara.Delete(i);
+                        end;
+                        
+                        PD_Delete_Character(tc.CID);
+
+                        tc.Free;
+                        WFIFOW(0, $006f);
+                        Socket.SendBuf(buf, 2);
+                    end else begin
+                        { Deletion was rejected. Character not found. }
+                        WFIFOW(0, $0070);
+                        WFIFOB(2, 1);
+                        Socket.SendBuf(buf, 3);
                     end;
-                  end;
-                  GuildList.Delete(j);
-                end;
-              end;
-            end;
-						if UseSQL then
-						  DeleteChar(tc.CID);
-						CharaName.Delete(i);
-						Chara.Delete(i);
-						tc.Free;
-						WFIFOW(0, $006f);
-						Socket.SendBuf(buf, 2);
-					end else begin
-						//削除するキャラが見つからない(削除拒否を返す)
-						WFIFOW(0, $0070);
-						WFIFOB(2, 1);
-						Socket.SendBuf(buf, 3);
-					end;
-				end else begin
-					//メールアドレスが違う
-					WFIFOW(0, $0070);
-					WFIFOB(2, 0);
-					Socket.SendBuf(buf, 3);
+
+                end else begin
+					{ Deletion was rejected. Incorrect Email address. }
+                    WFIFOW(0, $0070);
+                    WFIFOB(2, 0);
+                    Socket.SendBuf(buf, 3);
 				end;
 			end;
 		end;

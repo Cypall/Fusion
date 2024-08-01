@@ -40,6 +40,9 @@ Version History:
             what's been added.  Based on client_packet.txt of
 	    2004/06/21.
 
+2004/12/14: More packets from jA 1071 client_packet.txt Not Translated,
+	    new packets and some comments.
+
 Credits:
 
 - The Japanese Athena dev team, for providing the original list.
@@ -99,8 +102,8 @@ Contact me in the Weiss IRC channel.
     8, 14, 10, 35,  6,  8,  4, 11, 54, 53, 60,  2, -1, 47, 33,  6,
    30,  8, 34, 14,  2,  6, 26,  2, 28, 81,  6, 10, 26,  2, -1, -1,
    -1, -1, 20, 10, 32,  9, 34, 14,  2,  6, 48, 56, -1,  4,  5, 10,
-#0x200
-   26,  0,  0,  0, 18,  0,  0,  0,  0,  0,  0, 19,
+#0x0200
+   26, -1, 26, 10, 18, 26, 11, 34, 14, 36, 10, 19, 19, -1, 24,  0,
 
 S クライアントから見て送信
 R クライアントから見て受信
@@ -424,8 +427,8 @@ R 0098 <type>.B
 	type=01 Whisper target not logged in.
 	type=02 Target is ignoring the whisper.
 
-S 0099 
-	神の声送信
+S 0099 <len>.w <message>.?B
+	GMコマンド/b,/bb,/nbにて発行。サーバー内ブロードキャスト
 
 	Send 'the voice of God' (i.e., nameless broadcast).
 
@@ -483,6 +486,8 @@ S 00a2 <index>.w <amount>.w
 	Drop an inventory item.
 
 R 00a3 <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B}.10B*
+	Tsusai 12/14/04: jA has <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B(矢の場合0x8000?)}.10B*
+	
 	所有消耗品&収集品リスト
 
 	List of consumable/collectible drops you have in inventory.
@@ -555,6 +560,10 @@ R 00b0 <type>.w <val>.l
 	0031:HIT 0032:FLEE前 0033:FLEE後 0034:クリティカル
 	0035:ASPD(2ms単位の時間?) 0037:ジョブレベル
 	0082:謎 ATK後と同じ数字?
+	
+	12/14/04 jA difference:
+	0000:speed 0003:悪行値 0004:マナーポイント(会話禁止) 0005:HP 0006:MaxHP
+	type 0004の時のvalは0-解除までの時間
 
 	Update values of various properties.  types below correspond to properties that can be changed:
 
@@ -664,6 +673,9 @@ R 00bc <type>.w <fail>.B <val>.B
 
 R 00bd <status point>.w <STR>.B <STRupP>.B <AGI>.B <AGIupP>.B <VIT>.B <VITupP>.B <INT>.B <INTupP>.B <DEX>.B <DEXupP>.B <LUK>.B <LUKupP>.B <ATK>.w <ATKbonus>.w <MATKmax>.w <MATKmin>.w <DEF>.w <DEFbonus>.w <MDEF>.w <MDEFbonus>.w <HIT>.w <FLEE>.w <FLEEbonus>.w <critical>.w ?.w
 	まとめてステータス情報を送るパケット
+	
+	12/14/04 jA: update
+	R 00bd <status point>.w <STR>.B <STRupP>.B <AGI>.B <AGIupP>.B <VIT>.B <VITupP>.B <INT>.B <INTupP>.B <DEX>.B <DEXupP>.B <LUK>.B <LUKupP>.B <ATK>.w <ATKbonus>.w <MATKmax>.w <MATKmin>.w <DEF>.w <DEFbonus>.w <MDEF>.w <MDEFbonus>.w <HIT>.w <FLEE>.w <FLEEbonus>.w <critical>.w <karma?>.w <manner?>.w
 
 	Information packet for the various stats.
 
@@ -843,6 +855,11 @@ R 00d2 <type>.B <fail>.B
 
 	fail=00 Succeeded.
 	fail=01 Failed.
+	
+S 00d3
+	Wis拒否リスト要求
+R 00d4 <len>.w <nick>.24B*  NOT IN 621
+	Wis拒否リスト応答
 
 S 00d5 <len>.w <limit>.w <pub>.B <passwd>.8B <title>.?B
 	チャット立て。ここからチャット関係が続くけど調べが甘いので補完よろ
@@ -1284,6 +1301,7 @@ R 0119 <ID>.l <param1>.w <param2>.w <param3>.w ?.B
 	param1=02   Freeze
 	param1=03   Stun
 	param1=04   Sleep
+	param1=06   Blind
 
 	Param2 values are statuses that affect you physically:
 
@@ -1291,7 +1309,7 @@ R 0119 <ID>.l <param1>.w <param2>.w <param3>.w ?.B
 	param2=02   Curse         (x02)
 	param2=04   Silence       (x04)
 	param2=08   Confusion     (x08)
-	param2=16   Blind         (x10)
+	param2=16   Darkness      (x10)
 
 	Param3 values are visual effects upon the player.
 
@@ -1307,7 +1325,7 @@ R 0119 <ID>.l <param1>.w <param2>.w <param3>.w ?.B
 	param3=512  Cart (#4)     (x200)
 	param3=1024 Cart (#5)     (x400)
 	param3=2048 Reverse Orcish(x800)
-	param3=4096 ?             (x1000)
+	param3=4096 Wedding Dress (x1000)
 	param3=8192 Ruwach        (x2000)
 	param3=16384Footsteps     (x4000)
 	param3=32768?             (x8000)
@@ -1474,6 +1492,7 @@ S 0129 <index>.w <amount>.l
 
 S 012A
 	Request to remove falcon/cart/peco options from this character.
+	12/14/04: No longer listed in jA packet info
 
 R 012c <fail>.B
 	fail=00 「重量オーバーです。」
@@ -1600,6 +1619,7 @@ R 013e <src ID>.l <dst ID>.l <X>.w <Y>.w <skillID>.w <element>.w <wait>.l
 	00: None 01: Water 02: Earth 03: Fire 04: Wind 05: Poison 06: Holy 07: Dark 08: Spirit 09: Death
 
 	wait is time in milliseconds.
+	12/14/04: jA has <src ID>.l <dst ID>.l <X>.w <Y>.w <lv?>.w ?.w <wait>.l
 
 R 0141 <type>.l <base>.l <bonus>.l
 	ステータス情報。typeは0dから12が順にSTR,AGI,VIT,INT,DEX,LUKに対応
@@ -1629,8 +1649,8 @@ R 0144 <ID>.l <type>.l <X>.l <Y>.l <point ID>.B <color>.3B ?.B
 
 R 0145 <file name>.16B <type>.B
 	(今の所)カプラさんcutin表示
-	type=02 表示
-	type=ff 消去
+	type=0x02 表示
+	type=0xff 消去
 
 	Display Kapra cutin image.
 	type=02 Show
@@ -1656,6 +1676,12 @@ S 0149 <ID>.l <type>.B <time>.w
 
 	IDにチャット禁止時間を付加 type=0 マイナス type=1 プラス
 	tymeは分単位
+	
+	12/14/04: jA:
+	GM用右クリックメニュー「チャット禁止時間を下げる（解ける）」使用 → type=00
+	GM用右クリックメニュー「チャット禁止時間を上げる（掛ける）」使用 → type=01
+	喋りすぎでクライアントから送信 → type=02
+	timeは分単位です（確か
 
 	The given ID is prohibited from chat for the given time .  type=00 adds, type=01 subtracts.
 	Time is in minutes.
@@ -1667,6 +1693,7 @@ R 014a <fail>.l
 
 R 014b <type>.B <nick>.24B
 	マナーポイントを貰った。type=00 プラス type=01 マイナス
+	12/14/04: jA: アマツ以降？会話禁止状態になった nick=自分の名前 type=1のみ？
 
 	Received manner points.  type=00 is added, type=01 is subtracted.
 
@@ -2269,6 +2296,10 @@ S 0197 <type>.w
 	(Actually, I think there is an effect.  You can't do this yourself but this may be the packet to reset your
 	 stats and/or skills as you would with the Mesmerist.)
 
+S 0198 <?>.w <?>.w <Flag>.w
+	GMコマンド/cmt(=/changemaptype)にて発行。おそらく、MAP属性変更コマンド
+	Flagのみ1か0
+	
 R 0199 <type>.w
 	type=1 pvpモード開始?
 	type=3 gvgモード開始?
@@ -2296,6 +2327,9 @@ R 019b <ID>.l <type>.l
 	type=4 ?
 	type=5 Pharmacy success
 	type=6 Pharmacy failure
+	
+S 019c <len>.w <message>.?B
+	GMコマンド/nlb,/lbにて発行。MAP内ブロードキャスト
 
 R 019d <?>.4B
 	GMコマンド/hide
@@ -2404,6 +2438,11 @@ R 01aa <ID>.l <emotion>.l
 	<emotion>
 	Up to 33: Emotion
 	34 and up: Pet talk table?
+	
+R 01ab <ID>.l <type>.w <val>.l
+	00b0の他人に見せるバージョン
+	0004:マナーポイント(会話禁止)	
+	type 0004の時のvalは0-解除までの時間
 
 R 01ac <object id>.l
 	アンクルの発動(≠設置)時のみ毎回出現(機能は謎)
@@ -2448,6 +2487,13 @@ S 01b2 <len>.w <message>.80B <flag>.B {<index>.w <amount>.w <value>.l}.8B*
 
 R 01b3 <filename>.64B <type>.B
 	R 0145の上位互換
+	画像表示(R 0145の上位互換)
+	type	0:左
+		1:中央
+		2:右(カプラ)
+		3:バーつき移動可能×ボタン付
+		4:バーなし移動可能×ボタン付(髪型カタログ)
+		255:非表示
 
 	Improved version of 0145 (displaying a cutin image).  Allows a longer cutin filename.
 
@@ -2464,10 +2510,22 @@ R 01b9 <ID>.I
 
 	When damaged, etc., this ID failed to cast (cast timer disappears).
 
+S 01ba <CharName>.24B
+	GMコマンド/removeにて発行。account_nameへ飛ぶコマンド
+S 01bb <CharName>.24B
+	GMコマンド/shiftにて発行。char_nameへ飛ぶコマンド(@jumpto)
+S 01bc <CharName>.24B
+	GMコマンド/recallにて発行。account_name呼び出しコマンド
+S 01bd <CharName>.24B
+	GMコマンド/summonにて発行。char_name呼び出しコマンド(@recall)
+S 01c0
+	GMコマンド/ｿ莖ﾝにて発行。何かの要求パケ
 R 01c4 <index>.w <amount>.l <itemID>.w <item data>.12B
 	カプラ倉庫アイテム 
 
 	An item in Kapra storage.
+
+R 01c5 <index>.w <amount>.l <itemID>.w <item data>.12B
 
 R 01c8 <index>.w <item ID>.w <ID>.l <amount left>.w <type>.B
 	アイテム使用応答。(00a8の上位バーション？)
@@ -2699,6 +2757,10 @@ R 01e1 <ID>.l <num>.w
 	<num> : 気功の数(非Lv) 一度表示したら後どんなnumが来ても無視される。
 
 	<num> : Number of Spirit Spheres (not level) - Once displayed, whatever <num> comes is disregarded. (???)
+R 01e4
+	プロポーズターゲット表示
+S 01e5 <ID>.l
+	プロポーズ要求
 
 R 01e6 <partner name>.24B
 	結婚スキルあなたに逢いたい使用時の叫び声
@@ -2774,18 +2836,26 @@ R 01f5 <result>.B <trade id?>.L <LV>.w
 	result=03 Accepted, begin trade.
 	result=04 Trade cancelled.
 
+R 01f8
+	養子ターゲット表示
+S 01f9 <ID>.l
+	養子要求
+
 S 0200 <login name>.24B
 	ragexeに/accountオプションをつけて起動するとログイン要求に付加されるパケット
 
 	If you use the /account parameter with ragexe, this sends that parameter as an additional packet to the login server.
 
-S 0204 <?>.16B
+S 0202 <nick name>.24B NOT IN 621 Client
+	友達リストへ追加要求
+
+S 0204 <ragexe md5>.16B
 	ログイン要求に付加されるパケット。16バイトは固定？
 
 	Additional packet sent at login request time.  The 16 bytes are a fixed length?
 
-S 020B <?>.17B
+S 020B <?>.B<ragexe md5>.16B
 	キャラクタサーバ接続要求0065に付加されるパケット。1+0204の16バイトで17バイト？
 
 	Additional packet sent when sending 0065 connection request to the character server.
-	1 + 0204's 16 bytes = 17 bytes?
+	1 + 0204's 16 bytes = 17 bytes?  CONFIRMED

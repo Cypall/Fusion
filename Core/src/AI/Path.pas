@@ -5,7 +5,18 @@ unit Path;
 interface
 
 uses
-	Windows, SysUtils, Common;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+	Windows,
+    {$ENDIF}
+    {Kylix/Delphi CLX}
+    {$IFDEF LINUX}
+    Types,
+    {$ENDIF}
+    {Shared}
+    SysUtils,
+    {Fusion}
+    Common;
 
 //==============================================================================
 // ä÷êîíËã`

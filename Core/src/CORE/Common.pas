@@ -6,16 +6,26 @@ interface
 
 uses
 //Windows, Forms, Classes, SysUtils, ScktComp;
-	Windows, StdCtrls, MMSystem, Classes, SysUtils, ScktComp,
-	GlobalLists,
-	List32;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+	Windows, StdCtrls, MMSystem, ScktComp,
+    {$ENDIF}
+    {Kylix/Delphi CLX}
+    {$IFDEF LINUX}
+    Qt, QStdCtrls, Types,
+    {$ENDIF}
+    {Shared}
+    Classes, SysUtils,
+    {Fusion}
+	GlobalLists, List32;
 
 const
-	RELEASE_VERSION = '1.211 O';
+	RELEASE_VERSION = '1.213 Release';
+    MAXINTEGER = 2147483647;
 
 	// Colus, 20040304: Let's see if this is truly global scope.
 	MAX_SKILL_NUMBER = 411;
-	MAX_JOB_NUMBER = 45;
+	MAX_JOB_NUMBER = 68;
 	LOWER_JOB_END = 23;
 	UPPER_JOB_BEGIN = 4000;
 	MONSTER_ATK_RANGE = 9;
@@ -401,6 +411,13 @@ rEXPDist = record
 end;
 
 //------------------------------------------------------------------------------
+
+TMercenaries = class
+    Name:   PChar;
+    SpriteID    :   integer;
+end;
+
+//------------------------------------------------------------------------------
 // モンスターデータ
 TMob = class(TLiving)
 	tgtPoint    :TPoint;
@@ -488,6 +505,13 @@ TMob = class(TLiving)
 		// 3 = Target Skill
 		// 4 = Support skill
 	CanFindTarget :boolean;
+
+    {Mercenary System}
+    MercID  :   cardinal;
+    MercName:   String;
+    OwnerID :   Cardinal;
+    OwnerName:  PChar;
+    MercMoveTick :  Cardinal;
 
 {NPCイベント追加ココまで}
 	constructor Create;
@@ -658,14 +682,22 @@ TMap = class;    //forward declaration - MData " " "
 
 TChara = class(TLiving)
     private
+
     fFireWallCount : Byte;
+    fIceWallCount : Byte;
+
     procedure SetFirewallCount( Value : Byte );
+    procedure SetIceWallCount( Value : Byte );
+
     public
 	// Control Variables
 	Socket        :TCustomWinSocket;
 	PData         :TPlayer; // Reference back to owning TPlayer
 	IP            :string;
 	Login         :byte; // 0 = offline; 1 = loading; 2 = online
+
+    // Inter-Server Communication System
+    ISCS : Boolean;
 
 	// Data saved and loaded to/from chara.txt
 	// Line 1:
@@ -687,10 +719,10 @@ TChara = class(TLiving)
 	// Option is a word-length bitmask.  The bits are for the following
 	// character status conditions:
 	//
-	// 01: Sight        02: Hide          04: Cloak         08: Cart 1
-	// 16: Falcon       32: Peco          64: GM Hide       128: Cart 2
-	// 256: Cart 3      512: Cart 4       1024: Cart 5      2048: Reverse Orcish
-	// 4096: ?          8192: Ruwach      16384: Footsteps  32768: Cart 6?
+	// 01: Sight         02: Hide          04: Cloak         08: Cart 1
+	// 16: Falcon        32: Peco          64: GM Hide       128: Cart 2
+	// 256: Cart 3       512: Cart 4       1024: Cart 5      2048: Reverse Orcish
+	// 4096: Wedding SPR 8192: Ruwach      16384: Footsteps  32768: Cart 6?
 
 	//  0000 | 0000 | 0000 | 0000
 	//    R    OCCC   CPPF   CCHS
@@ -750,6 +782,8 @@ TChara = class(TLiving)
 	SavePoint     :TPoint;
 	MemoMap       :array[0..2] of string;
 	MemoPoint     :array[0..2] of TPoint;
+    CheckpointMap :string;
+    Checkpoint    :TPoint;
 
 	// Line 2: Skills
 	Skill         :array[0..MAX_SKILL_NUMBER] of TSkill;
@@ -881,6 +915,7 @@ TChara = class(TLiving)
 	MoveTick      :cardinal;
 
 	PartyName     :string; //これらはそのうちデータファイルから読むようにすること
+    PartyID       :cardinal;
 	GuildName     :string;
 	GuildID       :word;
 	ClassName     :string;
@@ -991,6 +1026,18 @@ TChara = class(TLiving)
         SPSongTick    :cardinal;  {For Decreasing SP when using Songs}
         StatRecalc    :boolean; {Used for the Sage skill free cast}
         //SkillOnBool         :Boolean; //boolean indicate skill duration for skills according to system time.
+        PvPPoints     :integer;
+        PvPRank       :integer;
+        tmpPvPRank    :integer;
+
+        guild_storage : Boolean;
+        OnTouchIDs      :TIntList32; //to make sure you don't keep setting off the same npc ontouch script.
+
+    {Mercenary System}
+    mercenaryID       :cardinal;  {The ID of a character's Mercenary}
+    mercenaryHP       :integer;   {Your mercenaries Hit Points}
+    mercenaryIDName   :String;    {Your Mercenaries Monster Name}
+    mercenaryCustomName : PChar;  {Your Mercenaries Custom Name}
 
 	constructor Create;
 	destructor  Destroy; override;
@@ -1000,20 +1047,25 @@ TChara = class(TLiving)
     property FireWallCount : Byte
     read   fFireWallCount
     write  SetFireWallCount;
+
+    property IceWallCount : Byte
+    read fIceWallCount
+    write SetIceWallCount;
 end;
 //------------------------------------------------------------------------------
 // プレイヤーデータ
 {ChrstphrR 2004/04/20 - no type before, in the same "type" block as the forward
 declaration and TChara which points back to ... TPlayer here}
 TPlayer = class
-	Login         :byte; //0=オフライン 1=ログイン中
+//	Login         :byte; //0=オフライン 1=ログイン中
+    Login         :boolean;
 	ID	          :cardinal;
 	IP            :string;
 	Name          :string;
 	Pass          :string;
 	Gender        :byte;
 	Mail          :string;
-	Banned        :byte;
+	Banned        :boolean;
 	CID           :array[0..8] of cardinal;
 	CName         :array[0..8] of string;
 	CData         :array[0..8] of TChara; //Reference pointers
@@ -1023,6 +1075,8 @@ TPlayer = class
 	LoginID2      :cardinal;
 	ver2          :word;
 	Saved         :byte;
+
+    AccessLevel   :byte;
 
 	constructor Create;
 	destructor  Destroy; override;
@@ -1062,6 +1116,8 @@ protected
 	procedure SetName(Value : string);
 
 public
+
+    ID          :cardinal;
 
 //	EXPShare    : Word;//Experience sharing (0 = Not shared, 1 = Shared)
 //	ITEMShare   : Word;//Item sharing       (0 = Not Shared, 1 = Shared)
@@ -1163,6 +1219,9 @@ public
 	ScriptInitD  :Boolean; //OnInit実行済フラグ
 	ScriptInitMS :integer;
 
+    OnTouch :Boolean;
+    OnTouchLabel : integer;
+
 	ChatRoomID  :cardinal; //チャットルームID
 	Enable      :Boolean; //有効スイッチ
 {アジト機能追加}
@@ -1187,6 +1246,11 @@ public
 	HungryTick  :cardinal;
 	NextPoint   :TPoint;
 	MoveTick    :cardinal;
+
+    //Memory Helper
+    //LastPacketSendTick :Cardinal;
+    //PacketSendDelay : Cardinal;
+    CharacterReceivedList : TIntList32;
 
 	Constructor Create;
 	Destructor  Destroy; OverRide;
@@ -1225,6 +1289,7 @@ MapTbl = class
 	noTele    :Boolean;
 	PvP       :Boolean;
 	PvPG      :Boolean;
+    PvPN      :Boolean;
 	noDay     :Boolean;
   //Capture the flag w00t, heh
   CTF       :Boolean;
@@ -1259,6 +1324,10 @@ TMap = class
 	TimerAct  :TIntList32; //動作中タイマー
 	TimerDef  :TIntList32; //定義済タイマー
 {NPCイベント追加ココまで}
+    {Unloading System}
+    NeedToUnload :  boolean;
+    UnloadTime  :   cardinal;
+    LastAction  :   cardinal;
 
 	constructor Create;
 	destructor Destroy; override;
@@ -1362,6 +1431,7 @@ type TGuild = class
 	GuildBanList :TStringList;//追放者リスト
 	RelAlliance  :TStringList;//同盟ギルドリスト
 	RelHostility :TStringList;//敵対ギルドリスト
+    Storage      :TItemList;
 
 	constructor Create;
 	destructor  Destroy; override;
@@ -1401,7 +1471,7 @@ const
 	 23,  6,  6, -1, -1, -1, -1,  8,   7,  6,  7,  4,  7,  0, -1,  6, // 0x00a0
 		8,  8,  3,  3, -1,  6,  6, -1,   7,  6,  2,  5,  6, 44,  5,  3, // 0x00b0
 
-		7,  2,  6,  8,  6,  7, -1, -1,  -1, -1,  3,  3,  6,  3,  2, 27, // 0x00c0
+		7,  2,  6,  8,  6,  7, -1, -1,  -1, -1,  3,  3,  6,  6,  2, 27, // 0x00c0
 		3,  4,  4,  2, -1, -1,  3, -1,   6, 14,  3, -1, 28, 29, -1, -1, // 0x00d0
 	 30, 30, 26,  2,  6, 26,  3,  3,   8, 19,  5,  2,  3,  2,  2,  2, // 0x00e0
 		3,  2,  6,  8, 21,  8,  8,  2,   2, 26,  3, -1,  6, 27, 30, 10, // 0x00f0
@@ -1435,12 +1505,18 @@ const
 var
 	AppPath              :string;
 
-	ServerIP             :cardinal;
+    WAN_IP : String;
+    WAN_ADDR : Cardinal;
+    LAN_IP : String;
+    LAN_ADDR : Cardinal;
+
+
 	ServerName           :string;
 	DefaultNPCID         :cardinal;
 	sv1port              :word;
 	sv2port              :word;
 	sv3port              :word;
+    wacport              :word;
 	WarpDebugFlag        :boolean;
 	BaseExpMultiplier    :cardinal;
 	JobExpMultiplier     :cardinal;
@@ -1463,9 +1539,11 @@ var
   EnablePetSkills        :boolean;
   EnableMonsterSkills    :boolean;
   EnableLowerClassDyes   :boolean;
+  DisableAdv2ndDye  :boolean;
 	DisableFleeDown        :boolean;
 	DisableSkillLimit      :boolean;
   Timer                  :boolean;
+
 
 	FormLeft:integer;
 	FormTop:integer;
@@ -1479,6 +1557,7 @@ var
 {アイテム製造追加ココまで}
 {パーティー機能追加}
 	PartyNameList	:TStringList;
+    PartyList     :TIntList32;
   CastleList    :TStringList;
   TerritoryList :TStringList;
   EmpList       :TStringList;
@@ -1512,6 +1591,7 @@ var
 {NPCイベント追加}
 	ServerFlag :TStringList;
 	MapInfo    :TStringList;
+    BanList    :TStringList;
 {NPCイベント追加ココまで}
 {ギルド機能追加}
 	GuildList     :TIntList32;
@@ -1524,13 +1604,14 @@ var
 	ItemDBName :TStringList;
 	MobDB      :TIntList32;
 	MobDBName  :TStringList;
-        {Monster Skill Database}
-        MobAIDB    :TIntList32;
-        //MobAIDBAegis:TStringList;
-        MobAIDBFusion:TIntList32;
-        GlobalVars:TStringList;
-        //PharmacyDB :TIntList32;
-  SlaveDBName:TStringList;
+    {Monster Skill Database}
+    MobAIDB    :TIntList32;
+    //MobAIDBAegis:TStringList;
+    MobAIDBFusion:TIntList32;
+    MercenariesList:TStringList;
+    GlobalVars:TStringList;
+    //PharmacyDB :TIntList32;
+    SlaveDBName:TStringList;
   MArrowDB   :TIntList32;
   WarpDatabase:TStringList;
   IDTableDB  :TIntList32;
@@ -1551,6 +1632,7 @@ var
 	NowNPCID      :cardinal;
 	NowItemID     :cardinal;
 	NowMobID      :cardinal;
+    NowPartyID    :cardinal;
 {キューペット}
 	NowPetID      :cardinal;
 {キューペットここまで}
@@ -1568,7 +1650,7 @@ var
 
 
 	//exp_db
-	ExpTable        :array[0..3] of array[0..255] of cardinal;
+	ExpTable        :array[0..8] of array[0..255] of cardinal;
 	//job_db1
 	WeightTable     :array[0..MAX_JOB_NUMBER] of word;
 	HPTable         :array[0..MAX_JOB_NUMBER] of word;
@@ -1593,6 +1675,7 @@ var
   StartDeathDropItem  :cardinal;
   EndDeathDropItem    :cardinal;
   TokenDrop       :boolean;
+    MapUnloadTime   :cardinal; // Time to unload in seconds   
 	GMCheck         :cardinal; // Can the GM commands be used by non-GM's?
 	DebugCMD        :cardinal; // Can use Debug Commands?
 	DeathBaseLoss     :integer;
@@ -1623,6 +1706,7 @@ Option_PVP_XPLoss :boolean;
 Option_MaxUsers   :word;
 Option_AutoSave   :word;
 Option_AutoBackup   :word;
+Option_DNS_Update   :word;
 Option_WelcomeMsg :boolean;
 
 Option_MOTD        : Boolean;//Master MOTD option
@@ -1632,7 +1716,13 @@ Option_MOTD_File   : string; //File for reading MOTD entries
 
 Option_GM_Logs     :Boolean;
 
+Option_Enable_WAC : Boolean;
+Option_Enable_ISCS : Boolean;
+Option_Use_UPnP : Boolean;
+
+Option_Minimize_Tray : Boolean;
 Option_Pet_Capture_Rate :word;
+Option_Mob_Spawn_Rate : word;
 Option_GraceTime  :cardinal;
 Option_GraceTime_PvPG :cardinal;
 Option_Username_MF : boolean;
@@ -1641,6 +1731,11 @@ Option_Font_Color : string;
 Option_Font_Size : integer;
 Option_Font_Face : string;
 Option_Font_Style : string;
+
+Option_FireWall_Cap : Byte;
+Option_IceWall_Cap : Byte;
+
+Option_Packet_Out : Boolean;
 // Fusion INI Declarations
 
 
@@ -1679,6 +1774,9 @@ Option_Font_Style : string;
 
 		procedure CalcLvUP(tc1:TChara; EXP:cardinal; JEXP:cardinal);
 
+        {PvP rank calculation}
+        procedure CalcPvPRank(tm : TMap; tc : TChara = nil);
+
 		procedure SendCGetItem(tc:TChara; Index:word; Amount:word);
 		procedure SendCStat(tc:TChara; View:boolean = false);
 		procedure SendCStat1(tc:TChara; Mode:word; DType:word; Value:cardinal);
@@ -1703,7 +1801,7 @@ Option_Font_Style : string;
 
 		procedure CalcSkillTick(tm:TMap; tc:TChara; Tick:cardinal = 0);
 
-    procedure CharaDie(tm:TMap; tc:TChara; Tick:Cardinal; KilledByP:short = 0);
+    procedure CharaDie(tm:TMap; tc:TChara; Tick:Cardinal; tc1:TChara=nil);
     procedure ItemDrop(tm:TMap; tc:TChara; j:integer; amount:integer);
     procedure CreateGroundItem(tm:TMap; itemID:cardinal; XPoint:cardinal; YPoint:cardinal);
                 procedure UpdateStatus(tm:TMap; tc:TChara; Tick:Cardinal);
@@ -1712,7 +1810,7 @@ Option_Font_Style : string;
                 procedure SilenceCharacter(tm:TMap; tc:TChara; Tick:Cardinal);
                 procedure IntimidateWarp(tm:TMap; tc:TChara);
 
-                procedure UpdateMonsterDead(tm:TMap; ts:TMob; k:integer);   //Kills a monster
+                procedure UpdateMonsterDead(tm:TMap; ts:TMob; k:integer; tc:TChara = nil);   //Kills a monster
 				procedure UpdatePetLocation(tm:TMap; tn:TNPC);  //Update the location of a pet
                 procedure SendPetRelocation(tm:TMap; tc:TChara; i:integer); //Move a pet
                 procedure SendMonsterRelocation(tm:TMap; ts:tMob); //Move a monster
@@ -1735,12 +1833,12 @@ Option_Font_Style : string;
     procedure SendLivingDisappear(tm:TMap; tv:TLiving; mode: byte = 0); // Make a Living disappear
 
 		function  SearchCInventory(tc:TChara; ItemID:word; IEquip:boolean):word;
-		function  SearchPInventory(tc:TChara; ItemID:word; IEquip:boolean):word;
+		function  SearchPInventory(tc:TChara; ItemID:word; IEquip:boolean; storage_item : array of TItem):word;
 //------------------------------------------------------------------------------
 		//モンス・NPC
 		procedure SendMData(Socket:TCustomWinSocket; ts:TMob; Use0079:boolean = false);
 		procedure SendMMove(Socket: TCustomWinSocket; ts:TMob; before, after:TPoint; ver2:Word);
-    procedure SendNData(Socket:TCustomWinSocket; tn:TNPC; ver2:Word; Use0079:boolean = false);
+        procedure SendNData(Socket:TCustomWinSocket; tn:TNPC; ver2:Word; tc:TChara; Use0079:boolean = false);
 {キューペット}
                 procedure SendPetMove(Socket: TCustomWinSocket; tc:TChara; target:TPoint);
 {キューペットここまで}
@@ -1826,6 +1924,7 @@ Option_Font_Style : string;
     function  CheckGuildMaster(tn:TNPC; tc:TChara) : word;
     function  GetGuildName(tn:TNPC) : string;
     function  GetGuildMName(tn:TNPC) : string;
+    procedure SortPvPScores(Scores:TStringList);
 		function  GetGuildRelation(tg:TGuild; tc:TChara) : integer;
 		procedure KillGuildRelation(tg:TGuild; tg1:TGuild; tc:TChara; tc1:TChara; RelType:byte);
 		function  LoadEmblem(tg:TGuild) : word;
@@ -1839,6 +1938,7 @@ Option_Font_Style : string;
 //==============================================================================
 
 	Procedure SendMOTD( NewChara : TChara );
+    procedure tracing(str : String);
 
 
 
@@ -1850,7 +1950,7 @@ Option_Font_Style : string;
 
 implementation
 
-uses SQLData, FusionSQL, Player_Skills, Globals;
+uses SQLData, FusionSQL, Player_Skills, Globals, PacketProcesses;
 
 procedure SendLivingDisappear(tm:TMap; tv:TLiving; mode: byte = 0);
 begin
@@ -2410,17 +2510,20 @@ begin
 		if (tc.guildid > 0) then begin
 			//tg := tguild.create;
 			{ChrstphrR 2004/04/21 Memory Leak!}
+            if GuildList.IndexOf(tc.GuildID) = -1 then begin
+                tc.GuildID := 0;
+                Exit;
+            end;
 			tg := GuildList.Objects[GuildList.IndexOf(tc.GuildID)] as TGuild;
 
 			tg.SLV := 0;
 			for i := 0 to (tg.RegUsers - 1) do begin
-				tg.SLV := tg.SLV + tg.Member[i].BaseLV;
+                if assigned(tg.Member[i]) then tg.SLV := tg.SLV + tg.Member[i].BaseLV;
 			end;
 		end;
 
 
-		JIDFix := tc.JID;
-		if (JIDFix > UPPER_JOB_BEGIN) then JIDFix := JIDFix - UPPER_JOB_BEGIN + LOWER_JOB_END; // (RN 4001 - 4000 + 23 = 24
+		JIDFix := JIDFixer(tc.JID);
 		//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('JIDFix %d tc.JID %d',[JIDFix, tc.JID]));
 		{g := int (Tick / 3600000);
 		 // Darkhelmet Auto Day/Night
@@ -2556,7 +2659,7 @@ begin
         except
         	i := 65536
         end;
-        
+
         if (i > 65535) then begin
 				MAXHP := 65535;
 		//end else if (JID = 23) and (MAXHP + (35 + BaseLV * 5 + ((1 + BaseLV) * BaseLV div 2) * 40 div 100) * (100 + Param[2]) div 100 > 65535) then begin
@@ -2932,17 +3035,27 @@ begin
 			if SPDelay[i] < 150 then SPDelay[i] := 150;
 		end;
 
-		BaseNextEXP := ExpTable[0][BaseLV];
-		if      JIDFix = 0 then i := 1
-		else if JIDFix < 7 then i := 2
-		else                 i := 3;
+
+        case JIDFix of
+        0: i := 1;
+        1..6: i := 2;
+        7..22: i := 3;
+        23: i := 4;
+        24: i := 6;
+        25..30: i := 7;
+        31..45: i := 8;
+        else i := 8;
+        end;
+
+        if i < 5 then BaseNextEXP := ExpTable[0][BaseLV]
+        else BaseNextEXP := ExpTable[5][BaseLV];
+
 		JobNextEXP := ExpTable[i][JobLV];
 
 
 
 		//if Weapon = 11 then Element := ArrowElement;
 		//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('WElement: %d/%d', [WElement[0], WElement[1]]));
-		if Weapon = 16 then Critical := Critical * 2;
 		Inc(Range);
 		if ((MAXHP * MAXHPPer div 100) > 65535) then begin
 			MAXHP := 65535;
@@ -3263,115 +3376,76 @@ begin
         end;
 end;}
 //------------------------------------------------------------------------------
-procedure CharaDie(tm:TMap; tc:TChara; Tick:Cardinal; KilledByP:short = 0);
-// Killed by player triggers for a token to be dropped... one of Krietor's Ideas
+procedure CharaDie(tm:TMap; tc:TChara; Tick:Cardinal; tc1:TChara=nil);
 var
-  i : integer;
-{  j : integer;
-	mi : MapTbl;
-	item : cardinal;
-	StartI  : cardinal;
-  EndI    : cardinal;}
+    i : integer;
+    mi : MapTbl;
 begin
-  // Set Hit Points to 0
-  tc.HP := 0;
-  // Display the character as dead
-  WFIFOW( 0, $0080);
-  WFIFOL( 2, tc.ID);
-  WFIFOB( 6, 1);
-  SendBCmd(tm, tc.Point, 7);
-  // Sit = 1 lets monsters know the char is dead and the player cannot move
-  tc.Sit := 1;
+    mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
 
-  if (KilledByP <> 1) or ( (KilledByP = 1) and (Option_PVP_XPLoss) ) then begin
-      // Subtract the Experience loss from the .ini
+    // Set character's HP to 0
+    tc.HP := 0;
 
+    // Sit = 1. Lets monsters know the char is dead and the player cannot move
+    tc.Sit := 1;
 
-      { Wow, major mistake on my behalf. Fatal N version. }
+    // Display the character as dead
+    WFIFOW( 0, $0080);
+    WFIFOL( 2, tc.ID);
+    WFIFOB( 6, 1);
+    SendBCmd(tm, tc.Point, 7);
 
-      if ( tc.BaseEXP >= (Round(tc.BaseNextEXP div 100) * DeathBaseLoss) ) then begin
-      	tc.BaseEXP := tc.BaseEXP - (Round(tc.BaseNextEXP div 100) * DeathBaseLoss);
-      end else begin
-      	tc.BaseEXP := 0;
-      end;
+    if (tc1 = nil) or ( (tc1 <> nil) and ( (Option_PVP_XPLoss) or (mi.PvPN = true) ) ) then begin
 
-      if ( tc.JobEXP >= (Round(tc.JobNextEXP div 100) * DeathJobLoss) ) then begin
-      	tc.JobEXP := tc.JobEXP - (Round(tc.JobNextEXP div 100) * DeathJobLoss);
-      end else begin
-      	tc.JobEXP := 0;
-      end;
+        // Base Experience Loss from Death
+        if ( tc.BaseEXP >= (Round(tc.BaseNextEXP div 100) * DeathBaseLoss) ) then begin
+            tc.BaseEXP := tc.BaseEXP - (Round(tc.BaseNextEXP div 100) * DeathBaseLoss);
+        end else begin
+            tc.BaseEXP := 0;
+        end;
 
+        // Job Experience Loss from Death
+        if ( tc.JobEXP >= (Round(tc.JobNextEXP div 100) * DeathJobLoss) ) then begin
+            tc.JobEXP := tc.JobEXP - (Round(tc.JobNextEXP div 100) * DeathJobLoss);
+        end else begin
+            tc.JobEXP := 0;
+        end;
 
-      { Ghetto Harb formulas. I submitted a bug report so long ago for darkweiss.
-        But he refused to fix it, saying his calc was better.
-      i := (100 - DeathBaseLoss);
-      tc.BaseEXP := Round(tc.BaseEXP * (i / 100));
-      i := (100 - DeathJobLoss);
-      tc.JobEXP := Round(tc.JobEXP * (i / 100));
-      }
-      
+        // Update displays
         SendCStat1(tc, 1, $0001, tc.BaseEXP);
         SendCStat1(tc, 1, $0002, tc.JobEXP);
-  end;
-
-
-  tc.pcnt := 0;
-
-  if (tc.AMode = 1) or (tc.AMode = 2) then tc.AMode := 0;
-
-  reset_skill_effects(tc);
-
-  { Alex: not needed since we're doing a full check for all buffs now. }
-  {if (tc.Option and 2 <> 0) then begin
-    tc.SkillTick := Tick;
-    tc.SkillTickID := 51;
-    tc.Skill[tc.SkillTickID].Tick := Tick;
-  end;
-
-  if (tc.Option and 4 <> 0) then begin
-    tc.SkillTick := Tick;
-    tc.SkillTickID := 135;
-    tc.Skill[tc.SkillTickID].Tick := Tick;
-  end;}
-  
-  // Krietor's idea for his server, can be commented out
-  // Drop items - Only when killed by a player
-  // I'll leave this commented out on the CVS
-	{if (StartDeathDropItem <> 0) and (KilledbyP = 1) then begin
-		StartI := StartDeathDropItem;
-		EndI   := EndDeathDropItem;
-		while (StartI <= EndI) do begin
-			j := SearchCInventory(tc, StartI, false);
-			if ((j <> 0) and (tc.Item[j].Amount >= 1)) then begin
-				debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Drop Item ' + IntToStr(StartI) + ' At Location ' + IntToStr(j));
-				//UseItem(tc, j);  //Use Item Function
-				ItemDrop(tm, tc, j, 1);
-				break;
-			end;
-		StartI := StartI + 1;
-		end;
-	end;
-  { 11006,PvP_Token,"PvP Token",3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    11007,GvG_Token,"GvG Token",3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    11008,CTF_Token,"CTF Token",3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-
-  // Token's will drop depending on what kind of map is there
-  // PvP maps drop pvp tokens, and so on
-  if TokenDrop then begin
-    i := MapInfo.IndexOf(tc.Map);
-    if (i <> -1) then
-      mi := MapInfo.Objects[i] as MapTbl
-    else exit;  //Safe exit call
-    if mi.PvP then begin
-      CreateGroundItem(tm, 11006, tc.Point.X + Random(3), tc.Point.Y + Random(3));
+        SendCStat1(tc, 0, $0005, tc.HP);
     end;
-    if mi.PvPG then begin
-      CreateGroundItem(tm, 11007, tc.Point.X + Random(3), tc.Point.Y + Random(3));
+
+    // Sets movement path to nil
+    tc.pcnt := 0;
+
+    // Sets any active targets to nil
+    if (tc.AMode = 1) or (tc.AMode = 2) then tc.AMode := 0;
+
+    // Clears any active effect buffs
+    reset_skill_effects(tc);
+
+    if (mi.PvP = true) and (tc1 <> nil) then begin
+        tc1.PvPPoints := tc1.PvPPoints + 1;
+        tc.PvPPoints := tc.PvPPoints - 5;
+        CalcPvPRank(tm);
+
+        {
+            Forced return to the savemap. This may hinder custom games such as
+            tournaments held.
+
+            -Alex
+
+        if tc.PvPPoints < 0 then begin
+            SendCLeave(tc.Socket.Data, 2);
+            tc.Map := tc.SaveMap;
+            tc.Point := tc.SavePoint;
+            MapMove(tc.Socket, tc.Map, tc.Point);
+        end;
+
+        }
     end;
-    if mi.CTF then begin
-      CreateGroundItem(tm, 11008, tc.Point.X + Random(3), tc.Point.Y + Random(3));
-    end;
-  end; }
 
 end;
 
@@ -3611,13 +3685,13 @@ begin
         end;
 end;
 //------------------------------------------------------------------------------
-procedure UpdateMonsterDead(tm:TMap; ts:TMob; k:integer);  //Kills a monster or updates its status
-
+procedure UpdateMonsterDead(tm:TMap; ts:TMob; k:integer; tc:TChara = nil); //Kills a monster or updates its status
 begin
-	WFIFOW( 0, $0080);
-	WFIFOL( 2, ts.ID);
-	WFIFOB( 6, k);
-	SendBCmd(tm, ts.Point, 7);
+    WFIFOW( 0, $0080);
+    WFIFOL( 2, ts.ID);
+    WFIFOB( 6, k);
+    if tc = nil then SendBCmd(tm, ts.Point, 7)
+    else tc.Socket.SendBuf(buf, 7);
 end;
 //------------------------------------------------------------------------------
 procedure UpdatePetLocation(tm:TMap; tn:TNPC);  //Update the location of a pet
@@ -3659,7 +3733,7 @@ begin
 		tm.NPC.AddObject(tn.ID, tn);
 		tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
 
-		SendNData(tc.Socket, tn, tc.ver2 );
+		SendNData(tc.Socket, tn, tc.ver2, tc );
 		SendBCmd(tm, tn.Point, 41, tc, False);
 
 		tc.PetData := tpe;
@@ -3975,21 +4049,15 @@ begin
 end;
 //------------------------------------------------------------------------------
 procedure SendCData(tc1:TChara; tc:TChara; Use0079:boolean = false);
-{ギルド機能追加}
 var
 	j   :integer;
 	w   :word;
 	tg  :TGuild;
-{ギルド機能追加ココまで}
 begin
 	ZeroMemory(@buf[0], 54);
 
-
-
-
     // Alex: switched 01d9/01d8 to 0079/0078 to reenabled lower dyes. Wonder why
     // it was changed.
-
 	if Use0079 then begin
         WFIFOW(0, $0079);
 		//WFIFOW(0, $01d9); //0079->01d9
@@ -3997,12 +4065,11 @@ begin
     	WFIFOW(0, $0078);
 		//WFIFOW(0, $01d8); //0078->01d8
 	end;
+
 	WFIFOL( 2, tc.ID);
 	WFIFOW( 6, tc.Speed);
-{追加}
 	WFIFOW( 8, tc.Stat1);
 	WFIFOW(10, tc.Stat2);
-{追加ココまで}
 	WFIFOW(12, tc.Option);
 	WFIFOW(14, tc.JID);
 	WFIFOW(16, tc.Hair);
@@ -4019,77 +4086,71 @@ begin
 	WFIFOW(28, tc.HairColor);
 	WFIFOW(30, tc.ClothesColor);
 	WFIFOW(32, tc.HeadDir);
-{ギルド機能追加}
 	WFIFOL(34, tc.GuildID); //GuildID.L
+
 	w := 0;
 	if (tc.GuildID <> 0) then begin
-		j := GuildList.IndexOf(tc.GuildID);
-		if (j <> -1) then begin
+        j := GuildList.IndexOf(tc.GuildID);
+        if (j <> -1) then begin
 			tg := GuildList.Objects[j] as TGuild;
 			w := tg.Emblem;
 		end;
 	end;
+
 	WFIFOL(38, w); //EmblemID.L
 	WFIFOW(42, tc.Manner); //.W?
 	WFIFOB(44, tc.Karma); //.B?
-{ギルド機能追加ココまで}
 	WFIFOB(45, tc.Gender);
 	WFIFOM1(46, tc.Point, tc.Dir);
 	WFIFOB(49, 5);
 	WFIFOB(50, 5);
-{修正}
 	if Use0079 then begin
-{追加}
-    {Colus, 20040115: Aura fix for >99 levels}
-    if (tc.BaseLV > 99) then begin
- 	  	WFIFOW(51, 99);
+
+        {Colus, 20040115: Aura fix for >99 levels}
+        if (tc.BaseLV > 99) then begin
+ 	  	    WFIFOW(51, 99);
+        end else begin
+            WFIFOW(51, tc.BaseLV);
+        end;
+
+		if tc.Socket <> nil then begin
+            if not (tc1.Login = 0) and not (tc1.Socket = nil) then begin
+                if tc.ver2 = 9 then tc1.Socket.SendBuf(buf, 53)	//Kr?
+                else tc1.Socket.SendBuf(buf, 51); //Jp
+            end;
+        end;
     end else begin
-      WFIFOW(51, tc.BaseLV);
+
+        WFIFOB(51, tc.Sit);
+        {Colus, 20040115: Aura fix for >99 levels}
+        if (tc.BaseLV > 99) then begin
+	  	    WFIFOW(52, 99);
+        end else begin
+            WFIFOW(52, tc.BaseLV);
+        end;
+
+        if tc.Socket <> nil then begin
+            if not (tc1.Login = 0) and not (tc1.Socket = nil) then begin
+                if tc.ver2 = 9 then tc1.Socket.SendBuf(buf, 54)	//Kr?
+                else tc1.Socket.SendBuf(buf, 52); //Jp
+            end;
+        end;
     end;
 
-{追加ココまで}
-		if tc.Socket <> nil then begin
-                        if tc1.Login > 0 then begin
-        			if tc.ver2 = 9 then tc1.Socket.SendBuf(buf, 53)	//Kr?
-	        		else                tc1.Socket.SendBuf(buf, 51); //Jp
-                        end;
-		end;
-	end else begin
-		WFIFOB(51, tc.Sit);
-{追加}
-    {Colus, 20040115: Aura fix for >99 levels}
-    if (tc.BaseLV > 99) then begin
-	  	WFIFOW(52, 99);
-    end else begin
-      WFIFOW(52, tc.BaseLV);
-    end;
-
-{追加ココまで}
-		if tc.Socket <> nil then begin
-                        if tc1.Login > 0 then begin
-        			if tc.ver2 = 9 then tc1.Socket.SendBuf(buf, 54)	//Kr?
-	        		else                tc1.Socket.SendBuf(buf, 52); //Jp
-                        end;
-		end;
-	end;
-{ココまで}
-{パーティー機能追加}
 	if tc.PartyName <> '' then begin
-	//パーティーメンバーにHPバーを表示させる
-	WFIFOW( 0, $0106);
-	WFIFOL( 2, tc.ID);
-	WFIFOW( 6, tc.HP);
-	WFIFOW( 8, tc.MAXHP);
-	SendPCmd(tc, 10, true, true);
+    	WFIFOW( 0, $0106);
+	    WFIFOL( 2, tc.ID);
+    	WFIFOW( 6, tc.HP);
+	    WFIFOW( 8, tc.MAXHP);
+    	SendPCmd(tc, 10, true, true);
 
-	//パーティーメンバーの位置表示
-	WFIFOW( 0, $0107);
-	WFIFOL( 2, tc.ID);
-	WFIFOW( 6, tc.Point.X);
-	WFIFOW( 8, tc.Point.Y);
-	SendPCmd(tc, 10, true, true);
-  end;
-{パーティー機能追加ココまで}
+    	WFIFOW( 0, $0107);
+	    WFIFOL( 2, tc.ID);
+    	WFIFOW( 6, tc.Point.X);
+	    WFIFOW( 8, tc.Point.Y);
+    	SendPCmd(tc, 10, true, true);
+    end;
+
 end;
 //------------------------------------------------------------------------------
 procedure SendCMove(Socket: TCustomWinSocket; tc:TChara; before, after:TPoint);
@@ -4162,8 +4223,8 @@ begin
 
 {追加ココまで}
 {修正}
-	if tc.ver2 = 9 then Socket.SendBuf(buf, 60)  //Kr?
-	else                Socket.SendBuf(buf, 58); //Jp
+	if tc.ver2 = 9 then if not (tc.Login = 0) then Socket.SendBuf(buf, 60)  //Kr?
+	else if not (tc.Login = 0) then Socket.SendBuf(buf, 58); //Jp
 {修正ココまで}
 	//WFIFOW( 0, $007f);
 	//WFIFOL( 2, timeGetTime()+1000);
@@ -4171,18 +4232,32 @@ begin
 end;
 //------------------------------------------------------------------------------
 procedure SendCLeave(tc:TChara; mode:byte);
+{ Analysis }
+    // This function physically removes the character and all of his or her
+    // dependencies from the map that he or she is on.  There are some major
+    // problems though regarding the existance of a map in the characters'
+    // dependencies.  For example, tc.MData.Name index can not resolve in
+    // MapList causing an Access Violation.  I really don't know why this happens.
+    // But for some reason, the map that the character tries to leave does not
+    // exist in the maplist.  I may simply do a try-except bypass because if
+    // the map does not exist, then the character can't possible have any
+    // dependencies on that map.
+    // - AlexKreuz (01/06/05)
 var
 	i, j, k :integer;
 	tm      :TMap;
 	tc1     :TChara;
 	mi      :MapTbl;
-{キューペット}
+{ Queue/cue pet }
 	tn      :TNPC;
-{キューペットここまで}
+    tMerc   :TMob;
+{ To queue/cue pet here }
 begin
-{パーティー機能追加}
-	//位置マークの削除方法がわからなかったので
-	//マップから離れるときに(0,0)にいるという情報を送ってごまかしている
+
+
+{ Party functional addition }
+    // It meaning that deletion method of the position mark is not recognized,
+	// When leaving from the map, sending the information that (0,0) it is, you cheat
 	if tc.PartyName <> '' then begin
 		WFIFOW( 0, $0107);
 		WFIFOL( 2, tc.ID);
@@ -4192,14 +4267,18 @@ begin
 	end;
 
 
-{パーティー機能追加ココまで}
-	tc.Login := 1; //ロード中に切り替え
+{ To party functional additional coconut }
+	tc.Login := 1; // While loading change
 	tc.pcnt := 0;
 	tc.AMode := 0;
 	tc.MMode := 0;
-	tm := Map.Objects[Map.IndexOf(tc.Map)] as TMap;
-	mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
-{キューペット}
+
+    { Bug Note: Is tc.Map blank empty because the user has disconnected, or
+      does that map not exist? And why do we need all this?
+	  Old Line --> tm := Map.Objects[Map.IndexOf(tc.Map)] as TMap; }
+    tm := tc.MData;
+
+{ Queue/cue pet }
 	if ( tc.PetData <> nil ) and ( tc.PetNPC <> nil ) then begin
 		tn := tc.PetNPC;
 
@@ -4208,8 +4287,7 @@ begin
 		WFIFOB( 6, 0 );
 		SendBCmd( tm, tn.Point, 7 ,tc);
 
-
-		//ペット削除
+		// Pet deletion
 		i := tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.IndexOf(tn.ID);
 		if i <> -1 then begin
 			tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.Delete(i);
@@ -4223,54 +4301,76 @@ begin
 		tn.Free;
 		tc.PetNPC := nil;
 	end;
-{キューペットここまで}
 
-{チャットルーム機能追加}
-	//入室中メンバーの削除処理
+    {Delete Mercenary From old map}
+    if tc.mercenaryID <> 0 then begin
+      if tm.Mob.IndexOf(tc.mercenaryID) <> -1 then begin
+        tMerc := tm.Mob.IndexOfObject(tc.mercenaryID) as TMob;
+        UpdateMonsterDead(tm, tMerc, 0);
+        i := tm.Block[tMerc.Point.X div 8][tMerc.Point.Y div 8].Mob.IndexOf(tMerc.ID);
+		if i <> -1 then begin
+			tm.Block[tMerc.Point.X div 8][tMerc.Point.Y div 8].Mob.Delete(i);
+		end;
+
+		i := tm.Mob.IndexOf( tMerc.ID );
+		if i <> -1 then begin
+			tm.Mob.Delete(i);
+		end;
+
+        tMerc.Free;
+      end;
+    end;
+
+
+	// While come awaying deletion processing
 	if (tc.ChatRoomID <> 0) then begin
 		if (mode = 2) then ChatRoomExit(tc, true)
 		else ChatRoomExit(tc);
 		tc.ChatRoomID := 0;
 	end;
-{チャットルーム機能追加ココまで}
-{露店スキル追加}
-	//露店を終了する
+{ To kyat room functional additional coconut }
+{ Street stall skill addition }
+	// It ends the street stall
 	if (tc.VenderID <> 0) then begin
 		if (mode = 2) then VenderExit(tc, true)
 		else VenderExit(tc);
 		tc.VenderID := 0;
 	end;
-{露店スキル追加ココまで}
-{取引機能追加}
+{ To street stall skill additional coconut }
+{ Transaction functional addition }
 	if (tc.DealingID <> 0) then begin
 		if (mode = 2) then CancelDealings(tc, true)
 		else CancelDealings(tc);
 		tc.DealingID := 0;
 		tc.PreDealID := 0;
 	end;
-{取引機能追加ココまで}
-{ギルド機能追加}
-	//メンバーに通知
+{ To transaction functional additional coconut }
+{ Guild functional addition }
+	// In member notification
 	WFIFOW( 0, $016d);
 	WFIFOL( 2, tc.ID);
 	WFIFOL( 6, tc.CID);
 	WFIFOL(10, 0);
 	SendGuildMCmd(tc, 14, true);
-{ギルド機能追加ココまで}
+{ To guild functional additional coconut }
 
-	if tm.Clist.IndexOf(tc.ID) <> -1 then begin //二重処理はしない
-		//ブロック処理
+	if tm.Clist.IndexOf(tc.ID) <> -1 then begin // It does not process doubly
+		// Block processing
 		WFIFOW(0, $0080);
 		WFIFOL(2, tc.ID);
 		WFIFOB(6, mode);
 		for j := tc.Point.Y div 8 - 2 to tc.Point.Y div 8 + 2 do begin
 			for i := tc.Point.X div 8 - 2 to tc.Point.X div 8 + 2 do begin
-				//周りの人にログアウト通知
-				for k := 0 to tm.Block[i][j].CList.Count - 1 do begin
-					tc1 := tm.Block[i][j].CList.Objects[k] as TChara;
-					if (tc <> tc1) and (abs(tc.Point.X - tc1.Point.X) < 16) and
-					(abs(tc.Point.Y - tc1.Point.Y) < 16) then tc1.Socket.SendBuf(buf, 7);
- 				end;
+                try
+    				for k := 0 to tm.Block[i][j].CList.Count - 1 do begin
+	    				tc1 := tm.Block[i][j].CList.Objects[k] as TChara;
+		    			if (tc <> tc1) and (abs(tc.Point.X - tc1.Point.X) < 16) and
+			    		(abs(tc.Point.Y - tc1.Point.Y) < 16) then tc1.Socket.SendBuf(buf, 7);
+ 				    end;
+                except
+                    on EAccessViolation do
+                        // Error on for k := 0 to tm.Block[i][j].CList.Count - 1 do begin;
+                end;
 			end;
 		end;
 		//if (mi.noPvP = false) then begin
@@ -4289,11 +4389,32 @@ begin
 		//end;
 		//end;
 
-		//マップから自分のデータを消去
+		// From map your own data elimination
+
+
+        { Bug Tracing: 01/06/05 }
+            // I moved this code down from below the "tm := tc.MData;" line.
+            // This line causes the access violation (read the analysis).  I want
+            // to see what part of the tc.MData or tm data does not exist.  mi is
+            // not needed until the mi.PvP line below this, so if everything above
+            // works fine then we've got most of the issues solved.  If it crashes
+            // above this, then quite simply, somehow the tc.MData data was cleared
+            // - AlexKreuz (01/06/05)
+        
+        //tm.LastAction := TimeGetTime();  //Update on charcter leaving
+        mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
+
+        { Alex: You can not activate calculations that require a CList if you're
+          activating the calculations after you've already deleted the CList.
+          Use common sense. }
+        if mi.PvP then CalcPvPRank(tm, tc);
+
 		tm.CList.Delete(tm.Clist.IndexOf(tc.ID));
 		with tm.Block[tc.Point.X div 8][tc.Point.Y div 8] do begin
-			if Clist.IndexOf(tc.ID) <> -1 then
-				CList.Delete(Clist.IndexOf(tc.ID));
+            try
+	    		if Clist.IndexOf(tc.ID) <> -1 then CList.Delete(Clist.IndexOf(tc.ID));
+            except
+            end;
 		end;
 		if CharaPID.IndexOf(tc.ID) <> -1 then
 			CharaPID.Delete(CharaPID.IndexOf(tc.ID));
@@ -4306,32 +4427,42 @@ var
 	tc1     :TChara;
 begin
 
-  {Colus, 20040116: It had two X-checks instead of X and Y.}
-  if (Point.X >= 0) and (Point.X <= 511) and
-     (Point.Y >= 0) and (Point.Y <= 511) then begin
+    {Colus, 20040116: It had two X-checks instead of X and Y.}
+    if (Point.X >= 0) and (Point.X <= 511) and (Point.Y >= 0) and (Point.Y <= 511) then begin
 
-	for j := Point.Y div 8 - 2 to Point.Y div 8 + 2 do begin
-		for i := Point.X div 8 - 2 to Point.X div 8 + 2 do begin
-			//周囲の人に通知(tc <> nilの場合は自分を除く)
-			if assigned(tm) then begin // AlexKreuz
-					if assigned(tm.Block[i][j]) then begin
-						for k := 0 to tm.Block[i][j].CList.Count - 1 do begin
-							tc1 := tm.Block[i][j].CList.Objects[k] as TChara;
+    	for j := Point.Y div 8 - 2 to Point.Y div 8 + 2 do begin
+		    for i := Point.X div 8 - 2 to Point.X div 8 + 2 do begin
 
-							if tc1 = nil then continue;
-							if (tc = nil) or (tc <> tc1) then begin
-								if (abs(Point.X - tc1.Point.X) < 50) and (abs(Point.Y - tc1.Point.Y) < 50) then begin
-									if tail and (tc1.Stat2 = 9) then begin
-										tc1.Socket.SendBuf(buf, (PacketLen+2));
-									end else begin
-										tc1.Socket.SendBuf(buf, PacketLen);
-									end;
-								end;
-							end;
-						end;
-{修正ココまで}
-					end;
-				end;
+    			if assigned(tm) then begin // AlexKreuz
+
+                try
+                    if assigned(tm.Block[i][j]) then begin
+                        for k := 0 to tm.Block[i][j].CList.Count - 1 do begin
+                            tc1 := tm.Block[i][j].CList.Objects[k] as TChara;
+
+                            if tc1 = nil then continue;
+                            if (tc = nil) or (tc <> tc1) then begin
+                                if (abs(Point.X - tc1.Point.X) < 50) and (abs(Point.Y - tc1.Point.Y) < 50) then begin
+                                    if tail and (tc1.Stat2 = 9) then begin
+                                        tc1.Socket.SendBuf(buf, (PacketLen+2));
+                                    end else begin
+                                        tc1.Socket.SendBuf(buf, PacketLen);
+                                    end;
+                                end;
+                            end;
+                        end;
+                    end;
+                except
+                    on EAccessViolation do begin
+                        if assigned(tc1) then
+                            console('Unable to send updated map ('+tm.Name+') packets to player ('+tc1.Name+')')
+                        else
+                            console('Unable to send updated map ('+tm.Name+') packets.');
+                    end;
+                end;
+
+                end;
+                
 			end;
 		end;
 	end
@@ -4427,74 +4558,10 @@ end;
 //------------------------------------------------------------------------------
 procedure SendCStoreList(tc:TChara);
 var
-	i,j :integer;
-	cnt :word;
 	tp  :TPlayer;
 begin
 	tp := tc.PData;
-	with tp do begin
-		cnt := 0;
-		//アイテムデータ
-		WFIFOW(0, $00a5);
-		j := 0;
-		for i := 1 to 100 do begin
-
-			if (tp.Kafra.Item[i].ID <> 0) then begin
-                if (not tp.Kafra.Item[i].Data.IEquip) then begin
-    				WFIFOW( 4 +j*10, i);
-	    			WFIFOW( 6 +j*10, tp.Kafra.Item[i].Data.ID);
-		    		WFIFOB( 8 +j*10, tp.Kafra.Item[i].Data.IType);
-			    	WFIFOB( 9 +j*10, tp.Kafra.Item[i].Identify);
-				    WFIFOW(10 +j*10, tp.Kafra.Item[i].Amount);
-    				if tp.Kafra.Item[i].Data.IType = 10 then
-	    				WFIFOW(12 +j*10, 32768)
-		    		else
-			    		WFIFOW(12 +j*10, 0);
-				    Inc(j);
-    				Inc(cnt);
-                end;
-			end;
-		end;
-		WFIFOW(2, 4+j*10);
-		tc.Socket.SendBuf(buf, 4+j*10);
-		//装備データ
-		WFIFOW(0, $00a6);
-		j := 0;
-		for i := 1 to 100 do begin
-			if (tp.Kafra.Item[i].ID <> 0) then begin
-                if (tp.Kafra.Item[i].Data.IEquip) then begin
-    				WFIFOW( 4 +j*20, i);
-	    			WFIFOW( 6 +j*20, tp.Kafra.Item[i].Data.ID);
-		    		WFIFOB( 8 +j*20, tp.Kafra.Item[i].Data.IType);
-			    	WFIFOB( 9 +j*20, tp.Kafra.Item[i].Identify);
-				    with tp.Kafra.Item[i].Data do begin
-    					if (tc.JID = 12) and (IType = 4) and (Loc = 2) and
-	    					 ((View = 1) or (View = 2) or (View = 6)) then
-		    				WFIFOW(10 +j*20, 34)
-			    		else
-				    		WFIFOW(10 +j*20, Loc);
-    				end;
-	    			WFIFOW(12 +j*20, tp.Kafra.Item[i].Equip);
-		    		WFIFOB(14 +j*20, tp.Kafra.Item[i].Attr);
-			    	WFIFOB(15 +j*20, tp.Kafra.Item[i].Refine);
-				    WFIFOW(16 +j*20, tp.Kafra.Item[i].Card[0]);
-    				WFIFOW(18 +j*20, tp.Kafra.Item[i].Card[1]);
-	    			WFIFOW(20 +j*20, tp.Kafra.Item[i].Card[2]);
-		    		WFIFOW(22 +j*20, tp.Kafra.Item[i].Card[3]);
-			    	Inc(j);
-				    Inc(cnt);
-                end;
-			end;
-		end;
-		WFIFOW(2, 4+j*20);
-		tc.Socket.SendBuf(buf, 4+j*20);
-		//個数表示
-		tp.Kafra.Count := cnt;
-		WFIFOW(0, $00f2);
-		WFIFOW(2, tp.Kafra.Count);
-		WFIFOW(4, 100);
-		tc.Socket.SendBuf(buf, 6);
-	end;
+    tp.Kafra.Count := open_storage(tc, tp.Kafra.Item);
 end;
 //------------------------------------------------------------------------------
 procedure SendCSkillList(tc:TChara);
@@ -4734,7 +4801,12 @@ begin
 		if (tc.Skill[tc.MSkill].Lv >= tc.MUseLV) and (tc.MUseLV > 0) then begin
 			tl := tc.Skill[tc.MSkill].Data;
 
-            if (tc.MSkill = 18) and (FireWallCount = 9) then begin
+            if (tc.MSkill = 18) and (FireWallCount = (Option_FireWall_Cap * 3)) and not (Option_FireWall_Cap = 0) then begin
+                SendSkillError(tc, 0);
+                Exit;
+            end;
+
+            if (tc.MSkill = 87) and (IceWallCount = (Option_IceWall_Cap * 5))  and not (Option_IceWall_Cap = 0) then begin
                 SendSkillError(tc, 0);
                 Exit;
             end;
@@ -5184,6 +5256,17 @@ begin
         end;
 end;
 
+procedure SortPvPScores(Scores:TStringList);
+var
+    i : integer;
+    j : integer;
+begin
+  for i := 1 to Scores.Count - 1 do
+    for j := Scores.Count - 1 downto i do
+      if StrToInt(Scores[j]) > StrToInt(Scores[j - 1]) then begin
+        Scores.Exchange(j, j - 1);
+      end;
+end;
 //------------------------------------------------------------------------------
 function SearchCInventory(tc:TChara; ItemID:word; IEquip:boolean):word;
 var
@@ -5218,7 +5301,7 @@ begin
 	end;
 end;
 //------------------------------------------------------------------------------
-function SearchPInventory(tc:TChara; ItemID:word; IEquip:boolean):word;
+function SearchPInventory(tc:TChara; ItemID:word; IEquip:boolean; storage_item : array of TItem):word;
 var
 	i   :integer;
 	tp  :TPlayer;
@@ -5226,26 +5309,26 @@ begin
 	Result := 0;
 	tp := tc.PData;
 	if IEquip then begin
-		for i := 1 to 100 do begin
+		for i := 0 to 99 do begin
 			//空きindexを探す
-			if tp.Kafra.Item[i].ID = 0 then begin
-				tp.Kafra.Item[i].Amount := 0;
+			if storage_item[i].ID = 0 then begin
+				storage_item[i].Amount := 0;
 				Result := i;
 				break;
 			end;
 		end;
 	end else begin
-		for i := 1 to 100 do begin
+		for i := 0 to 99 do begin
 			//同じアイテムを持ってるか探す
-			if tp.Kafra.Item[i].ID = ItemID then begin
+			if storage_item[i].ID = ItemID then begin
 				Result := i;
 				exit;
 			end;
 		end;
-		for i := 1 to 100 do begin
+		for i := 0 to 99 do begin
 			//空きindexを探す
-			if tp.Kafra.Item[i].ID = 0 then begin
-				tp.Kafra.Item[i].Amount := 0;
+			if storage_item[i].ID = 0 then begin
+				storage_item[i].Amount := 0;
 				Result := i;
 				break;
 			end;
@@ -5304,7 +5387,7 @@ begin
 	//Socket.SendBuf(buf, 6);
 end;
 //------------------------------------------------------------------------------
-procedure SendNData(Socket: TCustomWinSocket; tn:TNPC; ver2:Word; Use0079:boolean = false);
+procedure SendNData(Socket:TCustomWinSocket; tn:TNPC; ver2:Word; tc:TChara; Use0079:boolean = false);
 {アジト機能追加}
 var
 	i  :integer;
@@ -5312,9 +5395,11 @@ var
 	w1 :word;
 	w2 :word;
 	tg :TGuild;
-  tgc:TCastle;
+    tgc:TCastle;
+    Tick:Cardinal;
 {アジト機能追加ココまで}
 begin
+    Tick := TimeGetTime();
 {NPCイベント追加}
 	//if (tn.JID = -1) then exit;//CR 2004/04/26 - JID is Cardinal.
 	// Colus, 20040503: Checking against the constant value now.
@@ -5332,33 +5417,37 @@ begin
 		WFIFOB(16, tn.SubY);
 		Socket.SendBuf(buf, 17);
 	end else if tn.CType = 4 then begin
-     if ((tn.JID = $B0) or (tn.JID = $99)) then begin
+        if ((tn.JID = $B0) or (tn.JID = $99)) then begin
 
-          WFIFOW(0, $01c9);
-          WFIFOL(2, tn.ID);
-          WFIFOL(6, tn.CData.ID);
+            WFIFOW(0, $01c9);
+            WFIFOL(2, tn.ID);
+            WFIFOL(6, tn.CData.ID);
 	        WFIFOW(10, tn.Point.X);
 	        WFIFOW(12, tn.Point.Y);
-          WFIFOB(14, tn.JID);
-          WFIFOB(15, 1);
-          if tn.JID = $B0 then
-            WFIFOB(16, 1)
-          else
+            WFIFOB(14, tn.JID);
+            WFIFOB(15, 1);
+            if tn.JID = $B0 then
+                WFIFOB(16, 1)
+            else
             WFIFOB(16, 0);
-          WFIFOS(17, tn.Name, 80);
-          //WFIFOW(95, Length(tn.Name));
+            WFIFOS(17, tn.Name, 80);
+            //WFIFOW(95, Length(tn.Name));
 
  	        Socket.SendBuf(buf, 97);
-    end else begin
-  		WFIFOW( 0, $011f);
-  		WFIFOL( 2, tn.ID);
-  		WFIFOL( 6, 0);
-  		WFIFOW(10, tn.Point.X);
-	  	WFIFOW(12, tn.Point.Y);
-  		WFIFOB(14, tn.JID);
-  		WFIFOB(15, 1);
-  		Socket.SendBuf(buf, 16);
-    end;
+        end else begin
+            if tn.CharacterReceivedList.IndexOf(tc.ID) = - 1 then begin
+                UpdateGroundEffect(nil, tn.ID, 0, tn.Point, tn.JID, 1, Socket);
+                tn.CharacterReceivedList.Add(tc.ID)
+  		    {WFIFOW( 0, $011f);
+  		    WFIFOL( 2, tn.ID);
+  		    WFIFOL( 6, 0);
+  		    WFIFOW(10, tn.Point.X);
+	  	    WFIFOW(12, tn.Point.Y);
+  		    WFIFOB(14, tn.JID);
+  		    WFIFOB(15, 1);
+  		    Socket.SendBuf(buf, 16);}
+            end;
+        end;
 	end else if tn.JID < 45 then begin
 		ZeroMemory(@buf[0], 53);
 		WFIFOW(0, $0079);
@@ -5491,8 +5580,9 @@ begin
 	tn.Tick := Tick + STime;
 	tn.Count := SCount;
 	tn.CData := tc;
-  tn.MData := ts;
-  tn.Enable := true;  // Enable a skillunit so that it will reappear when you reenter screen
+    tn.MData := ts;
+    tn.Enable := true;  // Enable a skillunit so that it will reappear when you reenter screen
+
 	tm.NPC.AddObject(tn.ID, tn);
 	tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
 
@@ -5538,14 +5628,15 @@ begin
 
         end else begin
 	//周りに通知
-	        WFIFOW( 0, $011f);
+            UpdateGroundEffect(tm, tn.ID, ID, tn.Point, tn.JID, 1);
+	        {WFIFOW( 0, $011f);
 	        WFIFOL( 2, tn.ID);
 	        WFIFOL( 6, ID);
 	        WFIFOW(10, tn.Point.X);
 	        WFIFOW(12, tn.Point.Y);
 	        WFIFOB(14, tn.JID);
 	        WFIFOB(15, 1);
-	        SendBCmd(tm, tn.Point, 16);
+	        SendBCmd(tm, tn.Point, 16);}
         end;
 
 	Result := tn;
@@ -5562,6 +5653,9 @@ begin
   // Icewall terrain change
 
   if (tn.JID = $8D) then begin
+    tc := tn.CData;
+    tc.IceWallCount := tc.IceWallCount - 1;
+
     tm.gat[tn.Point.X][tn.Point.Y] := 0;
 
     WFIFOW(0, $0192);
@@ -5989,15 +6083,33 @@ end;
 //個人のレベルアップ用
 procedure CalcLvUP(tc1:TChara; EXP:cardinal; JEXP:cardinal);
 var
-	j:Integer;
+    JIDFix : word;
+    j,job,base: byte;
 	tm:TMap;
 begin
 	tm := tc1.MData;
 
+    JIDFix := JIDFixer(tc1.JID);
+
+    case JIDFix of
+        (*  j is the appropritate job column for the exptable
+            job is the job type identifyer.  max job 10 is 1, max job 50 is 2, max job 70 is 3
+            base is the appropriate base column to use. - Tsusai 12/13/04*)
+
+        0: begin j:= 1; job := 1; base := 0; end;
+        1..6: begin j:= 2; job := 2; base := 0; end;
+        7..22: begin j:= 3; job := 2; base := 0; end;
+        23: begin j:= 4; job := 3; base := 0; end;
+        24: begin j:= 6; job := 1; base := 5; end;
+        25..30: begin j:= 7; job := 2; base := 5; end;
+        31..45: begin j:= 8; job := 3; base := 5; end;
+        else begin j:= 9; job := 2; base := 5; end;
+    end;
+
 	if DisableLevelLimit or (tc1.BaseLV < 99) then
 		tc1.BaseEXP := tc1.BaseEXP + EXP;
 
-	if DisableLevelLimit or ((tc1.JID = 0) and (tc1.JobLV < 10)) or ((tc1.JID <> 0) and (tc1.JobLV < 50)) then
+	if DisableLevelLimit or ((job = 1) and (tc1.JobLV < 10)) or ((job = 2) and (tc1.JobLV < 50)) or ((job = 3) and (tc1.JobLV < 70)) then
 		tc1.JobEXP := tc1.JobEXP + JEXP;
 
 	if tc1.BaseEXP >= tc1.BaseNextEXP then begin
@@ -6020,8 +6132,8 @@ begin
 				tc1.BaseEXP := 0;
 			end;
 
-            if (ExpTable[0][tc1.BaseLV] = 0) then tc1.BaseNextEXP := 999999999
-            else tc1.BaseNextEXP := ExpTable[0][tc1.BaseLV];
+            if (ExpTable[base][tc1.BaseLV] = 0) then tc1.BaseNextEXP := 999999999
+            else tc1.BaseNextEXP := ExpTable[base][tc1.BaseLV];
 
 		end;
 		SendCStat1(tc1, 0, $000b, tc1.BaseLV);
@@ -6044,7 +6156,7 @@ begin
 			//ジョブレベルアップ
 			Inc(tc1.SkillPoint);
 			Inc(tc1.JobLV);
-			if DisableLevelLimit or ((tc1.JID = 0) and (tc1.JobLV < 10)) or ((tc1.JID <> 0) and (tc1.JobLV < 50)) then begin
+			if DisableLevelLimit or ((job = 1) and (tc1.JobLV < 10)) or ((job = 2) and (tc1.JobLV < 50)) or ((job = 3) and (tc1.JobLV < 70)) then begin
 				tc1.JobEXP := tc1.JobEXP - tc1.JobNextEXP;
 				if (tc1.JobEXP >= tc1.JobNextEXP) and (not DisableLevelLimit) then begin
 					tc1.JobEXP := tc1.JobNextEXP - 1;
@@ -6053,11 +6165,6 @@ begin
 				tc1.JobEXP := 0;
 			end;
 
-			if tc1.JID < 13 then begin
-				j := (tc1.JID + 5) div 6 + 1;
-			end else begin
-				j := 3; //暫定
-			end;
 			tc1.JobNextEXP := ExpTable[j][tc1.JobLV];
 
 		until tc1.JobEXP < tc1.JobNextEXP;
@@ -6075,6 +6182,79 @@ begin
 		SendCStat1(tc1, 1, $0002, tc1.JobEXP);
 	end;
 end;
+
+procedure CalcPvPRank(tm : Tmap; tc : TChara = nil);
+var
+    tc1 : TChara;
+    Scores : TStringList;
+    Rank, RankOne, LastScore : Integer;
+    i : Integer;
+begin
+    RankOne := 0;
+    if not assigned(tm) then Exit;
+    
+    if tm.CList.Count > 0 then begin
+        tc1 := tm.CList.Objects[0] as TChara;
+        tc1.PvPRank := 1;
+        for i := 0 + 1 to tm.CList.Count - 1 do begin
+            tc1 := tm.CList.Objects[i] as TChara;
+            tc1.PvPRank := 2;
+        end;
+        Scores := TStringList.Create;
+        for i := 0 to tm.CList.Count - 1 do begin
+            tc1 := tm.CList.Objects[i] as TChara;
+            Scores.AddObject(IntToStr(tc1.PvPPoints), tc1);
+        end;
+        SortPvPScores(Scores);
+        LastScore := StrToInt(Scores[0]);
+
+        Rank := 0;
+        for i := 0 to Scores.Count - 1 do begin
+            tc1 := TChara(Scores.Objects[i]);
+            if (Rank = 0) and (RankOne = 0) then begin
+                Rank := Rank + 1;
+                RankOne := 1;
+            end
+            else if (StrToInt(Scores[i]) <> LastScore) or (Rank = 1) then Rank := Rank + 1;
+            tc1.PvPRank := Rank;
+            LastScore := StrToInt(Scores[i]);
+        end;
+    end;
+    for i := 0 to tm.CList.Count - 1 do begin
+    {
+
+        This causes major crashes because it tries to send packets
+        to characters that have been disconnected. Very sloppy code.
+        I've been cleaning up after this for quite some time and will
+        simply comment it out for now to prevent further problems.
+
+        Another major problem was found when a player ALT-F4s out, he
+        causes a infiniti loop, freezing the server.
+
+        You can not send a packet to a player that is not on a specific
+        map or on the server.
+
+        -Alex
+    }
+
+
+        if not assigned(tm.CList.Objects[i]) then Continue;
+        tc1 := tm.CList.Objects[i] as TChara;
+
+        if (tc1 = tc) then Continue;
+
+        WFIFOW( 0, $0199);
+        WFIFOW( 2, 1);
+        tc1.Socket.SendBuf(buf, 4);
+        WFIFOW( 0, $019a);
+        WFIFOL( 2, tc1.ID);
+        WFIFOL( 6, tc1.PvPRank);
+        WFIFOL( 10, tm.CList.Count);
+        tc1.Socket.SendBuf(buf, 14);
+
+    end;
+end;
+
 //------------------------------------------------------------------------------
 //経験値分配用
 procedure PartyDistribution(Map:string; tpa:TParty; EXP:Cardinal = 0; JEXP:Cardinal = 0);
@@ -6250,6 +6430,7 @@ var
 	i	:integer;
 	j	:integer;
 	l	:cardinal;
+    m   :cardinal;
 	w	:word;
 	str	:string;
 	tcr	:TChatRoom;
@@ -6282,6 +6463,7 @@ begin
 		//抜けるメンバーをリストの後ろに配置
 		if (tcr.Users > 1) then begin
 			l := tcr.MemberID[j];
+            m := tcr.MemberCID[j];
 			str := tcr.MemberName[j];
 			if (j <= 18) and (j <> tcr.Users - 1) then begin
 				for i := j to tcr.Users - 2 do begin
@@ -6290,7 +6472,7 @@ begin
 					tcr.MemberName[i] := tcr.MemberName[i+1];
 				end;
 				tcr.MemberID[tcr.Users - 1] := l;
-				tcr.MemberCID[tcr.Users - 1] := l;
+				tcr.MemberCID[tcr.Users - 1] := m;
 				tcr.MemberName[tcr.Users - 1] := str;
 			end;
 		end;
@@ -6886,7 +7068,7 @@ begin
 					for k := 0 to tm1.Block[i][j].CList.Count - 1 do begin
 						tc1 := tm1.Block[i][j].Clist.Objects[k] as TChara;
 						if (abs(tc1.Point.X - tn1.Point.X) < 16) and (abs(tc1.Point.Y - tn1.Point.Y) < 16) then begin
-							SendNData(tc1.Socket, tn1, tc1.ver2);
+							SendNData(tc1.Socket, tn1, tc1.ver2, tc1);
 						end;
 					end;
 				end;
@@ -7747,6 +7929,8 @@ Begin
 
 	tm := TMap.Create;
 	tm.Name := MapName;
+
+    //DebugOut.Lines.Add('Map ' + tm.Name + ' Has been loaded');
 	Map.AddObject(MapName, tm);
 	tm.Mode := 1;
 
@@ -7883,6 +8067,7 @@ Begin
 	//Script Load
 	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Loading script...');
 	Tick := timeGetTime;
+    tm.LastAction := Tick;
 	for Idx := 0 to ScriptList.Count - 1 do begin
 		if NOT ScriptValidated(MapName, ScriptList[Idx], Tick) AND
 		   ShowDebugErrors then begin
@@ -8096,6 +8281,12 @@ Begin
 	// ワープポイント Lit. "Loom Point" in Katakana ------------------------------
 				// Colus, 20040122: Added parsing for hidden warps.
 				if (SL[1] = 'warp') OR (SL[1] = 'hiddenwarp') then begin
+
+					if SL1.Count <> 4 then begin
+		                            ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
+		                            Exit;
+					end;
+
 					tn := TNPC.Create;
 					tn.ID := NowNPCID;
 					Inc(NowNPCID);
@@ -8136,6 +8327,12 @@ Begin
 					end;
 	// NPC Shop ------------------------------------------------------------------
 				end else if SL[1] = 'shop' then begin
+
+					if SL1.Count <> 4 then begin
+		                            ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
+		                            Exit;
+					end;
+
 					tn := TNPC.Create;
 					tn.ID      := NowNPCID;
 					Inc(NowNPCID);
@@ -8186,10 +8383,19 @@ Begin
 
 					<NPCName>  ::= <OneWordName> | "<OneOrMoreWordName>"
 					<IDToken>  ::= <SpriteID>,'{'
+                    or if wanting OnTouch
+                    <IDToken>  ::= <SpriteID>,<X Range>,<Y Range>'{'
 
 					Valid SpriteIDs can be found in the tables on
 					http://www.geocities.co.jp/SiliconValley-Bay/1174/npce.html
-					*)
+                    or http://kalen.s79.xrea.com/npc/npc.shtml
+                    *)
+
+					if SL1.Count <> 4 then begin
+		                            ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
+		                            Exit;
+					end;
+
 					tn := TNPC.Create;
 					tn.ID := NowNPCID;
 					Inc(NowNPCID);
@@ -8208,10 +8414,35 @@ Begin
 
 					SL1.DelimitedText := SL[3];
 					//SL1 is now the IDToken - 2 comma separated params - check count
-					if (SL1.Count <> 2) AND (SL1[2] <> '{') then begin
+					{if (SL1.Count <> 2) AND (SL1[2] <> '{') then begin
 						ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
 						Exit; // Safe - 2004/04/21
-					end;
+					end;}
+
+                    //Now supports OnTouch header.  - Tsusai
+                    if (SL1.Count = 2) then begin //Regular header
+                        if (SL1[1] <> '{') then begin
+                            ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
+                            Exit; // Safe - 2004/10/19
+                        end else begin
+                            tn.OnTouch := false;
+                        end;
+                    end else if (SL1.Count = 4) then begin //OnTouch Header
+                        if (SL1[3] <> '{') then begin
+                            ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
+                            Exit; // Safe - 2004/10/19
+                        end else begin
+                            tn.OnTouch := True;
+                            tn.OnTouchLabel := 0;
+                            tn.WarpSize.X  := StrToInt(SL1[1]);
+                            tn.WarpSize.Y  := StrToInt(SL1[2]);
+                        end;
+                    end else begin //else if the scriptor was dumb
+                        ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, Lines]);
+                        Exit; // Safe - 2004/10/19
+                    end;
+
+
 
 					// Colus, 20040503: Making it work in a 'proper' fashion.  We DO need it,
 					// but we'll handle negative values in a better manner.
@@ -9134,10 +9365,11 @@ Begin
 							tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 							Inc(k);
 						end else if str = 'checkstr' then begin //------- 44 checkstr
-							SL[0] := StringReplace(SL[0], '==', '=',	[]);
+							//SL[0] := StringReplace(SL[0], '==', '==',	[]);
 							SL[0] := StringReplace(SL[0], '><', '<>', []);
 							SL[0] := StringReplace(SL[0], '!=', '<>', []);
-							SL[0] := StringReplace(SL[0], '=',	',=,',	[]);
+                            SL[0] := StringReplace(SL[0], ' == ',	',==,',	[]);
+							SL[0] := StringReplace(SL[0], ' = ',	',=,',	[]);
 							SL[0] := StringReplace(SL[0], '<>', ',<>,', []);
 							sl1.DelimitedText := SL[0];
 							if sl1.Count <> 5 then begin
@@ -9154,12 +9386,14 @@ Begin
 							SetLength(tn.Script[k].Data2, 2);
 							SetLength(tn.Script[k].Data3, 3);
 							tn.Script[k].Data1[0] := LowerCase(SL1[0]);
-							tn.Script[k].Data1[1] := LowerCase(SL1[2]);
-							tn.Script[k].Data1[2] := SL1[1];
+							tn.Script[k].Data1[1] := SL1[2];
+							tn.Script[k].Data1[2] := LowerCase(SL1[1]);
 							mathop := SL1[1];
 							j := -1;
 							if mathop = '='	then j := 0
-							else if mathop = '<>' then j := 1;
+							else if mathop = '<>' then j := 1
+                            else if mathop = '==' then j := 2;
+
 							if j = -1 then begin
 								ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
 								Exit; // Safe - 2004/04/21
@@ -9576,11 +9810,251 @@ Begin
 							SetLength(tn.Script, k + 1);
 							tn.Script[k].ID := 71;
 							SetLength(tn.Script[k].Data1, 2);
-                            SetLength(tn.Script[k].Data3, 1);
-							//SetLength(tn.Script[k].Data3, 1);
+                            //SetLength(tn.Script[k].Data3, 1);
 							tn.Script[k].Data1[0] := SL1[0];
 							tn.Script[k].Data1[1] := lowercase(SL1[1]);
 							//tn.Script[k].Data3[0] := StrToInt(SL1[2]);
+							Inc(k);
+						end else if str = 'percentheal' then begin //------- 72 percentheal
+							if sl1.Count <> 2 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[0], i, j);
+							if (j <> 0) or (i < 0) or (i > 30000) then begin
+								ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[1], i, j);
+							if (j <> 0) or (i < 0) or (i > 30000) then begin
+								ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 72;
+							SetLength(tn.Script[k].Data3, 2);
+							tn.Script[k].Data3[0] := StrToInt(SL1[0]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[1]);
+							Inc(k);
+					  	end else if str = 'percentdamage' then begin //------- 73 percentdamage
+			                        	if sl1.Count <> 2 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[0], i, j); // going to 1000% instead of 100% because of coolness - Tsusai
+							if (j <> 0) or (i < 0) or (i > 1000) then begin
+								ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[1], i, j);
+							if (j <> 0) or (i < 0) or (i > 1000) then begin
+								ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 73;
+							SetLength(tn.Script[k].Data3, 2);
+							tn.Script[k].Data3[0] := StrToInt(SL1[0]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[1]);
+							Inc(k);
+ 						end else if str = 'checkpoint' then begin //------- 74 checkpoint
+							if sl1.Count <> 3 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[1], i, j);
+							if (j <> 0) or (i < 0) or (i > 511) then begin
+								ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[2], i, j);
+							if (j <> 0) or (i < 0) or (i > 511) then begin
+								ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 74;
+							SetLength(tn.Script[k].Data1, 1);
+							SetLength(tn.Script[k].Data3, 2);
+							tn.Script[k].Data1[0] := SL1[0];
+							tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+							Inc(k);
+                        end else if str = 'inputstr' then begin //------- 75 inputstr
+							if sl1.Count <> 1 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 75;
+							SetLength(tn.Script[k].Data1, 1);
+							tn.Script[k].Data1[0] := SL1[0];
+							Inc(k);
+                        end else if str = 'areawarp' then begin //------- 76 areawarp
+                            if sl1.Count <> 8 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit;
+							end;
+                            SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 76;
+                            SetLength(tn.Script[k].Data1, 2);
+							SetLength(tn.Script[k].Data3, 6);
+							tn.Script[k].Data1[0] := SL1[0];
+                            tn.Script[k].Data1[1] := Sl1[5];
+							tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+                            tn.Script[k].Data3[2] := StrToInt(SL1[3]);
+                            tn.Script[k].Data3[3] := StrToInt(SL1[4]);
+                            tn.Script[k].Data3[4] := StrToInt(SL1[6]);
+                            tn.Script[k].Data3[5] := StrToInt(SL1[7]);
+                            Inc(k);
+                        end else if str = 'gstore' then begin //------- 78 gstore
+                            if SL1.Count <> 0 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 78;
+							Inc(k);
+                        end else if str = 'getareausers' then begin //------- 79 getareausers
+                            if sl1.Count <> 6 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit;
+							end;
+                            SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 79;
+                            SetLength(tn.Script[k].Data1, 2);
+							SetLength(tn.Script[k].Data3, 4);
+							tn.Script[k].Data1[0] := SL1[0];
+							tn.Script[k].Data1[1] := LowerCase(SL1[5]);
+                            tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+                            tn.Script[k].Data3[2] := StrToInt(SL1[3]);
+                            tn.Script[k].Data3[3] := StrToInt(SL1[4]);
+							Inc(k);
+                        end else if str = 'resetmyareamob' then begin //------- 79 resetmyareamob
+                            if sl1.Count <> 5 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit;
+							end;
+                            SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 80;
+                            SetLength(tn.Script[k].Data1, 1);
+							SetLength(tn.Script[k].Data3, 4);
+							tn.Script[k].Data1[0] := SL1[0];
+							tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+                            tn.Script[k].Data3[2] := StrToInt(SL1[3]);
+                            tn.Script[k].Data3[3] := StrToInt(SL1[4]);
+							Inc(k);
+                        end else if str = 'remotenpctimer' then begin //------- 81 remotenpctimer
+							if sl1.Count <> 2 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit;
+							end;
+							val(SL1[1], i, j);
+							if (j = 0) AND ((i < 0) OR (i > 8)) then begin
+								ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+								Exit;
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 81;
+							SetLength(tn.Script[k].Data1, 1);
+							SetLength(tn.Script[k].Data3, 1);
+							tn.Script[k].Data1[0] := SL1[0];
+							tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							Inc(k);
+                        end else if str = 'areabroadcast' then begin //------- 82 areabroadcast
+                            if (sl1.Count = 6) then sl1.Add('0');
+                            if (sl1.Count <> 7) then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit;
+							end;
+                            SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 82;
+                            SetLength(tn.Script[k].Data1, 2);
+							SetLength(tn.Script[k].Data3, 5);
+							tn.Script[k].Data1[0] := SL1[0];
+                            tn.Script[k].Data1[1] := SL1[5];
+							tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+                            tn.Script[k].Data3[2] := StrToInt(SL1[3]);
+                            tn.Script[k].Data3[3] := StrToInt(SL1[4]);
+                            tn.Script[k].Data3[4] := StrToInt(SL1[6]);
+                            Inc(k);
+                        end else if str = 'waitingroomcount' then begin //------- 83 waitingroomcount
+							if (sl1.Count <> 1) then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 83;
+							SetLength(tn.Script[k].Data1, 1);
+							tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+							Inc(k);
+                        end else if str = 'reseteventmob' then begin //------- 84 reseteventmob
+							if (sl1.Count <> 2) then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 41;
+							SetLength(tn.Script[k].Data1, 1);
+                            SetLength(tn.Script[k].Data2, 1);
+							tn.Script[k].Data1[0] := SL1[0];
+                            tn.Script[k].Data2[0] := SL1[1];
+							Inc(k);
+                        end else if str = 'areaset' then begin //------- 85 areaset
+							SL[0] := StringReplace(SL[0], '+=', '+', []);
+							SL[0] := StringReplace(SL[0], '-=', '-', []);
+							SL[0] := StringReplace(SL[0], '*=', '*', []);
+							SL[0] := StringReplace(SL[0], '/=', '/', []);
+							SL[0] := StringReplace(SL[0], '+', ',1,', []);
+							SL[0] := StringReplace(SL[0], '-', ',2,',	[]);
+							SL[0] := StringReplace(SL[0], '=', ',0,', []);
+							SL[0] := StringReplace(SL[0], '*', ',3,', []);
+							SL[0] := StringReplace(SL[0], '/', ',4,', []);
+							while Pos('- ', SL[0]) <> 0 do
+								SL[0] := StringReplace(SL[0], '- ', '-',	[]);
+							sl1.DelimitedText := SL[0];
+							if sl1.Count = 8 then sl1.Add('0');
+							if sl1.Count <> 9 then begin
+								ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[1], i, j);
+							if (j <> 0) or (i < 0) or (i > 4) then begin
+								ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							val(SL1[2], i, j);
+							if j = 0 then begin
+								if (i < -999999999) or (i > 999999999) then begin
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end else if (StrToInt(SL1[1]) = 3) and (i = 0) then begin
+									ScriptErr(SCRIPT_DIV_Z3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+							end;
+							val(SL1[3], i, j);
+							if (j <> 0) or (i < -999999999) or (i > 999999999) then begin
+								ScriptErr(SCRIPT_RANGE4_ERR, [ScriptPath, lines, str]);
+								Exit; // Safe - 2004/04/21
+							end;
+							SetLength(tn.Script, k + 1);
+							tn.Script[k].ID := 85;
+							SetLength(tn.Script[k].Data1, 3);
+							SetLength(tn.Script[k].Data3, 6);
+							tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+                            tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+							tn.Script[k].Data1[1] := LowerCase(SL1[2]);
+                            tn.Script[k].Data1[2] := LowerCase(SL1[3]);
+							tn.Script[k].Data3[1] := StrToInt(SL1[4]);
+                            tn.Script[k].Data3[2] := StrToInt(SL1[5]);
+                            tn.Script[k].Data3[3] := StrToInt(SL1[6]);
+                            tn.Script[k].Data3[4] := StrToInt(SL1[7]);
+                            tn.Script[k].Data3[5] := StrToInt(SL1[8]);
 							Inc(k);
 						end else if str = 'script' then begin //------- 99 script
 							if sl1.Count <> 1 then begin
@@ -9617,6 +10091,8 @@ Begin
 								tn.ScriptInitS := k;
 							end else if (LowerCase(Copy(str, 1, 11)) = 'onmymobdead') then begin
 								tn.ScriptInitMS := k;
+                            end else if (LowerCase(Copy(str, 1, 7)) = 'ontouch') then begin
+                                tn.OnTouchLabel := k;
 							end;
 
 							str := Copy(str, 1, Length(str) - 1);
@@ -9666,9 +10142,9 @@ Begin
 					end;//for i
 
 					if tn.ScriptLabel <> '' then tm.NPCLabel.AddObject(tn.ScriptLabel, tn);
-					tm.NPC.AddObject(tn.ID, tn);
-					tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
-					tm.gat[tn.Point.X][tn.Point.Y] := (tm.gat[tn.Point.X][tn.Point.Y] or $8);
+    					tm.NPC.AddObject(tn.ID, tn);
+    					tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
+                        tm.gat[tn.Point.X][tn.Point.Y] := (tm.gat[tn.Point.X][tn.Point.Y] or $8)
 
 {d$0100fix5よりココまで}
 	// モンスター ----------------------------------------------------------------
@@ -9735,6 +10211,12 @@ Begin
 					ts0.SpawnDelay2 := StrToInt(SL1[3]);
 					ts0.SpawnType   := StrToInt(SL1[4]);
 
+                    { Alex: Mob Rate }
+                    { 08-23-04: Added exception for Emperium. }
+                    if (ts0.JID <> 1288) then begin
+                        mcnt := mcnt * Option_Mob_Spawn_Rate div 100;
+                    end;
+
 					if MobDB.IndexOf(ts0.JID) = -1 then continue;
 					ts0.Data := MobDB.IndexOfObject(ts0.JID) as TMobDB;
 					if (ts0.Point1.X = 0) and (ts0.Point1.Y = 0) and (ts0.Point2.X = 0) and (ts0.Point2.Y = 0) then begin
@@ -9758,7 +10240,7 @@ Begin
 						ts.Point2.X := ts0.Point2.X;
 						ts.Point2.Y := ts0.Point2.Y;
 
-{追加}			if (ts.JID = 1288) then begin
+                        if (ts.JID = 1288) then begin
 							ts.isEmperium := true;
 							m := CastleList.IndexOf(ts.Map);
 							if (m <> - 1) then begin
@@ -9824,8 +10306,8 @@ Begin
 								end;
 								ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //In FA 30%
 							end;
-{追加}				ts.Element  := ts.Data.Element;
-{追加}				ts.isActive := ts.Data.isActive;
+                            ts.Element  := ts.Data.Element;
+                            ts.isActive := ts.Data.isActive;
 							ts.EmperiumID := 0;
 							tm.Mob.AddObject(ts.ID, ts);
 							tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
@@ -9901,19 +10383,25 @@ var
     tc1    :TChara;
     str      :string;
 begin
-    tc1 := tchara.Create;
-    ts := tmob.create;
+    //tc1 := tchara.Create;
+    //ts := tmob.create;
 
-    tc1 := nil;
-    ts := nil;
+    //tc1 := nil;
+    //ts := nil;
     
     tm := tc.MData;
 
-    if (tm.CList.IndexOf(tc.MTarget) <> -1) then begin
+    if tc.MTargetType = 0 then begin
+        ts := tc.adata;
+    end else begin
+        tc1 := tc.adata;
+    end;
+
+    {if (tm.CList.IndexOf(tc.MTarget) <> -1) then begin
         tc1 := tc.adata;
     end else begin
         ts := tc.adata;
-    end;
+    end;}
 
     // Modifier calc:
     // adjusted drop ratio = (10 + 3*skill + cdex - mdex)% * drop
@@ -9929,84 +10417,101 @@ begin
 
     modfix := ((tc.Skill[50].Data.Data1[tc.Skill[50].Lv] * StealMultiplier div 100) + tc.Param[4]);
 
-	if Assigned(ts) then begin
+    if tc.MTargetType = 0 then begin
+        modfix := modfix - ts.Data.Param[4];
+    end else begin
+        modfix := modfix - tc1.Param[4];
+    end;
+
+	{if Assigned(ts) then begin
 		modfix := modfix - ts.Data.Param[4];
 	end else if Assigned (tc1) then begin
 		modfix := modfix - tc1.Param[4];
-	end;
+	end;}
 
     // This isn't the right check!  It checks for leaders.  We have
     // isLeader and isSlave now for that...
     //k := SlaveDBName.IndexOf(ts.Data.Name);
     //if ((k <> -1) or (ts.Data.MEXP <> 0) or (ts.Stolen <> 0)) then begin
-    if assigned(ts) then begin
+
+    if tc.MTargetType = 0 then begin
+    //if assigned(ts) then begin
         if ((ts.isSlave) or (ts.Data.MEXP <> 0) or (ts.Stolen <> 0)) then begin
             Result := false;
             exit;
         end;
     end;
 
-    if assigned(tc1) then begin
+    if not (tc.MTargetType = 0) then begin
+    //if assigned(tc1) then begin
         for i := 1 to 100 do begin
-            if tc1.Item[i].ID <> 0 then begin
-                if tc1.Item[i].Equip <> 0 then begin
-                    modfix := modfix - tc1.param[0];
-                end;
-                weight := tc1.Item[i].Data.Weight;
-                success := muldiv(modfix, 100, weight);
-                rand := Random(20000) mod 10000;
-                if rand <= success then begin
-                    WFIFOW( 0, $011a);
-                    WFIFOW( 2, 50);
-                    WFIFOW( 4, 0);
-                    WFIFOL( 6, tc1.ID);
-                    WFIFOL(10, tc.ID);
-                    WFIFOB(14, 1);
-                    SendBCmd(tm,tc1.Point,15);
+            try
+                if tc1.Item[i].ID <> 0 then begin
+                    if tc1.Item[i].Equip <> 0 then begin
+                        modfix := modfix - tc1.param[0];
+                    end;
+                    weight := tc1.Item[i].Data.Weight;
+                    success := muldiv(modfix, 100, weight);
+                    rand := Random(20000) mod 10000;
+                    if rand <= success then begin
+                        WFIFOW( 0, $011a);
+                        WFIFOW( 2, 50);
+                        WFIFOW( 4, 0);
+                        WFIFOL( 6, tc1.ID);
+                        WFIFOL(10, tc.ID);
+                        WFIFOB(14, 1);
+                        SendBCmd(tm,tc1.Point,15);
 
-                    k := tc1.item[i].ID;
-                    td := ItemDB.IndexOfObject(k) as TItemDB;
-                    if tc.MaxWeight >= tc.Weight + cardinal(td.Weight) then begin
-                        k := SearchCInventory(tc, td.ID, td.IEquip);
-                        if k <> 0 then begin
-                            if tc.Item[k].Amount < 30000 then begin
-                                UpdateWeight(tc, k, td);
-                                SendCGetItem(tc, k, 1);
+                        k := tc1.item[i].ID;
+                        td := ItemDB.IndexOfObject(k) as TItemDB;
+                        if tc.MaxWeight >= tc.Weight + cardinal(td.Weight) then begin
+                            k := SearchCInventory(tc, td.ID, td.IEquip);
+                            if k <> 0 then begin
+                                if tc.Item[k].Amount < 30000 then begin
+                                    UpdateWeight(tc, k, td);
+                                    SendCGetItem(tc, k, 1);
 
-                                WFIFOW( 0, $00af);
-                                WFIFOW( 2, i);
-                                WFIFOW( 4, 1);
-                                tc1.Socket.SendBuf(buf, 6);
-                                
-                                tc1.Item[i].Amount := tc1.Item[i].Amount - 1;
-                                if tc1.Item[i].Amount = 0 then tc1.Item[i].ID := 0;
-                                tc1.Weight := tc1.Weight - tc1.Item[i].Data.Weight;
-                                tc1.Socket.SendBuf(buf, 6);
-                                SendCStat1(tc, 0, $0018, tc1.Weight);
+                                    WFIFOW( 0, $00af);
+                                    WFIFOW( 2, i);
+                                    WFIFOW( 4, 1);
+                                    tc1.Socket.SendBuf(buf, 6);
 
-                                str := tc.Name + ' stole one ' + tc1.item[i].Data.Name + ' from you.';
-                                w := length(STR) + 4;
-                                WFIFOW(0, $009a);
-                                WFIFOW(2, w);
-                                WFIFOS(4, str, w - 4);
-                                tc1.Socket.SendBuf(buf, w);
+                                    tc1.Item[i].Amount := tc1.Item[i].Amount - 1;
+                                    if tc1.Item[i].Amount = 0 then tc1.Item[i].ID := 0;
+                                    tc1.Weight := tc1.Weight - tc1.Item[i].Data.Weight;
+                                    tc1.Socket.SendBuf(buf, 6);
+                                    SendCStat1(tc, 0, $0018, tc1.Weight);
 
-                                Result := true;
-                                Exit;
+                                    str := tc.Name + ' stole one ' + tc1.item[i].Data.Name + ' from you.';
+                                    w := length(STR) + 4;
+                                    WFIFOW(0, $009a);
+                                    WFIFOW(2, w);
+                                    WFIFOS(4, str, w - 4);
+                                    tc1.Socket.SendBuf(buf, w);
+
+                                    Result := true;
+                                    Exit;
+                                end;
                             end;
-                        end;
-                    end else begin
-                        // Overweight, failed to get item.
-                        WFIFOW( 0, $00a0);
-                        WFIFOB(22, 2);
-                        tc.Socket.SendBuf(buf, 23);
-                    end; {end item added}
+                        end else begin
+                            // Overweight, failed to get item.
+                            WFIFOW( 0, $00a0);
+                            WFIFOB(22, 2);
+                            tc.Socket.SendBuf(buf, 23);
+                        end; {end item added}
+                    end;
+                end;
+            except
+                on EAccessViolation do begin
+                    Result := False;
+                    Exit;
                 end;
             end;
         end;
     end else
 
-    if assigned(ts) then begin
+    begin
+    //if assigned(ts) then begin
         for i := 0 to 7 do begin
             mdrop[i] := modfix * integer(ts.Data.Drop[i].Per) div 100;
             rand := Random(20000) mod 10000;
@@ -10493,10 +10998,20 @@ begin
 if Value > 128 then
     fFireWallCount := 0;
 
-    if Value >= 9 then
-        fFireWallCount := 9
+    if Value >= (Option_FireWall_Cap * 3) then
+        fFireWallCount := (Option_FireWall_Cap * 3)
     else
         fFireWallCount := Value;
+end;
+
+procedure TChara.SetIceWallCount( Value : Byte );
+begin
+    if Value > 128 then fIceWallCount := 0;
+
+    if Value >= (Option_IceWall_Cap * 5) then
+        fIceWallCount := (Option_IceWall_Cap * 5)
+    else
+        fIceWallCount := Value;
 end;
 
 
@@ -10565,7 +11080,10 @@ end;
 constructor TMap.Create;
 begin
 	inherited;
-
+    NeedToUnload := false;
+    LastAction := timeGetTime();
+    //Minutes * 60 = seconds * 1000 = milliseconds
+    UnloadTime := MapUnloadTime * 60 * 1000;  //How long until map gets unloaded in milliseconds
 	NPC := TIntList32.Create;
 	NPCLabel := TStringList.Create;
 	CList := TIntList32.Create;
@@ -10633,6 +11151,7 @@ begin
 	GuildBanList := TStringList.Create;
 	RelAlliance := TStringList.Create;
 	RelHostility := TStringList.Create;
+    Storage := TItemList.Create;
 end;
 
 destructor TGuild.Destroy;
@@ -10657,6 +11176,8 @@ begin
 			(RelHostility.Objects[Idx] AS TGRel).Free;
 	RelHostility.Free;
 
+    Storage.Free;
+
 	inherited;
 end;
 {ギルド機能追加ココまで}
@@ -10674,7 +11195,7 @@ Constructor TNPC.Create;
 Begin
 	inherited;
 	// Always call ancestor's routines first in Create
-
+    CharacterReceivedList := TIntList32.Create;
 	LType := imaNPC;
 End;(* TNPC.Create
 *-----------------------------------------------------------------------------*)
@@ -10716,6 +11237,8 @@ Begin
 			Item.Free;
 		end;
 	end;//case
+
+    CharacterReceivedList.Free;
 
 	inherited;
 End;(* TNPC.Destroy
@@ -10963,6 +11486,17 @@ End;(* Proc TPet.SetFullness()
 *-----------------------------------------------------------------------------*)
 
 
+    procedure tracing(str : String);
+    var
+        tracing : TStringList;
+    begin
+        tracing := TStringList.Create;
+        if FileExists('TRACING.TXT') then
+            tracing.LoadFromFile('TRACING.TXT');
+        tracing.Add(str);
+        tracing.SaveToFile('TRACING.TXT');
+        tracing.Free;
+    end;
 
 
 end.

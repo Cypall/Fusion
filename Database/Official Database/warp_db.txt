@@ -2,6 +2,7 @@
 save,save,0,0,100
 return,save,0,0,100
 home,save,0,0,100
+"ayothaya",ayothaya,19,233,1000
 "louyang",louyang,217,119,1000
 "prontera",prontera,140,180,1000
 "izlude",izlude,128,90,1000

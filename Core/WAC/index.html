@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <title>The Fusion Project - Web Account Creator</title>
+
+    <style>
+
+      .pageformat {
+          background-color: rgb(153,153,153);
+          text-align: center;
+      }      
+      .tableformat {
+          background-color: rgb(255,215,136);
+          border: 1px solid rgb(255,153,0);
+          width: 350px;
+          vertical-align: top;
+      }
+      .header {
+          font-family: Trebuchet MS;
+          font-size: small;
+          font-weight: bold;
+          margin-left: 10px;
+          margin-right: 10px;
+          margin-top: 5px;
+          margin-bottom: 10px;
+      }
+      .fontstyle {
+          font-family: Trebuchet MS;
+          font-size: x-small;
+          margin-left: 95px;
+          margin-right: 10px;
+          margin-top: 0px;
+          margin-bottom: 0px;
+      }
+      .formstyle {
+          font-family: Tahoma;
+          font-size: x-small;
+          border: 1px solid rgb(255,153,0);
+          background-color: rgb(255,255,204);
+          margin-left: 0px;
+          margin-right: 0px;
+          margin-top: -2px;
+          margin-bottom: 0px;
+      }
+      .submitstyle {
+          font-family: Tahoma;
+          font-size: x-small;
+          margin-left: 95px;
+          margin-right: 0px;
+          margin-top: 15px;
+          margin-bottom: 10px;
+      }
+
+    </style>
+
+  </head>
+
+  <body class='pageformat'>
+
+    <table class='tableformat'>
+      <tr>
+
+        <form action='index.html'>
+        <td>
+
+          <p class='header'>The Fusion Project: Web Account Creator</p>
+
+          <p class='fontstyle'>Username:<br>
+          <input type='text' name='USERNAME' class='formstyle'></p>
+
+          <p class='fontstyle'>Password:<br>
+          <input type='password' name='PASSWORD1' class='formstyle'></p>
+
+          <p class='fontstyle'>Re-Enter Password:<br>
+          <input type='password' name='PASSWORD2' class='formstyle'></p>
+
+          <p class='fontstyle'>Email Address:<br>
+          <input type='text' name='EMAIL' class='formstyle'></p>
+
+          <p class='fontstyle'>Sex:<br>
+          <select name='SEX' class='formstyle'><option value='F'>Female</option><option value='M'>Male</option></select></p>
+
+          <input type=submit name='action' value='Create Account' class='submitstyle'>
+
+        </td>
+        </form>
+
+      </tr>
+    </table>
+
+  </body>
+</html>

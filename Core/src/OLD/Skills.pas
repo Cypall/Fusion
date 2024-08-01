@@ -36,8 +36,16 @@ v0.1 2004/05/31
 interface
 
 uses
-	{Delphi VCL Units}
-	Windows, Classes,
+	{Windows Delphi VCL Units}
+    {$IFDEF MSWINDOWS}
+	Windows,
+    {$ENDIF}
+    {Kylix/Delphi CLX}
+    {$IFDEF LINUX}
+    Types, Qt,
+    {$ENDIF}
+    {Shared}
+    Classes,
 	{Fusion Units}
 	Common, Skill_Constants, Player_Skills, Globals,
 	{3rd Party Units}
@@ -1738,7 +1746,11 @@ Begin
 				{Crusader Skills Player vs Monster begin}
 				250:    {Shield Charge}
 					begin
-						if (tc.Shield > 0) then begin
+						if (tc.Shield = 0) then begin
+                            SendSkillError(tc,6);
+                            tc.MMode := 4;
+                            exit;
+                        end else begin
 							{If Wearing Shield}
 							xy.X := ts.Point.X - Point.X;
 							xy.Y := ts.Point.Y - Point.Y;
@@ -1804,7 +1816,14 @@ Begin
 					end;
 				251:    {Shield Boomerang}
 					begin
-						if (tc.Shield <> 0) then begin
+						if (tc.Shield = 0) then begin
+                            SendSkillError(tc,6);
+							tc.MMode := 4;
+							tc.MPoint.X := 0;
+							tc.MPoint.Y := 0;
+							sl.Free;
+                            exit;
+                        end else begin
 							frmMain.DamageCalc1(tm, tc, ts, Tick, 0, tl.Data1[MUseLV], tl.Element, tl.Data1[MUseLV]);
 							if dmg[0] < 0 then
 								dmg[0] := 0;
@@ -1812,12 +1831,6 @@ Begin
 							if not frmMain.DamageProcess1(tm, tc, ts, dmg[0], Tick) then
 								frmMain.StatCalc1(tc, ts, Tick);
 							tc.MTick := Tick + 1000;
-						end else begin
-							tc.MMode := 4;
-							tc.MPoint.X := 0;
-							tc.MPoint.Y := 0;
-							sl.Free;
-							Exit;//safe 2004/04/26
 						end;
 					end;
 
@@ -1849,6 +1862,7 @@ Begin
 						for j1 := (xy.Y - tl.Range2) div 8 to (xy.Y + tl.Range2) div 8 do begin
 							for i1 := (xy.X - tl.Range2) div 8 to (xy.X + tl.Range2) div 8 do begin
 								for k1 := 0 to tm.Block[i1][j1].Mob.Count - 1 do begin
+                                    k := tm.Block[i1][j1].Mob.Count + 1;
 									if ((tm.Block[i1][j1].Mob.Objects[k1] is TMob) = false) then
 										Continue;
 									ts1 := tm.Block[i1][j1].Mob.Objects[k1] as TMob;
@@ -1861,12 +1875,17 @@ Begin
 								end;//for k1
 							end;//for i1
 						end;//for j1
+                        if (k1 = 0) then begin
+                        SendSkillError(tc,0);
+                        tc.MMode := 4;
+                        exit;
+                        end else begin
 						if sl.Count > 0 then begin
 							for k1 := 0 to sl.Count - 1 do begin
 								ts1 := sl.Objects[k1] as TMob;
 								frmMain.DamageCalc1(tm, tc, ts1, Tick, 0, tl.Data1[MUseLV], tl.Element, tl.Data2[MUseLV]);
 								//dmg[0] := dmg[0];
-								dmg[0] := (MATK2 - MATK1 + 20) * 35 + ATTPOWER + dmg[0];
+								dmg[0] := ((MATK2 - MATK1 + 20) * 35 + ATTPOWER + dmg[0]) div (k - 1);
 								j := 3;
 								if DamageProcessed = false then begin
 									DamageProcessed := true;
@@ -1944,15 +1963,22 @@ Begin
 									frmMain.StatCalc1(tc, ts1, Tick); {追加}
 							end;
 						end;
+                        end;
 					end;
 
 			// CODE-ERROR - Darkhelmet, Defender should be used on a players self only,
 			// therefore it has no use being against a monster
 			257:    {Defender}
 				begin
-					tc1 := tc;
-					ProcessType := 3;
-				end;
+                    if (tc.Shield = 0) then begin
+                        SendSkillError(tc,6);
+                        tc.MMode := 4;
+                        exit;
+                    end else begin
+					    tc1 := tc;
+					    ProcessType := 3;
+				    end;
+                end;
 
 			{Crusader Skills Player vs Monster end}
       {Sage Skills Player vs Monster begin}
@@ -1986,18 +2012,19 @@ Begin
 					end;
       365:   //Magic Crusher
 				begin
-					//Magic Attack Calculation
-					dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100;
-					dmg[0] := dmg[0] * (100 - ts.Data.DEF) div 100;
-					dmg[0] := dmg[0] - ts.Data.Param[2];
-					if dmg[0] < 1 then
-						dmg[0] := 1;
-					dmg[0] := dmg[0] * 1;
-					dmg[0] := dmg[0] * tl.Data2[MUseLV];
-					if dmg[0] < 0 then
-						dmg[0] := 0;
-
-					if (ts.EffectTick[0] > Tick) then dmg[0] := dmg[0] * 2;
+                    try
+    					dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100;
+	    				dmg[0] := dmg[0] * (100 - ts.Data.DEF) div 100;
+		    			dmg[0] := dmg[0] - ts.Data.Param[2];
+			    		if dmg[0] < 1 then dmg[0] := 1;
+					    dmg[0] := dmg[0] * 1;
+    					dmg[0] := dmg[0] * tl.Data2[MUseLV];
+	    				if dmg[0] < 0 then dmg[0] := 0;
+    					if (ts.EffectTick[0] > Tick) then dmg[0] := dmg[0] * 2;
+                    except
+                        on EIntOverflow do
+                            dmg[0] := 2147483647;
+                    end;
 
 					SendCSkillAtk1(tm, tc, ts, Tick, dmg[0], tl.Data2[MUseLV]);
 					frmMain.DamageProcess1(tm, tc, ts, dmg[0], Tick);
@@ -2433,11 +2460,8 @@ Begin
 					end;
 				end;
 
-				11,13,14,19,20,90,156:
-				{11  : Napalm Beat
-				.13  : Soul Strike
-				.14  : Cold Bolt
-				.19  : Fire Bolt
+				19,20,90,156:
+				{19  : Fire Bolt
 				.20  : Lightning Bolt
 				.90  : Earth Spike
 				.156 : Holy Light }
@@ -2459,9 +2483,8 @@ Begin
 						SendCSkillAtk1(tm, tc, ts, Tick, dmg[0], tl.Data2[MUseLV]);
 						frmMain.DamageProcess1(tm, tc, ts, dmg[0], Tick);
 						case MSkill of
-						11,90:     tc.MTick := Tick + 1000;
-						13:        tc.MTick := Tick +  800 + 400 * ((MUseLV + 1) div 2) - 300 * (MUseLV div 10);
-						14,19,20 : tc.MTick := Tick +  800 + 200 * MUseLV;
+						90:     tc.MTick := Tick + 1000;
+						19,20 : tc.MTick := Tick +  800 + 200 * MUseLV;
 						else       tc.MTick := Tick + 1000;
 						end;
 					end;
@@ -2699,12 +2722,14 @@ Begin
 						end;
 					end;
 				//New skills ---- Crusader
-				249: //Auto Gaurd
+				249: //Auto Guard
 					begin
-						if Shield <> 0 then begin;
+						if Shield <> 0 then begin
 							ProcessType := 3;
 							tc.MTick := Tick + 1000;
 						end else begin
+                            SendSkillError(tc,6);
+                            tc.MMode := 4;
 							Exit;
 						end;
 					end;
@@ -2714,6 +2739,8 @@ Begin
 							ProcessType := 3;
 							MTick := Tick + 100;
 						end else begin
+                            SendSkillError(tc,6);
+                            tc.MMode := 4;
 							Exit;
 						end;
 					end;
@@ -2738,8 +2765,14 @@ Begin
 					end;
 				257: //Defender
 					begin
-						tc1 := tc;
-						ProcessType := 3;
+                        if (tc.Shield = 0) then begin
+                           SendSkillError(tc,6);
+                           tc.MMode := 4;
+                           exit;
+                        end else begin
+					       tc1 := tc;
+					       ProcessType := 3;
+				        end;
 					end;
 
 				//Monk Skills
@@ -3359,6 +3392,7 @@ Begin
 							//Socket.SendBuf(buf[0], 8);
 							ProcessType := 3;
 						end else begin
+                            SendSkillError(tc,6);
 							MMode := 4;
 							Exit;
 						end;
@@ -3557,6 +3591,7 @@ Begin
 			end;
 			tc.MTick := Tick + 1600;
 							end else begin
+                            SendSkillError(tc,0);
 							tc.MMode := 4;
 							tc.MPoint.X := 0;
 							tc.MPoint.Y := 0;
@@ -3751,7 +3786,7 @@ Begin
 					end;
 				143: //死んだフリ
 					begin
-	    tc1 := tc;
+                        tc1 := tc;
 						ProcessType := 1;
 					end;
 	147:
@@ -4026,7 +4061,12 @@ Begin
 
 				250:    //Shield Charge
 					begin
-						if (tc.Shield <> 0) then begin // 20040324,Eliot: It should check if You have a shield.
+						if (tc.Shield = 0) then begin
+                            SendSkillError(tc,6);
+                            tc.MMode := 4;
+                            exit;
+                        end else begin
+						{if (tc.Shield <> 0) then begin // 20040324,Eliot: It should check if You have a shield.}
 						xy.X := tc1.Point.X - Point.X;
 						xy.Y := tc1.Point.Y - Point.Y;
 						{if abs(xy.X) > abs(xy.Y) * 3 then begin
@@ -4107,8 +4147,14 @@ Begin
 				end;
 			257: //Defender
 				begin
-					tc1 := tc;
-					ProcessType := 3;
+                    if (tc.Shield = 0) then begin
+                        SendSkillError(tc,6);
+                        tc.MMode := 4;
+                        exit;
+                    end else begin
+					    tc1 := tc;
+					    ProcessType := 3;
+				    end;
 				end;
 			{258: //Spear Quicken
 				begin
@@ -4726,25 +4772,29 @@ Begin
 							frmMain.StatCalc2(tc, tc1, Tick);
 					end;
 
-			11,13,14,19,20,90,156: //BOLT,NB,SS,ES,HL
+			13,14,19,20,90,156: //BOLT,NB,SS,ES,HL
 					begin
-						//ダメージ算出
-						dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100;
-						dmg[0] := dmg[0] * (100 - tc1.MDEF1) div 100; //MDEF%
-						dmg[0] := dmg[0] - tc1.Param[3]; //MDEF-
-						if dmg[0] < 1 then dmg[0] := 1;
-						dmg[0] := dmg[0] * ElementTable[tl.Element][tc1.ArmorElement] div 100;
-						// Colus, 20040130: Add effect of garment cards
-						dmg[0] := dmg[0] * (100 - tc1.DamageFixE[1][tl.Element]) div 100;
-						dmg[0] := dmg[0] * tl.Data2[MUseLV];
-						if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
+                        try
+    						dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100;
+	    					dmg[0] := dmg[0] * (100 - tc1.MDEF1) div 100; //MDEF%
+		    				dmg[0] := dmg[0] - tc1.Param[3]; //MDEF-
+			    			if dmg[0] < 1 then dmg[0] := 1;
+				    		dmg[0] := dmg[0] * ElementTable[tl.Element][tc1.ArmorElement] div 100;
+					    	// Colus, 20040130: Add effect of garment cards
+    						dmg[0] := dmg[0] * (100 - tc1.DamageFixE[1][tl.Element]) div 100;
+	    					dmg[0] := dmg[0] * tl.Data2[MUseLV];
+		    				if dmg[0] < 0 then dmg[0] := 0; //魔法攻撃での回復は未実装
+                        except
+                            on EIntOverflow do
+                                dmg[0] := 2147483647;
+                        end;
 
 						if (tc1.Skill[78].Tick > Tick) then dmg[0] := dmg[0] * 2;
 						//パケ送信
 						SendCSkillAtk2(tm, tc, tc1, Tick, dmg[0], tl.Data2[MUseLV]);
 						frmMain.DamageProcess2(tm, tc, tc1, dmg[0], Tick);
 						case MSkill of
-							11,90:     tc.MTick := Tick + 1000;
+							90:     tc.MTick := Tick + 1000;
 							13:        tc.MTick := Tick +  800 + 400 * ((MUseLV + 1) div 2) - 300 * (MUseLV div 10);
 							14,19,20 : tc.MTick := Tick +  800 + 200 * MUseLV;
 							else       tc.MTick := Tick + 1000;
@@ -4858,9 +4908,11 @@ Begin
 					end;
 
 
-			365:   //Magic Crusher PVP by Eliot
-				begin
-					dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100; // Calculate Attack Power - Eliot
+			//365:   //Magic Crusher PVP by Eliot
+			//	begin
+                // CRASH July 26, 2004 - Darkhelmet, integer overflow on line 2
+                // Who told you to set your xp rate so high XD - Alex
+					{dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100; // Calculate Attack Power - Eliot
 					dmg[0] := dmg[0] * (100 - tc1.MDEF1) div 100 - tc1.MDEF2; // Calculate Magic Defense - Eliot & added INT defence - KyuubiKitsune
 					dmg[0] := dmg[0] - tc1.Param[3];
 					if dmg[0] < 1 then          // Check for negative damage
@@ -4871,8 +4923,8 @@ Begin
 						dmg[0] := 0;
 					SendCSkillAtk2(tm, tc, tc1, Tick, dmg[0], tl.Data2[MUseLV]);
 					frmMain.DamageProcess2(tm, tc, tc1, dmg[0], Tick);
-					tc.MTick := Tick + 1000;
-				end;
+					tc.MTick := Tick + 1000;}
+			//	end;
 			47:
 				begin
 					if (Arrow = 0) or (Item[Arrow].Amount < 9) then begin
@@ -5980,7 +6032,7 @@ Begin
 
 					// Play Dead
 					if (tc1.MSkill = 143) then begin
-						if tc1.Sit = 1 then begin
+						{if tc1.Sit = 1 then begin
 							//set SkillOnBool for icon update //beita 20040206
 							//tc1.setSkillOnBool(False);
 							tc1.Sit := 3;
@@ -5993,9 +6045,9 @@ Begin
 							CalcStat(tc1, Tick);
 						end else begin
 							//set SkillOnBool for icon update //beita 20040206
-							//tc1.setSkillOnBool(True);
+							//tc1.setSkillOnBool(True);}
 							tc1.Sit := 1;
-						end;
+						//end;
 					end;
 
 					if (tl.Icon <> 0) then begin

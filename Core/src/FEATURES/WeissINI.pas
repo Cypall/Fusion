@@ -3,7 +3,14 @@ unit WeissINI;
 interface
 
 uses
-	Common, IniFiles, SysUtils, WinSock;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+    WinSock,
+    {$ENDIF}
+    {Common}
+    IniFiles, SysUtils,
+    {Fusion}
+	Common;
 
 	procedure weiss_ini_save();
 
@@ -17,12 +24,17 @@ uses
     	ini : TIniFile;
     begin
         ini := TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'));
-        ini.WriteString('Server', 'IP', inet_ntoa(in_addr(ServerIP)));
+        ini.WriteString('Version', 'VER', '1.212 S - R.E.E.D Beta 4 Release');
+        ini.WriteString('Server', 'WAN_IP', WAN_IP);
         ini.WriteString('Server', 'Name', ServerName);
-        ini.WriteString('Server', 'NPCID', IntToStr(DefaultNPCID));
+
+        //This is the start of npc id's. commented out because it's not necessary to mod
+        //ini.WriteString('Server', 'NPCID', IntToStr(DefaultNPCID));
+
         ini.WriteString('Server', 'sv1port', IntToStr(sv1port));
         ini.WriteString('Server', 'sv2port', IntToStr(sv2port));
         ini.WriteString('Server', 'sv3port', IntToStr(sv3port));
+        ini.WriteString('Server', 'wacport', IntToStr(wacport));
         ini.WriteString('Server', 'WarpDebug', BoolToStr(WarpDebugFlag, true));
         ini.WriteString('Server', 'BaseExpMultiplier', IntToStr(BaseExpMultiplier));
         ini.WriteString('Server', 'JobExpMultiplier', IntToStr(JobExpMultiplier));
@@ -40,6 +52,7 @@ uses
         ini.WriteString('Server', 'EnablePetSkills', BoolToStr(EnablePetSkills, true));
         ini.WriteString('Server', 'EnableMonsterSkills', BoolToStr(EnableMonsterSkills, true));
         ini.WriteString('Server', 'EnableLowerClassDyes', BoolToStr(EnableLowerClassDyes, true));
+        ini.WriteString('Server', 'DisableAdv2ndDye', BoolToStr(DisableAdv2ndDye, true));
         ini.WriteString('Server', 'DisableSkillLimit', BoolToStr(DisableSkillLimit, true));
         ini.WriteString('Server', 'DefaultZeny', IntToStr(DefaultZeny));
         ini.WriteString('Server', 'DefaultMap', DefaultMap);
@@ -57,14 +70,13 @@ uses
         ini.WriteString('Server', 'Timer', BoolToStr(Timer, true));
         ini.WriteString('Server', 'GlobalGMsg', GlobalGMsg);
         ini.WriteString('Server', 'MapGMsg', MapGMsg);
-        
+
         ini.WriteString('Option', 'Left', IntToStr(FormLeft));
         ini.WriteString('Option', 'Top', IntToStr(FormTop));
         ini.WriteString('Option', 'Width', IntToStr(FormWidth));
         ini.WriteString('Option', 'Height', IntToStr(FormHeight));
         ini.WriteString('Option', 'Priority', IntToStr(Priority));
-        ini.WriteString('Option', 'Priority', IntToStr(Priority));
-        
+
         // Fusion INI Lines
         ini.WriteString('Fusion', 'Option_PVP', BoolToStr(Option_PVP));
         ini.WriteString('Fusion', 'Option_PVP_Steal', BoolToStr(Option_PVP_Steal));
@@ -73,6 +85,7 @@ uses
         ini.WriteString('Fusion', 'Option_MaxUsers', IntToStr(Option_MaxUsers));
         ini.WriteString('Fusion', 'Option_AutoSave', IntToStr(Option_AutoSave));
         ini.WriteString('Fusion', 'Option_AutoBackup', IntToStr(Option_AutoBackup));
+        ini.WriteString('Fusion', 'Option_DNS_Update', IntToStr(Option_DNS_Update));
         ini.WriteString('Fusion', 'Option_WelcomeMsg', BoolToStr(Option_WelcomeMsg));
         ini.WriteString('Fusion', 'Option_MOTD', BoolToStr(Option_MOTD));
         ini.WriteString('Fusion', 'Option_MOTD_Athena', BoolToStr(Option_MOTD_Athena));
@@ -85,8 +98,16 @@ uses
         ini.WriteString('Fusion', 'Option_Font_Face', Option_Font_Face);
         ini.WriteString('Fusion', 'Option_Font_Style', Option_Font_Style);
         ini.WriteString('Fusion', 'Option_Pet_Capture_Rate', InttoStr(Option_Pet_Capture_Rate));
+        ini.WriteString('Fusion', 'Option_Mob_Spawn_Rate', InttoStr(Option_Mob_Spawn_Rate));
+        ini.WriteString('Fusion', 'Option_Minimize_Tray', BoolToStr(Option_Minimize_Tray));
+        ini.WriteString('Fusion', 'Option_Enable_WAC', BoolToStr(Option_Enable_WAC));
+        ini.WriteString('Fusion', 'Option_Enable_ISCS', BoolToStr(Option_Enable_ISCS));
+        ini.WriteString('Fusion', 'Option_Use_UPnP', BoolToStr(Option_Use_UPnP));
+        ini.WriteString('Fusion', 'Option_Packet_Out', BoolToStr(Option_Packet_Out));
+        ini.WriteString('Fusion', 'Option_FireWall_Cap', IntToStr(Option_FireWall_Cap));
+        ini.WriteString('Fusion', 'Option_IceWall_Cap', IntToStr(Option_IceWall_Cap));
         // Fusion INI Lines
-        
+
         // MySQL Server Lines
         ini.WriteString('MySQL Server', 'Option_MySQL', BoolToStr(UseSQL));
         ini.WriteString('MySQL Server', 'MySQL_Address', DbHost);
@@ -94,15 +115,16 @@ uses
         ini.WriteString('MySQL Server', 'MySQL_Password', DbPass);
         ini.WriteString('MySQL Server', 'MySQL_Database', DbName);
         // MySQL Server Lines
-        
+
         {ChrstphrR 2004/05/09 - Debug section added to INI file
         Controls options that allow/supress when errors occur - these features
         will be useful to Devs in Core/DB/Scripts, and people modifying both
         Database and Script files for testing.}
         ini.WriteString('Debug', 'ShowDebugErrors', BoolToStr(ShowDebugErrors));
-        
+
+        //ini.WriteString('Toys', 'MapUnloadTime', IntToStr(MapUnloadTime));
+
         ini.Free;
     end;
 
 end.
- 

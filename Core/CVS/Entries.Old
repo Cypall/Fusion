@@ -1,12 +1,14 @@
+/Changelog.txt/1.1037/Thu Oct 20 03:10:48 2005//
+/MySQL.sql/1.6/Sat Mar  6 12:00:46 2004//
+/UnzDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/
+/Upcoming MySQL Changes.sql/1.1/Wed Feb 25 14:31:51 2004//
+/ZipDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/
+/client_packet_en.txt/1.16/Wed Dec 15 03:17:42 2004/-kb/
+/dbexpmysql.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/
+/ics.rar/1.1/Sun Aug  1 17:50:53 2004/-kb/
+/libmySQL.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/
+/packet_db.txt/1.1/Fri Feb 18 20:29:52 2005//
 D/WAC////
 D/directMySQL////
 D/obj////
 D/src////
-/Changelog.txt/1.637/Mon May 29 11:57:52 2006//TFUSION_1212
-/MySQL.sql/1.6/Sat Mar  6 12:00:46 2004//TFUSION_1212
-/UnzDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212
-/Upcoming MySQL Changes.sql/1.1/Wed Feb 25 14:31:51 2004//TFUSION_1212
-/ZipDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212
-/client_packet_en.txt/1.14/Mon May 29 11:57:52 2006/-kb/TFUSION_1212
-/dbexpmysql.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212
-/libmySQL.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212

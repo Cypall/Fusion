@@ -3,7 +3,18 @@ unit FusionSQL;
 interface
 
 uses
-	Windows, MMSystem, Forms, Classes, SysUtils, IniFiles, Common, DBXpress, DB, SqlExpr, StrUtils;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+	Windows, MMSystem, Forms,  //Tsusai: are Windows, MMSystem, and Forms even used?
+    {$ENDIF}
+    {Klyix/Delphi CLX}
+    {$IFDEF LINUX}
+    Qt, QForms,
+    {$ENDIF}
+    {Shared}
+    Classes, SysUtils, IniFiles, DBXpress, DB, SqlExpr, //Types,
+    {Fusion}
+    Common;
 
 	function MySQL_Query(sqlcmd: String) : Boolean;
 	function Assign_AccountID() : cardinal;
@@ -131,7 +142,7 @@ begin
                         tp.Pass := SQLDataSet.FieldValues['passwd'];
                         tp.Gender := SQLDataSet.FieldValues['Gender'];
                         tp.Mail := SQLDataSet.FieldValues['Mail'];
-                        tp.Banned := StrToInt(SQLDataSet.FieldValues['Banned']);
+                        tp.Banned := StrToBool(SQLDataSet.FieldValues['Banned']);
                         tp.ver2 := 9;
                         if (SQLDataSet.FieldValues['storeitem'] <> '') then begin
                                 with SQLDataSet do begin

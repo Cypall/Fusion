@@ -3,7 +3,18 @@ unit MonsterAI;
 interface
 
 uses
-	Windows, StdCtrls, MMSystem, Classes, SysUtils, ScktComp, List32, Common, Path;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+    ScktComp, MMSystem, //StdCtrls,
+    {$ENDIF}
+    {Kylix/Delphi}
+//    {$IFDEF LINUX}
+//    QStdCtrls,  {Tsusai: Are the StdCtrls even being used to begin with?}
+//    {$ENDIF}
+    {Shared}
+    Classes, SysUtils, Types,
+    {Fusion}
+    List32, Common, Path;
 
         procedure CalcAI(tm:TMap; ts:TMob; Tick:Cardinal);
         procedure MobSpawn(tm:TMap; ts:TMob; Tick:cardinal);
@@ -25,15 +36,24 @@ uses
         procedure PetDamageProcess(tm:TMap; ts:TMob; tc:TChara; Dmg:integer; Tick:cardinal; isBreak:Boolean = True);
         procedure SendPetSkillAttack(tm:TMap; tc:TChara; ts:TMob; Tick:cardinal; SkillID:integer);
 
+        procedure MonsterAttacksMonster(tm:TMap; ts:TMob; ts1:TMob; Dmg:integer; Hits:integer; Tick:cardinal);
         function DamageProcess2(tm:TMap; tc:TChara; tc1:TChara; Dmg:integer; Tick:cardinal; isBreak:Boolean = True) : Boolean;  {Player Attacking Player}
         function DamageProcess3(tm:TMap; ts:TMob; tc1:TChara; Dmg:integer; Tick:cardinal; isBreak:Boolean = True) : Boolean;  {Monster Attacking Player}
 
+        {Mercenary Procedures}
+        function CreateMercenary(tm : TMap; mercName : PChar; tc: TChara; tMerc : TMob; customName : String = '') : TMob;
+        procedure MercenaryAI(tc : TChara; tMerc : TMob; tm : TMap; Tick : Cardinal);
+        procedure MercPickup(tm : TMap; tMerc : TMob; tc : TChara; Tick : Cardinal);
+        function  MercDamageCalc(tm : TMap; tMerc:TMob; ts:TMob; Tick:cardinal) : integer;
+        procedure MercAttack(tm : TMap; tMerc : TMob; Tick : Cardinal; tc : TChara);
 var
 
 dmg           :array[0..7] of integer;
 
 
 implementation
+
+uses Main;
 
 
 (*-----------------------------------------------------------------------------*
@@ -596,19 +616,6 @@ something in it}
                         SendMSkillAttack(tm, tc, ts, Tick, 3);
                 end;
 
-                173:    {Self Destruction}
-                begin
-                        dmg[0] := ts.HP;
-                        if dmg[0] < 0 then dmg[0] := 0;
-                        SendMSkillAttack(tm, tc, ts, Tick, 1);
-                        ts.HP := 0;
-                        WFIFOW( 0, $0080);
-	                WFIFOL( 2, ts.ID);
-	                WFIFOB( 6, 1);
-	                SendBCmd(tm, ts.Point, 7);
-                        
-                end;
-
                 175:    {Suicide Attack}
                 begin
                         dmg[0] := ts.HP;
@@ -850,7 +857,8 @@ procedure MobStatSkills(tm:TMap; ts:TMob; Tick:cardinal);
 
 var
     ProcessType     :Byte;
-    j,i1,j1 :integer;
+    tc  :   TChara;
+    j,i1,j1,k1 :integer;
     //mi  :MapTbl;
     xy  :TPoint;
 begin
@@ -970,6 +978,32 @@ with ts do begin
                 end;
                 //if ProcessType = 0 then DebugOut.Lines.Add('Monster is too far from a wall');
             end;
+          173:    {Self Destruction}
+            begin
+                xy.X := ts.Point.X;
+                xy.Y := ts.Point.Y;
+                //Lets find our characters in range first of all
+                // I'll use a range of 4 for now
+                 for j1 := (xy.Y - 4) div 8 to (xy.Y + 4) div 8 do begin
+                    for i1 := (xy.X - 4) div 8 to (xy.X + 4) div 8 do begin
+                        for k1 := 0 to tm.Block[i1][j1].CList.Count - 1 do begin
+                            tc := tm.Block[i1][j1].CList.Objects[k1] as TChara;
+                            if tc <> nil then begin
+                                dmg[0] := ts.HP;
+                                if dmg[0] < 0 then dmg[0] := 0;
+                                SendMSkillAttack(tm, tc, ts, Tick, 1);
+                                ts.HP := 0;
+                            end;
+                        end;
+                    end;
+                 end;
+                            frmMain.MonsterDie(tm, tc, ts, Tick);
+                        {WFIFOW( 0, $0080);
+	                WFIFOL( 2, ts.ID);
+	                WFIFOB( 6, 1);
+	                SendBCmd(tm, ts.Point, 7);}
+                        
+                end;
           196:  {Summon Slave}
             begin
               // (ts.isLeader) and ( (MonsterMob) or ((ts.isSummon) and (SummonMonsterMob)) )then begin
@@ -1604,7 +1638,7 @@ begin
   sl.Clear;
   sl.Delimiter := ',';
   sl.DelimitedText := ts.Data.SkillLocations;
-  i :=  ts.Data.SkillCount;
+  i := sl.Count;
   if ts.Data.Loaded = false then LoadMonsterAIData(tm, ts, Tick);
   while (i > 0) and (EnableMonsterSkills) do begin
     i := i - 1;
@@ -1717,7 +1751,7 @@ begin
         //if j < tc.Skill[ts.MSKill].Data.CastTime3  then j := tc.Skill[ts.MSKill].Data.CastTime3;
         j := ts.CastTime;
         ts.MTick := Tick + cardinal(j);
-
+        if ts.MSkill = 173 then ts.MTick := Tick + 3000;  //3 Seconds for self destruct
         if (j > 0) then begin
           if ts.SkillType = 1 then begin // Skill is a target skill, we'll follow the target
                 //Send Packets
@@ -1939,7 +1973,93 @@ begin
 	sl.Free;
 end;//proc PetAttackSkill()
 
+{
+  ts is attacking monster
+  ts1 is montser being attacked
+}
+procedure MonsterAttacksMonster(tm:TMap; ts:TMob; ts1:TMob; Dmg:integer; Hits:integer; Tick:cardinal);
+var
+	{Random Variables}
+	i  : Integer;
+	j  : Integer;
+	w  : Cardinal;
+	xy : TPoint;
+    tc : TChara;
+	//tg : TGuild;
+begin
 
+	//Cancel Monster Casting
+	if (ts1.Mode = 3) AND NOT ts1.NoDispel then begin
+		ts1.Mode := 0;
+		ts1.MPoint.X := 0;
+		ts1.MPoint.Y := 0;
+		WFIFOW(0, $01b9);
+		WFIFOL(2, ts1.ID);
+		SendBCmd(tm, ts1.Point, 6);
+	end;
+	//if ts.CanFindTarget then ts.Status := 'BESERK_ST';
+	//CalculateSkillIf(tm, ts, Tick);
+	// Reset Lex Aeterna
+	if (ts.EffectTick[0] > Tick) then begin
+		// Dmg := Dmg * 2;  // Done in the DamageCalc functions
+		ts.EffectTick[0] := 0;
+	end;
+
+    {Send Damage Packet}
+    WFIFOW( 0, $008a);
+    WFIFOL( 2, ts.ID);
+    WFIFOL( 6, ts1.ID);
+    WFIFOL(10, Tick);
+    WFIFOL(14, ts.Data.aMotion);
+    WFIFOL(18, ts1.Data.dMotion);
+    WFIFOW(22, Dmg); //Right Hand Damage
+    WFIFOW(24, Hits); //Number of Hits that make up total damage
+    WFIFOB(26, 8); //Attack Values: 0= Single 8= Multiple 10= Critical
+    WFIFOW(27, 0); //Left Hand Damage
+    SendBCmd(tm, ts.Point, 29);
+
+
+	if ts.HP < Dmg then Dmg := ts.HP;
+
+	if Dmg = 0 then begin
+		Exit;//result is defined.
+	end;
+
+	UpdateMonsterLocation(tm, ts);
+
+	ts1.HP := ts1.HP - Dmg;
+
+	if (ts1.HP > 0) then begin
+		//Monster is hit
+		if (EnableMonsterKnockBack) then begin
+			ts1.pcnt := 0;
+			if ts1.ATarget = 0 then begin
+				w := Tick + ts1.Data.dMotion + ts.Data.aMotion;
+				ts1.ATick := Tick + ts1.Data.dMotion + ts.Data.aMotion;
+			end else begin
+				w := Tick + ts1.Data.dMotion div 2;
+			end;
+			if w > ts1.DmgTick then ts1.DmgTick := w;
+		end else begin
+			if ts1.ATarget = 0 then ts1.ATick := Tick;
+			if ts1.ATarget <> ts.ID then
+				ts1.pcnt := 0
+			else if (ts1.pcnt <> 0)  then begin
+				//DebugOut.Lines.Add('Monster Knockback!');
+				//SendMMove(tc.Socket, ts1, ts1.Point, ts1.tgtPoint,0);
+				SendBCmd(tm, ts1.Point, 58);
+			end;
+			ts1.DmgTick := 0;
+		end;
+	end else begin
+		//Kill Monster
+        tc := nil;
+		frmMain.MonsterDie(tm, tc, ts1, Tick);
+		//Result := True;//Only condition where Result is true.
+	end;
+end;
+
+//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 function DamageProcess2(tm:TMap; tc:TChara; tc1:TChara; Dmg:integer; Tick:cardinal; isBreak:Boolean = True) : Boolean;  {Monster Attacking Player}
@@ -2271,6 +2391,430 @@ begin
 	SendBCmd(tm, ts.Point, 33);
 end;
 //------------------------------------------------------------------------------
+function CreateMercenary(tm : TMap; mercName : PChar; tc: TChara; tMerc : TMob; customName : String = '') : TMob;
+var
+    j,m,k : integer;
+    tMercenary : TMercenaries;
+begin
+    tMerc := tMob.Create;
+  if MobDBName.IndexOf(mercName) <> -1 then begin
+    tMerc.Data := MobDBName.Objects[MobDBName.IndexOf(mercName)] as TMobDB;
+
+    tMerc.ID := NowMobID;
+    Inc(NowMobID);
+    tMerc.Name := tMerc.Data.Name;
+    if customName <> '' then tMerc.MercName := customName;
+    if MercenariesList.IndexOf(mercName) <> -1 then begin
+        tMercenary := MercenariesList.Objects[MercenariesList.IndexOf(mercName)] as TMercenaries;
+        tMerc.JID := tMercenary.SpriteID;
+    end else tMerc.JID := tMerc.Data.ID;
+    //tMerc.JID := tMerc.Data.ID;
+    tMerc.Map := tc.Map;
+    tMerc.Data.isLink :=false;
+
+    tMerc.Point.X := tc.Point.X + Random(4) + 1;
+    tMerc.Point.Y := tc.Point.Y + Random(4) + 1;
+
+    tMerc.Dir := Random(8);
+    tMerc.HP := tMerc.Data.HP;
+    tMerc.Speed := tMerc.Data.Speed;
+
+    tMerc.SpawnDelay1 := $7FFFFFFF;;
+    tMerc.SpawnDelay2 := 0;
+
+    tMerc.SpawnType := 0;
+    tMerc.SpawnTick := 0;
+
+    tMerc.ATarget := 0;
+    tMerc.ATKPer := 100;
+    tMerc.DEFPer := 100;
+    tMerc.DmgTick := 0;
+
+    tMerc.Element := tMerc.Data.Element;
+
+    tMerc.Data.MEXP := 0;
+    tMerc.Data.EXP := 0;
+    tMerc.Data.JEXP := 0;
+
+    tMerc.isLooting := False;
+    for j:= 1 to 10 do begin
+        tMerc.Item[j].ID := 0;
+        tMerc.Item[j].Amount := 0;
+        tMerc.Item[j].Equip := 0;
+        tMerc.Item[j].Identify := 0;
+        tMerc.Item[j].Refine := 0;
+        tMerc.Item[j].Attr := 0;
+        tMerc.Item[j].Card[0] := 0;
+        tMerc.Item[j].Card[1] := 0;
+        tMerc.Item[j].Card[2] := 0;
+        tMerc.Item[j].Card[3] := 0;
+    end;
+    if tMerc.Data.isDontMove then
+        tMerc.MoveWait := 4294967295
+    else
+        tMerc.MoveWait := TimeGetTime() + 5000 + Cardinal(Random(10000));
+    tMerc.MercID := tMerc.ID;
+    tMerc.OwnerID := tc.ID;
+    tMerc.OwnerName := PChar(tc.Name);
+
+    tc.mercenaryID := tMerc.ID;
+    tc.mercenaryIDName := tMerc.Name;
+    tc.mercenaryHP := tMerc.HP;
+    //tc.merc
+
+    {WFIFOW( 0, $0106);
+    WFIFOL( 2, tMerc.ID);
+    WFIFOW( 6, tMerc.HP);
+    WFIFOW( 8, tMerc.Data.HP);
+    SendBCmd(tm, tMerc.Point, 10, tc);}
+
+    tm.Mob.AddObject(tMerc.ID, tMerc);
+    tm.Block[tMerc.Point.X div 8][tMerc.Point.Y div 8].Mob.AddObject(tMerc.ID, tMerc);
+
+    for j := tMerc.Point.Y div 8 - 2 to tMerc.Point.Y div 8 + 2 do begin
+        for m := tMerc.Point.X div 8 - 2 to tMerc.Point.X div 8 + 2 do begin
+
+            for k := 0 to tm.Block[m][j].CList.Count - 1 do begin
+                tc := tm.Block[m][j].CList.Objects[k] as TChara;
+                if tc = nil then continue;
+                if (abs(tMerc.Point.X - tc.Point.X) < 16) and (abs(tMerc.Point.Y - tc.Point.Y) < 16) then begin
+                    SendMData(tc.Socket, tMerc);
+                    SendBCmd(tm,tMerc.Point,41,tc,False);
+                end;
+            end;
+        end;
+    end;
+    Result := tMerc;
+  end;
+end;
+
+//------------------------------------------------------------------------------
+
+procedure MercenaryAI(tc : TChara; tMerc : TMob; tm : TMap; Tick : Cardinal);
+var
+    i1,j1,k1:   Integer;
+    tMercenary :TMercenaries;
+    j,k,l,c :   Integer;
+    xy      :   TPoint;
+    spd     :   Cardinal;
+    tn      :   TNPC;
+    mercName:   String;
+    sl      :   TStringList;
+begin
+    sl := TStringList.Create;
+    if (tc.ATarget <> 0) and (tc.ATarget <> tMerc.ID) then begin
+        tMerc.ATarget := tc.ATarget;
+        tMerc.AData := tc.AData;
+    end;
+
+    with tc do begin
+        //DebugOut.Lines.Add('Calculating Mercenary AI');
+        if (tMerc.isLooting = false) and (tMerc.ATarget = 0) then begin
+            k := 18;
+            j := 0;
+
+            k := Path_Finding(tMerc.path, tm, tMerc.Point.X, tMerc.Point.Y, tc.Point.X, tc.Point.Y, 1);
+            if k < 4 then exit;
+
+            k := 18;
+
+            repeat
+                if j >= 100 then begin
+                    xy := Point;
+                    break;
+                end;
+
+                xy.X := Point.X + Random(4) - 2;
+                xy.Y := Point.Y + Random(4) - 2;
+                Inc(j);
+            until ( xy.X <> tc.Point.X ) or ( xy.Y <> tc.Point.Y );
+
+            if ( (Path_Finding(tMerc.path, tm, tMerc.Point.X, tMerc.Point.Y, xy.X, xy.Y, 1) <> 0) ) then begin
+                k := Path_Finding(tMerc.path, tm, tMerc.Point.X, tMerc.Point.Y, xy.X, xy.Y, 1);
+            end;
+            //k := Path_Finding(tMerc.path, tm, tMerc.Point.X, tMerc.Point.Y, Point.X, Point.Y, 1);
+
+            if (k > 3) and (k < 15) then begin
+
+                tMerc.tgtPoint := xy;
+
+                //if tMerc.pcnt = 0 then MoveTick := Tick;
+                tMerc.pcnt := k;
+                tMerc.ppos := 0;
+                //tMerc.MoveWait := Tick + 5000 + Cardinal(Random(5000));
+                tMerc.MoveTick := Tick;
+                //tMerc.MoveTick := Tick + 1500;
+
+                //if (tMerc.Path[tMerc.ppos] and 1) = 0 then spd := Speed * 2 else spd := 2 * (Speed * 140 div 100);
+                //tMerc.Speed := 500;
+                tMerc.Speed := tc.Speed;
+                //tMerc.Speed := spd;
+                //if tMerc.MoveTick + tMerc.Speed <= Tick then begin
+                //if tMerc.Mode <> 3 then k := k + (frmMain.MobMoving(tm, TMerc, Tick));
+                //end;
+
+                SendMMove( Socket, tMerc, tMerc.Point, xy, tc.ver2);
+
+                SendBCmd( tm, tMerc.Point, 58, tc, True );
+                //UpdateMonsterLocation(tm, tMerc);
+
+                {Find the objects in Range}
+                //Clear the Stringlist
+                sl.Clear;
+
+                if tMerc.Data.isLoot then begin
+                    //Find items in Range
+                    for j1 := Point.Y div 8 - 2 to Point.Y div 8 + 2 do begin
+                        for i1 := Point.X div 8 - 2 to Point.X div 8 + 2 do begin
+                            for k1 := 0 to tm.Block[i1][j1].NPC.Count - 1 do begin
+                                tn := tm.Block[i1][j1].NPC.Objects[k1] as TNPC;
+                                if tn.CType <> 3 then Continue;
+                                if (abs(tn.Point.X - Point.X) <= 9) and (abs(tn.Point.Y - Point.Y) <= 9) then begin
+                                    //Add to the string list
+                                    sl.AddObject(IntToStr(tn.ID), tn);
+                                end;
+                            end;
+                        end;
+                    end;
+                    {Item is found}
+                    if sl.Count <> 0 then begin
+                        j := Random(sl.Count);
+                        tn := sl.Objects[j] as TNPC;
+
+                        { Monster Looting }
+                        k := Path_Finding(path, tm, tMerc.Point.X, tMerc.Point.Y, tn.Point.X, tn.Point.Y, 1);
+                        if (k <> 0) then begin
+                            tMerc.isLooting := True;
+                            tMerc.ATarget := tn.ID;
+                            //ATick := Tick;
+
+                            tMerc.pcnt := k;
+                            tMerc.ppos := 0;
+                            tMerc.MoveTick := Tick;
+                            tMerc.MercMoveTick := Tick;
+
+                            tMerc.tgtPoint := tn.Point;
+                            //frmMain.MobMoving(tm, tMerc, Tick);
+                            SendMMove( tc.Socket, tMerc, tMerc.Point, TMerc.tgtPoint, 9);
+                            SendBCmd( tm, tMerc.Point, 58, tc, True );
+                        end;
+                    end;
+
+                    sl.Free;
+                    Exit;//safe 2004/04/26
+                end;
+
+            //end;
+        // k = 0 case makes pets dupe next to you...
+            end else if (k >= 15) then begin //or (k = 0) then begin
+                UpdateMonsterDead(tm, tMerc, 0);
+                
+                mercName := tMerc.Name;
+
+                //Delete block
+                l := tm.Block[tMerc.Point.X div 8][tMerc.Point.Y div 8].Mob.IndexOf(tMerc.ID);
+                if l <> -1 then begin
+                    tm.Block[tMerc.Point.X div 8][tMerc.Point.Y div 8].Mob.Delete(l);
+                end;
+
+                //Delete from entire Mob list
+                l := tm.Mob.IndexOf( tMerc.ID );
+                if l <> -1 then begin
+                    tm.Mob.Delete(l);
+                end;
+
+                tMerc.Free;
+
+                //tMerc.Create;
+
+                CreateMercenary(tm, PChar(mercName), tc, tMerc);
+
+                SendMonsterRelocation(tm, tMerc);
+        end;
+    end else if (tMerc.isLooting) then with tc do begin //Mercenary has a target item it's searching for
+
+        j := 0;
+        { Alex: Currently Unexplored - Type 1 for safety }
+        k := Path_Finding(tMerc.path, tm, tMerc.Point.X, tMerc.Point.Y, tMerc.tgtPoint.X, tMerc.tgtPoint.Y, 1);
+        if k > 1 then begin
+        //tn.NextPoint := xy;
+            SendMMove( tc.Socket, tMerc, tMerc.Point, TMerc.tgtPoint, 9);
+            SendBCmd( tm, tMerc.Point, 58, tc, True );
+
+            if tMerc.pcnt = 0 then tMerc.MercMoveTick := Tick;
+            tMerc.pcnt := k;
+            tMerc.ppos := 0;
+
+            //tMerc.MercMoveTick := Tick + 1000;
+            //if (tMerc.Path[tMerc.ppos] and 1) = 0 then spd := tc.Speed else spd := Speed * 140 div 100;
+
+            //tMerc.Speed := spd;
+
+            {if tMerc.MoveTick + spd <= Tick then begin
+                frmMain.MobMoving( tm, tMerc, Tick );
+            end;}
+        end else begin
+            MercPickup(tm, tMerc, tc, Tick);
+        end;
+    end else if (tMerc.ATarget <> 0) and (tMerc.AData <> nil) then begin
+        MercAttack(tm, tMerc, Tick, tc);
+    end;
+    tMerc.MercMoveTick := Tick + 800;
+    sl.Destroy;
+  end;
+end;
+
+//==============================================================================
+
+procedure MercPickup(tm : TMap; tMerc : TMob; tc : TChara; Tick : Cardinal);
+var
+	tn  : TNPC;
+	j   : Integer;
+begin
+	with tMerc do begin
+        //Get the item that your mercenary is targeting, make sure its a real item
+		if tm.NPC.IndexOf(tMerc.ATarget) <> -1 then begin
+			tn := tm.NPC.IndexOfObject(tMerc.ATarget) as TNPC; //it's real so lets get its data
+			if (abs(tMerc.Point.X - tn.Point.X) <= 1) and (abs(tMerc.Point.Y - tn.Point.Y) <= 1) then begin  //make sure mercenary is within 1 square of it
+				j := 0;
+
+				//Add to players inventory
+				if tc.MaxWeight >= tc.Weight + tn.Item.Data.Weight * tn.Item.Amount then begin
+					j := SearchCInventory(tc, tn.Item.ID, tn.Item.Data.IEquip);
+					if j <> 0 then begin
+						//アイテム撤去
+						tMerc.ATarget := 0;
+                        tMerc.NextPoint := tc.Point;
+						WFIFOW(0, $00a1);
+						WFIFOL(2, tn.ID);
+						SendBCmd(tm, tn.Point, 6);
+						//アイテム追加
+						tc.Item[j].ID := tn.Item.ID;
+						tc.Item[j].Amount := tc.Item[j].Amount + tn.Item.Amount;
+						tc.Item[j].Equip := 0;
+						tc.Item[j].Identify := tn.Item.Identify;
+						tc.Item[j].Refine := tn.Item.Refine;
+						tc.Item[j].Attr := tn.Item.Attr;
+						tc.Item[j].Card[0] := tn.Item.Card[0];
+						tc.Item[j].Card[1] := tn.Item.Card[1];
+						tc.Item[j].Card[2] := tn.Item.Card[2];
+						tc.Item[j].Card[3] := tn.Item.Card[3];
+						tc.Item[j].Data := tn.Item.Data;
+						//Update Core Weight
+						tc.Weight := tc.Weight + tn.Item.Data.Weight * tn.Item.Amount;
+						SendCStat1(tc, 0, $0018, tc.Weight);
+						//Show Character getting item
+						SendCGetItem(tc, j, tn.Item.Amount);
+					end;
+				end;
+				//Remove the item from screen
+				WFIFOW(0, $00a1);
+				WFIFOL(2, tn.ID);
+				SendBCmd(tm, tMerc.Point, 6);
+				//Remove item from block
+				tm.NPC.Delete(tm.NPC.IndexOf(tn.ID));
+				with tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC do
+					Delete(IndexOf(tn.ID));
+				tn.Free;
+
+			end else begin
+				//Update Monster Location
+                UpdateMonsterLocation(tm, TMerc);
+                tMerc.ATarget := 0;  //The item wasn't there, so we don't target it anymore
+				Exit;
+			end;
+		end;
+
+		//UpdateMonsterLocation(tm, tMerc);
+
+		tMerc.pcnt := 0;
+		//tMerc.MoveTick := Tick + 1000;
+        //tMerc.MercMoveTick := Tick + 1000;
+		tMerc.ATarget := 0;
+		//tpe.ATick := Tick + ts.Data.ADelay;
+		tMerc.isLooting := False;
+	end;
+end;
+
+//==============================================================================
+
+function MercDamageCalc(tm : TMap; tMerc:TMob; ts:TMob; Tick:cardinal) : integer;
+var
+    damage    : integer;
+    damagetmp : integer;
+begin
+    with tMerc.Data do begin
+        {Very basic calculation for now}
+
+        damage := ATK1 + Random(ATK2 - ATK1 + 1);
+
+		damage := (damagetmp * (100 - ts.Data.DEF) div 100) * tMerc.ATKPer div 100;
+
+        damage := damage div ts.Data.DEF;
+		if damage < 0 then damage := 1;
+
+    end;
+    Result := damage;
+end;
+
+//==============================================================================
+
+procedure MercAttack(tm : TMap; tMerc : TMob; Tick : Cardinal; tc : TChara);
+var
+    //tc      :   TChara;
+    damage  :   integer;
+    ts      :   TMob;
+    k       :   Integer;
+    spd     :   Integer;
+begin
+    if tm.Mob.IndexOf(tMerc.ATarget) <> -1 then begin
+      if Chara.IndexOf(tMerc.OwnerID) <> -1 then begin
+        //tc := Chara.IndexOfObject(tMerc.OwnerID) as TChara;
+        //tc := tMerc.
+        ts := tm.Mob.IndexOfObject(tMerc.ATarget) as TMob;
+        if (abs(tMerc.Point.X - ts.Point.X) <= tMerc.Data.Range1) and (abs(tMerc.Point.Y - ts.Point.Y) <= tMerc.Data.Range1) then begin
+            if tMerc.ATick < Tick then begin
+                damage := MercDamageCalc(tm, tMerc, ts, Tick);
+                MonsterAttacksMonster(tm, tMerc, ts, damage, 1, Tick);
+                tMerc.ATick := Tick + tMerc.Data.ADelay;
+            end;
+        end else begin
+        {Monster is too far away, so lets move him closer}
+            {Search for a path to it}
+            repeat
+                k := Random(4) - 2;
+            until k <> 0;
+
+            //Direct your mercenary toward your opponent
+            tMerc.tgtPoint.X := ts.Point.X + k;
+            tMerc.tgtPoint.Y := ts.Point.Y + k;
+
+            k := Path_Finding(tMerc.path, tm, tMerc.Point.X, tMerc.Point.Y, tMerc.tgtPoint.X, tMerc.tgtPoint.Y, 1);
+
+            if k > 1 then begin //k = 0 causes crashes
+
+                SendMMove( tc.Socket, tMerc, tMerc.Point, TMerc.tgtPoint, tc.ver2);
+                SendBCmd( tm, tMerc.Point, 58, tc, True );
+
+
+                tMerc.pcnt := k;
+                if tMerc.pcnt = 0 then tMerc.MercMoveTick := Tick;
+                tMerc.ppos := 0;
+
+                //tMerc.MercMoveTick := Tick + 1000;
+                //if (tMerc.Path[tMerc.ppos] and 1) = 0 then spd := tc.Speed else spd := tMerc.Speed * 140 div 100;
+
+                {if tMerc.MoveTick + spd <= Tick then begin
+                    frmMain.MobMoving( tm, tMerc, Tick );
+                end;}
+            end;
+        end;
+      end;
+    end else begin
+        tMerc.ATarget := 0;
+        tMerc.AData := nil;
+    end;;
+end;
 
 end.
 

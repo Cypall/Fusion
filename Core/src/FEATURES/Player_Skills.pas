@@ -3,7 +3,18 @@ unit Player_Skills;
 interface
 
 uses
-    IniFiles, Classes, SysUtils, Common, List32, MMSystem, Math, Path, Windows;
+    {Windows VCL}
+    {$IFDEF MSWINDOWS}
+    Windows, MMSystem,
+    {$ENDIF}
+    {Kylix/Delphi CLX}
+    {$IFDEF LINUX}
+    Qt, Types,
+    {$ENDIF}
+    {Shared}
+    IniFiles, Classes, SysUtils, Math,
+    {Fusion}
+    Common, List32, Path;
 
 var
     SKILL_TYPE : Byte;
@@ -15,10 +26,11 @@ var
     procedure process_effect(tc : TChara; success : Integer; Tick : Cardinal);
     procedure process_skill_attack(tc : TChara; j : Integer; Tick : Cardinal);
     procedure process_skill_splash_attack(tc : TChara; sl : TStringList; Tick : Cardinal);
+    procedure process_skill_magic(tc : TChara; j : Integer; Tick : Cardinal);
 
     { Calculation Procedures }
     procedure use_sp(tc : TChara; SkillID : word; LV : byte);
-    function find_targets(tc : TChara; sl : TStringList; rangefield : Integer) : TStringList;
+    function find_targets(tc : TChara; sl : TStringList; rangefield : Integer; playersOnly : Boolean = false) : TStringList;
     function check_allow_pvp(tc : TChara) : Boolean;
 
     { Skill Procedures - Swordsman }
@@ -33,6 +45,9 @@ var
     { Skill Procedures - Mage }
     function skill_sp_recovery(tc : TChara; Tick : Cardinal) : Integer;
     function skill_sight(tc : TChara; Tick : Cardinal) : Integer;
+    function skill_napalm_beat(tc : TChara; Tick : Cardinal) : Integer;
+    function skill_soul_strike(tc : TChara; Tick : Cardinal) : Integer;
+    function skill_cold_bolt(tc : TChara; Tick : Cardinal) : Integer;
 
     { Skill Procedures - Archer }
     function skill_double_strafe(tc : TChara; Tick : Cardinal) : Integer;
@@ -49,7 +64,13 @@ uses
     begin
         SKILL_TYPE := 0;
 
-        if not check_allow_pvp(tc) then Exit;
+        if not check_allow_pvp(tc) then begin
+            if (tc.MSkill = 8) then begin
+                tc.SkillTickID := 8;
+            end else begin
+                exit;
+            end;
+        end;
 
         targets := TStringList.Create;
         targets.Clear;
@@ -71,6 +92,9 @@ uses
         { 8} if (tc.MSkill = 8) and (effect = 0) then success := skill_endure();
         { 9} if (tc.Skill[9].Lv <> 0) and (effect = 1) then success := skill_sp_recovery(tc, Tick);
         {10} if (tc.MSkill = 10) and (effect = 0) then success := skill_sight(tc, Tick);
+        {11} if (tc.MSkill = 11) and (effect = 0) then success := skill_napalm_beat(tc, Tick);
+        {13} if (tc.MSkill = 13) and (effect = 0) then success := skill_soul_strike(tc, Tick);
+        {14} if (tc.MSkill = 14) and (effect = 0) then success := skill_cold_bolt(tc, Tick);
         {46} if (tc.MSkill = 46) and (effect = 0) then success := skill_double_strafe(tc, Tick);
 
         {
@@ -93,9 +117,10 @@ uses
             2: process_effect(tc, success, Tick);
             3: process_skill_attack(tc, success, Tick);
             4: process_skill_splash_attack(tc, targets, Tick);
+            5: process_skill_magic(tc, success, Tick);
         end;
 
-        if (UseSP) and ( ( (SKILL_TYPE = 1) and (success = -1) ) or (SKILL_TYPE = 2) or (SKILL_TYPE = 3) ) then begin
+        if (UseSP) and ( ( (SKILL_TYPE = 1) and (success = -1) ) or (SKILL_TYPE = 2) or (SKILL_TYPE = 3) or (SKILL_TYPE = 5) ) then begin
             use_sp(tc, tc.MSkill, tc.MUseLV);
         end;
 
@@ -170,6 +195,7 @@ uses
         tm : TMap;
         tl : TSkillDB;
     begin
+        tm := Map.Objects[Map.IndexOf(tc.Map)] as TMap;
 
         { Placed here to prevent attacking self }
         if tc.AData = tc then Exit;
@@ -237,6 +263,63 @@ uses
         end;
     end;
 
+    procedure process_skill_magic(tc : TChara; j : Integer; Tick : Cardinal);
+    var
+        ts : TMob;
+        tl : TSkillDB;
+        tm : TMap;
+        tc1 : Tchara;
+    begin
+        tm := tc.MData;
+        tl := tc.Skill[tc.MSkill].Data;
+
+        if tc.AData = tc then Exit;
+
+        with tc do begin
+            dmg[0] := MATK1 + Random(MATK2 - MATK1 + 1) * MATKFix div 100 * tl.Data1[MUseLV] div 100;
+            if tc.MTargetType = 0 then begin
+                ts := tc.AData;
+                if ts.HP <= 0 then begin
+                    SKILL_TYPE := 0;
+                    Exit;
+                end;
+                dmg[0] := dmg[0] * (100 - ts.Data.MDEF) div 100; //MDEF%
+                dmg[0] := dmg[0] - ts.Data.Param[3]; //MDEF-
+                if dmg[0] < 1 then
+                    dmg[0] := 1;
+                dmg[0] := dmg[0] * ElementTable[tl.Element][ts.Element] div 100;
+                dmg[0] := dmg[0] * tl.Data2[MUseLV];
+                if dmg[0] < 0 then
+                    dmg[0] := 0;
+
+                if (ts.EffectTick[0] > Tick) then dmg[0] := dmg[0] * 2;
+
+                SendCSkillAtk1(tm, tc, ts, Tick, dmg[0], tl.Data2[MUseLV]);
+                frmMain.DamageProcess1(tm, tc, ts, dmg[0], Tick);
+            end else begin
+                tc1 := tc.AData;
+                if tc1.HP <= 0 then begin
+                    SKILL_TYPE := 0;
+                    Exit;
+                end;
+                dmg[0] := dmg[0] * (100 - tc1.MDEF1) div 100; //MDEF%
+                dmg[0] := dmg[0] - tc1.Param[3]; //MDEF-
+                if dmg[0] < 1 then
+                    dmg[0] := 1;
+                dmg[0] := dmg[0] * ElementTable[tl.Element][tc1.ArmorElement] div 100;
+                dmg[0] := dmg[0] * (100 - tc1.DamageFixE[1][tl.Element]) div 100;
+                dmg[0] := dmg[0] * tl.Data2[MUseLV];
+                if dmg[0] < 0 then
+                    dmg[0] := 0;
+
+                if (tc1.Skill[78].Tick > Tick) then dmg[0] := dmg[0] * 2;
+
+                SendCSkillAtk2(tm, tc, tc1, Tick, dmg[0], tl.Data2[MUseLV]);
+                frmMain.DamageProcess2(tm, tc, tc1, dmg[0], Tick);
+            end;
+        end;
+    end;
+
     procedure use_sp(tc : TChara; SkillID : word; LV : byte);
     begin
         tc.SPAmount := 0;
@@ -265,8 +348,8 @@ uses
         tc.MSkill := 0;
         tc.MUseLv := 0;
     end;
-    
-    function find_targets(tc : TChara; sl : TStringList; rangefield : Integer) : TStringList;
+
+    function find_targets(tc : TChara; sl : TStringList; rangefield : Integer; playersOnly : Boolean = false) : TStringList;
     var
         j1, i1, k1 : Integer;
         tm : TMap;
@@ -285,6 +368,7 @@ uses
 
         for j1 := (xy.Y - tl.Range2) div 8 to (xy.Y + tl.Range2) div 8 do begin
             for i1 := (xy.X - tl.Range2) div 8 to (xy.X + tl.Range2) div 8 do begin
+              if NOT playersOnly then begin
                 for k1 := 0 to tm.Block[i1][j1].Mob.Count - 1 do begin
                     ts := tm.Block[i1][j1].Mob.Objects[k1] as TMob;
 
@@ -294,6 +378,7 @@ uses
                         if (abs(ts.Point.X - xy.X) <= tl.Range2) and (abs(ts.Point.Y - xy.Y) <= tl.Range2) then sl.AddObject(IntToStr(ts.ID),ts);
                     end;
                 end;
+              end;
 
                 for k1 := 0 to tm.Block[i1][j1].CList.Count - 1 do begin
                     if ((tm.Block[i1][j1].CList.Objects[k1] is TChara) = false) then Continue;
@@ -591,6 +676,7 @@ uses
     begin
         SKILL_TYPE := 2;
         Result := -1;
+        tc.SkillTickID := 10;
 
         sl := TStringList.Create;
         sl.Clear;
@@ -600,10 +686,11 @@ uses
         if (tc.MSkill = 10) then tc.Option := tc.Option or 1 else tc.Option := tc.Option or $2000;
         UpdateOption(tm, tc);
 
-        sl := find_targets(tc, sl, 1);
+        sl := find_targets(tc, sl, 1, true);
 
         if sl.Count <> 0 then begin
             for k1 := 0 to sl.Count - 1 do begin
+                //tc1 := tm.CList.IndexOfObject(tc.MTarget) as TChara;
                 tc1 := sl.Objects[k1] as TChara;
                 if (tc1.Option and 6 <> 0) then begin
                     tc1.Option := tc1.Option and $FFF9;
@@ -623,6 +710,49 @@ uses
         end;
 
         sl.Free;
+    end;
+
+
+    { -------------------------------------------------- }
+    { - Job: Mage -------------------------------------- }
+    { - Job ID: 2 -------------------------------------- }
+    { - Skill Name: Napalm Beat ------------------------ }
+    { - Skill ID Name: MG_NAPALMBEAT ------------------- }
+    { - Skill ID: 11 ----------------------------------- }
+    { -------------------------------------------------- }
+    function skill_napalm_beat(tc : Tchara; Tick : Cardinal) : Integer;
+    begin
+        SKILL_TYPE := 5;
+
+        tc.MTick := Tick + 1000;
+    end;
+
+    { -------------------------------------------------- }
+    { - Job: Mage -------------------------------------- }
+    { - Job ID: 2 -------------------------------------- }
+    { - Skill Name: Soul Strike ------------------------ }
+    { - Skill ID Name: MG_SOULSTRIKE ------------------- }
+    { - Skill ID: 13 ----------------------------------- }
+    { -------------------------------------------------- }
+    function skill_soul_strike(tc : Tchara; Tick : Cardinal) : Integer;
+    begin
+        SKILL_TYPE := 5;
+
+        tc.MTick := Tick +  800 + 400 * ((tc.MUseLV + 1) div 2) - 300 * (tc.MUseLV div 10);
+    end;
+
+    { -------------------------------------------------- }
+    { - Job: Mage -------------------------------------- }
+    { - Job ID: 2 -------------------------------------- }
+    { - Skill Name: Cold Bolt -------------------------- }
+    { - Skill ID Name: MG_COLDBOLT --------------------- }
+    { - Skill ID: 14 ----------------------------------- }
+    { -------------------------------------------------- }
+    function skill_cold_bolt(tc : Tchara; Tick : Cardinal) : Integer;
+    begin
+        SKILL_TYPE := 5;
+
+        tc.MTick := Tick +  800 + 200 * tc.MUseLV;
     end;
 
 
