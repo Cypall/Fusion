@@ -29,6 +29,12 @@ Version History:
 
 2004/03/01: Updated 0189 definition.
 
+2004/03/19: Added 01ee, 01ef, 01f0 packet information.
+
+2004/04/21: A new new packets and corrections/additions.  Oatmeal
+            also added a few extra effects at some point.  Based on
+            client_packet.txt of 2004/04/20.
+
 Credits:
 
 - The Japanese Athena dev team, for providing the original list.
@@ -86,8 +92,9 @@ Contact me in the Weiss IRC channel.
 #0x01C0
     2, 14, 10, -1, 22, 22,  4,  2, 13, 97,  0,  9,  9, 29,  6, 28,
     8, 14, 10, 35,  6,  8,  4, 11, 54, 53, 60,  2, -1, 47, 33,  6,
-    0,  8,  0,  0,  0,  0,  0,  0, 28,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  8,  0,  0,  0,  0,  0,  0, 28,  0,  0,  0,  0,  0, -1, -1,
+   -1,  0,  0,  0,  7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+
 
 S クライアントから見て送信
 R クライアントから見て受信
@@ -338,7 +345,7 @@ R 008a <src ID>.l <dst ID>.l <server tick>.l <src speed>.l <dst speed>.l <param1
 	type=0a Critical attack.
 	type=0b Perfect evade.
 
-R 008c <len>.w <str>.?B
+S 008c <len>.w <str>.?B
 	通常発言送信。チャット中はチャット内発言用になる
 	先頭の"<nick> : "の部分はクライアント側で付ける事
 
@@ -754,7 +761,7 @@ R 00c6 <len>.w {<value>.l <DCvalue>.l <type>.B <item ID>.w}.11B*
 	NPC shop's items available for purchase.  DCvalue is the value after applying player's Discount skill.
 
 R 00c7 <len>.w {<index>.w <value>.l <OCvalue>.l}.10B*
-	NPCのお店sey選択時。OCvalueは商人OC後の値段
+	NPCのお店sell選択時。OCvalueは商人OC後の値段
 
 	NPC shop's sell window.  OCvalue is the value after applying player's Overcharge skill.
 
@@ -1004,17 +1011,17 @@ R 00f4 <index>.w <amount>.l <type ID>.w <identify flag>.B <attribute?>.B <refine
 	Item is added to Kapra storage.
 
 S 00f5 <index>.w <amount>.l
-	カプラさん倉庫からアイテム取り出し
+	カプラさん倉庫からアイテム取り出し要求
 
 	User takes an item from Kapra storage.
 
 R 00f6 <index>.w <amount>.l
-	カプラさん倉庫のアイテム削除
+	カプラさん倉庫からアイテム取り出し応答
 
-	Item is removed from Kapra storage.
+	Response to item removed from Kapra storage.
 
 S 00f7
-	カプラさん倉庫閉じ
+	カプラさん倉庫閉じ要求
 
 	Request to close Kapra storage.
 
@@ -1024,16 +1031,19 @@ R 00f8
 	Response to closing Kapra storage.
 
 S 00f9 <party name>.24B
-	パーティ作成
+	パーティ作成要求
 
 	Request to create a party with <party name>.
 
 R 00fa <fail>.B
+	パーティ作成応答
+
 	fail=00 「パーティーを結成しました。」
 	fail=01 「同じ名前のパーティーがあります。」
 	fail=02 「すでにパーティーに加入しています。」
 
 	Response to party creation request:
+
 	fail=00 "Party created."
 	fail=01 "A party with the same name already exists."
 	fail=02 "You are already a member of another party."
@@ -1160,7 +1170,7 @@ R 0110 <skill ID>.w <basic type>.w ?.w <fail>.B <type>.B
 	Result of trying to use a skill.
 
 	When fail=00, the skill could not be used.
-	type 00: basic type skill
+	type 00: Skill has failed (customized for certain skills like steal)
 	type 01: Not enough SP
 	type 02: Not enough HP
 	type 03: No memo
@@ -1169,7 +1179,8 @@ R 0110 <skill ID>.w <basic type>.w ?.w <fail>.B <type>.B
 	type 06: Weapon is not usable with the skill
 	type 07: No red gemstone
 	type 08: No blue gemstone
-	type 09: Unknown.  (GUESS: 'No yellow gemstone', maybe?)
+	type 09: No yellow gemstone
+	type 0a: Skill has failed (seen in combo delay situations)
 
 	basic type=00: Trade
 	basic type=01: Emotion
@@ -1182,8 +1193,10 @@ R 0110 <skill ID>.w <basic type>.w ?.w <fail>.B <type>.B
 
 R 0111 <skill ID>.w <target type>.w ?.w <lv>.w <sp>.w <range>.w <skill name>.24B <up>.B
 	010fの1つ分。β2だと未使用?
+	20040415転職時に観測
 
 	Single-skill version of 010f.  Unused in beta 2?
+	20040415: OBSERVED upon job-changing.
 
 S 0112 <skill ID>.w
 	スキルlvup要求
@@ -1256,6 +1269,7 @@ R 0119 <ID>.l <param1>.w <param2>.w <param3>.w ?.B
 
 	param2=01 Poison?
 	param2=20 Angelus condition?
+
 	(NOTE: The Japanese info is out of date.  I am correcting values below:)
 
 	Param1 values are statuses that keep you from moving:
@@ -1286,7 +1300,11 @@ R 0119 <ID>.l <param1>.w <param2>.w <param3>.w ?.B
 	param3=256  Cart (#3)     (x100)
 	param3=512  Cart (#4)     (x200)
 	param3=1024 Cart (#5)     (x400)
-	param3=8192 Ruwach (???)  (x2000)
+	param3=2048 Reverse Orcish(x800)
+	param3=4096 ?             (x1000)
+	param3=8192 Ruwach        (x2000)
+	param3=16384Footsteps     (x4000)
+	param3=32768?             (x8000)
 
 R 011a <skill ID>.w <val>.w <dst ID>.l <src ID>.l <fail>.B
 	非ダメージ系スキル表示。ヒールの場合valは回復量
@@ -1296,9 +1314,10 @@ R 011a <skill ID>.w <val>.w <dst ID>.l <src ID>.l <fail>.B
 	When fail=00 it must mean failure, but I haven't seen that except with Steal.
 
 S 011b <skill ID>.w <map name>.16B
-	011cへの応答。使わない場合"cancel"を送る
+	011cへの応答。使わない場合"cancel"、マップ内ランダムの場合"Random"を送る
 
-	A response to 011c (warp portal cast dialog).  "Cancel" is sent when you don't use it.
+	A response to 011c (warp portal cast dialog).  "Cancel" is sent when you don't use it,
+	"Random" is sent when you do a random warp within the map.
 
 R 011c <skill ID>.w <map1>.16B <map2>.16B <map3>.16B <map4>.16B
 	テレポ/ポタの場所選択。
@@ -1389,9 +1408,10 @@ R 011f <dst ID>.l <src ID>.l <X>.w <Y>.w <type>.B <fail>.B
 	b0: Graffiti (?)
 	b1: Demonstration
 	b2: Pink Warp Portal (active)
-	b3-bf: No resource
-	b3: Some cross npc possible PA_Gospel or HP_Ballista?
-	b4: Holy pillar of light possible PA_GOSPEL or HP_Ballista?
+	b3: Small floating cross (Gospel)
+	b4: 5x5 square of light (Basilica)
+	b6: Fog wall
+	b5-bf: No resource
 	Ground info request ?.81b is unkhown.	
 
 R 0120 <ID>.l
@@ -1580,6 +1600,16 @@ R 0141 <type>.l <base>.l <bonus>.l
 	Display a stat.  Type goes from 0d to 12 for STR, AGI, VIT, INT, DEX, LUK.
 	Base + bonus are both returned.
 
+R 0142 <ID>.l
+	数値入力用窓表示
+
+	Window which prompts for numerical input.
+
+S 0143 <ID>.l <amount>.l
+	0142の窓に入力した数値の送信
+
+	Send the number entered in the 0142 window.
+
 R 0144 <ID>.l <type>.l <X>.l <Y>.l <point ID>.B <color>.3B ?.B
 	案内員用、マップ上アイコン表示パケット
 	type=1 アイコンを表示
@@ -1609,7 +1639,7 @@ R 0147 <skill ID>.w <target type>.w ?.w <lv>.w <sp>.w <range>.w <skill name>.24B
 
 	Skill effect displayed when using an item.
 
-S 0148 <ID>.l
+R 0148 <ID>.l
 	リザレクションの相手決め? @ β1
 
 	In beta 1, this chooses a target for Resurrection.
@@ -2416,6 +2446,10 @@ S 01b2 <len>.w <message>.80B <flag>.B {<index>.w <amount>.w <value>.l}.8B*
 
 	(Is this an improved version of 012f?)
 
+R 01b3 <filename>.64B <type>.B
+	R 0145の上位互換
+
+	Improved version of 0145 (displaying a cutin image).  Allows a longer cutin filename.
 
 R 01B6 <guildID>.l <guildLv>.l <connum>.l <capacity>.l <Avl.lvl>.l <now_exp>.l <next_exp>.l <tax_point>.l <tendency F-V>.l <tendency R-W>.l <members>.l <guild name>.24B <guild master>.24B <agit?>.20B
 	ギルド情報 
@@ -2526,7 +2560,9 @@ R 01c9 <dst ID>.l <src ID>.l <X>.w <Y>.w <type>.B <fail>.B ?.81b
 	b0: Graffiti (?)
 	b1: Demonstration
 	b2: Pink Warp Portal (active)
-	b3-bf: No resource
+	b3: Small floating cross (Gospel)
+	b4: 5x5 square of light (Basilica)
+	b5-bf: No resource
 
 	Ground info request ?.81b is unkhown.
 
@@ -2654,4 +2690,25 @@ S 01e8 <party name>.24B <item1>B <item2>B
 	<item> covers item loot rights.  0 means every man for himself, 1 is party can loot.
 	<item2> covers item sharing.  0 means every man for himself, 1 divides equally among the party.
 
+R 01ee <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B <card>.4w}.18B*
+	所有消耗品&収集品リスト
+	矢の場合は?.2Bが0x8000になる
+	00a3から変更
 
+	Information about consumable and collectible items in your inventory.
+	In the case of arrows, the ?.2B value is 0x8000.
+	(Changed from 00a3)
+
+R 01ef <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B <card>.4w}.18B*
+	カート内アイテム。消耗品/収集品
+	0123から変更
+
+	Information about consumable and collectible items in your cart.
+	(Changed from 0123)
+
+R 01f0 <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B <card>.4w}.18B*
+	カプラさんに預けてある消耗品&収集品リスト
+	00a5から変更
+
+	Information about consumable and collectible items in Kapra's storage.
+	(Changed from 00a5)

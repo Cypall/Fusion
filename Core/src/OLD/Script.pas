@@ -5,7 +5,7 @@ unit Script;
 interface
 
 uses
-	Windows, Types, SysUtils, Common, MMSystem;
+	Windows, Types, SysUtils, Common, MMSystem, Classes;
 
 //==============================================================================
 // 関数定義
@@ -29,6 +29,8 @@ var
   m       :integer;
 	cnt     :integer;
 	str     :string;
+  txt2    :TextFile;
+  sl      :TStringList;
 	p       :pointer;
 	len     :cardinal;
 	flag    :boolean;
@@ -48,6 +50,7 @@ var
 	tr      :NTimer;
 	tcr     :TChatRoom;
 	mi      :MapTbl;
+  tGlobal :TGlobalVars;
 {NPCイベント追加ココまで}
 begin
 	flag := false;
@@ -223,14 +226,9 @@ begin
 					WFIFOW( 4, tn.Script[tc.ScriptStep].Data3[1]);
 					tc.Socket.SendBuf(buf, 6);
 					}
-					WFIFOW( 0, $00b0);
-					WFIFOW( 2, $0005);
-					WFIFOL( 4, tc.HP);
-					tc.Socket.SendBuf(buf, 8);
-					WFIFOW( 0, $00b0);
-					WFIFOW( 2, $0007);
-					WFIFOL( 4, tc.SP);
-					tc.Socket.SendBuf(buf, 8);
+					SendCStat1(tc, 0, 5, tc.HP);
+					SendCStat1(tc, 0, 7, tc.SP);
+
 					Inc(tc.ScriptStep);
 				end;
 			11: //set
@@ -317,12 +315,9 @@ begin
 							tc.Item[k].Card[2] := 0;
 							tc.Item[k].Card[3] := 0;
 							tc.Item[k].Data := td;
-							//重量追加
+							// Update weight
 							tc.Weight := tc.Weight + cardinal(td.Weight) * cardinal(j);
-							WFIFOW( 0, $00b0);
-							WFIFOW( 2, $0018);
-							WFIFOL( 4, tc.Weight);
-							tc.Socket.SendBuf(buf, 8);
+              SendCStat1(tc, 0, $0018, tc.Weight);
 
 							//アイテムゲット通知
 							SendCGetItem(tc, k, j);
@@ -362,12 +357,9 @@ begin
 						WFIFOW( 2, k);
 						WFIFOW( 4, j);
 						tc.Socket.SendBuf(buf, 6);
-						//重量変更
+						// Update weight
 						tc.Weight := tc.Weight - tc.Item[k].Data.Weight * cardinal(j);
-						WFIFOW( 0, $00b0);
-						WFIFOW( 2, $0018);
-						WFIFOL( 4, tc.Weight);
-						tc.Socket.SendBuf(buf, 8);
+            SendCStat1(tc, 0, $0018, tc.Weight);
 					end;
 					Inc(tc.ScriptStep);
 				end;
@@ -511,13 +503,8 @@ begin
 					SendCStat(tc, true);
 					SendCSkillList(tc);
           // Colus, 20040304: New view packet for jobchange
-					WFIFOW(0, $01d7);
-					WFIFOL(2, tc.ID);
-					WFIFOB(6, 0);
-					WFIFOW(7, tc.JID);
-          WFIFOW(9, 0);
-					SendBCmd(tc.MData, tc.Point, 11); //ここまで
-                                   {バグ報告 657}
+          UpdateLook(tc.MData, tc, 0, tc.JID);
+
 					Inc(tc.ScriptStep);
 				end;
 			18: //viewpoint
@@ -614,10 +601,7 @@ begin
 						tc.DefaultSpeed := i;
  
 						CalcStat(tc);
-						WFIFOW(0, $00b0);
-						WFIFOW(2, $0000);
-						WFIFOL(4, tc.Speed);
-						tc.Socket.SendBuf(buf, 8);
+						SendCStat1(tc, 0, 0, tc.Speed);
  
 						Inc(tc.ScriptStep);
 					end;
@@ -646,12 +630,7 @@ begin
 					if (i >= 0) and (i <= 77) then begin
 						CalcStat(tc);
 						tc.ClothesColor := i;
-						WFIFOW(0, $00c3);
-						WFIFOL(2, tc.ID);
-						WFIFOB(6, 7);
-						WFIFOB(7, i);
-						tc.Socket.SendBuf(buf, 8);
-						SendBCmd(tc.MData, tc.Point, 8, tc);
+            UpdateLook(tc.MData, tc, 7, i, 0, true);
 					end;
 					Inc(tc.ScriptStep);
 				end;
@@ -801,10 +780,7 @@ begin
 										tc.Socket.SendBuf(buf, 6);
 										//重量変更
 										tc.Weight := tc.Weight - tc.Item[i].Data.Weight * cardinal(1);
-										WFIFOW( 0, $00b0);
-										WFIFOW( 2, $0018);
-										WFIFOL( 4, tc.Weight);
-										tc.Socket.SendBuf(buf, 8);
+										SendCStat1(tc, 0, $0018, tc.Weight);
 									end;
 					  		end;
 						  end;
@@ -974,11 +950,7 @@ begin
 {NPCイベント追加ココまで}
 					if (i >= 0) and (i <= 8) then begin
 						tc.HairColor := i;
-						WFIFOW(0, $00c3);
-						WFIFOL(2, tc.ID);
-						WFIFOB(6, 6);
-						WFIFOB(7, i);
-						SendBCmd(tc.MData, tc.Point, 8);
+            UpdateLook(tc.MData, tc, 6, i, 0, true);
 					end;
 					Inc(tc.ScriptStep);
 				end;
@@ -1462,13 +1434,20 @@ begin
 				end;
       46: //resetskill
 				begin
+
+                                j := 0;
           for i := 2 to MAX_SKILL_NUMBER do begin
+          j := j + tc.Skill[i].Lv;
           if not tc.Skill[i].Card then
           tc.Skill[i].Lv := 0;
 					end;
+
 					if tc.JID = 0 then begin
-					end else if tc.JID < 7 then tc.SkillPoint := tc.JobLV -1
-					else tc.SkillPoint := tc.JobLV -1 + 49;
+                                        end
+                                        else begin
+                                                tc.skillpoint := j;
+                                        end;
+
 					SendCSkillList(tc);
           CalcStat(tc);
           SendCStat(tc);
@@ -1483,17 +1462,8 @@ begin
               j := tc.HairColor;
 						  tc.Hair := i;
 
-							WFIFOW(0, $00c3);
-							WFIFOL(2, tc.ID);
-							WFIFOB(6, 1);
-							WFIFOB(7, i);
-							SendBCmd(tm, tc.Point, 8);
-
-							WFIFOW(0, $00c3);
-							WFIFOL(2, tc.ID);
-							WFIFOB(6, 6);
-							WFIFOB(7, j);
-							SendBCmd(tm, tc.Point, 8);
+              UpdateLook(tc.MData, tc, 1, i, 0, true);
+              UpdateLook(tc.MData, tc, 6, j, 0, true);
 					end;
 					Inc(tc.ScriptStep);
 				end;
@@ -1637,6 +1607,140 @@ begin
                 begin
 
                 end;}
+      63: //Remove Equipment
+        begin
+          for  j := 1 to 100 do begin
+            if tc.Item[j].Equip = 32768 then begin
+              tc.Item[j].Equip := 0;
+              WFIFOW(0, $013c);
+              WFIFOW(2, 0);
+              tc.Socket.SendBuf(buf, 4);
+            end else if tc.Item[j].Equip <> 0 then begin
+              WFIFOW(0, $00ac);
+              WFIFOW(2, j);
+              WFIFOW(4, tc.Item[j].Equip);
+              tc.Item[j].Equip := 0;
+              WFIFOB(6, 1);
+              tc.Socket.SendBuf(buf, 7);
+            end;
+          end;
+          Inc(tc.ScriptStep);
+        end;
+      64: //BaseReset
+        begin
+          for i := 0 to 5 do begin
+            tc.ParamBase[i] := 1;
+          end;
+          tc.BaseLV := 1;
+          tc.BaseEXP := 0;
+          SendCStat(tc);
+
+          Inc(tc.ScriptStep);
+        end;
+      65: //Global Variable
+        {Syntax:
+          global [variable name] = [value];
+        }
+        begin
+          tGlobal := TGlobalVars.Create;
+          sl := TStringList.Create;
+					str := tn.Script[tc.ScriptStep].Data1[0];
+					p := nil;
+					len := 0;
+
+					//Get the Data from the script
+          j := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[1]);
+          if (tn.Script[tc.ScriptStep].Data3[0] = 0) then begin
+            i := 0;
+          end else begin
+            i := ConvFlagValue(tc, str);
+          end;
+
+          //Different Math cases
+          case tn.Script[tc.ScriptStep].Data3[0] of
+						0,1:  i := i + j;
+						2:    i := i - j;
+						3:    i := i * j;
+						4:    i := i div j;
+          end;
+
+          //Prevent i from being negative
+          if i < 0 then i := 0;
+          if (tn.Script[tc.ScriptStep].Data3[1] <> 0) and
+            (i > tn.Script[tc.ScriptStep].Data3[1]) then i := tn.Script[tc.ScriptStep].Data3[1];
+          {Write the Vaules}
+						{if (Copy(str, 1, 1) <> '\') then begin
+							tc.Flag.Values[str] := IntToStr(i);
+						end else begin
+							ServerFlag.Values[str] := IntToStr(i);
+						end;}
+          tGlobal.Variable := str;
+          tGlobal.Value := i;
+
+          if GlobalVars.IndexOf(str) = - 1 then
+            GlobalVars.AddObject(tGlobal.Variable, tGlobal)
+          else begin
+            tGlobal := GlobalVars.Objects[GlobalVars.IndexOf(str)] as TGlobalVars;
+            tGlobal.Variable := str;
+            tGlobal.Value := i;
+          end;
+
+          AssignFile(txt2, 'Global_Vars.txt');
+          Rewrite(txt2);
+          Writeln(txt2, '// Variable, Value');
+          for i := 0 to GlobalVars.Count - 1 do begin
+            tGlobal := GlobalVars.Objects[i] as TGlobalVars;
+            sl.Clear;
+            sl.Add( tGlobal.Variable );
+            sl.Add( IntToStr( tGlobal.Value ) );
+            Writeln(txt2, sl.DelimitedText);
+          end;
+
+					Inc(tc.ScriptStep);
+          CloseFile(txt2);
+				end;
+      66: // gcheck - Global Variable Check
+        begin
+          flag := false;
+					str := tn.Script[tc.ScriptStep].Data1[0];
+          tGlobal := GlobalVars.Objects[GlobalVars.Indexof(str)] as TGlobalVars;
+          i := tGlobal.Value;
+
+					j := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[1]);
+{NPCイベント追加ココまで}
+					case tn.Script[tc.ScriptStep].Data3[2] of
+					0: flag := boolean(i >= j);
+					1: flag := boolean(i <= j);
+					2: flag := boolean(i  = j);
+					3: flag := boolean(i <> j);
+					4: flag := boolean(i >  j);
+					5: flag := boolean(i <  j);
+					else
+						begin
+							//DebugOut.Lines.Add(Format('s-check: invalid formula "%s"', [tn.Script[tc.ScriptStep].Data1[2]]));
+							tc.ScriptStep := $FFFF;
+							break;
+						end;
+					end;
+					//DebugOut.Lines.Add(Format('s-check: %s %s(%d) %s = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data3[2], tn.Script[tc.ScriptStep].Data1[1], byte(flag)]));
+					if flag then begin
+						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[0];
+					end else begin
+						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[1];
+					end;
+				end;
+      67: {Event MOB}
+      //Syntax
+      // eventmob [JID],[Name],[X Position],[YPosition],[Perfect Drop ID(0 = None)]
+        begin
+          j := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
+          str := UpperCase(tn.Script[tc.ScriptStep].Data1[1]);
+          k := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[2]);
+          l := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[3]);
+          m := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[4]);
+          SpawnEventMob(tn,j,str,k,l,m);
+          Inc(tc.ScriptStep);
+        end;
 			44: //checkstr
 				begin
 					j := tn.Script[tc.ScriptStep].Data3[2];
@@ -1681,6 +1785,25 @@ begin
 						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[1];
 					end;
 				end;
+
+
+
+    68: // addskillpoints
+        begin
+            i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
+            tc.SkillPoint := tc.SkillPoint + i;
+            SendCSkillList(tc);
+            Inc(tc.ScriptStep);
+        end;
+    69: // addstatpoints
+        begin
+            i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
+            tc.StatusPoint := tc.StatusPoint + i;
+            SendCStat(tc);
+            Inc(tc.ScriptStep);
+        end;
+
+
 {NPCイベント追加ココまで}
 			end;
     Inc(cnt);

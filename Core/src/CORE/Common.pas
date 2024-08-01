@@ -6,15 +6,42 @@ interface
 
 uses
 //Windows, Forms, Classes, SysUtils, ScktComp;
-	Windows, StdCtrls, MMSystem, Classes, SysUtils, ScktComp, List32;
+	Windows, StdCtrls, MMSystem, Classes, SysUtils, ScktComp,
+	GlobalLists,
+	List32;
 
 const
   // Colus, 20040304: Let's see if this is truly global scope.
-  MAX_SKILL_NUMBER = 400;
+  MAX_SKILL_NUMBER = 411;
   MAX_JOB_NUMBER = 45;
   LOWER_JOB_END = 23;
   UPPER_JOB_BEGIN = 4000;
+  MONSTER_ATK_RANGE = 9;
 
+const
+	MAX_PARTY_SIZE = 12;
+
+	//NPC CType Constants
+	NPC_TYPE_WARP   = 0;
+	NPC_TYPE_SHOP   = 1;
+	NPC_TYPE_SCRIPT = 2;
+	NPC_TYPE_ITEM   = 3;
+	NPC_TYPE_SKILL  = 4;
+
+
+
+type TLiving = class
+  public
+    ID      :cardinal;
+		JID     :word;
+    Name    :string;
+    Map     :string;
+    Point   :TPoint;
+	  ppos    :integer;
+  	pcnt    :integer;
+  	path    :array[0..999] of byte;
+    Dir     :byte;
+end;
 //==============================================================================
 // word型座標構造体(TPointはcardinal型座標)
 type rPoint = record
@@ -84,17 +111,22 @@ type TItemDB = class
 	DamageFixR :array[0..9] of SmallInt; // Race mod
 	DamageFixE :array[0..9] of SmallInt; // Element mod
 	DamageFixS :array[0..2] of SmallInt; // Size mod
-	SFixPer1   :array[0..5] of Word; // Option 1 mod
-	SFixPer2   :array[0..4] of Word; // Option 2 mod
-	DrainFix   :array[0..1] of Word; // Drain amount
-	DrainPer   :array[0..1] of Word; // Drain chance
+	SFixPer1   :array[0..5] of SmallInt; // Option 1 mod
+	SFixPer2   :array[0..4] of SmallInt; // Option 2 mod
+	DrainFix   :array[0..1] of SmallInt; // Drain amount
+	DrainPer   :array[0..1] of SmallInt; // Drain chance
 	AddSkill   :array[0..MAX_SKILL_NUMBER] of Word; // Skill addition
 	SplashAttack  :boolean;          // Splash attack
+	SpecialAttack :integer;
+    {
+      1 = Knockback
+      2 = Fatal Blow, .1% chance of instantly killing monster
+    }
         WeaponSkill   :integer;
         WeaponSkillLV :integer;
         WeaponID      :integer;
 	NoJamstone    :boolean;
-        
+
         FastWalk      :boolean;
         NoTarget      :boolean;
         FullRecover   :boolean;
@@ -106,38 +138,50 @@ type TItemDB = class
         GhostArmor    :boolean;
         NoCastInterrupt :boolean;
         MagicReflect  :boolean;
-        SkillWeapon   :boolean;
+				SkillWeapon   :boolean;
         GungnirEquipped :boolean;
         LVL4WeaponASPD :boolean;
         PerfectDamage   :boolean;
 
+  public
+
+    Procedure Assign(Source : TItemDB);
+
 {変更ココまで}
-end;
+End;(* TItenDB *)
+
+
 //------------------------------------------------------------------------------
 // アイテムデータ
 type TItem = class
-	ID        :word;
-	Amount    :word;
-	Equip     :word;
-	Identify  :byte;
-	Refine    :byte;
-	Attr      :byte;
-	Card      :array[0..3] of word;
-	Data      :TItemDB;
-        Stolen    :cardinal;
-end;
+	ID        : Word;
+	Amount    : Word;
+	Equip     : Word;
+	Identify  : Byte;
+	Refine    : Byte;
+	Attr      : Byte;
+	Card      : Array[0..3] of Word;
+	Data      : TItemDB;
+  Stolen    : Cardinal;
+
+public
+	Constructor Create;
+	Destructor  Destroy; OverRide;
+
+	Procedure ZeroItem;
+end;//TItem
 //------------------------------------------------------------------------------
 {追加}
 type TItemList = class
 	Zeny      :Cardinal;
-	Item      :Array[0..100] of TItem;
+	Item      :Array[1..100] of TItem;
 	Weight    :Cardinal;
 	MaxWeight :Cardinal;
 	Count     :Word;
 
-	constructor Create;
-	destructor Destroy; override;
-end;
+	Constructor Create;
+	Destructor  Destroy; OverRide;
+end;//TItemList
 {追加ココまで}
 //------------------------------------------------------------------------------
 {アイテム製造追加}
@@ -185,6 +229,29 @@ type TMobAIDB = class
         //SkillType       :array[0..3] of integer;
 end;
 //------------------------------------------------------------------------------
+type TMobAIDBFusion = class
+// ID, Name,	STATUS	SKILL_ID	SKILL_LV	  PERCENT	 CASTING_TIME	  COOLDOWN_TIME		IF IfCondition
+  ID  :cardinal;
+        Number  :integer;
+        Name    :string;
+        Status  :string;
+        SkillID :string;
+        SkillLV :integer;
+        Percent :integer;
+        //Casting :integer;
+        Cast_Time :integer;
+        Cool_Time :integer;
+        Dispel  :string;
+        IfState :string;
+        IfCond :string
+end;
+//------------------------------------------------------------------------------
+type TGlobalVars = class
+// Variable, Value
+  Variable:String;
+  Value:integer;
+end;
+
 // モンスターデータベース
 //ID,Name,JName,LV,HP,EXP,JEXP,Range,ATK1,ATK2,DEF1,DEF2,MDEF1,MDEF2,HIT,FLEE,
 //Scale,Race,Ele,Mode,Speed,ADelay,aMotion,dMotion,Drop1id,Drop1per,Drop2id,
@@ -232,6 +299,11 @@ type TMobDB = class
 	isLoot      :boolean; //Mode &  2 : ルート
 	isLink      :boolean; //Mode &  8 : リンク
 	AISkill     :TMobAIDB;
+  SkillLocations :string;  //Gives a list of where the monsters skills are located
+  SkillCount  :integer;
+  WaitTick :integer;
+  Loaded  :boolean;
+  DebugFlag :boolean;
 {追加ココまで}
 end;
 //------------------------------------------------------------------------------
@@ -271,6 +343,14 @@ type TMArrowDB = class
   CNum      :array[0..2] of integer;
 end;
 //------------------------------------------------------------------------------
+type TWarpDatabase = class
+  NAME:String;  //Name that player will type
+  MAP :String;  //Name of the Actual Map
+  X   :integer; //X Coordinate to warp to
+  Y   :integer; //Y Coordinate to warp to
+  Cost:integer; //Amount of zeny the warp takes
+end;
+//------------------------------------------------------------------------------
 // 経験値配分用カウンタ
 type rEXPDist = record
 	CData       :Pointer;
@@ -278,15 +358,15 @@ type rEXPDist = record
 end;
 //------------------------------------------------------------------------------
 // モンスターデータ
-type TMob = class
-	ID          :cardinal;
-	Name        :string;
-	JID         :word;
-	Map         :string;
-	Point       :TPoint;
+type TMob = class(TLiving)
+	//ID          :cardinal;
+	//Name        :string;
+	//JID         :word;
+	//Map         :string;
+	//Point       :TPoint;
 	tgtPoint    :TPoint;
   NextPoint   :TPoint;
-	Dir         :byte;
+	//Dir         :byte;
 	Point1      :TPoint;
 	Point2      :TPoint;
 	Speed       :word;
@@ -309,19 +389,19 @@ type TMob = class
 	MoveWait    :cardinal;
         DeadWait    :cardinal;                  // mf
 	DmgTick     :cardinal; //ノックバック
-	ppos        :integer;
-	pcnt        :integer;
-	path        :array[0..999] of byte; //キャラの経路(向きで記録されてます)
+	//ppos        :integer;
+	//pcnt        :integer;
+	//path        :array[0..999] of byte; //キャラの経路(向きで記録されてます)
   AMode       :byte;
 	ATarget     :cardinal;
 	AData       :Pointer;
 	ARangeFlag  :boolean;
-  MMode       :byte;
+	MMode       :byte;
 	ATKPer      :word; //プロボックなどによる攻撃力補正
 	DEFPer      :word; //プロボックなどによる防御力補正
 	EXPDist     :array[0..31] of rEXPDist; //経験値配分用カウンタ
 	MVPDist     :array[0..31] of rEXPDist; //MVP判定用カウンタ
-  Slaves      :Array[1..12] of Cardinal;
+	Slaves      :Array[1..12] of Cardinal;
 	Data        :TMobDB;
 {追加}
 	Element     :Byte;
@@ -345,19 +425,31 @@ type TMob = class
   isCasting   :boolean;
   Stolen      :cardinal;
 
+  Status  :string;  //Lists the monsters Current status
+  MSkill  :integer;
+  MLevel  :integer;
+
         Hidden     :boolean;
 
         AnkleSnareTick :cardinal;  //Tracks how long ankle snare lasts
 
         MPoint        :rPoint;
 	MTick         :cardinal;
+  CastTime  :integer;
+  SkillWaitTick :cardinal;
 
         NowSkill        :integer;
         NowSkillLv      :integer;
         SkillSlot       :integer;
         AI              :Pointer;
+        NoDispel        :boolean;
         Mode           :integer;
         Burned          :boolean;
+  SkillType :integer; // 1 = No target needed
+                      // 2 = Area Effect
+                      // 3 = Target Skill
+                      // 4 = Support skill
+  CanFindTarget :boolean;
 
 {NPCイベント追加ココまで}
 	constructor Create;
@@ -367,7 +459,7 @@ end;
 //------------------------------------------------------------------------------
 {キューペット}
 // ペットデータベース
-type TPetDB = class
+TPetDB = class
 	MobID           :word; // ペットモンスターのID
 	ItemID          :word; // 捕獲アイテムのID
 	EggID           :word; // 卵のアイテムID
@@ -384,7 +476,7 @@ type TPetDB = class
 end;
 
 // ペットデータ
-type TPet = class
+TPet = class
         PlayerID        :cardinal;
         CharaID         :cardinal;
         Cart            :byte;
@@ -395,25 +487,31 @@ type TPet = class
         Name            :string;
         Renamed         :byte;
         LV              :word;
-				Relation        :integer;
+	Relation        :integer;
         Fullness        :integer;
         Accessory       :word;
         Data            :TPetDB;
-		    isLooting       :boolean;  //Tracks if the pet is looting
+	isLooting       :boolean;  //Tracks if the pet is looting
         ATarget         :cardinal;  //Pets attacking target as well as looting
         Item            :array[1..25] of TItem;  //Items a pet is holding
-        MobData         :Pointer;
+//	MobData         :Pointer;
+	MobData         :TMobDB; //Reference to the Pet's Monster attributes.
         SkillTick       :cardinal;  //Tracks when to use a skill
         SkillActivate   :boolean;  //Tracks if the skill is ready to be activated
         LastTick        :cardinal;  //Used for tracking a minute
         Saved           :byte;
-end;
+
+public
+	Constructor Create;
+	Destructor  Destroy; OverRide;
+
+end;//TPet
 {キューペットここまで}
 //------------------------------------------------------------------------------
 // スキルデータベース
 //N,ID,JName,Type,MLV,SP1,2,3,4,5,6,7,8,9,10,HP,Cast,Lv+,AR,Ele,
 //Dat1,2,3,4,5,6,7,8,9,10,Dat2,2,3,4,5,6,7,8,9,10,Req1,LV,Req2,LV,Req3,LV
-type TSkillDB = class
+TSkillDB = class
 	ID         :word;
 	IDC        :string;
 	Name       :string;
@@ -437,21 +535,21 @@ type TSkillDB = class
 	Job2        :array[0..MAX_JOB_NUMBER] of boolean;
 	ReqSkill2   :array[0..9] of word;
 	ReqLV2      :array[0..9] of word;
-end;
+end;//TSkillDB
 //------------------------------------------------------------------------------
 // スキルデータ
-type TSkill = class
+TSkill = class
 	Lv          :word;
 	Card        :boolean;
-        Plag        :boolean;
+	Plag        :boolean;
 	//Up        :byte;
 	Tick        :cardinal; //時間制限有りのスキルのリミット
 	EffectLV    :word;     //時間制限有りのスキルの効果LV
 	Effect1     :integer;  //時間制限有りのスキルの効果データ1
 	Data        :TSkillDB;
-end;
+end;//TSkill
 //------------------------------------------------------------------------------
-type TeNPC = class
+TeNPC = class
 	ID            :Cardinal;  //ID
 	JID           :Word;      //(Chara)ジョブ (Mob)スプライト
 	CID           :Cardinal;
@@ -575,24 +673,33 @@ type TeNPC = class
 
 	ATKSplash	    :Boolean; //9マス攻撃
 
-end;
+public
+	Constructor Create;
+	Destructor  Destroy; OverRide;
+
+end;//TeNPC
 //------------------------------------------------------------------------------
 // Character Data
-type TChara = class
+	TPlayer = class; //forward declaration - PData field in TChara
+	TNPC = class;    //forward declaration - PetNPC " " "
+	TMap = class;    //forward declaration - MData " " "
+
+	TChara = class(TLiving)
 	// Control Variables
-	ID	          :cardinal;
+	//ID	          :cardinal;
 	Socket        :TCustomWinSocket;
-	PData         :Pointer;
+//	PData         :Pointer;
+	PData         :TPlayer; // Reference back to owning TPlayer
 	IP            :string;
 	Login         :byte; // 0 = offline; 1 = loading; 2 = online
 
 	// Data saved and loaded to/from chara.txt
 	// Line 1:
 	CID	          :cardinal;
-	Name          :string;
+	//Name          :string;
 	Gender        :byte;
 
-	JID           :Word;
+	//JID           :Word;
 	BaseLV        :word;
 	BaseEXP       :cardinal;
 	StatusPoint   :word;
@@ -610,13 +717,13 @@ type TChara = class
   //
   // 01: Sight        02: Hide          04: Cloak         08: Cart 1
   // 16: Falcon       32: Peco          64: GM Hide       128: Cart 2
-  // 256: Cart 3      512: Cart 4       1024: Cart 5
-  // 8192: Ruwach
+  // 256: Cart 3      512: Cart 4       1024: Cart 5      2048: Reverse Orcish
+  // 4096: ?          8192: Ruwach      16384: Footsteps  32768: Cart 6?
 
   //  0000 | 0000 | 0000 | 0000
-  //    R     CCC   CPPF   CCHS
-  //    w     543   2Hel   1lig
-  //    c            dcc    kdt
+  //    R    OCCC   CPPF   CCHS
+  //    w    r543   2Hel   1lig
+  //    c    c       dcc    kdt
   //    h            eon     e
   //
   // OptionKeep is not necessary.  All options should be set up
@@ -665,8 +772,8 @@ type TChara = class
 	CharaNumber   :byte;
 	_4            :word;
 
-	Map           :string;
-	Point         :TPoint;
+	//Map           :string;
+	//Point         :TPoint;
 	SaveMap       :string;
 	SavePoint     :TPoint;
 	MemoMap       :array[0..2] of string;
@@ -689,7 +796,8 @@ type TChara = class
 	JobNextEXP    :cardinal;
 	Weight        :cardinal;
 	MaxWeight     :cardinal;
-	Bonus         :array[0..5] of word;
+  // Changed bonus to smallint (signed words) to prevent negative stat crashes
+	Bonus         :array[0..5] of SmallInt;
 	Param         :array[0..5] of word;
 	ParamUp       :array[0..5] of word;
 	WeaponType    :array[0..1] of word; // Right(0), left(1) hand weapon types
@@ -720,11 +828,11 @@ type TChara = class
 	HIT           :integer;
 	FLEE1         :integer;
 	FLEE2         :integer;
-        FLEE3         :integer;
+	FLEE3         :integer;
 	Critical      :word;
 	Lucky         :word;
 	ASpeed        :word;
-        Delay         :integer;
+	Delay         :integer;
 	ADelay        :word;
 	aMotion       :word;
 	dMotion       :word;
@@ -737,16 +845,22 @@ type TChara = class
 {追加ココまで}
 	Range         :word;
 	WElement      :array[0..1] of byte; // Weapon elements
-  ArmorElement  :byte; // Armor element (from card or armor type)
+	ArmorElement  :byte; // Armor element (from card or armor type)
 	HPR           :word; //HP回復スキルの回復値
 	SPR           :word; //SP回復スキルの回復値
 {変更}
 	DrainFix      :array[0..1] of Integer; //吸収量   0:HP 1:SP
 	DrainPer      :array[0..1] of Integer; //吸収確率 0:HP 1:SP
-	SplashAttack  :boolean;                //9マス攻撃
+	SplashAttack  :boolean;                //Causes an Area Attack
+	SpecialAttack :integer;
+    {
+      1 = Knockback
+      2 = Fatal Blow, .1% chance of instantly killing monster
+    }
+  KnockBackSuccess  :boolean;
         WeaponSkill   :integer;
         WeaponSkillLv :integer;
-        WeaponID      :integer;
+	WeaponID      :integer;
 	NoJamstone    :boolean;
         NoTrap        :boolean;
         LessSP        :boolean;
@@ -788,10 +902,8 @@ type TChara = class
 	SkillTick     :cardinal; //次にスキルが切れるときのTick
 	SkillTickID   :word; //次にどのスキルが切れるか
 
-	MData         :Pointer;
-	ppos          :integer;
-	pcnt          :integer;
-	path          :array[0..999] of byte; //キャラの経路(向きで記録されてます)
+//	MData         :Pointer;
+	MData         :TMap;//ref ChrstphrR - typed pointer, req. forward declaration
 	NextFlag      :boolean;
 	NextPoint     :TPoint;
 	MoveTick      :cardinal;
@@ -801,7 +913,7 @@ type TChara = class
 	GuildID       :word;
 	ClassName     :string;
 {精錬NPC機能追加}
-  EqLock        :Boolean; //精錬用装備ロック
+	EqLock        :Boolean; //精錬用装備ロック
 {精錬NPC機能追加ココまで}
 {チャットルーム機能追加}
 	ChatRoomID    :cardinal; //チャットルームID
@@ -818,7 +930,7 @@ type TChara = class
 	GuildPos      :byte; //ギルド職位インデックス
 {ギルド機能追加ココまで}
 
-	Dir           :byte;
+	//Dir           :byte;
 	HeadDir       :word;
 	Sit           :byte; // 0: moving 1: dead 2: sitting 3: standing
 	AMode         :byte;
@@ -839,9 +951,9 @@ type TChara = class
 	MTargetType   :byte; // Category of AData. 0 = mob, 1 = player.
 	MPoint        :rPoint;
 	MTick         :cardinal;
-        SPAmount      :integer;         {Total amount of SP used by a skill}
+	SPAmount      :integer;         {Total amount of SP used by a skill}
 
-  spiritSpheres :word;  // Spirit spheres per character.  Moved from global scope.
+	spiritSpheres :word;  // Spirit spheres per character.  Moved from global scope.
 
 	TalkNPCID     :cardinal;
 	UseItemID     :word;
@@ -854,10 +966,14 @@ type TChara = class
 	ActTick       :Cardinal;
 {追加ココまで}
 {キューペット}
-        PetData       :Pointer;
-        PetNPC        :Pointer;
-		PetMoveTick   :cardinal;
-        Crusader      :Pointer;
+//	PetData       :Pointer;
+//	PetNPC        :Pointer;
+	PetData       : TPet; //ChrstphrR 2004/04/21
+	PetNPC        : TNPC; //typed pointers, requires forward declare
+
+	PetMoveTick   :cardinal;
+//	Crusader      :Pointer;
+	Crusader      :TChara; //Reference ONLY to a Crusader for certain skills.
         Autocastactive :Boolean;
         noday         :Boolean;
 
@@ -913,7 +1029,9 @@ type TChara = class
 end;
 //------------------------------------------------------------------------------
 // プレイヤーデータ
-type TPlayer = class
+{ChrstphrR 2004/04/20 - no type before, in the same "type" block as the forward
+declaration and TChara which points back to ... TPlayer here}
+TPlayer = class
 	Login         :byte; //0=オフライン 1=ログイン中
 	ID	          :cardinal;
 	IP            :string;
@@ -924,62 +1042,62 @@ type TPlayer = class
 	Banned        :byte;
 	CID           :array[0..8] of cardinal;
 	CName         :array[0..8] of string;
-	CData         :array[0..8] of TChara;
-	Kafra         :TItemList;
+	CData         :array[0..8] of TChara; //Reference pointers
+	Kafra         :TItemList;//Owned
 
 	LoginID1      :cardinal;
 	LoginID2      :cardinal;
 	ver2          :word;
-  Saved         :byte;
+	Saved         :byte;
 
 	constructor Create;
 	destructor  Destroy; override;
-end;
+end;//TPlayer
 //------------------------------------------------------------------------------
 {パーティー機能追加}
 // パーティーデータ
-type TParty = class
+TParty = class
 	Name      :string;//パーティーの名前
 	MinLV     :word;//パーティー内最低レベル
 	MaxLV     :word;//パーティー内最大レベル
 	EXPShare  :word;//パーティー経験値設定(0がバラバラで1が公平)
 	ITEMShare :word;//パーティーアイテム設定(0がバラバラで1が共有？未実装要素)
-	MemberID  :array[0..11] of cardinal;//メンバーのID
-	Member    :array[0..11] of TChara;//メンバー
+	MemberID  :array[0..MAX_PARTY_SIZE-1] of cardinal;//メンバーのID
+	Member    :array[0..MAX_PARTY_SIZE-1] of TChara;//メンバー
 	EXP       :Cardinal; //経験値分配用
 	JEXP      :Cardinal; //経験値分配用
-        PartyBard :array[0..2] of TChara; {Tracks Who the Party's Bard is}
-        PartyDancer :array[0..2] of TChara; {Tracks Who the Party's Dancer is}
+	PartyBard :array[0..2] of TChara; {Tracks Who the Party's Bard is}
+	PartyDancer :array[0..2] of TChara; {Tracks Who the Party's Dancer is}
 end;
 {パーティー機能追加ココまで}
 //------------------------------------------------------------------------------
-type TCastle = class
-	Name    :string;
-  GID     :word;
-  GName   :string;
-  GMName  :string;
-  GKafra  :integer;
-  EDegree :cardinal;
-  ETrigger:integer;
-  DDegree :cardinal;
-  DTrigger:integer;
-  GuardStatus:array [0..7] of integer;
+TCastle = class
+	Name        :string;
+	GID         :word;
+	GName       :string;
+	GMName      :string;
+	GKafra      :integer;
+	EDegree     :cardinal;
+	ETrigger    :integer;
+	DDegree     :cardinal;
+	DTrigger    :integer;
+	GuardStatus :array [0..7] of integer;
 end;
 //------------------------------------------------------------------------------
-type TEmp = class
+TEmp = class
 	Map    :string;
-  EID    :cardinal;
+	EID    :cardinal;
 end;
 //------------------------------------------------------------------------------
 // 店売りアイテム
-type TShopItem = class
+TShopItem = class
 	ID    :word;
 	Price :cardinal;
-	Data  :TItemDB;
+	Data  :TItemDB;//reference
 end;
 //------------------------------------------------------------------------------
 // NPCスクリプト
-type rScript = record
+rScript = record
 	ID      :word; //コマンドID
 	Data1   :array of string;
 	Data2   :array of string;
@@ -988,17 +1106,25 @@ type rScript = record
 end;
 //------------------------------------------------------------------------------
 // NPCデータ
-type TNPC = class
-	ID          :cardinal;
-	Name        :string;
-{NPCイベント追加}
-//	JID         :word;
-	JID         :integer;
-{NPCイベント追加ココまで}
-	Map         :string;
-  Reg         :string;
-	Point       :TPoint;
-	Dir         :byte;
+
+(*=============================================================================*
+TNPC
+
+--
+Overview:
+--
+Derived from TLiving (this change made by Colus, for the common attributes
+for NPC, Mob, and Chara objects.
+
+ChrstphrR - question for other devs -- What does an NPC represent?
+Just the Kafra babes, and townsfolk?  Can it represent NPC associated monsters,
+like the one in Prontera?  My description here bites, so someone feel free to
+expand on what the class -represents-
+
+*=============================================================================*)
+TNPC = class(TLiving)
+public
+	Reg         :string;
 	CType       :byte; //0=warp 1=shop 2=script 3=item 4=skill
 	//warp
 	WarpSize    :TPoint;
@@ -1010,10 +1136,11 @@ type TNPC = class
 	Script      :array of rScript;
 	ScriptCnt   :integer;
 	ScriptLabel :string;
+
 {NPCイベント追加}
 	ScriptInitS  :integer; //OnInitステップ
 	ScriptInitD  :Boolean; //OnInit実行済フラグ
-  ScriptInitMS :integer;
+	ScriptInitMS :integer;
 
 	ChatRoomID  :cardinal; //チャットルームID
 	Enable      :Boolean; //有効スイッチ
@@ -1022,43 +1149,47 @@ type TNPC = class
 {アジト機能追加ココまで}
 {NPCイベント追加ココまで}
 	//item
-	Item        :TItem;
+	Item        :TItem; //owned.
 	SubX        :byte;
 	SubY        :byte;
 	Tick        :cardinal;
 	//skill
 	Count       :word;
-	CData       :TChara;
-        MData       :TMob;
+	CData       :TChara; //ref
+	MData       :TMob;   //ref
 {追加}
 	MSkill      :Word;
 {追加ココまで}
 	MUseLV      :word;
 {キューペット}
-        //pet
-        HungryTick  :cardinal;
-        NextPoint   :TPoint;
-        MoveTick    :cardinal;
-        ppos        :integer;
-	pcnt        :integer;
-        path        :array[0..999] of byte; //キャラの経路(向きで記録されてます)
+	//pet
+	HungryTick  :cardinal;
+	NextPoint   :TPoint;
+	MoveTick    :cardinal;
 
-        //AnkleTick   :cardinal;  //How long ankle snare lasts.
-{キューペットここまで}
-end;
+	Constructor Create;
+	Destructor  Destroy; OverRide;
+
+End;(* TNPC
+*=============================================================================*)
+
+
 //------------------------------------------------------------------------------
 {NPCイベント追加}
 // タイマーデータ
-type NTimer = class
+NTimer = class
 	ID        :cardinal;//タイマーID
 	Tick      :cardinal;//タイマー
 	Cnt       :word;//タイマーインデックス数
 	Idx       :array of integer;//インデックス
 	Step      :array of integer;//分岐先
 	Done      :array of byte;//実行済みフラグ
+public
+	Constructor Create;
+	Destructor  Destroy; OverRide;
 end;
 //マップ設定データ
-type MapTbl = class
+MapTbl = class
 	noMemo    :Boolean;
 	noSave    :Boolean;
 {アジト機能追加}
@@ -1071,27 +1202,26 @@ type MapTbl = class
 	Agit      :Boolean;
 {アジト機能追加ココまで}
 	noTele    :Boolean;
-        PvP       :Boolean;
-        PvPG      :Boolean;
-        noDay     :Boolean;
-
+	PvP       :Boolean;
+	PvPG      :Boolean;
+	noDay     :Boolean;
 end;
 {NPCイベント追加ココまで}
 //------------------------------------------------------------------------------
 // マップブロックデータ
-type TBlock = class
-	NPC         :TIntList32;
-	Mob         :TIntList32;
-	CList       :TIntList32;
+TBlock = class
+	NPC         :TIntList32;//Reference list
+	Mob         :TIntList32;//Reference list
+	CList       :TIntList32;//Reference list
 	//MobProcess  :boolean;
 	MobProcTick :cardinal;
 
-	constructor Create;
-	destructor Destroy; override;
-end;
+	Constructor Create;
+	Destructor Destroy; OverRide;
+end;//TBlock
 //------------------------------------------------------------------------------
 // マップデータ
-type TMap = class
+TMap = class
 	Name      :string;
 	Size      :TPoint;
 	gat       :array of array of byte; //bit1=移動可能 bit2=水たまり bit3=Warp
@@ -1109,7 +1239,7 @@ type TMap = class
 
 	constructor Create;
 	destructor Destroy; override;
-end;
+end;//TMap
 //------------------------------------------------------------------------------
 // マップリストデータ
 type TMapList = class
@@ -1218,7 +1348,7 @@ type TGuild = class
 
 	constructor Create;
 	destructor  Destroy; override;
-end;
+end;//TGuild
 //------------------------------------------------------------------------------
 type TGBan = class
 // ギルド追放者データ
@@ -1305,12 +1435,12 @@ var
 	DisableMonsterActive   :boolean;
 	AutoStart              :boolean;
 	DisableLevelLimit      :boolean;
-        DefaultZeny            :cardinal;
-        DefaultMap             :string;
-        DefaultPoint_X         :cardinal;
-        DefaultPoint_Y         :cardinal;
-        DefaultItem1           :cardinal;
-        DefaultItem2           :cardinal;
+  DefaultZeny            :cardinal;
+  DefaultMap             :string;
+  DefaultPoint_X         :cardinal;
+  DefaultPoint_Y         :cardinal;
+  DefaultItem1           :cardinal;
+  DefaultItem2           :cardinal;
 	EnableMonsterKnockBack :boolean;
 	DisableEquipLimit      :boolean;
 	ItemDropType           :boolean;
@@ -1318,10 +1448,12 @@ var
   ItemDropMultiplier     :integer;
 	ItemDropPer            :integer;
   StealMultiplier        :integer;
-  EnablePetSkills        :boolean;  
+  EnablePetSkills        :boolean;
+  EnableMonsterSkills    :boolean;
+  EnableLowerClassDyes   :boolean;
 	DisableFleeDown        :boolean;
 	DisableSkillLimit      :boolean;
-        Timer                  :boolean;
+  Timer                  :boolean;
 
 	FormLeft:integer;
 	FormTop:integer;
@@ -1355,11 +1487,16 @@ var
 	DealMaxID  :cardinal;
 {取引機能追加ココまで}
 {氏{箱追加}
-	SummonMobList :TIntList32;
-	SummonIOBList :TIntList32;
-	SummonIOVList :TIntList32;
-	SummonICAList :TIntList32;
-	SummonIGBList :TIntList32;
+	{ChrstphrR 2004/04/19 - Changing SummonMobList for size/algorithm
+	improvements}
+	SummonMobList : TSummonMobList;
+	SummonMobListMVP:TIntList32;
+
+	SummonIOBList : TStringList; //Changed for ease of use/cleanup.
+	SummonIOVList : TStringList; //Changed " " " "/"
+	SummonICAList : TStringList; //Changed " " " "/"
+	SummonIGBList : TStringList; //Changed " " " "/"
+	SummonIOWBList: TStringList; //Changed " " " "/"
 {氏{箱追加ココまで}
 {NPCイベント追加}
 	ServerFlag :TStringList;
@@ -1378,11 +1515,16 @@ var
 	MobDBName  :TStringList;
         {Monster Skill Database}
         MobAIDB    :TIntList32;
-        PharmacyDB :TIntList32;
+        //MobAIDBAegis:TStringList;
+        MobAIDBFusion:TIntList32;
+        GlobalVars:TStringList;
+        //PharmacyDB :TIntList32;
   SlaveDBName:TStringList;
   MArrowDB   :TIntList32;
+  WarpDatabase:TStringList;
   IDTableDB  :TIntList32;
 	SkillDB    :TIntList32;
+  SkillDBName:TStringlist;
 	Player     :TIntList32;
 	PlayerName :TStringList;
 	Chara      :TIntList32;
@@ -1428,23 +1570,24 @@ var
 	mm              :array[0..30] of array[0..30] of rSearchMap;
 
 	buf             :array[0..32767] of byte;
-  buf2            :array[0..32767] of byte;
+//  buf2            :array[0..32767] of byte;{ChrstphrR 2004/04/24 - not used!}
 	stra            :array[0..32767] of char;
-{オプション関連}
-        //キャラクター初期データ関連
-
-        GMCheck         :cardinal; // GMコマンドをGM以外も使えるか
-        DebugCMD        :cardinal; // デバッグコマンドが使えるか
-DeathBaseLoss     :integer;
-DeathJobLoss      :integer;
-MonsterMob        :boolean;
-SummonMonsterExp  :boolean;
-SummonMonsterAgo  :boolean;
-SummonMonsterName :boolean;
-SummonMonsterMob  :boolean;
-GlobalGMsg        :string;
-MapGMsg           :string;
-{オプション関連ここまで}
+{Things related to Options}
+	//キャラクター初期データ関連
+	WarpEnabled :boolean;
+	WarpItem    :cardinal;
+	GMCheck         :cardinal; // Can the GM commands be used by non-GM's?
+	DebugCMD        :cardinal; // Can use Debug Commands?
+	DeathBaseLoss     :integer;
+	DeathJobLoss      :integer;
+	MonsterMob        :boolean;
+	SummonMonsterExp  :boolean;
+	SummonMonsterAgo  :boolean;
+	SummonMonsterName :boolean;
+	SummonMonsterMob  :boolean;
+	GlobalGMsg        :string;
+	MapGMsg           :string;
+{Things related to Options}
 
 // Fusion SQL Declarations
 UseSQL            :Boolean;
@@ -1462,6 +1605,12 @@ Option_AutoBackup   :word;
 Option_WelcomeMsg :boolean;
 Option_GraceTime  :cardinal;
 Option_GraceTime_PvPG :cardinal;
+Option_Username_MF : boolean;
+Option_Back_Color : string;
+Option_Font_Color : string;
+Option_Font_Size : integer;
+Option_Font_Face : string;
+Option_Font_Style : string;
 // Fusion INI Declarations
 
 
@@ -1509,6 +1658,9 @@ Option_GraceTime_PvPG :cardinal;
 		procedure SendCLeave(tc:TChara; mode:byte);
 		procedure SendBCmd(tm:TMap; Point:TPoint; PacketLen:word; tc:TChara = nil; tail:boolean = False);
 
+    procedure SendCAttack1(tc:TChara; dmg0:integer; dmg1:integer; dmg4:integer; dmg5:integer; tm:TMap; ts:TMob; Tick:cardinal);
+    procedure SendMAttack(tm:TMap; ts:TMob; tc:TChara; dmg0:integer; dmg4:integer; dmg5:integer; Tick:cardinal);
+
 		procedure SendItemSkill(tc:TChara; s:Cardinal; L:Cardinal = 1);
 		procedure SendSkillError(tc:TChara; EType:byte; BType:word = 0);
                 procedure SendItemError(tc:TChara; Code:Cardinal);
@@ -1532,8 +1684,10 @@ Option_GraceTime_PvPG :cardinal;
                 procedure UpdateMonsterDead(tm:TMap; ts:TMob; k:integer);   //Kills a monster
 				procedure UpdatePetLocation(tm:TMap; tn:TNPC);  //Update the location of a pet
                 procedure SendPetRelocation(tm:TMap; tc:TChara; i:integer); //Move a pet
+                procedure SendMonsterRelocation(tm:TMap; ts:tMob); //Move a monster
                 procedure UpdateMonsterLocation(tm:TMap; ts:TMob);  //Update the location of a monster
                 procedure UpdatePlayerLocation(tm:TMap; tc:TChara);  //Update the location of a Player
+                procedure UpdateLivingLocation(tm:TMap; tv:TLiving);  //Update the location of a Player
 
                 procedure  PetSkills(tc: TChara; Tick:cardinal);  //Calculate the Pets Skills
 
@@ -1546,6 +1700,8 @@ Option_GraceTime_PvPG :cardinal;
                 function  UpdateWeight(tc:TChara; j:integer; td:TItemDB)  :boolean;
                 function  GetMVPItem(tc1:TChara; ts:TMob; mvpitem:boolean) :boolean;
                 function  StealItem(tc:TChara; ts:TMob) :boolean;
+
+    procedure SendLivingDisappear(tm:TMap; tv:TLiving; mode: byte = 0); // Make a Living disappear
 
 		function  SearchCInventory(tc:TChara; ItemID:word; IEquip:boolean):word;
 		function  SearchPInventory(tc:TChara; ItemID:word; IEquip:boolean):word;
@@ -1564,12 +1720,30 @@ Option_GraceTime_PvPG :cardinal;
 		procedure DelSkillUnit(tm:TMap; tn:TNPC);
 //------------------------------------------------------------------------------
     //所持アイテム
-		function  MoveItem(ti1:TItemList; ti2:TitemList; Index:Word; cnt:Word) : Integer;
-
-		function  GetItemStore(ti:TItemList; td:TItem; cnt:Word; IsEquip:Boolean = False) : Integer;
-		function  DeleteItem(ti:TItemList; index:Word; cnt:Word) : Integer;
-		function  SearchInventory(ti:TItemList; ItemID:word; IEquip:boolean) : word;//SearchCInventory()等と使い方は同じ
-		procedure CalcInventory(ti:TItemList);
+		Function  MoveItem(
+                Dest    : TItemList;
+                Source  : TitemList;
+                Index   : Word;
+                Quant   : Word
+              ) : Integer;
+		function  GetItemStore(
+                AList   : TItemList;
+                AnItem  : TItem;
+                Quant   : Word;
+                IsEquip : Boolean = False
+              ) : Integer;
+		function  DeleteItem(
+                AList : TItemList;
+                Index : Word;
+                Quant : Word
+              ) : Integer;
+		function  SearchInventory(
+                AList   : TItemList;
+                ItemID  : Word;
+                IEquip  : Boolean
+                ) : Word;//SearchCInventory()等と使い方は同じ
+		procedure CalcInventory( AList : TItemList );
+    
 		procedure SendCart(tc:TChara);
 //------------------------------------------------------------------------------
 {パーティー機能追加}
@@ -1607,6 +1781,7 @@ Option_GraceTime_PvPG :cardinal;
 		function  GetGuildConUsers(tg:TGuild) : word;
     procedure GuildDInvest(tn:TNPC);
     procedure SpawnNPCMob(tn:TNPC;MobName:string;X:integer;Y:integer;SpawnDelay1:cardinal;SpawnDelay2:cardinal);
+    procedure SpawnEventMob(tn:TNPC;MobID:cardinal;MobName:string;X:integer;Y:integer;DropItem:cardinal);
     procedure CallGuildGuard(tn:TNPC;guard:integer);
     procedure SetGuildKafra(tn:TNPC;mode:integer);
     procedure EnableGuildKafra(MapName:string;KafraName:string;Mode:integer);
@@ -1625,6 +1800,7 @@ Option_GraceTime_PvPG :cardinal;
 		procedure KillGuildRelation(tg:TGuild; tg1:TGuild; tc:TChara; tc1:TChara; RelType:byte);
 		function  LoadEmblem(tg:TGuild) : word;
 		procedure SaveEmblem(tg:TGuild; size:cardinal);
+    procedure UpdateLook(tm:TMap; tv:TLiving; option:byte; val1: word; val2: word = 0; use00c3: boolean = false);
 //------------------------------------------------------------------------------
 {アジト機能追加}
 		procedure SetFlagValue(tc:TChara; str:string; svalue:string);
@@ -1645,6 +1821,43 @@ implementation
 
 uses SQLData, FusionSQL;
 
+procedure SendLivingDisappear(tm:TMap; tv:TLiving; mode: byte = 0);
+begin
+  WFIFOW(0, $0080);
+  WFIFOL(2, tv.ID);
+  WFIFOB(6, mode); // 0: Disappear 1: Died 2: Logout 3: Teleport
+  SendBCmd(tm, tv.Point, 7);
+end;
+
+procedure UpdateLook(tm:TMap; tv:TLiving; option:byte; val1: word; val2: word; use00c3: boolean);
+begin
+  // Notes:
+  // Options for 'option' are
+  //  0: body (job), 1: hairstyle, 2: weapon, 3: head (lower), 4: head (upper),
+  //  5: head (mid), 6: hair color, 7: clothes color, 8: shield, 9: shoes.
+  //  (Shoes are not implemented yet it seems).
+  // IF you use the old 00c3 system, val1 can only be a byte.  val2 is ignored.
+  // IF you use the new system, and have an equipment update, shield ID goes in val2.
+  // IF you change clothing color and are lower class, EnableLowerClassDyes must be true.
+  // Why use Use00c3?  It saves a few bytes IF you don't need to update.
+
+  if (option = 7) and (tv.JID < UPPER_JOB_BEGIN) and (EnableLowerClassDyes = false) then exit;
+
+  if (use00c3) then begin
+    WFIFOW(0, $00c3);
+    WFIFOL(2, tv.ID);
+    WFIFOB(6, option);
+    WFIFOB(7, val1);
+    SendBCmd(tm, tv.Point, 8);
+  end else begin
+    WFIFOW(0, $01d7);
+    WFIFOL(2, tv.ID);
+    WFIFOB(6, option);
+    WFIFOW(7, val1);
+    WFIFOW(9, val2);
+    SendBCmd(tm, tv.Point, 11);
+  end;
+end;
 //==============================================================================
 {追加}
 procedure PickUpItem(tc:TChara; l:Cardinal);
@@ -1684,10 +1897,7 @@ begin
 					tc.Item[j].Data := tn.Item.Data;
 					//重量追加
 					tc.Weight := tc.Weight + tn.Item.Data.Weight * tn.Item.Amount;
-					WFIFOW( 0, $00b0);
-					WFIFOW( 2, $0018);
-					WFIFOL( 4, tc.Weight);
-					Socket.SendBuf(buf, 8);
+					SendCStat1(tc, 0, $18, tc.Weight);
 					//アイテムゲット通知
 					SendCGetItem(tc, j, tn.Item.Amount);
 					//アイテム削除
@@ -1719,6 +1929,7 @@ end;
 procedure CalcAbility(tc:TChara; td:TItemDB; o:Integer = 0);
 var
 	j :Integer;
+  i :byte;
   JIDFix :word; // JID correction
 begin
 	with tc do begin
@@ -1782,9 +1993,13 @@ begin
 		for j:=0 to 2 do begin
 			Inc(DamageFixS[j],td.DamageFixS[j]);
 		end;
+    // Colus, 20040321: Only weapon card/items increase status affliction chances
+    // (I think).  Other items increase resistances.
+    if (td.IType = 4) or ((td.IType = 6) and (td.Loc = 0)) then i := 0 else i := 1;
+
 		for j:=0 to 4 do begin
-			Inc(SFixPer1[0][j],td.SFixPer1[j]);
-			Inc(SFixPer2[0][j],td.SFixPer2[j]);
+			Inc(SFixPer1[i][j],td.SFixPer1[j]);
+			Inc(SFixPer2[i][j],td.SFixPer2[j]);
 		end;
 		Inc(DrainFix[0],td.DrainFix[0]);
 		Inc(DrainPer[0],td.DrainPer[0]);
@@ -1798,6 +2013,8 @@ begin
                 end;
 
 		if td.SplashAttack then SplashAttack := true;
+		if td.SpecialAttack = 1 then tc.SpecialAttack := 1;
+    	if td.SpecialAttack = 2 then tc.SpecialAttack := 2;
                 if td.NoJamstone then  NoJamstone := true;
                 if td.AnolianReflect then AnolianReflect := true;
                 if td.FullRecover then FullRecover := true;
@@ -1931,7 +2148,8 @@ end;
 //------------------------------------------------------------------------------
 procedure CalcSkill(tc:TChara; Tick:cardinal);
 var
-	i,j :Integer;
+	i :Integer;
+//	j :Integer;//unused.
 begin
 	with tc do begin
 		//修練 ATK[0][4]
@@ -2000,7 +2218,7 @@ begin
 			Bonus[4] := Bonus[4] + 5;
                         Bonus[5] := Bonus[5] + 5;
 		end;
-                if Skill[383].Tick > Tick then begin
+                if (Skill[383].Tick > Tick) and (Skill[383].Lv > 0) then begin
                         tc.FLEE1 := tc.FLEE1 + Skill[383].Data.Data2[Skill[383].Lv];
                         end;
 		//所持限界量増加スキル
@@ -2129,17 +2347,28 @@ end;
 
 
 procedure CalcStat(tc:TChara; Tick:cardinal = 0);
-var
-	i,j,k,o,p :integer;
-	Side      :byte;
-	td        :TItemDB;
-        tl        :TSkillDB;
-        mi        :MapTbl;
-        g         :double;
-  JIDFix    :word; // JID correction for upper classes.
+var{ChrstphrR 2004/04/28  Eliminating unused variables.}
+	i,j,k :integer;
+	tl        :TSkillDB;
+//g         :double;//unused - code using it commented out.
+	JIDFix    :word; // JID correction for upper classes.
+	tg        :tguild;
 begin
 	if Tick = 0 then Tick := timeGetTime();
 	with tc do begin
+
+                if (tc.guildid > 0) then begin
+                        //tg := tguild.create;
+                        {ChrstphrR 2004/04/21 Memory Leak!}
+                        tg := GuildList.Objects[GuildList.IndexOf(tc.GuildID)] as TGuild;
+
+                        tg.SLV := 0;
+												for i := 0 to (tg.RegUsers - 1) do begin
+                                tg.SLV := tg.SLV + tg.Member[i].BaseLV;
+                        end;
+                end;
+
+
     JIDFix := tc.JID;
     if (JIDFix > UPPER_JOB_BEGIN) then JIDFix := JIDFix - UPPER_JOB_BEGIN + LOWER_JOB_END; // (RN 4001 - 4000 + 23 = 24
     //DebugOut.Lines.Add(Format('JIDFix %d tc.JID %d',[JIDFix, tc.JID]));
@@ -2168,7 +2397,7 @@ begin
                 DEF1 := 0;
                 MDEF1 := 0;
                 for i := 0 to 5 do begin //ボーナス値の初期化
-                        Bonus[i] := 0;
+												Bonus[i] := 0;
                         for j := 1 to JobLV do begin
                                 if JobBonusTable[JIDFix][j] = i + 1 then Inc(Bonus[i]);
 			end;
@@ -2218,7 +2447,8 @@ begin
 		DamageFixS[2] := 100;
                 FastWalk := false;
 		SplashAttack := false;
-                NoJamstone := false;
+		SpecialAttack := 0;
+								NoJamstone := false;
                 NoCastInterrupt := false;
                 FullRecover := false;
                 UnlimitedEndure := false;
@@ -2258,6 +2488,8 @@ begin
 		CalcSkill(tc,Tick);
 		for i := 0 to 5 do begin
 			ParamUp[i] := ((ParamBase[i] - 1) div 10) + 2;
+      // Colus, 20040321: Negative bonus for stats might crash server?
+      if (Bonus[i] < 0) then Bonus[i] := 0;
 			Param[i] := ParamBase[i] + Bonus[i];
 		end;
 
@@ -2267,7 +2499,7 @@ begin
 			Bonus[4] := Bonus[4] + Param[4] * (2 + Skill[45].EffectLV) div 100;
 			Param[4] := Param[4] * (102 + Skill[45].Lv) div 100;
 		end;
-    if ((MAXHP + (35 + BaseLV * 5 + ((1 + BaseLV) * BaseLV div 2) * HPTable[JIDFix] div 100) * (100 + Param[2]) div 100) > 65535) then begin
+		if ((MAXHP + (35 + BaseLV * 5 + ((1 + BaseLV) * BaseLV div 2) * HPTable[JIDFix] div 100) * (100 + Param[2]) div 100) > 65535) then begin
         MAXHP := 65535;
     //end else if (JID = 23) and (MAXHP + (35 + BaseLV * 5 + ((1 + BaseLV) * BaseLV div 2) * 40 div 100) * (100 + Param[2]) div 100 > 65535) then begin
       //  MAXHP := 65535;
@@ -2284,7 +2516,7 @@ begin
     end else begin
         MAXHP := MAXHP + tl.Data1[Skill[248].Lv];
     end;
-    end;
+		end;
        if Skill[360].Tick > Tick then begin
        tl := Skill[360].Data;
     if (MAXHP + tc.Skill[360].Data.Data2[tc.Skill[360].Lv] > 65535) then begin
@@ -2386,7 +2618,7 @@ begin
                                         6:  ADelay := ADelay * 35 div 100;
                                         8:  ADelay := ADelay * 40 div 100;
                                         10: ADelay := ADelay * 40 div 100;
-                                end;
+																end;
                         end;}
                      Delay := (1000 - (4 * param[1]) - (2 * param[4]) + 300);
 
@@ -2409,28 +2641,33 @@ begin
                 if (Skill[60].Tick > Tick) and (tc.Weapon <> 3) then begin
                     Skill[60].Tick := Tick;
                     SkillTick := Tick;
+                    SkillTickID := 60;
                 end;
 
-                
+
                 if (Skill[360].Tick > Tick) and (tc.Weapon <> 3) then begin
                     Skill[360].Tick := Tick;
                     SkillTick := Tick;
+                    SkillTickID := 360;
                 end;
 
-                if (Skill[359].Tick > Tick) and (tc.Weapon <> (4 or 5)) then begin
-                    Skill[359].Tick := Tick;
+                if (Skill[359].Tick > Tick) and ((tc.Weapon <> 4) and (tc.Weapon <> 5)) then begin
+										Skill[359].Tick := Tick;
                     SkillTick := Tick;
+                    SkillTickID := 359;
                 end;
 
 
-                if (Skill[111].Tick > Tick) and (tc.Weapon <> (6 or 7)) then begin
+                if (Skill[111].Tick > Tick) and ((tc.Weapon <> 6) and (tc.Weapon <> 7) and (tc.Weapon <> 8)) then begin
                     Skill[111].Tick := Tick;
                     SkillTick := Tick;
+                    SkillTickID := 111;
                 end;
 
-                if (Skill[258].Tick > Tick) and (tc.Weapon <> (4 or 5)) then begin
+                if (Skill[258].Tick > Tick) and ((tc.Weapon <> 4) and (tc.Weapon <> 5)) then begin
                     Skill[258].Tick := Tick;
                     SkillTick := Tick;
+                    SkillTickID := 258;                    
                 end;
 
 
@@ -2517,7 +2754,7 @@ begin
       if Skill[39].Lv = 0 then begin
         i := i + Skill[39].Data.Data1[1];
       end else begin
-        i := i + Skill[39].Data.Data1[Skill[39].Lv];
+				i := i + Skill[39].Data.Data1[Skill[39].Lv];
       end;
 		end;
 
@@ -2534,7 +2771,7 @@ begin
 				i := i - 45;
 		end;
     { Colus, 20040224: You didn't listen to how I explained the skill. :/
-      This is so not right it's not even funny.
+			This is so not right it's not even funny.
         //BS Maximun codes
         //beita 20040206
     if (Skill[114].Lv <> 0) then begin
@@ -2978,7 +3215,6 @@ end;
 procedure UpdateOption(tm:TMap; tc:TChara);
 begin
         tm := tc.MData;
-
   {Here we simply want to change a player option that has been previously set.}
         WFIFOW(0, $0119);
         WFIFOL(2, tc.ID);
@@ -2987,6 +3223,22 @@ begin
         WFIFOW(10, tc.Option);
         WFIFOB(12, 0); // attack animation
         SendBCmd(tm, tc.Point, 13);
+
+  // Do we need to update icons for cart/peco/falcon?
+        {Peco Peco}
+        if (tc.Skill[63].Lv <> 0) and (tc.Option and 32 <> 0) then begin
+          UpdateIcon(tm, tc, tc.Skill[63].Data.Icon, 1);
+        end else begin
+          UpdateIcon(tm, tc, tc.Skill[63].Data.Icon, 0);
+        end;
+
+        {Falcon Icon}
+        if (tc.Skill[127].Lv <> 0) and (tc.Option and 16 <> 0) then begin
+          UpdateIcon(tm, tc, tc.Skill[127].Data.Icon, 1);
+        end else begin
+          UpdateIcon(tm, tc, tc.Skill[127].Data.Icon, 0);
+        end;
+
 end;
 //------------------------------------------------------------------------------
 procedure UpdateIcon(tm:TMap; tc:TChara; icon:word; active:byte = 1);
@@ -3043,9 +3295,11 @@ begin
 
                         SendCLeave(tc, 3);
                         tc.Point := xy;
-                        ts.Point.X := tc.Point.X;
-                        ts.Point.Y := tc.Point.Y;
-                        if ts.HP > 0 then SendMmove(tc.Socket, ts, ts.Point, tc.Point, tc.ver2);
+                        if ( (ts.HP > 0) and (ts.Data.MEXP = 0) ) then begin
+                            ts.Point.X := tc.Point.X;
+                            ts.Point.Y := tc.Point.Y;
+                            SendMmove(tc.Socket, ts, ts.Point, tc.Point, tc.ver2);
+                        end;
                         MapMove(tc.Socket, tc.Map, tc.Point);
                 end;
 
@@ -3079,7 +3333,7 @@ var
   tn:TNPC;
 begin
   tpe := PetList.Objects[i] as TPet;
-
+  if tpe.CharaID = tc.CID then begin
   tn := TNPC.Create;
   tn.ID := NowNPCID;
 
@@ -3096,7 +3350,7 @@ begin
   until (( tn.Point.X <> tc.Point.X ) or ( tn.Point.Y <> tc.Point.Y )) and ((tm.gat[tn.Point.X, tn.Point.Y] <> 1) and (tm.gat[tn.Point.X, tn.Point.Y] <> 5));
 
   tn.Dir := Random(8);
-  tn.CType := 2;
+	tn.CType := NPC_TYPE_SCRIPT;
   tn.HungryTick := timeGettime();
 
   tm.NPC.AddObject(tn.ID, tn);
@@ -3132,8 +3386,72 @@ begin
   WFIFOW( 31, tpe.Relation );
   WFIFOW( 33, tpe.Accessory );
   tc.Socket.SendBuf( buf, 35 );
+  end;
 end;
 //------------------------------------------------------------------------------
+{ChrstphrR 2004/04/28
+If any of the current devs created this routine, it needs a fix...
+
+Compiler warning: Variable "k" might not have been initialized.
+Stuffing "k" without getting a value for it is a Bad Thing
+
+This routine is THANKFULLY not called, because it would assuredly cause
+AV errors, or at best, random, undefined results. It looks like the Character,
+or Character index on the map would have to be passed as a parameter as well.
+}
+procedure SendMonsterRelocation(tm:TMap; ts:tMob);
+var
+  l,j,k :integer;
+  xy  :TPoint;
+  tc  :TChara;
+begin
+  if ts.AData <> nil then tc := ts.AData
+  else
+    tc := tm.Block[ts.Point.X div 8][ts.Point.Y div 8].CList.Objects[k] as TChara;
+
+  WFIFOW( 0, $011a);
+  WFIFOW( 2, 26);
+  WFIFOW( 4, 1);
+  WFIFOL( 6, ts.ID);
+  WFIFOL(10, ts.ID);
+  WFIFOB(14, 1);
+  tc.Socket.SendBuf(buf, 15);
+  UpdateMonsterDead(tm, ts, 0);
+  //Delete block
+  l := tm.Block[ts.Point.X div 8][ts.Point.Y div 8].MOB.IndexOf(ts.ID);
+  if l <> -1 then begin
+    tm.Block[ts.Point.X div 8][ts.Point.Y div 8].MOB.Delete(l);
+  end;
+
+  l := tm.Mob.IndexOf( ts.ID );
+  if l <> -1 then begin
+    tm.Mob.Delete(l);
+  end;
+  ts.ATarget := 0;
+  ts.AData := nil;
+  ts.AMode := 0;
+  //ts.Free;
+  j := 1;
+  if l <> -1 then begin
+    repeat
+      xy.X := Random(tm.Size.X - 2) + 1;
+      xy.Y := Random(tm.Size.Y - 2) + 1;
+      Inc(j);
+    until ( ((tm.gat[xy.X, xy.Y] <> 1) and (tm.gat[xy.X, xy.Y] <> 5)) or (j = 100) );
+  ts.Point.X := xy.X;
+  ts.Point.Y := xy.Y;
+
+  tm.Mob.AddObject(ts.ID, ts);
+  tm.Block[ts.Point.X div 8][ts.Point.Y div 8].MOB.AddObject(ts.ID, ts);
+  UpdateMonsterLocation(tm, ts);
+  //SendNData(tc.Socket, tn, tc.ver2 );
+  SendBCmd(tm, ts.Point, 41, tc, False);
+
+  end;
+end;
+
+//------------------------------------------------------------------------------
+
 procedure UpdateMonsterLocation(tm:TMap; ts:TMob);  //Update the location of a monster
 
 begin
@@ -3153,6 +3471,18 @@ begin
         WFIFOW(6, tc.Point.X);
         WFIFOW(8, tc.Point.Y);
         SendBCmd(tm, tc.Point, 10);
+end;
+
+//------------------------------------------------------------------------------
+
+procedure UpdateLivingLocation(tm:TMap; tv:TLiving);  //Update the location of a Living
+
+begin
+        WFIFOW(0, $0088);
+        WFIFOL(2, tv.ID);
+        WFIFOW(6, tv.Point.X);
+        WFIFOW(8, tv.Point.Y);
+        SendBCmd(tm, tv.Point, 10);
 end;
 
 //------------------------------------------------------------------------------
@@ -3225,29 +3555,15 @@ var
 	i :integer;
 begin
 	//Speed
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0000);
-	WFIFOL(4, tc.Speed);
-	tc.Socket.SendBuf(buf, 8);
-
+  SendCStat1(tc, 0, 0, tc.Speed);
 	//HPSP
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0005);
-	WFIFOL(4, tc.HP);
-	tc.Socket.SendBuf(buf, 8);
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0006);
-	WFIFOL(4, tc.MAXHP);
-	tc.Socket.SendBuf(buf, 8);
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0007);
-	WFIFOL(4, tc.SP);
-	tc.Socket.SendBuf(buf, 8);
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0008);
-	WFIFOL(4, tc.MAXSP);
-	tc.Socket.SendBuf(buf, 8);
-	//ステータス
+  SendCStat1(tc, 0, 5, tc.HP);
+  SendCStat1(tc, 0, 6, tc.MAXHP);
+
+  SendCStat1(tc, 0, 7, tc.SP);
+  SendCStat1(tc, 0, 8, tc.MAXSP);
+
+	// Update status points and points needed to level up.
 	WFIFOW( 0, $00bd);
 	WFIFOW( 2, tc.StatusPoint);
 	for i := 0 to 5 do begin
@@ -3269,40 +3585,22 @@ begin
 	WFIFOW(40, tc.ASpeed);
 	WFIFOW(42, 0);
 	tc.Socket.SendBuf(buf, 44);
-	//ベース経験値
-	WFIFOW(0, $00b1);
-	WFIFOW(2, $0001);
-	WFIFOL(4, tc.BaseEXP);
-	tc.Socket.SendBuf(buf, 8);
-	WFIFOW(0, $00b1);
-	WFIFOW(2, $0016);
-	WFIFOL(4, tc.BaseNextEXP);
-	tc.Socket.SendBuf(buf, 8);
-	//ジョブ経験値
-	WFIFOW(0, $00b1);
-	WFIFOW(2, $0002);
-	WFIFOL(4, tc.JobEXP);
-	tc.Socket.SendBuf(buf, 8);
-	WFIFOW(0, $00b1);
-	WFIFOW(2, $0017);
-	WFIFOL(4, tc.JobNextEXP);
-	tc.Socket.SendBuf(buf, 8);
-	//所持金更新
-	WFIFOW(0, $00b1);
-	WFIFOW(2, $0014);
-	WFIFOL(4, tc.Zeny);
-	tc.Socket.SendBuf(buf, 8);
-	//重量
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0018);
-	WFIFOL(4, tc.Weight);
-	tc.Socket.SendBuf(buf, 8);
-	//最大重量
-	WFIFOW(0, $00b0);
-	WFIFOW(2, $0019);
-	WFIFOL(4, tc.MaxWeight);
-	tc.Socket.SendBuf(buf, 8);
-	//ボーナス
+	// Update base XP
+  SendCStat1(tc, 1, 1, tc.BaseEXP);
+  SendCStat1(tc, 1, $0016, tc.BaseNextEXP);
+
+	// Update job XP
+  SendCStat1(tc, 1, 2, tc.JobEXP);
+  SendCStat1(tc, 1, $0017, tc.JobNextEXP);
+
+	// Update Zeny
+  SendCStat1(tc, 1, $0014, tc.Zeny);
+
+  // Update weight
+  SendCStat1(tc, 0, $0018, tc.Weight);
+  SendCStat1(tc, 0, $0019, tc.MaxWeight);
+
+  // Send status points.
 	for i := 0 to 5 do begin
 		WFIFOW( 0, $0141);
 		WFIFOL( 2, 13+i);
@@ -3310,52 +3608,29 @@ begin
 		WFIFOL(10, tc.Bonus[i]);
 		tc.Socket.SendBuf(buf, 14);
 	end;
-	//射程距離セット
+	// Send attack range.
 	WFIFOW(0, $013a);
 	WFIFOW(2, tc.Range);
 	tc.Socket.SendBuf(buf, 4);
 
-//Tumy
-if View then begin
-      WFIFOW(0, $00c3);
-      WFIFOL(2, tc.ID);
-      //WFIFOB(6, 2);
-      //WFIFOB(7, tc.Weapon);
-      //tc.Socket.SendBuf(buf, 8); // patket change for view weapon
-      WFIFOB(6, 3);
-      WFIFOB(7, tc.Head3);
-      SendBCmd(tc.MData, tc.Point, 8);
-      //tc.Socket.SendBuf(buf, 8);
-      WFIFOB(6, 4);
-      WFIFOB(7, tc.Head1);
-      SendBCmd(tc.MData, tc.Point, 8);
-      //tc.Socket.SendBuf(buf, 8);
-      WFIFOB(6, 5);
-      WFIFOB(7, tc.Head2);
-      SendBCmd(tc.MData, tc.Point, 8);
-      //tc.Socket.SendBuf(buf, 8);
-      //WFIFOB(6, 8);
-      //WFIFOB(7, tc.Shield);
-      //tc.Socket.SendBuf(buf, 8); // patket change for view Shield
+  // Update the character's view packets if necessary.
+  if View then begin
+    UpdateLook(tc.MData, tc, 3, tc.Head3, 0, true);
+    UpdateLook(tc.MData, tc, 4, tc.Head1, 0, true);
+    UpdateLook(tc.MData, tc, 5, tc.Head2, 0, true);
+    if (tc.Shield <> 0) then begin
+      UpdateLook(tc.MData, tc, 2, tc.WeaponSprite[0], tc.Shield);
+    end else begin
+      UpdateLook(tc.MData, tc, 2, tc.WeaponSprite[0], tc.WeaponSprite[1]);
+    end;
 
-      {Colus, 20040114: Using new weapon sprite display packet.}
-      WFIFOW(0, $01d7);
-      WFIFOL(2, tc.ID);
-      WFIFOB(6, 2);
-      WFIFOW(7, tc.WeaponSprite[0]);
-      if (tc.Shield <> 0) then begin
-        WFIFOW(9, tc.Shield);
-      end else begin
-        WFIFOW(9, tc.WeaponSprite[1]);
-      end;
-      SendBCmd(tc.MData, tc.Point, 11);
-      //tc.Socket.SendBuf(buf, 11);
-end;
-// Tumy
+  end;
 
 end;
 //------------------------------------------------------------------------------
 procedure SendCStat1(tc:TChara; Mode:word; DType:word; Value:cardinal);
+var
+  i     :integer;
 begin
 	WFIFOW(0, $00b0 + Mode);
 	WFIFOW(2, DType);
@@ -3363,13 +3638,31 @@ begin
 	tc.Socket.SendBuf(buf, 8);
 {パーティー機能追加}
 	//ステータスの更新時にHPバーの情報も更新する
-	if tc.PartyName <> '' then begin
+	if (tc.PartyName <> '') and (Mode = 0) and ((DType = 5) or (DType = 6)) then begin
 		WFIFOW( 0, $0106);
 		WFIFOL( 2, tc.ID);
 		WFIFOW( 6, tc.HP);
 		WFIFOW( 8, tc.MAXHP);
 		SendPCmd(tc, 10, true, true);
 	end;
+  // Colus, 20040317: This is the best place to do overweight icons.
+  if (Mode = 0) and ((DType = $0018) or (DType = $0019)) then begin
+    i := tc.Weight * 100 div tc.MaxWeight;
+
+    if (i >= 50) then begin
+      UpdateIcon(tc.MData, tc, 35, 1);
+    end else begin
+      UpdateIcon(tc.MData, tc, 35, 0);
+    end;
+
+    if (i >= 90) then begin
+      UpdateIcon(tc.MData, tc, 36, 1);
+    end else begin
+      UpdateIcon(tc.MData, tc, 36, 0);
+    end;
+
+  end;
+
 {パーティー機能追加ココまで}
 end;
 //------------------------------------------------------------------------------
@@ -3715,6 +4008,45 @@ begin
 end;
 
 //------------------------------------------------------------------------------
+
+procedure SendCAttack1(tc:TChara; dmg0:integer; dmg1:integer; dmg4:integer; dmg5:integer; tm:TMap; ts:TMob; Tick:cardinal);
+begin
+  with tc do begin
+    WFIFOW( 0, $008a);
+    WFIFOL( 2, ID);
+    WFIFOL( 6, ATarget);
+    WFIFOL(10, Tick);
+    WFIFOL(14, aMotion);
+    WFIFOL(18, ts.Data.dMotion);
+    WFIFOW(22, dmg0); //Right Hand Damage
+    WFIFOW(24, dmg4); //Number of Hits that make up total damage
+    WFIFOB(26, dmg5); //Attack Values: 0= Single 8= Multiple 10= Critical
+    WFIFOW(27, dmg1); //Left Hand Damage
+    SendBCmd(tm, ts.Point, 29);
+  end;
+end;
+
+procedure SendMAttack(tm:TMap; ts:TMob; tc:TChara; dmg0:integer; dmg4:integer; dmg5:integer; Tick:cardinal);
+
+begin
+  with ts do begin
+    WFIFOW( 0, $008a);
+    WFIFOL( 2, ID);
+    WFIFOL( 6, ATarget);
+    WFIFOL(10, Tick);
+    WFIFOL(14, ts.Data.aMotion);
+    WFIFOL(18, tc.dMotion);
+    WFIFOW(22, dmg0);
+    WFIFOW(24, dmg4);
+    // 4->9 for Endure damage, allow lucky hit gfx
+    if ((tc.dMotion = 0) and (dmg5 <> 11)) then dmg5 := 9;
+
+    WFIFOB(26, dmg5);
+    WFIFOW(27, 0);
+    SendBCmd(tm, tc.Point, 29);
+  end;
+end;
+//------------------------------------------------------------------------------
 procedure CalcSkillTick(tm:TMap; tc:TChara; Tick:cardinal = 0);
 var
 	i :integer;
@@ -3884,11 +4216,8 @@ begin
 	WFIFOW( 2, 4+37*j);
 	tc.Socket.SendBuf(buf, 4+37*j);
 
-	//スキルポイント送信
-	WFIFOW( 0, $00b0);
-	WFIFOW( 2, $000c);
-	WFIFOL( 4, tc.SkillPoint);
-	tc.Socket.SendBuf(buf, 8);
+	// Update number of skillpoints.
+  SendCStat1(tc, 0, $000c, tc.SkillPoint);
 end;
 //------------------------------------------------------------------------------
 {追加} //イグ葉やアンティペインメント等用
@@ -4226,7 +4555,7 @@ begin
 				if i < Data.CastTime3 then i := Data.CastTime3;
 			end;
 			i := i * tc.MCastTimeFix div 100;
-			if (i > 0) or (tc.ItemSkill = true) then begin
+			if (i > 0) or (tc.ItemSkill = true) or (tc.MSkill = 271) then begin
 				//詠唱開始
 				WFIFOW( 0, $013e);
 				WFIFOL( 2, tc.ID);
@@ -4371,10 +4700,7 @@ begin
         end;}
         tc.SP := tc.SP - SPAmount;
 
-	WFIFOW( 0, $00b0);
-	WFIFOW( 2, $0007);
-	WFIFOL( 4, tc.SP);
-	tc.Socket.SendBuf(buf, 8);
+	SendCStat1(tc, 0, 7, tc.SP);
    end;
 	Result := true;
 end;
@@ -4392,10 +4718,8 @@ begin
         tc.Socket.SendBuf(buf, 6);
         //重量変更
         tc.Weight := tc.Weight - tc.Item[j].Data.Weight;
-        WFIFOW( 0, $00b0);
-        WFIFOW( 2, $0018);
-        WFIFOL( 4, tc.Weight);
-        tc.Socket.SendBuf(buf, 8);
+        SendCStat1(tc, 0, $0018, tc.Weight);
+
 end;
 
 //------------------------------------------------------------------------------
@@ -4415,9 +4739,7 @@ begin
         tc.Item[j].Card[3] := 0;
         tc.Item[j].Data := td;
         tc.Weight := tc.Weight + cardinal(td.Weight);
-        WFIFOW( 0, $00b0);
-        WFIFOW( 2, $0018);
-        WFIFOL( 4, tc.Weight);
+        SendCStat1(tc, 0, $0018, tc.Weight);
 end;
 //------------------------------------------------------------------------------
 
@@ -4437,10 +4759,7 @@ begin
         WFIFOW( 2, w);
         WFIFOW( 4, 1);
 
-        WFIFOW( 0, $00b0);
-        WFIFOW( 2, $0018);
-        WFIFOL( 4, tc.Weight);
-        tc.Socket.SendBuf(buf, 8);
+        SendCStat1(tc, 0, $0018, tc.Weight);
 end;
 
 //------------------------------------------------------------------------------
@@ -4479,10 +4798,7 @@ begin
                                                 tc1.Item[j].Data := td;
                                                 //重量追加
                                                 tc1.Weight := tc1.Weight + td.Weight;
-                                                WFIFOW( 0, $00b0);
-                                                WFIFOW( 2, $0018);
-                                                WFIFOL( 4, tc1.Weight);
-                                                tc1.Socket.SendBuf(buf, 8);
+                                                SendCStat1(tc1, 0, $0018, tc1.Weight);
 
                                                 //アイテムゲット通知
                                                 SendCGetItem(tc1, j, 1);
@@ -4659,7 +4975,7 @@ var
 procedure SendNData(Socket: TCustomWinSocket; tn:TNPC; ver2:Word; Use0079:boolean = false);
 begin
 {NPCイベント追加}
-	if (tn.JID = -1) then exit;
+	//if (tn.JID = -1) then exit;//CR 2004/04/26 - JID is Cardinal.
 {NPCイベント追加ココまで}
 	if (tn.CType = 3) then begin
 		WFIFOW( 0, $009d);
@@ -4746,9 +5062,11 @@ begin
         with tgc do begin
           // No check of j.  Castle wouldn't have been made w/o a proper guild ID.
           j := GuildList.IndexOf(tgc.GID);
-          tg := GuildList.Objects[j] as TGuild;
-          w1 := tg.Emblem;
-					w2 := tg.ID;
+          if (j <> -1) then begin
+            tg := GuildList.Objects[j] as TGuild;
+            w1 := tg.Emblem;
+  					w2 := tg.ID;
+          end;
         end;
       end;
 		end; 
@@ -4924,135 +5242,340 @@ end;
 
 
 
-
-
 //==============================================================================
-function	MoveItem(ti1:TItemList; ti2:TitemList; Index:Word; cnt:Word) : Integer; overload;
-var
-	i,j:Integer;
-begin
+(*= Func MoveItem() : Integer ===================*
+
+CRW - 2004/04/04
+  Adding useful comments, renaming parameters and
+  internal variables for clarity.
+
+  No changes to external behavior or parameter
+  order were made! :)
+
+  Copies a 'Quant' amount of Items inside the
+  'Source' container to the
+
+  Returns:
+
+  -1  - When Index is out of bounds, or the
+        Source container doesn't have any items
+        at Index.
+
+   0  - ??
+
+   2  - ??
+
+   3  - No existing Item nodes in Dest have
+        the item that Source is moving over,
+        and/or the Source container is FULL.
+
+(*-- relies on --
+  DeleteItem()
+  GetItemStore()
+  SearchInventory()
+(*==============================================*)
+Function	MoveItem(
+            Dest    : TItemList;
+            Source  : TItemList;
+            Index   : Word;
+            Quant   : Word
+          ) : Integer; overload;
+Var
+  J : Integer;
+  K : Integer;
+  //CRW - I hate using "i" and "l" as iterative variable names
+  //  -- they're too easy to confuse for '1' '1' 'l' |'.
+  //  Avoid them like the plague, I tell you! :)
+Begin
+  //自分範囲外
+  //自分アイテム持ってない
 	Result := -1;
-	if 100 < index then Exit; //自分範囲外
-	if ti2.Item[Index].ID = 0 then Exit; //自分アイテム持ってない
-	i := SearchInventory(ti1, ti2.Item[Index].ID, ti2.Item[Index].Data.IEquip);
-	if i = 0 then begin //相手空き無し
+	if (100 < index) OR (Source.Item[Index].ID = 0) then
+    begin // Index OOB, or Item at Index is empty.
+    Exit;
+    end;//if (100...
+
+  // Are there any Item nodes with the item ID inside the destination?
+	K := SearchInventory(Dest, Source.Item[Index].ID, Source.Item[Index].Data.IEquip);
+	if K = 0 then begin //相手空き無し
 		Result := 3;
 		Exit;
 	end;
-	//個数多すぎたら持ってる数に
-	if ti2.Item[Index].Amount < cnt then cnt := ti2.Item[Index].Amount;
-	j := GetItemStore(ti1, ti2.Item[Index], cnt);
+
+  // if there's less of the Item in Source than asked for,
+  // only send that amount over, instead.
+	if Source.Item[Index].Amount < Quant then Quant := Source.Item[Index].Amount;
+	J := GetItemStore(Dest, Source.Item[Index], Quant);
 	if j = 0 then begin
-		DeleteItem(ti2,Index,cnt);
+		DeleteItem(Source,Index,Quant);
 		Result := 0;
 	end else if j = 2 then begin //相手重量オーバー
 		Result := j;
 	end else if j = 3 then begin //相手種類オーバー
 		Result := j;
 	end;
-end;
+End;(* Func MoveItem() : Integer ===============*)
+
+
 //------------------------------------------------------------------------------
-function  GetItemStore(ti:TItemList; td:TItem; cnt:Word; IsEquip:Boolean = False) : Integer;
-var
-	i:Integer;
+(*= Func GetItemStore() : Integer ===============*
+
+CRW - 2004/04/05
+  Adding useful comments, renaming parameters and
+  internal variables for clarity.
+
+  No changes to external behavior or parameter
+  order were made! :)
+
+
+
+Returns:
+
+-1
+0
+3
+
+  -1  - When Index is out of bounds, or the
+        AList container doesn't have any items.
+
+   0  - ??
+
+   2  - ??
+
+   3  - No existing Item nodes in Dest have
+        the item that Source is moving over,
+        and/or the Source container is FULL.
+
+
+(*-- relies on --
+  SearchInventory()
+(*==============================================*)
+Function  GetItemStore(
+            AList   : TItemList;
+            AnItem  : TItem;
+            Quant   : Word;
+            IsEquip : Boolean = False
+          ) : Integer;
+Var
+	Idx : Integer;
 begin
 	Result := 0;
-	with ti do begin
+	with AList do
+    begin
 		//重量オーバー
-		if MaxWeight < (Weight + td.Data.Weight * cnt) then begin
+		if MaxWeight < (Weight + AnItem.Data.Weight * Quant) then
+      begin
 			Result := 2;
 			Exit;
-		end;
-		if not IsEquip then IsEquip := td.Data.IEquip;
-		i := SearchInventory(ti,td.ID,IsEquip);
+  		end;//if MaxWeight...
+
+		if not IsEquip then IsEquip := AnItem.Data.IEquip;
+		Idx := SearchInventory(AList,AnItem.ID,IsEquip);
 		//所持種類オーバー
-		if i = 0 then begin
+		if Idx = 0 then begin
 			Result := 3;
 			Exit;
 		end;
 		//所持個数オーバー
-		if cnt + Item[i].Amount > 30000 then begin
+		if Quant + Item[Idx].Amount > 30000 then begin
 			Result := -1;
 			Exit;
 		end;
-		with Item[i] do begin
-			if Amount = 0 then Inc(Count);
-			ID := td.ID;
-			Inc(Amount,cnt);
-			Equip := 0;
-			Identify := td.Identify;
-			Refine := td.Refine;
-			Attr := td.Attr;
-			Card[0] := td.Card[0];
-			Card[1] := td.Card[1];
-			Card[2] := td.Card[2];
-			Card[3] := td.Card[3];
-			Data := td.Data;
-		end;
-		Inc(Weight,(td.Data.Weight * cnt));
-	end;
-end;
+		with Item[Idx] do
+      begin
+			if Amount = 0 then
+        Count := Count + 1;
+
+			ID        := AnItem.ID;
+			Amount    := Amount + Quant;
+			Equip     := 0;
+			Identify  := AnItem.Identify;
+			Refine    := AnItem.Refine;
+			Attr      := AnItem.Attr;
+			Card[0]   := AnItem.Card[0];
+			Card[1]   := AnItem.Card[1];
+			Card[2]   := AnItem.Card[2];
+			Card[3]   := AnItem.Card[3];
+
+      Data := AnItem.Data;
+      //
+      //CRW - Wrong! You need to Assign() Data or copy EVERYTHING
+      // field by field..  pointing Data to Data means the original
+      // AList.Item[Idx].Data 's TItenDB is freefloating, unreferenced...
+      //
+      // This is a memory leak, using := improperly.
+      //
+      // CRW -- Made the Assign() method now for TItemDB, so people won't
+      // perpetuate this mistake.  It and other goodies in
+      // TitemDB, TItem, TItemList are pending :)
+      //
+      // Right way:
+			//Data.Assign( AnItem.Data );
+
+  		end;
+		Weight := Weight + (AnItem.Data.Weight * Quant);
+  	end;//w AList
+end;(* Func GetItemStore() : Integer ===========*)
+
+
 //------------------------------------------------------------------------------
-function DeleteItem(ti:TItemList; index:Word; cnt:Word) : Integer;
-begin
+(*= Func DeleteItem() : Integer =================*
+
+CRW - 2004/04/04
+  Adding useful comments, renaming parameters and
+  internal variables for clarity.
+
+  No changes to external behavior or parameter
+  order were made! :)
+
+Deletes a given Quantity of an item at Index
+inside the ItemList 'AList'
+
+Returns:
+ -1 : Failed to delete.
+  0 : Deletion successful.
+
+(*==============================================*)
+Function  DeleteItem(
+            AList : TItemList;
+            Index : Word;
+            Quant : Word
+          ) : Integer;
+Begin
+  //CRW - internally, removing some of these
+  // Dec() calls, for future changes I want to do
+  // with TItem / TItemList
+
 	Result := -1;
 	if 100 < index then Exit; //範囲外
-	with ti.item[index] do begin
+	with AList.Item[Index] do
+    begin
 		if ID = 0 then Exit;       //所持していない
-		if Amount > cnt then begin //所有個数以下
-			Dec(Amount,cnt);
-			Dec(ti.Weight,(Data.Weight * cnt));
-		end else begin
+		if Amount > Quant then
+      begin //所有個数以下
+			Amount := Amount - Quant;
+			AList.Weight := AList.Weight  - (Data.Weight * Quant);
+  		end
+    else
+      begin
 			ID := 0;
-			Dec(ti.Weight,(Data.Weight * Amount));
+			AList.Weight := AList.Weight - (Data.Weight * Amount);
 			Amount := 0;
-			Dec(ti.Count);
-		end;
-	end;
+			Dec(AList.Count);
+  		end;//if-else
+  	end;//with AList.Item{Index]
 	Result := 0;
-end;
+end;(* Func GetItemStore() : Integer ===========*)
+
+
 //------------------------------------------------------------------------------
-procedure CalcInventory(ti:TItemList);
-var
-	i,j:Integer;
-begin
-	ti.Weight := 0;
-	j := 0;
+(*= Proc CalcInventory ==========================*
+
+CRW - 2004/04/05
+  Adding useful comments, renaming parameters and
+  internal variables for clarity.
+
+  No changes to external behavior or parameter
+  order were made! :)
+
+Recalculates a Cart or Kafra Storage container's
+Weight and iten mode Count.
+
+(*==============================================*)
+Procedure CalcInventory( AList : TItemList );
+Var
+	ItmIdx    : Integer;
+  NewCount  : Integer;
+Begin
+	AList.Weight := 0;
+	NewCount := 0;
 	//アイテム重量を計算
-	for i := 1 to 100 do begin
-		if ti.Item[i].ID <> 0 then begin
-                        //if ti.Item[i].Amount <= 0 then ti.Item[i].Amount := 0;
-			Inc(ti.Weight,(ti.item[i].Data.Weight * ti.item[i].Amount));
-			Inc(j);
-		end;
-	end;
-	ti.Count := j;
-end;
+	for ItmIdx := 1 to 100 do
+    begin
+    with AList.Item[ItmIdx] do
+      begin
+  		if ID <> 0 then
+        begin
+        //if ti.Item[i].Amount <= 0 then ti.Item[i].Amount := 0;
+		  	AList.Weight := AList.Weight + (Data.Weight * Amount);
+  			Inc(NewCount);
+	    	end;//if ID
+      end;//w
+  	end;//for
+
+	AList.Count := NewCount;
+End;(* Proc CalcInventory : Integer ============*)
+
+
 //------------------------------------------------------------------------------
-function SearchInventory(ti:TItemList; ItemID:Word; IEquip:Boolean) : Word;
-var
-	i :integer;
-begin
+(*= Func SearchInventory : Integer ==============*
+
+CRW - 2004/04/04
+  Adding useful comments, renaming parameters and
+  internal variables for clarity.
+
+  No changes to external behavior or parameter
+  order were made! :)
+
+Passes An ItemList container, an Iten ID to search
+for, and notes if the Item ID is a piece of
+Equipment (Weapons/Armour/PetEgg)
+
+Returns:
+  0       : When Cart is full
+
+  1..100  : Index of first node item can be placed
+            into (if the item exists, it's stacked
+            into an existing node, if not, it's
+            the first free item node).
+
+(*==============================================*)
+Function  SearchInventory(
+            AList   : TItemList;
+            ItemID  : Word;
+            IEquip  : Boolean
+          ) : Word;
+Var
+	ItmIdx : Integer;
+Begin
 	Result := 0;
-	if not IEquip then begin
-		for i := 1 to 100 do begin
+
+  //CRW moved this ahead of the for loop - this is an
+  // easy quick comparison to avoid serching a cart that
+  // you know is FULL from the start of the routine.
+  // No change in end results occur, except, when
+  // the cart's completely full, you save time. :)
+  //
+  //if full, leave with result of Zero - no room
+	if AList.Count = 100 then Exit;
+
+  // If stackable
+	if NOT IEquip then
+    begin
+		for ItmIdx := 1 to 100 do
+      begin
 			//同じアイテムを持ってるか探す
-			if ti.Item[i].ID = ItemID then begin
-				Result := i;
+			if AList.Item[ItmIdx].ID = ItemID then
+        begin
+				Result := ItmIdx;
 				Exit;
-			end;
-		end;
-	end;
-	if ti.Count = 100 then Exit;
-	for i := 1 to 100 do begin
+  			end;//if AList.Itemp[].ID
+  		end;//for
+  	end;//if NOT...
+
+  //otherwise, find the first empty spot in the Items array, return
+  // that index.
+	for ItmIdx := 1 to 100 do begin
 		//空きindexを探す
-		if ti.Item[i].ID = 0 then begin
-			ti.Item[i].Amount := 0;
-			Result := i;
+		if AList.Item[ItmIdx].ID = 0 then begin
+			AList.Item[ItmIdx].Amount := 0;
+			Result := ItmIdx;
 			Exit;
 		end;
 	end;
-end;
+End;(* Func SearchInventory() : Integer ========*)
+
+
 //------------------------------------------------------------------------------
 {カート機能追加}
 procedure SendCart(tc:TChara);
@@ -5640,6 +6163,7 @@ var
 	tdl	:TDealings;
 begin
 	if (tc.DealingID <> 0) then begin
+    l := 0;
 		i := DealingList.IndexOf(tc.DealingID);
 		if (i <> -1) then begin
 			tdl := DealingList.Objects[i] as TDealings;
@@ -5665,11 +6189,8 @@ begin
 					end;
 				end;
 				if (tdl.Zeny[l] <> 0) then begin
-					//ゼニー返還
-					WFIFOW(0, $00b1);
-					WFIFOW(2, $0014);
-					WFIFOL(4, tc.Zeny);
-					tc.Socket.SendBuf(buf, 8);
+					// Update zeny
+          SendCStat1(tc, 1, $0014, tc.Zeny);
 				end;
 				//取引キャンセルパケ
 				WFIFOW(0, $00ee);
@@ -5770,13 +6291,13 @@ begin
 				w := 4;
 				WFIFOW( 0, $0154);
 				for i := 0 to 35 do begin
-                    if tg.Member[i] <> nil then begin
-				                if UseSQL then begin
-                                                        j := Chara.IndexOf(tg.MemberID[i]);
-                                                        if j = -1 then begin
-                                                                Load_Characters(tg.Member[i].CID);
-                                                        end;
-                                                end;
+          if tg.Member[i] <> nil then begin
+              if UseSQL then begin
+                j := Chara.IndexOf(tg.MemberID[i]);
+                if j = -1 then begin
+                  Load_Characters(tg.Member[i].CID);
+                end;
+              end;
                     end;
 					tc1 := Member[i];
 					if (tc1 <> nil) then begin
@@ -5977,10 +6498,8 @@ end;
 //------------------------------------------------------------------------------
 procedure EnableGuildKafra(MapName:string;KafraName:string;Mode:integer);
 var
-	i,j,k,l,m,n  :integer;
-  tg           :TGuild;
-  tgc          :TCastle;
-  tm           :TMap;
+	i,j,k,l  :integer;
+	tm           :TMap;
   tm1          :TMap;
   tn1          :TNPC;
   tc1          :TChara;
@@ -6060,46 +6579,34 @@ begin
 				end;
 //------------------------------------------------------------------------------
 function GetGuildKafra(tn:TNPC) : integer;
-var
-  tgc:TCastle;
-  i  :integer;
-	w  :integer;
+var{ChrstphrR 2004/04/28 Eliminated unused variables}
+	Idx : Integer;
 begin
-	w := 0;
-  i := CastleList.IndexOf(tn.Reg);
+	Result := 0;
+	Idx := CastleList.IndexOf(tn.Reg);
 
-  if (i <> - 1) then begin
-  tgc := CastleList.Objects[i] as TCastle;
-  w := tgc.GKafra;
-  end else begin
-  w := 0;
-  end;
-
-	Result := w;
-end;
+	if (Idx > -1) then
+		Result := (CastleList.Objects[Idx] AS TCastle).GKafra;
+end;//func GetGuildKafra()
 //------------------------------------------------------------------------------
 procedure SetGuildKafra(tn:TNPC;mode:integer);
-var
-  tgc:TCastle;
-  i  :integer;
+var{ChrstphrR 2004/04/28 Eliminated unused variables}
+	Idx : Integer;
 begin
-  i := CastleList.IndexOf(tn.Reg);
+	Idx := CastleList.IndexOf(tn.Reg);
 
-  if (i <> - 1) then begin
-  tgc := CastleList.Objects[i] as TCastle;
-  tgc.GKafra := mode;
-  end;
-
+	if (Idx > -1) then
+		(CastleList.Objects[i] as TCastle).GKafra := mode;
 end;
 //------------------------------------------------------------------------------
 procedure SpawnNPCMob(tn:TNPC;MobName:string;X:integer;Y:integer;SpawnDelay1:cardinal;SpawnDelay2:cardinal);
 var
-  i,j,k :integer;
-  m     :integer;
-  ts    :TMob;
-  tm    :TMap;
-  te    :TEmp;
-  tgc   :TCastle;
+	k   :integer;
+	m   :integer;
+	ts  :TMob;
+	tm  :TMap;
+	te  :TEmp;
+	tgc :TCastle;
 begin
           //DebugOut.Lines.Add(MobName);
           tm := Map.Objects[Map.IndexOf(tn.Map)] as TMap;
@@ -6204,6 +6711,125 @@ begin
 					//SendBCmd(tm,ts.Point,41,tc,False);
 end;
 //------------------------------------------------------------------------------
+
+procedure SpawnEventMob(tn:TNPC;MobID:cardinal;MobName:string;X:integer;Y:integer;DropItem:cardinal);
+var
+	j,k :integer;
+  m     :integer;
+  ts    :TMob;
+  tm    :TMap;
+  te    :TEmp;
+  tgc   :TCastle;
+begin
+          //DebugOut.Lines.Add(MobName);
+          tm := Map.Objects[Map.IndexOf(tn.Map)] as TMap;
+          ts := TMob.Create;
+					ts.Data := MobDB.Objects[MobDB.IndexOf(MobID)] as TMobDB;
+					ts.ID := NowMobID;
+					Inc(NowMobID);
+					ts.Name := MobName;
+					ts.JID := ts.Data.ID;
+					ts.Map := tn.Map;
+          ts.Data.isLink :=false;
+          //ts.NPCID := tn.ID;
+
+          //if (X = 0) and (Y = 0) then begin
+          //repeat
+					//ts.Point.X := Random(tm.Size.X - 2);
+					//ts.Point.Y := Random(tm.Size.y - 2);
+          //until ( (tm.gat[ts.Point.X][ts.Point.Y] <> 1) and (tm.gat[ts.Point.X][ts.Point.Y] <> 5) );
+          //end else begin
+					ts.Point.X := X;
+					ts.Point.Y := Y;
+          //end;
+
+					ts.Dir := Random(8);
+					ts.HP := ts.Data.HP;
+					ts.Speed := ts.Data.Speed;
+
+					//ts.SpawnDelay1 := SpawnDelay1;
+					//ts.SpawnDelay2 := SpawnDelay2;
+
+					ts.SpawnType := 0;
+					ts.SpawnTick := 0;
+
+					ts.ATarget := 0;
+					ts.ATKPer := 100;
+					ts.DEFPer := 100;
+					ts.DmgTick := 0;
+
+          ts.Element := ts.Data.Element;
+
+          //ts.Name := ts.Data.JName;
+
+					ts.Data.MEXP := 0;
+					ts.Data.EXP := 0;
+					ts.Data.JEXP := 0;
+
+          ts.isLooting := False;
+  						for j:= 1 to 10 do begin
+								ts.Item[j].ID := 0;
+								ts.Item[j].Amount := 0;
+								ts.Item[j].Equip := 0;
+								ts.Item[j].Identify := 0;
+								ts.Item[j].Refine := 0;
+								ts.Item[j].Attr := 0;
+								ts.Item[j].Card[0] := 0;
+								ts.Item[j].Card[1] := 0;
+								ts.Item[j].Card[2] := 0;
+								ts.Item[j].Card[3] := 0;
+						  end;
+              if DropItem <> 0 then begin
+                ts.Item[1].ID := DropItem;
+                ts.Item[1].Amount := 1;
+                ts.Item[1].Data := ItemDB.Objects[ItemDB.IndexOf(DropItem)] as TItemDB;
+              end;
+
+              if ts.Data.isDontMove then
+              ts.MoveWait := 4294967295
+              else
+              ts.MoveWait := TimeGetTime() + 5000 + Cardinal(Random(10000));
+
+              if (ts.JID = 1288) then begin
+              ts.isEmperium := true;
+              m := CastleList.IndexOf(ts.Map);
+              if (m <> - 1) then begin
+              tgc := CastleList.Objects[m] as TCastle;
+              ts.GID := tgc.GID;
+              end;
+              k := EmpList.IndexOf(ts.Map);
+              if (k = -1) then begin
+              te := TEmp.Create;
+		          with te do begin
+              Map := ts.Map;
+              EID := ts.ID;
+              end;
+		          EmpList.AddObject(te.Map, te);
+              end;
+              end;
+
+          ts.isActive := ts.Data.isActive;
+
+					for j := 0 to 31 do begin
+						ts.EXPDist[j].CData := nil;
+						ts.EXPDist[j].Dmg := 0;
+					end;
+					if ts.Data.MEXP <> 0 then begin
+						for j := 0 to 31 do begin
+							ts.MVPDist[j].CData := nil;
+							ts.MVPDist[j].Dmg := 0;
+						end;
+						ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAに30%加算
+					end;
+          ts.isSummon := True;
+
+					tm.Mob.AddObject(ts.ID, ts);
+					tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
+
+					//SendMData(tc.Socket, ts);
+					//SendBCmd(tm,ts.Point,41,tc,False);
+end;
+//------------------------------------------------------------------------------
 function CheckGuildID(tn:TNPC; tc:TChara) : word;
 var
   tgc:TCastle;
@@ -6225,45 +6851,56 @@ begin
 	Result := w;
 end;
 //------------------------------------------------------------------------------
-function CheckGuildMaster(tn:TNPC; tc:TChara) : word;
-var
-  tgc:TCastle;
-  i  :integer;
-	w  :word;
-begin
-	w := 0;
-  i := CastleList.IndexOf(tn.Reg);
 
-  if (i <> - 1) then begin
-  tgc := CastleList.Objects[i] as TCastle;
-  if (tgc.GMName = tc.Name) then begin
-  w := 1;
-  end;
-  end else begin
-  w := 0;
-  end;
+(*-----------------------------------------------------------------------------*
+CheckGuildMaster
+Pre:
+	tc is a valid, non-nil TChara
+	tn is a valid, non-nil TNPC
+	(In other words, this function's not responsible for bad input)
+Post:
+	If the Character is the Guild Master of the same Guild the NPC owns,
+	1 is returned, else 0.
+*-----------------------------------------------------------------------------*)
+Function  CheckGuildMaster(
+          	tn : TNPC;
+          	tc : TChara
+          ) : Word;
+Var{ChrstphrR 2004/04/28 Eliminated unused variables}
+	tgc:TCastle;
+	Idx :integer;
+Begin
+	Result := 0;
+	Idx := CastleList.IndexOf(tn.Reg);
 
-	Result := w;
-end;
-//------------------------------------------------------------------------------
-function GetGuildID(tn:TNPC) : word;
-var
-  tgc:TCastle;
-  i  :integer;
-	w  :word;
-begin
-	w := 0;
-  i := CastleList.IndexOf(tn.Reg);
+	if (Idx > - 1) AND ((CastleList.Objects[i] AS TCastle).GMName = tc.Name) then
+		Result := 1;
+End;(* Func CheckGuildMaster()
+*-----------------------------------------------------------------------------*)
 
-  if (i <> - 1) then begin
-  tgc := CastleList.Objects[i] as TCastle;
-  w := tgc.GID;
-  end else begin
-  w := 0;
-  end;
 
-	Result := w;
-end;
+(*-----------------------------------------------------------------------------*
+GetGuildID
+Pre:
+	tn is a valid, non-nil TNPC
+	(In other words, this function's not responsible for bad input)
+Post:
+	If tn is associated with a guild, returns the Guild ID, else returns 0
+*-----------------------------------------------------------------------------*)
+Function  GetGuildID(
+          	tn : TNPC
+          ) : Word;
+Var{ChrstphrR 2004/04/28 Eliminated unused variables}
+	Idx : Integer;
+Begin
+	Result := 0;
+	Idx := CastleList.IndexOf(tn.Reg);
+
+	if (Idx > - 1) then
+		Result := (CastleList.Objects[i] AS TCastle).GID;
+End;(* Func GetGuildID()
+*-----------------------------------------------------------------------------*)
+
 //------------------------------------------------------------------------------
 procedure GuildDInvest(tn:TNPC);
 var
@@ -6292,99 +6929,98 @@ begin
 end;
 //------------------------------------------------------------------------------
 procedure CallGuildGuard(tn:TNPC;guard:integer);
-var
-  tgc        :TCastle;
-  i,j,k,l,m  :integer;
-  ts         :TMob;
-  tm         :TMap;
-  te         :TEmp;
+var{ChrstphrR 2004/04/28 eliminated unused variables}
+	tgc : TCastle;
+	j   : integer;
+	ts  : TMob;
+	tm  : TMap;
+	te  : TEmp;
 begin
-          //guard := guard - 1;
-          tm := Map.Objects[Map.IndexOf(tn.Map)] as TMap;
-	        j := CastleList.IndexOf(tm.Name);
-          if (j <> - 1) then begin
-          tgc := CastleList.Objects[j] as TCastle;
-          j := EmpList.IndexOf(tm.Name);
-          if (j <> - 1) then te := EmpList.Objects[j] as TEmp;
-          ts := TMob.Create;
-          //if (tgc.GuardStatus[guard] = 1) then begin
-          case guard of
-          0,1,2:
-          begin
-					ts.Data := MobDBName.Objects[MobDBName.IndexOf('SOLDIER_GUARDIAN')] as TMobDB;
-          end;
-          3,4:
-          begin
-          ts.Data := MobDBName.Objects[MobDBName.IndexOf('ARCHER_GUARDIAN')] as TMobDB;
-          end;
-          5,6,7:
-          begin
-          ts.Data := MobDBName.Objects[MobDBName.IndexOf('KNIGHT_GUARDIAN')] as TMobDB;
-          end;
-          end;
-					ts.ID := NowMobID;
-					Inc(NowMobID);
-					ts.Name := ts.Data.JName;
-					ts.JID := ts.Data.ID;
-					ts.Map := tm.Name;
-          ts.Data.isLink :=false;
-          ts.isGuardian := tgc.GID;
+	//guard := guard - 1;
+	tm := Map.Objects[Map.IndexOf(tn.Map)] as TMap;
+	j := CastleList.IndexOf(tm.Name);
+	if (j <> - 1) then begin
+		tgc := CastleList.Objects[j] as TCastle;
+		te  := nil;
+		j := EmpList.IndexOf(tm.Name);
+		if (j <> - 1) then te := EmpList.Objects[j] as TEmp;
+		ts := TMob.Create;
+		//if (tgc.GuardStatus[guard] = 1) then begin
+		case guard of
+		0,1,2:
+			begin
+				ts.Data := MobDBName.Objects[MobDBName.IndexOf('SOLDIER_GUARDIAN')] as TMobDB;
+			end;
+		3,4:
+			begin
+				ts.Data := MobDBName.Objects[MobDBName.IndexOf('ARCHER_GUARDIAN')] as TMobDB;
+			end;
+		5,6,7:
+			begin
+				ts.Data := MobDBName.Objects[MobDBName.IndexOf('KNIGHT_GUARDIAN')] as TMobDB;
+			end;
+		end;//case
+		ts.ID := NowMobID;
+		Inc(NowMobID);
+		ts.Name := ts.Data.JName;
+		ts.JID := ts.Data.ID;
+		ts.Map := tm.Name;
+		ts.Data.isLink :=false;
+		ts.isGuardian := tgc.GID;
 
-          if (te <> nil) then begin
-          ts.EmperiumID := te.EID;
-          end else begin
-          ts.EmperiumID := 0;
-          end;
+		if (te <> nil) then begin
+			ts.EmperiumID := te.EID;
+		end else begin
+			ts.EmperiumID := 0;
+		end;
 
-          repeat
-					ts.Point1.X := Random(tm.Size.X - 2);
-					ts.Point1.Y := Random(tm.Size.y - 2);
-                    
-          until ( (tm.gat[ts.Point1.X][ts.Point1.Y] <> 1) and (tm.gat[ts.Point1.X][ts.Point1.Y] <> 5) );
+		repeat
+			ts.Point1.X := Random(tm.Size.X - 2);
+			ts.Point1.Y := Random(tm.Size.y - 2);
+		until ( (tm.gat[ts.Point1.X][ts.Point1.Y] <> 1) and (tm.gat[ts.Point1.X][ts.Point1.Y] <> 5) );
 
-          ts.Point := ts.Point1;
+		ts.Point := ts.Point1;
 
-					ts.Dir := Random(8);
-					ts.HP := ts.Data.HP + cardinal(tgc.DTrigger * 2000);
-					ts.Speed := ts.Data.Speed;
-					ts.SpawnDelay1 := $7FFFFFFF;
-					ts.SpawnDelay2 := 0;
-					ts.SpawnType := 0;
-					ts.SpawnTick := 0;
-					if ts.Data.isDontMove then
-						ts.MoveWait := $FFFFFFFF
-					else
-          ts.MoveWait := timeGetTime();
-					ts.ATarget := 0;
-					ts.ATKPer := 100;
-					ts.DEFPer := 100;
-					ts.DmgTick := 0;
-          ts.Element := ts.Data.Element;
-          ts.Name := ts.Data.JName;
-          ts.isActive := ts.Data.isActive;
-					ts.MoveWait := timeGetTime();
-					for j := 0 to 31 do begin
-						ts.EXPDist[j].CData := nil;
-						ts.EXPDist[j].Dmg := 0;
-					end;
-					if ts.Data.MEXP <> 0 then begin
-						for j := 0 to 31 do begin
-							ts.MVPDist[j].CData := nil;
-							ts.MVPDist[j].Dmg := 0;
-						end;
-						ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAに30%加算
-					end;
-          ts.isSummon := True;
-					tm.Mob.AddObject(ts.ID, ts);
-					tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
-          //end;
-          end;
-end;
+		ts.Dir := Random(8);
+		ts.HP := ts.Data.HP + cardinal(tgc.DTrigger * 2000);
+		ts.Speed := ts.Data.Speed;
+		ts.SpawnDelay1 := $7FFFFFFF;
+		ts.SpawnDelay2 := 0;
+		ts.SpawnType := 0;
+		ts.SpawnTick := 0;
+		if ts.Data.isDontMove then
+			ts.MoveWait := $FFFFFFFF
+		else
+			ts.MoveWait := timeGetTime;
+		ts.ATarget := 0;
+		ts.ATKPer := 100;
+		ts.DEFPer := 100;
+		ts.DmgTick := 0;
+		ts.Element := ts.Data.Element;
+		ts.Name := ts.Data.JName;
+		ts.isActive := ts.Data.isActive;
+		ts.MoveWait := timeGetTime();
+		for j := 0 to 31 do begin
+			ts.EXPDist[j].CData := nil;
+			ts.EXPDist[j].Dmg := 0;
+		end;
+		if ts.Data.MEXP <> 0 then begin
+			for j := 0 to 31 do begin
+				ts.MVPDist[j].CData := nil;
+				ts.MVPDist[j].Dmg := 0;
+			end;
+			ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAに30%加算
+		end;
+		ts.isSummon := True;
+		tm.Mob.AddObject(ts.ID, ts);
+		tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
+	end;
+end;//proc CallGuildGuard()
 //------------------------------------------------------------------------------
 function GetGuildEDegree(tn:TNPC) : cardinal;
 var
-  tgc:TCastle;
-  i  :integer;
+	tgc:TCastle;
+	i  :integer;
 	w  :cardinal;
 begin
 	w := 0;
@@ -6527,9 +7163,8 @@ end;
 procedure KillGuildRelation(tg:TGuild; tg1:TGuild; tc:TChara; tc1:TChara; RelType:byte);
 //同盟・敵対関係を解消する
 var
-	j   :integer;
-	w   :word;
-	tgl :TGRel;
+	j   : Integer;
+	tgl : TGRel;
 begin
 	//解消通知
 	if (RelType = 0) then begin
@@ -6659,20 +7294,66 @@ end;
 
 
 //==============================================================================
-procedure MapLoad(MapName:string);
-var
-	i,j,k,l :integer;
-	i1,g,ii :integer;
-  m       :integer;
-  x,p       :integer;
-	cnt     :array[0..3] of integer;
+(*-----------------------------------------------------------------------------*
+ChrstphrR 2004/04/21
+I am NOT the original author here ...  just checking to ensure the code is safe.
+MapLoad() loads the map object that associated with mapname.
+
+MapLoad helps implement the nifty load-on-first-request design for maps -- Maps
+are only loaded into memory as people walk / warp / logon into them.
+
+Input -> MapName
+Acts on "Map" StringList
+
+Changes made:
+- Japanese -> English comment translation
+- Fixed Memory Leaks when Exit; called without freeing created local objects
+  (Even fixed the commented out Exits ... just in case.)
+  Approx 145 fixed in place here across ~2000 lines of code.
+- Added local procs to do the cleanup work, and reduce code bloat.
+- Added local Constants for one of the routines.
+- Added one or two local vars for naming clarity.
+
+*-----------------------------------------------------------------------------*)
+Procedure MapLoad(
+		MapName : string
+	);
+Const
+	SCRIPT_SYNTAX_ERR = 0;
+	SCRIPT_SYNT_2_ERR = 1;
+	SCRIPT_FUNCTN_ERR = 2;
+	SCRIPT_SELECT_ERR = 3;
+	SCRIPT_RANGE1_ERR = 4;
+	SCRIPT_RANGE2_ERR = 5;
+	SCRIPT_RANGE3_ERR = 6;
+	SCRIPT_RANGE4_ERR = 7;
+	SCRIPT_DIV_Z3_ERR = 8;
+	SCRIPT_LBLNOT_ERR	= 9;
+
+Var
+	i   : Integer; // X direction loop iterator
+	j   : Integer; // Y direction loop iterator
+
+	Idx  : Integer; // Loop Iterator - used several times.
+	Idx2 : Integer; // Loop Iterator - used several times.
+
+	TempInt : Integer; // temp placeholder before converting
+	// value into a cardinal (unsigned int)
+	k   : Integer;
+	g   : Integer;
+	ii  : Integer;
+	m   : Integer;
+	x   : Integer;
+	p   : Integer;
+	cnt : array[0..3] of integer;
 	lines   :integer;
 	mcnt    :integer;
 	SDelay  :cardinal;
 	w       :word;
-	str     :string;
-  str2    :string;
-	ScriptPath :string;
+	str        : string;
+	mathop     : string; //holds string representing a binary compare op like '<>'
+	str2       : string;
+	ScriptPath : string;
 	Tick    :cardinal;
 	dat     :TMemoryStream;
 	txt     :TextFile;
@@ -6680,34 +7361,84 @@ var
 	tn      :TNPC;
 	tn1     :TNPC;
 	ts      :TMob;
-  tgc     :TCastle;
-  te      :TEmp;
+	tgc     :TCastle;
+	te      :TEmp;
 	ts0     :TMob;
-  ts1     :TMob;
-  tss     :TSlaveDB;
-  tc1     :TChara;
-	h  :array[0..3] of single;
+	ts1     :TMob;
+	tss     :TSlaveDB;
+	tc1     :TChara;
+	h       :array[0..3] of single;
 	maptype :integer;
-	sl:TStringList;
-	sl1:TStringList;
-	sl2:TStringList;
-	flag:boolean;
+	SL      :TStringList;
+	SL1     :TStringList;
+	SL2     :TStringList;
+	flag    :boolean;
 {NPCイベント追加}
 	tc      :TChara;
 	tr      :NTimer;
-	ta	:TMapList;
+	ta      :TMapList;
 {NPCイベント追加ココまで}
 
-        afm :textfile;
-        letter :char;
-begin
+	afm     :textfile;
+	letter  :char;
+
+	procedure MapErr(const EMsg : String);
+	begin
+		DebugOut.Lines.Add(EMsg);
+		tm.Free;
+	end;
+
+	procedure ScriptErr(
+	          const
+	          	ScriptErrType : Integer;
+	          	Args: array of const
+	          );
+	var
+		EMsg : String;
+	begin
+		case ScriptErrType of
+		SCRIPT_SYNTAX_ERR : //Syntax Error (2 params in Args)
+			EMsg := Format('%s %.4d: syntax error', Args);
+		SCRIPT_SYNT_2_ERR : //Syntax Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] syntax error (2)', Args);
+		SCRIPT_FUNCTN_ERR : //Function Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] function error', Args);
+		SCRIPT_SELECT_ERR : //Too Many Selections (3 params in ARgs)
+			EMsg := Format('%s %.4d: [%s] too many selections', Args);
+		SCRIPT_RANGE1_ERR : //Range Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] range error (1)', Args);
+		SCRIPT_RANGE2_ERR : //Range Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] range error (2)', Args);
+		SCRIPT_RANGE3_ERR : //Range Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] range error (3)', Args);
+		SCRIPT_RANGE4_ERR : //Range Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] range error (4)', Args);
+		SCRIPT_DIV_Z3_ERR : //Div by Zero Error (3 params in Args)
+			EMsg := Format('%s %.4d: [%s] div 0 error (3)', Args);
+		SCRIPT_LBLNOT_ERR : //Label not found (2 params in Args)
+			EMsg := Format('%s : label "%s" not found', Args);
+
+		else
+			begin
+			end;//else-case
+		end;//case
+
+		DebugOut.Lines.Add(EMsg);
+		SL.Free;
+		SL1.Free;
+		SL2.Free;
+	end;
+
+Begin
 	MapName := ChangeFileExt(MapName, '');
-	dat := TMemoryStream.Create; //読み込み用メモリバッファ
+//	dat := TMemoryStream.Create; //Memory Buffer to read in Map
+	{ChrstphrR -- dat is NOT freed up proper in most early Exits, moving so it IS
+	in a safe position}
 
-
+	//Safety check - don't try loading maps that don't exist in the List already
 	if MapList.IndexOf(MapName) = -1 then begin
-		//DebugOut.Lines.Add('Map Not found : ' + MapName);
-		exit;
+		MapErr('Map Not Found : ' + MapName);
+		Exit; //CRW - 2004/04/21 - Safe
 	end;
 
 	tm := TMap.Create;
@@ -6715,111 +7446,120 @@ begin
 	Map.AddObject(MapName, tm);
 	tm.Mode := 1;
 
-        ta := MapList.Objects[MapList.IndexOf(MapName)] as TMapList;
+	ta := MapList.Objects[MapList.IndexOf(MapName)] as TMapList;
 
-        if ta.Ext = 'af2' then begin
+	//AF2 style map file
+	if ta.Ext = 'af2' then begin
 
-          assignfile(afm,AppPath + 'map\tmpFiles\' + MapName + '.out');
-          Reset(afm);
+		AssignFile(afm,AppPath + 'map\tmpFiles\' + MapName + '.out');
+		Reset(afm);
 
-          ReadLn(afm,str);
-          if (str <> 'ADVANCED FUSION MAP') then begin
-            DebugOut.Lines.Add('Mapfile error 500 : ' + MapName);
-            tm.Free;
-            exit;
-          end;
+		ReadLn(afm,str);
+		if (str <> 'ADVANCED FUSION MAP') then begin
+			MapErr('Mapfile error 500 : ' + MapName);
+			Exit; //CRW - 2004/04/21 - Safe
+		end;
 
-          ReadLn(afm,str);
-          if (str <> MapName) then begin
-            DebugOut.Lines.Add('The loaded map was not the memory map : ' + MapName);
-            tm.Free;
-            exit;
-          end;
+		ReadLn(afm,str);
+		if (str <> MapName) then begin
+			MapErr('The loaded map was not in the memory map : ' + MapName);
+			Exit; //CRW - 2004/04/21 - Safe
+		end;
 
-          ReadLn(afm,tm.Size.x,tm.Size.y);
-          ReadLn(afm,str);
+		ReadLn(afm,tm.Size.x,tm.Size.y);
+		ReadLn(afm,str);
 
-          SetLength(tm.gat, tm.Size.X, tm.Size.Y);
-          for j := 0 to tm.Size.Y - 1 do begin
-            for i := 0 to tm.Size.X - 1 do begin
-              Read(afm,letter);
-              tm.gat[i][j] := strtoint(letter);
-            end;
-            ReadLn(afm,str);
-          end;
-          CloseFile(afm);
-        end
+		//Set the size of the interal Map
+		SetLength(tm.gat, tm.Size.X, tm.Size.Y);
+		//NB, the afm data is flipped in both directions vs how the map is
+		//oriented when we see it in the client
+		for j := 0 to tm.Size.Y - 1 do begin
+			for i := 0 to tm.Size.X - 1 do begin
+				Read(afm,letter);
+				tm.gat[i][j] := StrToInt(letter);
+			end;
+			ReadLn(afm,str);
+		end;
+		CloseFile(afm);
+	end
+	//AF2 style map file
 
-        else if ta.Ext = 'afm' then begin
+	//AFM style map file
+	else if ta.Ext = 'afm' then begin
+		AssignFile(afm,AppPath + 'map/' + MapName + '.afm');
+		Reset(afm);
 
-          assignfile(afm,AppPath + 'map/' + MapName + '.afm');
-          Reset(afm);
+		ReadLn(afm,str);
+		if (str <> 'ADVANCED FUSION MAP') then begin
+			MapErr('Mapfile error 500 : ' + MapName);
+			Exit; //CRW - 2004/04/21 - Safe
+		end;
 
-          ReadLn(afm,str);
-          if (str <> 'ADVANCED FUSION MAP') then begin
-            DebugOut.Lines.Add('Mapfile error 500 : ' + MapName);
-            tm.Free;
-            exit;
-          end;
+		ReadLn(afm,str);
+		if (str <> MapName) then begin
+			MapErr('The loaded map was not the memory map : ' + MapName);
+			Exit; //CRW - 2004/04/21 - Safe
+		end;
 
-          ReadLn(afm,str);
-          if (str <> MapName) then begin
-            DebugOut.Lines.Add('The loaded map was not the memory map : ' + MapName);
-            tm.Free;
-            exit;
-          end;
+		ReadLn(afm,tm.Size.x,tm.Size.y); //Read Map Size
+		ReadLn(afm,str);  //Eat Blank line
 
-          ReadLn(afm,tm.Size.x,tm.Size.y);
-          ReadLn(afm,str);
+		//Set the size of the interal Map
+		SetLength(tm.gat, tm.Size.X, tm.Size.Y);
+		//NB, the afm data is flipped in both directions vs how the map is
+		//oriented when we see it in the client
+		for j := 0 to tm.Size.Y - 1 do begin
+			for i := 0 to tm.Size.X - 1 do begin
+				Read(afm,letter);
+				tm.gat[i][j] := StrToInt(letter);
+			end;
+			ReadLn(afm,str);
+		end;
+		CloseFile(afm);
+	end
+	//AFM style map file
 
-          SetLength(tm.gat, tm.Size.X, tm.Size.Y);
-          for j := 0 to tm.Size.Y - 1 do begin
-            for i := 0 to tm.Size.X - 1 do begin
-              Read(afm,letter);
-              tm.gat[i][j] := strtoint(letter);
-            end;
-            ReadLn(afm,str);
-          end;
-          CloseFile(afm);
-        end
+	//GAT style map file
+	else begin
+		dat := TMemoryStream.Create; //Memory Buffer to read in Map
+		{ChrstphrR -- dat is NOT freed up proper in most early Exits}
+		if ta.Ext = 'gat' then begin
+			//DebugOut.Lines.Add('Loading mapfile... : ' + MapName + '.gat');
+			dat.LoadFromFile(AppPath + 'map\' + MapName + '.gat');
+			SetLength(str, 4);
+			dat.Read(str[1], 4);
+		end;
 
-        else begin
-         
-          if ta.Ext = 'gat' then begin
-            //DebugOut.Lines.Add('Loading mapfile... : ' + MapName + '.gat');
-            dat.LoadFromFile(AppPath + 'map\' + MapName + '.gat');
-            SetLength(str, 4);
-            dat.Read(str[1], 4);
-          end;
-          
-          if (str <> 'GRAT') then begin
-            DebugOut.Lines.Add('Mapfile error 500 : ' + MapName);
-            tm.Free;
-            exit;
-          end;
 
-          dat.Read(w, 2);
-          dat.Read(tm.Size.X, 4);
-          dat.Read(tm.Size.Y, 4);
-          
-          SetLength(tm.gat, tm.Size.X, tm.Size.Y);
-          for j := 0 to tm.Size.Y - 1 do begin
-            for i := 0 to tm.Size.X - 1 do begin
-                         
-              if ta.Ext = 'gat' then begin
-                dat.Read(h[0], 4);
-                dat.Read(h[1], 4);
-                dat.Read(h[2], 4);
-                dat.Read(h[3], 4);
-                dat.Read(maptype, 4);
+		if (str <> 'GRAT') then begin
+			MapErr('Mapfile error 500 : ' + MapName);
+			if Assigned(dat) then dat.Free;
+			Exit; //CRW - 2004/04/21 - Safe
+		end;
 
-                tm.gat[i][j] := maptype;
+		dat.Read(w, 2);
+		dat.Read(tm.Size.X, 4);
+		dat.Read(tm.Size.Y, 4);
 
-              end;
-            end;
-          end;
-          dat.Free;
-        end;
+		SetLength(tm.gat, tm.Size.X, tm.Size.Y);
+		for j := 0 to tm.Size.Y - 1 do begin
+			for i := 0 to tm.Size.X - 1 do begin
+
+				if ta.Ext = 'gat' then begin
+					dat.Read(h[0], 4);
+					dat.Read(h[1], 4);
+					dat.Read(h[2], 4);
+					dat.Read(h[3], 4);
+					dat.Read(maptype, 4);
+
+					tm.gat[i][j] := maptype;
+
+				end;
+			end;
+		end;
+		dat.Free;
+	end;
+	//GAT style map file
 
 	tm.BlockSize.X := (tm.Size.X + 7) div 8;
 	tm.BlockSize.Y := (tm.Size.Y + 7) div 8;
@@ -6827,60 +7567,72 @@ begin
 		for i := 0 - 3 to tm.BlockSize.X + 3 do begin
 			tm.Block[i][j] := TBlock.Create;
 			if (i < 0) or (j < 0) or (i >= tm.BlockSize.X) or (j >= tm.BlockSize.Y) then
-				tm.Block[i][j].MobProcTick := $FFFFFFFF //画面外ブロックはモンスター処理を行わない
+				tm.Block[i][j].MobProcTick := $FFFFFFFF
+				//The 3 Block "border" on the outside of the map does NOT perform
+				// monster processing, thus it's set to the $FFFFFFFF value.
 			else
 				tm.Block[i][j].MobProcTick := 0;
+				//Otherwise you Zero out the value :D
 		end;
 	end;
 
-	//スクリプトロード
+	//Script Load
 	//DebugOut.Lines.Add('Loading script...');
 	for i := 0 to 3 do cnt[i] := 0;
-	Tick := timeGetTime();
-	lines := 0;
-	sl := TStringList.Create;
-	sl1 := TStringList.Create;
-	sl2 := TStringList.Create;
-	for i1 := 0 to ScriptList.Count - 1 do begin
-		AssignFile(txt, ScriptList.Strings[i1]);
+	Tick := timeGetTime;
+//	lines := 0;
+	SL  := TStringList.Create;
+	SL1 := TStringList.Create;
+	SL2 := TStringList.Create;
+	for Idx := 0 to ScriptList.Count - 1 do begin
+		AssignFile(txt, ScriptList.Strings[Idx]);
 		Reset(txt);
+
+		{ChrstphrR - 2004/04/22 - reset Lines for each script, when parsing.}
+		lines := 0;
 		while not eof(txt) do begin
 			Readln(txt, str);
 			Inc(lines);
-			sl.Delimiter := #9;
-			sl.QuoteChar := '"';
-			sl.DelimitedText := str;
-			if sl.Count = 4 then begin
-				sl1.DelimitedText := sl.Strings[0];
-				if ChangeFileExt(sl1.Strings[0], '') = MapName then begin
-	// ワープポイント ------------------------------------------------------------
-          // Colus, 20040122: Added parsing for hidden warps.
-					if (sl.Strings[1] = 'warp') or (sl.Strings[1] = 'hiddenwarp') then begin
+			SL.Delimiter := #9;
+			SL.QuoteChar := '"';
+			SL.DelimitedText := str;
+			if SL.Count = 4 then begin
+				SL1.DelimitedText := SL[0];
+				if ChangeFileExt(SL1[0], '') = MapName then begin
+	// ワープポイント Lit. "Loom Point" in Katakana ------------------------------
+					// Colus, 20040122: Added parsing for hidden warps.
+					if (SL[1] = 'warp') OR (SL[1] = 'hiddenwarp') then begin
 						tn := TNPC.Create;
 						tn.ID := NowNPCID;
 						Inc(NowNPCID);
-						tn.Name := sl.Strings[2];
+						tn.Name := SL[2];
 						//DebugOut.Lines.Add('-> adding warp point ' + tn.Name);
 						if WarpDebugFlag then begin
-              tn.JID := 1002;
-            end else begin
-              if sl.Strings[1] = 'warp' then tn.JID := 45 else tn.JID := 139;
-            end;
-						tn.Map := MapName;
-						tn.Point.X := StrToInt(sl1.Strings[1]);
-						tn.Point.Y := StrToInt(sl1.Strings[2]);
-						tn.Dir := StrToInt(sl1.Strings[3]);
-						sl1.DelimitedText := sl.Strings[3];
-						tn.CType := 0;
-						tn.WarpSize.X := StrToInt(sl1.Strings[0]);
-						tn.WarpSize.Y := StrToInt(sl1.Strings[1]);
-						tn.WarpMap := ChangeFileExt(sl1.Strings[2], '');
-						tn.WarpPoint.X :=  StrToInt(sl1.Strings[3]);
-						tn.WarpPoint.Y :=  StrToInt(sl1.Strings[4]);
-{NPCイベント追加}
-						tn.Enable := true;
+							tn.JID := 1002;
+						end else begin
+							if SL[1] = 'warp' then
+								tn.JID := 45
+							else
+								tn.JID := 139;
+						end;
+						tn.Map     := MapName;
+						tn.Point.X := StrToInt(SL1[1]);
+						tn.Point.Y := StrToInt(SL1[2]);
+						tn.Dir     := StrToInt(SL1[3]);
+
+						SL1.DelimitedText := SL[3];
+						tn.CType       := 0;
+						tn.WarpSize.X  := StrToInt(SL1[0]);
+						tn.WarpSize.Y  := StrToInt(SL1[1]);
+						tn.WarpMap     := ChangeFileExt(SL1[2], '');
+						tn.WarpPoint.X := StrToInt(SL1[3]);
+						tn.WarpPoint.Y := StrToInt(SL1[4]);
+
+						{NPC Event}
+						tn.Enable      := true;
 						tn.ScriptInitS := -1;
-{NPCイベント追加ココまで}
+						{NPC Event}
+
 						tm.NPC.AddObject(tn.ID, tn);
 						tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
 						for j := tn.Point.Y - tn.WarpSize.Y to tn.Point.Y + tn.WarpSize.Y do begin
@@ -6889,365 +7641,380 @@ begin
 							end;
 						end;
 						Inc(cnt[0]);
-	// NPCショップ ---------------------------------------------------------------
-					end else if sl.Strings[1] = 'shop' then begin
+	// NPC Shop ------------------------------------------------------------------
+					end else if SL[1] = 'shop' then begin
 						tn := TNPC.Create;
-						tn.ID := NowNPCID;
+						tn.ID      := NowNPCID;
 						Inc(NowNPCID);
-						tn.Name := sl.Strings[2];
+						tn.Name    := SL[2];
 						//DebugOut.Lines.Add('-> adding shop ' + tn.Name);
-						tn.Map := MapName;
-						tn.Point.X := StrToInt(sl1.Strings[1]);
-						tn.Point.Y := StrToInt(sl1.Strings[2]);
-						tn.Dir := StrToInt(sl1.Strings[3]);
-						sl1.DelimitedText := sl.Strings[3];
+						tn.Map     := MapName;
+						tn.Point.X := StrToInt(SL1[1]);
+						tn.Point.Y := StrToInt(SL1[2]);
+						tn.Dir     := StrToInt(SL1[3]);
+
+						SL1.DelimitedText := SL[3];
 						tn.CType := 1;
-						tn.JID := StrToInt(sl1.Strings[0]);
-						SetLength(tn.ShopItem, sl1.Count - 1);
-						for i := 0 to sl1.Count - 2 do begin
-							tn.ShopItem[i] := TShopItem.Create;
-							j := Pos(':', sl1.Strings[i+1]);
-							tn.ShopItem[i].ID := StrToInt(Copy(sl1.Strings[i+1], 1, j - 1));
-							tn.ShopItem[i].Price := StrToInt(Copy(sl1.Strings[i+1], j + 1, 8));
-							tn.ShopItem[i].Data := ItemDB.IndexOfObject(tn.ShopItem[i].ID) as TItemDB;
+						tn.JID := StrToInt(SL1[0]);
+						SetLength(tn.ShopItem, SL1.Count - 1);
+						for Idx2 := 0 to sl1.Count - 2 do begin
+							tn.ShopItem[Idx2] := TShopItem.Create;
+							j := Pos(':', SL1[Idx2+1]);
+							tn.ShopItem[Idx2].ID    := StrToInt(Copy(SL1[Idx2+1], 1, j - 1));
+							tn.ShopItem[Idx2].Price := StrToInt(Copy(SL1[Idx2+1], j + 1, 8));
+							tn.ShopItem[Idx2].Data  := ItemDB.IndexOfObject(tn.ShopItem[Idx2].ID) as TItemDB;
 						end;
 
-{NPCイベント追加}
+						{NPC Event}
 						tn.Enable := true;
 						tn.ScriptInitS := -1;
-{NPCイベント追加ココまで}
+						{NPC Event}
 						tm.NPC.AddObject(tn.ID, tn);
 						tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
 
+						//Mark squares covered by Warp as Warpable..
 						for j := tn.Point.Y - tn.WarpSize.Y to tn.Point.Y + tn.WarpSize.Y do begin
 							for i := tn.Point.X - tn.WarpSize.X to tn.Point.X + tn.WarpSize.X do begin
 								tm.gat[i][j] := (tm.gat[i][j] and $fe);
 							end;
 						end;
 						Inc(cnt[1]);
-{d$0100fix5より}
-	// スクリプト ----------------------------------------------------------------
-					end else if sl.Strings[1] = 'script' then begin
+{d$0100fix5}
+	// Script --------------------------------------------------------------------
+					end else if SL[1] = 'script' then begin
 						tn := TNPC.Create;
 						tn.ID := NowNPCID;
 						Inc(NowNPCID);
-						tn.Name := sl.Strings[2];
+						tn.Name := SL[2];
 						//DebugOut.Lines.Add('-> adding script ' + tn.Name);
 						tn.Map := MapName;
-						tn.Point.X := StrToInt(sl1.Strings[1]);
+						tn.Point.X := StrToIntDef(SL1[1],0);
 						if (tn.Point.X < 0) or (tn.Point.X >= tm.Size.X) then tn.Point.X := 0;
-						tn.Point.Y := StrToInt(sl1.Strings[2]);
+						tn.Point.Y := StrToIntDef(SL1[2],0);
 						if (tn.Point.Y < 0) or (tn.Point.Y >= tm.Size.Y) then tn.Point.Y := 0;
-						tn.Dir := StrToInt(sl1.Strings[3]);
+						tn.Dir := StrToInt(SL1[3]);
 						tn.CType := 2;
-						sl1.DelimitedText := sl.Strings[3];
-						tn.JID := StrToInt(sl1.Strings[0]);
-						ScriptPath := ExtractRelativePath(AppPath, ScriptList.Strings[i1]);
-{NPCイベント追加}
+
+						ScriptPath := ExtractRelativePath(AppPath, ScriptList[Idx]);
+
+						SL1.DelimitedText := SL[3];
+						//TempInt := StrToInt(SL1[0]);
+						TempInt := StrToIntDef(SL1[0],0);
+						if TempInt < 0 then begin
+							ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, 'script']);
+							if Assigned(tn) then tn.Free;
+							Exit;
+						end;
+						tn.JID := TempInt;
+						//ChrstphrR - ERangeError - bad input when
+						// I walk into a guild castle area off of Payon.
+						{NPC Event}
 						tn.ScriptInitS := -1;
-						tn.ScriptInitD := false;
-						tn.Enable := true;
-{NPCイベント追加ココまで}
+						tn.ScriptInitD := False;
+						tn.Enable      := True;
+						{NPC Event}
 						k := 0;
-						sl2.Clear;
+						SL2.Clear;
 						while not eof(txt) do begin
-							//スクリプト読み込み
+							//Reading Script.
 							Readln(txt, str);
 							Inc(lines);
 							if str = '}' then break; //注：スクリプト終了文字「}」は１行にそれのみ書くこと
+
+							//Convert Multiple tabs to one tab, then convert remaining tabs to spaces
 							while Pos(#9#9, str) <> 0 do str := StringReplace(str, #9#9, #9, [rfReplaceAll]);
 							str := StringReplace(str, #9, ' ', [rfReplaceAll]);
 							str := Trim(str);
 							if Copy(str, Length(str), 1) = ';' then str := Copy(str, 1, Length(str) - 1);
 							str := Trim(str);
-							sl.Delimiter := ' ';
-							sl.QuoteChar := #1;
-							sl.DelimitedText := str;
-							if sl.Count > 2 then begin
-								for i := 2 to sl.Count - 1 do begin
-									sl.Strings[1] := sl.Strings[1] + ' ' + sl.Strings[2];
-									sl.Delete(2);
+							SL.Delimiter := ' ';
+							SL.QuoteChar := #1;
+							SL.DelimitedText := str;
+							if SL.Count > 2 then begin
+								for i := 2 to SL.Count - 1 do begin
+									SL[1] := SL[1] + ' ' + SL[2];
+									SL.Delete(2);
 								end;
 							end;
-							case sl.Count of
-							1:	sl1.Clear;
-							2:	sl1.DelimitedText := sl.Strings[1];
+							case SL.Count of
+							1:	SL1.Clear;
+							2:	SL1.DelimitedText := SL[1];
 							else
 								begin
-									DebugOut.Lines.Add(Format('%s %.4d: syntax error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_SYNTAX_ERR, [ScriptPath, lines]);
+									Exit; // Safe - 2004/04/21
 								end;
 							end;
-							str := LowerCase(sl.Strings[0]);
-							sl.Delete(0);
+							str := LowerCase(SL[0]);
+							SL.Delete(0);
 							if str = 'mes' then begin //------- 1 mes
-								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [mes] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 1 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 1;
 								SetLength(tn.Script[k].Data1, 1);
-								sl1.Strings[0] := StringReplace(sl1.Strings[0], '&sp;', ' ', [rfReplaceAll]);
-								sl1.Strings[0] := StringReplace(sl1.Strings[0], '&amp;', '&', [rfReplaceAll]);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								SL1[0] := StringReplace(SL1[0], '&sp;', ' ', [rfReplaceAll]);
+								SL1[0] := StringReplace(SL1[0], '&amp;', '&', [rfReplaceAll]);
+								tn.Script[k].Data1[0] := SL1[0];
 								Inc(k);
 							end else if str = 'next' then begin //------- 2 next
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [next] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 2;
 								Inc(k);
 							end else if str = 'close' then begin //------- 3 close
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [close] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 3;
 								Inc(k);
 							end else if str = 'menu' then begin //------- 4 menu
 								if sl1.Count <> sl1.Count div 2 * 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [menu] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								if sl1.Count > 40 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [menu] too many selections', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_SELECT_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 4;
-								SetLength(tn.Script[k].Data1, sl1.Count div 2);
-								SetLength(tn.Script[k].Data2, sl1.Count div 2);
-								SetLength(tn.Script[k].Data3, sl1.Count div 2);
+								SetLength(tn.Script[k].Data1, SL1.Count div 2);
+								SetLength(tn.Script[k].Data2, SL1.Count div 2);
+								SetLength(tn.Script[k].Data3, SL1.Count div 2);
 								tn.Script[k].DataCnt := sl1.Count div 2;
-								for i := 0 to sl1.Count div 2 - 1 do begin
-									sl1.Strings[i*2] := StringReplace(sl1.Strings[i*2], '&sp;', ' ', [rfReplaceAll]);
-									sl1.Strings[i*2] := StringReplace(sl1.Strings[i*2], '&amp;', '&', [rfReplaceAll]);
-									tn.Script[k].Data1[i] := sl1.Strings[i*2];
-									tn.Script[k].Data2[i] := LowerCase(sl1.Strings[i*2+1]);
+								for i := 0 to SL1.Count div 2 - 1 do begin
+									SL1[i*2] := StringReplace(SL1[i*2], '&sp;', ' ', [rfReplaceAll]);
+									SL1[i*2] := StringReplace(SL1[i*2], '&amp;', '&', [rfReplaceAll]);
+									tn.Script[k].Data1[i] := SL1[i*2];
+									tn.Script[k].Data2[i] := LowerCase(SL1[i*2+1]);
 								end;
 								Inc(k);
 							end else if str = 'goto' then begin //------- 5 goto
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [goto] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 5;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
 							end else if str = 'cutin' then begin //------- 6 cutin
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [cutin] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								Val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 255) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [cutin] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 6;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								tn.Script[k].Data1[0] := SL1[0];
 								if ExtractFileExt(tn.Script[k].Data1[0]) = '' then ChangeFileExt(tn.Script[k].Data1[0], '.bmp');
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'store' then begin //------- 7 store
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [store] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 7;
 								Inc(k);
 							end else if str = 'warp' then begin //------- 8 warp
 								if sl1.Count <> 3 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warp] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warp] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								val(SL1[2], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warp] range error (3)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 8;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[2]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[2]);
 								Inc(k);
 							end else if str = 'save' then begin //------- 9 save
 								if sl1.Count <> 3 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [save] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [save] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								val(SL1[2], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [save] range error (3)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 9;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[2]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[2]);
 								Inc(k);
 							end else if str = 'heal' then begin //------- 10 heal
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [heal] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if (j <> 0) or (i < 0) or (i > 30000) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [heal] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 30000) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [heal] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 10;
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[0]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[0]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'set' then begin //------- 11 set
-								sl.Strings[0] := StringReplace(sl.Strings[0], '+=', '+', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '-=', '-', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '*=', '*', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '/=', '/', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '+', ',1,', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '-', ',2,',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '=', ',0,', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '*', ',3,', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '/', ',4,', []);
-								while Pos('- ', sl.Strings[0]) <> 0 do
-									sl.Strings[0] := StringReplace(sl.Strings[0], '- ', '-',	[]);
-								sl1.DelimitedText := sl.Strings[0];
+								SL[0] := StringReplace(SL[0], '+=', '+', []);
+								SL[0] := StringReplace(SL[0], '-=', '-', []);
+								SL[0] := StringReplace(SL[0], '*=', '*', []);
+								SL[0] := StringReplace(SL[0], '/=', '/', []);
+								SL[0] := StringReplace(SL[0], '+', ',1,', []);
+								SL[0] := StringReplace(SL[0], '-', ',2,',	[]);
+								SL[0] := StringReplace(SL[0], '=', ',0,', []);
+								SL[0] := StringReplace(SL[0], '*', ',3,', []);
+								SL[0] := StringReplace(SL[0], '/', ',4,', []);
+								while Pos('- ', SL[0]) <> 0 do
+									SL[0] := StringReplace(SL[0], '- ', '-',	[]);
+								sl1.DelimitedText := SL[0];
 								if sl1.Count = 3 then sl1.Add('0');
 								if sl1.Count <> 4 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [set] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 4) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [set] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								val(SL1[2], i, j);
 								if j = 0 then begin
 									if (i < -999999999) or (i > 999999999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [set] range error (3)', [ScriptPath, lines]));
-										exit;
-									end else if (StrToInt(sl1.Strings[1]) = 3) and (i = 0) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [set] div 0 error (3)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
+									end else if (StrToInt(SL1[1]) = 3) and (i = 0) then begin
+										ScriptErr(SCRIPT_DIV_Z3_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
-								val(sl1.Strings[3], i, j);
+								val(SL1[3], i, j);
 								if (j <> 0) or (i < -999999999) or (i > 999999999) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [set] range error (4)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE4_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 11;
 								SetLength(tn.Script[k].Data1, 2);
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[2]);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[3]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[2]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[3]);
 								Inc(k);
 							end else if str = 'additem' then begin //------- 12 additem
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [additem] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 19999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [additem] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 30000) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [additem] range error (2)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 12;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
 							end else if str = 'delitem' then begin //------- 13 delitem
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [delitem] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 19999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [delitem] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 30000) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [delitem] range error (2)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 13;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
 							end else if str = 'checkitem' then begin //------- 14 checkitem
-								if sl1.Count <> 4 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [checkitem] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 4 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 19999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [checkitem] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 30000) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [checkitem] range error (2)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
@@ -7255,34 +8022,34 @@ begin
 								SetLength(tn.Script[k].Data1, 2);
 								SetLength(tn.Script[k].Data2, 2);
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
-								tn.Script[k].Data2[0] := LowerCase(sl1.Strings[2]);
-								tn.Script[k].Data2[1] := LowerCase(sl1.Strings[3]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
+								tn.Script[k].Data2[0] := LowerCase(SL1[2]);
+								tn.Script[k].Data2[1] := LowerCase(SL1[3]);
 								tn.Script[k].DataCnt := 2;
 								Inc(k);
 							end else if str = 'check' then begin //------- 15 check
-								sl.Strings[0] := StringReplace(sl.Strings[0], '=>', '>=', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '=<', '<=', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '==', '=',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '><', '<>', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '!=', '<>', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '>',	',>,',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '<',	',<,',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '=',	',=,',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], ',>,,=,', ',>=,', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], ',<,,=,', ',<=,', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], ',<,,>,', ',<>,', []);
-								sl1.DelimitedText := sl.Strings[0];
-								if sl1.Count <> 5 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [check] function error', [ScriptPath, lines]));
-									exit;
+								SL[0] := StringReplace(SL[0], '=>', '>=', []);
+								SL[0] := StringReplace(SL[0], '=<', '<=', []);
+								SL[0] := StringReplace(SL[0], '==', '=',	[]);
+								SL[0] := StringReplace(SL[0], '><', '<>', []);
+								SL[0] := StringReplace(SL[0], '!=', '<>', []);
+								SL[0] := StringReplace(SL[0], '>',	',>,',	[]);
+								SL[0] := StringReplace(SL[0], '<',	',<,',	[]);
+								SL[0] := StringReplace(SL[0], '=',	',=,',	[]);
+								SL[0] := StringReplace(SL[0], ',>,,=,', ',>=,', []);
+								SL[0] := StringReplace(SL[0], ',<,,=,', ',<=,', []);
+								SL[0] := StringReplace(SL[0], ',<,,>,', ',<>,', []);
+								SL1.DelimitedText := SL[0];
+								if SL1.Count <> 5 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								val(SL1[2], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 999999999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [check] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
@@ -7290,43 +8057,43 @@ begin
 								SetLength(tn.Script[k].Data1, 3);
 								SetLength(tn.Script[k].Data2, 2);
 								SetLength(tn.Script[k].Data3, 3);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[2]);
-								tn.Script[k].Data1[2] := sl1.Strings[1];
-								str := sl1.Strings[1];
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[2]);
+								tn.Script[k].Data1[2] := SL1[1];
+								mathop := SL1.Strings[1];
 								j := -1;
-										 if str = '>=' then j := 0
-								else if str = '<=' then j := 1
-								else if str = '='	then j := 2
-								else if str = '<>' then j := 3
-								else if str = '>'	then j := 4
-								else if str = '<'	then j := 5;
+										 if mathop = '>=' then j := 0
+								else if mathop = '<=' then j := 1
+								else if mathop = '='	then j := 2
+								else if mathop = '<>' then j := 3
+								else if mathop = '>'	then j := 4
+								else if mathop = '<'	then j := 5;
 								if j = -1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [check] syntax error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_SYNT_2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								tn.Script[k].Data3[2] := j;
-								tn.Script[k].Data2[0] := LowerCase(sl1.Strings[3]);
-								tn.Script[k].Data2[1] := LowerCase(sl1.Strings[4]);
+								tn.Script[k].Data2[0] := LowerCase(SL1[3]);
+								tn.Script[k].Data2[1] := LowerCase(SL1[4]);
 								tn.Script[k].DataCnt := 2;
 								Inc(k);
 							end else if str = 'checkadditem' then begin //------- 16 checkadditem
 								if sl1.Count <> 4 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [checkadditem] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 19999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [checkadditem] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 30000) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [checkadditem] range error (2)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
@@ -7334,392 +8101,378 @@ begin
 								SetLength(tn.Script[k].Data1, 2);
 								SetLength(tn.Script[k].Data2, 2);
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
-								tn.Script[k].Data2[0] := LowerCase(sl1.Strings[2]);
-								tn.Script[k].Data2[1] := LowerCase(sl1.Strings[3]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
+								tn.Script[k].Data2[0] := LowerCase(SL1[2]);
+								tn.Script[k].Data2[1] := LowerCase(SL1[3]);
 								tn.Script[k].DataCnt := 2;
 								Inc(k);
 							end else if str = 'jobchange' then begin //------- 17 jobchange
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [jobchange] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if (j <> 0) or (i < 0) or (i > MAX_JOB_NUMBER) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [jobchange] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 17;
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[0]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[0]);
 								Inc(k);
 
 							end else if str = 'viewpoint' then begin //------- 18 viewpoint
-								if sl1.Count <> 5 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [viewpoint] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 5 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								Val(SL1[0], i, j);
 								if (j <> 0) or (i < 1) or (i > 2) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [viewpoint] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								Val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [viewpoint] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								Val(SL1[2], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [viewpoint] range error (3)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[3], i, j);
+								Val(SL1[3], i, j);
 								if (j <> 0) or (i < 0) or (i > 255) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [viewpoint] range error (4)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE4_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								sl1.Strings[4] := StringReplace(sl1.Strings[4], '0x', '', []);
-								if Copy(sl1.Strings[4], 1, 1) <> '$' then sl1.Strings[4] := '$' + sl1.Strings[4];
+								SL1[4] := StringReplace(SL1[4], '0x', '', []);
+								if Copy(SL1[4], 1, 1) <> '$' then SL1[4] := '$' + SL1[4];
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 18;
 								SetLength(tn.Script[k].Data3, 5);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[0]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[1]);
-								tn.Script[k].Data3[2] := StrToInt(sl1.Strings[2]);
-								tn.Script[k].Data3[3] := StrToInt(sl1.Strings[3]);
-								tn.Script[k].Data3[4] := StrToInt(sl1.Strings[4]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[0]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[2] := StrToInt(SL1[2]);
+								tn.Script[k].Data3[3] := StrToInt(SL1[3]);
+								tn.Script[k].Data3[4] := StrToInt(SL1[4]);
 								Inc(k);
 							end else if str = 'input' then begin //------- 19 input
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [input] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 19;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								tn.Script[k].Data1[0] := SL1[0];
 								Inc(k);
 							end else if str = 'random' then begin //------- 20 random
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [random] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 999999999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [random] range error (1)', [ScriptPath, lines]));
-										exit;
-									end;
+								val(SL1[0], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 999999999)) then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 999999999) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [random] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 20;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'option' then begin //------- 21 option
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [option] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if (j <> 0) or (i < 0) or (i > 2) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [option] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [option] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 21;
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[0]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[0]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'speed' then begin //------- 22 speed
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [speed] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								Val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 25) or (i > 1000) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [speed] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 22;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								tn.Script[k].Data1[0] := SL1[0];
 								Inc(k);
 							end else if str = 'die' then begin //------- 23 die
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [die] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 23;
 								Inc(k);
 							end else if str = 'ccolor' then begin //------- 24 ccolor
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [ccolor] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								{val(sl1.Strings[0], i, j);
+								{val(SL1[0], i, j);
 								if (j <> 0) or (i > 5) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [ccolor] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21 - commented out but replacing.
 								end;}
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 24;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								tn.Script[k].Data1[0] := SL1[0];
 								Inc(k);
 							end else if str = 'refine' then begin //------- 25 refine	 refine[itemID][fail][+val]
 								if sl1.Count <> 3 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [refine] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								//val(sl1.Strings[0], i, j);
-								//val(sl1.Strings[1], i, j);
-								val(sl1.Strings[2], i, j);
+								//val(SL1[0], i, j);
+								//val(SL1[1], i, j);
+								val(SL1[2], i, j);
 								if (j <> 0) or (i > 10) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [refine] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 25;
 								SetLength(tn.Script[k].Data1, 3);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data1[1] := sl1.Strings[1];
-								tn.Script[k].Data1[2] := sl1.Strings[2];
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data1[1] := SL1[1];
+								tn.Script[k].Data1[2] := SL1[2];
 								Inc(k);
 							end else if str = 'getitemamount' then begin //------- 26 getitemamount
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getitemamount] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 19999) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [getitemamount] range error (1)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 26;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
 {追加:スクリプト144}
 							end else if str = 'getskilllevel' then begin //--------27 getskilllevel // S144 addstart
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getskilllevel] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 27;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
 							end else if str = 'setskilllevel' then begin //--------28 setskilllevel
-								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [setskilllevel] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 2 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								Val(SL1[1], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 10) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [setskilllevel] range error(2)', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 28;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);                                    // S144 addend
 {追加:スクリプト144ここまで}
 {精錬NPC機能追加}
 							end else if str = 'refinery' then begin //--------29 refinery
-								if sl1.Count <> 3 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [refinery] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 3 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 10) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [refinery] range error (1)', [ScriptPath, lines]));
-										exit;
-									end;
+								Val(SL1[0], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 10)) then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 2) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [refinery] range error (2)', [ScriptPath, lines]));
-										exit;
-									end;
+								Val(SL1[1], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 2)) then begin
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 10) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [refinery] range error (3)', [ScriptPath, lines]));
-										exit;
-									end;
+								Val(SL1[2], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 10)) then begin
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 29;
 								SetLength(tn.Script[k].Data1, 3);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
-								tn.Script[k].Data1[2] := LowerCase(sl1.Strings[2]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
+								tn.Script[k].Data1[2] := LowerCase(SL1[2]);
 								Inc(k);
 							end else if str = 'equipmenu' then begin //--------30 equipmenu
-								if sl1.Count <> 3 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [equipmenu] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 3 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 30;
 								SetLength(tn.Script[k].Data1, 3);
 								SetLength(tn.Script[k].Data2, 10);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
-								tn.Script[k].Data1[2] := LowerCase(sl1.Strings[2]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
+								tn.Script[k].Data1[2] := LowerCase(SL1[2]);
 								Inc(k);
 							end else if str = 'lockitem' then begin //--------31 lockitem
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [lockitem] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 1) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [lockitem] range error', [ScriptPath, lines]));
-										exit;
-									end;
+								val(SL1[0], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 1)) then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 31;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
 {精錬NPC機能追加ココまで}
 {髪色変更追加}
 							end else if str = 'hcolor' then begin //------- 32 hcolor
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [hcolor] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 8) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [hcolor] range error', [ScriptPath, lines]));
-										exit;
-									end;
+								val(SL1[0], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 8)) then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 32;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
 {髪色変更追加ココまで}
 {NPCイベント追加}
 							end else if str = 'callmob' then begin //------- 33 callmob
 								if (sl1.Count = 6) then sl1.Add('');
 								if (sl1.Count <> 7) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [callmob] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								i := 0;
-								if (tn.Map <> ChangeFileExt(sl1.Strings[0], '')) then i := 1;
-								if (MobDB.IndexOf(StrToInt(sl1.Strings[4])) = -1) then i := 1;
+								if (tn.Map <> ChangeFileExt(SL1[0], '')) then i := 1;
+								if (MobDB.IndexOf(StrToInt(SL1[4])) = -1) then i := 1;
 								if i <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [callmob] range error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 33;
 								SetLength(tn.Script[k].Data1, 2);
 								SetLength(tn.Script[k].Data2, 1);
 								SetLength(tn.Script[k].Data3, 4);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[2]);
-								tn.Script[k].Data1[1] := sl1.Strings[3];
-								tn.Script[k].Data3[2] := StrToInt(sl1.Strings[4]);
-								tn.Script[k].Data3[3] := StrToInt(sl1.Strings[5]);
-								tn.Script[k].Data2[0] := LowerCase(sl1.Strings[6]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+								tn.Script[k].Data1[1] := SL1[3];
+								tn.Script[k].Data3[2] := StrToInt(SL1[4]);
+								tn.Script[k].Data3[3] := StrToInt(SL1[5]);
+								tn.Script[k].Data2[0] := LowerCase(SL1[6]);
 								Inc(k);
 							end else if str = 'broadcast' then begin //------- 34 broadcast
 								if (sl1.Count = 1) then sl1.Add('0');
 								if (sl1.Count <> 2) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [broadcast] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 34;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 1);
-								sl1.Strings[0] := StringReplace(sl1.Strings[0], '&sp;', ' ', [rfReplaceAll]);
-								sl1.Strings[0] := StringReplace(sl1.Strings[0], '&amp;', '&', [rfReplaceAll]);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
+								SL1[0] := StringReplace(SL1[0], '&sp;', ' ', [rfReplaceAll]);
+								SL1[0] := StringReplace(SL1[0], '&amp;', '&', [rfReplaceAll]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'npctimer' then begin //------- 35 npctimer
 								if (sl1.Count <> 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [npctimer] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
-								if j = 0 then begin
-									if (i < 0) or (i > 8) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [npctimer] range error', [ScriptPath, lines]));
-										exit;
-									end;
+								val(SL1[0], i, j);
+								if (j = 0) AND ((i < 0) OR (i > 8)) then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 35;
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[0]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[0]);
 								Inc(k);
 							end else if str = 'addnpctimer' then begin //------- 36 addnpctimer
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [addnpctimer] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < -999999999) or (i > 999999999) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [addnpctimer] range error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 36;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'return' then begin //------- 37 return
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [return] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 37;
@@ -7727,395 +8480,549 @@ begin
 							end else if str = 'warpallpc' then begin //------- 38 warpallpc
 								if (sl1.Count = 3) then sl1.Add('0');
 								if (sl1.Count <> 4) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warpallpc] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warpallpc] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								val(SL1[2], i, j);
 								if (j <> 0) or (i < 0) or (i > 511) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warpallpc] range error (3)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[3], i, j);
+								val(SL1[3], i, j);
 								if (j <> 0) or (i < 0) or (i > 2) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [warpallpc] range error (4)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE4_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 38;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 3);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
-								tn.Script[k].Data3[1] := StrToInt(sl1.Strings[2]);
-								tn.Script[k].Data3[2] := StrToInt(sl1.Strings[3]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[2]);
+								tn.Script[k].Data3[2] := StrToInt(SL1[3]);
 								Inc(k);
 							end else if str = 'waitingroom' then begin //------- 39 waitingroom
 								if (sl1.Count <> 2) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [waitingroom] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 2) or (i > 20) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [waitingroom] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 39;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 2);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 								tn.Script[k].Data3[1] := k + 1;
 								Inc(k);
 							end else if str = 'enablenpc' then begin //------- 40 enablenpc
 								if (sl1.Count <> 3) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [enablenpc] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[2], i, j);
+								val(SL1[2], i, j);
 								if (j <> 0) or (i < 0) or (i > 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [enablenpc] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 40;
 								SetLength(tn.Script[k].Data1, 2);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data1[1] := sl1.Strings[1];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[2]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data1[1] := SL1[1];
+								tn.Script[k].Data3[0] := StrToInt(SL1[2]);
 								Inc(k);
 							end else if str = 'resetmymob' then begin //------- 41 resetmymob
 								if (sl1.Count <> 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [resetmymob] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 41;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								tn.Script[k].Data1[0] := SL1[0];
 								Inc(k);
 							end else if str = 'getmapusers' then begin //------- 42 getmapusers
 								if (sl1.Count <> 2) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getmapusers] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 42;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
 							end else if str = 'setstr' then begin //------- 43 setstr
-								sl.Strings[0] := StringReplace(sl.Strings[0], '+=', '+', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '+', ',1,', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '=', ',0,', []);
-								sl1.DelimitedText := sl.Strings[0];
+								SL[0] := StringReplace(SL[0], '+=', '+', []);
+								SL[0] := StringReplace(SL[0], '+', ',1,', []);
+								SL[0] := StringReplace(SL[0], '=', ',0,', []);
+								sl1.DelimitedText := SL[0];
 								if (sl1.Count <> 3) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [setstr] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								if (Copy(sl1.Strings[0], 1, 1) <> '$') and (Copy(sl1.Strings[0], 1, 2) <> '\$') then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [setstr] range error (1)', [ScriptPath, lines]));
-									exit;
+								if (Copy(SL1[0], 1, 1) <> '$') and (Copy(SL1[0], 1, 2) <> '\$') then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if (j <> 0) or (i < 0) or (i > 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [setstr] range error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 43;
 								SetLength(tn.Script[k].Data1, 2);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := sl1.Strings[2];
-								tn.Script[k].Data3[0] := StrToInt(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := SL1[2];
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
 								Inc(k);
 							end else if str = 'checkstr' then begin //------- 44 checkstr
-								sl.Strings[0] := StringReplace(sl.Strings[0], '==', '=',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '><', '<>', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '!=', '<>', []);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '=',	',=,',	[]);
-								sl.Strings[0] := StringReplace(sl.Strings[0], '<>', ',<>,', []);
-								sl1.DelimitedText := sl.Strings[0];
+								SL[0] := StringReplace(SL[0], '==', '=',	[]);
+								SL[0] := StringReplace(SL[0], '><', '<>', []);
+								SL[0] := StringReplace(SL[0], '!=', '<>', []);
+								SL[0] := StringReplace(SL[0], '=',	',=,',	[]);
+								SL[0] := StringReplace(SL[0], '<>', ',<>,', []);
+								sl1.DelimitedText := SL[0];
 								if sl1.Count <> 5 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [checkstr] function error', [ScriptPath, lines]));
-									exit;
-								if (Copy(sl1.Strings[0], 1, 1) <> '$') and (Copy(sl1.Strings[0], 1, 2) <> '\$') then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [checkstr] range error (1)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
+								if (Copy(SL1[0], 1, 1) <> '$') and (Copy(SL1[0], 1, 2) <> '\$') then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 44;
 								SetLength(tn.Script[k].Data1, 3);
 								SetLength(tn.Script[k].Data2, 2);
 								SetLength(tn.Script[k].Data3, 3);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[2]);
-								tn.Script[k].Data1[2] := sl1.Strings[1];
-								str := sl1.Strings[1];
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[2]);
+								tn.Script[k].Data1[2] := SL1[1];
+								mathop := SL1[1];
 								j := -1;
-								if str = '='	then j := 0
-								else if str = '<>' then j := 1;
+								if mathop = '='	then j := 0
+								else if mathop = '<>' then j := 1;
 								if j = -1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [checkstr] syntax error (2)', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								tn.Script[k].Data3[2] := j;
-								tn.Script[k].Data2[0] := LowerCase(sl1.Strings[3]);
-								tn.Script[k].Data2[1] := LowerCase(sl1.Strings[4]);
+								tn.Script[k].Data2[0] := LowerCase(SL1[3]);
+								tn.Script[k].Data2[1] := LowerCase(SL1[4]);
 								tn.Script[k].DataCnt := 2;
 								Inc(k);
 {アジト機能追加}
 							{Colus, 20040110: Updated guild territory command codes}
 							end else if str = 'getagit' then begin //------- 58 getagit
 								if (sl1.Count <> 3) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getagit] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								if (Copy(sl1.Strings[1], 1, 1) <> '$') and (Copy(sl1.Strings[1], 1, 2) <> '\$') then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getagit] range error (2)', [ScriptPath, lines]));
-									exit;
+								if (Copy(SL1[1], 1, 1) <> '$') and (Copy(SL1[1], 1, 2) <> '\$') then begin
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								if (Copy(sl1.Strings[2], 1, 1) <> '$') and (Copy(sl1.Strings[2], 1, 2) <> '\$') then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getagit] range error (3)', [ScriptPath, lines]));
-									exit;
+								if (Copy(SL1[2], 1, 1) <> '$') and (Copy(SL1[2], 1, 2) <> '\$') then begin
+									ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 58;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data2, 2);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
-								tn.Script[k].Data2[0] := LowerCase(sl1.Strings[1]);
-								tn.Script[k].Data2[1] := LowerCase(sl1.Strings[2]);
+								tn.Script[k].Data1[0] := SL1[0];
+								tn.Script[k].Data2[0] := LowerCase(SL1[1]);
+								tn.Script[k].Data2[1] := LowerCase(SL1[2]);
 								Inc(k);
 							end else if str = 'getmyguild' then begin //------- 59 getguild
 								if (sl1.Count <> 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getmyguild] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								if (Copy(sl1.Strings[0], 1, 1) <> '$') and (Copy(sl1.Strings[0], 1, 2) <> '\$') then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getmyguild] range error (1)', [ScriptPath, lines]));
-									exit;
+								if (Copy(SL1[0], 1, 1) <> '$') and (Copy(SL1[0], 1, 2) <> '\$') then begin
+									ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 59;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
 
 
 							end else if str = 'agitregist' then begin //------- 60 agitregist
 								if (sl1.Count <> 1) then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [agitregist] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 60;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := sl1.Strings[0];
+								tn.Script[k].Data1[0] := SL1[0];
 								Inc(k);
 
-              end else if str = 'resetstat' then begin //------- 45 resetstat
+							end else if str = 'resetstat' then begin //------- 45 resetstat
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [resetstat] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 45;
 								Inc(k);
-                                                                     
-              end else if str = 'resetbonusstat' then begin //------- 57 resetbonusstat
+
+							end else if str = 'resetbonusstat' then begin //------- 57 resetbonusstat
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [resetstat] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 57;
 								Inc(k);
-              end else if str = 'resetskill' then begin //------- 46 resetskill
+							end else if str = 'resetskill' then begin //------- 46 resetskill
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [resetskill] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 46;
 								Inc(k);
-              end else if str = 'hstyle' then begin //------- 47 hstyle
+							end else if str = 'hstyle' then begin //------- 47 hstyle
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [hstyle] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 19) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [hstyle] range error', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 47;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
-              end else if str = 'guildreg' then begin //------- 48 guildreg
+							end else if str = 'guildreg' then begin //------- 48 guildreg
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [guildreg] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-                //j := CastleList.IndexOf(sl1.Strings[0]);
+								//j := CastleList.IndexOf(SL1[0]);
 								//if j = - 1 then begin
-                  //DebugOut.Lines.Add(Format('%s %.4d: [guildreg] map error', [ScriptPath, lines]));
-                  //exit;
+									//DebugOut.Lines.Add(Format('%s %.4d: [guildreg] map error', [ScriptPath, lines]));
+									{ChrstphrR - adding in proper cleanup even though this is
+									all commented out...}
+									//SL.Free;
+									//SL1.Free;
+									//SL2.Free;
+									//exit;
 								//end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 48;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
-              end else if str = 'getgskilllevel' then begin //--------49 getgskilllevel
+							end else if str = 'getgskilllevel' then begin //--------49 getgskilllevel
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getgskilllevel] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 49;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
-              end else if str = 'getguardstatus' then begin //--------50 getguardstatus
+							end else if str = 'getguardstatus' then begin //--------50 getguardstatus
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [getguardstatus] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 50;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
-              end else if str = 'setguildkafra' then begin //------- 51 setguildkafra
+							end else if str = 'setguildkafra' then begin //------- 51 setguildkafra
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [setguildkafra] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 1) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [setguildkafra] range error', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 51;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
-              end else if str = 'setguardstatus' then begin //--------52 setguardstatus
+							end else if str = 'setguardstatus' then begin //--------52 setguardstatus
 								if sl1.Count <> 2 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [setguardstatus] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-                val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 1) or (i > 8) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [setguardstatus] range error', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
-                val(sl1.Strings[1], i, j);
+								val(SL1[1], i, j);
 								if j = 0 then begin
 									if (i < 0) or (i > 1) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [setguardstatus] range error', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 52;
 								SetLength(tn.Script[k].Data1, 2);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-								tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
 								Inc(k);
-              end else if str = 'callguard' then begin //------- 53 callguard
+							end else if str = 'callguard' then begin //------- 53 callguard
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [callguard] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								val(sl1.Strings[0], i, j);
+								val(SL1[0], i, j);
 								if j = 0 then begin
 									if (i < 1) or (i > 8) then begin
-										DebugOut.Lines.Add(Format('%s %.4d: [callguard] range error', [ScriptPath, lines]));
-										exit;
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
 									end;
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 53;
 								SetLength(tn.Script[k].Data1, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
-              end else if str = 'callmymob' then begin //------- 54 callmymob
+							end else if str = 'callmymob' then begin //------- 54 callmymob
 								if sl1.Count <> 5 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [callmymob] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 54;
 								SetLength(tn.Script[k].Data1, 5);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
-                tn.Script[k].Data1[1] := LowerCase(sl1.Strings[1]);
-                tn.Script[k].Data1[2] := LowerCase(sl1.Strings[2]);
-                tn.Script[k].Data1[3] := LowerCase(sl1.Strings[3]);
-                tn.Script[k].Data1[4] := LowerCase(sl1.Strings[4]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
+								tn.Script[k].Data1[2] := LowerCase(SL1[2]);
+								tn.Script[k].Data1[3] := LowerCase(SL1[3]);
+								tn.Script[k].Data1[4] := LowerCase(SL1[4]);
 								Inc(k);
-              end else if str = 'resetguild' then begin //------- 55 resetguild
+							end else if str = 'resetguild' then begin //------- 55 resetguild
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [resetguild] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 55;
 								Inc(k);
-              end else if str = 'guilddinvest' then begin //------- 56 guilddinvest
+							end else if str = 'guilddinvest' then begin //------- 56 guilddinvest
 								if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [guilddinvest] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 56;
 								Inc(k);
-              {end else if str = 'movenpc' then begin //------- 61 Move NPC
-                                                                if sl1.Count <> 0 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [guilddinvest] function error', [ScriptPath, lines]));
-									exit;
+							{end else if str = 'movenpc' then begin //------- 61 Move NPC
+							if sl1.Count <> 0 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21 -- changed even if commented out
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 61;
-                                                                SetLength(tn.Script[k].Data1, 1);
+								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 1);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);}
+							end else if str = 'removeequipment' then begin //----- 63 Remove Equipment
+								if sl1.Count <> 0 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 63;
+								Inc(k);
+							end else if str = 'basereset' then begin //----- 64 BaseReset
+								if sl1.Count <> 0 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 64;
+								Inc(k);
+							end else if str = 'global' then begin //----- 65 Global Variable
+								//We convert literal math into easier things to work with
+								SL[0] := StringReplace(SL[0], '+=', '+', []);
+								SL[0] := StringReplace(SL[0], '-=', '-', []);
+								SL[0] := StringReplace(SL[0], '*=', '*', []);
+								SL[0] := StringReplace(SL[0], '/=', '/', []);
+								SL[0] := StringReplace(SL[0], '+', ',1,', []);
+								SL[0] := StringReplace(SL[0], '-', ',2,',	[]);
+								SL[0] := StringReplace(SL[0], '=', ',0,', []);
+								SL[0] := StringReplace(SL[0], '*', ',3,', []);
+								SL[0] := StringReplace(SL[0], '/', ',4,', []);
+								while Pos('- ', SL[0]) <> 0 do
+									SL[0] := StringReplace(SL[0], '- ', '-',	[]);
+								SL1.DelimitedText := SL[0];
+								if SL1.Count = 3 then SL1.Add('0');
+								if SL1.Count <> 4 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								val(SL1[1], i, j);
+								if (j <> 0) or (i < 0) or (i > 4) then begin
+									ScriptErr(SCRIPT_RANGE2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								val(SL1[2], i, j);
+								if j = 0 then begin
+									if (i < -999999999) or (i > 999999999) then begin
+										ScriptErr(SCRIPT_RANGE3_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
+									end else if (StrToInt(SL1[1]) = 3) and (i = 0) then begin
+										ScriptErr(SCRIPT_DIV_Z3_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
+									end;
+								end;
+								Val(SL1[3], i, j);
+								if (j <> 0) or (i < -999999999) or (i > 999999999) then begin
+									ScriptErr(SCRIPT_RANGE4_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 65;
+								SetLength(tn.Script[k].Data1, 2);
+								SetLength(tn.Script[k].Data3, 2);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[2]);
+								tn.Script[k].Data3[0] := StrToInt(SL1[1]);
+								tn.Script[k].Data3[1] := StrToInt(SL1[3]);
+								Inc(k);
+							end else if str = 'gcheck' then begin //------- 66 Global Check
+								SL[0] := StringReplace(SL[0], '=>', '>=', []);
+								SL[0] := StringReplace(SL[0], '=<', '<=', []);
+								SL[0] := StringReplace(SL[0], '==', '=',	[]);
+								SL[0] := StringReplace(SL[0], '><', '<>', []);
+								SL[0] := StringReplace(SL[0], '!=', '<>', []);
+								SL[0] := StringReplace(SL[0], '>',	',>,',	[]);
+								SL[0] := StringReplace(SL[0], '<',	',<,',	[]);
+								SL[0] := StringReplace(SL[0], '=',	',=,',	[]);
+								SL[0] := StringReplace(SL[0], ',>,,=,', ',>=,', []);
+								SL[0] := StringReplace(SL[0], ',<,,=,', ',<=,', []);
+								SL[0] := StringReplace(SL[0], ',<,,>,', ',<>,', []);
+								sl1.DelimitedText := SL[0];
+								if sl1.Count <> 5 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								val(SL1[2], i, j);
+								if j = 0 then begin
+									if (i < 0) or (i > 999999999) then begin
+										ScriptErr(SCRIPT_RANGE1_ERR, [ScriptPath, lines, str]);
+										Exit; // Safe - 2004/04/21
+									end;
+								end;
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 66;
+								SetLength(tn.Script[k].Data1, 3);
+								SetLength(tn.Script[k].Data2, 2);
+								SetLength(tn.Script[k].Data3, 3);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[2]);
+								tn.Script[k].Data1[2] := SL1[1];
+								mathop := SL1[1];
+								j := -1;
+										 if mathop = '>=' then j := 0
+								else if mathop = '<=' then j := 1
+								else if mathop = '='	then j := 2
+								else if mathop = '<>' then j := 3
+								else if mathop = '>'	then j := 4
+								else if mathop = '<'	then j := 5;
+								if j = -1 then begin
+									ScriptErr(SCRIPT_SYNT_2_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								tn.Script[k].Data3[2] := j;
+								tn.Script[k].Data2[0] := LowerCase(SL1[3]);
+								tn.Script[k].Data2[1] := LowerCase(SL1[4]);
+								tn.Script[k].DataCnt := 2;
+								Inc(k);
+							end else if str = 'eventmob' then begin //------ 67 Event Monster
+								if sl1.Count <> 5 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 67;
+								SetLength(tn.Script[k].Data1, 5);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								tn.Script[k].Data1[1] := LowerCase(SL1[1]);
+								tn.Script[k].Data1[2] := LowerCase(SL1[2]);
+								tn.Script[k].Data1[3] := LowerCase(SL1[3]);
+								tn.Script[k].Data1[4] := LowerCase(SL1[4]);
+								Inc(k);
+
+							end else if str = 'addskillpoints' then begin //----- 68 Add Skill Point
+								if sl1.Count <> 1 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 68;
+								SetLength(tn.Script[k].Data1, 1);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								Inc(k);
+							end else if str = 'addstatpoints' then begin //---- 69 Add Stat Point
+								if sl1.Count <> 1 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
+								end;
+								SetLength(tn.Script, k + 1);
+								tn.Script[k].ID := 69;
+								SetLength(tn.Script[k].Data1, 1);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
+								Inc(k);
 
 							end else if str = 'script' then begin //------- 99 script
 								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [script] function error', [ScriptPath, lines]));
-									exit;
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
 								SetLength(tn.Script, k + 1);
 								tn.Script[k].ID := 99;
 								SetLength(tn.Script[k].Data1, 1);
 								SetLength(tn.Script[k].Data3, 4);
-								tn.Script[k].Data1[0] := LowerCase(sl1.Strings[0]);
+								tn.Script[k].Data1[0] := LowerCase(SL1[0]);
 								Inc(k);
 							end else if Copy(str, Length(str), 1) = ':' then begin //label
 {NPCイベント追加}
@@ -8139,31 +9046,31 @@ begin
 									end;
 								end else if (LowerCase(Copy(str, 1, 6)) = 'oninit') then begin
 									tn.ScriptInitS := k;
-                end else if (LowerCase(Copy(str, 1, 11)) = 'onmymobdead') then begin
+								end else if (LowerCase(Copy(str, 1, 11)) = 'onmymobdead') then begin
 									tn.ScriptInitMS := k;
 								end;
 
 								str := Copy(str, 1, Length(str) - 1);
 								sl2.Add(str + '=' + IntToStr(k));
 							end else if str = 'scriptlabel' then begin //scriptlabel
-								if sl1.Count <> 1 then begin
-									DebugOut.Lines.Add(Format('%s %.4d: [scriptlabel] function error', [ScriptPath, lines]));
-									exit;
+								if SL1.Count <> 1 then begin
+									ScriptErr(SCRIPT_FUNCTN_ERR, [ScriptPath, lines, str]);
+									Exit; // Safe - 2004/04/21
 								end;
-								tn.ScriptLabel := LowerCase(sl1.Strings[0]);
+								tn.ScriptLabel := LowerCase(SL1[0]);
 							end;
-						end;
+						end;//while not eof(txt)
 						tn.ScriptCnt := k;
 						for i := 0 to k - 1 do begin
 							case tn.Script[i].ID of
-							4,14,15,16,44:
+							4,14,15,16,44,66:
 								begin
 									for j := 0 to tn.Script[i].DataCnt - 1 do begin
 										if tn.Script[i].Data2[j] = '-' then begin //nopラベル
 											tn.Script[i].Data3[j] := i + 1;
 										end else if sl2.IndexOfName(tn.Script[i].Data2[j]) = -1 then begin
-											DebugOut.Lines.Add(Format('%s : label "%s" not found', [ScriptPath, tn.Script[i].Data2[j]]));
-											exit;
+											ScriptErr(SCRIPT_LBLNOT_ERR, [ScriptPath, tn.Script[i].Data2[j]]);
+											Exit; // Safe - 2004/04/21
 											//tn.Script[i].Data3[j] := $FFFF;
 										end else begin
 											tn.Script[i].Data3[j] := StrToInt(sl2.Values[tn.Script[i].Data2[j]]);
@@ -8173,8 +9080,8 @@ begin
 							5:
 								begin
 									if sl2.IndexOfName(tn.Script[i].Data1[0]) = -1 then begin
-										DebugOut.Lines.Add(Format('%s : label "%s" not found', [ScriptPath, tn.Script[i].Data1[0]]));
-										exit;
+										ScriptErr(SCRIPT_LBLNOT_ERR, [ScriptPath, tn.Script[i].Data2[j]]);
+										Exit; // Safe - 2004/04/21
 										//tn.Script[i].Data3[0] := $FFFF;
 									end else begin
 										tn.Script[i].Data3[0] := StrToInt(sl2.Values[tn.Script[i].Data1[0]]);
@@ -8191,24 +9098,24 @@ begin
 						Inc(cnt[2]);
 {d$0100fix5よりココまで}
 	// モンスター ----------------------------------------------------------------
-					end else if sl.Strings[1] = 'monster' then begin
+					end else if SL[1] = 'monster' then begin
 						for i := sl.Count to 4 do sl.Add('0');
 						ts0 := TMob.Create;
-						ts0.Name := sl.Strings[2];
+						ts0.Name := SL[2];
 						//DebugOut.Lines.Add('-> adding mob ' + ts0.Name);
 						ts0.Map := MapName;
-						ts0.Point1.X := StrToInt(sl1.Strings[1]);
-						ts0.Point1.Y := StrToInt(sl1.Strings[2]);
+						ts0.Point1.X := StrToInt(SL1[1]);
+						ts0.Point1.Y := StrToInt(SL1[2]);
 						ts0.Dir := 3;
-						ts0.Point2.X := StrToInt(sl1.Strings[3]);
-						ts0.Point2.Y := StrToInt(sl1.Strings[4]);
-						sl1.DelimitedText := sl.Strings[3];
+						ts0.Point2.X := StrToInt(SL1[3]);
+						ts0.Point2.Y := StrToInt(SL1[4]);
+						sl1.DelimitedText := SL[3];
 						for i := sl.Count to 4 do sl.Add('0');
-						ts0.JID := StrToInt(sl1.Strings[0]);
-						mcnt := StrToInt(sl1.Strings[1]);
-						ts0.SpawnDelay1 := StrToInt(sl1.Strings[2]);
-						ts0.SpawnDelay2 := StrToInt(sl1.Strings[3]);
-						ts0.SpawnType := StrToInt(sl1.Strings[4]);
+						ts0.JID := StrToInt(SL1[0]);
+						mcnt := StrToInt(SL1[1]);
+						ts0.SpawnDelay1 := StrToInt(SL1[2]);
+						ts0.SpawnDelay2 := StrToInt(SL1[3]);
+						ts0.SpawnType := StrToInt(SL1[4]);
 						if MobDB.IndexOf(ts0.JID) = -1 then continue;
 						ts0.Data := MobDB.IndexOfObject(ts0.JID) as TMobDB;
 						if (ts0.Point1.X = 0) and (ts0.Point1.Y = 0) and (ts0.Point2.X = 0) and (ts0.Point2.Y = 0) then begin
@@ -8232,26 +9139,26 @@ begin
 							ts.Point2.X := ts0.Point2.X;
 							ts.Point2.Y := ts0.Point2.Y;
 
-{追加}        if (ts.JID = 1288) then begin
-              ts.isEmperium := true;
-              m := CastleList.IndexOf(ts.Map);
-              if (m <> - 1) then begin
-              tgc := CastleList.Objects[m] as TCastle;
-              ts.GID := tgc.GID;
-              end;
-              k := EmpList.IndexOf(ts.Map);
-              if (k = -1) then begin
-              te := TEmp.Create;
-		          with te do begin
-              Map := ts.Map;
-              EID := ts.ID;
-              end;
-		          EmpList.AddObject(te.Map, te);
-              end;
-              end;
+{追加}				if (ts.JID = 1288) then begin
+								ts.isEmperium := true;
+								m := CastleList.IndexOf(ts.Map);
+								if (m <> - 1) then begin
+									tgc := CastleList.Objects[m] as TCastle;
+									ts.GID := tgc.GID;
+								end;
+								k := EmpList.IndexOf(ts.Map);
+								if (k = -1) then begin
+									te := TEmp.Create;
+									with te do begin
+										Map := ts.Map;
+										EID := ts.ID;
+									end;
+									EmpList.AddObject(te.Map, te);
+								end;
+							end;
 
 							ts.isLooting := False;
-  						for j:= 1 to 10 do begin
+							for j:= 1 to 10 do begin
 								ts.Item[j].ID := 0;
 								ts.Item[j].Amount := 0;
 								ts.Item[j].Equip := 0;
@@ -8262,7 +9169,7 @@ begin
 								ts.Item[j].Card[1] := 0;
 								ts.Item[j].Card[2] := 0;
 								ts.Item[j].Card[3] := 0;
-						  end;
+							end;
 {追加ココまで}
 							j := 0;
 							repeat
@@ -8279,7 +9186,7 @@ begin
 								//---
 								Inc(j);
 							until ( (tm.gat[ts.Point.X][ts.Point.Y] <> 1) and (tm.gat[ts.Point.X][ts.Point.Y] <> 5) or (j = 100) );
-            if j <> 100 then begin
+							if j <> 100 then begin
 								ts.Dir := Random(8);
 								ts.HP := ts0.Data.HP;
 								ts.Speed := ts0.Data.Speed;
@@ -8290,12 +9197,12 @@ begin
 								if ts0.Data.isDontMove then
 									ts.MoveWait := 4294967295
 								else
-                ts.MoveWait := Tick + 5000 + Cardinal(Random(10000));
+									ts.MoveWait := Tick + 5000 + Cardinal(Random(10000));
 								ts.ATarget := 0;
-								ts.ATKPer := 100;
-								ts.DEFPer := 100;
+								ts.ATKPer  := 100;
+								ts.DEFPer  := 100;
 								ts.DmgTick := 0;
-								ts.Data := ts0.Data;
+								ts.Data    := ts0.Data;
 								for j := 0 to 31 do begin
 									ts.EXPDist[j].CData := nil;
 									ts.EXPDist[j].Dmg := 0;
@@ -8305,25 +9212,23 @@ begin
 										ts.MVPDist[j].CData := nil;
 										ts.MVPDist[j].Dmg := 0;
 									end;
-									ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAに30%加算
+									ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //In FA 30%
 								end;
-{追加}					ts.Element := ts.Data.Element;
+{追加}					ts.Element  := ts.Data.Element;
 {追加}					ts.isActive := ts.Data.isActive;
-                ts.EmperiumID := 0;
+								ts.EmperiumID := 0;
 								tm.Mob.AddObject(ts.ID, ts);
 								tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
 							end else begin
 								ts.Free;
 							end;
 
-if (MonsterMob = true) then begin
-    k := SlaveDBName.IndexOf(ts0.Data.Name);
-    if (k <> -1) then begin
-     ts.isLeader := true;
-    end;
-end;
-
-
+							if (MonsterMob = true) then begin
+								k := SlaveDBName.IndexOf(ts0.Data.Name);
+								if (k <> -1) then begin
+									ts.isLeader := true;
+								end;
+							end;
 
 						end;
 						ts0.Free;
@@ -8333,12 +9238,13 @@ end;
 			end;
 		end;
 		CloseFile(txt);
-	end;
-	//スクリプトのコピー
-	for i1 := 0 to tm.NPC.Count - 1 do begin
-		tn := tm.NPC.Objects[i1] as TNPC;
+	end;//for Idx
+
+	//Copy of script
+	for Idx := 0 to tm.NPC.Count - 1 do begin
+		tn := tm.NPC.Objects[Idx] as TNPC;
 		if (tn.CType = 2) and (tn.ScriptCnt <> 0) then begin
-      // Using script 'scriptlabel'...
+			// Using script 'scriptlabel'...
 			if tn.Script[0].ID = 99 then begin
 				j := tm.NPCLabel.IndexOf(tn.Script[0].Data1[0]);
 				if j <> -1 then begin
@@ -8349,13 +9255,13 @@ end;
 						tn.Script[i] := tn1.Script[i];
 					end;
 					tn.ScriptCnt := tn1.ScriptCnt;
-          // Colus, 20040130: Copy over script label data when you go to a script
-          //tn.ScriptInitS := tn1.ScriptInitS;
-          //tn.ScriptInitD := tn1.ScriptInitD;
-          //tn.ScriptInitMS := tn1.ScriptInitMS;
+					// Colus, 20040130: Copy over script label data when you go to a script
+					//tn.ScriptInitS := tn1.ScriptInitS;
+					//tn.ScriptInitD := tn1.ScriptInitD;
+					//tn.ScriptInitMS := tn1.ScriptInitMS;
 
 				end;
-{NPCイベント追加}
+			{NPC Event}
 			end else begin
 				for i := 0 to tn.ScriptCnt - 1 do begin
 					//callmobイベントチェック
@@ -8376,9 +9282,9 @@ end;
 					end;
 				end;
 			end;
-{NPCイベント追加ココまで}
+			{NPC Event}
 		end;
-	end;
+	end;//for Idx
 
 	//DebugOut.Lines.Add('WarpPoint: ' + IntToStr(cnt[0]));
 	//DebugOut.Lines.Add('Shop: ' + IntToStr(cnt[1]));
@@ -8386,21 +9292,18 @@ end;
 	//DebugOut.Lines.Add('Monster: ' + IntToStr(cnt[3]));
 	//DebugOut.Lines.Add('-> Map load success.');
 
-	sl.Free;
-	sl1.Free;
-	sl2.Free;
+	SL.Free;
+	SL1.Free;
+	SL2.Free;
 
 	tm.Mode := 2;
-end;
+End;(* Proc MapLoad()
+*-----------------------------------------------------------------------------*)
+
 //------------------------------------------------------------------------------
 procedure MapMove(Socket:TCustomWinSocket; MapName:string; Point:TPoint);
-var
-i,j,k :integer;
-tm    :TMap;
-tc1   :TChara;
-
 begin
-  WFIFOW(0, $0091);
+	WFIFOW(0, $0091);
 	WFIFOS(2, MapName + '.rsw', 16);
 	WFIFOW(18, Point.X);
 	WFIFOW(20, Point.Y);
@@ -8409,13 +9312,13 @@ begin
 	//マップロード
 	if Map.IndexOf(MapName) = -1 then MapLoad(MapName);
 
-  //tm := Map.Objects[Map.IndexOf(MapName)] as TMap;
-  //WFIFOW( 0, $0199);
-  //WFIFOW( 2, 1);
-  //Socket.SendBuf(buf, 4);
-  //for j := 0 to tm.CList.Count - 1 do begin
-  //tc1 := tm.CList.Objects[j] as TChara;
-  //k := j + 1;
+	//tm := Map.Objects[Map.IndexOf(MapName)] as TMap;
+	//WFIFOW( 0, $0199);
+	//WFIFOW( 2, 1);
+	//Socket.SendBuf(buf, 4);
+	//for j := 0 to tm.CList.Count - 1 do begin
+	//tc1 := tm.CList.Objects[j] as TChara;
+	//k := j + 1;
   //i := tm.CList.Count;
   //WFIFOW( 0, $019a);
   //WFIFOL( 2, tc1.ID);
@@ -8428,19 +9331,33 @@ end;
 //------------------------------------------------------------------------------
 function StealItem(tc:TChara; ts:TMob) :boolean;
 var
-  i,j,k :integer;
-  mdrop :array[0..7] of integer;
-  td    :TItemDB;
-  modfix:integer;
-  rand  :integer;
-  tm    :TMap;
+	i,k    :integer;
+	mdrop  :array[0..7] of integer;
+	td     :TItemDB;
+	modfix :integer;
+	rand   :integer;
+	tm     :TMap;
 begin
   tm := tc.MData;
-  modfix := (tc.Skill[50].Data.Data1[tc.Skill[50].Lv] + tc.Param[4] - ts.Data.Param[4]);
-  modfix := modfix * StealMultiplier div 100;
 
-  k := SlaveDBName.IndexOf(ts.Data.Name);
-  if ((k <> -1) or (ts.Data.MEXP <> 0) or (ts.Stolen <> 0)) then begin
+  // Modifier calc:
+  // adjusted drop ratio = (10 + 3*skill + cdex - mdex)% * drop
+  // This is really draconian even for high drops.  A poring drops jellopies 70%,
+  // but a normal thief rarely has a mod over 50 (steal 5, 30 dex).  So 35% just for jellopy?  Bah.
+  // So, we added a multiplier.  However: If your multiplier was negative, multiplying
+  // made it more negative!  Oh, sweet irony!
+  // Therefore the effect of the multiplier is calculated a bit differently now.
+  //
+  // Old:
+  //modfix := (tc.Skill[50].Data.Data1[tc.Skill[50].Lv] + tc.Param[4] - ts.Data.Param[4]);
+  //modfix := modfix * StealMultiplier div 100;
+  modfix := ((tc.Skill[50].Data.Data1[tc.Skill[50].Lv] * StealMultiplier div 100) + tc.Param[4] - ts.Data.Param[4]);
+
+  // This isn't the right check!  It checks for leaders.  We have
+  // isLeader and isSlave now for that...
+  //k := SlaveDBName.IndexOf(ts.Data.Name);
+  //if ((k <> -1) or (ts.Data.MEXP <> 0) or (ts.Stolen <> 0)) then begin
+  if ((ts.isSlave) or (ts.Data.MEXP <> 0) or (ts.Stolen <> 0)) then begin
     Result := false;
     exit;
   end;
@@ -8448,13 +9365,13 @@ begin
   for i := 0 to 7 do begin
     mdrop[i] := modfix * integer(ts.Data.Drop[i].Per) div 100;
     rand := Random(20000) mod 10000;
-    DebugOut.Lines.Add(Format('Drop %d, modfix %d, mdrop %d, rand %d',[i,modfix,mdrop[i],rand]));
+    //DebugOut.Lines.Add(Format('Drop %d, dropid %d, modfix %d, mdrop %d, rand %d',[i,ts.Data.Drop[i].ID,modfix,mdrop[i],rand]));
     if rand <= mdrop[i] then begin
                                      // Graphic send
                                      WFIFOW( 0, $011a);
                                      WFIFOW( 2, 50);
                                      WFIFOW( 4, 0);
-                                     WFIFOL( 6, tc.ID);
+                                     WFIFOL( 6, ts.ID);
                                      WFIFOL(10, tc.ID);
                                      WFIFOB(14, 1);
                                      SendBCmd(tm,ts.Point,15);
@@ -8468,7 +9385,7 @@ begin
                                           //アイテム追加
                                           UpdateWeight(tc, k, td);
 
-                                          tc.Socket.SendBuf(buf, 8);
+                                          //tc.Socket.SendBuf(buf, 8);
                                           //アイテムゲット通知
                                           SendCGetItem(tc, k, 1);
                                           ts.Stolen := tc.ID;
@@ -8621,9 +9538,229 @@ end;
 
 
 
+{===========================}
+{== Start of TItemDB Code ==}
+{===========================}
+
+
+(*----- TItemDB.Assign ----------------*
+start: CRW 2004/04/04
+last: CRW 2004/04/05
+
+Summary:
+  Tedious field by field copy routine for duplicating
+  the essentials of one TItemDB to another TItemDB instance.
+
+  This saves writing out the transfer of EVERY property.
+
+  Not Copied:
+
+Caveat Emptor:
+  Assign() is used to copy values, and avoid novice mistakes like this:
+
+  procedure FooBlarg(AnotherItem : TItem; TakeThisMany : Cardinal);
+  var
+    AnItem : TItem;
+  begin
+    AnItem := TItem.Create;
+    //Newbie note - I'm copying AnotherItem into AnItem.
+
+    //Right way to copy :)
+    AnItem.Assign(AnotherItem);
+    MyCart.AddItem(AnItem);
+
+    //Wrong - lost the reference to the Data object - memory leak!
+    AnItem.Data  := AnotherItem.Data;
+
+  end;
+
+*-------------------------------------*)
+Procedure TItemDB.Assign(Source: TItemDB);
+Var
+  J : Integer; // Index Variable for array transfer.
+Begin
+  //Transfer fields
+	ID        := Source.ID;
+	Name      := Source.Name;
+	JName     := Source.JName;
+
+	IType     := Source.IType;
+	IEquip    := Source.IEquip;
+
+	Price     := Source.Price;
+	Sell      := Source.Sell;
+
+	Weight    := Source.Weight;
+	ATK       := Source.ATK;
+	MATK      := Source.MATK;
+	DEF       := Source.DEF;
+	MDEF      := Source.MDEF;
+	Range     := Source.Range;
+	Slot      := Source.Slot;
+
+  Param[0]  := Source.Param[0];
+  Param[1]  := Source.Param[1];
+  Param[2]  := Source.Param[2];
+  Param[3]  := Source.Param[3];
+  Param[4]  := Source.Param[4];
+  Param[5]  := Source.Param[5];
+
+	HIT       := Source.HIT;
+	FLEE      := Source.FLEE;
+	Crit      := Source.Crit;
+	Avoid     := Source.Avoid;
+	Cast      := Source.Cast;
+
+	Job       := Source.Job;
+	Gender    := Source.Gender;
+
+	Loc       := Source.Loc;
+	wLV       := Source.wLV;
+	eLV       := Source.eLV;
+	View      := Source.View;
+	Element   := Source.Element;
+	Effect    := Source.Effect;
+	HP1       := Source.HP1;
+	HP2       := Source.HP2;
+	SP1       := Source.SP1;
+	SP2       := Source.SP2;
+	//Rare      := Source.Rare;
+	//Box       := Source.Box;
+
+  for J := 0 to 9 do
+    begin
+    DamageFixR[J] := Source.DamageFixR[J];
+    DamageFixE[J] := Source.DamageFixE[J];
+    end;
+  DamageFixS[0] := Source.DamageFixS[0];
+  DamageFixS[1] := Source.DamageFixS[1];
+  DamageFixS[2] := Source.DamageFixS[2];
+
+  SFixPer1[0]   := Source.SFixPer1[0];
+  SFixPer1[1]   := Source.SFixPer1[1];
+  SFixPer1[2]   := Source.SFixPer1[2];
+  SFixPer1[3]   := Source.SFixPer1[3];
+  SFixPer1[4]   := Source.SFixPer1[4];
+  SFixPer1[5]   := Source.SFixPer1[5];
+
+  SFixPer2[0]   := Source.SFixPer2[0];
+  SFixPer2[1]   := Source.SFixPer2[1];
+  SFixPer2[2]   := Source.SFixPer2[2];
+  SFixPer2[3]   := Source.SFixPer2[3];
+  SFixPer2[4]   := Source.SFixPer2[4];
+
+  DrainFix[0]   := Source.DrainFix[0];
+  DrainFix[1]   := Source.DrainFix[1];
+
+  DrainPer[0]   := Source.DrainPer[0];
+  DrainPer[1]   := Source.DrainPer[1];
+
+  for J:= 0 to MAX_SKILL_NUMBER do
+    begin
+  	AddSkill[J] := Source.AddSkill[J];  // Skill addition
+    end;
+
+	if Specialattack > 0 then SpecialAttack := Source.SpecialAttack;
+	SplashAttack  := Source.SplashAttack;
+  WeaponSkill   := Source.WeaponSkill;
+  WeaponSkillLV := Source.WeaponSkillLV;
+  WeaponID      := Source.WeaponID;
+	NoJamstone    := Source.NoJamStone;
+
+  FastWalk          := Source.FastWalk;
+  NoTarget          := Source.NoTarget;
+  FullRecover       := Source.FullRecover;
+  LessSP            := Source.LessSP;
+  OrcReflect        := Source.OrcReflect;
+  AnolianReflect    := Source.AnolianReflect;
+  UnlimitedEndure   := Source.UnlimitedEndure;
+  DoppelgagnerASPD  := Source.DoppelgagnerASPD;
+  GhostArmor        := Source.GhostArmor;
+  NoCastInterrupt   := Source.NoCastInterrupt;
+  MagicReflect      := Source.MagicReflect;
+  SkillWeapon       := Source.SkillWeapon;
+  GungnirEquipped   := Source.GungnirEquipped;
+  LVL4WeaponASPD    := Source.Lvl4WeaponASPD;
+  PerfectDamage     := Source.PerfectDamage;
+
+  // No politeness with inherited Assign calls -- this one isn't
+  // derived from TPersistant, so there is no virtual Assign stub.
+end;(*- TItemDB.Assign ---------------*)
+
+
+{=========================}
+{== End of TItemDB Code ==}
+{=========================}
+
+
+{=========================}
+{== Start of TItem Code ==}
+{=========================}
+
+
+(*----- TItem.Create ------------------*
+start: CRW 2004/04/01
+last: CRW 2004/04/03
+
+Initialzes data (Zero/Nil) held in TItem
+
+*-------------------------------------*)
+Constructor TItem.Create;
+Begin
+  inherited;
+	ZeroItem;
+End;(*- TItem.Create ----------------*)
+
+
+(*----- TItem.Destroy -----------------*
+start: CRW 2004/04/04
+last: CRW 2004/04/04
+
+Cleans up TItem
+
+*-------------------------------------*)
+Destructor TItem.Destroy;
+Begin
+  inherited;
+
+//	Data.Free;
+	Data := NIL; {ChrstphrR - This is a reference to TItemDB not owned.}
+End;(*- TItem.Destroy ---------------*)
+
+
+(*-----------------------------------------------------------------------------*
+Commonly used code to zero-out Items - used in Create, and whenever
+Item needs to be wiped clean.
+
+N.B - Data field is made NIL, which means calculations based on this need
+to be done BEFORE you call ZeroItem
+*-----------------------------------------------------------------------------*)
+Procedure TItem.ZeroItem;
+Begin
+  //init fields
+	ID       := 0;
+	Equip    := 0;
+	Identify := 0;
+	Refine   := 0;
+	Attr     := 0;
+	Card[0]  := 0;
+	Card[1]  := 0;
+	Card[2]  := 0;
+	Card[3]  := 0;
+	Data     := NIL;
+	Stolen   := 0;
+
+	//init properties
+	Amount   := 0;
+End;(* Proc TItem.ZeroItem
+*-----------------------------------------------------------------------------*)
 
 
 
+
+{=======================}
+{== End of TItem Code ==}
+{=======================}
 
 
 //==============================================================================
@@ -8700,6 +9837,39 @@ end;
 {チャットルーム機能追加ココまで}
 
 
+(*-----------------------------------------------------------------------------*
+ChrstphrR 2004/04/23
+
+- Placeholder constructor -- will fill with creation of owned objects like
+Item : TItemList AFTER I trace down what code manipulates this object already.
+
+*-----------------------------------------------------------------------------*)
+Constructor TeNPC.Create;
+Begin
+	inherited;
+	// Always call ancestor's routines first in Create
+
+	{ChrstphrR 2004/04/23 - would create TItemList here...}
+End;(* TeNPC.Create
+*-----------------------------------------------------------------------------*)
+
+(*-----------------------------------------------------------------------------*
+ChrstphrR 2004/04/23
+
+Freeing up Item(list)
+
+*-----------------------------------------------------------------------------*)
+Destructor TeNPC.Destroy;
+Begin
+	// Always call ancestor's routines after you clean up
+	// objects you created as part of this class
+	Item.Free;
+
+	inherited;
+End;(* TeNPC.Destroy
+*-----------------------------------------------------------------------------*)
+
+
 destructor TChara.Destroy;
 var
 	i :integer;
@@ -8713,23 +9883,36 @@ begin
 	inherited;
 end;
 
+
 constructor TPlayer.Create;
 begin
 	inherited;
-  Kafra := TItemList.Create;
-  Kafra.MaxWeight := 4000000000;
+	Kafra := TItemList.Create;
+	Kafra.MaxWeight := 4000000000;
 end;
 
-destructor TPlayer.Destroy;
-begin
-  Kafra.Free;
+
+(*-----------------------------------------------------------------------------*
+ChrstphrR - 2004/04/24
+TPlayer.Destroy
+
+Properly clean up all it's owned items.
+*-----------------------------------------------------------------------------*)
+Destructor TPlayer.Destroy;
+Begin
+	//Owned item cleanup...
+	Kafra.Free; //Defer to ItemList to clean itself up...
+
+	{ChrstphrR - Referenced items don't affect memory leaks,
+	code to NIL them out found to be unnecessary.}
 	inherited;
-end;
+End;(* TPlayer.Destroy
+*-----------------------------------------------------------------------------*)
+
 
 constructor TBlock.Create;
 begin
 	inherited;
-
 	NPC := TIntList32.Create;
 	CList := TIntList32.Create;
 	Mob := TIntList32.Create;
@@ -8737,6 +9920,7 @@ end;
 
 destructor TBlock.Destroy;
 begin
+	//ChrstphrR These are all reference lists
 	NPC.Free;
 	CList.Free;
 	Mob.Free;
@@ -8759,15 +9943,40 @@ begin
 end;
 
 destructor TMap.Destroy;
+var
+	Idx : Integer;
+	Idy : Integer;
 begin
+	for Idx := NPC.Count-1 downto 0 do
+		if Assigned(NPC.Objects[Idx]) then
+			(NPC.Objects[Idx] AS TNPC).Free;
 	NPC.Free;
 	NPCLabel.Free;
-	CList.Free;
-	Mob.Free;
+
+	CList.Free; //ref list
+	Mob.Free;   //ref list
 {NPCイベント追加}
+
+	for Idx := TimerAct.Count-1 downto 0 do
+		if Assigned(TimerAct.Objects[Idx]) then
+			(TimerAct.Objects[Idx] AS NTimer).Free;
 	TimerAct.Free;
+	for Idx := TimerDef.Count-1 downto 0 do
+		if Assigned(TimerDef.Objects[Idx]) then
+			(TimerDef.Objects[Idx] AS NTimer).Free;
 	TimerDef.Free;
 {NPCイベント追加ココまで}
+
+	//Block is a static array it's extents are an odd range, need to find out
+	// if the "border" around the block needs freeing, or not.
+	for Idx := BlockSize.X+3 downto -3 do
+		for Idy := BlockSize.Y+3 downto -3 do
+			if Assigned(Block[Idx][Idy]) then
+				(Block[Idx][Idy] AS TBlock).Free;
+
+	{ChrstphrR Trying another suggestion for freeing dyn arrays:
+	- no change either way}
+	gat := NIL;
 
 	inherited;
 end;
@@ -8788,17 +9997,147 @@ end;
 
 destructor TGuild.Destroy;
 var
-	i :integer;
+	Idx : Integer;
 begin
-	for i := 10000 to 10004 do
-		GSkill[i].Free;
+	for Idx := 10000 to 10004 do
+		GSkill[Idx].Free;
+
+	{ChrstphrR 2004/04/26 - these lists contain objects}
+	for Idx := GuildBanList.Count-1 downto 0 do
+		if Assigned(GuildBanList.Objects[Idx]) then
+			(GuildBanList.Objects[Idx] AS TGBan).Free;
 	GuildBanList.Free;
+
+	for Idx := RelAlliance.Count-1 downto 0 do
+		if Assigned(RelAlliance.Objects[Idx]) then
+			(RelAlliance.Objects[Idx] AS TGRel).Free;
 	RelAlliance.Free;
+	for Idx := RelHostility.Count-1 downto 0 do
+		if Assigned(RelHostility.Objects[Idx]) then
+			(RelHostility.Objects[Idx] AS TGRel).Free;
 	RelHostility.Free;
 
 	inherited;
 end;
 {ギルド機能追加ココまで}
 //==============================================================================
+
+(*-----------------------------------------------------------------------------*
+ChrstphrR 2004/04/24
+
+Will fold in owned object creation into the constructor, is a placeholder right
+now.
+*-----------------------------------------------------------------------------*)
+Constructor TNPC.Create;
+Begin
+	inherited;
+	// Always call ancestor's routines first in Create
+
+End;(* TNPC.Create
+*-----------------------------------------------------------------------------*)
+
+
+(*-----------------------------------------------------------------------------*
+
+*-----------------------------------------------------------------------------*)
+Destructor TNPC.Destroy;
+Var
+	Idx : Integer;
+Begin
+	// Always call ancestor's routines after you clean up
+	// objects you created as part of this class
+
+	case CType of
+	NPC_TYPE_SHOP   :
+		begin
+			for Idx := Low(ShopItem) to High(ShopItem) do
+				if Assigned(ShopItem[Idx]) then
+					ShopItem[Idx].Free;
+			SetLength(ShopItem, 0);
+		end;
+	NPC_TYPE_SCRIPT :
+		begin
+			{ChrstphrR 2004/04/26 Okay, Script is a dyn array of rScript - which
+			contains dyn arrays of string/int, so cleanup involves setting the
+			arrays to zero size -- unallocating them.}
+			for Idx := High(Script) downto Low(Script) do begin
+				SetLength(Script[Idx].Data1, 0);
+				SetLength(Script[Idx].Data2, 0);
+				SetLength(Script[Idx].Data3, 0);
+			end;
+			//Set the memory / length of the Script array to zero.
+			SetLength(Script,0);
+		end;
+	NPC_TYPE_ITEM   :
+		begin
+			Item.Free;
+		end;
+	end;//case
+
+	inherited;
+End;(* TNPC.Destroy
+*-----------------------------------------------------------------------------*)
+
+
+
+(*-----------------------------------------------------------------------------*
+Placeholder..
+*-----------------------------------------------------------------------------*)
+Constructor NTimer.Create;
+Begin
+	inherited;
+	// Always call ancestor's routines first in Create
+
+
+End;(* NTimer.Create
+*-----------------------------------------------------------------------------*)
+
+(*-----------------------------------------------------------------------------*
+
+*-----------------------------------------------------------------------------*)
+Destructor NTimer.Destroy;
+Begin
+	// Always call ancestor's routines after you clean up
+	// objects you created as part of this class
+	{
+	SetLength(Idx,0);
+	SetLength(Step,0)
+	SetLength(Done,0)
+	}
+
+	inherited;
+End;(* NTimer.Destroy
+*-----------------------------------------------------------------------------*)
+
+
+(*-----------------------------------------------------------------------------*
+
+*-----------------------------------------------------------------------------*)
+Constructor TPet.Create;
+Begin
+	inherited;
+	// Always call ancestor's routines first in Create
+
+	//CR will create items here, later.
+End;(* TPet.Create
+*-----------------------------------------------------------------------------*)
+
+(*-----------------------------------------------------------------------------*
+
+*-----------------------------------------------------------------------------*)
+Destructor TPet.Destroy;
+Var
+	Idx : Integer;
+Begin
+	// Always call ancestor's routines after you clean up
+	// objects you created as part of this class
+	for Idx := Low(Item) to High(Item) do
+		if Assigned(Item[Idx]) then
+			Item[Idx].Free;
+
+	inherited;
+End;(* TPet.Destroy
+*-----------------------------------------------------------------------------*)
+
 end.
- 
+

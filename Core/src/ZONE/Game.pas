@@ -14,118 +14,139 @@ uses
 //==============================================================================
 
 
-
-
-
-
-
-
-
-
 implementation
 //==============================================================================
+
+
+(*-----------------------------------------------------------------------------*
 // ÉQÅ[ÉÄÉTÅ[ÉoÅ[ÉpÉPÉbÉgèàóù
-procedure sv3PacketProcess(Socket: TCustomWinSocket);
-var
-	i    :integer;
-  h    :integer;
-	j    :integer;
-	k    :integer;
-	ii   :integer;
-	cmd  :word;
-	w    :word;
-	w1   :word;
-	w2   :word;
-  w3   :word;
+
+???
+Appears to have a large portion of the game logic intermixed with a
+case statement that processes incoming messages from the server.
+
+CRW - 2004/04/07
+- Applied consistant formatting to PART of this 7300 line long routine so it's
+  now sane to look at.
+- Separated variables, one per line, no exceptions.
+- Started Translation of the SJIS code from the original coder(s) in the form:
+  <original> ' Lit. "'<Edited_Babelfish_Translation_Here>'"'
+
+  I hope this helps a wee bit. :P
+
+*-----------------------------------------------------------------------------*)
+Procedure sv3PacketProcess(Socket: TCustomWinSocket);
+Var
+	i     : Integer;
+  h     : Integer;
+	j     : Integer;
+	k     : Integer;
+	ii    : Integer;
+	cmd   : Word;
+	w     : Word;
+	w1    : Word;
+	w2    : Word;
+  w3    : Word;
 {í«â¡}
-	wjob:Int64;
+	wjob  : Int64;
 {í«â¡ÉRÉRÇ‹Ç≈}
 {ÉAÉCÉeÉÄêªë¢í«â¡}
-	m1     :word;//éÂÇ…êªë¢Ç≥ÇÍÇÈÉAÉCÉeÉÄÇÃIDÇ∆ÇµÇƒóòóp
-	m      :array[0..2] of word;//éÂÇ…êªë¢ÉAÉCÉeÉÄÇ…ïsâ¬Ç≥ÇÍÇÈëÆê´êŒÅAêØÇÃÇ©ÇØÇÁÇÃIDÇ∆ÇµÇƒóòóp
-	e,e2   :word;//éÂÇ…êªë¢éûè¡îÔÉAÉCÉeÉÄÇÃInventoryì‡åüçıéûÇ…óòóp
-	anvil  :word;//ã‡ï~Ç…ÇÊÇ¡Çƒè„Ç™ÇÈê¨å˜ó¶
+	m1      : Word;//éÂÇ…êªë¢Ç≥ÇÍÇÈÉAÉCÉeÉÄÇÃIDÇ∆ÇµÇƒóòóp
+	m       : Array[0..2] of Word;//éÂÇ…êªë¢ÉAÉCÉeÉÄÇ…ïsâ¬Ç≥ÇÍÇÈëÆê´êŒÅAêØÇÃÇ©ÇØÇÁÇÃIDÇ∆ÇµÇƒóòóp
+	e,e2    : Word;//éÂÇ…êªë¢éûè¡îÔÉAÉCÉeÉÄÇÃInventoryì‡åüçıéûÇ…óòóp
+	anvil   : Word;//ã‡ï~Ç…ÇÊÇ¡Çƒè„Ç™ÇÈê¨å˜ó¶
 {ÉAÉCÉeÉÄêªë¢í«â¡ÉRÉRÇ‹Ç≈}
-	id1,id2:cardinal;
-	l         :cardinal;
-	l2        :cardinal;
-	weight    :cardinal;
-  c         :cardinal;
-	b         :byte;
-  b1        :byte;
-	len       :integer;
-	str       :string;
-  str2      :string;
-	accountid :string;
-	charaid   :string;
-	npcid     :string;
-	tp  :TPlayer;
-	tc  :TChara;
-	tc1 :TChara;
-	tm  :TMap;
-	tn  :TNPC;
-	ts  :TMob;
-  ts1 :TMob;
-  tss :TSlaveDB;
-  ma  :TMArrowDB;
-  tid :TIDTbl;
-	ti  :TItem;
-	tk  :TSkill;
-	tl  :TSkillDB;
-	td  :TItemDB;
+	id1       : Cardinal;
+  id2       : Cardinal;
+
+	L         : Cardinal; //was lowercase "l"
+	L2        : Cardinal; //was lowercase "l2" (close to 1 or I in the wrong font)
+	weight    : Cardinal;
+  c         : Cardinal;
+	b         : Byte;
+  b1        : Byte;
+	Len       : Integer;
+
+	Str       : String;
+  Str2      : String;
+	AccountID : String;
+	CharaID   : String;
+	NpcID     : String;
+
+	tp  : TPlayer;
+	tc  : TChara;
+	tc1 : TChara;
+	tm  : TMap;
+	tn  : TNPC;
+	ts  : TMob;
+  ts1 : TMob;
+  tss : TSlaveDB;
+  ma  : TMArrowDB;
+  tid : TIDTbl;
+	ti  : TItem;
+	tk  : TSkill;
+	tl  : TSkillDB;
+	td  : TItemDB;
+
 {ÉAÉCÉeÉÄêªë¢í«â¡}
-	tma :TMaterialDB;
+	tma : TMaterialDB;
 {ÉAÉCÉeÉÄêªë¢í«â¡ÉRÉRÇ‹Ç≈}
 {ÉpÅ[ÉeÉBÅ[ã@î\í«â¡}
-	tpa :TParty;
+	tpa : TParty;
 {ÉpÅ[ÉeÉBÅ[ã@î\í«â¡ÉRÉRÇ‹Ç≈}
 {É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡}
-	tcr :TChatRoom;
+	tcr : TChatRoom;
 {É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡ÉRÉRÇ‹Ç≈}
 {òIìXÉXÉLÉãí«â¡}
-	tv  :TVender;
-{òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈}  
+	tv  : TVender;
+{òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈}
 {éÊà¯ã@î\í«â¡}
-	tdl :TDealings;
+	tdl : TDealings;
+  twp : TWarpDatabase;
 {éÊà¯ã@î\í«â¡ÉRÉRÇ‹Ç≈}
 {ÉLÉÖÅ[ÉyÉbÉg}
-        tpd             :TPetDB;
-        tmd             :TMobDB;
+  tpd : TPetDB;
+  tmd : TMobDB;
 {éÅ{î†í«â¡}
-	tsmn	:TSummon;
+	tsmn  : TSummon;
 {éÅ{î†í«â¡ÉRÉRÇ‹Ç≈}
-        tpe             :TPet;
-        i1, j1, k1      :integer;
+  tpe             :TPet;
+
+  i1  : Integer;
+  j1  : Integer;
+  k1  : Integer;
 {ÉLÉÖÅ[ÉyÉbÉgÇ±Ç±Ç‹Ç≈}
 {NPCÉCÉxÉìÉgí«â¡}
-	mi  :MapTbl;
+	mi  : MapTbl;
 {NPCÉCÉxÉìÉgí«â¡ÉRÉRÇ‹Ç≈}
 {ÉMÉãÉhã@î\í«â¡}
-	tg    :TGuild;
-	tg1   :TGuild;
-	tgb   :TGBan;
-	tgl   :TGRel;
-	tp1   :TPlayer;
+	tg    : TGuild;
+	tg1   : TGuild;
+	tgb   : TGBan;
+	tgl   : TGRel;
+	tp1   : TPlayer;
 {ÉMÉãÉhã@î\í«â¡ÉRÉRÇ‹Ç≈}
-	ta  :TMapList;
-	xy  :TPoint;
-  s   :string;
-	sl  :TStringList;
-	ww  :array of array of word;
-	tmpbuf:array of byte;
+	ta  : TMapList;
+	xy  : TPoint;
+  s   : String;
+	SL  : TStringList;
+	ww      : array of array of Word; //CRW This is dynamic 2-dim array??
+	tmpbuf  : array of Byte;
 
-        afm_compressed :TZip;
-        afm :textfile;
-        letter :char;
-        MapName :string;
-        dat     :TMemoryStream;
-        h2  :array[0..3] of single;
-        maptype :integer;
+  afm_compressed  : TZip;
+  afm             : Textfile;
+  letter          : Char;
+  MapName         : String;
+  dat             : TMemoryStream;
+  h2              :array[0..3] of Single; //CRW What is this for??
+  maptype         : Integer;
 
-begin
+Begin(* Proc sv3PacketProcess() *)
+
   j := 0;
   tcr := nil;
-	while Socket.ReceiveLength >= 2 do begin
+	while Socket.ReceiveLength >= 2 do
+  begin
 		//len := Socket.ReceiveLength;
 		Socket.ReceiveBuf(buf[0], 2);
 		RFIFOW(0, cmd);
@@ -136,9 +157,9 @@ begin
 			//DebugOut.Lines.Add('ïsñæÇ»ÉpÉPÉbÉg' + IntToStr(Socket.ReceiveLength) + 'ÉoÉCÉgÇîjä¸ÇµÇ‹ÇµÇΩ');
 			SetLength(tmpbuf, Socket.ReceiveLength);
 			Socket.ReceiveBuf(tmpbuf[0], Socket.ReceiveLength);
-			continue;
+			Continue;
 		end;
-		Assert((cmd > 0) and (cmd <= $200), 'Packet Type: index error ' + IntToStr(cmd));
+		Assert((cmd > 0) AND (cmd <= $200), 'Packet Type: index error ' + IntToStr(cmd));
 		if PacketLength[cmd] = -1 then begin
 			Socket.ReceiveBuf(buf[2], 2);
 			RFIFOW(2, w);
@@ -154,11 +175,10 @@ begin
 
 		case cmd of
 		//--------------------------------------------------------------------------
-
-		$0072: //ÉQÅ[ÉÄéIê⁄ë±óvãÅ
+		$0072: //ÉQÅ[ÉÄéIê⁄ë±óvãÅ    Lit. "Game socket connection requested"
 			begin
-				RFIFOL( 2, l);
-				accountid := IntToStr(l);
+				RFIFOL( 2, L);
+				accountid := IntToStr(L);
 				//DebugOut.Lines.Add(Format('3:%.8d CMD %.4x', [l, cmd]));
 				//DebugOut.Lines.Add('		AccountID = ' + IntToHex(l, 4));
 				RFIFOL( 6, l2);
@@ -167,9 +187,9 @@ begin
 				RFIFOL(10, id1);
 				//DebugOut.Lines.Add('		LoginID1 = ' + IntToHex(id1, 4));
 				//RFIFOL(14, id2);
-				if (Player.IndexOf(l) <> -1) and (Chara.IndexOf(l2) <> -1) then begin
-					tp := Player.IndexOfObject(l) as TPlayer;
-					tc := Chara.IndexOfObject(l2) as TChara;
+				if (Player.IndexOf(L) <> -1) and (Chara.IndexOf(L2) <> -1) then begin
+					tp := Player.IndexOfObject(L) as TPlayer;
+					tc := Chara.IndexOfObject(L2) as TChara;
 
 					//if tc.IP = Socket.RemoteAddress then begin
 					if (tp.LoginID1 = id1) and (tp.LoginID1 <> 0) then begin
@@ -215,20 +235,22 @@ begin
 							SendGLoginInfo(tg, tc);
 						end;
 
-                        if (Option_WelcomeMsg) then begin
-                            str2 := 'blueWelcome, '+tc.Name+', to the '+ServerName+' Ragnarok Online Server - Powered by Fusion Server Technology';
-                            w := 200;
-                            WFIFOW(0, $009a);
-                            WFIFOW(2, w);
-                            WFIFOS(4, str2, w-4);
-                            for i := 0 to CharaName.Count - 1 do begin
-		    		            tc1 := CharaName.Objects[i] as TChara;
-			    	            if tc1.Login = 2 then begin
-                                    tc1.Socket.SendBuf(buf, w);
-                                end;
-                            end;
-                            tc.Socket.SendBuf(buf, w);
-                        end;
+            //CRW -- Broadcasts Welcome Message to all Users.
+            if (Option_WelcomeMsg) then begin
+              str2 := 'blueWelcome, '+tc.Name+', to the '+ServerName+' Ragnarok Online Server - Powered by Fusion Server Technology';
+              //CRW -- why is "w" 200 -- should it not be SizeOf(str2) ??
+              w := 200;
+              WFIFOW(0, $009a);
+              WFIFOW(2, w);
+              WFIFOS(4, str2, w-4);
+              for i := 0 to CharaName.Count - 1 do begin
+				        tc1 := CharaName.Objects[i] as TChara;
+				        if tc1.Login = 2 then begin
+                  tc1.Socket.SendBuf(buf, w);
+                end;
+              end;
+              tc.Socket.SendBuf(buf, w);
+            end;//if (Option.WelcomeMsg)
 
 {ÉMÉãÉhã@î\í«â¡ÉRÉRÇ‹Ç≈}
 					end else begin
@@ -237,78 +259,73 @@ begin
 						Socket.SendBuf(buf, 3);
 					end;
 				end;
-			end;
+			end;//$0072
 		//--------------------------------------------------------------------------
-		$007d: //MAPÉçÅ[ÉhäÆóπ
+		$007d: // Map loading completed (display the map to user)
 			begin
 				if tc.tmpMap <> '' then begin
 					tc.Map := tc.tmpMap;
 					tc.tmpMap := '';
 				end;
-
+        if Map.IndexOf(tc.Map) <> - 1 then begin
 				tm := Map.Objects[Map.IndexOf(tc.Map)] as TMap;
 				while tm.Mode < 2 do
 					Application.ProcessMessages;
 
 				tc.MData := tm;
 				if CharaPID.IndexOf(tc.ID) = -1 then CharaPID.AddObject(tc.ID, tc);
+        if MapInfo.IndexOf(tm.Name) <> -1 then begin
+        mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
 
-                                mi := MapInfo.Objects[MapInfo.IndexOf(tm.Name)] as MapTbl;
-				//É}ÉbÉvÇ…é©ï™Ç™ãèÇÈÇ±Ç∆ÇãLò^
+				// Add this character to the charlist for this map
 				tm.CList.AddObject(tc.ID, tc);
 				tm.Block[tc.Point.X div 8][tc.Point.Y div 8].CList.AddObject(tc.ID, tc);
 
-                                //Grace Time
-                                if mi.PvPG = true then begin
-                                        tc.GraceTick := timeGetTime() + 15000;
-                                end else begin
-                                        tc.GraceTick := timeGetTime() + 5000;
-                                end;
+        //Grace Time
+        if mi.PvPG = true then begin
+          tc.GraceTick := timeGetTime() + 15000;
+        end else begin
+          tc.GraceTick := timeGetTime() + 5000;
+        end;
 
-
-				//ê∂Ç´ï‘ÇËèàóù
+				// If dead, recover status/HP as necessary
 				if tc.Sit = 1 then tc.Sit := 3;
 				if tc.HP = 0 then begin
-                                        if tc.JID = 0 then begin
-                                                tc.HP := tc.MAXHP div 2;
-                                                if tc.FullRecover then begin
-                                                        tc.HP := tc.MAXHP;
-                                                        tc.SP := tc.MAXSP;
-                                                end;
-                                        end else begin
-                                                if tc.FullRecover then begin
-                                                        tc.HP := tc.MAXHP;
-                                                        tc.SP := tc.MAXSP;
-                                                end else begin
-                                                        tc.HP := 1;
-                                                end;
-                                        end;
-                                end;
+          if tc.JID = 0 then begin
+            tc.HP := tc.MAXHP div 2;
+            if tc.FullRecover then begin
+              tc.HP := tc.MAXHP;
+              tc.SP := tc.MAXSP;
+            end;
+          end else begin
+            if tc.FullRecover then begin
+              tc.HP := tc.MAXHP;
+              tc.SP := tc.MAXSP;
+            end else begin
+              tc.HP := 1;
+            end;
+          end;
+        end;
 
-{òIìXÉXÉLÉãí«â¡}
+        // Reset vending/chat/trade/deal status
 				tc.VenderID := 0;
-{òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈}
-{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡}
 				tc.ChatRoomID := 0;
-{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡ÉRÉRÇ‹Ç≈}
-{éÊà¯ã@î\í«â¡}
 				tc.DealingID := 0;
 				tc.PreDealID := 0;
-{éÊà¯ã@î\í«â¡ÉRÉRÇ‹Ç≈}
 
 				//ÉuÉçÉbÉNèàóù
 				for j := tc.Point.Y div 8 - 2 to tc.Point.Y div 8 + 2 do begin
 					for i := tc.Point.X div 8 - 2 to tc.Point.X div 8 + 2 do begin
-						//NPCÉçÅ[Éh
+						// Notify about nearby NPCs
 						for k := 0 to tm.Block[i][j].NPC.Count - 1 do begin
 							tn := tm.Block[i][j].NPC.Objects[k] as TNPC;
 							if (abs(tc.Point.X - tn.Point.X) < 16) and (abs(tc.Point.Y - tn.Point.Y) < 16) then begin
-{NPCÉCÉxÉìÉgí«â¡}
+
                 //SendNData(Socket, tn, tc.ver2);
 								if (tn.Enable = true) then begin
 									SendNData(Socket, tn,tc.ver2);
 									if (tn.ScriptInitS <> -1) and (tn.ScriptInitD = false) then begin
-										//OnInitÉâÉxÉãÇé¿çs
+										//OnInit processing
 										//DebugOut.Lines.Add(Format('OnInit Event(%d)', [tn.ID]));
 										tc1 := TChara.Create;
 										tc1.TalkNPCID := tn.ID;
@@ -321,7 +338,7 @@ begin
 										tc1.Free;
 									end;
 									if (tn.ChatRoomID <> 0) then begin
-										//É`ÉÉÉbÉgÉãÅ[ÉÄÇï\é¶Ç∑ÇÈ
+										// Show NPC chatrooms
 										ii := ChatRoomList.IndexOf(tn.ChatRoomID);
 										if (ii <> -1) then begin
 											tcr := ChatRoomList.Objects[ii] as TChatRoom;
@@ -342,26 +359,20 @@ begin
 										end;
 									end;
 								end;
-{NPCÉCÉxÉìÉgí«â¡ÉRÉRÇ‹Ç≈}
 							end;
 						end;
-						//é¸ÇËÇÃêlÇ…í ím&é¸ÇËÇ…Ç¢ÇÈêlÇï\é¶Ç≥ÇπÇÈ
+						// Notify nearby players about you (and you about them)
 						for k := 0 to tm.Block[i][j].CList.Count - 1 do begin
 							tc1 := tm.Block[i][j].CList.Objects[k] as TChara;
 							if (tc <> tc1) and (abs(tc.Point.X - tc1.Point.X) < 16) and (abs(tc.Point.Y - tc1.Point.Y) < 16) then begin
 								SendCData(tc, tc1);
 								SendCData(tc1, tc);
-{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡}
-								//é¸ï”ÇÃÉ`ÉÉÉbÉgÉãÅ[ÉÄÇï\é¶
+								// Remove any chats or vends you may have had displayed (after death, perhaps...)
 								ChatRoomDisp(tc.Socket, tc1);
-{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡ÉRÉRÇ‹Ç≈}
-{òIìXÉXÉLÉãí«â¡}
-								//é¸ï”ÇÃòIìXÇï\é¶
 								VenderDisp(tc.Socket, tc1);
-{òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈}
 							end;
 						end;
-						//ÉÇÉìÉXÉ^Å[ÉçÅ[Éh
+						// Update about mobs in your range of vision
 						for k := 0 to tm.Block[i][j].Mob.Count - 1 do begin
 							ts := tm.Block[i][j].Mob.Objects[k] as TMob;
 							if (abs(tc.Point.X - ts.Point.X) < 16) and (abs(tc.Point.Y - ts.Point.Y) < 16) then begin
@@ -371,39 +382,14 @@ begin
 					end;
 				end;
 
-				//ÉXÉLÉãëóêM
+				// Update skill list
 				SendCSkillList(tc);
-				{
-				WFIFOW( 0, $010f);
-				j := 0;
-				for i := 1 to 157 do begin
-					if tc.Skill[i].Lv <> 0 then begin
-						WFIFOW( 0+37*j+4, i);
-						WFIFOW( 2+37*j+4, tc.Skill[i].Data.SType);
-						WFIFOW( 4+37*j+4, 0);
-						WFIFOW( 6+37*j+4, tc.Skill[i].Lv);
-						WFIFOW( 8+37*j+4, tc.Skill[i].Data.SP[tc.Skill[i].Lv]);
-						WFIFOW(10+37*j+4, tc.Skill[i].Data.Range);
-						WFIFOS(12+37*j+4, tc.Skill[i].Data.IDC, 24);
-						WFIFOB(36+37*j+4, 0);
-						Inc(j);
-					end;
-				end;
-				WFIFOW( 2, 4+37*j);
-				Socket.SendBuf(buf, 4+37*j);
-				}
 
-        {Colus, 20040113: This buffer makes no sense.  Why is it here?
-         It causes items to screw up, rather badly.}
-         {
-                                WFIFOW( 2, 4+37*j);
-                                Socket.SendBuf(buf, 4+37*j);
-         }
-				//ÉpÉâÉÅÅ[É^
+				// Update character stats
 				CalcStat(tc);
 				SendCStat(tc, true);
 
-				//ÉAÉCÉeÉÄÉfÅ[É
+				// Update inventory data
 				WFIFOW(0, $00a3);
 				j := 0;
 				for i := 1 to 100 do begin
@@ -422,7 +408,7 @@ begin
 				end;
 				WFIFOW(2, 4+j*10);
 				Socket.SendBuf(buf, 4+j*10);
-				//ëïîıÉfÅ[É^
+				// Update equipment data
 				WFIFOW(0, $00a4);
 				j := 0;
 				for i := 1 to 100 do begin
@@ -450,7 +436,7 @@ begin
 				end;
 				WFIFOW(2, 4+j*20);
 				Socket.SendBuf(buf, 4+j*20);
-				//ëïîıÇµÇƒÇ¢ÇÈã|
+				// Update arrow equipment status
 				j := 0;
 				for i := 1 to 100 do begin
 					if (tc.Item[i].ID <> 0) and (tc.Item[i].Equip = 32768) then begin
@@ -462,13 +448,14 @@ begin
 				WFIFOW(2, j);
 				Socket.SendBuf(buf, 4);
 
-				//ÉJÅ[ÉgÉfÅ[É^ëóêM
-        // Colus, 20040123: Other carts weren't getting checked.
-        w3 := tc.Option and $0788;
+        // Transmit cart data
+				// Colus, 20040123: Other carts weren't getting checked.
+				w3 := tc.Option and $0788;
 				if (w3 <> 0) then begin
-				    SendCart(tc);
+					SendCart(tc);
 				end;
 
+        // Reset regen/recovery ticks and combat status
 				tc.HPTick := timeGetTime();
 				tc.SPTick := timeGetTime();
 				tc.HPRTick := timeGetTime() - 500;
@@ -477,83 +464,85 @@ begin
 				tc.AMode := 0;
 				tc.DmgTick := 0;
 
+        // Set login data and send party info
 				tc.Login := 2;
-{ÉpÅ[ÉeÉBÅ[ã@î\í«â¡}
 				SendPartyList(tc);
-{ÉpÅ[ÉeÉBÅ[ã@î\ÉRÉRÇ‹Ç≈}
-{ÉLÉÖÅ[ÉyÉbÉg}
-                                j := 0;
-                                for i := 1 to 100 do begin
-                                        if ( tc.Item[i].ID <> 0 ) and ( tc.Item[i].Amount > 0 ) and
-                                        ( tc.Item[i].Card[0] = $FF00 ) and ( tc.Item[i].Attr <> 0 ) then begin
-                                                j := i;
-                                                break;
-                                        end;
-                                end;
 
-                                if j > 0 then begin
+        // Find and show your active pet
+        j := 0;
+        for i := 1 to 100 do begin
+          if ( tc.Item[i].ID <> 0 ) and ( tc.Item[i].Amount > 0 ) and
+          ( tc.Item[i].Card[0] = $FF00 ) and ( tc.Item[i].Attr <> 0 ) then begin
+            j := i;
+            break;
+          end;
+        end;
 
-                                        i := PetList.IndexOf( tc.Item[j].Card[2] + tc.Item[j].Card[3] * $10000 );
+        if j > 0 then begin
+          i := PetList.IndexOf( tc.Item[j].Card[2] + tc.Item[j].Card[3] * $10000 );
+          if i <> -1 then begin
+            SendPetRelocation(tm, tc, i);
+          end;
+        end;
 
-                                        if i <> -1 then begin
-                                            SendPetRelocation(tm, tc, i);
 
-                                        end;
-                                end;
-{ÉLÉÖÅ[ÉyÉbÉgÇ±Ç±Ç‹Ç≈}
-
-{ÉMÉãÉhã@î\í«â¡}
+        // Get and display the guild news
 				j := GuildList.IndexOf(tc.GuildID);
 				if (j <> -1) then begin
 					tg := GuildList.Objects[j] as TGuild;
-					//çêímëóêM
 					WFIFOW( 0, $016f);
 					WFIFOS( 2, tg.Notice[0], 60);
 					WFIFOS(62, tg.Notice[1], 120);
 					Socket.SendBuf(buf, 182);
 				end;
 
-          if (mi.Pvp = true) then begin
-              for j := 0 to tm.CList.Count - 1 do begin
-              tc1 := tm.CList.Objects[j] as TChara;
-              WFIFOW( 0, $0199);
-							WFIFOW( 2, 1);
-							tc1.Socket.SendBuf(buf, 4);
-              k := j + 1;
-              i := tm.CList.Count;
-              WFIFOW( 0, $019a);
-              WFIFOL( 2, tc1.ID);
-              WFIFOL( 6, k);
-              WFIFOL( 10, i);
-              tc1.Socket.SendBuf(buf, 14);
-              end;
-
+        // Is this map PvP?  Then set that mode and ladder status.
+        if (mi.Pvp = true) then begin
+          for j := 0 to tm.CList.Count - 1 do begin
+            tc1 := tm.CList.Objects[j] as TChara;
+            WFIFOW( 0, $0199);
+            WFIFOW( 2, 1);
+            tc1.Socket.SendBuf(buf, 4);
+            k := j + 1;
+            i := tm.CList.Count;
+            WFIFOW( 0, $019a);
+            WFIFOL( 2, tc1.ID);
+            WFIFOL( 6, k);
+            WFIFOL( 10, i);
+            tc1.Socket.SendBuf(buf, 14);
           end;
+        end;
 
-          if (mi.PvPG = true) then begin
-              for j := 0 to tm.CList.Count - 1 do begin
-                tc1 := tm.CList.Objects[j] as TChara;
-                WFIFOW( 0, $0199);
-                WFIFOW( 2, 3);
-                tc1.Socket.SendBuf(buf, 4);
-              end;
+        // Is this map GvG?  Then set that mode.
+        if (mi.PvPG = true) then begin
+          for j := 0 to tm.CList.Count - 1 do begin
+            tc1 := tm.CList.Objects[j] as TChara;
+            WFIFOW( 0, $0199);
+            WFIFOW( 2, 3);
+            tc1.Socket.SendBuf(buf, 4);
           end;
+        end;
 
-          // Colus, 20040118: Update Spirit Spheres for monks
-          if (tc.spiritSpheres > 0) then UpdateSpiritSpheres(tm, tc, tc.spiritSpheres);
-          
-          {if (mi.noDay = true) {or (tc.noDay = true) then begin
-                WFIFOW(0, $0119);
-                WFIFOL(2, tc1.ID);
-                WFIFOW(6, 00);
-                WFIFOW(8, 16);
-                WFIFOW(10, 00);
-                WFIFOB(12, 0); // attack animation
-                Socket.SendBuf(buf, 13)
-          end;}
+        // Colus, 20040118: Update Spirit Spheres for monks
+        if (tc.spiritSpheres > 0) then UpdateSpiritSpheres(tm, tc, tc.spiritSpheres);
 
-{ÉMÉãÉhã@î\í«â¡ÉRÉRÇ‹Ç≈}
-			end;
+        {if (mi.noDay = true) {or (tc.noDay = true) then begin
+          WFIFOW(0, $0119);
+          WFIFOL(2, tc1.ID);
+          WFIFOW(6, 00);
+          WFIFOW(8, 16);
+          WFIFOW(10, 00);
+          WFIFOB(12, 0); // attack animation
+          Socket.SendBuf(buf, 13)
+        end;}
+
+        // Colus, 20040409: Gave the option to enable lower class dyes.
+        // This should be removed when Gravity reenables them.
+        UpdateLook(tm, tc, 7, tc.ClothesColor, 0, true);
+        end;
+        end;
+
+			end;//$007d
 		//--------------------------------------------------------------------------
 		$007e: //tick
 			begin
@@ -564,19 +553,19 @@ begin
 		//--------------------------------------------------------------------------
 		$0085: //à⁄ìÆóvãÅ (ç¿Ç¡ÇƒÇÈÇ∆Ç´Ç‚É`ÉÉÉbÉgÇ»Ç«Ç≈ÇÕà⁄ìÆÇ≈Ç´Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈÇ±Ç∆)
 			begin
-{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡}
+{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡} {Lit. "Chat room functional addition"}
         if tc.Sit = 1 then continue;
 
 				if tc.ChatRoomID <> 0 then continue; //É`ÉÉÉbÉgíÜÇÃà⁄ìÆã÷é~
-{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡ÉRÉRÇ‹Ç≈}
-{òIìXÉXÉLÉãí«â¡}
-				if tc.VenderID <> 0 then continue; //òIìXíÜÇÃà⁄ìÆã÷é~
-{òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈}
+{É`ÉÉÉbÉgÉãÅ[ÉÄã@î\í«â¡ÉRÉRÇ‹Ç≈} {Lit. "To Chat room functional additional coconut}
+{òIìXÉXÉLÉãí«â¡} {Lit. "Street stall skill addition"}
+				if tc.VenderID <> 0 then continue; //òIìXíÜÇÃà⁄ìÆã÷é~  Lit. "Movement prohibition in street stall"
+{òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈} {Lit. "To street stall skill additional coconut"}
 				RFIFOM1(2, xy);
 				tc.NextFlag := true;
 				tc.NextPoint := xy;
-{ÉpÅ[ÉeÉBÅ[ã@î\í«â¡}
-				//ìØàÍÉ}ÉbÉvì‡PTMÇ…èäç›ÇímÇÁÇπÇÈ
+{ÉpÅ[ÉeÉBÅ[ã@î\í«â¡} {Lit. "Party functional addition"}
+				//ìØàÍÉ}ÉbÉvì‡PTMÇ…èäç›ÇímÇÁÇπÇÈ  Lit. "It informs about location inside PTM the identical map"
 				if tc.PartyName <> '' then begin
 					WFIFOW( 0, $0107);
 					WFIFOL( 2, tc.ID);
@@ -584,7 +573,7 @@ begin
 					WFIFOW( 8, tc.NextPoint.Y);
 					SendPCmd(tc,10,true,true);
 				end;
-{ÉpÅ[ÉeÉBÅ[ã@î\í«â¡ÉRÉRÇ‹Ç≈}
+{ÉpÅ[ÉeÉBÅ[ã@î\í«â¡ÉRÉRÇ‹Ç≈} {Lit. "To party functional additional coconut"}
 			end;
 		//--------------------------------------------------------------------------
 		$0089: //çUåÇÅAç¿ÇË
@@ -594,6 +583,9 @@ begin
 				if tc.AMode > 2 then continue;
 				if tc.MMode <> 0 then continue;
 
+                tc.Delay := 0;
+                tc.Skill[272].Tick := 0;
+
 				RFIFOB(6, b);
 				//DebugOut.Lines.Add('Inside Attack Command');
 				if (b = 0) or (b = 7) then begin
@@ -602,44 +594,67 @@ begin
 					RFIFOL(2, l);
 					tm := tc.MData;
           //DebugOut.Lines.Add(IntToStr(l));
-////////////////////////////////////
-																				//ÉÇÉìÉXÉ^Å[å^NPCÅiçUåÇÇµÇÊÇ§Ç∆Ç∑ÇÈÇ∆äJénÅj
-if tm.NPC.IndexOf(l) <> -1 then begin
-tn := tm.NPC.IndexOfObject(l) as TNPC;
-									//ãóó£É`ÉFÉbÉN
-if (tc.Map <> tn.Map) or (abs(tc.Point.X - tn.Point.X) > 15) or (abs(tc.Point.Y - tn.Point.Y) > 15) then begin
-continue;
-end;
-					        case tn.CType of
-					        1:	//shop
-				        		begin
-				        			WFIFOW(0, $00c4);
-				        			WFIFOL(2, l);
-											Socket.SendBuf(buf, 6);
-				        		end;
-				        	2:	//script
-				        		begin
-				        			tc.TalkNPCID := tn.ID;
-					        		tc.ScriptStep := 0;
-						        	tc.AMode := 3;
-							// Option Reset
-              // Colus, 20040204: WHY?  You will lose your peco/falcon when
-              // talking/shopping...you want to unhide, perhaps, but not
-              // completely reset your options.
-							if (tc.Option and 6 <> 0) then begin
-								tc.Option := tc.Option and $FFF9;
-								//å©ÇΩñ⁄ïœçX
-                UpdateOption(tm, tc);
-							end;
-							        tc.AData := tn;
-					        		NPCScript(tc);
-					        	end;
-					        end;
-			        	end;
-                                        //ÉÇÉìÉXÉ^Å[å^NPCÅ@Ç±Ç±Ç‹Ç≈
-////////////////////////////////////
-
-
+          ////////////////////////////////////
+					//ÉÇÉìÉXÉ^Å[å^NPCÅiçUåÇÇµÇÊÇ§Ç∆Ç∑ÇÈÇ∆äJénÅj
+          if tm.NPC.IndexOf(l) <> -1 then begin
+            tn := tm.NPC.IndexOfObject(l) as TNPC;
+						//ãóó£É`ÉFÉbÉN
+            if (tc.Map <> tn.Map) OR (abs(tc.Point.X - tn.Point.X) > 15) OR
+               (abs(tc.Point.Y - tn.Point.Y) > 15) then begin
+              Continue;
+						end;
+						case tn.CType of
+							1:	//shop
+								begin
+									WFIFOW(0, $00c4);
+									WFIFOL(2, l);
+									Socket.SendBuf(buf, 6);
+								end;
+							2:	//script
+								begin
+									tc.TalkNPCID := tn.ID;
+									tc.ScriptStep := 0;
+									tc.AMode := 3;
+									// Option Reset
+									// Colus, 20040204: WHY?  You will lose your peco/falcon when
+									// talking/shopping...you want to unhide, perhaps, but not
+									// completely reset your options.
+									if (tc.Option and 6 <> 0) then begin
+										tc.Option := tc.Option and $FFF9;
+										//å©ÇΩñ⁄ïœçX  Lit. "The eye modification which you saw"
+										UpdateOption(tm, tc);
+									end;
+									tc.AData := tn;
+									NPCScript(tc);
+								end;
+							{ 4: // Skillunit
+								begin
+									if (tn.JID = $8d) then begin
+										if tc.pcnt <> 0 then xy := tc.tgtPoint else xy := tc.Point;
+										if (abs(xy.X - tn.Point.X) > tc.Range) or (abs(xy.Y - tn.Point.Y) > tc.Range) then begin
+										//ãóó£Ç™âìÇ∑Ç¨ÇÈ
+										WFIFOW( 0, $0139);
+										WFIFOL( 2, tn.ID);
+										WFIFOW( 6, tn.Point.X);
+										WFIFOW( 8, tn.Point.Y);
+										WFIFOW(10, tc.Point.X);
+										WFIFOW(12, tc.Point.Y);
+										WFIFOW(14, tc.Range); //éÀíˆ
+										Socket.SendBuf(buf, 16);
+									end else begin
+										//çUåÇâ¬î\
+										if b = 7 then tc.AMode := 2 else tc.AMode := 1;
+										tc.ATarget := tn.ID;
+										tc.AData := tn;
+										if tc.ATick + tc.ADelay - 200 < timeGetTime() then
+											tc.ATick := timeGetTime() - tc.ADelay + 200;
+									end;//if (tn.JID) else
+								end;//case-4
+								end;}
+						end;//case tn.CType
+					end;//if tm.NPC.IndexOf(l)
+					//ÉÇÉìÉXÉ^Å[å^NPCÅ@Ç±Ç±Ç‹Ç≈
+					////////////////////////////////////
 					if tm.Mob.IndexOf(l) <> -1 then begin
 						//ëŒÉÇÉìÉXÉ^Å[
 						ts := tm.Mob.IndexOfObject(l) as TMob;
@@ -663,11 +678,10 @@ end;
 								tc.ATick := timeGetTime() - tc.ADelay + 200;
 						end;
 					end else begin
-                                            //ÉÇÉìÉXÉ^Å[Ç≈Ç»Ç¢
-          end;
+						//ÉÇÉìÉXÉ^Å[Ç≈Ç»Ç¢
+					end;
 
-
-          if tm.CList.IndexOf(l) <> -1 then begin
+					if tm.CList.IndexOf(l) <> -1 then begin
 						tc1 := tm.CList.IndexOfObject(l) as TChara;
 						if tc.pcnt <> 0 then xy := tc.tgtPoint else xy := tc.Point;
 						if (abs(xy.X - tc1.Point.X) > tc.Range) or (abs(xy.Y - tc1.Point.Y) > tc.Range) then begin
@@ -688,47 +702,579 @@ end;
 							if tc.ATick + tc.ADelay - 200 < timeGetTime() then
 								tc.ATick := timeGetTime() - tc.ADelay + 200;
 						end;
-           end;
+					end;//if tm.CList.IndexOf(l)
 
 				end else if (b = 2) or (b = 3) then begin
-        if (tc.Skill[1].Lv >= 3) then begin
-					//ç¿ÇË
-					tc.Sit := b;
-					tm := tc.MData;
-					WFIFOW(0, $008a);
-					WFIFOL(2, tc.ID);
-					WFIFOB(26, b);
+					if (tc.Skill[1].Lv >= 3) then begin
+						//ç¿ÇË
+						tc.Sit := b;
+						tm := tc.MData;
+						WFIFOW(0, $008a);
+						WFIFOL(2, tc.ID);
+						WFIFOB(26, b);
 
-					SendBCmd(tm, tc.Point, 29);
-        end else begin
-          w := tc.MSkill;
-          tc.MSkill := 1;
-          SendSkillError(tc, 0, 2);
-          tc.MSkill := w;
-        end;
+						SendBCmd(tm, tc.Point, 29);
+					end else begin
+						w := tc.MSkill;
+						tc.MSkill := 1;
+						SendSkillError(tc, 0, 2);
+						tc.MSkill := w;
+					end;//if-else
 				end;
-			end;
+			end;//$0089
 		//--------------------------------------------------------------------------
 		$008c: //ÇµÇ·Ç◊ÇÈ
 			begin
-					tm := tc.MData;
-        h := IDTableDB.IndexOf(tc.ID);
-
+				tm := tc.MData;
+				h := IDTableDB.IndexOf(tc.ID);
 				RFIFOW(2, w);
 				str := RFIFOS(4, w - 4);
-{Edit - Miyuki}
-        if (h <> - 1) and (Pos(' : ', str) <> 0) and (Copy(str, Pos(' : ', str) + 3, 1) = '#') then begin
+
+                                // Athena GM Commands Port - To Shut Them Up. Courtesy of AlexKreuz.
+                                if (h <> - 1) and (Pos(' : ', str) <> 0) and (Copy(str, Pos(' : ', str) + 3, 1) = '@') then begin
+                                        str := Copy(str, Pos(' : ', str) + 4, 256);
+
+                                        if (copy(str, 1, 5) = 'rura+') or (copy(str, 1, 4) = 'send') or (copy(str, 1, 5) = 'warp+') or (copy(str, 1, 8) = 'charwarp') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count <> 5 then continue;
+
+                                                val(sl.Strings[2], i, ii);
+                                                if ii <> 0 then continue;
+                                                val(sl.Strings[3], j, ii);
+                                                if ii <> 0 then continue;
+
+                                                if maplist.IndexOf(sl.Strings[1]) <> -1 then begin
+                                                        ta := maplist.objects[maplist.indexof(sl.strings[1])] as tmaplist;
+                                                        if (i < 0) or (i >= ta.size.x) or (j < 0) or (j >= ta.size.y) then continue;
+
+                                                        for k := 4 to sl.Count - 1 do begin
+                                                                s := s + ' ' + sl.Strings[k];
+                                                                s := Trim(s);
+                                                        end;
+
+                                                        if (charaname.IndexOf(s) <> -1) then begin
+                                                                tc1 := charaname.objects[charaname.indexof(s)] as tchara;
+                                                                str := tc.Name + ' warped ' + tc1.Name + ' to ' + sl.strings[1] + ' ' + inttostr(i) + ' ' + inttostr(j);
+
+                                                                w := Length(str) + 4;
+                                                                WFIFOW (0, $009a);
+                                                                WFIFOW (2, w);
+                                                                WFIFOS (4, str, w - 4);
+                                                                tc.socket.sendbuf(buf, w);
+
+                                                                if tc1.Login = 2 then begin
+                                                                        sendcleave(tc1, 2);
+                                                                        tc1.tmpMap := sl.Strings[1];
+                                                                        tc1.Point := point(i, j);
+                                                                        mapmove(tc1.Socket, tc1.tmpMap, tc1.Point);
+                                                                end
+
+                                                                else begin
+                                                                        tc1.Map := sl.Strings[1];
+                                                                        tc1.Point := point(i, j);
+                                                                end;
+                                                        end;
+                                                end;
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'rura') or (copy(str, 1, 4) = 'warp') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count <> 4 then continue;
+
+                                                val(sl.Strings[2], i, ii);
+                                                if ii <> 0 then continue;
+                                                val(sl.Strings[3], j, ii);
+                                                if ii <> 0 then continue;
+
+                                                if (maplist.IndexOf(sl.Strings[1]) <> -1) then begin
+                                                        ta := maplist.objects[maplist.indexof(sl.strings[1])] as tmaplist;
+                                                        if (i < 0) or (i >= ta.size.x) or (j < 0) or (j >= ta.size.y) then continue;
+
+                                                        sendcleave(tc, 2);
+                                                        tc.tmpMap := sl.Strings[1];
+                                                        tc.Point := point(i, j);
+                                                        mapmove(tc.Socket, tc.tmpMap, tc.Point);
+                                                end;
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 5) = 'where') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count < 2 then continue;
+
+                                                str2 := '';
+                                                for i := 1 to (sl.Count - 1) do begin
+                                                        str2 := str2 + ' ' + sl.Strings[i];
+                                                end;
+                                                str2 := Trim(str2);
+
+                                                if (CharaName.Indexof(str2) <> -1) then begin
+                                                        tc1 := charaname.objects[charaname.indexof(str2)] as tchara;
+                                                        str := tc1.Name + ' located at ' + tc1.map + ' ' + inttostr(tc1.point.x) + ' ' + inttostr(tc1.point.y);
+
+                                                        w := Length(str) + 4;
+                                                        WFIFOW (0, $009a);
+                                                        WFIFOW (2, w);
+                                                        WFIFOS (4, str, w - 4);
+                                                        tc.socket.sendbuf(buf, w);
+                                                end;
+
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 6) = 'jumpto') or (copy(str, 1, 6) = 'warpto') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count < 2 then continue;
+
+                                                str2 := '';
+                                                for i := 1 to (sl.Count - 1) do begin
+                                                        str2 := str2 + ' ' + sl.Strings[i];
+                                                end;
+                                                str2 := Trim(str2);
+
+                                                if (CharaName.Indexof(str2) <> -1) then begin
+                                                        tc1 := charaname.objects[charaname.indexof(str2)] as tchara;
+                                                        tc.tmpmap := tc1.map;
+                                                        tc.point := tc1.point;
+                                                        mapmove (socket, tc1.map, tc1.point);
+                                                end;
+
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'jump') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count <> 3 then continue;
+
+                                                val(sl.Strings[1], i, ii);
+                                                if ii <> 0 then continue;
+                                                val(sl.Strings[2], j, ii);
+                                                if ii <> 0 then continue;
+
+                                                if (maplist.IndexOf(tc.Map) <> -1) then begin
+                                                        ta := maplist.objects[maplist.indexof(tc.map)] as tmaplist;
+                                                        if (i < 0) or (i >= ta.size.x) or (j < 0) or (j >= ta.size.y) then continue;
+
+                                                        sendcleave(tc, 2);
+                                                        tc.tmpMap := tc.map;
+                                                        tc.Point := point(i, j);
+                                                        mapmove(tc.Socket, tc.tmpMap, tc.Point);
+                                                end;
+
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'who2') then begin
+                                                for i := 0 to CharaName.Count - 1 do begin
+                                                        tc1 := CharaName.Objects[i] as TChara;
+                                                        if tc1.Login = 2 then begin
+
+                                                                if tc1.JID = 0 then str :='Novice' else
+                                                                if tc1.JID = 1 then str :='Swordsman' else
+                                                                if tc1.JID = 2 then str :='Mage' else
+                                                                if tc1.JID = 3 then str :='Archer' else
+                                                                if tc1.JID = 4 then str :='Acolyte' else
+                                                                if tc1.JID = 5 then str :='Merchant' else
+                                                                if tc1.JID = 6 then str :='Thief' else
+                                                                if tc1.JID = 7 then str :='Knight' else
+                                                                if tc1.JID = 8 then str :='Priest' else
+                                                                if tc1.JID = 9 then str :='Wizard' else
+                                                                if tc1.JID = 10 then str :='Blacksmith' else
+                                                                if tc1.JID = 11 then str :='Hunter' else
+                                                                if tc1.JID = 12 then str :='Assassin' else
+                                                                if tc1.JID = 13 then str :='Knight 2' else
+                                                                if tc1.JID = 14 then str :='Crusader' else
+                                                                if tc1.JID = 15 then str :='Monk' else
+                                                                if tc1.JID = 16 then str :='Sage' else
+                                                                if tc1.JID = 17 then str :='Rogue' else
+                                                                if tc1.JID = 18 then str :='Alchemist' else
+                                                                if tc1.JID = 19 then str :='Bard' else
+                                                                if tc1.JID = 20 then str :='Dancer' else
+                                                                if tc1.JID = 21 then str :='Crusader 2' else
+                                                                if tc1.JID = 22 then str :='Wedding' else
+                                                                if tc1.JID = 23 then str :='Super Novice' else
+                                                                str := 'Unknown Class';
+
+                                                                str := 'Name: ' + tc1.Name + ' -- Job: ' + str + ' -- Base Level:  ' + inttostr(tc1.baselv) + ' -- Job Level: ' + inttostr(tc1.joblv);
+                                                                w := Length(str) + 4;
+                                                                WFIFOW (0, $009a);
+                                                                WFIFOW (2, w);
+                                                                WFIFOS (4, str, w - 4);
+                                                                tc.socket.sendbuf(buf, w);
+                                                        end;
+                                                end;
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'who3') then begin
+                                                for i := 0 to CharaName.Count - 1 do begin
+                                                        tc1 := CharaName.Objects[i] as TChara;
+                                                        if tc1.Login = 2 then begin
+                                                                str := 'Name: ' + tc1.Name + ' -- Party: ' + tc1.PartyName + ' -- Guild: ' + tc1.GuildName;
+                                                                w := Length(str) + 4;
+                                                                WFIFOW (0, $009a);
+                                                                WFIFOW (2, w);
+                                                                WFIFOS (4, str, w - 4);
+                                                                tc.socket.sendbuf(buf, w);
+                                                        end;
+                                                end;
+                                        end
+
+                                        else if (copy(str, 1, 3) = 'who') then begin
+                                                for i := 0 to CharaName.Count - 1 do begin
+                                                        tc1 := CharaName.Objects[i] as TChara;
+                                                        if tc1.Login = 2 then begin
+                                                                str := 'Name: ' + tc1.Name + ' -- Location: ' + tc1.map + ' ' + inttostr(tc1.point.x) + ' ' + inttostr(tc1.point.y);
+                                                                w := Length(str) + 4;
+                                                                WFIFOW (0, $009a);
+                                                                WFIFOW (2, w);
+                                                                WFIFOS (4, str, w - 4);
+                                                                tc.socket.sendbuf(buf, w);
+                                                        end;
+                                                end;
+                                        end
+
+                                        else if (copy(str, 1, 5) = 'speed') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count <> 2 then continue;
+
+                                                if (strtoint(sl.Strings[1]) >= 25) and (strtoint(sl.Strings[1]) <= 1000) then begin
+                                                        str := 'Walking speed is now ' + sl.Strings[1];
+                                                        tc.DefaultSpeed := strtoint(sl.strings[1]);
+                                                        CalcStat(tc);
+                                                        SendCStat1(tc, 0, 0, tc.Speed);
+                                                end else begin
+                                                        str := 'Requested speed out of range. Must be 25-1000';
+                                                end;
+
+                                                w := Length(str) + 4;
+                                                WFIFOW (0, $009a);
+                                                WFIFOW (2, w);
+                                                WFIFOS (4, str, w - 4);
+                                                tc.socket.sendbuf(buf, w);
+
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 7) = 'storage') then begin
+                                                SendCStoreList(tc);
+                                        end
+
+                                        else if (copy(str, 1, 6) = 'option') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count <> 4 then continue;
+
+                                                val(sl.Strings[1], i, ii);
+                                                if ii <> 0 then continue;
+                                                val(sl.Strings[2], j, ii);
+                                                if ii <> 0 then continue;
+                                                val(sl.Strings[3], k, ii);
+                                                if ii <> 0 then continue;
+
+                                                WFIFOW(0, $0119);
+                                                WFIFOL(2, tc.ID);
+                                                WFIFOW(6, i);
+                                                WFIFOW(8, j);
+                                                WFIFOW(10, k);
+                                                WFIFOB(12, 0);
+                                                SendBCmd(tm, tc.Point, 13);
+                                                tc.Stat1 := i;
+                                                tc.Stat2 := j;
+                                                tc.Option := k;
+
+                                                str := 'Options set to ' + inttostr(i) + ' ' + inttostr(j) + ' ' + inttostr(k);
+
+                                                w := Length(str) + 4;
+                                                WFIFOW (0, $009a);
+                                                WFIFOW (2, w);
+                                                WFIFOS (4, str, w - 4);
+                                                tc.socket.sendbuf(buf, w);
+
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'hide') then begin
+                                                if tc.Option = 64 then i := 0
+                                                else i := 64;
+                                                WFIFOW(0, $0119);
+                                                WFIFOL(2, tc.ID);
+                                                WFIFOW(6, 0);
+                                                WFIFOW(8, 0);
+                                                WFIFOW(10, i);
+                                                WFIFOB(12, 0);
+                                                SendBCmd(tm, tc.Point, 13);
+                                                tc.Stat1 := 0;
+                                                tc.Stat2 := 0;
+                                                tc.Option := i;
+                                        end
+
+                                        else if (copy(str, 1, 9) = 'jobchange') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count <> 2 then continue;
+
+                                                val(sl.Strings[1], i, ii);
+                                                if ii <> 0 then continue;
+
+                                                if (ii = 0) and (i >= 0) and (i <= MAX_JOB_NUMBER) and (i <> 13) then begin
+                                                        // Colus, 20040203: Added unequip of items when you #job
+                                                        for  j := 1 to 100 do begin
+                                                                if tc.Item[j].Equip = 32768 then begin
+                                                                        tc.Item[j].Equip := 0;
+                                                                        WFIFOW(0, $013c);
+                                                                        WFIFOW(2, 0);
+                                                                        tc.Socket.SendBuf(buf, 4);
+                                                                end else if tc.Item[j].Equip <> 0 then begin
+                                                                        WFIFOW(0, $00ac);
+                                                                        WFIFOW(2, j);
+                                                                        WFIFOW(4, tc.Item[j].Equip);
+                                                                        tc.Item[j].Equip := 0;
+                                                                        WFIFOB(6, 1);
+                                                                        tc.Socket.SendBuf(buf, 7);
+                                                                end;
+                                                        end;
+
+                                                        // Darkhelmet, 20040212: Added to remove all ticks when changing jobs.
+                                                        for j := 1 to MAX_SKILL_NUMBER do begin
+                                                                if tc.Skill[j].Data.Icon <> 0 then begin
+                                                                        if tc.Skill[j].Tick >= timeGetTime() then begin
+                                                                                //DebugOut.Lines.Add('(Icon Removed');
+                                                                                UpdateIcon(tm, tc, tc.Skill[j].Data.Icon, 0);
+                                                                        end;
+                                                                end;
+                                                                tc.Skill[j].Tick := timeGetTime();
+                                                                tc.Skill[j].Effect1 := 0;
+                                                        end;
+
+                                                        if (i > LOWER_JOB_END) then begin
+                                                                i := i - LOWER_JOB_END + UPPER_JOB_BEGIN; // 24 - 23 + 4000 = 4001, remort novice
+                                                                tc.ClothesColor := 1; // This is the default clothes palette color for upper classes
+                                                        end else begin
+                                                                tc.ClothesColor := 0; // Reset the clothes color to the default value.
+                                                        end;
+
+                                                        tc.JID := i; // Set the JID to the corrected value.
+
+                                                        if (tc.Option <> 0) then begin
+                                                                tc.Option := 0;
+                                                                WFIFOW(0, $0119);
+                                                                WFIFOL(2, tc.ID);
+                                                                WFIFOW(6, 0);
+                                                                WFIFOW(8, 0);
+                                                                WFIFOW(10, tc.Option);
+                                                                WFIFOB(12, 0);
+                                                                SendBCmd(tc.MData, tc.Point, 13);
+                                                        end;
+
+                                                        CalcStat(tc);
+                                                        SendCStat(tc, true); // Add the true to recalc sprites
+                                                        SendCSkillList(tc);
+
+                                                        // Colus, 20040303: Using newer packet to allow upper job changes
+                                                        UpdateLook(tm, tc, 0, i);
+
+                                                end;
+                                                
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 3) = 'die') then begin
+                                                tc.Sit := 1;
+                                                tc.HP := 0;
+                                                SendCStat1(tc, 0, 5, tc.HP);
+                                                WFIFOW( 0, $0080);
+                                                WFIFOL( 2, tc.ID);
+                                                WFIFOB( 6, 1);
+                                                SendBCmd(tm, tc.Point, 7);
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'kill') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count < 2 then continue;
+
+                                                str2 := '';
+                                                for i := 1 to (sl.Count - 1) do begin
+                                                        str2 := str2 + ' ' + sl.Strings[i];
+                                                end;
+                                                str2 := Trim(str2);
+
+                                                if (CharaName.Indexof(str2) <> -1) then begin
+                                                        tc1 := charaname.objects[charaname.indexof(str2)] as tchara;
+
+                                                        if (tc1.Login = 2) then begin
+                                                                tc1.Sit := 1;
+                                                                tc1.HP := 0;
+                                                                SendCStat1(tc1, 0, 5, tc1.HP);
+                                                                WFIFOW( 0, $0080);
+                                                                WFIFOL( 2, tc1.ID);
+                                                                WFIFOB( 6, 1);
+                                                                SendBCmd(tm, tc1.Point, 7);
+
+                                                                str := tc.name + ' has killed ' + tc1.name + '.';
+                                                        end else begin
+                                                                str := tc1.Name + ' is not online.';
+                                                        end;
+                                                end else begin
+                                                        str := str2 + ' is not a valid character name.';
+                                                end;
+
+                                                w := Length(str) + 4;
+                                                WFIFOW (0, $009a);
+                                                WFIFOW (2, w);
+                                                WFIFOS (4, str, w - 4);
+                                                tc.socket.sendbuf(buf, w);
+
+                                                sl.Free;
+                                        end
+
+                                        else if (copy(str, 1, 5) = 'alive') then begin
+                                                tc.HP := tc.MAXHP;
+                                                tc.SP := tc.MAXSP;
+                                                tc.Sit := 3;
+                                                SendCStat1(tc, 0, 5, tc.HP);
+                                                SendCStat1(tc, 0, 7, tc.SP);
+                                                WFIFOW( 0, $0148);
+                                                WFIFOL( 2, tc.ID);
+                                                WFIFOW( 6, 100);
+                                                SendBCmd(tm, tc.Point, 8);
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'kami') or (copy(str, 1, 5) = 'kamib') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if sl.count < 2 then continue;
+
+                                                str2 := '';
+                                                for i := 1 to (sl.Count - 1) do begin
+                                                        str2 := str2 + ' ' + sl.Strings[i];
+                                                end;
+                                                str2 := Trim(str2);
+
+                                                if (length(sl.Strings[0])) = 5 then begin
+                                                        str2 := 'blue' + str2;
+                                                end;
+
+                                                w := Length(str2) + 4;
+                                                WFIFOW (0, $009a);
+                                                WFIFOW (2, w);
+                                                WFIFOS (4, str2, w - 4);
+
+                                                for i := 0 to charaname.count - 1 do begin
+                                                        tc1 := charaname.objects[i] as tchara;
+                                                        if (tc1.login = 2) then begin
+                                                                tc1.socket.sendbuf(buf, w);
+                                                        end;
+                                                end;
+
+                                                sl.free;
+                                        end
+
+                                        else if (copy(str, 1, 4) = 'heal') then begin
+                                                sl := tstringlist.Create;
+                                                sl.DelimitedText := str;
+
+                                                if (sl.Count > 3) or (sl.Count = 2) then continue;
+
+                                                i := 0;
+                                                j := 0;
+
+                                                if (sl.count = 3) then begin
+                                                        val(sl.Strings[1], i, ii);
+                                                        if ii <> 0 then continue;
+                                                        val(sl.Strings[2], j, ii);
+                                                        if ii <> 0 then continue;
+                                                end;
+
+                                                if (i <= 0) then i := tc.MAXHP;
+                                                if (j <= 0) then j := tc.MAXSP;
+
+                                                if (tc.HP + i > tc.MAXHP) then i := tc.MAXHP - tc.HP;
+                                                if (tc.SP + j > tc.MAXSP) then j := tc.MAXSP - tc.SP;
+
+                                                i := i + tc.HP;
+                                                j := j + tc.SP;
+
+                                                tc.HP := i;
+                                                tc.SP := j;
+                                                tc.Sit := 3;
+                                                SendCStat1(tc, 0, 5, tc.HP);
+                                                SendCStat1(tc, 0, 7, tc.SP);
+                                                WFIFOW( 0, $0148);
+                                                WFIFOL( 2, tc.ID);
+                                                WFIFOW( 6, 100);
+                                                SendBCmd(tm, tc.Point, 8);
+                                        end
+
+                                        else begin
+                                        end;
+                                end else
+                                // Athena GM Commands Port - To Shut Them Up. Courtesy of AlexKreuz.
+
+				if (h <> - 1) and (Pos(' : ', str) <> 0) and (Copy(str, Pos(' : ', str) + 3, 1) = '#') then begin
 					str := Copy(str, Pos(' : ', str) + 4, 256);
 					//#Ç≈énÇ‹ÇÈÉRÉ}ÉìÉh(éÂÇ…Ç≈ÇŒÇÆóp)
-          tid := IDTableDB.Objects[h] as TIDTbl;
+					tid := IDTableDB.Objects[h] as TIDTbl;
 
-					if (Copy(str, 1, 4) = 'save') and ((DebugCMD and $0001) <> 0) and (tid.SaveReturn = 1) then begin
+
+					// NEW GM COMMANDS
+					if (Copy(str, 1, 8) = 'ironical') then begin
+						WFIFOW(0, $0119);
+						WFIFOL(2, tc.ID);
+						WFIFOW(6, 0);
+						WFIFOW(8, 2);
+						WFIFOW(10, 64);
+						WFIFOB(12, 0);
+						SendBCmd(tm, tc.Point, 13);
+						tc.Stat1 := 0;
+						tc.Stat2 := 2;
+						tc.Option := 64;
+					end
+					
+					else if (Copy(str, 1, 8) = 'mothball') then begin
+						if tc.Stat2 = 16 then j := 0
+						else j := 16;
+						
+						for i := 0 to charaname.count - 1 do begin
+							tc1 := charaname.objects[i] as tchara;
+							if (tc1.login = 2) then begin
+								WFIFOW(0, $0119);
+								WFIFOL(2, tc1.ID);
+								WFIFOW(6, 0);
+								WFIFOW(8, j);
+								WFIFOW(10, 0);
+								WFIFOB(12, 0);
+								SendBCmd(tm, tc1.Point, 13);
+								tc.Stat2 := j;
+							end;
+						end;
+					end
+					// NEW GM COMMANDS
+
+					else if (Copy(str, 1, 4) = 'save') and ((DebugCMD and $0001) <> 0) and (tid.SaveReturn = 1) then begin
 						//åªç›ínÇÉZÅ[ÉuÇ∑ÇÈ
 						tc.SaveMap := tc.Map;
 						tc.SavePoint.X := tc.Point.X;
 						tc.SavePoint.Y := tc.Point.Y;
 
-            //Mitch 01-29-2004: Tell the user its saved
+						//Mitch 01-29-2004: Tell the user its saved
             str2 := 'Saved at ' + tc.Map + ' (' + IntToStr(tc.Point.X) + ',' + IntToStr(tc.Point.Y) + ')';
             w := Length(str2) + 4;
             WFIFOW(0, $009a);
@@ -745,78 +1291,102 @@ end;
 						Val(Copy(str, 8, 256), i, k);
 						if (k = 0) and (i >= 1) and (i <= 199) and (i <> tc.BaseLV) then begin
 
-              //if (i >= 100) and (tc.ParamBase[2] >= 111) then begin
-              //tc.ParamBase[2] := 110;
-              //end;
+							//if (i >= 100) and (tc.ParamBase[2] >= 111) then begin
+							//tc.ParamBase[2] := 110;
+							//end;
 
-              if tc.BaseLV > i then begin
-							tc.BaseLV := i;
+							if tc.BaseLV > i then begin
+								tc.BaseLV := i;
 
-              for i := 0 to 5 do begin
-						  tc.ParamBase[i] := 1;
-					    end;
-					    tc.StatusPoint := 48;
-					    for i := 1 to tc.BaseLV - 1 do begin
-						  tc.StatusPoint := tc.StatusPoint + i div 5 + 3;
-				      end;
+								for i := 0 to 5 do begin
+									tc.ParamBase[i] := 1;
+								end;//for
+								tc.StatusPoint := 48;
+								for i := 1 to tc.BaseLV - 1 do begin
+									tc.StatusPoint := tc.StatusPoint + i div 5 + 3;
+								end;//for
 
-              end else begin
-              w3 := tc.BaseLV;
-              tc.BaseLV := i;
-					    for i := w3 to tc.BaseLV - 1 do begin
-						  tc.StatusPoint := tc.StatusPoint + i div 5 + 3;
-				      end;
-              end;
+							end else begin
+								w3 := tc.BaseLV;
+								tc.BaseLV := i;
+								for i := w3 to tc.BaseLV - 1 do begin
+									tc.StatusPoint := tc.StatusPoint + i div 5 + 3;
+								end;//for
+							end;//if-else
 
-              tc.BaseEXP := tc.BaseNextEXP - 1;
-              tc.BaseNextEXP := ExpTable[0][tc.BaseLV];
-              CalcStat(tc);
-              SendCStat(tc);
-              SendCStat1(tc, 0, $000b, tc.BaseLV);
-              SendCStat1(tc, 0, $0009, tc.StatusPoint);
-              SendCStat1(tc, 1, $0001, tc.BaseEXP);
-						end;
-            end else if (Copy(str, 1, 7) = 'jlevel ') and ((DebugCMD and $0008) <> 0) and (tid.ChangeLevel = 1) then begin
+							tc.BaseEXP := tc.BaseNextEXP - 1;
+							tc.BaseNextEXP := ExpTable[0][tc.BaseLV];
+							CalcStat(tc);
+							SendCStat(tc);
+							SendCStat1(tc, 0, $000b, tc.BaseLV);
+							SendCStat1(tc, 0, $0009, tc.StatusPoint);
+							SendCStat1(tc, 1, $0001, tc.BaseEXP);
+						end;        //Kyuubi - Glevel Command  Under Development
+					//end else if (Copy(str,1, 7) = 'glevel ') and (tc.GuildID) then begin
+					//
+					//ChrstphR - 2004/04/19 - fix the build --
+					//Error was "Operator not applicable to this operand type -
+					//No WORD type can be treated like a boolean.
+					//
+					end else if (Copy(str,1, 7) = 'glevel ') and (GuildList.IndexOf(tc.GuildID) > -1) then begin
+                  j := GuildList.IndexOf(tc.GuildID);
+                  tg := GuildList.Objects[j] as TGuild;
+                 if (tg <> NIL) and (tc.GuildID = tg.ID) then begin
+                 Val(Copy(str, 8 , 256), i, k);
+                 if (k = 0) and (i >= 1) and (i <= 99) then begin
+                  tg.LV := i;
+                  for j := 10000 to 10004 do begin
+                  tg.GSkill[j].Lv := 0;
+                  end;  // For J
+                  tg.GSkillPoint := tg.LV -1;
+                  tg.EXP := tg.NextEXP -1;
+                  SendGuildInfo(tc, 3, true);
+                  end;
+                  tg.NextEXP := GExpTable[tg.LV];
+                  SendGuildInfo(tc, 0, true);
+                  SendGuildInfo(tc, 1, true);
+                    end;
+          end else if (Copy(str, 1, 7) = 'jlevel ') and ((DebugCMD and $0008) <> 0) and (tid.ChangeLevel = 1) then begin
 						//ÉXÉsÅ[ÉhïœçX
 						Val(Copy(str, 8, 256), i, k);
 						if (k = 0) and (i >= 1) and (i <= 99) then begin
 							tc.JobLV := i;
 
-              for i := 2 to MAX_SKILL_NUMBER do begin
-              if not tc.Skill[i].Card then
-							tc.Skill[i].Lv := 0;
-					    end;
-					    if tc.JID = 0 then begin
-					    end else if tc.JID < 7 then tc.SkillPoint := tc.JobLV -1
-					    else tc.SkillPoint := tc.JobLV -1 + 49;
-              SendCSkillList(tc);
+							for i := 1 to MAX_SKILL_NUMBER do begin
+							  if not tc.Skill[i].Card then
+									tc.Skill[i].Lv := 0;
+							end;
+                            if tc.JID = 0 then tc.SkillPoint := tc.JobLV - 1
+							else if tc.JID < 7 then tc.SkillPoint := tc.JobLV - 1 + 9
+							else tc.SkillPoint := tc.JobLV - 1 + 49 + 9;
+							SendCSkillList(tc);
 
-              tc.JobEXP := tc.JobNextEXP - 1;
-              if tc.JID < 13 then begin
-				      j := (tc.JID + 5) div 6 + 1;
-			        end else begin
-				      j := 3;
-			        end;
-              tc.JobNextEXP := ExpTable[j][tc.JobLV];
-              
-              CalcStat(tc);
-              SendCStat(tc);
-              SendCStat1(tc, 0, $0037, tc.JobLV);
-              SendCStat1(tc, 0, $000c, tc.SkillPoint);
-              SendCStat1(tc, 1, $0002, tc.JobEXP);
+							tc.JobEXP := tc.JobNextEXP - 1;
+							if tc.JID < 13 then begin
+								j := (tc.JID + 5) div 6 + 1;
+							end else begin
+								j := 3;
+							end;//if else
+							tc.JobNextEXP := ExpTable[j][tc.JobLV];
+
+							CalcStat(tc);
+							SendCStat(tc);
+							SendCStat1(tc, 0, $0037, tc.JobLV);
+							SendCStat1(tc, 0, $000c, tc.SkillPoint);
+							SendCStat1(tc, 1, $0002, tc.JobEXP);
 						end;
 					end else if (Copy(str, 1, 5) = 'warp ') and ((DebugCMD and $0004) <> 0) and (tid.Warp = 1) then begin
 						//îCà”ÇÃèÍèäÇ…ÉèÅ[Év
-						sl := TStringList.Create;
-						sl.DelimitedText := Copy(str, 6, 256);
+						SL := TStringList.Create;
+						SL.DelimitedText := Copy(str, 6, 256);
 						try
-							if sl.Count <> 3 then continue;
-							Val(sl.Strings[1], i, k);
+							if SL.Count <> 3 then continue;
+							Val(SL.Strings[1], i, k);
 							if k <> 0 then continue;
 							Val(sl.Strings[2], j, k);
 							if k <> 0 then continue;
 							//É}ÉbÉvë∂ç›É`ÉFÉbÉN
-              // Colus, 20040122: Lower-case to prevent problems with 'Prontera' mapname
+							// Colus, 20040122: Lower-case to prevent problems with 'Prontera' mapname
 							if MapList.IndexOf(LowerCase(sl.Strings[0])) = -1 then continue;
 							//ç¿ïWÉ`ÉFÉbÉN
 							ta := MapList.Objects[MapList.IndexOf(LowerCase(sl.Strings[0]))] as TMapList;
@@ -828,7 +1398,7 @@ end;
 							MapMove(Socket, LowerCase(sl.Strings[0]), Point(i,j));
 
 						finally
-							sl.Free();
+							SL.Free();
 						end;
 
           end else if (Copy(str, 1, 11) = 'skillpoint ') and ((DebugCMD and $0008) <> 0) and (tid.ChangeStatSkill = 1) then begin
@@ -839,281 +1409,290 @@ end;
             end;
 
           end else if (Copy(str, 1, 11) = 'changestat ') and ((DebugCMD and $0004) <> 0) and (tid.ChangeStatSkill = 1) then begin
-						sl := TStringList.Create;
-						sl.DelimitedText := Copy(str, 12, 256);
+						SL := TStringList.Create;
+						SL.DelimitedText := Copy(str, 12, 256);
 						try
-							if sl.Count = 2 then begin
-							Val(sl.Strings[0], i, k);
-              if(i >= 0) and (i <= 5) then begin
-							Val(sl.Strings[1], j, k);
-							if(j >= 1) and (j <= 99) then begin
+							if SL.Count = 2 then begin
+								Val(SL[0], i, k); //CRW - default index in StringList is Strings
+								if(i >= 0) and (i <= 5) then begin
+									Val(SL[1], j, k);
+									if(j >= 1) and (j <= 99) then begin
 
-              //if (i = 2) and (j >= 111) and (tc.BaseLV >= 100) then begin
-              //j := 110 - tc.Bonus[2];
-              //end;
+			              //if (i = 2) and (j >= 111) and (tc.BaseLV >= 100) then begin
+			              //  j := 110 - tc.Bonus[2];
+			              //end;
 
-							tc.ParamBase[i] := j;
-              CalcStat(tc);
-              SendCStat(tc);
-              SendCStat1(tc, 0, $0009, tc.StatusPoint);
-              end;
-              end;
-              end;
+										tc.ParamBase[i] := j;
+			              CalcStat(tc);
+			              SendCStat(tc);
+			              SendCStat1(tc, 0, $0009, tc.StatusPoint);
+									end;
+								end;
+							end;
 						finally
-							sl.Free();
+							SL.Free();
 						end;
 
-					end else if (Copy(str, 1, 6) = 'speed ') and ((DebugCMD and $0008) <> 0) and (tid.ChangeStatSkill = 1) then begin
+					end
+					else if (Copy(str, 1, 6) = 'speed ') AND
+									((DebugCMD and $0008) <> 0) AND (tid.ChangeStatSkill = 1) then
+					begin
 						//ÉXÉsÅ[ÉhïœçX
 						Val(Copy(str, 6, 256), i, k);
-						if (k = 0) and (i >= 25) and (i <= 1000) then begin
+						if (k = 0) AND (i >= 25) AND (i <= 1000) then begin
 							tc.DefaultSpeed := i;
 							CalcStat(tc);
-							WFIFOW(0, $00b0);
-							WFIFOW(2, $0000);
-							WFIFOL(4, tc.Speed);
-							Socket.SendBuf(buf, 8);
+							SendCStat1(tc, 0, 0, tc.Speed);
 						end;
 
-      end else if (Copy(str, 1, 5) = 'whois') and ((DebugCMD and $0002) <> 0) and (tid.Whois = 1) then begin
-        str2 := 'Users Currently Logged in:';
-        for i := 0 to CharaName.Count - 1 do begin
-				tc1 := CharaName.Objects[i] as TChara;
-				if tc1.Login = 2 then begin
-        if str2 = 'Users Currently Logged in:' Then begin
-        str2 := str2 + tc1.Name;
-        end else begin
-        str2 := str2 + ',' + tc1.Name;
-				end;
-        end;
-        end;
-        DebugOut.Lines.Add(str2);
+					end
+					else if (Copy(str, 1, 5) = 'whois') AND
+									((DebugCMD AND $0002) <> 0) AND (tid.Whois = 1) then
+					begin
+						str2 := 'Users Currently Logged in:';
+						for i := 0 to CharaName.Count - 1 do begin
+							tc1 := CharaName.Objects[i] as TChara;
+							if tc1.Login = 2 then begin
+								if str2 = 'Users Currently Logged in:' Then begin
+									str2 := str2 + tc1.Name;
+								end else begin
+									str2 := str2 + ',' + tc1.Name;
+								end;//if-else
+							end;
+						end;//for i
+						DebugOut.Lines.Add(str2);
 
-        {Mitch 01-29-2004: Make w the correct length of the packet instead of just 200 }
-        w := Length(str2) + 4;
-        WFIFOW(0, $009a);
-        WFIFOW(2, w);
-        WFIFOS(4, str2, w - 4);
-        tc.Socket.SendBuf(buf, w);
-  end else if (Copy(str, 1, 8) = 'monster ') and ((DebugCMD and $0004) <> 0) and (tid.MonsterSummon = 1) then begin
-      sl := TStringList.Create;
-      sl.DelimitedText := Copy(str, 9, 256);
-							if sl.Count = 2 then begin
-              if (MobDBName.IndexOf(sl.Strings[0]) <> -1) then begin
-							Val(sl.Strings[1], j, k);
-							if(j >= 1) and (j <= 20) then begin
+						{Mitch 01-29-2004: Make w the correct length of the packet instead of just 200 }
+						w := Length(str2) + 4;
+						WFIFOW(0, $009a);
+		        WFIFOW(2, w);
+						WFIFOS(4, str2, w - 4);
+						tc.Socket.SendBuf(buf, w);
+					end //cmd /whois
+					else if (Copy(str, 1, 8) = 'monster ') AND
+									((DebugCMD AND $0004) <> 0) AND (tid.MonsterSummon = 1) then
+					begin
+						SL := TStringList.Create;
+						SL.DelimitedText := Copy(str, 9, 256);
+						if SL.Count = 2 then begin
+							if (MobDBName.IndexOf(sl.Strings[0]) <> -1) then begin
+								Val(sl.Strings[1], j, k);
+								if(j >= 1) and (j <= 20) then begin
 
-          for l := 1 to j do begin
-          tm := tc.MData;
+									for l := 1 to j do begin
+										tm := tc.MData;
 
-          ts := TMob.Create;
-					ts.Data := MobDBName.Objects[MobDBName.IndexOf(sl.Strings[0])] as TMobDB;
-					ts.ID := NowMobID;
-					Inc(NowMobID);
-					ts.Name := ts.Data.JName;
-					ts.JID := ts.Data.ID;
-					ts.Map := tc.Map;
-          ts.Data.isLink :=false;
-          //ts.Data.isLoot :=false;
-					//ÉvÉåÉCÉÑÅ[ÇÃé¸àÕ9É}ÉXÇÃÇ«Ç±Ç©Ç…è¢ä“
-					ts.Point.X := tc.Point.X + Random(2) - 1;
-					ts.Point.Y := tc.Point.Y + Random(2) - 1;
+										ts := TMob.Create;
+										ts.Data := MobDBName.Objects[MobDBName.IndexOf(sl.Strings[0])] as TMobDB;
+										ts.ID := NowMobID;
+										Inc(NowMobID);
+										ts.Name := ts.Data.JName;
+										ts.JID := ts.Data.ID;
+										ts.Map := tc.Map;
+										ts.Data.isLink :=false;
+										//ts.Data.isLoot :=false;
+										//ÉvÉåÉCÉÑÅ[ÇÃé¸àÕ9É}ÉXÇÃÇ«Ç±Ç©Ç…è¢ä“
+										ts.Point.X := tc.Point.X + Random(2) - 1;
+										ts.Point.Y := tc.Point.Y + Random(2) - 1;
 
-					ts.Dir := Random(8);
-					ts.HP := ts.Data.HP;
-					ts.Speed := ts.Data.Speed;
+										ts.Dir := Random(8);
+										ts.HP := ts.Data.HP;
+										ts.Speed := ts.Data.Speed;
 
-					//ï¶Ç´ä‘äuÇã…ëÂÇ…ê›íË
-					//Ç±Ç±ÇÕÇøÇÂÇ¡Ç∆èàóùÇ™ìKìñÇ©Ç»ÅH
+										//ï¶Ç´ä‘äuÇã…ëÂÇ…ê›íË
+										//Ç±Ç±ÇÕÇøÇÂÇ¡Ç∆èàóùÇ™ìKìñÇ©Ç»ÅH
 
-					ts.SpawnDelay1 := $7FFFFFFF;
-					ts.SpawnDelay2 := 0;
+										ts.SpawnDelay1 := $7FFFFFFF;
+										ts.SpawnDelay2 := 0;
 
-					ts.SpawnType := 0;
-					ts.SpawnTick := 0;
-					if ts.Data.isDontMove then
-						ts.MoveWait := $FFFFFFFF
-					else
-          ts.MoveWait := timeGetTime();
-					ts.ATarget := 0;
-					ts.ATKPer := 100;
-					ts.DEFPer := 100;
-					ts.DmgTick := 0;
+										ts.SpawnType := 0;
+										ts.SpawnTick := 0;
+										if ts.Data.isDontMove then
+											ts.MoveWait := $FFFFFFFF
+										else
+											ts.MoveWait := timeGetTime;
+										ts.ATarget := 0;
+										ts.ATKPer := 100;
+										ts.DEFPer := 100;
+										ts.DmgTick := 0;
 
-          ts.Element := ts.Data.Element;
+					          ts.Element := ts.Data.Element;
 
-          if (SummonMonsterName = true) then begin
-          ts.Name := ts.Data.JName;
-          end else begin
-					ts.Name := 'Summon Monster';
-          end;
+					          if (SummonMonsterName = true) then begin
+						          ts.Name := ts.Data.JName;
+					          end else begin
+											ts.Name := 'Summon Monster';
+					          end;
 
-          if (SummonMonsterExp = false) then begin
-					ts.Data.MEXP := 0;
-					ts.Data.EXP := 0;
-					ts.Data.JEXP := 0;
-          end;
+										if (SummonMonsterExp = false) then begin
+											ts.Data.MEXP := 0;
+											ts.Data.EXP := 0;
+											ts.Data.JEXP := 0;
+										end;
 
-          if (SummonMonsterAgo = true) then begin
-					ts.isActive := true;
-          end else begin
-          ts.isActive := ts.Data.isActive;
-          end;
+										if (SummonMonsterAgo = true) then begin
+											ts.isActive := true;
+										end else begin
+											ts.isActive := ts.Data.isActive;
+										end;
 
-					ts.MoveWait := timeGetTime();
+										ts.MoveWait := timeGetTime();
 
-					for j := 0 to 31 do begin
-						ts.EXPDist[j].CData := nil;
-						ts.EXPDist[j].Dmg := 0;
-					end;
-					if ts.Data.MEXP <> 0 then begin
-						for j := 0 to 31 do begin
-							ts.MVPDist[j].CData := nil;
-							ts.MVPDist[j].Dmg := 0;
+										for j := 0 to 31 do begin
+											ts.EXPDist[j].CData := nil;
+											ts.EXPDist[j].Dmg := 0;
+										end;
+										if ts.Data.MEXP <> 0 then begin
+											for j := 0 to 31 do begin
+												ts.MVPDist[j].CData := nil;
+												ts.MVPDist[j].Dmg := 0;
+											end;
+											ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAÇ…30%â¡éZ
+										end;
+										ts.isSummon := True;
+										ts.EmperiumID := 0;
+
+										tm.Mob.AddObject(ts.ID, ts);
+										tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
+
+										SendMData(tc.Socket, ts);
+										//é¸àÕÇ…ëóêM
+										SendBCmd(tm,ts.Point,41,tc,False);
+
+
+										if (SummonMonsterMob = true) then begin
+											k := SlaveDBName.IndexOf(sl.Strings[0]);
+											if (k <> -1) then begin
+												ts.isLeader := true;
+
+												tss := SlaveDBName.Objects[k] as TSlaveDB;
+												if sl.Strings[0] = tss.Name then begin
+
+													h := tss.TotalSlaves;
+													ts.SlaveCount := h;
+													repeat
+														for i := 0 to 4 do begin
+															if (tss.Slaves[i] <> -1) AND
+																 (h <> 0) then
+															begin
+											          ts1 := TMob.Create;
+																ts1.Data := MobDBName.Objects[tss.Slaves[i]] as TMobDB;
+																ts1.ID := NowMobID;
+											          ts.Slaves[h] := ts1.ID;
+																Inc(NowMobID);
+																ts1.Name := ts1.Data.JName;
+																ts1.JID := ts1.Data.ID;
+																ts1.LeaderID := ts.ID;
+																ts1.Data.isLink := false;
+																ts1.Map := ts.Map;
+																//CRW - tested, can copy point as a whole.
+																ts1.Point := ts.Point;
+																ts1.Dir := ts.Dir;
+																ts1.HP := ts1.Data.HP;
+																if ts.Data.Speed < ts1.Data.Speed then begin
+																	ts1.Speed := ts.Data.Speed;
+																end else begin
+																	ts1.Speed := ts1.Data.Speed;
+																end;
+																ts1.SpawnDelay1 := $7FFFFFFF;
+																ts1.SpawnDelay2 := 0;
+																ts1.SpawnType := 0;
+																ts1.SpawnTick := 0;
+																if ts1.Data.isDontMove then
+																	ts1.MoveWait := $FFFFFFFF
+																else
+																	ts1.MoveWait := ts.MoveWait;
+																ts1.ATarget := 0;
+																ts1.ATKPer := 100;
+																ts1.DEFPer := 100;
+																ts1.DmgTick := 0;
+																ts1.Element := ts1.Data.Element;
+																ts1.isActive := false;
+																for j := 0 to 31 do begin
+																	ts1.EXPDist[j].CData := nil;
+																	ts1.EXPDist[j].Dmg := 0;
+																end;
+																if ts1.Data.MEXP <> 0 then begin
+																	for j := 0 to 31 do begin
+																		ts1.MVPDist[j].CData := nil;
+																		ts1.MVPDist[j].Dmg := 0;
+																	end;
+																	ts1.MVPDist[0].Dmg := ts1.Data.HP * 30 div 100; //FAÇ…30%â¡éZ
+																end;
+																tm.Mob.AddObject(ts1.ID, ts1);
+																tm.Block[ts1.Point.X div 8][ts1.Point.Y div 8].Mob.AddObject(ts1.ID, ts1);
+
+																ts1.isSummon := true;
+																ts1.isSlave := true;
+																ts1.EmperiumID := 0;
+
+																SendMData(tc.Socket, ts1);
+																//é¸àÕÇ…ëóêM
+																SendBCmd(tm,ts1.Point,41,tc,False);
+
+																h := h - 1;
+															end;
+														end;
+													until (h <= 0);
+												end;
+											end;
+										end;
+									end;
+								end;
+							end;
 						end;
-						ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAÇ…30%â¡éZ
-					end;
-          ts.isSummon := True;
-          ts.EmperiumID := 0;
-          
-					tm.Mob.AddObject(ts.ID, ts);
-					tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
+					end //GM cmd #monster
 
-					SendMData(tc.Socket, ts);
-					//é¸àÕÇ…ëóêM
-					SendBCmd(tm,ts.Point,41,tc,False);
-
-
-if (SummonMonsterMob = true) then begin
-    k := SlaveDBName.IndexOf(sl.Strings[0]);
-    if (k <> -1) then begin
-     ts.isLeader := true;
-     
-     tss := SlaveDBName.Objects[k] as TSlaveDB;
-     if sl.Strings[0] = tss.Name then begin
-
-     h := tss.TotalSlaves;
-     ts.SlaveCount := h;
-     repeat
-      for i := 0 to 4 do begin
-        if (tss.Slaves[i] <> -1) and (h <> 0) then begin
-          ts1 := TMob.Create;
-					ts1.Data := MobDBName.Objects[tss.Slaves[i]] as TMobDB;
-					ts1.ID := NowMobID;
-          ts.Slaves[h] := ts1.ID;
-					Inc(NowMobID);
-					ts1.Name := ts1.Data.JName;
-					ts1.JID := ts1.Data.ID;
-          ts1.LeaderID := ts.ID;
-          ts1.Data.isLink := false;
-					ts1.Map := ts.Map;
-					ts1.Point.X := ts.Point.X;
-					ts1.Point.Y := ts.Point.Y;
-					ts1.Dir := ts.Dir;
-					ts1.HP := ts1.Data.HP;
-          if ts.Data.Speed < ts1.Data.Speed then begin
-					ts1.Speed := ts.Data.Speed;
-          end else begin
-          ts1.Speed := ts1.Data.Speed;
-          end;
-					ts1.SpawnDelay1 := $7FFFFFFF;
-					ts1.SpawnDelay2 := 0;
-					ts1.SpawnType := 0;
-					ts1.SpawnTick := 0;
-					if ts1.Data.isDontMove then
-						ts1.MoveWait := $FFFFFFFF
-					else
-          ts1.MoveWait := ts.MoveWait;
-					ts1.ATarget := 0;
-					ts1.ATKPer := 100;
-					ts1.DEFPer := 100;
-					ts1.DmgTick := 0;
-          ts1.Element := ts1.Data.Element;
-          ts1.isActive := false;
-					for j := 0 to 31 do begin
-						ts1.EXPDist[j].CData := nil;
-						ts1.EXPDist[j].Dmg := 0;
-					end;
-					if ts1.Data.MEXP <> 0 then begin
-						for j := 0 to 31 do begin
-							ts1.MVPDist[j].CData := nil;
-							ts1.MVPDist[j].Dmg := 0;
-						end;
-						ts1.MVPDist[0].Dmg := ts1.Data.HP * 30 div 100; //FAÇ…30%â¡éZ
-					end;
-					tm.Mob.AddObject(ts1.ID, ts1);
-					tm.Block[ts1.Point.X div 8][ts1.Point.Y div 8].Mob.AddObject(ts1.ID, ts1);
-					ts1.isSummon := true;
-          ts1.isSlave := true;
-          ts1.EmperiumID := 0;
-          
-					SendMData(tc.Socket, ts1);
-					//é¸àÕÇ…ëóêM
-					SendBCmd(tm,ts1.Point,41,tc,False);
-
-          h := h - 1;
-        end;
-      end;
-     until (h <= 0);
-
-     end;
-    end;
-end;
-end;
-end;
-end;
-end;
-          end else if (Copy(str, 1, 5) = 'zeny ') and ((DebugCMD and $0008) <> 0) and (tid.ChangeStatSkill = 1) then begin
+					else if (Copy(str, 1, 5) = 'zeny ') AND
+									((DebugCMD and $0008) <> 0) AND (tid.ChangeStatSkill = 1) then
+					begin
 						Val(Copy(str, 6, 256), i, k);
-            // Colus, 20040203: Zeny limit was off by a 0.  Bumped the limit up to 1BZ (it can handle it!)
-						if (k = 0) and (i >= 0) and (i <= 999999999) and (tc.Zeny + i <= 999999999) then begin
-                                                        if tc.Zeny > 1000000000 then exit;
-							tc.Zeny := tc.Zeny + i;
-							WFIFOW(0, $00b1);
-					    WFIFOW(2, $0014);
-					    WFIFOL(4, tc.Zeny);
-					    Socket.SendBuf(buf, 8);
+						// Colus, 20040203: Zeny limit was off by a 0.  Bumped the limit up to 1BZ (it can handle it!)
+						if (k = 0) and (i >= 0) and (i <= 999999999) and (tc.Zeny + cardinal(i) <= 999999999) then begin
+							if tc.Zeny > 1000000000 then exit;
+							tc.Zeny := tc.Zeny + cardinal(i);
+							SendCStat1(tc, 1, $0014, tc.Zeny);
 						end;
+					end //gm cmd #zeny
 
-          end else if (Copy(str, 1, 5) = 'goto ') and ((DebugCMD and $0008) <> 0) and (tid.GotoSummonBanish = 1) then begin
-            s := Copy(str, 6, 256);
+					else if (Copy(str, 1, 5) = 'goto ') and ((DebugCMD and $0008) <> 0) and (tid.GotoSummonBanish = 1) then begin
+						s := Copy(str, 6, 256);
 						try
 							if CharaName.Indexof(s) <> -1 then begin
-              tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
-							if (tc.Hidden = false) then SendCLeave(tc, 2);
-							tc.tmpMap := tc1.Map;
-							tc.Point := tc1.Point;
-							MapMove(Socket, tc1.Map, tc1.Point);
-              end;
+								tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
+								if (tc.Hidden = false) then SendCLeave(tc, 2);
+								tc.tmpMap := tc1.Map;
+								tc.Point := tc1.Point;
+								MapMove(Socket, tc1.Map, tc1.Point);
+							end;
 						finally
-
 						end;
-
-          end else if (Copy(str, 1, 5) = 'kill ') and ((DebugCMD and $0008) <> 0) and (tid.KillDieAlive = 1) then begin
-            s := Copy(str, 6, 256);
+					end //gm cmd #goto
+					else if (Copy(str, 1, 5) = 'kill ') AND
+									((DebugCMD and $0008) <> 0) AND (tid.KillDieAlive = 1) then
+					begin
+						s := Copy(str, 6, 256);
 						try
 							if CharaName.Indexof(s) <> -1 then begin
-              tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
-              tc1.HP := 0;
-						  tc1.Sit := 1;
-						  SendCStat1(tc1, 0, 5, tc1.HP);
-						  WFIFOW(0, $0080);
-						  WFIFOL(2, tc1.ID);
-						  WFIFOB(6, 1);
-              Socket.SendBuf(buf, 7);
-              WFIFOW( 0, $0080);
-					    WFIFOL( 2, tc1.ID);
-					    WFIFOB( 6, 1);
-					    SendBCmd(tm, tc1.Point, 7);
-              end;
+	              tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
+	              tc1.HP := 0;
+								tc1.Sit := 1;
+							  SendCStat1(tc1, 0, 5, tc1.HP);
+							  WFIFOW(0, $0080);
+							  WFIFOL(2, tc1.ID);
+							  WFIFOB(6, 1);
+	              Socket.SendBuf(buf, 7);
+	              WFIFOW( 0, $0080);
+						    WFIFOL( 2, tc1.ID);
+						    WFIFOB( 6, 1);
+						    SendBCmd(tm, tc1.Point, 7);
+							end;
 						finally
-
 						end;
-
-
-        end else if (Copy(str, 1, 5) = 'where') and (tid.BroadCast = 1) then begin
-            s := Copy(str, 7, 256);
-            if s = '' then begin
+					end //GM cmd #kill
+					else if (Copy(str, 1, 5) = 'where') and (tid.BroadCast = 1) then begin
+						s := Copy(str, 7, 256);
+						if s = '' then begin
               //Location of self
               str := tc.Name + ' located at: ' + tc.Map + ' (' + IntToStr(tc.Point.X) + ',' + IntToStr(tc.Point.Y) + ')';
               w := Length(str) + 4;
@@ -1146,434 +1725,450 @@ end;
               WFIFOS (4, str, w - 4);
               tc.socket.sendbuf(buf, w);
             end;
-        { Mitch 01-29-2004: Revive goes under "killdiealive" }
-        end else if (Copy(str, 1, 7) = 'revive ') and ((DebugCMD and $0008) <> 0) and (tid.KillDieAlive = 1) then begin
-            s := Copy(str, 8, 256);
-            try
-              if CharaName.IndexOf(s) <> -1 then begin
-                tc1 := CharaName.Objects[CharaName.IndexOf(s)] as TChara;
-                tc1.HP := tc1.MAXHP;
-                tc1.SP := tc1.MAXSP;
-                tc1.Sit := 3;
-                SendCStat1(tc1,0,5,tc1.HP);
-                SendCStat1(tc1,0,7,tc1.SP);
-						    WFIFOW( 0, $0148);
-						    WFIFOL( 2, tc1.ID);
-						    WFIFOW( 6, 100);
-						    SendBCmd(tm, tc1.Point, 8);
-              end;
+				end // cmd /where
 
-              str := tc.Name + ' revived ' + tc1.Name + '!';
-              w := Length(str) + 4;
-              WFIFOW (0, $009a);
-              WFIFOW (2, w);
-              WFIFOS (4, str, w - 4);
-              tc.socket.sendbuf(buf, w);
-              if tc1.Login = 2 then begin
-                tc1.Socket.SendBuf(buf, w);
-              end;
-            finally
-
+				{ Mitch 01-29-2004: Revive goes under "killdiealive" }
+				else if (Copy(str, 1, 7) = 'revive ') AND
+								((DebugCMD AND $0008) <> 0) AND (tid.KillDieAlive = 1) then
+				begin
+          s := Copy(str, 8, 256);
+          try
+            if CharaName.IndexOf(s) <> -1 then begin
+              tc1 := CharaName.Objects[CharaName.IndexOf(s)] as TChara;
+              tc1.HP := tc1.MAXHP;
+              tc1.SP := tc1.MAXSP;
+              tc1.Sit := 3;
+              SendCStat1(tc1,0,5,tc1.HP);
+              SendCStat1(tc1,0,7,tc1.SP);
+              WFIFOW( 0, $0148);
+              WFIFOL( 2, tc1.ID);
+              WFIFOW( 6, 100);
+              SendBCmd(tm, tc1.Point, 8);
             end;
 
-        end else if (Copy(str, 1, 7) = 'summon ') and ((DebugCMD and $0008) <> 0) and (tid.GotoSummonBanish = 1) then begin
-            s := Copy(str, 8, 256);
-						try
+            str := tc.Name + ' revived ' + tc1.Name + '!';
+            w := Length(str) + 4;
+            WFIFOW (0, $009a);
+            WFIFOW (2, w);
+            WFIFOS (4, str, w - 4);
+            tc.socket.sendbuf(buf, w);
+            if tc1.Login = 2 then begin
+              tc1.Socket.SendBuf(buf, w);
+            end;
+          finally
+          end;
+        end //GM cmd #revive
+        else if (Copy(str, 1, 7) = 'summon ') AND
+        				((DebugCMD AND $0008) <> 0) and (tid.GotoSummonBanish = 1) then
+				begin
+          s := Copy(str, 8, 256);
+          try
+            if CharaName.Indexof(s) <> -1 then begin
+		          tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
+			        if tc1.Login = 2 then begin
+			          SendCLeave(tc1, 2);
+			          tc1.tmpMap := tc.Map;
+			          tc1.Point := tc.Point;
+					      MapMove(tc1.Socket, tc.Map, tc.Point);
+		          end;
+            end;
+          finally
+          end;
+				end //GM cmd #summon
+
+				else if (Copy(str, 1, 7) = 'banish ') AND
+								((DebugCMD AND $0008) <> 0) AND (tid.GotoSummonBanish = 1) then
+				begin
+					SL := TStringList.Create;
+					SL.DelimitedText := Copy(str, 8, 256);
+					try
+						Val(SL[SL.Count - 2], i, k);
+						if k <> 0 then continue;
+
+						Val(SL[SL.Count - 1], j, k);
+						if k <> 0 then continue;
+
+						if MapList.IndexOf(sl.Strings[sl.Count - 3]) <> -1 then begin
+							ta := MapList.Objects[MapList.IndexOf(sl.Strings[sl.Count - 3])] as TMapList;
+							if (i < 0) or (i >= ta.Size.X) or (j < 0) or (j >= ta.Size.Y) then continue;
+
+							for k := 0 to sl.Count - 4 do begin
+								s := s + ' ' + sl.Strings[k];
+								s := Trim(s);
+							end;
+
 							if CharaName.Indexof(s) <> -1 then begin
-              tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
-              if tc1.Login = 2 then begin
-							SendCLeave(tc1, 2);
-							tc1.tmpMap := tc.Map;
-							tc1.Point := tc.Point;
-							MapMove(tc1.Socket, tc.Map, tc.Point);
+								tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
+								if tc1.Login = 2 then begin
+				          SendCLeave(tc1, 2);
+				          tc1.tmpMap := sl.Strings[sl.Count - 3];
+				          //CRW  Point() does same as temp var here...
+				          tc1.Point := Point(i,j);
+				          MapMove(tc1.Socket, tc1.tmpMap, tc1.Point);
+				        end else begin
+					        tc1.Map := sl.Strings[sl.Count - 3];
+					        tc1.Point := Point(i,j);
+					      end;//if-else
+					    end;//if CharaName else
+						end;//if Maplist.IndexOf
+					finally
+						SL.Free();
+					end;//try-finally
+				end //GM cmd #banish
+
+				else if (Copy(str, 1, 4) = 'ban ') then begin
+					s := Copy(str, 5, 256);
+					s := Trim(s);
+
+					try
+				    if CharaName.Indexof(s) <> -1 then begin
+				      tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
+				      tp1 := Player.IndexOfObject(tc1.ID) as TPlayer;
+				      if tp1.Banned = 0 then begin
+				        str := tc.Name +' has banned ' + s;
+				        tp1.Banned := 1;
+				      end else begin
+				        str := tc.Name +' has un-banned ' + s;
+				        tp1.Banned := 0;
+				      end;
+
+				      { Mitch 01-29-2004: Fix: Correct w size now made instead of just 256 }
+				      w := Length(str) + 4;
+				      WFIFOW (0, $009a);
+				      WFIFOW (2, w);
+				      WFIFOS (4, str, w - 4);
+
+				      tc.socket.sendbuf(buf, w);
+				      if tc1.Login = 2 then begin
+					      tc1.socket.sendbuf(buf, w);
+					    end;
+				    end;//if CharaName
+				  finally
+				  end;//try-finally
+				end //GM cmd #ban
+
+			else if (Copy(str, 1, 5) = 'kick ') then begin
+				s := Copy(str, 6, 256);
+				s := Trim(s);
+
+				try
+			    if CharaName.Indexof(s) <> -1 then begin
+				    tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
+				    if tc1.Login = 2 then begin
+			        tc1.Socket.Close;
+
+			        { Mitch 01-29-2004: Fix: Correct w size now made instead of just 256 }
+			        str := tc.Name +' has kicked ' + s;
+			        w := Length(str) + 4;
+			        WFIFOW (0, $009a);
+			        WFIFOW (2, w);
+			        WFIFOS (4, str, w - 4);
+			        tc.socket.sendbuf(buf, w);
+				    end;
+			    end;
+			  finally
+				end;
+			end //GM cmd #kick
+
+			else if (Copy(str, 1, 4) = 'job ') AND ((DebugCMD and $0010) <> 0) AND
+							(tid.ChangeJob = 1) then
+			begin
+			{èCê≥} {Lit. "Correction"}
+        if (tc.JID <> 0) or ((DebugCMD and $0020) <> 0) then //ÉmÅ[ÉrÉXÇ©ÇÁÇÕèoóàÇ»Ç¢
+        begin
+          //êEã∆ïœçX  Lit. "Occupation modification"
+          Val(Copy(str, 5, 256), i, k);
+          if (k = 0) and (i >= 0) and (i <= MAX_JOB_NUMBER) and (i <> 13) then begin
+            // Colus, 20040203: Added unequip of items when you #job
+            for  j := 1 to 100 do begin
+              if tc.Item[j].Equip = 32768 then begin
+                tc.Item[j].Equip := 0;
+                WFIFOW(0, $013c);
+                WFIFOW(2, 0);
+                tc.Socket.SendBuf(buf, 4);
+              end else if tc.Item[j].Equip <> 0 then begin
+                WFIFOW(0, $00ac);
+                WFIFOW(2, j);
+                WFIFOW(4, tc.Item[j].Equip);
+                tc.Item[j].Equip := 0;
+                WFIFOB(6, 1);
+                tc.Socket.SendBuf(buf, 7);
               end;
+            end;
+
+            // Darkhelmet, 20040212: Added to remove all ticks when changing jobs.
+            for j := 1 to MAX_SKILL_NUMBER do begin
+              if tc.Skill[j].Data.Icon <> 0 then begin
+                if tc.Skill[j].Tick >= timeGetTime() then begin
+                  //DebugOut.Lines.Add('(Icon Removed');
+                  UpdateIcon(tm, tc, tc.Skill[j].Data.Icon, 0);
+                end;
               end;
-						finally
+              tc.Skill[j].Tick := timeGetTime();
+              tc.Skill[j].Effect1 := 0;
+            end;
 
-						end;
+            //tc.SkillPoint := 0;
+            if (i > LOWER_JOB_END) then begin
+              i := i - LOWER_JOB_END + UPPER_JOB_BEGIN; // 24 - 23 + 4000 = 4001, remort novice
+              tc.ClothesColor := 1; // This is the default clothes palette color for upper classes
+            end else begin
+              tc.ClothesColor := 0; // Reset the clothes color to the default value.
+            end;
 
-end else if (Copy(str, 1, 7) = 'banish ') and ((DebugCMD and $0008) <> 0) and (tid.GotoSummonBanish = 1) then begin
-  sl := TStringList.Create;
-  sl.DelimitedText := Copy(str, 8, 256);
-  try
-    Val(sl.Strings[sl.Count - 2], i, k);
-    if k <> 0 then continue;
-  
-    Val(sl.Strings[sl.Count - 1], j, k);
-    if k <> 0 then continue;
-  
-    if MapList.IndexOf(sl.Strings[sl.Count - 3]) <> -1 then begin
-      ta := MapList.Objects[MapList.IndexOf(sl.Strings[sl.Count - 3])] as TMapList;
-      if (i < 0) or (i >= ta.Size.X) or (j < 0) or (j >= ta.Size.Y) then continue;
+            tc.JID := i; // Set the JID to the corrected value.
+            //ÉXÉeÅ[É^ÉXçƒåvéZ
 
-      for k := 0 to sl.Count - 4 do begin
-        s := s + ' ' + sl.Strings[k];
-        s := Trim(s);
-      end;
-  
-      if CharaName.Indexof(s) <> -1 then begin
-        tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
-        if tc1.Login = 2 then begin
-          SendCLeave(tc1, 2);
-          tc1.tmpMap := sl.Strings[sl.Count - 3];
-          xy.X := i;
-          xy.Y := j;
-          tc1.Point := xy;
-          MapMove(tc1.Socket, tc1.tmpMap, tc1.Point);
-        end
-        else begin
-          tc1.Map := sl.Strings[sl.Count - 3];
-          tc1.Point.X := i;
-          tc1.Point.Y := j;
+            //ÉIÉvÉVÉáÉìèâä˙âª
+            if (tc.Option <> 0) then begin
+              tc.Option := 0;
+              //å©ÇΩñ⁄ïœçX
+              WFIFOW(0, $0119);
+              WFIFOL(2, tc.ID);
+              WFIFOW(6, 0);
+              WFIFOW(8, 0);
+              WFIFOW(10, tc.Option);
+              WFIFOB(12, 0);
+              SendBCmd(tc.MData, tc.Point, 13);
+            end;
+            // Colus, 20040203: Don't need two of these, do we?
+            //SendCStat(tc);
+            CalcStat(tc);
+            SendCStat(tc, true); // Add the true to recalc sprites
+            SendCSkillList(tc);
+            // Colus, 20040303: Using newer packet to allow upper job changes
+            UpdateLook(tm, tc, 0, i);
+          end;
         end;
-      end;
-  
-    end;
-  finally
-  sl.Free();
-  end;
-end
+      end //GM cmd #job
 
-else if (Copy(str, 1, 4) = 'ban ') then begin
-  s := Copy(str, 5, 256);
-  s := Trim(s);
+      else if (Copy(str, 1, 5) = 'icon ') and ((DebugCMD and $0040) <> 0) then begin
+        // Set the specified icon
+        Val(Copy(str, 6, 256), i, k);
 
-  try
-    if CharaName.Indexof(s) <> -1 then begin
-      tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
-      tp1 := Player.IndexOfObject(tc1.ID) as TPlayer;
-      if tp1.Banned = 0 then begin
-        str := tc.Name +' has banned ' + s;
-        tp1.Banned := 1;
-      end
-      else begin
-        str := tc.Name +' has un-banned ' + s;
-        tp1.Banned := 0;
-      end;
+        if (k = 0) then begin
+          for j := i to i do begin
+            UpdateIcon(tm, tc, j, 1);
+          end;
+        end;
+      end //GM cmd #icon
+      else if (Copy(str, 1, 7) = 'unicon ') and ((DebugCMD and $0040) <> 0) then begin
+        // Set the specified icon
+        Val(Copy(str, 8, 256), i, k);
 
-      { Mitch 01-29-2004: Fix: Correct w size now made instead of just 256 }
-      w := Length(str) + 4;
-      WFIFOW (0, $009a);
-      WFIFOW (2, w);
-      WFIFOS (4, str, w - 4);
+        if (k = 0) then begin
+          for j := i to i do begin
+            UpdateIcon(tm, tc, j, 0);
+          end;
+        end;
+{èCê≥ÉRÉRÇ‹Ç≈} {Lit. "To correction coconut"}
+      end //GM cmd #unicon
 
-      tc.socket.sendbuf(buf, w);
-      if tc1.Login = 2 then begin
-        tc1.socket.sendbuf(buf, w);
-      end;
-    end;
-  finally
-  end
-end
+      else if (Copy(str, 1, 7) = 'ccolor ') AND ((DebugCMD AND $0040) <> 0) AND
+      				(tid.ChangeColorStyle = 1) then
+			begin
+        //ïûÇÃêFïœçX
+        Val(Copy(str, 8, 256), i, k);
+        if (k = 0) and (i >= 0) and (i <= 77) then begin
+          tc.ClothesColor := i;
+          UpdateLook(tm, tc, 7, i, 0, true);
+        end;
+      end //GM cmd #ccolor
 
-else if (Copy(str, 1, 5) = 'kick ') then begin
-  s := Copy(str, 6, 256);
-  s := Trim(s);
+{îØêFïœçXí«â¡} {Lit. "Color modification of clothes"}
+      else if (Copy(str, 1, 7) = 'hcolor ') AND
+      				(tid.ChangeColorStyle = 1) then
+			begin
+        //îØÇÃêFïœçX
+        Val(Copy(str, 8, 256), i, k);
+        if (k = 0) and (i >= 0) and (i <= 8) then begin
+          tc.HairColor := i;
+          UpdateLook(tm, tc, 6, i, 0, true);
+        end;
 
-  try
-    if CharaName.Indexof(s) <> -1 then begin
-      tc1 := CharaName.Objects[CharaName.Indexof(s)] as TChara;
-      if tc1.Login = 2 then begin
-        tc1.Socket.Close;
+      end else if (Copy(str, 1, 7) = 'hstyle ') and (tid.ChangeColorStyle = 1) then begin
+        //îØÇÃêFïœçX
+        Val(Copy(str, 8, 256), i, k);
+        if (k = 0) and (i >= 0) and (i <= 19) then begin
+          tc.Hair := i;
+          UpdateLook(tm, tc, 1, i, 0, true);
+        end;
+      end //GM cmd #hstyle
 
-        { Mitch 01-29-2004: Fix: Correct w size now made instead of just 256 }
-        str := tc.Name +' has kicked ' + s;
-        w := Length(str) + 4;
-        WFIFOW (0, $009a);
-        WFIFOW (2, w);
-        WFIFOS (4, str, w - 4);
-        tc.socket.sendbuf(buf, w);
-      end;
-    end;
-  finally
-end;
+      else if (Copy(str, 1, 3) = 'die') AND ((DebugCMD AND $0080) <> 0) AND
+      				(tid.KillDieAlive = 1) then
+			begin
+        //é©éE
+        tc.HP := 0;
+        tc.Sit := 1;
+        SendCStat1(tc, 0, 5, tc.HP);
+        WFIFOW(0, $0080);
+        WFIFOL(2, tc.ID);
+        WFIFOB(6, 1);
+        Socket.SendBuf(buf, 7);
+        WFIFOW( 0, $0080);
+        WFIFOL( 2, tc.ID);
+        WFIFOB( 6, 1);
+        SendBCmd(tm, tc.Point, 7);
+      end //GM cmd #die
 
-					end else if (Copy(str, 1, 4) = 'job ') and ((DebugCMD and $0010) <> 0) and (tid.ChangeJob = 1) then begin
-{èCê≥}                                          if (tc.JID <> 0) or ((DebugCMD and $0020) <> 0) then //ÉmÅ[ÉrÉXÇ©ÇÁÇÕèoóàÇ»Ç¢
-                                                begin
-						        //êEã∆ïœçX
-										Val(Copy(str, 5, 256), i, k);
-              if (k = 0) and (i >= 0) and (i <= MAX_JOB_NUMBER) and (i <> 13) then begin
-                // Colus, 20040203: Added unequip of items when you #job
-            		for  j := 1 to 100 do begin
-					        if tc.Item[j].Equip = 32768 then begin
-                    tc.Item[j].Equip := 0;
-					          WFIFOW(0, $013c);
-				            WFIFOW(2, 0);
-					          tc.Socket.SendBuf(buf, 4);
-					        end else if tc.Item[j].Equip <> 0 then begin
-					          WFIFOW(0, $00ac);
-					          WFIFOW(2, j);
-					          WFIFOW(4, tc.Item[j].Equip);
-					          tc.Item[j].Equip := 0;
-					          WFIFOB(6, 1);
-					          tc.Socket.SendBuf(buf, 7);
-                  end;
-                end;
+      else if (Copy(str, 1, 5) = 'alive') and ((DebugCMD and $0100) <> 0) and (tid.KillDieAlive =1 ) then begin
+        //ê∂Ç´ï‘ÇË
+        tc.HP := tc.MAXHP;
+        tc.SP := tc.MAXSP;
+        tc.Sit := 3;
+        SendCStat1(tc, 0, 5, tc.HP);
+        SendCStat1(tc, 0, 7, tc.SP);
+        WFIFOW( 0, $0148);
+        WFIFOL( 2, tc.ID);
+        WFIFOW( 6, 100);
+        SendBCmd(tm, tc.Point, 8);
+      {end else if (Copy(str, 1, 5) = 'noday') then begin
+        if tc.noday = false then
+					tc.noday := true
+        else if tc.noday = true then
+          tc.noday := false;}
+      end //GM cmd #alive
 
-                // Darkhelmet, 20040212: Added to remove all ticks when changing jobs.
-                for j := 1 to MAX_SKILL_NUMBER do begin
-                  if tc.Skill[j].Data.Icon <> 0 then begin
-                    if tc.Skill[j].Tick >= timeGetTime() then begin
-  						        //DebugOut.Lines.Add('(Icon Removed');
-	  					        WFIFOW(0, $0196);
-		  				        WFIFOW(2, tc.Skill[j].Data.Icon);
-			  			        WFIFOL(4, tc.ID);
-				  		        WFIFOB(8, 0);
-                      SendBCmd(tm, tc.Point, 9);
-                    end;
-                  end;
-                  tc.Skill[j].Tick := timeGetTime();
-                  tc.Skill[j].Effect1 := 0;
-					      end;
+      else if (Copy(str, 1, 5) = 'item ') AND ((DebugCMD AND $0200) <> 0) AND
+      				(tid.ItemSummon = 1) then
+			begin
+        //ÉAÉCÉeÉÄçÏê¨
+				//CRW 2004/04/07th -- added try-finally for safety.
+        SL := TStringList.Create;
+        SL.DelimitedText := Copy(str, 6, 256);
+        try
+	        if SL.Count = 2 then begin
+  	        Val(SL[0], i, k);
+    	      if k <> 0 then continue;
+      	    if ItemDB.IndexOf(i) = -1 then continue;
+	          Val(SL[1], j, k);
+  	        if k <> 0 then continue;
+    	      if (j <= 0) or (j > 30000) then continue;
+	          td := ItemDB.IndexOfObject(i) as TItemDB;
+  	        if tc.MaxWeight >= tc.Weight + cardinal(td.Weight) * cardinal(j) then begin
+    	        k := SearchCInventory(tc, i, td.IEquip);
+      	      if k <> 0 then begin
+	              if tc.Item[k].Amount + j > 30000 then continue;
+  	            if td.IEquip then j := 1;
+    	          //ÉAÉCÉeÉÄí«â¡
+      	        tc.Item[k].ID := i;
+        	      tc.Item[k].Amount := tc.Item[k].Amount + j;
+	              tc.Item[k].Equip := 0;
+  	            tc.Item[k].Identify := 1;
+    	          tc.Item[k].Refine := 0;
+      	        tc.Item[k].Attr := 0;
+	              tc.Item[k].Card[0] := 0;
+  	            tc.Item[k].Card[1] := 0;
+    	          tc.Item[k].Card[2] := 0;
+      	        tc.Item[k].Card[3] := 0;
+        	      tc.Item[k].Data := td;
+	              //èdó í«â¡
+  	            tc.Weight := tc.Weight + cardinal(td.Weight) * cardinal(j);
+    	          SendCStat1(tc, 0, $0018, tc.Weight);
 
-            					//tc.SkillPoint := 0;
-                      if (i > LOWER_JOB_END) then begin
-                        i := i - LOWER_JOB_END + UPPER_JOB_BEGIN; // 24 - 23 + 4000 = 4001, remort novice
-  											tc.ClothesColor := 1; // This is the default clothes palette color for upper classes
-                      end else begin
-                        tc.ClothesColor := 0; // Reset the clothes color to the default value.
-                      end;
+	              //ÉAÉCÉeÉÄÉQÉbÉgí ím
+  	            SendCGetItem(tc, k, j);
+    	        end;
+	          end else begin
+  	          //èdó ÉIÅ[ÉoÅ[
+    	        WFIFOW( 0, $00a0);
+      	      WFIFOB(22, 2);
+	            Socket.SendBuf(buf, 23);
+  	        end;
+    	    end;
+        finally
+	        SL.Free();
+        end;//try-finally
+			end //GM cmd #item
 
-						        	tc.JID := i; // Set the JID to the corrected value.
-											//ÉXÉeÅ[É^ÉXçƒåvéZ
+      else if (Copy(str, 1, 7) = 'option ') AND ((DebugCMD AND $0400) <> 0) AND
+      				(tid.ChangeOption = 1) then
+			begin
+        if Copy(str, 8, 5) = 'sight' then begin
+          tc.Option := tc.Option or 1;
+        end else if Copy(str, 8, 6) = 'ruwach' then begin
+          tc.Option := tc.Option or 8192;
+        end
+        //CRW 2004/04/07th - Set math increased code clarity.
+        else if ((tc.JID IN [ 5, 10, 18, 23 ]) OR (tc.JID = 4006) OR (tc.JID = 4011) OR (tc.JID = 4019)) AND
+                (Copy(str, 8, 4) = 'cart') then
+        begin
+        //else if ((tc.JID = 5) or (tc.JID = 10) or (tc.JID = 18) or (tc.JID = 23) or (tc.JID = 4006) or (tc.JID = 4011) or (tc.JID = 4019)) and (Copy(str, 8, 4) = 'cart') then begin
+          tc.Option := tc.Option or 8;
+					//ÉJÅ[ÉgÉfÅ[É^ëóêM
+{í«â¡}		SendCart(tc);
+        end else if (((tc.JID = 11) OR (tc.JID = 4012)) AND (Copy(str, 8, 6) = 'falcon')) then begin
+          tc.Option := tc.Option or $10;
+        end
+        else if ((tc.JID IN [ 7, 14 ]) OR (tc.JID = 4008) OR
+        				(tc.JID = 4014) OR (tc.JID = 4015) OR (tc.JID = 4023 )) AND
+        				((Copy(str, 8, 4) = 'peko') or (Copy(str, 8, 4) = 'peco')) then
+        begin
+          tc.Option := tc.Option or $20;
+        end else if Copy(str, 8, 3) = 'off' then begin
+          tc.Option := 0;
+        end else begin
+          tc.Option := tc.Option or (StrToInt(Copy(str, 8, 6)));
+        end;
+        UpdateOption(tm, tc);
 
-											//ÉIÉvÉVÉáÉìèâä˙âª
-											if (tc.Option <> 0) then begin
-												tc.Option := 0;
-												//å©ÇΩñ⁄ïœçX
-												WFIFOW(0, $0119);
-												WFIFOL(2, tc.ID);
-												WFIFOW(6, 0);
-												WFIFOW(8, 0);
-												WFIFOW(10, tc.Option);
-												WFIFOB(12, 0);
-												SendBCmd(tc.MData, tc.Point, 13);
-											end;
-                      // Colus, 20040203: Don't need two of these, do we?
-											//SendCStat(tc);
-											CalcStat(tc);
-                      SendCStat(tc, true); // Add the true to recalc sprites
-											SendCSkillList(tc);
-                      // Colus, 20040303: Using newer packet to allow upper job changes
-											WFIFOW(0, $01d7);
-											WFIFOL(2, tc.ID);
-						        	WFIFOB(6, 0);
-											WFIFOW(7, i);
-                      WFIFOW(9, 0);
-											SendBCmd(tm, tc.Point, 11);
-										end;
-                end;
-					end else if (Copy(str, 1, 5) = 'icon ') and ((DebugCMD and $0040) <> 0) then begin
-            // Set the specified icon
-						Val(Copy(str, 6, 256), i, k);
-
-						if (k = 0) then begin
-            for j := i to i do begin
-            WFIFOW(0, $0196);
-            WFIFOW(2, j);
-            WFIFOL(4, tc.ID);
-            WFIFOB(8, 1);
-            tc.Socket.SendBuf(buf, 9);
+      end else if (Copy(str, 1, 7) = 'refine ') and ((DebugCMD and $0800) <> 0) and (tid.Refine = 1)  then begin
+        //ëïîıíÜÇÃïêäÌñhãÔÇê∏òB
+        Val(Copy(str, 8, 256), j, k);
+        if (k <> 0) or (j < 0) or (j > 10) then continue;
+        for i := 1 to 100 do begin
+          with tc.Item[i] do begin
+	          if (ID <> 0) AND (Amount <> 0) AND Data.IEquip AND (Equip <> 0) then
+            begin
+          	  tc.Item[i].Refine := Byte(j);
+        	    WFIFOW(0, $0188);
+      	      WFIFOW(2, 0);
+    	        WFIFOW(4, i);
+  	          WFIFOW(6, word(j));
+	            Socket.SendBuf(buf, 8);
             end;
-						end;
-					end else if (Copy(str, 1, 7) = 'unicon ') and ((DebugCMD and $0040) <> 0) then begin
-            // Set the specified icon
-						Val(Copy(str, 8, 256), i, k);
+          end;
+        end;//for
+        WFIFOW(0, $019b);
+        WFIFOL(2, tc.ID);
+        WFIFOL(6, 3);
+        SendBCmd(tm, tc.Point, 10, tc);
+        CalcStat(tc);
+        SendCStat(tc);
+      end else if (Copy(str, 1, 5) = 'unit ') and ((DebugCMD and $1000) <> 0) and (tid.AutoRawUnit = 1) then begin
+        //ÉXÉLÉãå¯î\ínï\é¶ÉeÉXÉg
+        Val(Copy(str, 6, 256), j, k);
+        if (k <> 0) or (j < 0) or (j > 999) then continue;
+        SetSkillUnit(tm, tc.ID, Point(tc.Point.X + 1, tc.Point.Y - 1), timeGetTime(), j, 1, 10000);
 
-						if (k = 0) then begin
-            for j := i to i do begin
-            WFIFOW(0, $0196);
-            WFIFOW(2, j);
-            WFIFOL(4, tc.ID);
-            WFIFOB(8, 0);
-            tc.Socket.SendBuf(buf, 9);
-            end;
-						end;
-{èCê≥ÉRÉRÇ‹Ç≈}
-					end else if (Copy(str, 1, 7) = 'ccolor ') and ((DebugCMD and $0040) <> 0)  and (tid.ChangeColorStyle = 1) then begin
-						//ïûÇÃêFïœçX
-						Val(Copy(str, 8, 256), i, k);
-						if (k = 0) and (i >= 0) and (i <= 77) then begin
-							tc.ClothesColor := i;
-							WFIFOW(0, $00c3);
-							WFIFOL(2, tc.ID);
-							WFIFOB(6, 7);
-							WFIFOB(7, i);
-							SendBCmd(tm, tc.Point, 8);
-						end;
-{îØêFïœçXí«â¡}
-					end else if (Copy(str, 1, 7) = 'hcolor ') and (tid.ChangeColorStyle = 1) then begin
-						//îØÇÃêFïœçX
-						Val(Copy(str, 8, 256), i, k);
-						if (k = 0) and (i >= 0) and (i <= 8) then begin
-							tc.HairColor := i;
-							WFIFOW(0, $00c3);
-							WFIFOL(2, tc.ID);
-							WFIFOB(6, 6);
-							WFIFOB(7, i);
-							SendBCmd(tm, tc.Point, 8);
-						end;
-
-          end else if (Copy(str, 1, 7) = 'hstyle ') and (tid.ChangeColorStyle = 1) then begin
-						//îØÇÃêFïœçX
-						Val(Copy(str, 8, 256), i, k);
-						if (k = 0) and (i >= 0) and (i <= 19) then begin
-							tc.Hair := i;
-							WFIFOW(0, $00c3);
-							WFIFOL(2, tc.ID);
-							WFIFOB(6, 1);
-							WFIFOB(7, i);
-							SendBCmd(tm, tc.Point, 8);
-						end;
-
-					end else if (Copy(str, 1, 3) = 'die') and ((DebugCMD and $0080) <> 0) and (tid.KillDieAlive = 1) then begin
-						//é©éE
-						tc.HP := 0;
-						tc.Sit := 1;
-						SendCStat1(tc, 0, 5, tc.HP);
-						WFIFOW(0, $0080);
-						WFIFOL(2, tc.ID);
-						WFIFOB(6, 1);
-						Socket.SendBuf(buf, 7);
-                                                WFIFOW( 0, $0080);
-                                                WFIFOL( 2, tc.ID);
-                                                WFIFOB( 6, 1);
-                                                SendBCmd(tm, tc.Point, 7);
-					end else if (Copy(str, 1, 5) = 'alive') and ((DebugCMD and $0100) <> 0) and (tid.KillDieAlive =1 ) then begin
-						//ê∂Ç´ï‘ÇË
-						tc.HP := tc.MAXHP;
-						tc.SP := tc.MAXSP;
-						tc.Sit := 3;
-						SendCStat1(tc, 0, 5, tc.HP);
-						SendCStat1(tc, 0, 7, tc.SP);
-						WFIFOW( 0, $0148);
-						WFIFOL( 2, tc.ID);
-						WFIFOW( 6, 100);
-						SendBCmd(tm, tc.Point, 8);
-                                        {end else if (Copy(str, 1, 5) = 'noday') then begin
-                                                if tc.noday = false then
-						        tc.noday := true
-                                                else if tc.noday = true then
-                                                        tc.noday := false;}
-					end else if (Copy(str, 1, 5) = 'item ') and ((DebugCMD and $0200) <> 0) and (tid.ItemSummon = 1) then begin
-						//ÉAÉCÉeÉÄçÏê¨
-						sl := TStringList.Create;
-						sl.DelimitedText := Copy(str, 6, 256);
-						if sl.Count = 2 then begin
-							Val(sl.Strings[0], i, k);
-							if k <> 0 then continue;
-							if ItemDB.IndexOf(i) = -1 then continue;
-							Val(sl.Strings[1], j, k);
-							if k <> 0 then continue;
-							if (j <= 0) or (j > 30000) then continue;
-							td := ItemDB.IndexOfObject(i) as TItemDB;
-							if tc.MaxWeight >= tc.Weight + cardinal(td.Weight) * cardinal(j) then begin
-								k := SearchCInventory(tc, i, td.IEquip);
-								if k <> 0 then begin
-									if tc.Item[k].Amount + j > 30000 then continue;
-									if td.IEquip then j := 1;
-									//ÉAÉCÉeÉÄí«â¡
-									tc.Item[k].ID := i;
-									tc.Item[k].Amount := tc.Item[k].Amount + j;
-									tc.Item[k].Equip := 0;
-									tc.Item[k].Identify := 1;
-									tc.Item[k].Refine := 0;
-									tc.Item[k].Attr := 0;
-									tc.Item[k].Card[0] := 0;
-									tc.Item[k].Card[1] := 0;
-									tc.Item[k].Card[2] := 0;
-									tc.Item[k].Card[3] := 0;
-									tc.Item[k].Data := td;
-									//èdó í«â¡
-									tc.Weight := tc.Weight + cardinal(td.Weight) * cardinal(j);
-									WFIFOW( 0, $00b0);
-									WFIFOW( 2, $0018);
-									WFIFOL( 4, tc.Weight);
-									Socket.SendBuf(buf, 8);
-
-									//ÉAÉCÉeÉÄÉQÉbÉgí ím
-									SendCGetItem(tc, k, j);
-								end;
-							end else begin
-								//èdó ÉIÅ[ÉoÅ[
-								WFIFOW( 0, $00a0);
-								WFIFOB(22, 2);
-								Socket.SendBuf(buf, 23);
-							end;
-						end;
-						sl.Free();
-
-					end else if (Copy(str, 1, 7) = 'option ') and ((DebugCMD and $0400) <> 0) and (tid.ChangeOption = 1) then begin
-
-						if Copy(str, 8, 5) = 'sight' then begin
-							tc.Option := tc.Option or 1;
-						end else if Copy(str, 8, 6) = 'ruwach' then begin
-							tc.Option := tc.Option or 8192;
-						end else if ((tc.JID = 5) or (tc.JID = 10) or (tc.JID = 18) or (tc.JID = 23) or (tc.JID = 4006) or (tc.JID = 4011) or (tc.JID = 4019)) and (Copy(str, 8, 4) = 'cart') then begin
-							tc.Option := tc.Option or 8;
-							//ÉJÅ[ÉgÉfÅ[É^ëóêM
-{í«â¡}				SendCart(tc);
-						end else if (((tc.JID = 11) or (tc.JID = 4012)) and (Copy(str, 8, 6) = 'falcon')) then begin
-							tc.Option := tc.Option or $10;
-						end else if ((tc.JID = 7) or (tc.JID = 14) or (tc.JID = 4008) or (tc.JID = 4015) or (tc.JID = 4014) or (tc.JID = 4023)) and ((Copy(str, 8, 4) = 'peko') or (Copy(str, 8, 4) = 'peco')) then begin
-							tc.Option := tc.Option or $20;
-						end else if Copy(str, 8, 3) = 'off' then begin
-							tc.Option := 0;
-						end;
-            UpdateOption(tm, tc);
-
-					end else if (Copy(str, 1, 7) = 'refine ') and ((DebugCMD and $0800) <> 0) and (tid.Refine = 1)  then begin
-						//ëïîıíÜÇÃïêäÌñhãÔÇê∏òB
-						Val(Copy(str, 8, 256), j, k);
-						if (k <> 0) or (j < 0) or (j > 10) then continue;
-						for i := 1 to 100 do begin
-							if (tc.Item[i].ID <> 0) and (tc.Item[i].Amount <> 0) and tc.Item[i].Data.IEquip and
-								 (tc.Item[i].Equip <> 0) then begin
-								tc.Item[i].Refine := byte(j);
-								WFIFOW(0, $0188);
-								WFIFOW(2, 0);
-								WFIFOW(4, i);
-								WFIFOW(6, word(j));
-								Socket.SendBuf(buf, 8);
-							end;
-						end;
-						WFIFOW(0, $019b);
-						WFIFOL(2, tc.ID);
-						WFIFOL(6, 3);
-						SendBCmd(tm, tc.Point, 10, tc);
-						CalcStat(tc);
-						SendCStat(tc);
-					end else if (Copy(str, 1, 5) = 'unit ') and ((DebugCMD and $1000) <> 0) and (tid.AutoRawUnit = 1) then begin
-						//ÉXÉLÉãå¯î\ínï\é¶ÉeÉXÉg
-						Val(Copy(str, 6, 256), j, k);
-						if (k <> 0) or (j < 0) or (j > 999) then continue;
-						SetSkillUnit(tm, tc.ID, Point(tc.Point.X + 1, tc.Point.Y - 1), timeGetTime(), j, 1, 10000);
-
-					end else if (Copy(str, 1, 5) = 'stat ') and ((DebugCMD and $2000) <> 0) and (tid.ChangeOption = 1) then begin
-						//0x0119ÉpÉPÉeÉXÉg
-						sl := TStringList.Create;
-						sl.DelimitedText := Copy(str, 6, 256);
-						try
-							if sl.Count <> 4 then continue;
-							Val(sl.Strings[0], i, ii);
-							if ii <> 0 then continue;
-							Val(sl.Strings[1], j, ii);
-							if ii <> 0 then continue;
-							Val(sl.Strings[2], k, ii);
-							if ii <> 0 then continue;
-							Val(sl.Strings[3], l, ii);
-							if ii <> 0 then continue;
-							WFIFOW(0, $0119);
-							WFIFOL(2, tc.ID);
-							WFIFOW(6, i);
-							WFIFOW(8, j);
-							WFIFOW(10, k);
-							WFIFOB(12, l);
-							SendBCmd(tm, tc.Point, 13);
-						finally
-							sl.Free();
-						end;
+      end else if (Copy(str, 1, 5) = 'stat ') and ((DebugCMD and $2000) <> 0) and (tid.ChangeOption = 1) then begin
+        //0x0119ÉpÉPÉeÉXÉg
+        SL := TStringList.Create;
+        SL.DelimitedText := Copy(str, 6, 256);
+        try
+          if SL.Count <> 4 then continue;
+          Val(SL[0], i, ii);
+          if ii <> 0 then continue;
+          Val(SL[1], j, ii);
+          if ii <> 0 then continue;
+          Val(SL[2], k, ii);
+          if ii <> 0 then continue;
+          Val(SL[3], l, ii);
+          if ii <> 0 then continue;
+          WFIFOW(0, $0119);
+          WFIFOL(2, tc.ID);
+          WFIFOW(6, i);
+          WFIFOW(8, j);
+          WFIFOW(10, k);
+          WFIFOB(12, l);
+          SendBCmd(tm, tc.Point, 13);
+          tc.Stat1 := i;
+          tc.Stat2 := j;
+          tc.Option := k;
+        finally
+          SL.Free;
+        end;
 					end else if (Copy(str, 1, 4) = 'raw ') and ((DebugCMD and $2000) <> 0) and (tid.AutoRawUnit = 1) then begin
 						//îCà”ÉpÉPÉeÉXÉg
 						sl := TStringList.Create;
@@ -1919,7 +2514,50 @@ end;
                                             tc.Socket.SendBuf(buf, w);
                                         end else
                                         // AlexKreuz: Get list of users
+                                        // Darkhelmet Player Warp commands
+                                        if (Copy(str, 1, 4) = 'warp') then begin
+                                          if WarpItem <> 0 then k := SearchCInventory(tc, WarpItem, false);
+                                          sl := TStringList.Create;
+                                          sl.DelimitedText := Copy(str, 6, 256);
+                                          try
+                                             if WarpDatabase.IndexOf(sl.Strings[0]) <> -1 then begin
+                                              twp := WarpDatabase.Objects[WarpDatabase.IndexOf(sl.Strings[0])] as TWarpDatabase;
+                                              if (tc.Zeny >= cardinal(twp.Cost)) and ((k <> 0) and (tc.Item[k].Amount >= 1)) then begin
+                                                if (sl.Strings[0] = 'save') or (sl.Strings[0] = 'return') or (sl.Strings[0] = 'home') then begin
+                                                  if (tc.Hidden = false) then SendCLeave(tc, 2);
+                                                  tc.Map := tc.SaveMap ;
+						                                      tc.Point.X := tc.SavePoint.X;
+						                                      tc.Point.Y := tc.SavePoint.Y;
+                                                  twp.Map := tc.SaveMap ;
+						                                      twp.X := tc.SavePoint.X;
+						                                      twp.Y := tc.SavePoint.Y;
+                                                end else begin
+							                                  //if sl.Count <> 3 then continue;
+							                                  i := twp.X;
 
+							                                  j := twp.Y;
+
+							                                  //Find the Map
+							                                  if MapList.IndexOf(LowerCase(twp.MAP)) = -1 then continue;
+							                                  //ç¿ïWÉ`ÉFÉbÉN
+							                                  ta := MapList.Objects[MapList.IndexOf(LowerCase(twp.MAP))] as TMapList;
+							                                  if (i < 0) or (i >= ta.Size.X) or (j < 0) or (j >= ta.Size.Y) then continue;
+                                                if (tc.Hidden = false) then SendCLeave(tc, 2);
+                                                tc.tmpMap := LowerCase(twp.MAP);
+						                                  	tc.Point :=Point(twp.X,twp.Y);
+                                                end;
+							                                  //Warp the Player
+                                                tc.Zeny := tc.Zeny - cardinal(twp.Cost);
+
+							                                  MapMove(Socket, LowerCase(twp.MAP), Point(twp.X,twp.Y));
+                                              end else if ((k <> 0) and (tc.Item[k].Amount >= 1)) then SendSkillError(tc, 5)
+                                              else SendSkillError(tc, 6)
+                                             end;
+
+                                            finally
+                                              sl.Free();
+                                            end;
+                                        end;
 
 
                                                 if (Copy(str, 1, 6) = 'server') then begin
@@ -2155,11 +2793,8 @@ end;
 					tc.Item[w1].Amount := tc.Item[w1].Amount - w2;
 					if tc.Item[w1].Amount = 0 then tc.Item[w1].ID := 0;
 					tc.Weight := tc.Weight - tc.Item[w1].Data.Weight * w2;
-					//èdó ïœçX
-					WFIFOW( 0, $00b0);
-					WFIFOW( 2, $0018);
-					WFIFOL( 4, tc.Weight);
-					Socket.SendBuf(buf, 8);
+					//Update weight
+          SendCStat1(tc, 0, $0018, tc.Weight);
 
 					//é¸ÇËÇ…í ím
 					WFIFOW( 0, $009e);
@@ -2206,6 +2841,7 @@ end;
 					td := tc.Item[w].Data;
 					b := 0;
                                         if tc.item[w].Amount <= 0 then exit;
+          if tc.BaseLV < td.eLV then exit;
                                     case td.IType of
 					0: //Recovery item
 						begin
@@ -2265,15 +2901,12 @@ end;
 
    // {Alex: Reduce Number of Items}
    WFIFOW( 0, $00af); 
-   WFIFOW( 2, w); 
-   WFIFOW( 4, 1); 
-                     Socket.SendBuf(buf, 6); 
+   WFIFOW( 2, w);
+   WFIFOW( 4, 1);
+                     Socket.SendBuf(buf, 6);
 
    // {Alex: Update Weight Display}
-   WFIFOW( 0, $00b0); 
-   WFIFOW( 2, $0018); 
-   WFIFOL( 4, tc.Weight);
-   Socket.SendBuf(buf, 8);
+   SendCStat1(tc, 0, $0018, tc.Weight);
 
    // {Alex: Displays Effect}
    WFIFOW( 0, $01c8);
@@ -2373,37 +3006,52 @@ end;
 {NPCÉCÉxÉìÉgí«â¡ÉRÉRÇ‹Ç≈}
 								end;
 {éÅ{î†í«â¡}
-							10: //å√ñÿÇÃé}
+							10, 201: //Dead Branch
 								begin
-{ÉAÉWÉgã@î\í«â¡}
 									if not mi.noBranch then begin
-{ÉAÉWÉgã@î\í«â¡ÉRÉRÇ‹Ç≈}
-									UseUsableItem(tc, w);
+										UseUsableItem(tc, w);
 
-									if (SummonMobList.Count > 0) then begin
-										tm := tc.MData;
-										ts := TMob.Create;
-										l := Random(SummonMobList.Count);
-										tsmn := SummonMobList.Objects[l] as TSummon;
-										str := tsmn.Name;
-										ts.Data := MobDBName.Objects[MobDBName.IndexOf(str)] as TMobDB;
-										ts.ID := NowMobID;
-										Inc(NowMobID);
+										//Use MobList or MobListMVP
+										if (SummonMobList.Count > 0) then begin
+											tm := tc.MData;
+											ts := TMob.Create;
+											if td.Effect = 10 then begin
+												{ChrstphrR - 2004/04/20 - design change}
+												// L = ID of
+												L := SummonMobList.RandomChoice;
+												str := (MobDB.Objects[MobDB.IndexOf(L)] AS TMobDB).Name;
+												//Fill Mob Data.
+												ts.Data := MobDBName.Objects[MobDBName.IndexOf(str)] as TMobDB;
+												ts.ID := NowMobID;
+												Inc(NowMobID);
+											end else begin //MVP list
+												{ChrstphrR - I'm not sure this code is called - its list is empty
+												and the bigger problem is it doesn't CHECK to see if it's empty...
+												I'm leaving it as is, and will fix it after SummonMobList is confirmed}
 
-										if (SummonMonsterName = true) then begin
-                    ts.Name := ts.Data.JName;
-                    end else begin
-					          ts.Name := 'Summon Monster';
-                    end;
+												l := Random(SummonMobListMVP.Count);
+												tsmn := SummonMobListMVP.Objects[l] as TSummon;
 
-                    if (SummonMonsterAgo = true) then begin
-					          ts.isActive := true;
-                    end else begin
-                    ts.isActive := ts.Data.isActive;
-                    end;
+												str := tsmn.Name;
+												ts.Data := MobDBName.Objects[MobDBName.IndexOf(str)] as TMobDB;
+												ts.ID := NowMobID;
+												Inc(NowMobID);
+											end;
 
-										ts.JID := ts.Data.ID;
-										ts.Map := tc.Map;
+											if (SummonMonsterName = true) then begin
+												ts.Name := ts.Data.JName;
+											end else begin
+												ts.Name := 'Summon Monster';
+											end;
+
+											if (SummonMonsterAgo = true) then begin
+												ts.isActive := true;
+											end else begin
+												ts.isActive := ts.Data.isActive;
+											end;
+
+											ts.JID := ts.Data.ID;
+											ts.Map := tc.Map;
 
 										j := 0;
 										repeat
@@ -2430,7 +3078,7 @@ end;
 										ts.ATKPer := 100;
 										ts.DEFPer := 100;
 										ts.DmgTick := 0;
-											ts.isActive := true;
+										ts.isActive := true;
 
 										ts.Element := ts.Data.Element;
 
@@ -2446,11 +3094,12 @@ end;
 											ts.MVPDist[0].Dmg := ts.Data.HP * 30 div 100; //FAÇ…30%â¡éZ
 										end;
 
-										tm.Mob.AddObject(ts.ID, ts);
+										// Link monster to Map it's now on.
+										tm.Mob.AddObject(ts.ID, ts); //Owned here.
 										tm.Block[ts.Point.X div 8][ts.Point.Y div 8].Mob.AddObject(ts.ID, ts);
 
 										ts.isSummon := True;
-                    ts.EmperiumID := 0;
+										ts.EmperiumID := 0;
 
 										SendMData(tc.Socket, ts);
 										//é¸àÕÇ…ëóêM
@@ -2470,36 +3119,35 @@ end;
 									11: //ê¬î†
 										begin
 											if (SummonIOBList.Count > 0) then begin
-												l := Random(SummonIOBList.Count);
-												tsmn := SummonIOBList.Objects[l] as TSummon;
-												str := tsmn.Name;
+												str := SummonIOBList[Random(SummonIOBList.Count)];
 											end;
 										end;
 									12: //éáî†
 										begin
 											if (SummonIOVList.Count > 0) then begin
-												l := Random(SummonIOVList.Count);
-												tsmn := SummonIOVList.Objects[l] as TSummon;
-												str := tsmn.Name;
+												str := SummonIOVList[Random(SummonIOVList.Count)];
 											end;
 										end;
 									13: //ÉJÅ[Éhíü
 										begin
 											if (SummonICAList.Count > 0) then begin
-												l := Random(SummonICAList.Count);
-												tsmn := SummonICAList.Objects[l] as TSummon;
-												str := tsmn.Name;
+												str := SummonICAList[Random(SummonICAList.Count)];
 											end;
 										end;
 									14: //ÉvÉåî†
 										begin
 											if (SummonIGBList.Count > 0) then begin
-												l := Random(SummonIGBList.Count);
-												tsmn := SummonIGBList.Objects[l] as TSummon;
-												str := tsmn.Name;
+												str := SummonIGBList[Random(SummonIGBList.Count)];
+											end;
+										end;
+									200:  //New --- Old Weapon Box†
+										begin
+											if (SummonIOWBList.Count > 0) then begin
+												str := SummonIOWBList[Random(SummonIOWBList.Count)];
 											end;
 										end;
 									end;
+
 
 									if (str <> '') then begin
 										i := 0;
@@ -2522,10 +3170,7 @@ end;
 													tc.Item[k].Data := td;
 													//èdó í«â¡
 													tc.Weight := tc.Weight + cardinal(td.Weight);
-													WFIFOW( 0, $00b0);
-													WFIFOW( 2, $0018);
-													WFIFOL( 4, tc.Weight);
-													Socket.SendBuf(buf, 8);
+													SendCStat1(tc, 0, $0018, tc.Weight);
 													//ÉAÉCÉeÉÄÉQÉbÉgí ím
 													SendCGetItem(tc, k, 1);
 													b := 1;
@@ -2647,11 +3292,8 @@ Dec(tc.Item[w].Amount);
 if tc.Item[w].Amount = 0 then tc.Item[w].ID := 0;
 tc.Weight := tc.Weight - tc.Item[w].Data.Weight;
 
-//èdó å∏è≠
-WFIFOW( 0, $00b0);
-WFIFOW( 2, $0018);
-WFIFOL( 4, tc.Weight);
-Socket.SendBuf(buf, 8);
+//Update weight
+SendCStat1(tc, 0, $0018, tc.Weight);
 
 // ÉAÉCÉeÉÄégópÉpÉPÉbÉgÇëóêM
 WFIFOW( 0, $00a8);
@@ -2698,6 +3340,7 @@ end;
                                                                                 end;
                                                                         end;
                                                                 end;
+
 {ÉLÉÖÅ[ÉyÉbÉgÇ±Ç±Ç‹Ç≈}
 							end;
 						end;
@@ -2715,7 +3358,7 @@ end;
 {ê∏òBNPCã@î\í«â¡}
 				//ëïîıÉçÉbÉNÉ`ÉFÉbÉN
 {ê∏òBNPCã@î\í«â¡ÉRÉRÇ‹Ç≈}
-		$00a9: //ÉAÉCÉeÉÄëïîı
+		$00a9: // Equip an item.
 			begin
 				if tc.EqLock = true then continue;
 				RFIFOW(2, w1);
@@ -2768,7 +3411,7 @@ end;
 					WFIFOW(4, w);
 					WFIFOB(6, 1);
 					Socket.SendBuf(buf, 7);
-				end else if (tc.Item[w1].Data.Loc = $2) and (tc.JID = 12) and (w2 = $22) then begin
+				end else if (tc.Item[w1].Data.Loc = $2) and ((tc.JID = 12) or (tc.JID = 4013)) and (w2 = $22) then begin
 					//ÉAÉTÉVÉììÒìÅó¨ópèàóù
 					w := $22;
 					j := 0;
@@ -2818,11 +3461,8 @@ end;
                                                         WFIFOW( 4, 1);
                                                         Socket.SendBuf( buf, 6 );
 
-                                                        //èdó å∏è≠
-                                                        WFIFOW( 0, $00b0);
-                                                        WFIFOW( 2, $0018);
-                                                        WFIFOL( 4, tc.Weight);
-                                                        Socket.SendBuf(buf, 8);
+                                                        //Update weight
+                                                        SendCStat1(tc, 0, $0018, tc.Weight);
 
                                                         if ( tpe.Accessory <> 0 ) and ( ItemDB.IndexOf( tpe.Accessory ) <> -1 ) then begin
                                                                 td := ItemDB.IndexOfObject( tpe.Accessory ) as TItemDB;
@@ -2848,10 +3488,7 @@ end;
 
                                                                                 //èdó í«â¡
                                                                                 tc.Weight := tc.Weight + td.Weight;
-                                                                                WFIFOW( 0, $00b0);
-                                                                                WFIFOW( 2, $0018);
-                                                                                WFIFOL( 4, tc.Weight);
-                                                                                Socket.SendBuf(buf, 8);
+                                                                                SendCStat1(tc, 0, $0018, tc.Weight);
                                                                         end else begin
                                                                                 //Ç±ÇÍà»è„Ç‡ÇƒÇ»Ç¢
                                                                                 WFIFOW( 0, $00a0);
@@ -2933,31 +3570,14 @@ end;
 					end;
 				end;
 
-                                // Tumy
 				CalcStat(tc);
-{èCê≥}  SendCSkillList(tc);
-        {Colus, 20040114: Moved sprite processing to SendCStat call}
-{
-                                        if (tc.Item[w1].Data.IType = 4) then begin
+        SendCSkillList(tc);
 
-                                        WFIFOW(0, $01d7);
-                                        WFIFOL(2, tc.ID);
-                                        WFIFOB(6, 2);
-                                        WFIFOW(7, tc.Item[w1].Data.id);
-                                        WFIFOW(9, tc.Shield);
-                                        Socket.SendBuf(buf, 11);
-                                        end;
-                                        if tc.Item[w1].Data.IType = 5 then begin 
-                                           WFIFOW(0, $00c3);  // real packet is 01d7 not sand this pk
-      WFIFOL(2, tc.ID); 
-                              WFIFOB(6, 8); 
-                              WFIFOB(7, tc.Item[w1].Data.view); 
-                              Socket.SendBuf(buf, 8); 
-                                        end;  }
-            SendCStat(tc, true);
-            // Tumy
+        // Recalculate stats with sprite update
+        SendCStat(tc, true);
 
-         end;
+
+      end;
 		//--------------------------------------------------------------------------
 		$00ab: //ÉAÉCÉeÉÄëïîıâèú
 			begin
@@ -2982,23 +3602,7 @@ end;
                                WFIFOB(6, 1);
                                Socket.SendBuf(buf, 7);
                             end;
-        {Colus, 20040114: Moved sprite processing to SendCStat call}
-{                                if (tc.Item[w].Data.IType = 4) then begin
-                                WFIFOW(0, $01d7);
-                                WFIFOL(2, tc.ID);
-                                WFIFOB(6, 2);
-                                WFIFOW(7, 0);
-                                WFIFOW(9, tc.Shield);
-                                Socket.SendBuf(buf, 11);
-                                end;
-                                if (tc.Item[w].Data.IType = 5) then begin
-                                WFIFOW(0, $00c3);
-                                WFIFOL(2, tc.ID);
-                                WFIFOB(6, 8);
-                                WFIFOB(7, 0);
-                                Socket.SendBuf(buf, 8);
-                                end;
- }
+
             CalcStat(tc);
             SendCStat(tc, true);
             // Tumy
@@ -3267,15 +3871,9 @@ end;
 		  					SendCGetItem(tc, j, ww[k][0]);
 
       					// Update weight
-      			 		WFIFOW(0, $00b0);
-      					WFIFOW(2, $0018);
-      					WFIFOL(4, tc.Weight);
-      					Socket.SendBuf(buf, 8);
+      			 		SendCStat1(tc, 0, $0018, tc.Weight);
       					// Update zeny
-      					WFIFOW(0, $00b1);
-      					WFIFOW(2, $0014);
-      					WFIFOL(4, tc.Zeny);
-      					Socket.SendBuf(buf, 8);
+      					SendCStat1(tc, 1, $0014, tc.Zeny);
       					// Send buy success message
       					WFIFOW(0, $00ca);
       					WFIFOB(2, 0);
@@ -3326,16 +3924,10 @@ end;
 						if tc.Item[w1].Amount = 0 then tc.Item[w1].ID := 0;
 					end;
 				end;
-				//èdó çXêV
-				WFIFOW(0, $00b0);
-				WFIFOW(2, $0018);
-				WFIFOL(4, tc.Weight);
-				Socket.SendBuf(buf, 8);
-				//èäéùã‡çXêV
-				WFIFOW(0, $00b1);
-				WFIFOW(2, $0014);
-				WFIFOL(4, tc.Zeny);
-				Socket.SendBuf(buf, 8);
+				//Update weight
+        SendCStat1(tc, 0, $0018, tc.Weight);
+				//Update zeny
+        SendCStat1(tc, 1, $0014, tc.Zeny);
 				//éÊà¯Ç™Ç≈Ç´Ç‹ÇµÇΩ
 				WFIFOW(0, $00cb);
 				WFIFOB(2, 0);
@@ -3872,28 +4464,17 @@ end;
 				end;
 
 				if (tdl.Zeny[w1] <> 0) or (tdl.Zeny[w2] <> 0) then begin
-					//ÉLÉÉÉâÇPÇÃÉ[ÉjÅ[ïœçX
+          // Update zeny for trade partners
 					tc.Zeny := tc.Zeny - tdl.Zeny[w1] + tdl.Zeny[w2];
-					WFIFOW(0, $00b1);
-					WFIFOW(2, $0014);
-					WFIFOL(4, tc.Zeny);
-					tc.Socket.SendBuf(buf, 8);
-					//ÉLÉÉÉâÇQÇÃÉ[ÉjÅ[ïœçX
+          SendCStat1(tc, 1, $0014, tc.Zeny);
+
 					tc1.Zeny := tc1.Zeny - tdl.Zeny[w2] + tdl.Zeny[w1];
-					WFIFOW(0, $00b1);
-					WFIFOW(2, $0014);
-					WFIFOL(4, tc1.Zeny);
-					tc1.Socket.SendBuf(buf, 8);
+          SendCStat1(tc1, 1, $0014, tc1.Zeny);
 				end;
 
-				//ÉLÉÉÉâÇPèdó çXêVÉpÉP
-				WFIFOW(0, $00b0);
-				WFIFOW(2, $0018);
-				WFIFOL(4, tc.Weight);
-				tc.Socket.SendBuf(buf, 8);
-				//ÉLÉÉÉâÇQèdó çXêVÉpÉP
-				WFIFOL(4, tc1.Weight);
-				tc1.Socket.SendBuf(buf, 8);
+        // Update players' weights
+        SendCStat1(tc, 0, $0018, tc.Weight);
+        SendCStat1(tc1, 0, $0018, tc1.Weight);
 
 				//éÊà¯äÆóπÉpÉP
 				WFIFOW(0, $00f0);
@@ -3967,10 +4548,7 @@ end;
 				//èdó ïœçX
 				tc.Weight := tc.Weight - tc.Item[w1].Data.Weight * w2;
         Inc(tp.Kafra.Weight,(tc.Item[w1].Data.Weight * w2));
-				WFIFOW( 0, $00b0);
-				WFIFOW( 2, $0018);
-				WFIFOL( 4, tc.Weight);
-				Socket.SendBuf(buf, 8);
+				SendCStat1(tc, 0, $0018, tc.Weight);
 			end;
 		//--------------------------------------------------------------------------
 		$00f5: //ëqå…Ç©ÇÁÉAÉCÉeÉÄéÊÇËèoÇµ
@@ -4032,10 +4610,7 @@ end;
 	        			//èdó ïœçX
         				tc.Weight := tc.Weight + weight;
                                         Dec(tp.Kafra.Weight,weight);
-			        	WFIFOW( 0, $00b0);
-		        		WFIFOW( 2, $0018);
-	        			WFIFOL( 4, tc.Weight);
-        				Socket.SendBuf(buf, 8);
+			        	SendCStat1(tc, 0, $0018, tc.Weight);
                                 end;
 			end;
 		//--------------------------------------------------------------------------
@@ -4737,10 +5312,7 @@ end;
 
 				//ÉvÉåÉCÉÑÅ[ÇÃèdó ïœçX
 				tc.Weight := tc.Weight - tc.Item[w1].Data.Weight * w2;
-				WFIFOW( 0, $00b0);
-				WFIFOW( 2, $0018);
-				WFIFOL( 4, tc.Weight);
-				Socket.SendBuf(buf, 8);
+				SendCStat1(tc, 0, $0018, tc.Weight);
 
 				//ÉJÅ[Égèdó ÅAóeó ÉfÅ[É^ÇÃëóêM
 				//0121 <num>.w <num limit>.w <weight>.l <weight limit>l
@@ -4768,7 +5340,7 @@ end;
 
 				//èdó ÉIÅ[ÉoÅ[ÇÃèÍçáÇÕÉGÉâÅ[ÉÅÉbÉZÅ[ÉWÇëóÇ¡ÇƒèàóùÇî≤ÇØÇÈ
 
-                                if longint(tc.MaxWeight) - longint(tc.Weight) < weight then begin // AlexKreuz: Integer Overflow Protection
+                                if longint(tc.MaxWeight) - longint(tc.Weight) < longint(weight) then begin // AlexKreuz: Integer Overflow Protection
 					WFIFOW(0, $012c);
 					WFIFOB(2, 0);
 					Socket.SendBuf(buf, 3);
@@ -4842,10 +5414,7 @@ end;
 	
 					//ÉvÉåÉCÉÑÅ[ÇÃèdó ïœçX
 					tc.Weight := tc.Weight + weight;
-					WFIFOW( 0, $00b0);
-					WFIFOW( 2, $0018);
-					WFIFOL( 4, tc.Weight);
-					Socket.SendBuf(buf, 8);
+					SendCStat1(tc, 0, $0018, tc.Weight);
                                 end;
 			end;
 {ÉJÅ[Égã@î\í«â¡ÉRÉRÇ‹Ç≈}
@@ -4980,16 +5549,10 @@ end;
 			end;
 {ÉJÅ[Égã@î\í«â¡ÉRÉRÇ‹Ç≈}
 		//--------------------------------------------------------------------------
-		$012a: //ëÈÅAÉyÉRÉyÉRÅAÉJÅ[ÉgÇäOÇ∑
+		$012a: // Remove peco/cart/falcon options (clicked 'off').
 			begin
 				tc.Option := tc.Option and $F847;
-				WFIFOW( 0, $0119);
-				WFIFOL( 2, tc.ID);
-				WFIFOW( 6, 0);
-				WFIFOW( 8, 0);
-				WFIFOW(10, tc.Option);
-				WFIFOB(12, 0);
-				SendBCmd(tc.MData, tc.Point, 13);
+        UpdateOption(tm, tc);
 			end;
 		//--------------------------------------------------------------------------
 {òIìXÉXÉLÉãí«â¡}
@@ -5093,12 +5656,9 @@ end;
 					Dec(tc1.Cart.Item[w2].Amount, w1);
 					//ÉJÅ[ÉgÇÃèdó ïœçX
 					tc1.Cart.Weight := tc1.Cart.Weight - tv.Weight[k] * w1;
-					//îÃîÑë§èäéùã‡ïœçX
+					// Update zeny
 					tc1.Zeny := tc1.Zeny + tv.Price[k] * w1;
-					WFIFOW(0, $00b1);
-					WFIFOW(2, $0014);
-					WFIFOL(4, tc1.Zeny);
-					tc1.Socket.SendBuf(buf, 8);
+          SendCStat1(tc1, 1, $0014, tc1.Zeny);
 					//òIìXÉäÉXÉgÇÃêîó ïœçX
 					Dec(tv.Amount[k], w1);
 					//îÃîÑïÒçêÉpÉP
@@ -5108,12 +5668,9 @@ end;
 					tc1.Socket.SendBuf(buf, 6);
 
 					//---çwì¸ë§èàóù---
-					//èäéùã‡çXêV
+					// Update zeny
 					tc.Zeny := tc.Zeny - tv.Price[k] * w1;
-					WFIFOW(0, $00b1);
-					WFIFOW(2, $0014);
-					WFIFOL(4, tc.Zeny);
-					Socket.SendBuf(buf, 8);
+          SendCStat1(tc, 1, $0014, tc.Zeny);
 					//ÉAÉCÉeÉÄí«â¡
 					with tc1.Cart.Item[w2] do begin
 						tc.Item[j].ID := ID;
@@ -5131,10 +5688,7 @@ end;
 					SendCGetItem(tc, j, w1);
 					//èdó çXêV
 					tc.Weight := tc.Weight + tv.Weight[k] * w1;
-					WFIFOW(0, $00b0);
-					WFIFOW(2, $0018);
-					WFIFOL(4, tc.Weight);
-					Socket.SendBuf(buf, 8);
+					SendCStat1(tc, 0, $0018, tc.Weight);
 
 					//---ï€óØèàóùè¡âª---
 					//ÉJÅ[ÉgÇÃêîó ïœçXPart2
@@ -5220,10 +5774,7 @@ end;
 							tc.Item[k].Card[3] := 0;
 							tc.Item[k].Data := td;
 							tc.Weight := tc.Weight + cardinal(td.Weight) * cardinal(j);
-							WFIFOW( 0, $00b0);
-							WFIFOW( 2, $0018);
-							WFIFOL( 4, tc.Weight);
-							Socket.SendBuf(buf, 8);
+							SendCStat1(tc, 0, $0018, tc.Weight);
 							SendCGetItem(tc, k, j);
 					end;
 					end else begin
@@ -5658,11 +6209,8 @@ end;
 				WFIFOW( 2, w);
 				WFIFOW( 4, 1);
 				Socket.SendBuf(buf, 6);
-				//èdó å∏è≠
-				WFIFOW( 0, $00b0);
-				WFIFOW( 2, $0018);
-				WFIFOL( 4, tc.Weight);
-				Socket.SendBuf(buf, 8);
+				// Update weight
+				SendCStat1(tc, 0, $0018, tc.Weight);
 
 				//ÉMÉãÉhçÏê¨
 				tg := TGuild.Create;
@@ -5951,11 +6499,8 @@ end;
 				WFIFOW( 0, $00af);
 				WFIFOW( 2, w);
 				WFIFOW( 4, 1);
-				//èdó å∏è≠
-				WFIFOW( 0, $00b0);
-				WFIFOW( 2, $0018);
-				WFIFOL( 4, tc.Weight);
-				Socket.SendBuf(buf, 8);
+				// Update weight
+				SendCStat1(tc, 0, $0018, tc.Weight);
         end;
 			end;
 		//--------------------------------------------------------------------------
@@ -6046,11 +6591,8 @@ end;
 				WFIFOW( 0, $00af);
 				WFIFOW( 2, w1);
 				WFIFOW( 4, 1);
-				//èdó å∏è≠
-				WFIFOW( 0, $00b0);
-				WFIFOW( 2, $0018);
-				WFIFOL( 4, tc.Weight);
-				Socket.SendBuf(buf, 8);
+				// Update weight
+				SendCStat1(tc, 0, $0018, tc.Weight);
 
 				//ÉXÉçÉbÉgéwÇµÇΩÉAÉCÉeÉÄÇçƒì¸éË
 				SendCGetItem(tc, w2, 1);
@@ -6170,11 +6712,8 @@ end;
 							if tc.Item[e].Amount = 0 then tc.Item[e].ID := 0;
 							tc.Weight := tc.Weight - tc.Item[e].Data.Weight * tma.MaterialAmount[j];
 
-							//èdó ïœçX
-							WFIFOW( 0, $00b0);
-							WFIFOW( 2, $0018);
-							WFIFOL( 4, tc.Weight);
-							Socket.SendBuf(buf, 8);
+							// Update weight
+							SendCStat1(tc, 0, $0018, tc.Weight);
 
 						end else begin
 
@@ -6195,11 +6734,8 @@ end;
 							if tc.Item[e].Amount = 0 then tc.Item[e].ID := 0;
 							tc.Weight := tc.Weight - tc.Item[e].Data.Weight;
 
-							//èdó ïœçX
-							WFIFOW( 0, $00b0);
-							WFIFOW( 2, $0018);
-							WFIFOL( 4, tc.Weight);
-							Socket.SendBuf(buf, 8);
+							// Update weight
+							SendCStat1(tc, 0, $0018, tc.Weight);
 
 							case m[k] of
 
@@ -6342,12 +6878,9 @@ end;
 								tc.Item[k].Data := td;
 							end;
 
-							//èdó í«â¡
+							// Update weight
 							tc.Weight := tc.Weight + cardinal(td.Weight);
-							WFIFOW( 0, $00b0);
-							WFIFOW( 2, $0018);
-							WFIFOL( 4, tc.Weight);
-							Socket.SendBuf(buf, 8);
+							SendCStat1(tc, 0, $0018, tc.Weight);
 
 							//ÉAÉCÉeÉÄÉQÉbÉgí ím
 							SendCGetItem(tc, k, 1);
@@ -6533,7 +7066,10 @@ end;
 					CalcStat(tc);
 
 				if (w = 1) and (tid.ChangeStatSkill = 1) then begin // ResetSkill
+
+                                        j := 0;
 					for i := 2 to MAX_SKILL_NUMBER do begin
+                                                j := j + tc.Skill[i].Lv;
             if not tc.Skill[i].Card then
 							tc.Skill[i].Lv := 0;
 					end;
@@ -6544,8 +7080,10 @@ end;
           tc.PLv := 0;
           end;
 					if tc.JID = 0 then begin
-					end else if tc.JID < 7 then tc.SkillPoint := tc.JobLV -1
-					else tc.SkillPoint := tc.JobLV -1 + 49;
+                                        end else begin
+                                                tc.skillpoint := j;
+                                        end;
+
 					SendCSkillList(tc);
           CalcStat(tc);
           SendCStat(tc);
@@ -6718,12 +7256,9 @@ end;
 							                                Data := td;
                                                                                 end;
 
-						                                //èdó í«â¡
+						                                // Update weight
 						                                tc.Weight := tc.Weight + td.Weight;
-						                                WFIFOW( 0, $00b0);
-						                                WFIFOW( 2, $0018);
-																						WFIFOL( 4, tc.Weight);
-						                                Socket.SendBuf(buf, 8);
+						                                SendCStat1(tc, 0, $0018, tc.Weight);
 
 						                                //ÉAÉCÉeÉÄÉQÉbÉgí ím
         					                                SendCGetItem(tc, j, 1);
@@ -6798,11 +7333,8 @@ end;
 				                                WFIFOW( 4, 1);
                                                                 Socket.SendBuf( buf, 6 );
 
-				                                //èdó å∏è≠
-				                                WFIFOW( 0, $00b0);
-				                                WFIFOW( 2, $0018);
-				                                WFIFOL( 4, tc.Weight);
-				                                Socket.SendBuf(buf, 8);
+				                                // Update weight
+				                                SendCStat1(tc, 0, $0018, tc.Weight);
 
 																																if tpe.Fullness < 26  then tpe.Relation := tpe.Relation + tpe.Data.Hungry
                                                                 else if tpe.Fullness >= 76 then  tpe.Relation := tpe.Relation - tpe.Data.Full
@@ -6913,12 +7445,9 @@ end;
                                                                                         //ÉAÉCÉeÉÄÉQÉbÉgí ím
                                                                                         SendCGetItem(tc, j, 1);
 
-                                                                                        //èdó í«â¡
+                                                                                        // Update weight
                                                                                         tc.Weight := tc.Weight + td.Weight;
-                                                                                        WFIFOW( 0, $00b0);
-                                                                                        WFIFOW( 2, $0018);
-                                                                                        WFIFOL( 4, tc.Weight);
-                                                                                        Socket.SendBuf(buf, 8);
+                                                                                        SendCStat1(tc, 0, $0018, tc.Weight);
                                                                                 end else begin
                                                                                         //Ç±ÇÍà»è„Ç‡ÇƒÇ»Ç¢
                                                                                         WFIFOW( 0, $00a0);
@@ -6990,11 +7519,8 @@ end;
 				        WFIFOW( 2, tc.UseItemID);
 				        WFIFOW( 4, 1);
 
-				        //èdó å∏è≠
-				        WFIFOW( 0, $00b0);
-				        WFIFOW( 2, $0018);
-				        WFIFOL( 4, tc.Weight);
-				        Socket.SendBuf(buf, 8);
+				        //Update weight
+				        SendCStat1(tc, 0, $0018, tc.Weight);
 
                                         tc.UseItemID := 0;
 
@@ -7021,7 +7547,7 @@ end;
 
                                                 if tc.Item[w].Card[0] = $FF00 then begin
                                                         i := PetList.IndexOf( tc.Item[w].Card[2] + tc.Item[w].Card[3] * $10000 );
-                                                        if i <> -1 then begin
+                                                        if (i <> -1) then begin
                                                                 tpe := PetList.Objects[i] as TPet;
                                                         end;
                                                 end;
@@ -7069,7 +7595,7 @@ end;
 
 																								tpe.Data := tpd;
                                                 tpe.Incubated := 1;
-                                                
+
                                                 tm.NPC.AddObject(tn.ID, tn);
                                                 tm.Block[tn.Point.X div 8][tn.Point.Y div 8].NPC.AddObject(tn.ID, tn);
 
@@ -7104,6 +7630,7 @@ end;
 																								WFIFOW( 31, tpe.Relation );
                                                 WFIFOW( 33, tpe.Accessory );
                                                 Socket.SendBuf( buf, 35 );
+
                                         end;
                                 end;
                         end;
@@ -7149,12 +7676,9 @@ end;
                   tc.Item[k].Card[2] := 0;
                   tc.Item[k].Card[3] := 0;
                   tc.Item[k].Data := td;
-									//èdó í«â¡
+									// Update weight
 									tc.Weight := tc.Weight + cardinal(td.Weight * ma.CNum[i]);
-									WFIFOW( 0, $00b0);
-									WFIFOW( 2, $0018);
-									WFIFOL( 4, tc.Weight);
-									Socket.SendBuf(buf, 8);
+									SendCStat1(tc, 0, $0018, tc.Weight);
 
 									//ÉAÉCÉeÉÄÉQÉbÉgí ím
 									SendCGetItem(tc, k, ma.CNum[i]);
@@ -7185,33 +7709,24 @@ end;
 								WFIFOW( 2, w1);
 								WFIFOW( 4, 1);
 
-								WFIFOW( 0, $00b0);
-								WFIFOW( 2, $0018);
-								WFIFOL( 4, tc.Weight);
-								Socket.SendBuf(buf, 8);
+								SendCStat1(tc, 0, $0018, tc.Weight);
       end;
 
-		$01af: //ÉJÅ[ÉgÉ`ÉFÉìÉW
+		$01af: // Change your cart.
 			begin
-																tm := tc.MData;
+        tm := tc.MData;
 				RFIFOW(2, w);
 				case w of
-					1: tc.Option := (tc.Option and $F877) or $0008; //ÉJÅ[Ég1
-					2: tc.Option := (tc.Option and $F877) or $0080; //ÉJÅ[Ég2
-					3: tc.Option := (tc.Option and $F877) or $0100; //ÉJÅ[Ég3
-					4: tc.Option := (tc.Option and $F877) or $0200; //ÉJÅ[Ég4
-					5: tc.Option := (tc.Option and $F877) or $0400; //ÉJÅ[Ég5
+					1: tc.Option := (tc.Option and $F877) or $0008; // Cart 1
+					2: tc.Option := (tc.Option and $F877) or $0080; // Cart 2
+					3: tc.Option := (tc.Option and $F877) or $0100; // Cart 3
+					4: tc.Option := (tc.Option and $F877) or $0200; // Cart 4
+					5: tc.Option := (tc.Option and $F877) or $0400; // Cart 5
 				end;
-				//å©ÇΩñ⁄ïœçX
-				WFIFOW(0, $0119);
-				WFIFOL(2, tc.ID);
-				WFIFOW(6, 0);
-				WFIFOW(8, 0);
-				WFIFOW(10, tc.Option);
-				WFIFOB(12, 0);
-				//SendBCmd(tc.MData, tc.Point, 13);
-																SendBCmd(tm, tc.Point, 13);
-					SendCStat(tc);
+				// Send the new option value.
+        UpdateOption(tm, tc);
+
+        SendCStat(tc);
 
                         end;
 		//--------------------------------------------------------------------------
@@ -7361,6 +7876,8 @@ end;
 {òIìXÉXÉLÉãí«â¡ÉRÉRÇ‹Ç≈}
 		end;
   end;
-end;
+End;(* Proc sv3PacketProcess()
+*-----------------------------------------------------------------------------*)
+
 //==============================================================================
 end.

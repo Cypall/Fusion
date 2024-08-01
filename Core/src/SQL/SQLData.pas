@@ -11,7 +11,7 @@ uses
 //==============================================================================
 // 过程&函数
 
-    //function  HexToInt(Hex : string) : Cardinal; 
+    function  HexToInt(Hex : string) : Cardinal; 
     function  ExecuteSqlCmd(sqlcmd: String) : Boolean;
 		procedure SQLDataLoad();
 		procedure SQLDataSave();
@@ -49,7 +49,7 @@ var
 //------------------------------------------------------------------------------
 
 { Obsolete - Poor Design - Alex }
-{function HexToInt(Hex : string) : Cardinal;
+function HexToInt(Hex : string) : Cardinal;
 const
   cHex = '0123456789ABCDEF';
 var
@@ -63,7 +63,7 @@ begin
     inc(result,(i*mult));
   mult := mult * 16;
   end;
-end;}
+end;
 
 //------------------------------------------------------------------------------
 // 执行数据库查询

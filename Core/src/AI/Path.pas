@@ -18,11 +18,21 @@ uses
         function  CanAttack(tm:TMap; x0, y0, x1, y1:integer):boolean;
         function  SearchAttack(var path:array of byte; tm:TMap; x1, y1, x2, y2:cardinal):byte;
 
+                function Path_Finding (var path: array of byte; tm: TMap; x1, y1, x2, y2, atype: cardinal) : byte;
+                function Allow_Attack (tm: TMap; x0, y0, x1, y1, atype: integer) : boolean;
+
+
+
 
 		procedure PopHeap(var aa:array of rHeap;var n:byte);
 		procedure PushHeap(var d:rHeap; var aa:array of rHeap;var n:byte);
 		procedure UpHeap(x:byte; var aa:array of rHeap;var n:byte);
 //==============================================================================
+
+
+// atypes
+// 1: Walls & Cliffs Blocked
+// 2: Walls Blocked
 
 
 
@@ -34,6 +44,177 @@ uses
 
 
 implementation
+
+function Allow_Attack (tm:TMap; x0, y0, x1, y1, atype:integer):boolean;
+var
+        b1 :byte;
+	b2 :byte;
+begin
+        Result := false;
+
+        if (x0 - x1 < -1) or (x0 - x1 > 1) or (y0 - y1 < -1) or (y0 - y1 > 1) then exit;
+        if (x1 < 0) or (y1 < 0) or (x1 >= tm.Size.X) or (y1 >= tm.Size.Y) then exit;
+
+        b1 := tm.gat[x0][y0];
+        if (atype = 1) then if (b1 = 1) or (b1 = 5) then exit;
+        if (atype = 2) then if (b1 = 1) then exit;
+
+        b2 := tm.gat[x1][y1];
+        if (atype = 1) then if (b2 = 1) or (b2 = 5) then exit;
+        if (atype = 2) then if (b2 = 1) then exit;
+
+        if (x0 = x1) or (y0 = y1) then begin
+                Result := true;
+                exit;
+        end;
+
+        b1 := tm.gat[x0][y1];
+        b2 := tm.gat[x1][y0];
+
+        if (atype = 1) then if (b1 = 1) or (b1 = 5) or (b2 = 1) or (b2 = 5) then exit;
+        if (atype = 2) then if (b1 = 1) or (b2 = 1) then exit;
+
+        Result := true;
+end;
+
+function Path_Finding (var path:array of byte; tm:TMap; x1, y1, x2, y2, atype:cardinal):byte;
+var
+	aa : array[0..255] of rHeap;
+	x, y : integer;
+	rh : rHeap;
+	n : byte;
+	i, j : integer;
+begin
+	ZeroMemory(@aa, sizeof(aa));
+	aa[1].x := x1;
+	aa[1].y := y1;
+	aa[1].mx := 15;
+	aa[1].my := 15;
+	aa[1].cost2 := 0;
+	aa[1].cost1 := 1;
+	//aa[1].dir := 0;
+	aa[1].pcnt := 0;
+	n := 1;
+	ZeroMemory(@mm, sizeof(mm));
+	mm[15][15].cost := 1;
+	mm[15][15].addr := 1;
+
+        while (n <> 0) and ((aa[1].x <> x2) or (aa[1].y <> y2)) do begin
+                rh := aa[1];
+                PopHeap(aa, n);
+
+        // AlexKreuz SearchPath v.2.0
+        if (x2 > rh.x) then begin
+            if (y2 > rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 1, 7, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, 1, 0, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 0, 6, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 1, 1, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, -1, 5, 14);
+                end;
+            end else if (y2 < rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, -1, 5, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y-1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, -1, 4, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 0, 6, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y-1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, -1, 3, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 1, 7, 14);
+                end;
+            end else if (y2 = rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 0, 6, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y-1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, -1, 5, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 1, 7, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, 1, 0, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, -1, 4, 10);
+                end;
+            end;
+        end else if (x2 < rh.x) then begin
+            if (y2 > rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 1, 1, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, 1, 0, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 0, 2, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y-1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, -1, 3, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 1, 7, 14);
+                end;
+            end else if (y2 < rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, -1, 3, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 0, 2, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, -1, 4, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 1, 1, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, -1, 5, 14);
+                end;
+            end else if (y2 = rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 0, 2, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 1, 1, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, -1, 3, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, 1, 0, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, -1, 4, 10);
+                end;
+            end;
+        end else if (x2 = rh.x) then begin
+            if (y2 > rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, 1, 0, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y+1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y+1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 1, 1, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 1, 7, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 0, 2, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 0, 6, 10);
+                end;
+            end else if (y2 < rh.y) then begin
+                if Allow_Attack (tm, rh.x, rh.y, rh.x, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 0, -1, 4, 10);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y-1, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y-1, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, -1, 3, 14);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, -1, 5, 14);
+                end else if Allow_Attack (tm, rh.x, rh.y, rh.x-1, rh.y, atype) or Allow_Attack (tm, rh.x, rh.y, rh.x+1, rh.y, atype) then begin
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, -1, 0, 2, 10);
+                    AddPath2 (aa, n, rh, x1, y1, x2, y2, 1, 0, 6, 10);
+                end;
+            end;
+        end;
+        // AlexKreuz SearchPath v.2.0
+
+        end;
+
+        
+	if n = 0 then begin
+		Result := 0;
+		exit;
+	end;
+
+	x := aa[1].mx;
+	y := aa[1].my;
+
+	if mm[x][y].cost <> 0 then begin
+		CopyMemory(@path, @mm[x][y].path, mm[x][y].pcnt);
+		Result := mm[x][y].pcnt;
+	end else begin
+		Result := 0;
+	end;
+
+end;
+
+//==============================================================================
+//==============================================================================
 
 function CanAttack(tm:TMap; x0, y0, x1, y1:integer):boolean;
 var

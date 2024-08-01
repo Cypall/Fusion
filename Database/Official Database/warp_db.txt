@@ -1,0 +1,60 @@
+// NAME,MAP,X,Y,COST...
+save,save,0,0,100
+return,save,0,0,100
+home,save,0,0,100
+"louyang",louyang,217,119,1000
+"prontera",prontera,140,180,1000
+"izlude",izlude,128,90,1000
+"geffen",geffen,120,65,1000
+"alberta",alberta,116,56,1000
+"payon",payon,90,110,1000
+"morocc",morocc,160,90,1000
+"aldebaran",aldebaran,140,110,1000
+"lutie",xmas,150,50,1000
+"comodo",comodo,188,156,1000
+"yuno",yuno,160,168,1000
+"gonryun",gonryun,160,78,1000
+"amatsu",amatsu,112,154,1000
+"umbala",umbala,128,129,1000
+"niflheim",niflheim,197,176,1000
+"culverts",prt_fild05,273,210,1500
+"payon dungeon",pay_arche,43,132,1500
+"coal mine",mjolnir_02,81,359,1500
+"glastheim",glast_01,368,303,1500
+"orc dungeon",gef_fild10,70,332,1500
+"sunken ship",alb2trea,75,98,1500
+"bibalan dungeon",izlu2dun,106,88,1500
+"ant hell",moc_fild04,210,328,1500
+"sphinx",moc_fild19,107,100,1500
+"pyramids",moc_ruins,62,162,1500
+"magma dungeon",yuno_fild03,39,140,1500
+"turtle dungeon",tur_dun01,149,238,1500
+"geffen dungeon",gef_dun00,104,99,1500
+"hidden temple",prt_maze01,176,7,1500
+"clock tower",aldebaran,140,128,1500
+"gonryun dungeon",gonryun,160,198,1500
+"umbala dungeon",umbala,114,281,1500
+"payon castle 1",pay_gld,315,294,2000
+"payon castle 2",pay_gld,199,262,2000
+"payon castle 3",pay_gld,120,231,2000
+"payon castle 4",pay_gld,297,115,2000
+"payon castle 5",pay_gld,140,161,2000
+"geffen castle 1",gef_fild13,193,276,2000
+"geffen castle 2",gef_fild13,308,239,2000
+"geffen castle 3",gef_fild13,83,178,2000
+"geffen castle 4",gef_fild13,310,89,2000
+"geffen castle 5",gef_fild13,217,73,2000
+"prontera castle 1",prt_gld,109,240,2000
+"prontera castle 2",prt_gld,210,240,2000
+"prontera castle 3",prt_gld,153,138,2000
+"prontera castle 4",prt_gld,134,64,2000
+"prontera castle 5",prt_gld,240,127,2000
+"aldebaran castle 1",alde_gld,48,83,2000
+"aldebaran castle 2",alde_gld,95,249,2000
+"aldebaran castle 3",alde_gld,142,85,2000
+"aldebaran castle 4",alde_gld,239,242,2000
+"aldebaran castle 5",alde_gld,264,90,2000
+"prontera guild dungeon",gld_dun03,237,266,3000
+"geffen guild dungeon",gld_dun04,110,26,3000
+"aldebaran guild dungeon",gld_dun02,173,113,3000
+"payon guild dungeon",gld_dun01,119,52,3000
