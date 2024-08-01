@@ -1,0 +1,44 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Aldebaran Town Warps - Warp Locations
+//
+//========================================================================================
+
+aldeba_in.gat,24,224,0	warp	aldebaranwarp001	2,2,aldebaran.gat,53,216
+aldeba_in.gat,27,34,0	warp	aldebaranwarp002	2,2,aldebaran.gat,72,195
+aldeba_in.gat,27,71,0	warp	aldebaranwarp003	2,2,aldeba_in.gat,27,105
+aldeba_in.gat,27,102,0	warp	aldebaranwarp004	2,2,aldeba_in.gat,27,68
+aldeba_in.gat,37,238,0	warp	aldebaranwarp005	2,2,aldeba_in.gat,67,157
+aldeba_in.gat,64,157,0	warp	aldebaranwarp006	2,2,aldeba_in.gat,34,238
+aldeba_in.gat,83,191,0	warp	aldebaranwarp007	2,2,aldeba_in.gat,83,227
+aldeba_in.gat,83,224,0	warp	aldebaranwarp008	2,2,aldeba_in.gat,83,188
+aldeba_in.gat,94,38,0	warp	aldebaranwarp009	3,2,aldebaran.gat,197,68
+aldeba_in.gat,97,102,0	warp	aldebaranwarp010	2,2,aldeba_in.gat,103,58
+aldeba_in.gat,103,61,0	warp	aldebaranwarp011	2,2,aldeba_in.gat,97,105
+aldeba_in.gat,103,157,0	warp	aldebaranwarp012	2,2,aldeba_in.gat,137,237
+aldeba_in.gat,134,237,0	warp	aldebaranwarp013	2,2,aldeba_in.gat,100,157
+aldeba_in.gat,144,92,0	warp	aldebaranwarp014	2,2,aldeba_in.gat,149,52
+aldeba_in.gat,148,224,0	warp	aldebaranwarp015	2,2,aldebaran.gat,63,227
+aldeba_in.gat,149,55,0	warp	aldebaranwarp016	2,2,aldeba_in.gat,144,95
+aldeba_in.gat,149,123,0	warp	aldebaranwarp017	3,2,aldebaran.gat,223,56
+aldeba_in.gat,157,193,0	warp	aldebaranwarp018	3,2,aldebaran.gat,231,107
+aldeba_in.gat,208,117,0	warp	aldebaranwarp019	2,2,aldebaran.gat,116,63
+aldeba_in.gat,217,71,0	warp	aldebaranwarp020	2,2,aldeba_in.gat,218,107
+aldeba_in.gat,217,131,0	warp	aldebaranwarp021	2,2,aldeba_in.gat,217,163
+aldeba_in.gat,217,160,0	warp	aldebaranwarp022	2,2,aldeba_in.gat,217,128
+aldeba_in.gat,218,104,0	warp	aldebaranwarp023	2,2,aldeba_in.gat,218,68
+aldeba_in.gat,245,237,0	warp	aldebaranwarp024	2,2,aldebaran.gat,91,234
+aldebaran.gat,51,218,0	warp	aldebaranwarp025	1,1,aldeba_in.gat,24,227
+aldebaran.gat,61,229,0	warp	aldebaranwarp026	1,1,aldeba_in.gat,148,227
+aldebaran.gat,72,197,0	warp	aldebaranwarp027	1,1,aldeba_in.gat,27,37
+aldebaran.gat,89,234,0	warp	aldebaranwarp028	1,1,aldeba_in.gat,242,237
+aldebaran.gat,118,63,0	warp	aldebaranwarp029	1,1,aldeba_in.gat,211,117
+aldebaran.gat,138,34,0	warp	aldebaranwarp030	2,2,mjolnir_12.gat,199,375
+aldebaran.gat,139,135,0	warp	aldebaranwarp031	1,1,c_tower1.gat,199,159
+aldebaran.gat,197,70,0	warp	aldebaranwarp032	1,1,aldeba_in.gat,94,41
+aldebaran.gat,225,54,0	warp	aldebaranwarp033	1,1,aldeba_in.gat,149,120
+aldebaran.gat,233,105,0	warp	aldebaranwarp034	1,1,aldeba_in.gat,157,190

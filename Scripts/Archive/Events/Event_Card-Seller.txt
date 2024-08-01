@@ -1,0 +1,65 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Card Gambler - Non Player Character Locations
+//
+// - Card Master -> prt_in: 38,104
+//   Randomly draw cards for 100kz each draw.
+//
+//========================================================================================
+
+//prt_in.gat,38,104,4	script	"Card Master"	47,{
+	mes "[Card Master]";
+	mes "Welcome.";
+	mes "We sell randomly picked cards here.";
+	mes "The purchase price per card is 100,000z.";
+	next;
+	menu "I'll buy some.",-,"No Thanks!",LCard_ED1;
+LCard1:
+	mes "[Card Master]";
+	mes "How many cards will you purchase?";
+	next;
+	input @F_Card_Num;
+	check @F_Card_Num = 0,LCard_ED3,-;
+	check @F_Card_Num > 10,-,LCard2;
+	mes "[Card Master]";
+	mes "I am sorry. The purchase limit is 10 cards.";
+	next;
+	goto LCard1;
+LCard2:
+	mes "[Card Master]";
+	mes "Is $[@F_Card_Num] the correct amount of cards that you'd like to purchase?";
+	next;
+	menu "Yes",-,"No",LCard_ED1;
+	set @F_Zeny = @F_Card_Num;
+	set @F_Zeny*100000;
+	check Zeny < @F_Zeny,LCard_ED2,-;
+LCard3:
+	random @F_Card_Lim 9;
+	check @F_Card_Lim = 0,-,LCard4;
+	random @F_Card 148;
+	goto LCard5;
+LCard4:
+	random @F_Card 62;
+LCard5:
+	set @F_Card + 4001;
+	additem @F_Card,1;
+	set @F_Card_Num - 1;
+	check @F_Card_Num = 0,-,LCard3;
+	set Zeny - @F_Zeny;
+LCard_ED1:
+	mes "[Card Master]";
+	mes "Please visit us again soon.";
+	close;
+LCard_ED2:
+	mes "[Card Master]";
+	mes "You seem to be lacking sufficient funds ...";
+	close;
+LCard_ED3:
+	mes "[Card Master]";
+	mes "Visitors ... Window-shopping ...";
+	close;
+}

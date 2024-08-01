@@ -1,0 +1,112 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Niflheim Kafra Employees - Non Player Character Locations
+//
+// - Kafra Employee -> Niflheim: 202,180
+//   Storage, Kafra Pass and other services.
+//
+//========================================================================================
+
+niflheim.gat,202,180,3 script "Kafra Employee" 791,{
+		set @Kafra_PASS = 0;
+	mes "[Kafra Employee]"; 
+	mes "Welcome... to.... ";
+	mes "Kafra Corp....";
+	mes "We will.... stay with you.... even till death...."; 
+	next;
+L_START_1:
+		check @Kafra_PASS = 1,-,L_SUB_0_1;
+	mes "[Kafra Employee]";
+	mes "How may I help you?";
+	next;
+L_SUB_0_1:
+	menu "Use Storage",L_MENU_2,"Use Kafra Pass",L_MENU_5,"Check Other Information",L_MENU_6,"Cancel",L_MENU_7;
+L_MENU_2:
+		percentdamage 0,10;
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_2_1,-;
+	mes "[Kafra Employee]";
+	mes "You need to have at least Novice";
+	mes "skill level 6 to use the storage.";
+		check @Kafra_PASS = 0,-,L_ROOT_2_1;
+	goto L_EXIT;
+L_ROOT_2_1:
+	next;
+	goto L_START_1;
+L_SUB_2_1:
+		check @Kafra_PASS = 0,-,L_SUB_2_2;
+		check Zeny < 150,-,L_ROOT_2_2;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "The storage usage fee is 150 Zeny.";
+	goto L_EXIT;
+L_ROOT_2_2:
+		set Zeny -= 150,0;
+		set KF_PIT += 15;
+		store;
+	goto L_EXIT;
+L_SUB_2_2:
+		store;
+	goto L_EXIT;
+L_MENU_5:
+		check @Kafra_PASS = 1,-,L_ROOT_5_1;
+	mes "[Kafra Employee]";
+	mes "You are now using a Kafra Pass.";
+	next;
+	goto L_START_1;
+L_ROOT_5_1:
+		checkitem 1084,1,L_SUB_5_1,-;
+	mes "[Kafra Employee]";
+	mes "You need a Kafra Pass.";
+	goto L_EXIT;
+L_SUB_5_1:
+		delitem 1084,1;
+		set @Kafra_PASS= 1;
+	mes "[Kafra Employee]";
+	mes "You have used your Kafra Pass.";
+	next;
+	goto L_START_1;
+L_MENU_6:
+	menu "Check Special Reserve Points",L_SUB_6_1,"Cancel",L_EXIT;
+L_SUB_6_1:
+		percentdamage 0,10;
+		check KF_PIT > 0,-,L_SUB_6_1_1;
+	mes "[Kafra Employee]";
+  	mes "$charaname has $[KF_PIT] special reserve";
+  	mes "points.";
+	next;
+	mes "[Kafra Employee]";
+  	mes "You can exchange special reserve";
+  	mes "points for other goods at the Kafra";
+	mes "Main Office.";
+  	mes "Please use our convenient services";
+	mes "while getting rewards as well~";
+	goto L_EXIT;
+L_SUB_6_1_1:
+		percentdamage 0,10;
+	mes "[Kafra Employee]";
+  	mes "$charaname has 0 special reserve";
+  	mes "points.";
+	next;
+	mes "[Kafra Employee]";
+  	mes "You can exchange special reserve";
+  	mes "points for other goods at the Kafra";
+	mes "Main Office.";
+  	mes "Please use our convenient services";
+	mes "while getting rewards as well~";
+	goto L_EXIT;
+L_MENU_7:
+		percentdamage 0,10;
+	mes "[Kafra Employee]"; 
+	mes "We, Kafra Corporation..."; 
+	mes "Will always be with you..."; 
+	mes "whenever... wherever..."; 
+	mes "...therefore..."; 
+	mes "please don't forget us...";
+ L_EXIT:
+	close;
+}

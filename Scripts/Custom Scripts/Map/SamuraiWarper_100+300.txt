@@ -1,0 +1,1284 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+//  **Note: This NPC uses pictures that are not available with the original kro and sakaray.
+//          Link to download pictures: http://angler.animeworld.cl/samurai_maps.rar
+//
+//
+//              Samurai Warper - Non Player Character Locations
+//
+// - prontera 148 324
+//	Towns: Al de Baran, Geffen, Izlude, Morocc, St. Capitolina's Abbey
+//	Dungeons: Ant Hell, Byalan Dungeon, Hidden Temple, Prontera Culverts
+//
+// - izlude 136 95
+//	Towns: Payon, Prontera, St. Capitolina's Abbey
+//	Dungeons: Byalan Dungeon, Payon Cave, Prontera Culverts
+//
+// - payon 97 116
+//	Towns: Alberta, Izlude, Morocc
+//	Dungeons: Payon Cave, Sunken Ship
+//
+// - alberta 25 239
+//	Towns: Morocc, Payon
+//	Dungeons: Ant Hell, Sunken Ship
+//
+// - aldebaran 144 71
+//	Towns: Geffen, Glast Heim, Morocc, Prontera, St. Capitolina's Abbey
+//	Dungeons: Coal Mine, Hidden Temple
+//
+// - geffen 116 62
+//	Towns: Al de Baran, Glast Heim, Morocc, Prontera
+//	Dungeons: Coal Mine, Hidden Temple, Orc Dungeon
+//
+// - glast_01 194 131
+//	Towns: Comodo, Geffen, Lutie
+//	Dungeons: Beach Dungeons
+//
+// - morocc 151 100
+//	Towns: Alberta, Comodo, Geffen, Prontera
+//	Dungeons: Ant Hell, Pyramid, Sphinx
+//
+// - comodo 186 161
+//	Towns: Lutie, Morocc
+//	Dungeons: Beach Dungeons, Pyramid, Sphinx
+//
+// - xmas 153 130
+//	Towns: Comodo, Glast Heim
+//	Dungeons:  ----
+//
+// - amatsu 113 166 
+//	Towns: Gon Ryune, Louyang, Nifleheim, Umbala, Valkyrie, Juno
+//	Dungeons: Magma Dungeon
+//
+// - gonryun 161 121
+//	Towns: Amatsu, Louyang, Nifleheim, Umbala, Valkyrie, Juno
+//	Dungeons: Magma Dungeon
+//
+// - louyang 221 128
+//	Towns: Amatsu, Gon Ryune, Nifleheim, Umbala, Valkyrie, Juno
+//	Dungeons: Magma Dungeon
+//
+// - niflheim 195 188
+//	Towns: Amatsu, Gon Ryune, Louyang, Umbala, Valkyrie, Juno
+//	Dungeons: Magma Dungeon
+//
+// - umbala 125 136
+//	Towns: Amatsu, Gon Ryune, Louyang, Nifleheim, Valkyrie, Juno
+//	Dungeons: Magma Dungeon
+//
+// - yuno 153 175
+//	Towns: Amatsu, Gon Ryune, Louyang, Nifleheim, Umbala, Valkyrie
+//	Dungeons: Magma Dungeon
+//
+// - yalkyrie 44 34
+//	Towns: Amatsu, Gon Ryune, Louyang, Nifleheim, Umbala, Juno
+//	Dungeons: Magma Dungeon
+//
+//========================================================================================
+
+
+// PRONTERA
+
+prontera.gat,148,324,4 script "Samurai Warper" 767,{
+	mes "[Samurai Niao-ka]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Niao-ka]";
+	mes "I can warp you to basically anywhere around Prontera or to Juno city.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_pr",2;
+	next;
+	cutin "sign_map_pr",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Niao-ka]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Niao-ka]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Juno",YUNO,"Al de Baran",ALDE,"Geffen",GEFF,"Izlude",IZLU,"Morocc",MOCC,"St. Capitolina's Abbey",ABBE,"Nevermind",NVR;
+	close;
+    ABBE:
+	set Zeny - 100;
+	warp prt_monk,245,98;
+	close;
+    ALDE:
+	set Zeny - 100;
+	warp aldebaran,142,68;
+	close;
+    GEFF:
+	set Zeny - 100;
+	warp geffen,119,61;
+	close;
+    IZLU:
+	set Zeny - 100;
+	warp izlude,140,120;
+	close;
+    MOCC:
+	set Zeny - 100;
+	warp morocc,158,99;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Niao-ka]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Ant Hell",HELL,"Byalan Dungeon",BYAL,"Hidden Temple",HIDDEN,"Prontera Culverts",CULV,"Nevermind",NVR;
+	close;
+    BYAL:
+	set Zeny - 300;
+	warp izlu2dun,107,89;
+	close;
+    CULV:
+	set Zeny - 300;
+	warp prt_fild01,137,362;
+	close;
+    HELL:
+	set Zeny - 300;
+	warp moc_fild04,204,328;
+	close;
+    HIDDEN:
+	set Zeny - 300;
+	warp prt_fild01,137,362;
+	close;
+    ZENY:
+	mes "[Samurai Niao-ka]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Niao-ka]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// IZLUDE
+
+izlude.gat,136,95,4 script "Samurai Warper" 767,{
+	mes "[Samurai David]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai David]";
+	mes "I can warp you to basically anywhere around Izlude.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_iz",2;
+	next;
+	cutin "sign_map_iz",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai David]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai David]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Payon",PAYO,"Prontera",PRON,"St. Capitolina's Abbey",ABBE,"Nevermind",NVR;
+	close;
+    ABBE:
+	set Zeny - 100;
+	warp prt_monk,245,98;
+	close;
+    PAYO:
+	set Zeny - 100;
+	warp payon,89,120;
+	close;
+    PRON:
+	set Zeny - 100;
+	warp prontera,154,328;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai David]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Byalan Dungeon",BYAL,"Payon Cave",CAVE,"Prontera Culverts",CULV,"Nevermind",NVR;
+	close;
+    BYAL:
+	set Zeny - 300;
+	warp izlu2dun,107,89;
+	close;
+    CAVE:
+	set Zeny - 300;
+	warp pay_arche,41,133;
+	close;
+    CULV:
+	set Zeny - 300;
+	warp prt_fild01,137,362;
+	close;
+    ZENY:
+	mes "[Samurai David]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai David]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// PAYON
+
+payon.gat,97,116,4  script	 "Samurai Warper" 	767,{
+	mes "[Samurai Yuri]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Yuri]";
+	mes "I can warp you to basically anywhere around Payon.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_pa",2;
+	next;
+	cutin "sign_map_pa",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Yuri]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Yuri]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Alberta",ALBE,"Izlude",IZLU,"Morocc",MOCC,"Nevermind",NVR;
+	close;
+    ALBE:
+	set Zeny - 100;
+	warp alberta,117,56;
+	close;
+    IZLU:
+	set Zeny - 100;
+	warp izlude,140,120;
+	close;
+    MOCC:
+	set Zeny - 100;
+	warp morocc,158,99;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Yuri]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Payon Cave",CAVE,"Sunken Ship",SUNK,"Nevermind",NVR;
+	close;
+    CAVE:
+	set Zeny - 300;
+	warp pay_arche,41,133;
+	close;
+    SUNK:
+	set Zeny - 300;
+	warp alb2trea,61,70;
+	close;
+    ZENY:
+	mes "[Samurai Yuri]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Yuri]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// ALBERTA 
+
+alberta.gat,25,239,5 script "Samurai Warper" 767,{
+	mes "[Samurai Nyo'ei]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Nyo'ei]";
+	mes "I can warp you to basically anywhere around Alberta.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_al",2;
+	next;
+	cutin "sign_map_al",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Nyo'ei]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Nyo'ei]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Morocc",MOCC,"Payon",PAYO,"Nevermind",NVR;
+	close;
+    MOCC:
+	set Zeny - 100;
+	warp morocc,158,99;
+	close;
+    PAYO:
+	set Zeny - 100;
+	warp payon,89,120;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Nyo'ei]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Ant Hell",HELL,"Sunken Ship",SUNK,"Nevermind",NVR;
+	close;
+    HELL:
+	set Zeny - 300;
+	warp moc_fild04,204,328;
+	close;
+    SUNK:
+	set Zeny - 300;
+	warp alb2trea,61,70;
+	close;
+    ZENY:
+	mes "[Samurai Nyo'ei]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Nyo'ei]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// AL DE BARAN
+
+aldebaran.gat,144,71,3 	script "Samurai Warper"	767,{
+	mes "[Samurai Muishitsu]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Muishitsu]";
+	mes "I can warp you to basically anywhere around Al de Baran.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_de",2;
+	next;
+	cutin "sign_map_de",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Muishitsu]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Jake]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Geffen",GEFF,"Glast Heim",GLAS,"Prontera",PRON,"St. Capitolina's Abbey",ABBE,"Nevermind",NVR;
+	close;
+    ABBE:
+	set Zeny - 100;
+	warp prt_monk,245,98;
+	close;
+    GEFF:
+	set Zeny - 100;
+	warp geffen,119,61;
+	close;
+    GLAS:
+	set Zeny - 100;
+	warp glast_01,200,130;
+	close;
+    PRON:
+	set Zeny - 100;
+	warp prontera,154,328;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Muishitsu]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Coal Mine",COAL,"Hidden Temple",HIDDEN,"Nevermind",NVR;
+	close;
+    COAL:
+	set Zeny - 300;
+	warp mjolnir_02,79,361;
+	close;
+    HIDDEN:
+	set Zeny - 300;
+	warp prt_fild01,137,362;
+	close;
+    ZENY:
+	mes "[Samurai Muishitsu]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Muishitsu]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// GEFFEN
+
+geffen.gat,116,62,2	 script "Samurai Warper"	767,{
+	mes "[Samurai Shofu KoHo]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Shofu KoHo]";
+	mes "I can warp you to basically anywhere around Geffen.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_ge",2;
+	next;
+	cutin "sign_map_ge",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Shofu KoHo]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Shofu KoHo]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Al de Baran",ALDE,"Glast Heim",GLAS,"Morocc",MOCC,"Prontera",PRON,"Nevermind",NVR;
+	close;
+    ALDE:
+	set Zeny - 100;
+	warp aldebaran,142,68;
+	close;
+    GLAS:
+	set Zeny - 100;
+	warp glast_01,200,130;
+	close;
+    MOCC:
+	set Zeny - 100;
+	warp morocc,158,99;
+	close;
+    PRON:
+	set Zeny - 100;
+	warp prontera,154,328;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Shofu KoHo]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Coal Mine",COAL,"Hidden Temple",HIDDEN,"Orc Dungeon",ORCDUN,"Nevermind",NVR;
+	close;
+    COAL:
+	set Zeny - 300;
+	warp mjolnir_02,79,361;
+	close;
+    HIDDEN:
+	set Zeny - 300;
+	warp prt_fild01,137,362;
+	close;
+    ORCDUN:
+	set Zeny - 300;
+	warp in_orcs01,30,160;
+    ZENY:
+	mes "[Samurai Shofu KoHo]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Shofu KoHo]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// GLAST HEIM
+
+glast_01.gat,194,131,5	 script "Samurai Warper"	767,{
+	mes "[Samurai Tuan-chi]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Tuan-chi]";
+	mes "I can warp you to basically anywhere around Glast Heim.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_gl",2;
+	next;
+	cutin "sign_map_gl",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Tuan-chi]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Tuan-chi]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Comodo",COMO,"Geffen",GEFF,"Lutie",LUTI,"Nevermind",NVR;
+	close;
+    COMO:
+	set Zeny - 100;
+	warp comodo,188,155;
+	close;
+    GEFF:
+	set Zeny - 100;
+	warp geffen,119,61;
+	close;
+    LUTI:
+	set Zeny - 100;
+	warp xmas,147,129;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Tuan-chi]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Beach Dungeons",BEACH,"Nevermind",NVR;
+	close;
+    BEACH:
+	mes "[Samurai Tuan-chi]";
+	mes "There are three beach dungeons, in Comodo.";
+	mes "Please, choose which of these three you'd like to visit.";
+	next;
+	menu "Karu",Karu,"Mao",Mao,"Ruande",Ruande,"Nevermind",NVR;
+	close;
+    Karu:
+	set Zeny - 300;
+	warp comodo,35,215;
+	close;
+    Mao:
+	set Zeny - 300;
+	warp comodo,321,175;
+	close;
+    Ruande:
+	set Zeny - 300;
+	warp comodo,174,351;
+	close;
+    ZENY:
+	mes "[Samurai Tuan-chi]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Tuan-chi]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// MOROCC
+
+morocc.gat,151,100,5	script "Samurai Warper"		767,{
+	mes "[Samurai Zenshin]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Zenshin]";
+	mes "I can warp you to basically anywhere around Morocc.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_mo",2;
+	next;
+	cutin "sign_map_mo",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Zenshin]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+	close;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Zenshin]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Alberta",ALBE,"Comodo",COMO,"Geffen",GEFF,"Prontera",PRON,"Nevermind",NVR;
+	close;
+    ALBE:
+	set Zeny - 100;
+	warp alberta,117,56;
+	close;
+    COMO:
+	set Zeny - 100;
+	warp comodo,188,155;
+	close;
+    GEFF:
+	set Zeny - 100;
+	warp geffen,119,61;
+	close;
+    PRON:
+	set Zeny - 100;
+	warp prontera,154,328;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Zenshin]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Pyramid",PYRA,"Sphinx",SPHI,"Ant Hell",HELL,"Nevermind",NVR;
+	close;
+    PYRA:
+	set Zeny - 300;
+	warp moc_ruins,63,161;
+	close;
+    SPHI:
+	set Zeny - 300;
+	warp moc_fild19,100,100;
+	close;
+    HELL:
+	set Zeny - 300;
+	warp moc_fild04,204,328;
+	close;
+    ZENY:
+	mes "[Samurai Zenshin]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Zenshin]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// COMODO
+
+comodo.gat,186,161,4	script "Samurai Warper"		767,{
+	mes "[Samurai Illo]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Illo]";
+	mes "I can warp you to basically anywhere around Comodo.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_co",2;
+	next;
+	cutin "sign_map_co",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Illo]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+	close;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Illo]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Lutie",LUTI,"Morocc",MOCC,"Nevermind",NVR;
+	close;
+    LUTI:
+	set Zeny - 100;
+	warp xmas,147,129;
+	close;
+    MOCC:
+	set Zeny - 100;
+	warp morocc,158,99;
+	close;
+    DUNGEON:
+	check Zeny => 300,-,ZENY;
+	mes "[Samurai Illo]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Pyramid",PYRA,"Sphinx",SPHI,"Beach Dungeons",BEACH,"Nevermind",NVR;
+	close;
+    PYRA:
+	set Zeny - 300;
+	warp moc_ruins,63,161;
+	close;
+    SPHI:
+	set Zeny - 300;
+	warp moc_fild19,100,100;
+	close;
+    BEACH:
+	mes "[Samurai Illo]";
+	mes "There are three beach dungeons, in Comodo.";
+	mes "Please, choose which of these three you'd like to visit.";
+	next;
+	menu "Karu",Karu,"Mao",Mao,"Ruande",Ruande,"Nevermind",NVR;
+	close;
+    Karu:
+	set Zeny - 300;
+	warp comodo,35,215;
+	close;
+    Mao:
+	set Zeny - 300;
+	warp comodo,321,175;
+	close;
+    Ruande:
+	set Zeny - 300;
+	warp comodo,174,351;
+	close;
+    ZENY:
+	mes "[Samurai Illo]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Illo]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// LUTIE
+
+xmas.gat,153,130,5	script "Samurai Warper"		767,{
+	mes "[Samurai Quang Tu]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Quang Tu]";
+	mes "I can warp you to basically anywhere around Lutie.. for a price";
+	mes " ";
+	mes "Would you like to see a map of available destinations?";
+	next;
+	menu "Yes, please",MAP,"No, thank you",NOMAP;
+	close;
+    MAP:
+	cutin "sign_map_lu",2;
+	next;
+	cutin "sign_map_lu",255;
+	goto NOMAP;
+    NOMAP:
+	mes "[Samurai Quang Tu]";
+	mes "Would you like to visit a town or a dungeon?";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Quang Tu]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Comodo",COMO,"Glast Heim",GLAS,"Nevermind",NVR;
+	close;
+    COMO:
+	set Zeny - 100;
+	warp comodo,188,155;
+	close;
+    GLAS:
+	set Zeny - 100;
+	warp glast_01,200,130;
+	close;
+    DUNGEON:
+	mes "[Samurai Quang Tu]";
+	mes "There are no dungeons adjacent to Lutie.";
+	close;
+    ZENY:
+	mes "[Samurai Quang Tu]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Quang Tu]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// AMATSU
+
+amatsu.gat,113,166,5 script "Samurai Warper"		767,{
+	mes "[Samurai Kyle]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Kyle]";
+	mes "I can warp you to basically anywhere around Amatsu.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Kyle]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Gon Ryune",GONR,"Louyang",LOUY,"Nifleheim",NIFL,"Umbala",UMBA,"Valkyrie",VALK,"Juno",YUNO,"Nevermind",NVR;
+	close;
+    GONR:
+	set Zeny - 100;
+	warp gonryun,159,115;
+	close;
+    LOUY:
+	set Zeny - 100;
+	warp louyang,222,125;
+	close;
+    NIFL:
+	set Zeny - 100;
+	warp "niflheim",195,182;
+	close;
+    UMBA:
+	set Zeny - 100;
+	warp umbala,126,130;
+	close;
+    VALK:
+	set Zeny - 100;
+	warp valkyrie,52,84;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	mes "[Samurai Kyle]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Kyle]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Kyle]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+
+// GONRYUN
+
+gonryun.gat,161,121,4 script "Samurai Warper"		767,{
+	mes "[Samurai Paul]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Paul]";
+	mes "I can warp you to basically anywhere around Gon Ryune.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Paul]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Amatsu",AMAT,"Louyang",LOUY,"Nifleheim",NIFL,"Umbala",UMBA,"Valkyrie",VALK,"Juno",YUNO,"Nevermind",NVR;
+	close;
+    AMAT:
+	set Zeny - 100;
+	warp amatsu,115,161;
+	close;
+    LOUY:
+	set Zeny - 100;
+	warp louyang,222,125;
+	close;
+    NIFL:
+	set Zeny - 100;
+	warp "niflheim",195,182;
+	close;
+    UMBA:
+	set Zeny - 100;
+	warp umbala,126,130;
+	close;
+    VALK:
+	set Zeny - 100;
+	warp valkyrie,52,84;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	mes "[Samurai Paul]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Paul]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Paul]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// Louyang
+
+louyang.gat,221,128,4 script "Samurai Warper"		767,{
+	mes "[Samurai Balkono]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Balkono]";
+	mes "I can warp you to basically anywhere around Louyang.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Balkono]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Amatsu",AMAT,"Gon Ryune",GONR,"Nifleheim",NIFL,"Umbala",UMBA,"Valkyrie",VALK,"Juno",YUNO,"Nevermind",NVR;
+	close;
+    AMAT:
+	set Zeny - 100;
+	warp amatsu,115,161;
+	close;
+    GONR:
+	set Zeny - 100;
+	warp gonryun,159,115;
+	close;
+    NIFL:
+	set Zeny - 100;
+	warp "niflheim",195,182;
+	close;
+    UMBA:
+	set Zeny - 100;
+	warp umbala,126,130;
+	close;
+    VALK:
+	set Zeny - 100;
+	warp valkyrie,52,84;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	mes "[Samurai Balkono]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Balkono]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Balkono]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// NIFLHEIM
+
+niflheim.gat,195,188,5 script "Samurai Warper"		767,{
+	mes "[Samurai Nitro]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Nitro]";
+	mes "I can warp you to basically anywhere around Niflheim.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Nitro]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Amatsu",AMAT,"Gon Ryune",GONR,"Louyang",LOUY,"Umbala",UMBA,"Valkyrie",VALK,"Juno",YUNO,"Nevermind",NVR;
+	close;
+    AMAT:
+	set Zeny - 100;
+	warp amatsu,115,161;
+	close;
+    GONR:
+	set Zeny - 100;
+	warp gonryun,159,115;
+	close;
+    LOUY:
+	set Zeny - 100;
+	warp louyang,222,125;
+	close;
+    UMBA:
+	set Zeny - 100;
+	warp umbala,126,130;
+	close;
+    VALK:
+	set Zeny - 100;
+	warp valkyrie,52,84;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	mes "[Samurai Nitro]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Nitro]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Nitro]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// UMBALA
+
+umbala.gat,125,136,4 script "Samurai Warper"		767,{
+	mes "[Samurai Felix]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Felix]";
+	mes "I can warp you to basically anywhere around Umbala.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Felix]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Amatsu",AMAT,"Gon Ryune",GONR,"Louyang",LOUY,"Niflheim",NIFL,"Valkyrie",VALK,"Juno",YUNO,"Nevermind",NVR;
+	close;
+    AMAT:
+	set Zeny - 100;
+	warp amatsu,115,161;
+	close;
+    GONR:
+	set Zeny - 100;
+	warp gonryun,159,115;
+	close;
+    LOUY:
+	set Zeny - 100;
+	warp louyang,222,125;
+	close;
+    NIFL:
+	set Zeny - 100;
+	warp "niflheim",195,182;
+	close;
+    VALK:
+	set Zeny - 100;
+	warp valkyrie,52,84;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	mes "[Samurai Felix]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Felix]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Felix]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+// Juno
+
+yuno.gat,153,175,4 script "Samurai Warper"		767,{
+	mes "[Samurai Stephanie]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Stephanie]";
+	mes "I can warp you to basically anywhere around Juno or to Prontera city.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Stephanie]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Prontera",PRON,"Amatsu",AMAT,"Gon Ryune",GONR,"Louyang",LOUY,"Nifleheim",NIFL,"Umbala",UMBA,"Valkyrie",VALK,"Nevermind",NVR;
+	close;
+    AMAT:
+	set Zeny - 100;
+	warp amatsu,115,161;
+	close;
+    GONR:
+	set Zeny - 100;
+	warp gonryun,159,115;
+	close;
+    LOUY:
+	set Zeny - 100;
+	warp louyang,222,125;
+	close;
+    NIFL:
+	set Zeny - 100;
+	warp "niflheim",195,182;
+	close;
+    PRON:
+	set Zeny - 100;
+	warp prontera,154,328;
+	close;
+    UMBA:
+	set Zeny - 100;
+	warp umbala,126,130;
+	close;
+    VALK:
+	set Zeny - 100;
+	warp valkyrie,52,84;
+	close;
+    DUNGEON:
+	mes "[Samurai Stephanie]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Stephanie]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Stephanie]";
+	mes "Come back, if you're ever in need";
+	close;
+}
+
+//Valyrie
+
+valkyrie.gat,44,34,6 "Samurai Warper"		767,{
+	mes "[Samurai Hagu`]";
+	mes "Well, hello, there, how can I help you, today?";
+	next;
+	menu "I'd like a warp, please.",WARP,"Uhh.. Nevermind",NVR;
+    WARP:
+	mes "[Samurai Hagu`]";
+	mes "I can warp you to basically anywhere around Juno or to Prontera city.. for a price";
+	next;
+	menu "Towns - 100z",TOWN,"Dungeons - 300z",DUNGEON,"Nevermind.",NVR;
+    TOWN:
+	check Zeny => 100,-,ZENY;
+	mes "[Samurai Hagu`]";
+	mes "Please, choose a destination.";
+	next;
+	menu "Prontera",PRON,"Amatsu",AMAT,"Gon Ryune",GONR,"Louyang",LOUY,"Nifleheim",NIFL,"Umbala",UMBA,"Juon",YUNO,"Nevermind",NVR;
+	close;
+    AMAT:
+	set Zeny - 100;
+	warp amatsu,115,161;
+	close;
+    GONR:
+	set Zeny - 100;
+	warp gonryun,159,115;
+	close;
+    LOUY:
+	set Zeny - 100;
+	warp louyang,222,125;
+	close;
+    NIFL:
+	set Zeny - 100;
+	warp "niflheim",195,182;
+	close;
+    PRON:
+	set Zeny - 100;
+	warp prontera,154,328;
+	close;
+    UMBA:
+	set Zeny - 100;
+	warp umbala,126,130;
+	close;
+    YUNO:
+	set Zeny - 100;
+	warp yuno,157,168;
+	close;
+    DUNGEON:
+	mes "[Samurai Hagu`]";
+	mes "Please, choose a destination.";
+	menu "Magma Dungeon",MAGMA,"Nevermind",NVR;
+	close;
+    MAGMA:
+	set Zeny - 300;
+	warp yuno_fild03,41,139
+	close;
+    ZENY:
+	mes "[Samurai Hagu`]";
+	mes "You have insufficent funds.";
+	mes "Come back, when you have the zeny..";
+	close;
+    NVR:
+	mes "[Samurai Hagu`]";
+	mes "Come back, if you're ever in need";
+	close;
+}

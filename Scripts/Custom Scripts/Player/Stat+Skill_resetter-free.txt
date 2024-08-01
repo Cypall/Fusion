@@ -1,0 +1,44 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Dai-In -> prontera 160 324
+//        Resets stats & skills for free.
+//
+//========================================================================================
+
+prontera.gat,160,324,4      script       "Dai-In"       727,{
+	mes "[Dai-In]";
+	mes "Hello";
+	mes "You can use my services to either reset your stats or reset your skills.";
+	next;
+	mes "[Dai-In]";
+	mes "Please, choose your option.."
+	next;
+	menu "Reset Skills - FREE",L_Skill,"Reset Stats - FREE",L_Stat,"Leave.",L_Cancel;
+    L_Skill:
+	mes "[Dai-In]";
+	mes "You've chosen the reset skill option, here we go...";
+	next;
+	option 0,0;
+	option 1,0;
+	option 2,0;
+	resetskill;
+	mes "[Dai-In]";
+	mes "There we go, all finished, be more careful with your skills from here on."
+	close;
+    L_Stat:
+	mes "[Dai-In]";
+	mes "You've chosen the reset stat option, here we go...";
+	next;
+	resetstat;
+	mes "[Dai-In]";
+	mes "There we go, all finished, be more careful with your stats from here on."
+	close;
+    L_Cancel:
+	mes "[Dai-In]";
+	mes "Oh, I see...";
+	close;
+}

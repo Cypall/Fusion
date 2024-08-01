@@ -1,0 +1,3 @@
+//gl_dun01.gat,133,277,0	warp	warp0319	1,1,gl_sew04.gat,101,78
+//gl_dun01.gat,225,18,0	warp	warp0320	1,1,gl_dun02.gat,224,274
+//gl_dun02.gat,224,277,0	warp	warp0321	1,1,gl_dun01.gat,225,22

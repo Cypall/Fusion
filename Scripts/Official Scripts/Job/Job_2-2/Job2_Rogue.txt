@@ -1,0 +1,72 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Rogue Job Changer - Non Player Character Locations
+//
+// - Rogue's Lady -> in_rogue: 363,122
+//   Npc where you can become a Rogue.
+//
+// - Mr. Smith -> in_rogue: 376,23
+//   Talks very weird.
+//
+//========================================================================================
+
+in_rogue.gat,363,122,4 script "Rogue Guildsman" 747,{
+      check Job == 6,-,L_MENU1_F1;
+      mes "[Rogue Guildsman]";
+      mes "Good Day,This is the Rogues Guild.";
+      next;
+      menu "Change job to rogue",L_MENU1,"The Refuirements",L_MENU2,"End",-;
+      close;
+L_MENU1:
+      mes "[Rogue Guildsman]";
+      mes "First I'll check if all the refuirements have been met.";
+      next;
+      check JobLevel >= 40,-,L_MENU1_F2;
+      check SkillPoint == 0,-,L_MENU1_F3;
+      jobchange 17;
+      mes "[Rogue Guildsman]";
+      mes "Welcome to the rogue's guild!";
+      close;
+L_MENU1_F1:
+      mes "[Rogue Guildsman]";
+      mes "...Get your ugly ass out of here!";
+      close;
+L_MENU1_F2:
+      mes "[Rogue Guildsman]";
+      mes "I can't make u a rogue with your current joblevel.";
+      close;
+L_MENU1_F3:
+      mes "[Rogue Guildsman]";
+      mes "Please use up all your skills first.";
+      close;
+L_MENU2:
+      mes "[Rogue Guildsman]";
+      mes "Thieves of Job Level 40 and above may become Rogue's";
+      next;
+      mes "[Rogue Guildsman]";
+      mes "We Rogues Strive to help rid the world of Monster and fill out our pockets with Zeny.";
+      close;
+}
+
+in_rogue.gat,376,23,4 script "Mr. Smith" 57,{
+      mes "[Mr. Smith]";
+      mes "Ok ok...one..two...three..";
+      mes "Where do you do your business...is";
+      mes "it...Morroc?..Geffen...Comodo?...";
+      next;
+      mes "[Mr. Smith]";
+      mes "Uhh.....headache...";
+      next;
+      mes "[Mr. Smith]";
+      mes "Uh? What are you?";
+      mes "if you are gonna talk about the jobchange,";
+      mes "go talk to the other guy first.";
+      next;
+      mes "[Mr. Smith]";
+      mes "......Shit! I forgot what I was counting!!";
+      close;
+}

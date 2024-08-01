@@ -1,0 +1,139 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Jellopy Event - Non Player Character Location
+//
+// - Phelix -> alberta: 190,173
+//   Trades Jellopies for Potato and Red Potion.
+//
+//========================================================================================
+alberta.gat,190,173,4 script "Phelix" 85,{
+			check event_zelopy == 1,L_Choose,-;
+	mes "[Phelix]";
+	mes "What the hell are you doing here?";
+	mes "There is nothing you can get for free in this ship. If you want to get rewarded, Do some work!!";
+	next;
+	mes "[Phelix]";
+	mes "Hmm, however if you bring me 10 Jellopies I will consider to give you 1 potion.";
+	mes "Well, if it's too much of a burden on you, 3 Jellopies are affordable for 1 sweet potato.";
+	next;
+	mes "[Phelix]";
+	mes "If you are interested in my offer, bring me the stuff required.";
+	set event_zelopy = 1;
+	next;
+L_Choose:
+	mes "[Phelix]";
+	mes "Hmm.. do you want to exchange Jellopies for Red Potions or Sweet Potato's? Well.. Wich do you want to get?";
+	next;
+	menu "Red Potions please.",L_Potion,"Sweet Potato's please.",L_Sweet;
+L_Potion:
+	set @BUY_ID = 909;
+	set @GET_ID = 501;
+	mes "[Phelix]";
+	mes "Ok then let me take a look at the stuff you brought..";
+	next;
+	mes "[Phelix]";
+		checkitem @BUY_ID,10,-,Errorp2;
+	mes "Ho...Well done.";
+	mes "How many potions do you want to get?";
+	next;
+		set l2 = 0;
+	menu "As many as I can,please.",Manyp,"I want to set numbers.",Setp,"Well I want to cancel.",L_End;
+Manyp:
+		checkitem @BUY_ID,10,-,Manypb;
+		delitem @BUY_ID,10;
+		set l2 += 1;
+	goto Manyp;
+Manypb:
+		check l2 == 0,Errorp2,-;
+		additem @GET_ID,l2;
+	goto Give_Pots;
+Setp:
+	mes "[Phelix]";
+	mes "Write numbers less than 100, OK? If you change your mind, just write '0'.";
+Setpots:	
+		input @flag_num;
+		mes "[Phelix]";
+		check @flag_num <= 0,L_Come,-;
+		check @flag_num >= 100,Errorp,-;
+		set @flag_total = @flag_num;
+		set @flag_total * 10;
+		checkitem @BUY_ID,@flag_total,-,NotJelp;
+		delitem @BUY_ID,@flag_total;
+		additem @GET_ID,@flag_num;
+	goto Give_Pots;
+NotJelp:
+	mes "Well well you don't have enough Jellopies.";
+	mes "Go get more Jellopies for your convenience.";
+	close;
+Errorp:
+	mes "It is unfair demand, I can't give you more than 100 at one time. Set the numbers again.";
+	next;
+	goto Setpots;
+Give_Pots:
+	mes "There you go~! The Red Potions I promised. Hopefully they will be useful for you.";
+	close;	
+Errorp2:
+	mes "Ouch! It's not enough. I said 10 Jellopies go with 1 Red Potion. Do you understand?";
+	close;
+L_Sweet:
+		set @BUY_ID = 909;
+		set @GET_ID = 516;
+	mes "[Phelix]";
+	mes "Ok then let me take a look at the stuff you brought..";
+	next;
+	mes "[Phelix]";
+		checkitem @BUY_ID,10,-,Errors2;
+	mes "Ho...Well done.";
+	mes "How many potato's do you want to get?";
+	next;
+		set r2 = 0;
+	menu "As many as I can,please.",Manysweet,"I want to set numbers.",Sets,"Well I want to cancel.",L_End;
+Manysweet:
+		checkitem @BUY_ID,3,-,Manysweetb;
+		delitem @BUY_ID,3;
+		set r2 += 1;
+	goto Manysweet;
+Manysweetb:
+		check r2 == 0,Errorp2,-;
+		additem @GET_ID,r2;
+	goto Give_Sweet;
+
+Sets:
+	mes "[Phelix]";
+	mes "Write numbers less than 100, OK? If you change your mind, just write '0'.";
+Setsweet:	
+		input @flag_num;
+		mes "[Phelix]";
+		check @flag_num <= 0,L_Come,-;
+		check @flag_num >= 100,Errors,-;
+		set @flag_total = @flag_num;
+		set @flag_total * 3;
+		checkitem @BUY_ID,@flag_total,-,NotJels;
+		delitem @BUY_ID,@flag_total;
+		additem @GET_ID,@flag_num;
+	goto Give_Sweet;
+NotJels:
+	mes "Well well you don't have enough Jellopies.";
+	mes "Go get more Jellopies for your convenience.";
+	close;
+Errors:
+	mes "It is unfair demand, I can't give you more than 100 at one time. Set the numbers again.";
+	next;
+	goto Setsweet;
+Give_Sweet:
+	mes "There you go~! The Sweet Potato's I promised. Hopefully they will be useful for you.";
+	close;
+L_Come:
+	mes "Come again whenever you want.";
+	close;	
+Errors2:
+	mes "Ouch! It's not enough. I said 3 Jellopies for 1 Sweet Potato. Do you understand?";
+	close;
+L_End:
+	close;
+
+}

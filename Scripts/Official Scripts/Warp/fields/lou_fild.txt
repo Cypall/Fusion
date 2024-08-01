@@ -1,0 +1,13 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Louyang Field Warps - Warp Locations
+// - Credits to Sarachin for doing some of the warps.
+//
+//========================================================================================
+
+louyang.gat,217,23,0	    warp	loufieldwarp001	3,1,lou_fild01.gat,232,354
+lou_fild01.gat,232,357,0    warp	loufieldwarp001	2,1,louyang.gat,217,40

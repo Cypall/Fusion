@@ -1,0 +1,3 @@
+xmas_fild01.gat,69,252,0	warp	warp1411	10,2,xmas.gat,149,44
+xmas_fild01.gat,84,48,0	warp	warp1412	10,2,aldebaran.gat,140,234
+xmas_fild01.gat,90,252,0	warp	warp1413	10,2,xmas.gat,149,44

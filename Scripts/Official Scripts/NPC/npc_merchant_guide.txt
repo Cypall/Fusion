@@ -1,0 +1,108 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Prontera Library - Non Player Character Locations
+//
+// - Guideline for Merchants -> prt_in: 162,68
+//   Give information for new merchants.
+//
+// - Guideline for Blacksmiths -> prt_in: 168,68
+//   Give information for new blacksmiths.
+//
+//========================================================================================
+
+prt_in.gat,162,68,4	script	"Guideline for Merchants"	111,{
+	mes "^FF0000[`Merchant Guideline' for Dummies]^000000";
+	mes "Please go over the next page if you want to check `Vending'.";
+	next;
+	menu "Go over the next page",NextPage,"Close the book",CloseB;	
+	NextPage:
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "To Vend a Shop,first you must equip a ^0099FFCart^000000.";
+		mes "You can rent a cart from Kafra.When equipped once,it won't be disappeared as long as you don't take off.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "However,this cart diminishes moving speed.You can recover moving speed after learning `Push Cart' the skill.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "When learn `Push Cart' over 3 points,it will allow you to learn `Vending'.You can display 3 kinds of item on your shop with Vending at first.";
+		mes "As Vending skill goes higher, it will allow you to display more items.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "Let's store things you want to sell in the Cart.";
+		mes "To open Cart Window,Use ^0099FFalt+W^000000 as hotkey.Or it will be open when you click `Item' icon on equipment(alt+Q) window.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "Now Use `Vending' skill.2 kinds of Window-`Item Shop' and `Item you want to sell'- will pop up.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "On `Item Shop' window,name your shop.Then Drag items onto `Item you want to sell' window and Fix the price.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "When close `My Shop' window,your shop will be closed.You can check each price of items with a mouse on the items. Meanwhile it keeps being recorded on Chat window how many items or which kind have been sold.";
+		next;
+		mes "^FF0000[Vending Guide for Dummies]^000000";
+		mes "When everything's sold out,the shop will be closed automatically.";
+		close;
+	CloseB:
+		close;
+}
+
+prt_in.gat,168,68,4	script	"Guideline for Blacksmiths"	111,{
+	mes "^FF0000[Blacksmith Guide for Dummies]^000000";	
+	mes "You can get the information about how to refine Ores and about Weapon Craft Skills.";
+	next;
+	menu "Ore Refining.",OreRef,"Weapon Craft.",WeaCra,"Cancel.",Cancel;
+	OreRef:
+		mes "^FF0000[Ore Refining for Dummies]^000000";		
+		mes "Please go over the next page if you want to know how to refine Ores.";	
+		next;
+		menu "Ok",OreRefOk,"Cancel",EndOreRef;
+		OreRefOk:
+			mes "^FF0000[Ore Refining for Dummies]^000000";	
+			mes "Rough Ores like Iron Ore or Raw Materials for Enchanted Stones can be polished into High Quality Ones.For that, ^0099FFFurnace^000000 is needed.";
+			mes "One High Quality Ore needs several Rough Ones to be refined.";
+			next;
+			mes "^FF0000[Ore Refining for Dummies]^000000";	
+			mes "When enough items are gathered,Double Click `Furnace'.You can use a Furnace only one time for refining.";
+			next;
+			mes "^FF0000[Ore Refining for Dummies]^000000";	
+			mes "Possible ores you can refine will pop up on a new window.You can make Ore with a click the name of Ore you need.";
+			next;
+			mes "^FF0000[Ore Refining for Dummies]^000000";	
+			mes "However it has a possiblity to be failed.";
+			close;
+		EndOreRef:
+			close;
+		close;
+	WeaCra:
+		mes "^FF0000[Weapon Craft for Dummies]^000000";		
+		mes "Please go over the next page if you want to learn how to Smith Weapons.";	
+		next;
+		menu "Ok",WeaCraOk,"Cancel",EndWeaCra;
+		WeaCraOk:	
+			mes "^FF0000[Weapon Craft for Dummies]^000000";	
+			mes "Learn a Skill from `Smith Sword,Two-Handed Sword,Spear,Mace,Brassknuckle' which allows you to make the pertinent weapon.";
+			next;
+			mes "^FF0000[Weapon Craft for Dummies]^000000";	
+			mes "Every Weapon needs ^0099FFSteel^000000 and ^0099FFHammer^000000.You can use a Hammer one time and it will be disapeared whenever used.";
+			next;
+			mes "^FF0000[Weapon Craft for Dummies]^000000";	
+			mes "When Double Click on a Hammer,a new window which lists of items you can make will pop up.";				
+			mes "Clicking a Weapon on that list will show the required items and their numbers.But they will be exhausted automatically,so just know this.";
+			next;
+			mes "^FF0000[Weapon Craft for Dummies]^000000";	
+			mes "On that list window,there are 3 sockets which enable you to input some special items like Enchanted Stone or Star Crumb.These items amplify the weapon ability";
+			next;
+			mes "^FF0000[Weapon Craft for Dummies]^000000";	
+			mes "And they have different possibility of Success by their characters.";
+			close;
+		EndWeaCra:
+			close;
+		close;
+	Cancel:
+		close;
+}

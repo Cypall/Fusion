@@ -1,0 +1,73 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Hunter Jobchange - Non Player Character Locations
+// - Original script by Khali
+//
+// - Hunter -> in_hunter: 100,99
+//   Changes you into a hunter.
+//
+// - Hunter -> pay_fild10: 148,252
+//   Warps you to hunters guild.
+//
+//========================================================================================
+
+in_hunter.gat,100,99,4 script "Hunter" 98,{
+      mes "[Hunter]";
+      mes "Good day, welcome to the Hunter Guild.";
+      next;
+      menu "Change job into a Hunter",L_MENU1,"Requirements",L_MENU2,"End",-;
+      close;
+L_MENU1:
+      mes "[Hunter]";
+      mes "First I'll check if all the requirements have been met.";
+      next;
+         check Job == 3,-,L_MENU1_F1;
+         check JobLevel > 39,-,L_MENU1_F2;
+         check SkillPoint == 0,-,L_MENU1_F3;
+         jobchange 11;
+      mes "[Hunter]";
+      mes "Congradulations, you are now a Hunter!";
+      close;
+L_MENU1_F1:
+      mes "[Hunter]";
+      mes "You must be a archer before you can become a hunter.";
+      close;
+L_MENU1_F2:
+      mes "[Hunter]";
+      mes "You must be at least Job Level 40 to become a hunter.";
+      close;
+L_MENU1_F3:
+      mes "[Hunter]";
+      mes "Please up all your skillpoints.";
+      close;
+L_MENU2:
+      mes "[Hunter]";
+      mes "To become a hunter you must complete the following:";
+      mes "- Become a Archer";
+      mes "- Gain Job Level 40";
+      next;
+      mes "[Hunter]";
+      mes "Good luck.";
+      close;
+}
+
+pay_fild10.gat,148,252,4 script "Hunter" 98,{
+      mes "[Hunter]";
+      mes "You came for the Hunter job?";
+      menu "Yes",L_YES,"No",L_NO;
+L_YES:
+      mes "[Hunter]";
+      mes "Alright, follow me.";
+      next;
+         warp "in_hunter",100,18;
+      close;
+L_NO:
+      mes "[Hunter]";
+      mes "Have a nice day.";
+      close;
+}
+

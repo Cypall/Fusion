@@ -1,0 +1,6 @@
+tur_dun01.gat,154,242,0	warp	warp1526	1,1,tur_dun02.gat,147,263
+tur_dun02.gat,147,269,0	warp	warp1527	1,1,tur_dun01.gat,154,239
+tur_dun02.gat,168,19,0	warp	warp1528	1,1,tur_dun03.gat,131,191
+tur_dun03.gat,131,194,0	warp	warp1529	1,1,tur_dun02.gat,168,23
+tur_dun03.gat,218,70,0	warp	warp1530	1,1,tur_dun04.gat,99,194
+tur_dun04.gat,99,197,0	warp	warp1531	1,1,tur_dun03.gat,218,74

@@ -1,0 +1,95 @@
+prt_are01.gat,152,147,1	script	"Experimental and Others"	811,{
+	mes "For the following commands:"
+	mes "18:viewpoint";
+	mes "21:option";
+	mes "Use a Kafra";
+	next;
+	mes "For the following commands:";
+	mes "35:npctimer";
+	mes "36:addnpctimer";
+	mes "38:warpallpc";
+	mes "39:waitingroom";
+	mes "8:warp";
+	mes "Warp to the Arena";
+	next;
+	menu "Warp to the Time Attack Arena",-,"Experimental NPC Commands",unknown,"Experimental eventmob",event_mob,"Random jobchange",rj,"Suicide",booth,"Modify Speed",smenu,"Remove Equipment",re,"Misc",misc;
+		warp "prt_are_in",90,90;
+		close;
+	unknown:
+		mes "64:BaseReset";
+		mes "68:addskillpoints";
+		mes "69:addstatpoints";
+		mes "Will be tested...";
+		next;
+		mes "Please watch your base level, it should become reset";
+		next;
+		basereset;
+		mes "Your baselevel should become 1";
+		mes "Open your skills and stat window";
+		mes "I will add 2 to each";
+		next;
+		addskillpoints 2;
+		addstatpoints 2;
+		mes "done, they should have increased.";
+		mes "this test is finished;
+		close;
+	event_mob:
+		mes "now i will test eventmob";
+		mes "67:eventmob";
+		mes "It should always drop the card";
+		next;
+		eventmob 1002,"Perfect",150,150,4001;
+		mes "This concludes this test";
+		close;
+	rj:
+		mes "I will now turn you into an assassin using"
+		mes "17:jobchange";
+		next;
+		jobchange 12;
+		close;
+	booth:
+		mes "i will use the command";
+		mes "23:die";
+		mes "goodbye."
+		next;
+		die;
+		close;
+	smenu:
+		mes "Please select";
+		mes "This uses 22:speed";
+		next;
+		menu "Slow",-,"Medium",Med,"Fast",Fast;
+			speed 50;
+			mes "done";
+			close;
+		Med:
+			speed 100;
+			mes "done";
+			close;
+		Fast:
+			speed 150;
+			mes "done";
+			close;
+	re:
+		mes "i will now disarm you, please watch your equipment screen.";
+		mes "63:Remove Equipment";
+		next;
+		removeequipment;
+		mes "done";
+		close;
+	misc:
+		mes "I have no idea how these work";
+		mes "29:refinery";
+		mes "43:setstr";
+		mes "44:checkstr";
+		mes "56:guilddinvest";
+		mes "58:getagit";
+		mes "59:getguild";
+		mes "60:agitregist";
+		mes "61:movenpc (incomplete)";
+		next;
+		mes "and i have the idea of how these might work, but you must talk to a refiner to try it out.";
+		mes "25:refine";
+		mes "30:equipmenu";
+		close;
+}

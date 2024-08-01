@@ -1,0 +1,7 @@
+gld_dun03.gat,238,274,0	warp	warp1876	1,1,prt_gld.gat,252,247
+gld_dun03.gat,42,30,0	warp	warp1877	1,1,prt_gld.gat,63,66
+gld_dun02.gat,20,160,0	warp	warp1878	1,1,alde_gld.gat,229,185
+gld_dun02.gat,180,112,0	warp	warp1879	1,1,alde_gld.gat,242,121
+gld_dun01.gat,119,14,0	warp	warp1880	1,1,pay_gld.gat,53,141
+gld_dun04.gat,37,230,0	warp	warp1881	1,1,gef_fild13.gat,42,331
+gld_dun04.gat,110,20,0	warp	warp1882	1,1,gef_fild13.gat,373,62

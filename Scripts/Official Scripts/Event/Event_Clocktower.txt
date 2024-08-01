@@ -1,0 +1,265 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Clocktower Event - Non Player Character Locations
+// - Guardians Translated from jathena by the RPG-Advocate.
+//
+// - Bell Keeper -> aldebaran: 143,136
+//   Inform about the Clock Tower.
+//
+// - Guardian -> c_tower3: 10,249
+//   Grants you acces to Clock Tower lvl 4.
+//
+// - Guardian -> alde_dun03: 264,16
+//   Grants you acces to Clock Tower Basement lvl 4.
+//
+//========================================================================================
+
+aldebaran.gat,143,136,4	script "Bell Keeper" 89,{
+	mes "[Bell Keeper]";
+	mes "Let me introduce myself, I am 'Monster A' the keeper of Al De Baran Clock Tower,in Committee of 'Heaven on Earth'.";
+	mes "So you looks like taking great interest in this tower. Do you want me to inform a good tip?";
+	next;
+	menu "About Clock Tower.",L_About,"About Committe of 'Heaven on Earth'.",L_Committe,"Quit",-;
+	close;
+L_About:
+	mes "[Bell Keeper]";
+	mes "Every floor of this tower is connected each other by a certain device.";
+	mes "That is a device called 'Warp Gear'.";
+	next;
+	mes "[Bell Keeper]";
+	mes "Even though warps existing everywhere in the clock tower are connected each other,";
+	mes "you should be careful with 'Random Warp' which transports you into the unknown spot.";
+	mes "If you don't want to be apart from your friends all of a sudden, be advised.. ";
+	next;
+	mes "[Bell Keeper]";
+	mes "I will give you another useful tip,Random warps are shown in green colour on the mini-map.So keep your eyes on the mini-map.";
+	mes "Have a good time with bunch of watches. Huhuhuhuh...";
+	close;
+L_Committe:
+	mes "[Bell Keeper]";
+	mes "Ho~Have you ever happen to hear of committee of 'Heaven on Earth'?!";
+	next;
+	menu "Yup,I have",L_Yup,"What are they?",-;
+	mes "[Bell Keeper]";
+	mes "Ouch,I didn't expect anyone still could be ignorant of our committee.. Tell you what.";
+	mes "We are trying to build a Heaven on earth,especially in this place, Al De Baran. For the start,we built this clock tower.";
+	next;
+	mes "[Bell Keeper]";
+	mes "We drew up a plan of Glast Heim a long time ago.";
+	mes "You will see great achievements of our own in many places.";
+	close;
+L_Yup:
+	mes "[Bell Keeper]";
+	mes "Muhahahaha,good good.Now I am so glad that we make a reputation all over the Rune-Midgard as you know us.";
+	mes "What a great day to meet a adventurer like you! I would like to present  you this.";
+	next;
+	mes "[Bell Keeper]";
+	mes "Oops..where did I leave it...";
+	mes "Oh well well~ it seems I left the present I intended to give you in the control room at the 4th floor.I promise I will give it to you next time. See you later.";
+	close;
+}
+
+
+c_tower3.gat,10,249,4 script "Guardian" 84,{
+	mes "[Guardian Rick]";
+	mes "Welcome to the floating city";
+	mes "Aldeberan's crown jewel, the";
+	mes "clock tower.";
+	mes "I stand watch at the entrance";
+	mes "to the fourth floor.  If you have";
+	mes "no business here, please leave.";
+	next;
+	menu "Tell me about the tower.",L_About,"What's on the 4th floor?",L_What,"Take me to the 4th floor.",L_Take,"Nevermind.",-;
+	mes "[Guardian Rick]";
+	mes "This clock tower is where";
+	mes "three renowned alchemists";
+	mes "did their work.";
+	mes "Please don't touch anything";
+	mes "in the clock tower.";
+	close;
+L_About:
+	mes "[Guardian Rick]";
+	mes "In ancient times, Aldeberan was a";
+	mes "mecca for alchemists.  Three distinguished";
+	mes "alchemy teachers occupied this tower:";
+	mes "Burkesmeyer,";
+      mes "Philip Warisez,";
+	mes "and...";
+	next;
+	mes "[Guardian Rick]";
+	mes "Romero sphire!";
+	mes "At the time the alchemists";
+	mes "constructed this clock tower,";
+	mes "it was considered a magnificent";
+	mes "structure, even considering its";
+	mes "relative lack of height.";
+	next;
+	mes "[Guardian Rick]";
+	mes "Their intent was to build";
+	mes "a structure suitable for";
+	mes "ancient ritual magic.";
+	mes "Before that, they were just";
+	mes "wandering aimlessly.";
+	next;
+	mes "[Guardian Rick]";
+	mes "You may encounter demons";
+	mes "while exploring the tower, so";
+	mes "don't get complacent...";
+	close;
+L_What:
+	mes "[Guardian Rick]";
+	mes "In order to protect their";
+	mes "work from demons and agents";
+	mes "of hostile countries, the";
+	mes "alchemists sealed the door";
+	mes "to the fourth floor.  In";
+      mes "order to unseal it, you must";
+	next;
+	mes "[Guardian Rick]";
+	mes "find the key that unlocks it.";
+	mes "One of the demons in this";
+	mes "tower probably has the key.";
+	next;
+	mes "[Guardian Rick]";
+	mes "The key was created ";
+	mes "using extreme alchemical";
+	mes "processes.";
+	next;
+	mes "[Guardian Rick]";
+	mes "Once you find the key,";
+	mes "please come back and";
+	mes "show it to me.";
+	mes "When you do, you can";
+	mes "pass.";
+	next;
+	mes "[Guardian Rick]";
+	mes "If you're tough and";
+	mes "luck is on your side,";
+	mes "you'll probably find it.";
+	mes "...";
+	close;
+L_Take:
+	   checkitem 7026,1,-,L_Nitem;
+	mes "[Guardian Rick]";
+	mes "I thought as much!  I sensed your";
+	mes "unusual aura from the";
+	mes "moment I met you!";
+	mes "You're ready to go through the door.";
+	mes "Good luck to you.";
+	next;
+	   delitem 7026,1;
+	   warp "c_tower4",185,44;
+L_Nitem:
+	mes "[Guardian Rick]";
+	mes "...";
+	mes "The alchemists took great";
+	mes "pains to protect their work.";
+	mes "If you don't think you're suited";
+	mes "to try and open the door, you should";
+	mes "get stronger and try again later.";
+	close;
+}
+
+alde_dun03.gat,264,16,4	script "Guardian" 101,{
+	mes "[Guardian Eye]";
+	mes "Welcome to the floating city";
+	mes "Aldeberan's crown jewel, the";
+	mes "clock tower.";
+	mes "I stand watch at the entrance";
+	mes "to the fourth basement.  If you have";
+	mes "no business here, please leave.";
+	next;
+	menu "Tell me about the clock tower",L_About,"What's on B4F?",L_What,"Take me to B4F.",L_Take,"Nevermind.",-;
+	mes "[Guardian Eye]";
+	mes "This clock tower is where";
+	mes "three renowned alchemists";
+	mes "did their work.";
+	mes "Please don't touch anything";
+	mes "in the clock tower.";
+	close;
+L_About:
+	mes "[Guardian Eye]";
+	mes "In ancient times, Aldeberan was a";
+	mes "mecca for alchemists.  Three distinguished";
+	mes "alchemy teachers occupied this tower:";
+	mes "Burkesmeyer,";
+      mes "Philip Warisez,";
+	mes "and...";
+	next;
+	mes "[Guardian Eye]";
+	mes "Romero sphire!";
+	mes "At the time the alchemists";
+	mes "constructed this clock tower,";
+	mes "it was considered a magnificent";
+	mes "structure, even considering its";
+	mes "relative lack of height.";
+	next;
+	mes "[Guardian Eye]";
+	mes "Their intent was to build";
+	mes "a structure suitable for";
+	mes "ancient ritual magic.";
+	mes "Before that, they were just";
+	mes "wandering aimlessly.";
+	next;
+	mes "[Guardian Eye]";
+	mes "You may encounter demons";
+	mes "while exploring the tower, so";
+	mes "don't get complacent...";
+	close;
+L_What:
+	mes "[Guardian Eye]";
+	mes "In order to protect their";
+	mes "work from demons and agents";
+	mes "of hostile countries, the";
+	mes "alchemists sealed the door";
+	mes "to the fourth basement.  In";
+	mes "order to unseal it, you must";
+	next;
+	mes "[Guardian Eye]";
+	mes "find the key that unlocks it";
+	mes "One of the demons in this";
+	mes "tower probably has the key.";
+	next;
+	mes "[Guardian Eye]";
+	mes "The key was created ";
+	mes "using extreme alchemical";
+	mes "processes.";
+	next;
+	mes "[Guardian Eye]";
+	mes "Once you find the key,";
+	mes "please come back and";
+	mes "show it to me.";
+	mes "When you do, you can";
+	mes "pass.";
+	next;
+	mes "[Guardian Eye]";
+	mes "If you're tough and";
+	mes "luck is on your side,";
+	mes "you'll probably find it.";
+	mes "...";
+	close;
+L_Take:
+	   checkitem 7027,1,-,L_Nitem;
+	mes "[Guardian Eye]";
+	mes "I thought as much!  I sensed your";
+	mes "unusual aura from the";
+	mes "moment I met you!";
+	mes "You're ready to go through the door.";
+	mes "Good luck to you.";
+	next;
+	   delitem 7027,1;
+	   warp "alde_dun04",79,267;
+L_Nitem:
+	mes "[Guardian Eye]";
+	mes "...";
+	mes "The alchemists took great";
+	mes "pains to protect their work.";
+	mes "If you don't think you're suited";
+	mes "to try and open the door, you should";
+	mes "get stronger and try again later.";
+	close;
+}

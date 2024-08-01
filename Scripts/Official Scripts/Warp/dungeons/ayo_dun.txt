@@ -1,0 +1,69 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Ayothaya Dungeon Warps - Warp Locations
+//
+//========================================================================================
+
+ayo_fild02.gat,285,150,0	warp	ayodunwarp001	2,2,ayo_dun01.gat,275,17
+ayo_dun01.gat,275,14,0		warp	ayodunwarp002	2,2,ayo_fild02.gat,282,150
+ayo_dun02.gat,23,21,0		warp	ayodunwarp003	2,2,ayo_fild02.gat,306,220
+ayo_dun02.gat,276,22,0		warp	ayodunwarp004	2,2,ayo_fild02.gat,305,79
+
+ayo_dun01.gat,27,273,0 script "" 139,1,1,{
+//		check @ayo_quest = 1,L2,L1;
+		check @ayo_quest = 1,L1,L2;
+	return;
+L1:
+	die;
+	return;
+
+L2:
+	warp "ayo_dun02",74,170;
+	return;
+}
+
+ayo_dun01.gat,273,273,0 script "" 139,1,1,{
+//		check @ayo_quest = 1,L2,L1;
+		check @ayo_quest = 1,L1,L2;
+	return;
+L1:
+	die;
+	return;
+
+L2:
+	warp "ayo_dun02",225,170;
+	return;
+}
+
+ayo_dun01.gat,27,27,0 script "" 139,1,1,{
+//		check @ayo_quest = 1,L2,L1;
+		check @ayo_quest = 1,L1,L2;
+	return;
+L1:
+	die;
+	return;
+
+L2:
+	warp "ayo_dun02",74,95;
+	return;
+}
+
+ayo_dun01.gat,273,27,0 script "" 139,1,1,{
+//		check @ayo_quest = 1,L2,L1;
+		check @ayo_quest = 1,L1,L2;
+	return;
+L1:
+	die;
+	return;
+
+L2:
+	warp "ayo_dun02",225,95;
+	return;
+}
+
+
+

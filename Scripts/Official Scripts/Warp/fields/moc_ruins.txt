@@ -1,0 +1,4 @@
+moc_ruins.gat,54,161,0	warp	warp0651	2,3,moc_pryd01.gat,192,9
+moc_ruins.gat,71,16,0	warp	warp0652	8,2,moc_fild19.gat,71,167
+moc_ruins.gat,157,37,0	warp	warp0653	5,2,morocc.gat,26,293
+moc_ruins.gat,161,40,0	warp	warp0654	2,4,morocc.gat,26,293

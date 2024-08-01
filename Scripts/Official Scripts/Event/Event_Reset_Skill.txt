@@ -1,0 +1,62 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Skill Reset Event - Non Player Character Locations
+//
+// - Skill Resetter -> yuno: 138,187
+//   Resets your Skills.
+//
+//========================================================================================
+
+yuno.gat,138,187,6 script "Skill Resetter" 124,{
+      mes "[Skill Resetter]";
+      mes "Hello, I am the Skill Resetter.";
+      mes "How may I help you?";
+      next;
+      menu "^3366CCInformation about Reset skills.^000000",L_Inf,"^CC3366Reset skills.^000000",L_Reset,"Nevermind",-;
+      mes "[Skill Resetter]";
+      mes "You know where to find me,";
+      mes "if you ever want a reset!!"; 
+      close;
+L_Inf:
+      mes "[Skill Resetter]";
+      mes "A skills reset is going";
+      mes "to cost you 20.000 Zeny.";
+      next;
+      mes "[Skill Resetter]";
+      mes "Oh yeah, one more thing!";
+      mes "Any carts, falcon or peco's you have equiped,";
+      mes "will be removed if you will Reset your Skills.";
+      close;
+L_Reset:
+	   check Job >= 1,-,L_Novice;
+	   check SkillPoint == 0,-,L_Skillp;
+         check zeny >= 20000,-,L_Nzeny; 
+         set zeny -= 20000;
+      mes "[Skill Resetter]";
+      mes "Allright, here we go.";
+      next;
+         option 0,0;
+         option 1,0;
+         option 2,0;
+         resetskill;
+	mes "[Reset Girl]";
+      mes "There we go, all finished, be more";
+      mes " careful with your skills from here on.";
+      close;
+L_Nzeny:
+      mes "[Skill Resetter]";
+      mes "Hmm, it seems you don't have enough zeny!"; 
+      close;
+L_Skillp:
+      mes "[Skill Resetter]";
+      mes "Please use up all your skillpoints."; 
+      close;
+L_Novice:
+      mes "[Skill Resetter]";
+      mes "I am sorry but this service is unavailable to novices!!"; 
+      close;
+}

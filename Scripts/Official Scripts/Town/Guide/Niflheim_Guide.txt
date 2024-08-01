@@ -1,0 +1,81 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Niflheim Guides - Non Player Character Locations
+//
+// - Lost Person -> niflheim: 128,94
+//   Shows you the way arround niflheim.
+//
+//========================================================================================
+
+niflheim.gat,186,190,6 script "Lost person" 798,{
+ 	mes "[Rikael]"; 
+	mes "You've come to a very dangerous place..."; 
+	mes "You must have lost your way as well."; 
+	mes "I came here following the big tree"; 
+	mes "but I have not been able to leave."; 
+	next; 
+	mes "[Rikael]"; 
+	mes "Even now I am looking for the exit.";
+ 	mes "I only know my way around the town."; 
+	mes "It might help you get out,"; 
+	mes "so please don't hesitate to ask."; 
+	next; 
+	menu "Ask about the town",L_Menu1,"Wipe all indications from the minimap",L_Menu2,"Stop talking",-; 
+	mes "[Rikael]"; 
+	mes "Its very dangerous to walk there"; 
+	mes "directy... but good luck."; 
+	close; 
+L_Menu1: 
+	mes "[Rikael]"; 
+	mes "What would you like to know?"; 
+	next; 
+	menu "The witches' castle",-,"Item Shop",L1_2,"Weapon Shop",L1_3,"Pub",L1_4,"Cancel",L1_5; 
+	mes "[Rikael]"; 
+	mes "There is a very powerful witch in Niffleheim."; 
+	mes "At this point ^FF3355+^000000, you will be at the"; 
+	mes "witches' castle. I have been there only once,"; 
+	mes "but I was so afraid I left immediately.";
+		viewpoint 1,253,191,1,0xFF3355; 
+	close; 
+L1_2: 
+	mes "[Rikael]"; 	
+	mes "The Item Shop is located at this point ^CE6300+^000000."; 
+	mes "They sell rare items which can't be"; 
+	mes "found outside, so it might be worth taking"; 
+	mes "a quick look."; 
+		viewpoint 1,217,196,2,0xCE6300;
+	close; 
+L1_3: 
+	mes "[Rikael]"; 
+	mes "The Weapon Shop is located at this point ^55FF33+^000000."; 
+	mes "They sell rare waepons which can't be"; 
+	mes "found outside, so it might be worth taking"; 
+	mes "a quick look."; 
+		viewpoint 1,216,171,3,0x55FF33; 
+	close; 
+L1_4: 
+	mes "[Rikael]"; 
+	mes "The pub is located here ^3355FF+^000000."; 
+	mes "Sometimes the dead congregate here and party."; 
+		viewpoint 1,189,207,4,0x3355FF; 
+	close; 
+L1_5: 
+	mes "[Rikael]"; 
+	mes "If you would like to remove the indications,"; 
+	mes "please select the 'Wipe all indications from the minimap' option.; 
+	close; 
+L_Menu2: 
+		viewpoint 2,253,191,1,0x00FF00;
+ 		viewpoint 2,217,196,2,0x00FF00; 
+		viewpoint 2,216,171,3,0x00FF00; 
+		viewpoint 2,189,207,4,0x00FF00; 
+	mes "[Rikael]"; 
+	mes "I have removed all indications on the minimap.";
+	mes "If you would like them removed again,";
+	mes "come back to me whenever."; 
+	close; 
+}

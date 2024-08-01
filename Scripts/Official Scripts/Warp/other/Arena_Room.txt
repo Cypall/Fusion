@@ -1,0 +1,25 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//  
+// Arena Room Warps - Warp Portals Location
+//
+//========================================================================================
+
+arena_room.gat,115,72,0		warp	arena_roomwarp001	2,2,arena_room.gat,138,51
+arena_room.gat,136,53,0		warp	arena_roomwarp001	2,2,arena_room.gat,113,74
+arena_room.gat,84,72,0		warp	arena_roomwarp001	2,2,arena_room.gat,61,51
+arena_room.gat,63,53,0		warp	arena_roomwarp001	2,2,arena_room.gat,86,74
+arena_room.gat,76,87,0		warp	arena_roomwarp001	2,2,arena_room.gat,46,87
+arena_room.gat,49,87,0		warp	arena_roomwarp001	2,2,arena_room.gat,79,87
+arena_room.gat,123,87,0		warp	arena_roomwarp001	2,2,arena_room.gat,153,87
+arena_room.gat,150,87,0		warp	arena_roomwarp001	2,2,arena_room.gat,120,87
+arena_room.gat,84,103,0		warp	arena_roomwarp001	2,2,arena_room.gat,64,129
+arena_room.gat,64,126,0		warp	arena_roomwarp001	2,2,arena_room.gat,86,101
+arena_room.gat,115,103,0	warp	arena_roomwarp001	2,2,arena_room.gat,135,129
+arena_room.gat,135,126,0	warp	arena_roomwarp001	2,2,arena_room.gat,113,101
+
+
+

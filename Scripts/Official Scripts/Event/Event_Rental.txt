@@ -1,0 +1,150 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+// http://cobax.net
+//
+// ---------------------------------------------------------------------------------------
+//
+// Breeders - Non Player Character Locations
+//
+// - Peco Breeder -> prontera: 52,350
+//   Rent PecoPeco to Knights and Lord Knights.
+//
+// - Falcon Breeder -> in_hunter: 146,99
+//   Rent Falcon to Hunters and Snipers.
+//
+// - Grand Peko Breeder -> prontera: 231,317
+//   Rent Grand PecoPeco to Crusaders and Paladins.
+//
+//========================================================================================
+
+prontera.gat,52,350,5	script	"PecoPeco Breeder"	105,{
+	mes "[PecoPeco Breeder]";
+		check Job == 7,L_BUY_PECO,-;
+		check Job == 31,L_BUY_PECO,L_SONLY;
+			L_BUY_PECO:
+				mes "Good Day,Cadet. Peco Peco is ready to ride.";
+				mes "You can rent one Peco Peco for 2500 Zeny.";
+				next;
+				menu "Give me one.",-,"What a Rip-Off!!",CANCEL;
+			            check option == 0,-,L_GOT;
+					check Zeny <= 2499,-,SKILL;
+						mes "[PecoPeco Breeder]";
+						mes "General,you don't have enough money.";
+						mes "...Are you dead broke...?";
+						close;
+					SKILL:
+						getskilllevel 63,@skilllv_riding;
+						check @skilllv_riding => 1,-,L_NO_SKILL;
+							set Zeny -= 2500;
+							option 2,1;
+							mes "[PecoPeco Breeder]";
+		                              mes "Thank you and good day.";
+		                              emotion 15;
+		                              close;
+						L_NO_SKILL:
+							mes "[PecoPeco Breeder]";
+							mes "Sorry you need the skill peco ride level 1 before you can master a Peco Peco.";
+							close;
+				CANCEL:
+					mes "[PecoPeco Breeder]";
+					mes "Alright. Have a nice day.";
+					close;
+			L_SONLY:
+				mes "What can I do for you?";
+				mes "Our PecoPeco's are only for Knights and Lord Knights.";
+				close;
+			L_GOT:
+				mes "[PecoPeco Breeder]";
+				mes "Umm... aren't you already riding a PecoPeco??....";
+				emotion 20;
+				close;
+}
+
+in_hunter.gat,146,99,3	script	"Falcon Fancier"	105,{
+	mes "[Falcon Fancier]";
+		check Job == 11,L_BUY_FALCON,-; 
+		check Job == 35,L_BUY_FALCON,L_SONLY; 
+			L_BUY_FALCON:
+				mes "Need a Falcon for hunting?! Give me 2500 Zeny then.";
+				next;
+				menu "Alright.",-,"What a Rip-Off!!",CANCEL;
+			            check option == 0,-,L_GOT;
+					check Zeny <= 2499,-,SKILL;
+						mes "[Falcon Fancier]";
+						mes "Go get more money.";
+						close;
+					SKILL:
+						getskilllevel 127,@skilllv_falcon;
+						check @skilllv_falcon = 1,-,L_NO_SKILL;
+							set Zeny -= 2500;
+							option 1,1;
+							mes "[Falcon Fancier]";
+		                              mes "Thank you and good day.";
+		                              emotion 15;
+		                              close;
+						L_NO_SKILL:
+							mes "[Falcon Fancier]";
+							mes "Sorry you need the skill Falcon Mastery on level 1 before you can handle a Falcon.";
+							close;
+				CANCEL:
+					check Job == 11,-,SNIPER;
+						mes "[Falcon Fancier]";
+						mes "Hey! Where are you going? I mean you, Hunter Dude! Stop!Get back!";
+						close;
+					SNIPER:
+						mes "[Falcon Fancier]";
+						mes "Hey! Where are you going? I mean you, Sniper Dude! Stop!Get back!";
+						close;
+			L_SONLY:
+				mes "What an asshole! Falcons are only for the Hunter and Sniper Classes !";
+				close;
+L_GOT:
+				mes "[Falcon Fancier]";
+				mes "You can only have 1 Falcon at a time.";
+				emotion 20;
+				close;
+}
+
+prontera.gat,231,317,4	script "Grand PecoPeco Breeder" 105,{
+	mes "[Grand PecoPeco Breeder]";
+		check Job == 14,BUY_PECO,-;
+		check Job == 38,BUY_PECO,L_SONLY;
+			BUY_PECO:
+				mes "Good Day,Cadet. Grand Peco Peco is ready to ride.";
+				mes "You can rent one Grand Peco Peco for 3000 Zeny.";
+				next;
+				menu "Give me one.",-,"What a Rip-Off!!",CANCEL;
+			            check option == 0,-,L_GOT;
+					check Zeny <= 2999,-,SKILL;
+						mes "[Grand PecoPeco Breeder]";
+						mes "General,you don't have enough money.";
+						mes "...Are you dead broke...?";
+						close;
+					SKILL:
+						getskilllevel 63,@skilllv_riding;
+						check @skilllv_riding => 1,-,L_NO_SKILL;
+							set Zeny -= 3000;
+							option 2,1;
+							mes "[Grand PecoPeco Breeder]";
+		                              mes "Thank you and good day.";
+		                              emotion 15;
+							close;
+						L_NO_SKILL:
+							mes "[Grand PecoPeco Breeder]";
+							mes "Sorry you need the skill peco ride level 1 before you can master a Grand Peco Peco.";
+							close;
+				CANCEL:
+					mes "[Grand PecoPeco Breeder]";
+					mes "Alright. Have a nice day.";
+					close;
+			L_SONLY:
+				mes "What can I do for you?";
+				mes "Our PecoPeco's are only for Crusaders and Palladins.";
+				close;
+			L_GOT:
+				mes "[Grand PecoPeco Breeder]";
+				mes "Umm... aren't you already riding a Grand PecoPeco??....";
+				emotion 20;
+				close;
+}

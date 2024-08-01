@@ -1,0 +1,988 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Midgard braggin Flags - Non Player Character Locations
+//
+// - Kriemhild -> prontera: 156,192
+//   Information about guild base ownerships
+//
+// - Swanhild -> prontera: 146,194
+//   Information about guild base ownerships
+//
+// - Fadhgridh -> prontera: 143,203
+//   Information about guild base ownerships
+//
+// - Skoegul -> prontera: 167,203
+//   Information about guild base ownerships
+//
+// - Gondul -> prontera: 165,194
+//   Information about guild base ownerships
+//
+// - Repherion -> geffen: 109,123
+//   Information about guild base ownerships
+//
+// - Eeyorbriggar -> geffen: 112,129
+//   Information about guild base ownerships
+//
+// - Yesnelph -> geffen: 120,132
+//   Information about guild base ownerships
+//
+// - Bergel -> geffen: 127,130
+//   Information about guild base ownerships
+//
+// - Mersetzdeitz -> geffen: 131,123
+//   Information about guild base ownerships
+//
+// - Bright Arbor -> payon: 79,31
+//   Information about guild base ownerships
+//
+// - Sacred Altar -> payon: 79,35
+//   Information about guild base ownerships
+//
+// - Holy Shadow -> payon: 79,39
+//   Information about guild base ownerships
+//
+// - Scarlet Palace -> payon: 79,43
+//   Information about guild base ownerships
+//
+// - Bamboo Grove Hill -> payon: 79,47
+//   Information about guild base ownerships
+//
+// - Neuschwanstein -> aldebaran: 152,97
+//   Information about guild base ownerships
+//
+// - Hohenschwangau -> aldebaran: 149,97
+//   Information about guild base ownerships
+//
+// - Nuernberg -> aldebaran: 134,97
+//   Information about guild base ownerships
+//
+// - Wuerzburg -> aldebaran: 131,97
+//   Information about guild base ownerships
+//
+// - Rotenburg -> aldebaran: 128,97
+//   Information about guild base ownerships
+//
+// - Bright Arbor -> payon: 155,234
+//   Information about guild base ownerships
+//
+// - Sacred Altar -> payon: 150,234
+//   Information about guild base ownerships
+//
+// - Holy Shadow -> payon: 160,234
+//   Information about guild base ownerships
+//
+// - Scarlet Palace -> payon: 165,234
+//   Information about guild base ownerships
+//
+// - Bamboo Grove Hill -> payon: 145,234
+//   Information about guild base ownerships
+//
+//========================================================================================
+
+prontera.gat,156,190,4 script "Kriemhild" 722,{
+	guildreg "prtg_cas01";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "prtg_cas01",96,173;
+OnInit:
+	guildreg "prtg_cas01";
+	return;
+}
+prontera.gat,146,194,3 script "Swanhild" 722,{
+	guildreg "prtg_cas02";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "prtg_cas02",71,36;
+OnInit:
+	guildreg "prtg_cas02";
+	return;
+}
+prontera.gat,143,203,2 script "Fadhgridh" 722,{
+	guildreg "prtg_cas03";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "prtg_cas03",181,215;
+OnInit:
+	guildreg "prtg_cas03";
+	return;
+}
+prontera.gat,167,203,6 script "Skoegul" 722,{
+	guildreg "prtg_cas04";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "prtg_cas04",258,247;
+OnInit:
+	guildreg "prtg_cas04";
+	return;
+}
+prontera.gat,165,194,5 script "Gondul" 722,{
+	guildreg "prtg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "prtg_cas05",52,41;
+OnInit:
+	guildreg "prtg_cas05";
+	return;
+}
+
+//payon.gat,79,31,4 script "Bright Arbor" 722,{
+	guildreg "payg_cas01";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas01",212,108;
+OnInit:
+	guildreg "payg_cas01";
+	return;
+}
+//payon.gat,79,35,4 script "Sacred Altar" 722,{
+	guildreg "payg_cas02";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas02",22,275;
+OnInit:
+	guildreg "payg_cas02";
+	return;
+}
+//payon.gat,79,39,4 script "Holy Shadow" 722,{
+	guildreg "payg_cas03";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas03",9,263;
+OnInit:
+	guildreg "payg_cas03";
+	return;
+}
+//payon.gat,79,43,4 script "Scarlet Palace" 722,{
+	guildreg "payg_cas04";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas04",40,235;
+OnInit:
+	guildreg "payg_cas04";
+	return;
+}
+//payon.gat,79,47,4 script "Bamboo Grove Hill" 722,{
+	guildreg "payg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas05",276,227;
+OnInit:
+	guildreg "payg_cas05";
+	return;
+}
+
+aldebaran.gat,152,97,4 script "Neuschwanstein" 722,{
+	guildreg "aldeg_cas01";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "aldeg_cas01",218,170;
+OnInit:
+	guildreg "aldeg_cas01";
+	return;
+}
+aldebaran.gat,149,97,4 script "Hohenschwangau" 722,{
+	guildreg "aldeg_cas02";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "aldeg_cas02",84,74;
+OnInit:
+	guildreg "aldeg_cas02";
+	return;
+}
+aldebaran.gat,134,97,4 script "Nuernberg" 722,{
+	guildreg "aldeg_cas03";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "aldeg_cas03",118,76;
+OnInit:
+	guildreg "aldeg_cas03";
+	return;
+}
+aldebaran.gat,131,97,4 script "Wuerzburg" 722,{
+	guildreg "aldeg_cas04";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "aldeg_cas04",45,88;
+OnInit:
+	guildreg "aldeg_cas04";
+	return;
+}
+aldebaran.gat,128,97,4 script "Rotenburg" 722,{
+	guildreg "aldeg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "aldeg_cas05",31,190;
+OnInit:
+	guildreg "aldeg_cas05";
+	return;
+}
+geffen.gat,109,123,2 script "Repherion" 722,{
+	guildreg "gefg_cas01";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "gefg_cas01",83,47;
+OnInit:
+	guildreg "gefg_cas01";
+	return;
+}
+geffen.gat,112,129,1 script "Eeyorbriggar" 722,{
+	guildreg "gefg_cas02";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "gefg_cas02",23,66;
+OnInit:
+	guildreg "gefg_cas02";
+	return;
+}
+geffen.gat,120,132,8 script "Yesnelph" 722,{
+	guildreg "gefg_cas03";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "gefg_cas03",116,89;
+OnInit:
+	guildreg "gefg_cas03";
+	return;
+}
+geffen.gat,127,130,7 script "Bergel" 722,{
+	guildreg "gefg_cas04";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "gefg_cas04",59,70;
+OnInit:
+	guildreg "gefg_cas04";
+	return;
+}
+geffen.gat,131,123,6 script "Mersetzdeitz" 722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "gefg_cas05",61,52;
+OnInit:
+	guildreg "gefg_cas05";
+	return;
+}
+
+payon.gat,165,177,3 script "Bright Arbor" 722,{
+	guildreg "payg_cas01";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas01",212,108;
+OnInit:
+	guildreg "payg_cas01";
+	return;
+}
+payon.gat,165,173,3 script "Sacred Altar" 722,{
+	guildreg "payg_cas02";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas02",22,275;
+OnInit:
+	guildreg "payg_cas02";
+	return;
+}
+payon.gat,165,169,3 script "Holy Shadow" 722,{
+	guildreg "payg_cas03";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas03",9,263;
+OnInit:
+	guildreg "payg_cas03";
+	return;
+}
+payon.gat,165,165,3 script "Scarlet Palace" 722,{
+	guildreg "payg_cas04";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas04",40,235;
+OnInit:
+	guildreg "payg_cas04";
+	return;
+}
+payon.gat,165,161,3 script "Bamboo Grove Hill" 722,{
+	guildreg "payg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+	check ismyguild != 0,L_START_2,-;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+L_START_2:
+	mes "[Vibration of Man's Voice]";
+	mes "The brave soldiers...";
+	mes "Would you like to go back?";
+	next;
+	menu "Go back to guild base.",L_MENU_1,"Cancel",-;
+	close;
+	L_MENU_1:
+		warp "payg_cas05",276,227;
+OnInit:
+	guildreg "payg_cas05";
+	return;
+}

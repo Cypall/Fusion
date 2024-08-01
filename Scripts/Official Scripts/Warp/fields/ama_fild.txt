@@ -1,0 +1,16 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Amatsu Field Warps - Warp Locations
+//
+//========================================================================================
+
+ama_fild01.gat,174,331,0	warp	amafieldwarp001	1,1,ama_test.gat,50,19
+ama_test.gat,50,16,0		warp	amafieldwarp002	1,1,ama_fild01.gat,174,330
+ama_test.gat,50,44,0		warp	amafieldwarp003	1,1,ama_test.gat,50,82
+ama_test.gat,50,79,0		warp	amafieldwarp004	1,1,ama_test.gat,50,41
+ama_fild01.gat,330,141,0	warp	amafieldwarp005	1,1,ama_in01.gat,174,124
+ama_in01.gat,174,121,0		warp	amafieldwarp006	1,1,ama_fild01.gat,330,139

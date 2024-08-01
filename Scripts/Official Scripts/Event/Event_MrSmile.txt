@@ -1,0 +1,538 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Mr.Smile Quest - Non Player Character Locations
+//
+// - Smile Assistance -> prontera: 157,187
+//   Give informations and transform Mr.Smile Item
+//
+// - Smile Assistance -> morocc: 158,97
+//   Give informations and transform Mr.Smile Item
+//
+// - Smile Assistance -> aldebaran: 136,135
+//   Give informations and transform Mr.Smile Item
+//
+// - Smile Assistance -> geffen: 119,107
+//   Give informations and transform Mr.Smile Item
+//
+// - Smile Assistance -> alberta: 113,53
+//   Give informations and transform Mr.Smile Item
+//
+// - Smile Assistance -> payon: 186,104
+//   Give informations and transform Mr.Smile Item
+//
+//========================================================================================
+
+prontera.gat,157,187,4	script	"Smile Assistance"	92,{
+	mes "[Smile Girl]";
+	mes "Hi ~ Hi ~";
+	mes "This is Smile Assistance.";
+	mes "How may I help you ?";
+	next;
+	menu "Mr. Smile ?",L_Info,"Construct Mr. Smile",L_Make,"Quit",-;
+		mes "[Smile Girl]";
+		mes "Thank you for visiting us.";
+		mes "We ..";
+		mes "The Rune-midgar Kingdom";
+		mes "always try to make Ragnarok";
+		mes "better and more enjoyable game.";
+		next;
+		mes "[Smile Girl]";
+		mes "We sincerely ask you";
+		mes "to cooperate.";
+		mes "The fact mentioned above";
+		mes "was announced by the Public";
+		mes "Information Bureay of the";
+		mes "Rune-Midgard Kingdom.";
+		close;
+	L_Info:
+		mes "[Smile Girl]";
+		mes "National Event held by the command";
+		mes "of His majesty Tristam the 3rd,";
+		mes "that intends to encourage the";
+		mes "nation of the Rune-Midgard Kingdom";
+		mes "to play in more enjoyable";
+		mes "atmosphere!";
+		mes "I am 'Smile Assistance',";
+		mes ".. who leads the national event";
+		mes "under the name of";
+		mes "Smile throughout the Rune-Midgard";
+		mes "Kingdom~";
+		next;
+		mes "[Smile Girl]";
+		mes "With simple and easy-to-get items,";
+		mes "I can provide you";
+		mes "'Mr. Smile'.";
+		mes "The requirements are followings.";
+		next;
+		mes "[Smile Girl]";
+		mes "10 Jellopy";
+		mes "10 Fluff";
+		mes "10 Clover";
+		next;
+		mes "[Smile Girl]";
+		mes "With this event";
+		mes "Everybody will be happy and smile,";
+		mes "getting together with other";
+		mes "people and will try to make";
+		mes "Ragnarok the most enjoyable";
+		mes "game in the world";
+		close;
+	L_Make:    
+		checkitem 909,10,-,L_Item;
+		checkitem 914,10,-,L_Item;
+		checkitem 705,10,-,L_Item;
+		mes "[Smile Girl]";
+		mes "Congratulations !";
+		mes "Now please take this Mr.Smile.";
+		next;
+		delitem 909,10;
+		delitem 914,10;
+		delitem 705,10;
+		additem 2278,1;
+		mes "[Smile Girl]";
+		mes "His majesty, Tristam the 3rd";
+		mes "has promised to try his best to";
+		mes "make Ragnarok better and more";
+		mes "enjoyable.";
+		close;
+		L_Item:
+			mes "[Smile Girl]";
+			mes "Of - unfortunately";
+			mes "You have not brought";
+			mes "enough items for Mr. Smile.";
+			mes "10 Jellopy";
+			mes "10 Fluff";
+			mes "10 Clover";
+			mes "Please check the requirements";
+			mes "above.
+			close;
+}
+morocc.gat,158,97,4	script	"Smile Assistance"	92,{
+	mes "[Smile Girl]";
+	mes "Hi ~ Hi ~";
+	mes "This is Smile Assistance.";
+	mes "How may I help you ?";
+	next;
+	menu "Mr. Smile ?",L_Info,"Construct Mr. Smile",L_Make,"Quit",-;
+		mes "[Smile Girl]";
+		mes "Thank you for visiting us.";
+		mes "We ..";
+		mes "The Rune-midgar Kingdom";
+		mes "always try to make Ragnarok";
+		mes "better and more enjoyable game.";
+		next;
+		mes "[Smile Girl]";
+		mes "We sincerely ask you";
+		mes "to cooperate.";
+		mes "The fact mentioned above";
+		mes "was announced by the Public";
+		mes "Information Bureay of the";
+		mes "Rune-Midgard Kingdom.";
+		close;
+	L_Info:
+		mes "[Smile Girl]";
+		mes "National Event held by the command";
+		mes "of His majesty Tristam the 3rd,";
+		mes "that intends to encourage the";
+		mes "nation of the Rune-Midgard Kingdom";
+		mes "to play in more enjoyable";
+		mes "atmosphere!";
+		mes "I am 'Smile Assistance',";
+		mes ".. who leads the national event";
+		mes "under the name of";
+		mes "Smile throughout the Rune-Midgard";
+		mes "Kingdom~";
+		next;
+		mes "[Smile Girl]";
+		mes "With simple and easy-to-get items,";
+		mes "I can provide you";
+		mes "'Mr. Smile'.";
+		mes "The requirements are followings.";
+		next;
+		mes "[Smile Girl]";
+		mes "10 Jellopy";
+		mes "10 Fluff";
+		mes "10 Clover";
+		next;
+		mes "[Smile Girl]";
+		mes "With this event";
+		mes "Everybody will be happy and smile,";
+		mes "getting together with other";
+		mes "people and will try to make";
+		mes "Ragnarok the most enjoyable";
+		mes "game in the world";
+		close;
+	L_Make:    
+		checkitem 909,10,-,L_Item;
+		checkitem 914,10,-,L_Item;
+		checkitem 705,10,-,L_Item;
+		mes "[Smile Girl]";
+		mes "Congratulations !";
+		mes "Now please take this Mr.Smile.";
+		next;
+		delitem 909,10;
+		delitem 914,10;
+		delitem 705,10;
+		additem 2278,1;
+		mes "[Smile Girl]";
+		mes "His majesty, Tristam the 3rd";
+		mes "has promised to try his best to";
+		mes "make Ragnarok better and more";
+		mes "enjoyable.";
+		close;
+		L_Item:
+			mes "[Smile Girl]";
+			mes "Of - unfortunately";
+			mes "You have not brought";
+			mes "enough items for Mr. Smile.";
+			mes "10 Jellopy";
+			mes "10 Fluff";
+			mes "10 Clover";
+			mes "Please check the requirements";
+			mes "above.
+			close;
+}
+aldebaran.gat,136,135,4	script	"Smile Assistance"	92,{
+	mes "[Smile Girl]";
+	mes "Hi ~ Hi ~";
+	mes "This is Smile Assistance.";
+	mes "How may I help you ?";
+	next;
+	menu "Mr. Smile ?",L_Info,"Construct Mr. Smile",L_Make,"Quit",-;
+		mes "[Smile Girl]";
+		mes "Thank you for visiting us.";
+		mes "We ..";
+		mes "The Rune-midgar Kingdom";
+		mes "always try to make Ragnarok";
+		mes "better and more enjoyable game.";
+		next;
+		mes "[Smile Girl]";
+		mes "We sincerely ask you";
+		mes "to cooperate.";
+		mes "The fact mentioned above";
+		mes "was announced by the Public";
+		mes "Information Bureay of the";
+		mes "Rune-Midgard Kingdom.";
+		close;
+	L_Info:
+		mes "[Smile Girl]";
+		mes "National Event held by the command";
+		mes "of His majesty Tristam the 3rd,";
+		mes "that intends to encourage the";
+		mes "nation of the Rune-Midgard Kingdom";
+		mes "to play in more enjoyable";
+		mes "atmosphere!";
+		mes "I am 'Smile Assistance',";
+		mes ".. who leads the national event";
+		mes "under the name of";
+		mes "Smile throughout the Rune-Midgard";
+		mes "Kingdom~";
+		next;
+		mes "[Smile Girl]";
+		mes "With simple and easy-to-get items,";
+		mes "I can provide you";
+		mes "'Mr. Smile'.";
+		mes "The requirements are followings.";
+		next;
+		mes "[Smile Girl]";
+		mes "10 Jellopy";
+		mes "10 Fluff";
+		mes "10 Clover";
+		next;
+		mes "[Smile Girl]";
+		mes "With this event";
+		mes "Everybody will be happy and smile,";
+		mes "getting together with other";
+		mes "people and will try to make";
+		mes "Ragnarok the most enjoyable";
+		mes "game in the world";
+		close;
+	L_Make:    
+		checkitem 909,10,-,L_Item;
+		checkitem 914,10,-,L_Item;
+		checkitem 705,10,-,L_Item;
+		mes "[Smile Girl]";
+		mes "Congratulations !";
+		mes "Now please take this Mr.Smile.";
+		next;
+		delitem 909,10;
+		delitem 914,10;
+		delitem 705,10;
+		additem 2278,1;
+		mes "[Smile Girl]";
+		mes "His majesty, Tristam the 3rd";
+		mes "has promised to try his best to";
+		mes "make Ragnarok better and more";
+		mes "enjoyable.";
+		close;
+		L_Item:
+			mes "[Smile Girl]";
+			mes "Of - unfortunately";
+			mes "You have not brought";
+			mes "enough items for Mr. Smile.";
+			mes "10 Jellopy";
+			mes "10 Fluff";
+			mes "10 Clover";
+			mes "Please check the requirements";
+			mes "above.
+			close;
+}
+geffen.gat,119,107,4	script	"Smile Assistance"	92,{
+	mes "[Smile Girl]";
+	mes "Hi ~ Hi ~";
+	mes "This is Smile Assistance.";
+	mes "How may I help you ?";
+	next;
+	menu "Mr. Smile ?",L_Info,"Construct Mr. Smile",L_Make,"Quit",-;
+		mes "[Smile Girl]";
+		mes "Thank you for visiting us.";
+		mes "We ..";
+		mes "The Rune-midgar Kingdom";
+		mes "always try to make Ragnarok";
+		mes "better and more enjoyable game.";
+		next;
+		mes "[Smile Girl]";
+		mes "We sincerely ask you";
+		mes "to cooperate.";
+		mes "The fact mentioned above";
+		mes "was announced by the Public";
+		mes "Information Bureay of the";
+		mes "Rune-Midgard Kingdom.";
+		close;
+	L_Info:
+		mes "[Smile Girl]";
+		mes "National Event held by the command";
+		mes "of His majesty Tristam the 3rd,";
+		mes "that intends to encourage the";
+		mes "nation of the Rune-Midgard Kingdom";
+		mes "to play in more enjoyable";
+		mes "atmosphere!";
+		mes "I am 'Smile Assistance',";
+		mes ".. who leads the national event";
+		mes "under the name of";
+		mes "Smile throughout the Rune-Midgard";
+		mes "Kingdom~";
+		next;
+		mes "[Smile Girl]";
+		mes "With simple and easy-to-get items,";
+		mes "I can provide you";
+		mes "'Mr. Smile'.";
+		mes "The requirements are followings.";
+		next;
+		mes "[Smile Girl]";
+		mes "10 Jellopy";
+		mes "10 Fluff";
+		mes "10 Clover";
+		next;
+		mes "[Smile Girl]";
+		mes "With this event";
+		mes "Everybody will be happy and smile,";
+		mes "getting together with other";
+		mes "people and will try to make";
+		mes "Ragnarok the most enjoyable";
+		mes "game in the world";
+		close;
+	L_Make:    
+		checkitem 909,10,-,L_Item;
+		checkitem 914,10,-,L_Item;
+		checkitem 705,10,-,L_Item;
+		mes "[Smile Girl]";
+		mes "Congratulations !";
+		mes "Now please take this Mr.Smile.";
+		next;
+		delitem 909,10;
+		delitem 914,10;
+		delitem 705,10;
+		additem 2278,1;
+		mes "[Smile Girl]";
+		mes "His majesty, Tristam the 3rd";
+		mes "has promised to try his best to";
+		mes "make Ragnarok better and more";
+		mes "enjoyable.";
+		close;
+		L_Item:
+			mes "[Smile Girl]";
+			mes "Of - unfortunately";
+			mes "You have not brought";
+			mes "enough items for Mr. Smile.";
+			mes "10 Jellopy";
+			mes "10 Fluff";
+			mes "10 Clover";
+			mes "Please check the requirements";
+			mes "above.
+			close;
+}
+alberta.gat,113,53,4	script	"Smile Assistance"	92,{
+	mes "[Smile Girl]";
+	mes "Hi ~ Hi ~";
+	mes "This is Smile Assistance.";
+	mes "How may I help you ?";
+	next;
+	menu "Mr. Smile ?",L_Info,"Construct Mr. Smile",L_Make,"Quit",-;
+		mes "[Smile Girl]";
+		mes "Thank you for visiting us.";
+		mes "We ..";
+		mes "The Rune-midgar Kingdom";
+		mes "always try to make Ragnarok";
+		mes "better and more enjoyable game.";
+		next;
+		mes "[Smile Girl]";
+		mes "We sincerely ask you";
+		mes "to cooperate.";
+		mes "The fact mentioned above";
+		mes "was announced by the Public";
+		mes "Information Bureay of the";
+		mes "Rune-Midgard Kingdom.";
+		close;
+	L_Info:
+		mes "[Smile Girl]";
+		mes "National Event held by the command";
+		mes "of His majesty Tristam the 3rd,";
+		mes "that intends to encourage the";
+		mes "nation of the Rune-Midgard Kingdom";
+		mes "to play in more enjoyable";
+		mes "atmosphere!";
+		mes "I am 'Smile Assistance',";
+		mes ".. who leads the national event";
+		mes "under the name of";
+		mes "Smile throughout the Rune-Midgard";
+		mes "Kingdom~";
+		next;
+		mes "[Smile Girl]";
+		mes "With simple and easy-to-get items,";
+		mes "I can provide you";
+		mes "'Mr. Smile'.";
+		mes "The requirements are followings.";
+		next;
+		mes "[Smile Girl]";
+		mes "10 Jellopy";
+		mes "10 Fluff";
+		mes "10 Clover";
+		next;
+		mes "[Smile Girl]";
+		mes "With this event";
+		mes "Everybody will be happy and smile,";
+		mes "getting together with other";
+		mes "people and will try to make";
+		mes "Ragnarok the most enjoyable";
+		mes "game in the world";
+		close;
+	L_Make:    
+		checkitem 909,10,-,L_Item;
+		checkitem 914,10,-,L_Item;
+		checkitem 705,10,-,L_Item;
+		mes "[Smile Girl]";
+		mes "Congratulations !";
+		mes "Now please take this Mr.Smile.";
+		next;
+		delitem 909,10;
+		delitem 914,10;
+		delitem 705,10;
+		additem 2278,1;
+		mes "[Smile Girl]";
+		mes "His majesty, Tristam the 3rd";
+		mes "has promised to try his best to";
+		mes "make Ragnarok better and more";
+		mes "enjoyable.";
+		close;
+		L_Item:
+			mes "[Smile Girl]";
+			mes "Of - unfortunately";
+			mes "You have not brought";
+			mes "enough items for Mr. Smile.";
+			mes "10 Jellopy";
+			mes "10 Fluff";
+			mes "10 Clover";
+			mes "Please check the requirements";
+			mes "above.
+			close;
+}
+payon.gat,186,104,4	script	"Smile Assistance"	92,{
+	mes "[Smile Girl]";
+	mes "Hi ~ Hi ~";
+	mes "This is Smile Assistance.";
+	mes "How may I help you ?";
+	next;
+	menu "Mr. Smile ?",L_Info,"Construct Mr. Smile",L_Make,"Quit",-;
+		mes "[Smile Girl]";
+		mes "Thank you for visiting us.";
+		mes "We ..";
+		mes "The Rune-midgar Kingdom";
+		mes "always try to make Ragnarok";
+		mes "better and more enjoyable game.";
+		next;
+		mes "[Smile Girl]";
+		mes "We sincerely ask you";
+		mes "to cooperate.";
+		mes "The fact mentioned above";
+		mes "was announced by the Public";
+		mes "Information Bureay of the";
+		mes "Rune-Midgard Kingdom.";
+		close;
+	L_Info:
+		mes "[Smile Girl]";
+		mes "National Event held by the command";
+		mes "of His majesty Tristam the 3rd,";
+		mes "that intends to encourage the";
+		mes "nation of the Rune-Midgard Kingdom";
+		mes "to play in more enjoyable";
+		mes "atmosphere!";
+		mes "I am 'Smile Assistance',";
+		mes ".. who leads the national event";
+		mes "under the name of";
+		mes "Smile throughout the Rune-Midgard";
+		mes "Kingdom~";
+		next;
+		mes "[Smile Girl]";
+		mes "With simple and easy-to-get items,";
+		mes "I can provide you";
+		mes "'Mr. Smile'.";
+		mes "The requirements are followings.";
+		next;
+		mes "[Smile Girl]";
+		mes "10 Jellopy";
+		mes "10 Fluff";
+		mes "10 Clover";
+		next;
+		mes "[Smile Girl]";
+		mes "With this event";
+		mes "Everybody will be happy and smile,";
+		mes "getting together with other";
+		mes "people and will try to make";
+		mes "Ragnarok the most enjoyable";
+		mes "game in the world";
+		close;
+	L_Make:    
+		checkitem 909,10,-,L_Item;
+		checkitem 914,10,-,L_Item;
+		checkitem 705,10,-,L_Item;
+		mes "[Smile Girl]";
+		mes "Congratulations !";
+		mes "Now please take this Mr.Smile.";
+		next;
+		delitem 909,10;
+		delitem 914,10;
+		delitem 705,10;
+		additem 2278,1;
+		mes "[Smile Girl]";
+		mes "His majesty, Tristam the 3rd";
+		mes "has promised to try his best to";
+		mes "make Ragnarok better and more";
+		mes "enjoyable.";
+		close;
+		L_Item:
+			mes "[Smile Girl]";
+			mes "Of - unfortunately";
+			mes "You have not brought";
+			mes "enough items for Mr. Smile.";
+			mes "10 Jellopy";
+			mes "10 Fluff";
+			mes "10 Clover";
+			mes "Please check the requirements";
+			mes "above.
+			close;
+}

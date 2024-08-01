@@ -1,0 +1,64 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Morocc Town Warps - Warp Locations
+//
+//========================================================================================
+
+morocc_in.gat,23,161,0	warp	moroccwarp001	1,2,morocc_in.gat,37,161
+morocc_in.gat,34,161,0	warp	moroccwarp002	1,2,morocc_in.gat,20,161
+morocc_in.gat,44,146,0	warp	moroccwarp003	3,2,morocc.gat,82,52
+morocc_in.gat,44,178,0	warp	moroccwarp004	2,2,morocc.gat,100,70
+morocc_in.gat,55,95,0	warp	moroccwarp005	1,3,morocc_in.gat,71,95
+morocc_in.gat,55,123,0	warp	moroccwarp006	1,3,morocc_in.gat,71,123
+morocc_in.gat,57,161,0	warp	moroccwarp007	1,3,morocc_in.gat,73,161
+morocc_in.gat,68,42,0	warp	moroccwarp008	2,1,morocc_in.gat,68,65
+morocc_in.gat,68,62,0	warp	moroccwarp009	2,1,morocc_in.gat,68,38
+morocc_in.gat,68,75,0	warp	moroccwarp010	2,1,morocc.gat,49,49
+morocc_in.gat,68,95,0	warp	moroccwarp011	1,3,morocc_in.gat,52,95
+morocc_in.gat,68,123,0	warp	moroccwarp012	1,3,morocc_in.gat,52,123
+morocc_in.gat,70,161,0	warp	moroccwarp013	1,3,morocc_in.gat,54,161
+morocc_in.gat,72,67,0	warp	moroccwarp014	2,2,morocc_in.gat,44,162
+morocc_in.gat,74,109,0	warp	moroccwarp015	3,1,morocc_in.gat,174,125
+morocc_in.gat,83,90,0	warp	moroccwarp016	4,1,morocc.gat,199,64
+morocc_in.gat,86,101,0	warp	moroccwarp017	2,1,morocc_in.gat,86,120
+morocc_in.gat,86,117,0	warp	moroccwarp018	3,1,morocc_in.gat,86,98
+morocc_in.gat,93,95,0	warp	moroccwarp019	1,3,morocc_in.gat,109,95
+morocc_in.gat,93,123,0	warp	moroccwarp020	1,3,morocc_in.gat,109,123
+morocc_in.gat,105,95,0	warp	moroccwarp021	1,3,morocc_in.gat,90,95
+morocc_in.gat,106,123,0	warp	moroccwarp022	1,3,morocc_in.gat,90,123
+morocc_in.gat,108,179,0	warp	moroccwarp023	3,2,morocc.gat,284,175
+morocc_in.gat,134,77,0	warp	moroccwarp024	3,1,morocc.gat,251,59
+morocc_in.gat,136,136,0	warp	moroccwarp025	1,4,morocc.gat,271,269
+morocc_in.gat,144,109,0	warp	moroccwarp026	3,1,morocc_in.gat,144,125
+morocc_in.gat,144,122,0	warp	moroccwarp027	3,1,morocc_in.gat,144,106
+morocc_in.gat,144,151,0	warp	moroccwarp028	3,1,morocc_in.gat,144,169
+morocc_in.gat,144,166,0	warp	moroccwarp029	3,1,morocc_in.gat,144,148
+morocc_in.gat,149,129,0	warp	moroccwarp030	1,2,morocc_in.gat,169,129
+morocc_in.gat,166,130,0	warp	moroccwarp031	1,3,morocc_in.gat,146,130
+morocc_in.gat,171,37,0	warp	moroccwarp032	4,1,morocc_in.gat,171,52
+morocc_in.gat,171,50,0	warp	moroccwarp033	4,1,morocc_in.gat,171,35
+morocc_in.gat,174,109,0	warp	moroccwarp034	3,1,morocc_in.gat,174,125
+morocc_in.gat,174,122,0	warp	moroccwarp035	3,1,morocc_in.gat,174,106
+morocc_in.gat,174,151,0	warp	moroccwarp036	3,1,morocc_in.gat,174,169
+morocc_in.gat,174,166,0	warp	moroccwarp037	3,1,morocc_in.gat,174,148
+morocc_in.gat,183,65,0	warp	moroccwarp038	2,3,morocc.gat,55,259
+morocc.gat,22,294,0	warp	moroccwarp039	2,5,moc_ruins.gat,156,42
+morocc.gat,24,164,0	warp	moroccwarp040	1,2,moc_fild19.gat,164,107
+morocc.gat,26,297,0	warp	moroccwarp041	5,2,moc_ruins.gat,156,42
+morocc.gat,46,46,0	warp	moroccwarp042	2,1,morocc_in.gat,68,72
+morocc.gat,52,259,0	warp	moroccwarp043	1,2,morocc_in.gat,180,65
+//morocc.gat,84,170,0	warp	moroccwarp044	2,2,morocc_in.gat,108,176
+morocc.gat,85,55,0	warp	moroccwarp045	2,2,morocc_in.gat,44,149
+morocc.gat,98,68,0	warp	moroccwarp046	1,1,morocc_in.gat,44,175
+morocc.gat,160,17,0	warp	moroccwarp047	2,2,moc_fild12.gat,159,378
+morocc.gat,160,183,0	warp	moroccwarp048	2,1,moc_castle.gat,94,181
+morocc.gat,160,297,0	warp	moroccwarp049	2,2,moc_fild07.gat,198,25
+morocc.gat,197,66,0	warp	moroccwarp050	1,1,morocc_in.gat,83,92
+morocc.gat,253,56,0	warp	moroccwarp051	2,1,morocc_in.gat,134,74
+morocc.gat,274,269,0	warp	moroccwarp052	2,2,morocc_in.gat,138,136
+morocc.gat,284,170,0	warp	moroccwarp053	2,2,morocc_in.gat,108,175
+morocc.gat,302,207,0	warp	moroccwarp054	2,2,moc_fild10.gat,22,207

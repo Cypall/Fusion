@@ -1,0 +1,50 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Gon Ryune Dungeon - Monster Spawn Locations
+// Based upon jathena mobs.
+//
+//========================================================================================
+
+//========================================================================================
+// - Gon Ryune Dungeon 01
+//========================================================================================
+
+
+gon_dun01.gat,0,0,0,0		monster	"Red Plant"		1078,5,0,0,0
+gon_dun01.gat,0,0,0,0		monster	"Yellow Plant" 	1081,10,0,0,0
+gon_dun01.gat,0,0,0,0		monster	"White Plant" 	1082,10,0,0,0
+gon_dun01.gat,0,0,0,0		monster	"Blood Butterfly"	1408,55,0,0,0
+gon_dun01.gat,0,0,0,0		monster	"Live Peach Tree"	1410,35,0,0,0
+gon_dun01.gat,0,0,0,0		monster	"Zipper Bear"	1417,30,0,0,0
+
+//========================================================================================
+// - Gon Ryune Dungeon 02
+//========================================================================================
+
+gon_dun02.gat,0,0,0,0		monster	"Yellow Plant"	1081,4,0,0,0
+gon_dun02.gat,0,0,0,0		monster	"Blood Butterfly"	1408,15,0,0,0
+gon_dun02.gat,37,110,20,38	monster	"Live Peach Tree"	1410,2,10000,30000,0
+gon_dun02.gat,0,0,0,0		monster	"Live Peach Tree"	1410,4,0,0,0
+gon_dun02.gat,27,100,16,33	monster	"Live Peach Tree"	1410,1,15000,30000,0
+gon_dun02.gat,47,120,16,33	monster	"Live Peach Tree"	1410,1,15000,30000,0
+gon_dun02.gat,250,243,25,34	monster	"Live Peach Tree"	1410,6,15000,30000,0
+gon_dun02.gat,230,203,25,34	monster	"Live Peach Tree"	1410,4,15000,30000,0
+gon_dun02.gat,0,0,0,0		monster	"Evil Cloud Hermit" 1412,10,0,0,0
+gon_dun02.gat,240,223,35,40	monster	"Baby Leopard"	1415,2,15000,30000,0
+gon_dun02.gat,37,110,20,38	monster	"Baby Leopard"	1415,3,15000,30000,0
+
+//========================================================================================
+// - Gon Ryune Dungeon 03
+//========================================================================================
+
+gon_dun03.gat,0,0,0,0		monster	"White Plant"	1082,10,0,0,0
+gon_dun03.gat,0,0,0,0		monster	"Evil Cloud Hermit" 1412,30,0,0,0
+gon_dun03.gat,0,0,0,0		monster	"Wild Ginseng"	1413,20,0,0,0
+gon_dun03.gat,0,0,0,0		monster	"Wicked Nymph"	1416,50,0,0,0
+gon_dun03.gat,0,0,0,0		monster	"Dark Sanke Lord" 1418,1,7200000,3600000,0
+
+

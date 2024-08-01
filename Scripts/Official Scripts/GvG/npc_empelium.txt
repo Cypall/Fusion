@@ -1,0 +1,34 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Midgard Guild Base Emperium - Non Player Character Locations
+//
+//========================================================================================
+
+aldeg_cas01.gat,216,23,0,0	monster	"Emperium" 1288,1,0,0,1
+aldeg_cas02.gat,213,23,0,0	monster	"Emperium" 1288,1,0,0,1
+aldeg_cas03.gat,205,31,0,0	monster	"Emperium" 1288,1,0,0,1
+aldeg_cas04.gat,36,217,0,0	monster	"Emperium" 1288,1,0,0,1
+aldeg_cas05.gat,27,101,0,0	monster	"Emperium" 1288,1,0,0,1
+gefg_cas01.gat,198,182,0,0	monster	"Emperium" 1288,1,0,0,1
+gefg_cas02.gat,176,178,0,0	monster	"Emperium" 1288,1,0,0,1
+gefg_cas03.gat,244,166,0,0	monster	"Emperium" 1288,1,0,0,1
+gefg_cas04.gat,174,177,0,0	monster	"Emperium" 1288,1,0,0,1
+gefg_cas05.gat,194,184,0,0	monster	"Emperium" 1288,1,0,0,1
+payg_cas01.gat,138,138,0,0	monster	"Emperium" 1288,1,0,0,1
+payg_cas02.gat,38,25,0,0	monster	"Emperium" 1288,1,0,0,1
+payg_cas03.gat,268,264,0,0	monster	"Emperium" 1288,1,0,0,1
+payg_cas04.gat,270,28,0,0	monster	"Emperium" 1288,1,0,0,1
+payg_cas05.gat,30,30,0,0	monster	"Emperium" 1288,1,0,0,1
+prtg_cas01.gat,197,197,0,0	monster	"Emperium" 1288,1,0,0,1
+prtg_cas02.gat,158,174,0,0	monster	"Emperium" 1288,1,0,0,1
+prtg_cas03.gat,16,220,0,0	monster	"Emperium" 1288,1,0,0,1
+prtg_cas04.gat,291,14,0,0	monster	"Emperium" 1288,1,0,0,1
+prtg_cas05.gat,266,266,0,0	monster	"Emperium" 1288,1,0,0,1
+nguild_alde.gat,216,23,0,0	monster	"Emperium" 1288,1,0,0,1
+nguild_gef.gat,198,182,0,0	monster	"Emperium" 1288,1,0,0,1
+nguild_pay.gat,138,138,0,0	monster	"Emperium" 1288,1,0,0,1
+nguild_prt.gat,197,197,0,0	monster	"Emperium" 1288,1,0,0,1

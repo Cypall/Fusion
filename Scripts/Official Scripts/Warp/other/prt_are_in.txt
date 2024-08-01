@@ -1,0 +1,12 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//  
+// Izlude Arena Warps - Warp Portals Location
+//
+//========================================================================================
+
+izlude.gat,128,225,0	warp	prt_are_inwarp001	1,1,prt_are_in.gat,97,9
+prt_are_in.gat,97,6,0	warp	prt_are_inwarp002	1,1,izlude.gat,127,221

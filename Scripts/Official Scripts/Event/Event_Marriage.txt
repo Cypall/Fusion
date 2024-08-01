@@ -1,0 +1,52 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Marriage Event - Non Player Character Locations
+//
+// - Added placeholder npc's for a future wedding script.
+//
+//========================================================================================
+
+prt_church.gat,94,100,4	script "Marriage Companion Girl" 71,{
+	close;
+}
+
+prt_church.gat,99,125,4	script "Tristand the Third" 108,{
+	close;
+}
+
+prt_church.gat,97,102,0	script "Guard" 105,{
+	close;
+}
+
+prt_church.gat,98,102,0	script "Guard" 705,{
+	close;
+}
+
+prt_church.gat,99,102,0	script "Guard" 707,{
+	close;
+}
+
+prt_church.gat,100,102,0 script "Guard" 708,{
+	close;
+}
+
+prt_church.gat,101,102,0 script "Guard" 767,{
+	close;
+}
+
+prt_church.gat,102,102,0 script "Guard" 780,{
+	close;
+}
+
+xmas.gat,112,273,4 script "Marriage Companion Girl" 714,{
+	close;
+}
+
+xmas.gat,103,276,4 script "Santa Claus" 718,{
+	close;
+}
+

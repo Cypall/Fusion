@@ -1,0 +1,22 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Jawaii Town Warps - Warp Locations
+// - Added jathena warps
+//
+//========================================================================================
+
+jawaii.gat,192,214,0	warp	jawaiiwarp001 	1,1,jawaii_in.gat,27,94
+jawaii_in.gat,27,91,0	warp	jawaiiwarp001 	1,1,jawaii.gat,192,217
+jawaii.gat,139,202,0	warp	jawaiiwarp001 	1,1,jawaii_in.gat,115,63
+jawaii_in.gat,113,61,0	warp	jawaiiwarp001 	1,1,jawaii.gat,137,201
+jawaii.gat,110,200,0	warp	jawaiiwarp001 	1,1,jawaii_in.gat,130,109
+jawaii_in.gat,132,107,0	warp	jawaiiwarp001 	1,1,jawaii.gat,111,198
+jawaii.gat,114,171,0	warp	jawaiiwarp001 	1,1,jawaii_in.gat,88,76
+jawaii_in.gat,90,78,0	warp	jawaiiwarp001 	1,1,jawaii.gat,116,172
+jawaii.gat,108,186,0	warp	jawaiiwarp001 	1,1,jawaii_in.gat,85,117
+jawaii_in.gat,88,117,0	warp	jawaiiwarp001 	1,1,jawaii.gat,110,186
+

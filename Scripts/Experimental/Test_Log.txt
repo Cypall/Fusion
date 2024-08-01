@@ -1,0 +1,18 @@
+====================================================================================================
+ »» The Fusion Project ««
+ Copyright (c) 2004, Cobax Information Systems
+ http://fusion.cobax.net/
+----------------------------------------------------------------------------------------------------
+ Experimental Scripts Change Logs
+====================================================================================================
+11-11-2004: Priest moved to official. [Tsusai]
+11-10-2004: Everything seems to work minus some thing.  layout fully works. [Tsusai]
+11-10-2004: More updates.  Progress from room 1 to 2 (mummy to temptation) does not work. [Tsusai]
+11-09-2004: Added Priest quest.  warp to job_prist 24 180 to test. (this still crashes) [Tsusai]
+10-20-2004: Added potential sage quest. [Tsusai]
+05-19-2004: Fixed a mes error in Misc.txt
+05-06-2004: Added Script Command Check folder, to test if any script commands get broken upon core updates. [Tsusai]
+05-05-2004: npc_guardiankafra.txt - Tested and moved into _OLD directory. [Tsusai]
+05-04-2004: npc_guardiankafra.txt - Corrected few tags, needs final syntax testing. [Tsusai]
+05-04-2004: npc_guardiankafra.txt - Shorten old version. [icbob]
+

@@ -1,0 +1,1070 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Event Nenkaras - Non Player Character Locations
+//
+// - Inn Maid Sammy -> prt_in: 244,135
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Ahlma -> prt_in: 61,141
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Moira -> alberta_in: 32,142
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Tina -> alberta_in: 58,147
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Betty -> geffen_in: 70,64
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Sun Hee -> payon_in01: 131,62
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Suzie -> morocc_in: 147,138
+//   Save location and heal regarding levels for some zeny.
+//
+// - Inn Maid Shala -> morocc_in: 80,100
+//   Save location and heal regarding levels for some zeny.
+//
+//========================================================================================
+
+prt_in.gat,244,135,2 script "Inn Maid" 53,{
+      mes "[Sammy]";
+	mes "Welcome to Nenkaras [West] Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+	mes "[Sammy]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+	mes "[Sammy]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "prt_in",238,130;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+	mes "[Sammy]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+	mes "[Sammy]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Sammy]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+	mes "[Sammy]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+	mes "[Sammy]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+	mes "[Sammy]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Sammy]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+	mes "[Sammy]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+	mes "[Sammy]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+	mes "[Sammy]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Sammy]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+	mes "[Sammy]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+	mes "[Sammy]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+	mes "[Sammy]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Sammy]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+	mes "[Sammy]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+	mes "[Sammy]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+	mes "[Sammy]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Sammy]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+	mes "[Sammy]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+	mes "[Sammy]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+prt_in.gat,61,141,2 script "Inn Maid" 53,{
+      mes "[Ahlma]";
+	mes "Welcome to Nenkaras [East] Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Ahlma]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Ahlma]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "prt_in",64,136;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Ahlma]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Ahlma]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Ahlma]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Ahlma]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Ahlma]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Ahlma]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Ahlma]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Ahlma]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Ahlma]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Ahlma]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Ahlma]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Ahlma]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Ahlma]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Ahlma]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Ahlma]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Ahlma]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Ahlma]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Ahlma]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Ahlma]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Ahlma]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Ahlma]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+alberta_in.gat,32,142,5 script "Inn Maid" 53,{
+      mes "[Moira]";
+	mes "Welcome to Nenkaras [North] Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Moira]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Moira]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "alberta_in",26,138;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Moira]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Moira]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Moira]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Moira]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Moira]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Moira]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Moira]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Moira]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Moira]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Moira]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Moira]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Moira]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Moira]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Moira]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Moira]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Moira]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+alberta_in.gat,58,147,4	script "Inn Maid" 53,{
+      mes "[Tina]";
+	mes "Welcome to Nenkaras [South] Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Tina]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Tina]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "alberta_in",60,140;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Tina]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Tina]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Tina]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Tina]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Tina]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Tina]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Tina]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Tina]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Tina]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Tina]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Tina]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Tina]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Tina]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Tina]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Tina]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Tina]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Tina]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Tina]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Tina]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Tina]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+geffen_in.gat,70,64,5 script "Inn Maid" 53,{
+      mes "[Betty]";
+	mes "Welcome to Nenkaras Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Betty]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Betty]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "alberta_in",74,60;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Betty]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Betty]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Betty]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Betty]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Betty]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Betty]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Betty]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Betty]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Betty]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Betty]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Betty]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Betty]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Betty]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Betty]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Betty]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Betty]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Betty]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Betty]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Betty]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Betty]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+payon_in01.gat,131,62,5 script "Inn Maid" 53,{
+      mes "[Sun Hee]";
+	mes "Welcome to Nenkaras Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Sun Hee]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Sun Hee]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "payon_in01",132,56;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Sun Hee]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Sun Hee]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Sun Hee]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Sun Hee]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Sun Hee]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Sun Hee]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Sun Hee]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Sun Hee]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Sun Hee]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Sun Hee]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Sun Hee]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Sun Hee]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Sun Hee]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Sun Hee]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Sun Hee]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Sun Hee]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Sun Hee]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Sun Hee]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Sun Hee]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Sun Hee]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+morocc_in.gat,147,138,5 script "Inn Maid" 53,{
+      mes "[Suzie]";
+	mes "Welcome to Nenkaras [North East] Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Suzie]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Suzie]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "morocc_in",142,140;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Suzie]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Suzie]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Suzie]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Suzie]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Suzie]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Suzie]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Suzie]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Suzie]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Suzie]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Suzie]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Suzie]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Suzie]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Suzie]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Suzie]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Suzie]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Suzie]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Suzie]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Suzie]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Suzie]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Suzie]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+morocc_in.gat,80,100,5 script	"Inn Maid" 53,{
+      mes "[Shala]";
+	mes "Welcome to Nenkaras [South] Inn";
+	next;
+	menu "Save",L_SAVE,"Heal",L_HEAL,"Quit",-;
+      mes "[Shala]";
+	mes "I am waiting for a job to do.";
+	close;
+L_SAVE:
+      mes "[Shala]";
+	mes "Location Saved.";
+	mes "I am waiting for another job to do.";
+	   save "morocc_in",78,95;
+	close;
+L_HEAL:
+	   check BaseLevel <= 15,L_HEAL_LV15,-;
+	   check BaseLevel <= 30,L_HEAL_LV30,-;
+	   check BaseLevel <= 50,L_HEAL_LV50,-;
+	   check BaseLevel <= 75,L_HEAL_LV75,-;
+	   check BaseLevel <= 99,L_HEAL_LV100,-;
+      mes "[Shala]";
+	mes "Unluckly there isn't a room available.";
+	close;
+L_HEAL_LV15:
+	next;
+      mes "[Shala]";
+	mes "It costs 50z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV15_N;
+	   check Zeny >= 50,-,L_HEAL_LV15_F;
+	   set Zeny -= 50,0;
+	   percentheal 100,100;
+      mes "[Shala]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV15_F:
+      mes "[Shala]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV15_N:
+      mes "[Shala]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV30:
+      mes "[Shala]";
+	mes "It costs 100z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV30_N;
+	   check Zeny >= 100,-,L_HEAL_LV30_F;
+	   set Zeny -= 100,0;
+	   percentheal 100,100;
+      mes "[Moira]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV30_F:
+      mes "[Shala]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV30_N:
+      mes "[Shala]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV50:
+	next;
+      mes "[Shala]";
+	mes "It costs 200z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV50_N;
+	   check Zeny >= 200,-,L_HEAL_LV50_F;
+	   set Zeny -= 200,0;
+	   percentheal 100,100;
+      mes "[Shala]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV50_F:
+      mes "[Shala]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV50_N:
+      mes "[Shala]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV75:
+	next;
+      mes "[Shala]";
+	mes "It costs 300z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV75_N;
+	   check Zeny >= 300,-,L_HEAL_LV75_F;
+	   set Zeny -= 300,0;
+	   percentheal 100,100;
+      mes "[Shala]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV75_F:
+      mes "[Shala]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV75_N:
+      mes "[Shala]";
+	mes "I am waiting for another job to do.";
+	close;
+L_HEAL_LV100:
+	next;
+      mes "[Shala]";
+	mes "It costs 400z.";
+	next;
+	menu "Yes",-,"No",L_HEAL_LV100_N;
+	   check Zeny >= 400,-,L_HEAL_LV100_F;
+	   set Zeny -= 400,0;
+	   percentheal 100,100;
+      mes "[Shala]";
+	mes "There all healed again.";
+	   emotion 15;
+	close;
+L_HEAL_LV100_F:
+      mes "[Shala]";
+	mes "You don't have enough money.";
+	close;
+L_HEAL_LV100_N:
+      mes "[Shala]";
+	mes "I am waiting for another job to do.";
+	close;
+}
+
+
+
+
+

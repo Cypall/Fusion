@@ -1,0 +1,470 @@
+//this and the flags are not official, but mimic kRO's event the best to my knowledge
+// - Tsusai
+n_castle.gat,102,102,4	script	"Novice WoE Event Worker"	125,{
+	mes "[Host]";
+	mes "Are you ready to return to town?";
+	next;
+	menu "Yes",towns,"No",-;
+		close;
+	towns:
+//		checkstr $ntown = "Prontera",W_pron,-;
+//		checkstr $ntown = "Izlude",W_izlud,-;
+//		checkstr $ntown = "Geffen",W_geff,-;
+//		checkstr $ntown = "Alberta",W_alber,-;
+//		checkstr $ntown = "Payon",W_payon,-;
+//		checkstr $ntown = "Morocc",W_moro,-;
+		check $ntown = "Prontera",W_pron,-;
+		check $ntown = "Izlude",W_izlud,-;
+		check $ntown = "Geffen",W_geff,-;
+		check $ntown = "Alberta",W_alber,-;
+		check $ntown = "Payon",W_payon,-;
+		check $ntown = "Morocc",W_moro,-;
+			close;
+		W_pron: 
+			warp prontera,155,180; 
+		W_izlud: 
+			warp izlude,128,93; 
+		W_geff: 
+			warp geffen,119,67; 
+		W_alber: 
+			warp alberta,116,56; 
+		W_payon: 
+			warp payon,90,114; 
+		W_moro: 
+			warp morocc,159,93; 
+}
+
+prontera.gat,155,184,4	script	"Novice WoE Event"	106,{
+	mes "[Xavier]";
+	mes "Good day!";
+	mes "I am the host of the Novice WoE Event!";
+	next;
+	mes "What would you like to know?";
+	next;
+	menu "More Information Please.",info,"I want honor & glory for my guild",checks,"Walk away",-;
+		Cancel:
+			close;
+	info:
+		mes "[Xavier]";
+		mes "This event is open only to novices in guilds.";
+		mes "If you are neither in a guild or a novice, you will not be admitted in.";
+		mes "Novices from all guilds will be able to compete against each other for their own guild castle";
+		next;
+		mes "[Xavier]";
+		mes "There are 4 castles, each mimicing one of each town's castle.";
+		mes "Same rules apply as the regular castles, except there are no castle monsters.";
+		next;
+		mes "[Xavier]";
+		mes "Have fun!";
+		close;
+	checks:
+		check job = 0,-,notnov;
+//There is no variable to check to see if a person is in a guild
+//only to check if it is in the guild that has taken the castle, if it has been tested.
+//check **** = 0,notguild,-;
+			check gender = 0,-,guy;
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready my lady?";
+				goto Confirm;
+			guy:
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready sir?";
+			Confirm:
+				next;
+				menu "Yes",-,"No",Cancel;
+					mes "[Xavier]";
+					mes "Good luck!";
+					next;
+					setstr $ntown = "Prontera";
+					warp "n_castle",102,98;
+					close;
+		notnov:
+			mes "[Xavier]";
+			mes "You? A novice";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "*points at you*";
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "[Xavier]";
+			mes "AHAHAHAHahahah aha ha..";
+			next;
+			mes "[Xavier]";
+			mes "*chuckle* It's been awhile since someone has tried to pass them self off as a novice";
+			next;
+			mes "[Xavier]";
+			mes "You can't play here, go play with the big kids";
+			close;
+		notguild:
+			mes "[Xavier]";
+			mes "I'm sorry, but you aren't in a guild.";
+			mes "If you get recruited, come back and try again.";
+			close;
+}
+
+morocc.gat,162,97,4	script	"Novice WoE Event"	106,{
+	mes "[Xavier]";
+	mes "Good day!";
+	mes "I am the host of the Novice WoE Event!";
+	next;
+	mes "What would you like to know?";
+	next;
+	menu "More Information Please.",info,"I want honor & glory for my guild",checks,"Walk away",-;
+		Cancel:
+			close;
+	info:
+		mes "[Xavier]";
+		mes "This event is open only to novices in guilds.";
+		mes "If you are neither in a guild or a novice, you will not be admitted in.";
+		mes "Novices from all guilds will be able to compete against each other for their own guild castle";
+		next;
+		mes "[Xavier]";
+		mes "There are 4 castles, each mimicing one of each town's castle.";
+		mes "Same rules apply as the regular castles, except there are no castle monsters.";
+		next;
+		mes "[Xavier]";
+		mes "Have fun!";
+		close;
+	checks:
+		check job = 0,-,notnov;
+			check gender = 0,-,guy;
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready my lady?";
+				goto Confirm;
+			guy:
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready sir?";
+			Confirm:
+				next;
+				menu "Yes",-,"No",Cancel;
+					mes "[Xavier]";
+					mes "Good luck!";
+					next;
+					setstr $ntown = "Morocc";
+					warp "n_castle",102,98;
+					close;
+		notnov:
+			mes "[Xavier]";
+			mes "You? A novice";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "*points at you*";
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "[Xavier]";
+			mes "AHAHAHAHahahah aha ha..";
+			next;
+			mes "[Xavier]";
+			mes "*chuckle* It's been awhile since someone has tried to pass them self off as a novice";
+			next;
+			mes "[Xavier]";
+			mes "You can't play here, go play with the big kids";
+			close;
+		notguild:
+			mes "[Xavier]";
+			mes "I'm sorry, but you aren't in a guild.";
+			mes "If you get recruited, come back and try again.";
+			close;
+}
+
+payon.gat,165,210,3	script	"Novice WoE Event"	106,{
+	mes "[Xavier]";
+	mes "Good day!";
+	mes "I am the host of the Novice WoE Event!";
+	next;
+	mes "What would you like to know?";
+	next;
+	menu "More Information Please.",info,"I want honor & glory for my guild",checks,"Walk away",-;
+		Cancel:
+			close;
+	info:
+		mes "[Xavier]";
+		mes "This event is open only to novices in guilds.";
+		mes "If you are neither in a guild or a novice, you will not be admitted in.";
+		mes "Novices from all guilds will be able to compete against each other for their own guild castle";
+		next;
+		mes "[Xavier]";
+		mes "There are 4 castles, each mimicing one of each town's castle.";
+		mes "Same rules apply as the regular castles, except there are no castle monsters.";
+		next;
+		mes "[Xavier]";
+		mes "Have fun!";
+		close;
+	checks:
+		check job = 0,-,notnov;
+			check gender = 0,-,guy;
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready my lady?";
+				goto Confirm;
+			guy:
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready sir?";
+			Confirm:
+				next;
+				menu "Yes",-,"No",Cancel;
+					mes "[Xavier]";
+					mes "Good luck!";
+					next;
+					setstr $ntown = "Payon";
+					warp "n_castle",102,98;
+					close;
+		notnov:
+			mes "[Xavier]";
+			mes "You? A novice";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "*points at you*";
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "[Xavier]";
+			mes "AHAHAHAHahahah aha ha..";
+			next;
+			mes "[Xavier]";
+			mes "*chuckle* It's been awhile since someone has tried to pass them self off as a novice";
+			next;
+			mes "[Xavier]";
+			mes "You can't play here, go play with the big kids";
+			close;
+		notguild:
+			mes "[Xavier]";
+			mes "I'm sorry, but you aren't in a guild.";
+			mes "If you get recruited, come back and try again.";
+			close;
+}
+
+izlude.gat,128,109,4	script	"Novice WoE Event"	106,{
+	mes "[Xavier]";
+	mes "Good day!";
+	mes "I am the host of the Novice WoE Event!";
+	next;
+	mes "What would you like to know?";
+	next;
+	menu "More Information Please.",info,"I want honor & glory for my guild",checks,"Walk away",-;
+		Cancel:
+			close;
+	info:
+		mes "[Xavier]";
+		mes "This event is open only to novices in guilds.";
+		mes "If you are neither in a guild or a novice, you will not be admitted in.";
+		mes "Novices from all guilds will be able to compete against each other for their own guild castle";
+		next;
+		mes "[Xavier]";
+		mes "There are 4 castles, each mimicing one of each town's castle.";
+		mes "Same rules apply as the regular castles, except there are no castle monsters.";
+		next;
+		mes "[Xavier]";
+		mes "Have fun!";
+		close;
+	checks:
+		check job = 0,-,notnov;
+			check gender = 0,-,guy;
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready my lady?";
+				goto Confirm;
+			guy:
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready sir?";
+			Confirm:
+				next;
+				menu "Yes",-,"No",Cancel;
+					mes "[Xavier]";
+					mes "Good luck!";
+					next;
+					setstr $ntown = "Izlude";
+					warp "n_castle",102,98;
+					close;
+		notnov:
+			mes "[Xavier]";
+			mes "You? A novice";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "*points at you*";
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "[Xavier]";
+			mes "AHAHAHAHahahah aha ha..";
+			next;
+			mes "[Xavier]";
+			mes "*chuckle* It's been awhile since someone has tried to pass them self off as a novice";
+			next;
+			mes "[Xavier]";
+			mes "You can't play here, go play with the big kids";
+			close;
+		notguild:
+			mes "[Xavier]";
+			mes "I'm sorry, but you aren't in a guild.";
+			mes "If you get recruited, come back and try again.";
+			close;
+}
+
+alberta.gat,112,60,5	script	"Novice WoE Event"	106,{
+	mes "[Xavier]";
+	mes "Good day!";
+	mes "I am the host of the Novice WoE Event!";
+	next;
+	mes "What would you like to know?";
+	next;
+	menu "More Information Please.",info,"I want honor & glory for my guild",checks,"Walk away",-;
+		Cancel:
+			close;
+	info:
+		mes "[Xavier]";
+		mes "This event is open only to novices in guilds.";
+		mes "If you are neither in a guild or a novice, you will not be admitted in.";
+		mes "Novices from all guilds will be able to compete against each other for their own guild castle";
+		next;
+		mes "[Xavier]";
+		mes "There are 4 castles, each mimicing one of each town's castle.";
+		mes "Same rules apply as the regular castles, except there are no castle monsters.";
+		next;
+		mes "[Xavier]";
+		mes "Have fun!";
+		close;
+	checks:
+		check job = 0,-,notnov;
+			check gender = 0,-,guy;
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready my lady?";
+				goto Confirm;
+			guy:
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready sir?";
+			Confirm:
+				next;
+				menu "Yes",-,"No",Cancel;
+					mes "[Xavier]";
+					mes "Good luck!";
+					next;
+					setstr $ntown = "Alberta";
+					warp "n_castle",102,98;
+					close;
+		notnov:
+			mes "[Xavier]";
+			mes "You? A novice";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "*points at you*";
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "[Xavier]";
+			mes "AHAHAHAHahahah aha ha..";
+			next;
+			mes "[Xavier]";
+			mes "*chuckle* It's been awhile since someone has tried to pass them self off as a novice";
+			next;
+			mes "[Xavier]";
+			mes "You can't play here, go play with the big kids";
+			close;
+		notguild:
+			mes "[Xavier]";
+			mes "I'm sorry, but you aren't in a guild.";
+			mes "If you get recruited, come back and try again.";
+			close;
+}
+
+geffen.gat,120,56,0	script	"Novice WoE Event"	106,{
+	mes "[Xavier]";
+	mes "Good day!";
+	mes "I am the host of the Novice WoE Event!";
+	next;
+	mes "What would you like to know?";
+	next;
+	menu "More Information Please.",info,"I want honor & glory for my guild",checks,"Walk away",-;
+		Cancel:
+			close;
+	info:
+		mes "[Xavier]";
+		mes "This event is open only to novices in guilds.";
+		mes "If you are neither in a guild or a novice, you will not be admitted in.";
+		mes "Novices from all guilds will be able to compete against each other for their own guild castle";
+		next;
+		mes "[Xavier]";
+		mes "There are 4 castles, each mimicing one of each town's castle.";
+		mes "Same rules apply as the regular castles, except there are no castle monsters.";
+		next;
+		mes "[Xavier]";
+		mes "Have fun!";
+		close;
+	checks:
+		check job = 0,-,notnov;
+			check gender = 0,-,guy;
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready my lady?";
+				goto Confirm;
+			guy:
+				mes "[Xavier]";
+				mes "Ah, you look very strong";
+				mes "Are you ready sir?";
+			Confirm:
+				next;
+				menu "Yes",-,"No",Cancel;
+					mes "[Xavier]";
+					mes "Good luck!";
+					next;
+					setstr $ntown = "Geffen";
+					warp "n_castle",102,98;
+					close;
+		notnov:
+			mes "[Xavier]";
+			mes "You? A novice";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "*points at you*";
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH";
+			next;
+			mes "[Xavier]";
+			mes "AHAHAHAHahahah aha ha..";
+			next;
+			mes "[Xavier]";
+			mes "*chuckle* It's been awhile since someone has tried to pass them self off as a novice";
+			next;
+			mes "[Xavier]";
+			mes "You can't play here, go play with the big kids";
+			close;
+		notguild:
+			mes "[Xavier]";
+			mes "I'm sorry, but you aren't in a guild.";
+			mes "If you get recruited, come back and try again.";
+			close;
+}

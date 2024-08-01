@@ -1,0 +1,387 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Acolyte Quest - Non Player Character Locations
+//
+// - Cleric -> prt_church: 184,41
+//   Gives Quest to Novice wanting to become Acolyte.
+//   Checks if Quest is completed / changes class.
+//
+// - Ascetic -> prt_fild03: 365,255
+//   Quest 1, Marks player that quest has been fulfilled.
+//
+// - Ascetic -> /moc_fild07: 41,355
+//   Quest 2, Marks player that quest has been fulfilled.
+//
+// - Ascetic -> prt_fild00: 208,218
+//   Quest 3, Marks player that quest has been fulfilled.
+//
+//========================================================================================
+
+prt_church.gat,184,41,4	script "Cleric"	60,{
+	mes "[Father Mareusis]";
+	mes "What is it you are looking for?";
+	next;
+	menu "Father, I want to be an Acolyte.",-,"Requirements.",REQ,"Im just looking around. That's all.",EXIT;
+	   check Job == 4,ERR0,-;
+	   check Job == 28,ERR0,-;
+	   check Job == 24,NOV,-;
+	   check Job == 0,-,ERR1;
+	  NOV:
+	   check JobLevel == 10,-,ERR2;
+	   check SkillPoint == 0,-,ERR2;
+	   check Aco_Quest >= 1,-,GIVE_QUEST;
+	mes "[Father Mareusis]";
+	mes "Oh, You came back. Let me check if you are ready to serve God...Let's see...";
+	next;
+	   check Aco_Quest == 99,QUEST_DONE,-;
+	   check Aco_Quest >= 1,QUEST_GIVEN,EXIT;
+QUEST_GIVEN:
+	mes "Oh, I can't find your name on the Registration List.";
+	mes "Please come back after completing the two tasks you burden. It should be easy if you're eager to be a servant of the Lord from the bottom of your heart.";
+	next;
+	   check Aco_Quest == 1,NPC1,-;
+	   check Aco_Quest == 2,NPC2,-;
+	   check Aco_Quest == 3,NPC3,-;
+GIVE_QUEST:
+	mes "[Father Mareusis]";
+	mes "Do you truly wish to become a servant of God?";
+	next;
+	menu "Yes, Father, I do.",-,"I changed my mind.",EXIT;
+	mes "[Father Mareusis]";
+	mes "Then let the light of God guide you, $charaname, whenever you're in darkness.";
+	mes "You understand that you need to do penance before you become a servant of God, don't you?";
+	next;
+	mes "[Father Mareusis]";
+	mes "Well, I will give you a task.....";
+	   random @RAND,100;
+	   check @RAND <= 33,NPC1,-;
+	   check @RAND >= 66,NPC3,-;
+	goto NPC2;
+NPC1:
+	   set Aco_Quest = 1;
+	mes "Please visit ^000077Father Rubalkabara^000000, a member of the Prontera Parish and get back. He has been studying Spiritualism  ^000077in the Relics at the Nothern East of Prontera City^000000.";
+	goto NpcEnd;
+NPC2:
+	   set Aco_Quest = 2;
+	mes "Please Visit ^000077Mother Mathilda^000000 and get back. She has been observing Immorality ^000077 Near Morroc Town, the Southern West of Prontera City.^000000.";
+	goto NPCEnd;
+NPC3:
+	set Aco_Quest = 3;
+	mes "Please Visit ^000077Father Yosuke^000000 and get back. He has been studying Devotionism ^000077 around a Bridge in Somewhere near Northern West of Prontera.^000000.";
+	goto NpcEnd;
+NPCEnd:
+	mes "The Grace of God will enlighten your way to the rightful path.";
+	close;
+QUEST_DONE:
+	mes "Hmm... Now you are qualified and your name is on the list. All right. I hereby will take your willingness to become Acolyte.";
+	next;
+	    check job = 24,HIGH,-;
+	     jobchange 4;
+	     goto CONGRA;
+	    HIGH:
+	     jobchange 28;
+CONGRA:
+	mes "[Father Mareusis]";
+	mes "Remember to be thankful to God, who is taking care of us all the time, that we have the unique chance to serve him...When you face hard tasks, you must believe that God will help you get through the daunting task if its by his will.";
+	next;
+	mes "[Father Mareusis]";
+	mes "Lastly, I sincerely congratulate your determination and perseverance because you did not to give up in this test of faith.";
+	close;
+REQ:
+	mes "[Father Mareusis]";
+	mes "Do you wish to become an Acolyte?";
+	mes "Then here are the two requirements you must go through.";
+	next;
+	mes "[Father Mareusis]";
+	mes "First, You have to reach at least Novice Job Level 9 and learn entire Basic Skills at the same time.";
+	next;
+	mes "[Father Mareusis]";
+	mes "Second, You have to overcome a Divine Test as a prayer.";
+	next;
+	mes "The Divine Destination will be decided when you fill the application form.";
+	close;
+ERR0:
+	mes "[Father Mareusis]";
+	mes "Are you feeling okay?....";
+		emotion 20;
+	next;
+	mes "[Father Mareusis]";
+	mes "...your attire...";
+	next;
+	mes "[Father Mareusis]";
+	mes "You're already are an Acolyte.....";
+	next;
+	mes "[Father Mareusis]";
+	mes "You are not joking with me, are you? Hoho!!..kids these days.";
+		emotion 18;
+	close;
+ERR1:
+	mes "[Father Mareusis]";
+	mes "Sorry but I don't think you are a Novice.";
+	close;
+ERR2:
+	mes "You haven't accomplished the Basic Training yet? You should train more, go back and reach at least Job Level 10 and learn 'Basic Skills' level 9 first. Do no worry, God is always with you.";
+	close;
+EXIT:
+	mes "[Father Mareusis]";
+	mes "Please Come back safely.";
+	close;
+}
+
+prt_fild03.gat,365,255,2 script "Ascetic"	89,{
+	   check Job == 4,L_PriestQ,-;
+	   check Job == 8,L_PriestQ,-;
+	   check Job == 24,NOV,-;
+	   check Job == 0,-,ERR0;
+NOV:
+	   check Aco_Quest >= 1,-,ERR1;
+	   check Aco_Quest == 1,-,NO1;
+	   random @RAND,100;
+	   check @RAND <= 50,OK1,OK2;
+OK1:
+	mes "[Father Rubalkabara]";
+	mes "Oh... Are you the young man who wish to become an Acolyte...? I already received the news of you from the Sanctuary.";
+	mes "Is your name .... $charaname .. Right! Yes,Thank you for visting me.";
+	next;
+	mes "[Father Rubalkabara]";
+	mes "I believe you've been informed about Acolyte so much from Friar Mareusis. That's why I won't tell more things.. Besides, I know your generation doesn't like being told by an old man. Ha, ha, ha...";
+	next;
+	mes "[Father Rubalkabara]";
+	mes "But you might have to withstand what elder people say. Because God loves to teach his children, you see.";
+		emotion 18;
+	mes "I will send the message that shows that you visited me to the Santuary as soon as I can.. so go back to Prontera child.";
+	next;
+	mes "[Father Rubalkabara]";
+	mes "Farewell.";
+	   save "prt_fild03",361,255;
+	   set Aco_Quest = 99;
+	close;
+OK2:
+	mes "[Father Rubalkabara]";
+	mes "Please take care. They would know about it the time you arrive at the Sanctuary.";
+	next;
+	mes "[Father Rubalkabara]";
+	mes "I sent them a pigeon with the message... I hope it will arrive safely...";
+	   save "prt_fild03",361,255;
+	   set Aco_Quest = 99;
+	close;
+NO1:
+	mes "[Father Rubalkabara]";
+	mes "Oh... Are you the young man who wish to become an Acolyte...? I already received the news of you from the Santuary.";
+	mes "Is your name .... $charaname ..... umm... I don't think you are on the List of Candidates.";
+		emotion 20;
+	next;
+	mes "[Father Rubalkabara]";
+	mes "...... Why don't you go back to the Santuary and check again?";
+	close;
+ERR0:
+	mes "[Father Rubalkabara]";
+	mes "Ohho... Do you come down here for Training? Or are you just a Wanderer..?";
+	mes "Whoever you are, please take care of yourself. monsters in here are shockingly strong contrary to their cute cpprearance.";
+	close;
+ERR1:
+	mes "[Father Rubalkabara]";
+	mes "Huh..? What brings you here? This is very dangerous place for a Novice like you. Please go back quickly, be safe!";
+		emotion 0;
+	close;
+EXIT:
+	close;
+L_PriestQ:
+		check PRIEST_Q == 1,L_Test,-;
+		check PRIEST_Q2 == 1,L_Test,-;
+		check PRIEST_Q == 1,L_Done,-;
+		check PRIEST_Q2 > 1,L_Done,-;
+	mes "[Father Rubalkabara]";
+	mes "It's good to see you again.  I expect all is well? Continue on your path of helping others and serving God, and let us pray for humanities salvation.";
+	close;
+L_Test:
+	mes "Ah hello there....";
+	next;
+	mes "[Father Rubalkabara]";
+	mes "What's this? You're here because you wish to serve God in an even greater capacity?";
+		emotion 1;
+	next;
+	menu "Yes, I believe Priesthood is the right path.",-,"No, not really.... just came to say hi.",M_No;
+	mes "[Father Rubalkabara]";
+	mes "Haha! Very good.  We need more people like yourself in order for this world to survive the evils that haunt it.";
+		emotion 21;
+	next;
+	mes "[Father Rubalkabara]";
+	mes "Because of your pure heart I will give you my blessing child.  Please meet with ^5533FFMother Marthilda^000000 next.";
+	next;
+	mes "[Father Rubalkabara]";
+	mes "You can find her in the map just north of the town of Morroc.  Have a safe journey and good luck on becoming a Priest.";
+		set PRIEST_Q2 = 2;
+	close;
+M_No:
+	mes "[Father Rubalkabara]";
+	mes "Oh... well then... hello to you too.  Although it is nice to see a servant of God such as yourself, I'm a little busy right now so if you don't mind.....";
+		emotion 4;
+	close;
+L_Done:
+	mes "Please see ^5533FFMother Mathilda^000000 next.  Good luck with your journey to becoming a Priest";
+	close;
+}
+
+moc_fild07.gat,41,355,4	script "Ascetic" 95,{
+	   check Job == 4,L_PriestQ,-;
+	   check Job == 24,NOV,-;
+	   check Job == 8,NOV,-;
+	   check Job == 0,-,ERR0;
+NOV:
+	   check Aco_Quest >= 1,-,ERR1;
+	   check Aco_Quest == 2,-,NO1;
+	   random @RAND,100;
+	   check @RAND <= 50,OK1,OK2;
+OK1:
+	mes "[Mother Mathilda]";
+	mes "Ah, You are the one of Acolyte applicants.I sincerely welcome you.";
+	next;
+	mes "[Mother Mathilda]";
+	mes "What is your name? Um... $charaname ..let's see.. Yes! I found you.";
+	mes "I will send the confirmation note to the Sanctuary that you, visited me.";
+	mes "Please go back to the Sanctuary and Speak to the Priest in Charge.";
+	   save "moc_fild07",35,355;
+	   set Aco_Quest = 99;
+	close;
+OK2:
+	mes "[Mother Mathilda]";
+	mes "I will send a pigeon with the message. When you arrive at the Sanctuary, the Priest in charge would receive and confirm my message.";
+	mes "I will pray to God for helping you to make your wish come true.";
+	   save "moc_fild07",35,355;
+	   set Aco_Quest = 99;
+	close;
+NO1:
+	mes "[Mother Mathilda]";
+	mes "Ah,You are the one of Acolyte applicants.I sincerely welcome you.";
+	mes "What is your name? Um... $charaname .. let's see..";
+	mes "..Well.. I can't see your name on the list ....";
+		emotion 20;
+	next;
+	mes "[Mother Mathilda]";
+	mes "I recommand you to return to the Sanctuary and check again.";
+	close;
+ERR0:
+	mes "[Mother Mathilda]";
+	mes "Hello and welcome.  I am Mother Marthilda.  Are you a weary traveler or a mighty warrior?";
+	mes "Whoever you are please make sure to keep your faith in God.";
+	close;
+ERR1:
+	mes "[Mother Mathilda]";
+	mes "My!! Aren't you a little far from your town?  A novice like you could get hurt.  Please be safe.";
+		emotion 0;
+	close;
+EXIT:
+	close;
+L_PriestQ:
+		check PRIEST_Q == 1,L_Test,-;
+		check PRIEST_Q2 == 2,L_Test,-;
+		check PRIEST_Q == 1,L_Done,-;
+		check PRIEST_Q2 > 2,L_Done,-;
+	mes "[Mother Mathilda]";
+	mes "Oh my... It's been a while since I've seen you.  My how you've grown.  It's nice to see one of God servants continuing to improve.";
+	mes "I wish you continued success child, and always remember to have faith.";
+	close;
+L_Test:
+	mes "[Mother Mathilda]";
+	mes "Ah, you're here for the Priest test aren't you?  I must say, you did a very good job in comming all this way.";
+	next;
+	mes "[Mother Mathilda]";
+	mes "That shows that you have true faith! It is my pleasure to allow you to continue on with your test.";
+	next;
+	mes "[Mother Mathilda]";
+	mes "You must now go see ^5533FFFather Yosuke^000000.  He is 1 map North and 2 maps East of Prontera.  I'm sure you will make a fine Priest!";
+		set PRIEST_Q2 = 3;
+	close;
+L_Done:
+	mes "[Mother Mathilda]";
+	mes "To complete your task you must go find ^5533FFFather Yosuke^000000.  Please be carefull and remeber to pray.";
+	close;
+}
+
+prt_fild00.gat,208,218,6 script "Ascetic"	98,{
+	   check Job == 4,L_PriestQ,-;
+	   check Job == 24,NOV,-;
+	   check Job == 8,NOV,-;
+	   check Job == 0,-,ERR0;
+NOV:
+	   check Aco_Quest >= 1,-,ERR1;
+	   check Aco_Quest == 3,OK1,-;
+	   random @RAND,100;
+	   check @RAND <= 50,NO1,No2;
+OK1:
+	mes "[Father Yosuke]";
+	mes "Hey. Whoever you are, you look like an Acolyte applicant.... am I right?";
+	next;
+	mes "[Father Yosuke]";
+	mes "Not bad, Not bad. You withstand the Long Journey pretty well.";
+	mes "What's your name? $charaname  ....";
+	next;
+	mes "[Father Yosuke]";
+	mes "Ok. I will send the confirmation note to the Sanctuary that you, visited me.";
+	mes "Now go back child. And Don't forget you have to return to the Sanctuary.";
+		emotion 27;
+	   save "prt_fild00",206,230;
+	   set Aco_Quest = 99;
+	close;
+NO1:
+	mes "[Father Yosuke]";
+	mes "Hey.You behind there.";
+	mes "You look like an Acolyte applicant... Right?";
+	next;
+	mes "[Father Yosuke]";
+	mes "Not bad, Not bad. You withstand the Long Journey pretty well.";
+	mes "Name? $charaname  .....Hmm.. Interesting.. I can't see your name on the List..?";
+		emotion 20;
+	next;
+	mes "[Father Yosuke]";
+	mes "I think you made a mistake.";
+	mes "......Well, I guess you have to go back to the Sanctuary.";
+	close;
+No2:
+	mes "[Father Yosuke]";
+	mes "What ? Have more Business with me?";
+		emotion 1;
+	next;	
+	mes "[Father Yosuke]";
+	mes "You don't? Please go back to the Santuary if not.";
+		emotion 27;
+	close;
+ERR0:
+	mes "[Father Yosuke]";
+	mes "Good day! Wanna ask me something?";
+	close;
+ERR1:
+	mes "[Father Yosuke]";
+	mes "...................";
+	close;
+EXIT:
+	close;
+L_PriestQ:
+		check PRIEST_Q == 1,L_Test,-;
+		check PRIEST_Q2 == 3,L_Test,-;
+		check PRIEST_Q == 1,L_Done,-;
+		check PRIEST_Q2 == 4,L_Done,-;
+	mes "[Father Yosuke]";
+	mes "Just because you're a servant of God doesn't mean you can come here and bother me.  Please leave...";
+	close;
+L_Test:
+	mes "[Father Yosuke]";
+	mes "Hmm...? Did you need something? Oh the Priest test..... are you sure you're up for that?";
+		emotion 1;
+	next;
+	mes "[Father Yosuke]";
+	mes "Meh, very well.  I will let you pass.  Go back to the church and speak with Father Thomas.  Your duty here has been fulfilled";
+		set PRIEST_Q2 = 4;
+	close;
+L_Done:
+	mes "[Father Yosuke]";
+	mes "Ugh? What are you still doing here...? I said to go back to the church.... I'm very busy right now....";
+		emotion 1;
+	close;
+}
+

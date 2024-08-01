@@ -1,0 +1,23 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Kunlun Fields - Monster Spawn Locations
+// Based upon jathena mobs.
+//
+//========================================================================================
+
+//========================================================================================
+// - Kunlun Field 01
+//========================================================================================
+
+gon_fild01.gat,0,0,0,0		monster	"Poporing"		1031,20,0,0,0
+gon_fild01.gat,0,0,0,0		monster	"Green Plant"	1080,5,0,0,0
+gon_fild01.gat,0,0,0,0		monster	"Shining Plant"	1083,1,1800000,900000,0
+gon_fild01.gat,0,0,0,0		monster	"Rice Cake Boy"	1409,30,0,0,0
+gon_fild01.gat,0,0,0,0		monster	"Wild Ginseng"	1413,2,0,0,0
+gon_fild01.gat,0,0,0,0		monster	"Baby Leopard"	1415,40,0,0,0
+gon_fild01.gat,0,0,0,0		monster	"Zipper Bear"	1417,20,0,0,0
+

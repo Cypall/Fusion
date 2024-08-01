@@ -1,0 +1,93 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Berserk Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Juan -> prt_in: 94,57
+//   Bring items to obtain skill. Applicable jobs are Swordsman, Knight and Crusader.
+//========================================================================================
+
+prt_in.gat,94,57,3	script	Juan	85,{
+	check Job = 1,Lcheck,-; 
+	check Job = 7,LStart,-;
+	check Job = 14,LStart,-;
+	goto LStartOther; 
+Lcheck: 
+	check JobLevel >= 30,-,LStartLowlv; 
+LStart: 
+	check skill_sm3 = 1,LStartTwice,-; 
+	checkitem 924,35,-,LStart2; 
+	checkitem 958,10,-,LStart2; 
+	checkitem 957,10,-,LStart2; 
+	checkitem 518,10,-,LStart2; 
+	goto L3_0; 
+Lstart2: 
+	mes "[Juan]"; 
+	mes "Welcome young Swordman you have come to me for something?"; 
+	next;
+	mes "[Juan]";
+	mes "You want me to learn you the berserk skill?"; 
+	next;
+	mes "[Juan]";
+	mes "You have to understand that it is not that easy."; 
+	next; 
+	mes "[Juan]"; 
+	mes "If im going to learn you the berserk skill you have to give me something in return."; 
+	mes "Hmm.. Let me see."; 
+	next; 
+	mes "[Juan]"; 
+	mes "Get me 35 ^FF0000Powder of Butterfly^000000, 10 ^FF0000Nail of Decayed^000000, 10 ^FF0000Horrendeous Mouth^000000 and 10 ^FF0000Honey^000000."; 
+	next;
+	mes "[Juan]";
+	mes "If you bring me these things I will learn you how to use the berserk. You have my word"; 
+	close; 
+L3_0: 
+	mes "[Juan]"; 
+	mes "Congratulations my dear friend. You have all 4 items I asked for."; 
+	mes "In return I will now learn you the skill: ^FF0000Berserk^000000."; 
+	next;
+	mes "[Juan]";
+	mes "Are you really sure you want to learn this skill?";  
+	next;
+	menu "yes I am",L3_1,"No I've changed my mind",L3_2; 
+	close; 
+L3_1: 
+	mes "[Juan]"; 
+	mes "Great job you have done well and deserve this skill."; 
+	next; 
+	delitem 924,35; 
+	delitem 958,10; 
+	delitem 957,10; 
+	delitem 518,10; 
+	set skill_sm3 = 1; 
+	setskilllevel 0x92,1;
+	mes "[Juan]"; 
+	mes "Good luck with your new skill."; 
+	close; 
+L3_2: 
+	mes "[Juan]"; 
+	mes "Come back whenever you feel ready for the Berserk skill."; 
+	mes "Good luck with your adventure."; 
+	close; 
+LStartOther: 
+	mes "[Juan]"; 
+	mes "I am Juan and I am a teacher in the Berserk skill."; 
+	mes "This skill can only be used by a Swordman."; 
+	mes "Unfortunately you ain't a swordman."; 
+	close; 
+LStartLowlv: 
+	mes "[Juan]"; 
+	mes "Hello young Swordman. You have to raise your level a little more before learning Berserk skill."; 
+	mes "You need to be atleast joblevel 30."; 
+	close; 
+LStartTwice: 
+	setskilllevel 0x92,1;
+	mes "[Juan]"; 
+	mes "You already have this skill implemented in your skilltree."; 
+	close; 
+}

@@ -1,0 +1,163 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Dancer Jobchanger - Non Player Character Locations
+//
+// - Performer Guildwomen -> job_duncer: 95,94
+//   Npc to become a Dancer.
+//
+// - Sonotora -> comodo: 180,154
+//   Talks about the dance school.
+//
+// - Bor Robin -> comodo: 193,152
+//   Warps you to dance school.
+//
+// - Back Dancer -> job_duncer: 66,113
+//   A Back Dancer.
+//
+// - Back Dancer -> job_duncer: 72,113
+//   A Back Dancer.
+//
+// - Back Dancer -> job_duncer: 74,110
+//   A Back Dancer.
+//
+// - Back Dancer -> job_duncer: 64,110
+//   A Back Dancer.
+//
+// - Aile -> job_duncer: 43,94
+//   Tells you only authorised personell may com there.
+//
+//========================================================================================
+
+job_duncer.gat,95,94,4 script "Performer Guildwomen" 101,{
+         check Job == 3,-,L_MENU1_D1;
+      mes "[Bijou]";
+      mes "What is it you are looking for?";
+      next;
+      menu "Jobchange",L_MENU_D_1,"Job Requirements",L_MENU_D_2,"End",-;
+      close;
+L_MENU_D_1:
+      mes "[Bijou]";
+      mes "First I'll check if all the requirements have been met.";
+      next;
+         check JobLevel >= 40,-,L_MENU1_D2;
+         check SkillPoint == 0,-,L_MENU1_D3;
+         check Gender == 0,-,L_MENU1_D4;
+         jobchange 20;
+      mes "[Bijou]";
+      mes "Welcome to the Dancer's guild!";
+      close;
+L_MENU1_D1:
+      mes "[Bijou]";
+      mes "Oh dear~you seem to have come from";
+      mes "far to watch my dance~.";
+      next;
+      mes "[Bijou]";
+      mes "Unfortunately, I've retired and am";
+      mes "focusing on training new Dancers~.";
+      mes "But I do have a lot of students~.
+      next;
+      mes "[Bijou]";
+      mes "If you go to the center stage, you";
+      mes "can watch those I've taught~.";
+      close;
+L_MENU1_D2:
+      mes "[Bijou]";
+      mes "I can't make u a Dancer with your current joblevel.";
+      close;
+L_MENU1_D3:
+      mes "[Bijou]";
+      mes "Please use up all your skills first.";
+      close;
+L_MENU1_D4:
+      mes "[Bijou]";
+      mes "You can't change your job to Dancer unless you're female.";
+      close;
+L_MENU_D_2:
+      mes "[Bijou]";
+      mes "Archers of Job Level 40 and above may become Dancers.";
+      next;
+      mes "[Bijou]";
+      mes "Its a Great Time to become a Bard or Dancer they are in Much demand!";
+      next;
+      mes "[Bijou]";
+      mes "You can't miss the perfect chance!";
+      close;
+}
+
+comodo.gat,180,154,4 script "Sonotora" 90,{
+      mes "[Athena Sonotora]";
+      mes "They say the famous dance school here";
+      mes "in Comodo is going to open soon..";
+      next;
+      mes "[Athena Sonotora]";
+      mes "Aah....A prima donna in the";
+      mes "spotlight!";
+      next;
+      mes "[Athena Sonotora]";
+      mes "I want to signup too...";
+      mes "but the requirements are so";
+      mes "specific...";
+      mes "...I wonder if I should just try";
+      mes "anyways...";
+      close;
+}
+
+comodo.gat,193,152,4 script "Bor Robin" 86,{
+      mes "[Bor Robin]";
+      mes "Aah...A prima donna in the spotlight!";
+      mes "I'll be able to watch them become";
+      mes "dancers right before my eyes!!...";
+      next;
+      mes "[Bor Robin]";
+      mes "I'm glad I was born on this day!!";
+      mes "Hurray for the Comodo Theatre!!";
+      next;
+      mes "[Bor Robin]";
+      mes "Mm? You want to go, too?";
+      mes "It's an opportunity to watch";
+      mes "the Dancer job change test.";
+      next;
+      menu "Go to the job change area",L_Go,"Cancel",-;
+      mes "[Bor Robin]";
+      mes "Hmm..can't help it if you don't";
+      mes "want to..";
+      close;
+L_Go:
+      mes "[Bor Robin]";
+      mes "Yaay~~ let's go!";
+      next;
+         warp "job_duncer",70,49;
+      close;
+}
+
+job_duncer.gat,66,113,4 script "Back Dancer" 724,{
+}
+
+job_duncer.gat,72,113,4 script "Back Dancer" 724,{
+}
+
+job_duncer.gat,64,110,4 script "Back Dancer" 724,{
+}
+
+job_duncer.gat,74,110,4 script "Back Dancer" 724,{
+}
+
+job_duncer.gat,43,94,4 script "Aile" 724,{
+      mes "[Aile]";
+      mes "Welco.....Mmm?";
+      mes "Hey, only authorised personnel";
+      mes "can come here.";
+      next;
+      mes "[Aile]";
+      mes "Not anyone can step";
+      mes "foot in this school.";
+      mes "If you want to watch,";
+      mes "go to the stage in town.";
+      close;
+}
+
+

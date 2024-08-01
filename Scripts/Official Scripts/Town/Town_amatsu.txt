@@ -1,0 +1,1586 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Amatsu Town - Non Player Character Locations
+// - Translated by RPG-Advocate
+//
+//
+// - Merchant Ship Captain -> alberta: 245,93
+//   A captain that can send you to Amatsu.
+//
+// - Merchant Ship Captain -> amatsu: 194,79
+//   A captain that can send you back to alberta.
+//
+// - John -> amatsu: 179,107
+//   Foreign merchant that now lives with the locals of Amatsu.
+//
+// - Drunk Old Man -> amatsu: 185,116
+//   A drunk old man that keeps talking about another place.
+//
+// - Old Woman -> amatsu: 217,179
+//   Old woman that talks about here husband.
+//
+// - Sushi Chef -> ama_in01: 162,17
+//   Here you can buy food or do a little quest.
+//
+// - Kouji -> amatsu: 189,166
+//   Kuruchi sometimes gives you valuable information if you talked to the other locals.
+//
+// - True Beauty -> amatsu: 205,163
+//   A girl that talks about Ms. Amatsu.
+//
+// - Daughter -> amatsu: 230,160
+//   Talks about a water well.
+//
+// - GateKeeper -> amatsu: 171,174
+//   GateKeeper that talks about his master.
+//
+// - GateKeeper -> amatsu: 164,174
+//   GateKeeper that talks about his masters mother.
+//
+// - GateKeeper -> amatsu: 119,164
+//   GateKeeper that talks the towns history.
+//
+// - GateKeeper -> amatsu: 112,164
+//   GateKeeper that talks about the castle.
+//
+// - Old Lady -> ama_in01: 22,111
+//   A old lady with a story about the amatsu gods.
+//
+// - GateKeeper -> ama_in02: 207,40
+//   GateKeeper that talks about his master.
+//
+// - GateKeeper-> ama_in02: 207,49
+//   GateKeeper that talks about his master.
+//
+// - Soldier -> ama_in02: 187,57
+//   A soldier that say you can rest there.
+//
+// - Soldier -> ama_in02: 170,62
+//   A soldier where you can get a town pass.
+//
+// - Soldier -> ama_in02: 37,157
+//   A soldier in the soldiers training grounds.
+//
+// - Soldier -> ama_in02: 32,51
+//   A sick soldier.
+//
+// - Soldier -> ama_in02: 40,167
+//   Npc that will tell you a rumour.
+//
+// - Soldier -> ama_in02: 32,167
+//   Npc that will tell that kuro is nuts.
+//
+// - Soldier -> ama_in02: 42,34
+//   Npc that teels you you can rest here.
+//
+// - Soldier -> ama_in02: 203,156
+//   Npc that tell you his master is in there.
+//
+// - Soldier -> ama_in02: 195,156
+//   A soldier that serves his master.
+//
+// - Soldier -> ama_in02: 115,177
+//   A soldier that can warp you to the Amatsu Dungeon with the proper clearance.
+//
+// - Soldier -> ama_dun01: 229,7
+//   A soldier that can warp you out of the Amatsu Dungeon.
+//
+// - Lord -> ama_in02: 200,176
+//   Owner of the east lake castle.
+//
+// - Fox Mask -> ama_in01: 180,173
+//   Npc that talks about a fox.
+//
+// - Tokari -> ama_in01: 169,173
+//   Npc that talks about Takikuwi.
+//
+// - Proposing Girl -> amatsu: 269,221
+//   Npc that talks about a Legend.
+//
+// - Jyaburo -> amatsu: 287,266
+//   Man that talks about his deceased wife.
+//
+// - Vet -> amatsu: 274,178
+//   A vet that cures animals.
+//
+// - Pokepoke -> amatsu: 283,203
+//   Npc that talks about a tree.
+//
+// - Legendary Sakura Tree -> amatsu: 261,197
+//   The Legendary Sakura Tree.
+//
+//==================================================================================
+
+alberta.gat,245,93,4 script "Merchant Ship Captain" 709,{
+	mes "[Carter Moores]";
+	mes "Have you heard about;
+	mes "the far away kingdom across the sea
+      mes "that's very different from the 
+      mes "Rune-Midgard Kingdom?";
+	next;
+	menu "You mean Amatsu?",L_Mean,"Take me there!",L_Take,"No, and I'm not interested",-;
+	mes "[Carter Moores]";
+	mes "Well, if you want to cross the sea";
+	mes "to Amatsu, look me up.";
+	close;
+L_Mean:
+	mes "[Carter Moores]";
+	mes "Well, Amatsu was discovered when";
+	mes "a sailor went off-course.";
+	mes "A vicious thunderstorm sent";
+	mes "the sailor and his crew hurdling into";
+	mes "a new landmass...";
+	next;
+	mes "[Carter Moores]";
+	mes "After crashing on shore, the sailor";
+	mes "quickly found Amatsu.";
+	mes "The townspeoeple welcomed the sailor";
+	mes "with open arms, giving him medical";
+	mes "care and food.  The sailor then stayed";
+	mes "there for awhile.";
+	next;
+	mes "[Carter Moores]";
+	mes "After awhile, the sailor was able";
+	mes "to return to Rune-Midgard and";
+	mes "drew a map of Amatsu's approximate";
+	mes "location.  Before dying, he presented";
+	mes "this map to King Tristan III.  The king";
+	mes "then began offering a prize for anyone";
+      mes "who could find the way to Amatsu.";
+	next;
+	mes "[Carter Moores]";
+	mes "With the prize offering and the lure";
+	mes "of lucrative trade with a faraway";
+	mes "land, lots of adventureres tried";
+	mes "to find Amatsu.";
+	next;
+	mes "[Carter Moores]";
+	mes "Every single attempt was a failure.";
+	mes "The nasty currents and incliment";
+	mes "weather were just too much for the";
+	mes "adventurers to handle.  Consumed";
+	mes "with the prospect of the reward and";
+	mes "trading rights, they didn't make";
+      mes "preparations.";
+	next;
+	mes "[Carter Moores]";
+	mes "The way was finally discovered when a";
+	mes "certain person found a secret route.";
+	mes "That person was none other than yours";
+	mes "truly!";
+	mes "I was the first person to initiate";
+	mes "trade relations with Amatsu!";
+	next;
+	mes "[Carter Moores]";
+	mes "After awhile, the trading relationship";
+	mes "became profitable and I expanded";
+	mes "my business to include tourism.";
+	mes "If you want me to take you to";
+	mes "Amatsu, I'm ready and waiting.";
+	close;
+L_Take:
+	mes "[Carter Moores]";
+	mes "Oh!  So you want to go to";
+	mes "Amatsu, eh?";
+	mes "It's a pretty hazardous";
+	mes "journey, so the price is pretty high.";
+	next;
+	mes "[Carter Moores]";
+	mes "It's 10000 Zeny for a";
+	mes "round-trip ticket.  You";
+	mes "can use the guest room in my boat.";
+	next;
+	mes "[Carter Moores]";
+	mes "So, are you up for the";
+      mes "trip?";
+	next;
+	menu "OMG YES!",L_Go,"Not really...",-;
+	mes "[Carter Moores]";
+	mes "Are you not curious, or";
+	mes "is my fee too expensive?";
+	close;
+L_Go:
+         check zeny >= 10000,-,L_Zeny; 
+	mes "[Carter Moores]";
+	mes "Alright, let's go!";
+	next;
+         set zeny -= 10000;
+	   warp "amatsu",197,83;
+L_Zeny:
+	mes "[Carter Moores]";
+	mes "You don't have enough money!";
+	close;
+}
+
+amatsu.gat,194,79,4 script "Merchant Ship Captain" 709,{
+	mes "[Carter Moores]";
+	mes "Are you done looking around in";
+	mes "Amatsu?  Would you like to";
+	mes "return to Alberta now?";
+	next;
+	menu "Back to Alberta",L_Back,"I'll stay a little longer",-;
+	mes "[Carter Moores]";
+	mes "Take your time.  I'm always ready";
+	mes "to return to Alberta."
+	close;
+L_Back:
+	mes "[Carter Moores]";
+	mes "Did you buy something to";
+	mes "bring back for your friends?";
+	mes "Let's go to Alberta.";
+	next;
+	   warp "alberta",243,91;
+}
+
+amatsu.gat,179,107,4 script "John" 86,{
+	mes "[John]";
+	mes "Five years have passed since";
+	mes "I started my business here.";
+	next;
+	mes "[John]";
+	mes "When Rune-Midgard and";
+	mes "Amatsu started a trade";
+	mes "relationship, I thought my";
+	mes "business would go belly-up for sure.";
+	next;
+	mes "[John]";
+	mes "Disaster can be averted with";
+	mes "preparation, though.";
+	next;
+	mes "[John]";
+	mes "I started a cooking business";
+	mes "here in Amatsu to share";
+	mes "the native dishes with";
+	mes "foreigners.";
+	next;
+	mes "[John]";
+	mes "The sushi shop owner across";
+	mes "the street makes the best";
+	mes "sushi and sashimi, though.";
+	close;
+}
+
+amatsu.gat,185,116,4 script "Drunk Old Man" 765,{
+	mes "[Geezer]";
+	mes "Hic!  I am such a fool.";
+	mes "I hope...Hic!...";
+	mes "she doesn't...Hic!";
+	mes "hurt me!...Hic!";
+	next;
+	menu "An old woman is waiting inside",L_Old,"I understand how you feel",L_Feel;
+L_Feel:
+	mes "[Geezer]";
+	mes "Kyukuku...I'm glad...";
+	mes "you understand that...hic!";
+	mes "alcohol is my life...";
+	mes "Kykukukukyu...Hic!";
+	next;
+	mes "[Geezer]";
+	mes "Now I just need to survive";
+	mes "when I get home...Kyukukukyu.;
+	mes "....Hic!....";
+	close;
+L_Old:
+	mes "[Geezer]";
+	mes "That's my wife...hic!";
+	mes "I hope I don't have to argue with her...";
+	mes "Hic!";
+	mes "You might not know this,";
+	mes "but my wife killed a tiger with";
+	mes "her bare hands when she was younger!";
+	next;
+	mes "[Geezer]";
+	mes "Ah...Hic!  Hic!";
+	mes "Boy am I screwed......";
+	mes "Hic!  Hic!";
+	mes ".......................";
+	mes ".......................";
+	close;
+}
+
+amatsu.gat,217,179,0 script "Old Woman" 760,{
+	mes "[Hatsu]";
+	mes "My husband is abosrbed in";
+	mes "his gambling.";
+	mes "The money situation is terrible.";
+	next;
+	mes "[Hatsu]";
+	mes "I lost my temper and yelled at";
+	mes "him, and now he's gone and gotten";
+	mes "himself drunk at the bar.";
+	mes "He's become afraid of me...";
+	close;
+}
+
+ama_in01.gat,162,17,0 script "Sushi Chef" 765,{
+	   check event_sushi != 5,L_Debags,-;
+	   set event_sushi = 0;
+L_Debags:
+	   check event_sushi = 1,L_Start2,-; 
+         check event_sushi = 2,L_Start2,-;
+         check event_sushi = 3,L_Start2,-;
+	mes "[Magmag]";
+	mes "Wow!  Another customer?";
+	mes "It's been so busy today";
+	mes "that I haven't been able to";
+	mes "clear or resupply my";
+	mes "materials.";
+	next;
+	mes "[Magmag]";
+	mes "I can't be lazy if I want";
+	mes "my sushi to be the best!";
+	mes "Oh?  Did you need something?";
+	next;
+	menu "I want some sushi",L_Want,"I want some sashimi",L_Want2,"You need some help?",L_Need,"Nevermind",-;
+	mes "[Magmag]";
+	mes "Once you taste my fish delicacies,";
+	mes "you won't be able to stop eating them.";
+	mes "Please do come back.";
+	close;
+L_Want:
+	mes "[Magmag]";
+	mes "Great!  You can either buy";
+	mes "one serving for 74 Zeny, or";
+	mes "I can give you a bulk discount";
+	mes "at ten for 700 Zeny.";
+	next;
+	menu "I want to buy in bulk!",L1_1,"I'll just have one, thanks",L1_2,"I changed my mind",-;
+	mes "[Magmag]";
+	mes "Oh, I assure you, our sushi's";
+	mes "freshness is unparalleled!";
+	mes "Please come back and try it sometime!";
+	close;
+L1_1:
+         check zeny >= 700,-,L_Zeny; 
+         set zeny -= 700;
+	   additem 551,10;
+	mes "[Magmag]";
+	mes "Coming right up!";
+	mes "Please don't hestitate to come back!";
+	close;
+L1_2:
+         check zeny >= 74,-,L_Zeny; 
+         set zeny -= 74;
+	   additem 551,1;
+	mes "[Magmag]";
+	mes "Coming right up!";
+	mes "Please don't hestitate to come back!";
+	close;
+L_Want2:
+	mes "[Magmag]";
+	mes "Sashimi, eh?  You can either buy";
+	mes "one serving for 37 Zeny, or";
+	mes "I can give you a bulk discount";
+	mes "at ten for 350 Zeny.";
+	next;
+	menu "I want to buy in bulk!",L2_1,"I'll just have one, thanks",L2_2,"I changed my mind",-;
+	mes "[Magmag]";
+	mes "Oh, I assure you, our sashimi's";
+	mes "freshness is unparalleled!";
+	mes "Please come back and try it sometime!";
+	close;
+L2_1:
+         check zeny >= 350,-,L_Zeny; 
+         set zeny -= 350;
+	   additem 544,10;
+	mes "[Magmag]";
+	mes "Coming right up!";
+	mes "Please don't hestitate to come back!";
+	close;
+L2_2:
+         check zeny >= 37,-,L_Zeny; 
+         set zeny -= 37;
+	   additem 544,1;
+	mes "[Magmag]";
+	mes "Coming right up!";
+	mes "Please don't hestitate to come back!";
+	close;
+L_Zeny:
+	mes "[Magmag]";
+	mes "Sorry, but I can't give out samples...";
+	close;
+L_Need:
+	mes "[Magmag]";
+	mes "Oh!  I'm so grateful you";
+	mes "said that!  ";
+	mes "I'm having difficulty";
+	mes "keeping stuff in stock.";
+	mes "If you could help me, I would";
+	mes "be grateful...";
+	next;
+         random @sushirand,3;
+	   check @sushirand = 1,L_Rand1,-;
+	   check @sushirand = 2,L_Rand2,-;
+	   set event_sushi = 1;
+	mes "[Magmag]";
+	mes "In order to make an";
+	mes "exotic dish, I need";
+	mes "^0000FF10x Crab Shell^000000.";
+	mes "Could you pick some up for me?";
+	goto L_Randend;
+L_Rand1:
+	   set event_sushi = 2;
+	mes "[Magmag]";
+	mes "I've been having trouble stocking shellfish lately.";
+	mes "Could you find or purchase ^0000ff10x Shellfish^000000 for me"
+	mes "as quickly as you can?";
+	mes "I'm sorry to impose.;
+	goto L_Randend;
+L_Rand2:
+	   set event_sushi = 3;
+	mes "[Magmag]";
+	mes "I really could use some candy.";
+	mes "If you could pick up
+      mes "^0000ff10x Candy^000000,";
+      mes "that would lighten my load";
+	mes "a lot.";
+	goto L_Randend;
+L_Randend:
+	next;
+	mes "[Magmag]";
+	mes "Thank you very much for offering your";
+	mes "assistance!  See you soon!";
+	close;
+L_Start2:
+	   check event_sushi = 1,L_Es1,L_Forgot1;
+	   check event_sushi = 2,L_Es2,L_Forgot2;
+	   check event_sushi = 3,L_Es3,L_Forgot3;
+L_Es1:
+         checkitem 964,10,L_Ok,-;
+L_Forgot1:
+	mes "[Magmag]";
+	mes "Have you forgotten what I asked";
+	mes "you to find?";
+	next;
+      mes "^0000FF10x Crab Shell^000000";
+	mes "Again, I apologize for imposing...";
+	close;
+
+L_Es2:
+         checkitem 961,10,L_Ok,-;
+L_Forgot2:
+	mes "[Magmag]";
+	mes "Have you forgotten what I asked";
+	mes "you to find?";
+	next;
+      mes "^0000FF10x Shellfish^000000";
+	mes "Again, I apologize for imposing...";
+	close;
+L_Es3:
+         checkitem 529,10,L_Ok,-;
+L_Forgot3:
+	mes "[Magmag]";
+	mes "Have you forgotten what I asked";
+	mes "you to find?";
+	next;
+      mes "^0000FF10x Candy^000000";
+	mes "Again, I apologize for imposing...";
+	close;
+L_Ok:
+	mes "[Magmag]";
+      mes "Thank you!";
+	mes "This is exactly what I needed.";
+      mes "Please take this food in return for your help.";
+	next;
+	   check event_sushi = 2,L_Del1,-;
+	   check event_sushi = 3,L_Del2,-;
+	   delitem 964,10;
+         additem 551,20;
+      goto L_Delend;
+L_Del1:
+	   delitem 961,10;
+         additem 551,30;
+      goto L_Delend;
+L_Del2:
+	   delitem 529,10;
+         additem 544,15;
+      goto L_Delend;
+L_Delend:
+	mes "[Magmag]";
+	mes "If you're free again sometime, come";
+	mes "on by and I can have you run another errand.";
+	   set event_sushi = 0;
+	close;
+}
+
+amatsu.gat,189,166,4 script "Kouji"	764,{
+	mes "[Kouji]";
+	mes "Rararararara...";
+	mes "Rararararara...";
+	next;
+	   check event_amatsu = 2,L1,-;
+	   check event_amatsu = 3,L2,-;
+         check event_amatsu = 4,L2,-;
+	   check event_amatsu = 5,L3,-;
+	   check event_amatsu = 6,L4,-;
+L0:
+	mes "[Kouji]";
+	mes "Blue sky, blue water,";
+	mes "blue stone, blue roofs,";
+	mes "Everywhere I look I see";
+	mes "blue!";
+	goto L_End;
+L1:
+	mes "[Kouji]";
+      mes "A demon fox spirit harassing the
+      mes "lead monk!";
+	mes "It won't get me, though, 
+      mes "Udon noodles are like";
+	mes "sweet ambrosia!";
+	mes "I eat them three times a day";
+	mes "to keep the demons away!";
+	   set event_amatsu = 3;
+	goto L_End;
+L2:
+	mes "[Kouji]";
+	mes "A demon fox spirit is harassing the lead monk!";
+      mes "You need a loud voice";
+	mes "to remove it, but I don't have";
+	mes "the requisite voice.  I'm going to";
+      mes "stay in the shrine until it's gone!";
+	   set event_amatsu = 4;
+	goto L_End;
+L3:
+	mes "[Kouji]";
+	mes "Awesome!  I love my Udon";
+	mes "noodles!";
+	mes "Let's hear it for udon noodles!";
+	goto L_End;
+L4:
+	mes "[Kouji]";
+	mes "There is a boat that was";
+	mes "abandoned near the town.";
+	mes "Rumor has it that there is";
+	mes "plenty of treasure in the boat,";
+      mes "but all the townspeople are afraid of it.";
+	goto L_End;
+L_End:
+	next;
+	mes "[Kouji]";
+	mes "Rararararara...";
+	mes "Rararararara...";
+	close;
+}
+
+amatsu.gat,205,163,4 script "True Beauty" 759,{
+	mes "[Mimi]";
+	mes "Fufu!";
+	mes "I'm prettier than that girl who";
+	mes "hangs around the port, right?";
+	next;
+	mes "[Mimi]";
+	mes "When I grow up, I'll participate";
+	mes "in the all-Amatsu beauty contest, too!";
+	next;
+	mes "[Mimi]";
+	mes "Even though I'm the most";
+	mes "beautiful woman in the village,";
+	mes "I always need to keep my";
+	mes "beauty maintained.  Fufu!";
+	close;
+}
+
+amatsu.gat,230,160,4 script "Daughter" 757,{
+	mes "[Yuko]";
+	mes "Though I come here to get";
+	mes "water every day, I don't feel like";
+	mes "coming here when it's raining.";
+	next;
+	mes "[Yuko]";
+	mes "This well is really deep.";
+	mes "You can't even see the bottom...";
+	close;
+}
+
+amatsu.gat,171,174,4 script "Gatekeeper" 767,{
+	   check event_amatsu == 0,L0,-;
+         check event_amatsu == 1,L0,-;
+	   check event_amatsu == 6,L1,-;
+	   check event_amatsu == 7,L2,-;
+	mes "[Gatekeeper]";
+	mes "Lots of doctors visit";
+	mes "here, but with the visits";
+	mes "come unwanted attention.";
+	close;
+L0:
+	mes "[Gatekeeper]";
+	mes "Please be quiet.  The lord's";
+	mes "mother is resting.";
+	mes "We need to watch over her.";
+	next;
+	mes "[Gatekeeper]";
+	mes "It's sad what the lord has";
+	mes "had to go through recently...";
+	close;
+L1:
+	mes "[Gatekeeper]";
+	mes "Whoa!";
+	mes "That was a really loud";
+	mes "noise!  Do you know what";
+	mes "happened?!";
+	close;
+L2:
+	mes "[Gatekeeper]";
+	mes "The lord is fine now.";
+	mes "The castle staff is so relieved.";
+	mes "We no longer have to be afriad.";
+	close;
+}
+
+amatsu.gat,164,174,4 script "Gatekeeper" 767,{
+	   check event_amatsu = 0,L_Once,-;
+	   check event_amatsu = 2,L2,-;
+	   check event_amatsu = 3,L2,-;
+	   check event_amatsu = 4,L2,-;
+         check event_amatsu = 5,L2,-;
+	   check event_amatsu = 6,L3,-;
+	   check event_amatsu = 7,L4,-;
+	mes "[Gatekeeper]";
+	mes "The lord and the entire castle";
+	mes "staff hope the lord's mother";
+	mes "will recover soon, for all our sakes.";
+	close;
+L_Once:
+	mes "[Gatekeeper]";
+	mes "No one may pass!";
+	mes "The lord's mother is";
+	mes "being treated now!";
+	next;
+	mes "[Gatekeeper]";
+	mes "Though between you and me,";
+	mes "I've had to walk on eggshells for";
+	mes "the past few months because";
+      mes "of the sickness.";
+	   set event_amatsu = 1;
+	close;
+L2:
+	mes "[Gatekeeper]";
+	mes "If you need to see the";
+	mes "lord, please enter.";
+	close;
+L3:
+	mes "[Gatekeeper]";
+	mes "Ahhh!";
+	mes "What was that sound?!";
+	mes "What happened?!";
+	close;
+L4:
+	mes "[Gatekeeper]";
+	mes "The lord's mother hasn't completely";
+	mes "recovered yet, but she";
+	mes "is improving daily.";
+	close;
+}
+
+amatsu.gat,119,164,4 script "Gatekeeper" 767,{
+	mes "[Gatekeeper]";
+	mes "You're from Rune-Midgard, right?";
+	mes "Welcome to Amatsu.  Please";
+	mes "go see the castle lord by";
+	mes "the fountain in the garden.";
+	next;
+	mes "[Gatekeeper]";
+	mes "We're hoping to become";
+	mes "propserious by trading with";
+	mes "other countries.";
+	close;
+}
+
+amatsu.gat,112,164,4 script "Gatekeeper" 767,{
+	mes "[Gatekeeper]";
+	mes "This is Touko caste from which";
+	mes "the lord rules.";
+	mes "Entry to the public is usually";
+	mes "prohibited...";
+	next;
+	mes "[Gatekeeper]";
+	mes "However, by the looks of your clothes, you";
+	mes "seem to be foreigners.";
+	mes "The lord has given tourists special";
+	mes "permission to enter the castle,";
+	mes "so please, have a look around.";
+	close;
+}
+
+ama_in01.gat,22,111,0 script "Old Lady" 761,{
+	   check event_amatsu = 5,L_Start2,-;
+	   check event_amatsu = 6,L_Start3,-;
+	   check event_amatsu = 7,L_Start4,-;
+	mes "[...]";
+	mes "^FF6060Kekeke...Fool...";
+	mes "Ke...? Are you human?";
+	mes "What do you want?!";
+	mes "Kikiiiiiiii!^000000";
+	next;
+	mes "[...]";
+	mes "^FF6060I won't rest until";
+	mes "the Ishida bloodline";
+	mes "is cleansed from this earth.^000000";
+	next;
+	   warp "amatsu",167,197;
+L_Start2:
+	mes "[...]";
+	mes "^FF6060Kakekekeke...You certainly";
+	mes "look suspicious!";
+	mes "I think you're going to try and";
+	mes "use some clever trick to drive me away!^000000";
+	next;
+	mes "[...]";
+	mes "^FF6060Even if you know the method to";
+	mes "drive me off, my resolve is no";
+	mes "match for yours!^000000";
+	next;
+	menu "Grrrrrrr!!!",-;
+	   random @WHICH,2;
+	   check @WHICH <= 1,L_Fail,-;
+	mes "[...]";
+	mes "^FF6060Ha....Haha!  Stupid human!";
+	mes "Did you really think I would go without"
+	mes "a fight?!^000000";
+	next;
+	mes "[...]";
+	mes "^FF6060I will curse the Ishida famila forever!";
+	mes "You won't intervene if you know what's good for yoU!^000000";
+	next;
+         callmob ama_in01,22,111,"Fox" 1180,1;  
+         resetmymob ama_in01;
+	   additem 1022,1;
+	mes "[...]";
+	mes "^FF6060You may have prevailed this";
+	mes "time, but I will visit misfortune upon";
+	mes "you, your descendants, and their descendants!";
+	mes "^ff0000Gyaaaaaaaaaaaaah!^000000";
+	   set event_amatsu = 6;
+	close;
+L_Fail:
+	mes "[...]";
+	mes "^FF6060Keke...Kekekek....";
+	mes "You're really trying to get rid of";
+	mes "me using that pathetic method?";
+	mes "You really suck!^000000";
+	next;
+	   warp "amatsu",167,197;
+L_Start3:
+	mes "[Ishida Sayoko]";
+	mes "Ah, young one.  Are";
+	mes "you the one who drove away";
+	mes "the demon fox?";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "Thank you for all your hard";
+	mes "work.  I'm sure it was";
+	mes "difficult...";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "My son must have been frightened.";
+	mes "I need to apologize to him";
+	mes "for all the worry I caused.";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "I'm still tired, though";
+	mes "I need to rest...";
+	close;
+L_Start4:
+	mes "[Ishida Sayoko]";
+	mes "Oh!  Welcome back!";
+	mes "Thanks again for driving";
+	mes "away the demon fox spirit.";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "I don't know how the demon";
+	mes "fox spirit was able to possess me.";
+	mes "I hate to think I cause my beautiful";
+	mes "son that kind of anguish.";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "Amatsu wasn't originally as large";
+	mes "as it is today.  Through the";
+	mes "building of Touko castle, strengthening";
+	mes "of infrastructure, and helping";
+	mes "the underclass prosper, we have";
+	mes "achieved prosperity.";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "In finding that prosperity, we had";
+	mes "to learn how to protect ourselves from";
+	mes "demons.  Unfortunately, during the";
+      mes "research, a demon was drawn to Touko castle.";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "God became angry at us, and even";
+	mes "the monks couldn't use their divine";
+	mes "power to drive the demon away.";
+	next;
+	mes "[Ishida Sayoko]";
+	mes "I want to demonstrate my remorse;
+	mes "for causing my son trouble in";
+	mes "some active way, but my old bones";
+	mes "preclude such a possibility.";
+	mes "Please help my son protect this";
+	mes "land.";
+	close;
+}
+
+ama_in02.gat,207,40,6 script "Gatekeeper"	767,{
+	mes "[Gatekeeper]";
+	mes "Welcome.  The lord has specifically";
+	mes "permitted foreigners to enter";
+	mes "and leave the castle as they see fit.";
+	mes "Please be respectful at all times.";
+	close;
+}
+
+ama_in02.gat,207,49,6 script "Gatekeeper" 767,{
+	mes "[Gatekeeper]";
+	mes "The lord is an extremely popular";
+	mes "person.  He was instrumental in";
+	mes "aiding the growth of Amatsu to";
+	mes "its present glory.";
+	next;
+	mes "[Gatekeeper]";
+	mes "He even employed me, even though my bloodline";
+	mes "wouldn't normally give me the right to";
+	mes "serve in this position.";
+	next;
+	mes "[Gatekeeper]";
+	mes "But I worry about him sometimes.";
+	mes "He has so much on his mind.  I think";
+	mes "he subordinates his own happiness to Amatsu's...";
+	close;
+}
+
+ama_in02.gat,187,57,2 script "Soldier" 767,{
+	mes "[Ichirou]";
+	mes "Greetings.";
+	mes "The lord has prepared this guest";
+	mes "room so that tourists can";
+	mes "sleep overnight in the castle.";
+	next;
+	mes "[Ichirou]";
+	mes "If there's anything you need,";
+	mes "don't hesitate to ask.";
+	mes "Before you go, be sure to meet";
+	mes "the lord at least once.";
+	mes "He's always anxious to meet";
+	mes "interesting people.";
+	close;
+}
+
+ama_in02.gat,170,62,4 script "Soldier" 767,{
+	mes "[Jirou]";
+	mes "My name is Jirou.  I'm a";
+	mes "castle administrator.  How";
+	mes "can I help you?";
+	next;
+	menu "I need a travel permit",L_Need,"I want citizenship",L_want,"Nothing",L_Nothing;
+L_Need:
+	   check event_amatsu == 7,L1_1,-;
+	mes "[Jirou]";
+	mes "The lord allows foreign guests";
+	mes "to come and go as they please.";
+	mes "A travel permit isn't necessary.";
+	close;
+L1_1:
+	   checkitem 7160,0,L1_2,-;
+	mes "[Jirou]";
+	mes "You already have a travel permit.";
+	mes "I can't issue you another one.";
+	close;
+L1_2:
+	mes "[Jirou]";
+	mes "Did you lose your travel permit?";
+	mes "You'll need to pay a fee of";
+	mes "10,000 Zeny to get another one.";
+	next;
+	menu "Alright",L1_2_1,"R-i-p-o-f-f!",-;
+	mes "Uhh...right.";
+	mes "Let me know if you";
+	mes "change your mind.";
+	close;
+L1_2_1:
+         check zeny >= 10000,-,L_Error; 
+         set zeny -= 10000
+	   additem 7160,1;
+	mes "[Jirou]";
+	mes "OK.  Here you are.";
+	mes "Please keep it in a safe place.";
+	close;
+L_Error:
+	mes "[Jirou]";
+	mes "Insufficient funds to complete this transaction.";
+	close;
+L_Want:
+	mes "[Jirou]";
+	mes "Well...that's a bit of a problem...";
+	mes "No worries, though.  We don't";
+	mes "really care how long our";
+	mes "guests stay here.  Please feel";
+	mes "free to come and go as you";
+	mes "see fit.";
+	close;
+L_Nothing:
+	mes "[Jirou]";
+	mes "Well, if you have business,";
+	mes "then please talk to me.";
+	close;
+}
+
+ama_in02.gat,37,157,4 script "Soldier" 767,{
+	mes "[Saburo]";
+	mes "This is where the soldiers";
+	mes "hone their skills and maintain";
+	mes "their weapons.";
+	next;
+	mes "[Saburo]";
+	mes "The soldiers feel a sense of foreboding,";
+	mes "though.  Now that we've been discovered";
+	mes "by other lands, is war inevitable?";
+	next;
+	mes "[Saburo]";
+	mes "And...";
+	mes "Every time a foreigner visits the";
+	mes "castle, the soldiers are on";
+	mes "increased alert.  How do you";
+	mes "know who you can trust and who";
+	mes "you can't?";
+	next;
+	mes "[Saburo]";
+	mes "Of course, it would be rude to";
+	mes "express our concerns to the";
+	mes "lord, so we grin and bear it.";
+	mes "Let's just hope it doesn't come";
+	mes "to a head.";
+	close;
+}
+
+ama_in02.gat,32,51,6 script "Soldier" 767,{
+	mes "[Shirou]";
+	mes "Cough....Cough....";
+	mes "Ugh...I feel like crap...";
+	mes "Cough....Cough...";
+	next;
+	mes "[Shirou]";
+	mes "A foreign doctor gave me some cold";
+	mes "medicine, and it did two things: jack and";
+	mes "shit.  I don't trust foreigners one bit.";
+	mes "Cough....Cough....";
+	close;
+}
+
+ama_in02.gat,40,167,3 script "Soldier" 767,{
+	mes "[Gorou]";
+	mes "I'm really in a bind.  I think";
+	mes "that if a dawdle, the lord's life";
+	mes "could be in danger.  Let me explain.";
+	next;
+	mes "[Gorou]";
+	mes "There's a rumor circulating around";
+	mes "Amatsu that the lord is a charlatin.";
+	mes "Hold on!  Hear me out before you";
+	mes "call me a nut!";
+	next;
+	mes "[Gorou]";
+	mes "The buzz is that the lord you";
+	mes "see is just a facade and that";
+	mes "there's someone plotting in the";
+	mes "shadows, forcing the lord";
+	mes "to dance to his malevolant tune.";
+	next;
+	mes "[Gorou]";
+	mes "A lot of people don't believe it,";
+	mes "but I saw something strange which";
+	mes "seems to substantiate this rumor with";
+	mes "my own eyes!  There was a man with an";
+	mes "evil-looking face staring at the lord";
+	mes "and laughing!  I don't know what to do!";
+	close;
+}
+
+ama_in02.gat,32,167,5 script "Soldier" 767,{
+	mes "[Rokurou]";
+	mes "Sometimes the lord isn't acting like";
+	mes "himself.  People think he's";
+	mes "not the real lord sometimes.";
+	next;
+	mes "[Rokurou]";
+	mes "I'm certain there's something";
+	mes "fishy going on.  There have been times";
+	mes "when even castle personnel have been";
+	mes "forbidden access to certain areas.";
+	next;
+	mes "[Rokurou]";
+	mes "I think it may have something to do";
+	mes "with the lord's mother's condition.";
+	mes "Sometimes we hear unusual sounds";
+	mes "and terrible screams from within";
+	mes "the castle...";
+	close;
+}
+
+ama_in02.gat,42,34,2 script "Soldier" 767,{
+	mes "[Shichirou]";
+	mes "If you want to spend the night here,";
+	mes "please feel free.  The lord has prepared";
+	mes "several guest rooms.";
+	next;
+	mes "[Shichirou]";
+	mes "If there's a problem, please";
+	mes "let me know.  While you're here,";
+	mes "please maintain decorum";
+	mes "in consideration for our other guests.";
+	next;
+	mes "[Shichirou]";
+	mes "Have a good day.";
+	close;
+}
+
+ama_in02.gat,203,156,4 script	"Soldier" 767,{
+	mes "[Hachirou]";
+	mes "The lord is inside.  Please";
+	mes "be quiet if you enter.";
+	next;
+	mes "[Hachirou]";
+	mes "The lord is in bad spirits today,";
+	mes "so please be especially careful about";
+	mes "what you say and do.";
+	mes "It is regrettable that he couldn't";
+	mes "be his normal jovial self to";
+	mes "welcome foreign guests.";
+	close;
+}
+
+ama_in02.gat,195,156,4 script	"Soldier"  767,{
+	mes "[Kurou]";
+	mes "Times are tough...";
+	mes "the lord is always in a bad mood";
+	mes "these days.  He's usually a joyful person.";
+	next;
+	mes "[Kurou]";
+	mes "Though there are a lot of nasty rumors";
+	mes "circulating about, I believe in the";
+	mes "lord.  He's the one who has made";
+	mes "this town prosperous.";
+	close;
+}
+
+ama_in02.gat,115,177,7 script	"Soldier" 767,{
+	mes "[Juurou]";
+	mes "State your business here.";
+	mes "This isn't a place for tourists.";
+	next;
+	menu "I'll be moving on...",L_Moving,"Open the gate",L_open;
+L_Moving:
+	mes "[Juurou]";
+	mes "There are plenty of other great";
+	mes "places to explore in this town.";
+	close;
+L_Open:
+	   check event_amatsu != 7,L_Noflag,-;
+	   checkitem 7160,1,-,L_Lost;
+	mes "[Juurou]";
+	mes "Oh, you have a travel permit";
+	mes "from the lord.  Shall I let";
+	mes "you pass or do you need an explanation?";
+	next;
+	menu "I'm in a hurry",L_Hurry,"What's the skinny?",L_What;
+L_Hurry:
+	mes "[Juurou]";
+	mes "Alright, then let me open the gate.";
+	mes "Be careful.";
+	next;
+	   warp "ama_dun01",229,10;
+L_What:
+	mes "[Juurou]";
+	mes "The area beyond here is affected";
+	mes "by a strange curse.";
+	mes "If you enter, you may be subject";
+	mes "to attacks by those who remain";
+	mes "on this plane after death.";
+	next;
+	mes "[Juurou]";
+	mes "This information is all secondhand, of";
+	mes "course.  I've never been down there";
+	mes "myself, so I have to rely on those who";
+	mes "who have entered and lived to tell about it.";
+      mes "Here are the key points:"
+	next;
+	mes "[Juurou]";
+	mes "1:";
+	mes "'Don't believe your own eyes'.";
+	mes "What you see isn't necessarily";
+	mes "what's real.";
+	next;
+	mes "[Juurou]";
+	mes "'The curse isn't just incidental'.";
+	mes "Everything exists for a reason.";
+	mes "Why would this be an exception";
+	mes "to that rule?";
+	next;
+	mes "[Juurou]";
+	mes "This is all the guidance I";
+	mes "can give you.  Please be";
+	mes "careful and make it back";
+	mes "safe.";
+	next;
+	   warp "ama_dun01",229,10;
+L_Lost:
+	mes "[Juurou]";
+	mes "I can't open the gate for";
+	mes "someone who hasn't gotten a";
+	mes "travel permit from the lord.";
+	close;
+L_Noflag:
+	mes "[Juurou]";
+	mes "Eh?  Why are you here?";
+	mes "This is not a public area.";
+	mes "Have you lost your way?";
+	next;
+	mes "[Juurou]";
+	mes "There are plenty of interesting";
+	mes "places in town.";
+	close;
+}
+
+ama_dun01.gat,229,7,0 script "Soldier" 767,{
+	mes "[Juurou]";
+	mes "Want to go back?";
+	next;
+	menu "That's right",-,"Well, maybe not",L_maybe;
+	mes "[Juurou]";
+	mes "Good choice.";
+	next;
+	   warp "ama_in02",119,181;
+L_Maybe:
+	mes "[Juurou]";
+	mes "Please be careful.";
+	close;
+}
+
+ama_in02.gat,200,176,4 script	"Lord" 768,{
+	   check event_amatsu = 1,L_Start2,-;
+	   check event_amatsu = 2,L_Start3,-;
+	   check event_amatsu = 3,L_Start3,-;
+	   check event_amatsu = 4,L_Start3,-;
+         check event_amatsu = 5,L_Start3,-;
+	   check event_amatsu = 6,L_Start4,-;
+	   check event_amatsu = 7,L_Start5,-;
+	mes "[Ishida Yoshinaga]";
+	mes "Oh, you're a foreigner?";
+	mes "Sorry, but I don't feel like talking";
+	mes "to foreigners today!";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Go away!";
+	mes "I'm in a bad mood now!";
+	close;
+L_Start2:
+	mes "[Ishida Yoshinaga]";
+	mes "Hey!";
+	mes "Did you foreigners visit me for a reason?";
+	mes "I'm a very busy man, so hurry up!";
+	mes "Out with it!";
+	next;
+	menu "About your mother...",L_About,"This is a nice castle",L_This,"Who are you?",L_Who;
+L_About:
+	mes "[Ishida Yoshinaga]";
+	mes "Oh!";
+	mes "Might you know what's wrong with";
+	mes "my mother?  Surely, if you come";
+	mes "from abroad, you have great";
+	mes "knowledge...";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "If do you know, I can say";
+	mes "that I, the lord of Touko";
+	mes "castle, am fortunate.";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Having to attend to my mother";
+	mes "when she's in bed sick is";
+	mes "emotionally draining...";
+	mes "I would do anything to have";
+	mes "her sickness cured...";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Despite many visits from";
+	mes "extremely comptent doctors,";
+	mes "her condition continues to";
+	mes "deteriorate.";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Maybe you, a foreigner,";
+	mes "will in a better position to";
+	mes "cure her sickness.";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "My mother is in the house";
+	mes "right outside the castle.  Please";
+	mes "bring back good news.";
+	   set event_amatsu = 2;
+	close;
+L_This:
+	mes "[Ishida Yoshinaga]";
+	mes "I'm glad you like it!";
+	mes "In my case, familiarity makes";
+	mes "the heart grow less fond, but that's alright!";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Please speak to me again when";
+	mes "I'm in a better mood.  I don't";
+	mes "want to talk to you anymore.";
+	close;
+L_Who:
+	mes "[Ishida Yoshinaga]";
+	mes "Don't you know?";
+	mes "I'm the lord of Toukou";
+	mes "Did you not hear it from the";
+	mes "soldiers outside?!";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Please speak to me again when";
+	mes "I'm in a better mood.  I don't";
+	mes "want to talk to you anymore.";
+	close;
+L_Start3:
+	mes "[Ishida Yoshinaga]";
+	mes "Any progress on my mother's sickness?";
+	mes "Please let me know if you even";
+	mes "find out the name of the condition.";
+	mes "I lay awake at night worrying.";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Please use your knowledge";
+	mes "as a foreigner to uncover";
+	mes "new leads.";
+	close;
+L_Start4:
+	mes "[Ishida Yoshinaga]";
+	mes "You've done it!";
+	mes "I just got the news that my";
+	mes "mother was cured.";
+	mes "You must have gotten some good";
+	mes "information.";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "It seems that the presence of";
+	mes "the fox caused her illness.";
+	mes "I wonder why that would have";
+	mes "happened...";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "I don't understand his motive";
+	mes "for revenge, but I'm relieved";
+	mes "nonetheless.";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "In any case, I thank you from the";
+	mes "bottom of my heart for your help!";
+	mes "Having cured my mother, I think";
+	mes "you deserve a handsome reward.";
+	mes "Hmmmm....";
+	next;
+	mes "[Ishida Yoshinaga]";
+	mes "Here, take this travel";
+	mes "permit.  If you have this,";
+	mes "you'll have unrestricted";
+	mes "access to all of Amatsu.";
+	next;
+	   set event_amatsu = 7;
+	   additem 7160,1;
+	mes "[Ishida Yoshinaga]";
+	mes "I know it's not the greatest";
+	mes "reward, but try talking to";
+	mes "my staff for more information";
+	mes "about its uses.";
+	close;
+L_Start5:
+	mes "[Ishida Yoshinaga]";
+	mes "Please make yourself at";
+	mes "home in Amatsu.";
+	mes "Foreigners are always welcome here.";
+	close;
+}
+
+ama_in01.gat,180,173,2 script	"Fox Mask" 762,{
+	   check event_amatsu = 4,L_Start2,-;
+	   check event_amatsu = 5,L_Start3,-;
+	mes "[Takefumi]";
+	mes "Hmm...A foreigner.";
+	mes "I'm sorry that you had to come";
+	mes "all this way, but the monk";
+	mes "isn't in at the moment.  My friend";
+	mes "Tokako sometimes comes up here";
+	mes "to play.";
+	next;
+	mes "[Takefumi]";
+	mes "If you're worried about demons,";
+	mes "you should rest here, since no demon";
+	mes "can enter this sacred place.";
+	close;
+L_Start2:
+	mes "[Takefumi]";
+	mes "Hmm...A foreigner.";
+	mes "Are you here because you've";
+	mes "had problems with the demon fox?";
+	next;
+	mes "[Takefumi]";
+	mes "Well, the monks have a talisman";
+	mes "that will ward it off, but...";
+	next;
+	mes "[Takefumi]";
+	mes "If the fox has already possessed someone,";
+	mes "it's not easy to drive it away,";
+	mes "However, with some liquor and udon";
+	mes "noodles, it becomes easier.";
+	next;
+	mes "[Takefumi]";
+	mes "I only know a little about the";
+	mes "fox, but I can tell you that";
+	mes "it loves mischief and surprising";
+	mes "its victims.  It rarely holds a";
+	mes "grudge, though.";
+	next;
+	mes "[Takefumi]";
+	mes "Why a grudge in this case, then?";
+	mes "Maybe someone hurt him by mistake.";
+	mes "In such a case, it not only wants";
+	mes "to impose suffering on the victim,";
+	mes "but loved ones as well...";
+	next;
+	mes "[Takefumi]";
+	mes "Sometimes the demon fox spirit will leave";
+	mes "a person's body if you can make it afraid";
+	mes "by making known to it the presence";
+	mes "of a stronger animal.  Let's practice";
+	mes "once.  Try your fiercest roar.";
+	next;
+	menu "Grrrrrrrr!!!",-;
+	mes "[Takefumi]";
+	mes "Of course, even with your strong";
+	mes "roar, you ought to find out";
+	mes "why the fox possessed the lord's";
+	mes "mother in the first place...Good luck.";
+	   set event_amatsu = 5;
+	close;
+L_Start3:
+	mes "[Takefumi]";
+	mes "Have you forgotten?";
+	mes "In order to remove the fox,";
+	mes "you need to show it the";
+	mes "presence of a stronger";
+	mes "animal...";
+	close;
+}
+
+ama_in01.gat,169,173,0 script	"Tokari" 720,{
+	mes "[Tokari]";
+	mes "I wasn't originally a shrine";
+	mes "employee, but then I tried on";
+	mes "my friend Takefumi's clothes";
+	mes "and decided I liked them so much";
+      mes "that I wanted to work here.";
+	next;
+	mes "[Tokari]";
+	mes "He can be a bit strange sometimes,";
+	mes "but he's still a good friend,";
+	mes "even though I don't understand what he's up";
+	mes "to a lot of the time.";
+	next;
+	mes "[Tokari]";
+	mes "If you want to know some;
+	mes "strange things that no one else";
+	mes "seems to know, you should try";
+	mes "talking to Takefumi.";
+	close;
+}
+
+amatsu.gat,269,221,1 script "Proposing Girl" 758,{
+	mes "[Hutari Sioko]";
+	mes "Nice to meet you";
+	mes "my name is Hutari Sioko,";
+	mes "my hobby is listening to music,";
+	mes "and I usually listen to classical music";
+	next;
+	mes "[Hutari Sioko]";
+	mes "There is a legend";
+	mes "about the large hill in our town";
+	mes "do you know anything about it?";
+	next;
+	mes "[Hutari Sioko]";
+	mes "According to the legend, if you propose";
+	mes "to your lover under that tree";
+	mes "the couple will live happily ever forever";
+	next;
+	mes "[Hutari Sioko]";
+	mes "But the proposal cannot be done on any time";
+	mes "it has to be on the Saturday Night.";
+	mes "or else it won't hold true";
+	next;
+	mes "[Hutari Sioko]";
+	mes "Furthermore, the proposal has to be answered";
+	mes "prior to Sunday night after";
+	next;
+  	   emotion 3;
+	mes "[Hutari Sioko]";
+	mes "If you have a secret admirer...";
+	mes "why not meet under that tree";
+	mes "and propose?";
+	mes "I bet something good will happen";
+	close;
+}
+
+amatsu.gat,287,266,3 script "Jyaburo" 766,{
+	mes "[Jyaburo]";
+	mes "This is a special place";
+	mes "for my wife and me";
+	next;
+	mes "[Jyaburo]";
+	mes "..When I was here Proposing";
+	mes "to her here under the tree..";
+	mes "I didn't know that she";
+	mes "liked me as well";
+	next;
+	mes "[Jyaburo]";
+	mes "After that, we talked a lot here under this tree,";
+	mes "this is the ideal location";
+	mes "because of its tranquility and harmony,";
+	mes "an everlasting moment of happiness";
+	next;
+	mes "[Jyaburo]";
+	mes "Even now, when I close my eye, I can clearly remember";
+	mes "the sweet memories of the past";
+	mes "as if it happened yesterday...";
+	next;
+	mes "[Jyaburo]";
+	mes "Even though she passed away some times ago";
+	mes " I always come here alone now,";
+	mes "Everytime I come here it is as if my wife is just besides me,";
+	mes "And my depressed and broken heart is gone";
+	next;
+	mes "[Jyaburo]";
+	mes "After hearing my rambling,";
+	mes "Can you think of anyone?";
+	mes "If you can, stop the hesitation and the delay,";
+	mes "And love her with all your heart";
+	next;
+	mes "[Jyakuro]";
+	mes "What does it mean to be human?";
+	mes "Smile, and live your life to the fullest";
+	mes "Even though life might be sure,";
+	mes "Forget the worries and pains";
+	mes "Always try to live a happy life";
+	close;
+}
+
+amatsu.gat,274,178,0 script "Vet" 735,{
+	mes "[Sakura Seiichi]";
+	mes "Oww... I'm not a suspicious guy,";
+	mes "please don't be surprised, I am just";
+	mes "A regular vet,";
+	mes "making a living but";
+	mes "curing sick animals";
+	next;
+	mes "[Sakura Seiichi]";
+	mes "But... Did you know?";
+	mes "about the sakura tree on the hill";
+	mes "and its story... Maybe this is the";
+	mes "first time you've heard?!";
+	next;
+	mes "[Sakura Seiichi]";
+	mes "The reason that tree can maintain";
+	mes "its everlasting  youth and bueaty";
+	mes "lies within its secret...";
+	mes "that is... Because below the tree";
+	mes "dead people are buried...";
+	next;
+	menu "Can buried people feel the pain?",L_Can,"Speaking of bullshit...",L_Speaking;
+      close;
+L_Can:
+	mes "[Sakura Seiichi]";
+	mes "... Maybe...";
+	mes "Anyways, do you believe me or not";
+	mes "want to make a bet...?";
+	next;
+         emotion 9;
+	mes "[Sakura Seiichi]";
+	mes "What if I...";
+	mes "............";
+	mes "............";
+	next;
+	mes "^6633FFHer laugh gradually fades^000000";
+	mes "^6633FFAway in the wind,^000000";
+	mes "^6633FFUntil nothing can be heard anymore,^000000";
+	mes "^6633FFCannot even remember what^000000";
+	mes "^6633FFHe was about to say...^000000";
+	close;
+L_Speaking:
+	mes "[Sakura Seiichi]";
+	mes "So entranced, I suppose you are all right...";
+	mes "becareful, one day that kind of things";
+	mes "Will happen to you as well..";
+	next;
+	   emotion 9;
+	mes "[Sakura Seiichi]";
+	mes "Hahaha... Hahahaha.....";
+	mes "...............";
+	mes "...........";
+	next;
+	mes "^6633FFHer laugh gradually fades^000000";
+	mes "^6633FFAway in the wind,^000000";
+	mes "^6633FFUntil nothing can be heard anymore,^000000";
+	mes "^6633FFI don't understand why she told^000000";
+	mes "^6633FFMe that...^000000";
+	close;
+}
+
+amatsu.gat,283,203,1 script "PokePoke" 738,{
+	   emotion 19;
+	mes "[Pokepoke]";
+	mes "The tree on this hill";
+	mes "has existed for a long time, a deep-rooted";
+	mes "and ever-blooming Sakura Tree King";
+	next;
+	   emotion 19;
+	mes "[Pokepoke]";
+	mes "And I am very thankful of this tree,";
+	mes "whenever I feel any sorrow or sadness";
+	mes "I always go sit under that tree";
+	next;
+	   emotion 19;
+	mes "[Pokepoke]";
+	mes "That way no matter what happened";
+	mes "I can forget it all....";
+	mes "this tree will sooth us";
+	mes "and make us forget sad things";
+	mes "a magic tree";
+	next;
+	   emotion 19;
+	mes "[Pokepoke]";
+	mes "If you feel any sadness or sorrow";
+	mes "you can try to sit under this tree";
+	mes "a really magical and thankful tree...";
+	close;
+}
+
+amatsu.gat,261,197,4 script "Legendary Sakura Tree" 111,{
+	mes "^0000FFJust as she said";
+	mes "this tree is famous because";
+	mes "many couples confessed their love here";
+	mes "Sometimes you can still see a few people";
+	mes "Drawinging a heart with the lover's";
+	mes "Name within it.^000000";
+	next;
+	mes "^0000FFThey are not only here for lover's confessions,";
+	mes "sometimes they will meet here too";
+	mes "talk about some important matters,";
+	mes "in such a beautiful place";
+	mes "no matter what they are discussing";
+	mes "they always reach an agreement^000000";
+	close;
+}
+
+

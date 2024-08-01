@@ -1,0 +1,71 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Carnival Event - Non Player Character Locations
+// - Original script from jathena --> translation by saister.
+//
+// - Dark Transporter -> izlude: 139,93
+//   Random teleports you to dungeons for free.
+//
+//========================================================================================
+
+izlude.gat,139,93,3 script "Dark Transporter" 82,{
+	mes "[Dark Transporter Worker]";
+	mes "Since I got my job taken by the Kafra service,";
+	mes "I've been reduced to this...";
+	mes "But!! I'll rebuild my business";
+	mes "with better service than them!";
+	mes "The fee should be paid by the company?!";
+	mes "So.. choose!!";
+	next;
+	menu "Random -> ?z",L_Warp,"Prontera",L_Walk,"Geffen",L_Walk,"Payon",L_Walk,"Quit",L_End;
+L_Warp:
+         random @rdwarp 10;
+	   check @rdwarp == 1,L_Warp1,-;
+	   check @rdwarp == 2,L_Warp2,-;
+	   check @rdwarp == 3,L_Warp3,-;
+	   check @rdwarp == 4,L_Warp4,-;
+	   check @rdwarp == 5,L_Warp5,-;
+	   check @rdwarp == 6,L_Warp6,-;
+	   check @rdwarp == 7,L_Warp7,-;
+	   check @rdwarp == 8,L_Warp8,-;
+	   check @rdwarp == 9,L_Warp9,-;
+	   warp "gl_dun02",234,64;
+      close;
+L_Warp1:
+         warp "gl_dun02",219,192;
+      close;
+L_Warp2:
+         warp "gl_dun02",221,261;
+      close;
+L_Warp3:
+         warp "gl_dun01",215,101;
+      close;
+L_Warp4:
+         warp "gl_dun01",237,170;
+      close;
+L_Warp5:
+         warp "gl_dun01",163,247;
+      close;
+L_Warp6:
+         warp "gl_dun01",64,73;
+      close;
+L_Warp7:
+         warp "gl_knt02",100,87;
+      close;
+L_Warp8:
+         warp "alde_dun04",173,152;
+      close;
+L_Warp9:
+         warp "c_tower4",110,73;
+      close;
+L_Walk:
+	mes "[Dark Transporter Worker]";
+	mes "That's close,";
+	mes "You should be able to walk it.";
+L_End:
+	close;
+}

@@ -1,0 +1,268 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Ashley -> prontera 154 324
+//        Styles hair for 40z.
+//
+//========================================================================================
+
+prontera.gat,156,324,6	script	"Ashley"	726,{
+	check ASHLEY = 1,-,HASNT;
+	check STYLE = 1,DIDNT,DID;
+	close;
+   HASNT:
+	set ASHLEY = 1;
+	mes "[Ashley]";
+	mes "Hello, there..";
+	mes "I am a hair stylist, and I can do absolute wonders, with your 'do!";
+	mes " ";
+	mes "Just trust in me..";
+	next;
+	mes "[Ashley]";
+	mes "It's 40z, per cut, though, are you sure you wanna get it done?";
+	next;
+	menu "Not this time..",CLOsE1,"Yes, please..",BACK;
+	close;
+   DID:
+	mes "[Ashley]";
+	mes "Hello, again, darling.";
+	mes "I certainly remember you ~!";
+	mes " ";
+	mes "I see you'd like to cut your hair, again..";
+	next;
+	mes "[Ashley]";
+	mes "It's 40z, per cut, though, are you sure you wanna get it done?";
+	next;
+	menu "Not this time..",CLOsE1,"Yes, please..",BACK;
+	close;
+	goto BACK;
+   DIDNT:
+	mes "[Ashley]";
+	mes "Hello, again, darling.";
+	mes "I certainly remember you ~!";
+	mes " ";
+	mes "Would you like to cut your hair, this time?";
+	next;
+	menu "Not this time..",CLOSE1,"Yes, please..",YESCUT;
+	close;
+   YESCUT:
+	mes "[Ashley]";
+	mes "It's 40z, per cut, though, are you sure you wanna get it done?";
+	next;
+	menu "Not this time..",CLOsE1,"Yes, please..",BACK;
+	close;
+   BACK:
+	mes "[Ashley]";
+	mes "Please, choose from one of our 19 wonderful styles:";
+	next;
+	menu "Nevermind",CLOSE1,"Style 1",Style_1,"Style 2",Style_2,"Style 3",Style_3,"Style 4",Style_4,"Style 5",Style_5,"Style 6",Style_6,"Style 7",Style_7,"Style 8",Style_8,"Style 9",Style_9,"Style 10",Style_10,"Style 11",Style_11,"Style 12",Style_12,"Style 13",Style_13,"Style 14",Style_14,"Style 15",Style_15,"Style 16",Style_16,"Style 17",Style_17,"Style 18",Style_18,"Style 19",Style_19;
+	close;
+   Style_1:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 1;
+	goto Cut_It;
+   Style_2:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 2;
+	goto Cut_It;
+   Style_3:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 3;
+	goto Cut_It;
+   Style_4:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 4;
+	goto Cut_It;
+   Style_5:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 5;
+	goto Cut_It;
+   Style_6:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 6;
+	goto Cut_It;
+   Style_7:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 7;
+	goto Cut_It;
+   Style_8:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 8;
+	goto Cut_It;
+   Style_9:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 9;
+	goto Cut_It;
+   Style_10:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 10;
+	goto Cut_It;
+   Style_11:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 11;
+	goto Cut_It;
+   Style_12:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 12;
+	goto Cut_It;
+   Style_13:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 13;
+	goto Cut_It;
+   Style_14:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 14;
+	goto Cut_It;
+   Style_15:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 15;
+	goto Cut_It;
+   Style_16:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 16;
+	goto Cut_It;
+   Style_17:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 17;
+	goto Cut_It;
+   Style_18:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 18;
+	goto Cut_It;
+   Style_19:
+	check Zeny>=40,-,NOZENY;
+	set Zeny -= 40,0;
+	set @H_Style = 19;
+	goto Cut_It;
+   Cut_It:
+	set STYLE = 0;
+	mes "[Ashley]";
+	mes "Here we go...";
+	next;
+	hstyle @H_Style;
+	mes " ";
+	mes "*snip* *snip*";
+	next;	
+	random @cut 5;
+	check @cut = 1,cut01,-;
+	check @cut = 2,cut02,-;
+	check @cut = 3,cut03,-;
+	check @cut = 4,cut04,-;
+	check @cut = 5,cut05,-;
+	mes "[Ashley]";
+	mes "lol ...";
+	next;
+	mes "[Ashley]";
+	mes "I don't know if that looks quite right, on you, but... you asked for it! :p";
+	mes " ";
+	mes "I can cut it, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+   cut01:
+	mes "[Ashley]";
+	mes "Oh, wow... that looks slightly amazing!!";
+	next;
+	mes "[Ashley]";
+	mes "Maybe you don't like it, but... I think you're sexy..";
+	mes " ";
+	mes "I can cut it, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+   cut02:
+	mes "[Ashley]";
+	mes "With that hair.. ";
+	next;
+	mes "[Ashley]";
+	mes "Baby, you're going the right way for a smack bottom!!";
+	mes " ";
+	mes "But, I can cut it, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+   cut03:
+	mes "[Ashley]";
+	mes "There you are. Nice new hair.";
+	mes " ";
+	mes "I can cut it, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+   cut04:
+	mes "[Ashley]";
+	mes "Listen, I'm not single, but uh..";
+	next;
+	mes "[Ashley]";
+	mes "You look so fabulous that, I dunno..";
+	next;
+	mes "[Ashley]";
+	mes "Maybe, you wanna get togther, later?";
+	next;
+	menu "Not on your life",NONO,"O_O",OKOK;
+	close;
+   NONO:
+	mes "[Ashley]";
+	mes "Hahaha... I was just kidding, anyway. =p";
+	mes " ";
+	mes "But, I can cut your hair, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+   OKOK:
+	mes "[Ashley]";
+	mes "Hahaha... I was just kidding, anyway. =p";
+	mes " ";
+	mes "But, I can cut your hair, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+   cut05:
+	mes "[Ashley]";
+	mes "Wow, I'm sorry but...";
+	next;
+	mes "[Ashley]";
+	mes "That hair looks AWFUL..lmao";
+	mes " ";
+	mes "I can cut it, again, if you like?";
+	next;
+	menu "Yes, please",BACK,"No, this is fine. Thank you",CLOSE;
+	close;
+    CLOSE1:
+	set STYLE = 1;
+	mes "[Ashley]";
+	mes "Alrighty. Ciao!~";
+	close;
+    CLOSE:
+	mes "[Ashley]";
+	mes "Alrighty. Ciao!~";
+	close;
+   NOZENY:
+	mes "[Ashley]";
+	mes "Don't have 40z, aye?";
+	next;
+	mes "[Ashley]";
+	mes "Come back, when you've got zeny!";
+	close;
+}

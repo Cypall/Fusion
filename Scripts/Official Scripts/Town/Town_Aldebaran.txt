@@ -1,0 +1,859 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Alde Baran Town - Non Player Character Locations
+//
+// - Munster -> aldebaran: 113,70
+//   Inform players about item upgrade.
+//
+// - Smithing Guy -> aldebaran: 64,104
+//   Inform players about advanced item upgrade stats.
+//
+// - Young Man -> aldebaran: 49,93
+//   Say level 4 weapon exist.
+//
+// - Shell Gathering Lady -> aldebaran: 81,61
+//   Say information about sea shells.
+//
+// - Canal Boy -> aldebaran: 46,129
+//   Say history about alde baran canals.
+//
+// - Young Man -> aldebaran: 67,154
+//   Give information about mt. mjolnir and payon forest.
+//
+// - Slot Guy -> aldebaran: 90,170
+//   Give informations about item slots.
+//
+// - Pharcon Guy -> aldebaran: 117,181
+//   Give information about phracon.
+//
+// - Alchemy Guy -> aldebaran: 121,231
+//   Give small information about alchemist class and cards.
+//
+// - Little Kid -> aldebaran: 86,228
+//   Tell player history of is bebevang and inform about mt. mjolnir.
+//
+// - Insect Guy -> aldebaran: 159,242
+//   Say stuff about insect of mt. mjolnir.
+//
+// - RS125 -> aldeba_in: 232,241
+//   Tell player is sprinter history.
+//
+// - Horrible-looking Man -> aldeba_in: 223,121
+//   Say stuff about mercenary.
+//
+// - Nice-looking Man -> aldeba_in: 219,61
+//   Say stuff about the horrible-looking man.
+//
+// - Giddy Fellow -> aldeba_in: 152,48
+//   He's trying to find is chicken.
+//
+// - Master -> aldeba_in: 156,179
+//   Inform player sabout the Kafra warehouse.
+//
+// - Senorita -> aldebaran: 60,70
+//   She trying to find kafra warehouse and inform players about magnifiers.
+//
+// - Crane leg -> aldebaran: 93,80
+//   Tell players is last date.
+//
+// - Asian -> aldebaran: 180,46
+//   A tourist from payon.
+//
+// - Citizen -> aldebaran: 212,122
+//   Welcome players to Alde, and tell about the winged-poring.
+//
+// - Town Girl -> aldebaran: 146,124
+//   Say stuff about the Assassin Guild.
+//
+// - Sign -> aldebaran: 217,222
+//   Lutie Sign.
+//
+// - Billboard -> aldebaran: 54,223
+//   Blacksmith Billboard.
+//
+// - Al De Baran Bulletin -> aldebaran: 133,104
+//   Al De Baran Bulletin.
+//
+//========================================================================================
+
+aldebaran.gat,113,70,4 script	"Munster" 48,{
+	mes "[Munster]";
+	mes "My family used to live in Geffen.";
+	mes "We moved to this town, Al De Baran, last winter.";
+	next;
+	menu "^3355FFItem Upgrade^000000 ..",L_Menu1,"Quit",-;
+	mes "[Munster]";
+	mes "Yet people don't know where my father's workshop is located in Al De Baran,";
+	mes "I hope people will recognise my father's splendid performance soon.";
+	close;
+L_Menu1:
+	mes "[Munster]";
+	mes "My father was a famous blacksmith in Geffen,the homeland of blacksmith.";
+	mes "Now we settled down this place, my mother's hometown.";
+	next;
+	mes "[Munster]";
+	mes "Sometimes I heped my father,";
+	mes "What I learn lately is";
+	mes "Success probability of item upgrade, followed the level of each weapon.";
+	next;
+	mes "[Munster]";
+	mes "1 leveled weapon can be upgraded safely till +7,";
+	mes "2 leveled one goes to +6";
+	mes "And 3 leveled one goes to +5 without risk.";
+	next;
+	mes "[Munster]";
+	mes "In case of 4 leveled weapon,";
+	mes "It could be failed at the first trial.";
+	mes "Usually for the armor class, they can be upgraded till +5.";
+	close;
+}
+
+aldebaran.gat,64,104,4 script	"Smithing Guy" 55,{
+	mes "[Quatro]";
+	mes "It has been rumored that famous blacksmith came to this town from Geffen...";
+	next;
+	menu "Famous Blacksmith?",L_Menu1,"End Conversation",-;
+	mes "[Quatro]";
+	mes "People say his life is weak and sick,";
+	mes "She must constantly medicinal herb growing near Al De Baran.";
+	mes "Also he has a devoted son, helping his work witout complain.";
+	mes "I hope his son will be a good blacksmith in the future.";
+	close;
+L_Menu1:
+	mes "[Quatro]";
+	mes "By the way I heard of a rumor,";
+	mes "Attack strength added by weapon level will get changed...";
+	next;
+	mes "[Quatro]";
+	mes "Attack strength on 1 leveled weapon is 2 by upgrade level,";
+	mes "On 2 leveled weapons is 3,";
+	mes "On 3 leveled weapons is 5 !";
+	mes "And 4 leveled equal to a 3 leveled one";
+	close;
+}
+
+aldebaran.gat,49,93,4 script "Young Man" 83,{
+	mes "[Miller]";
+	mes "Did you know ?";
+	mes "4 leveled weapons are surely existing!!";
+	next;
+	mes "[Miller]";
+	mes "Hmmm... of course they are rarely seen in the open market, But boss monsters drop them by low chance.";
+	close;
+}
+
+aldebaran.gat,81,61,4 script "Shell Gathering Lady" 101,{
+	mes "[Joanne]";
+	mes "I like to go gathering shells to sea.";
+	mes "It is really fun";
+	next;
+	menu "Shell Gathering?",L_Menu1,"End Conversation",-;
+	mes "[Joanne]";
+	mes "I will taste Cave Shell Fish one of this days!!";
+	mes "I know it is a little bit dangerous ..";
+	mes "Still it's worth to take risk,isn't it?";
+	close;
+L_Menu1:
+	mes "[Joanne]";
+	mes "When you see bubbles popping up from the sands or muddy puddle,";
+	mes "Dig the ground a bit.";
+	mes "Usually shells conceal themselves under the ground.";
+	next;
+	mes "[Joanne]";
+	mes "By the way, there is a naughty shell fish of hard cover!!";
+	next;
+	mes "[Joanne]";
+	mes "People call it as Ambernite,usually seen at the beach near the west province of Prontera,";
+	mes "If ever dare to catch it without preparation,";
+	mes "You won't see the sun rasing tomorrow.";
+	next;
+	mes "[Joanne]";
+	mes "What a scary shell it is ..";
+      close;
+}
+
+aldebaran.gat,46,129,4 script	"Canal Boy"	97,{
+	mes "[Panama]";
+	mes "Al De Baran has been world-widely known as the City of canals,";
+	mes "where you can hear of it all over the Rune-Midgard Kingdom.";
+	next;
+	menu "About the canals",L_Menu1,"End Conversation",-;
+	mes "[Panama]";
+	mes "Limpid Water, isn't it ?";
+	mes "Well this is a mountain town...";
+	mes "Water is supposed to be pure ...";
+	mes ". . . . .";
+	mes "Help yourself with everything you see...";
+	close;
+L_Menu1:
+	mes "[Panama]";
+	mes "Canal is...";
+	mes "An artificial gateway or artificially improved river used for travel, shipping, or irrigation.";
+	next;
+	mes "[Panama]";
+	mes "So generally it is part of transpotation.";
+	mes "Mostly canals is constructed by reclamation work,";
+	mes "Waterway left while filling up a pond with earth ...";
+	mes "is a kind of Canals.";
+	close;
+}
+
+aldebaran.gat,67,154,4 script	"Young Man"	98,{
+	mes "[Isenberg]";
+	mes "Mountain Mjolnir, Payon Forrest.";
+	mes "Both of them are notorious for precipitousness";
+	next;
+	menu "Mt. Mjolnir",L_Menu1,"Payon Forrest",L_Menu2,"End conversation",-;
+	mes "[Isenberg]";
+	mes "Sometimes this huge mountain over 10 blocks hinders travellers.";
+	mes "Meanwhile it let us keep the mysterious and unique atmosphere of our own, such as Canals and Alchemy though.....";
+	close;
+L_Menu1:
+	mes "[Isenberg]";
+	mes "Mt. Mjolnir !";
+	mes "the Mountain Range which you must pass through to arrive here, Al De Baran,";
+	mes "From Prontera the capital of Rune-Midgard of from Geffen the city of Magic....";
+	next;
+	mes "[Isenberg]";
+	mes "If you wish to arrive Al De Baran.....";
+	mes "From Prontera the Capital of Rune-Midgard where owns a famous knights guild,";
+	mes "Or from Geffen the city of Magic and Forging..";
+	mes "Or from the temple of Monks.....";
+	mes "You must go through Mt. Mjolnir without failure.";
+	mes "Not only for the reason that geographical features of Mt. Mjolnir is steep and rugged,";
+	next;
+	mes "[Isenberg]";
+	mes "But aggressive and hostile monsters owns the mountain,";
+	mes "It is almost impossible to succesfully pass through,";
+	mes "You did a good job so far";
+	   emotion 21;
+	close;
+L_Menu2:
+	mes "[Isenberg]";
+	mes "You must pass Payon Forest if you wish to visit Alberta or Payon.";
+	next;
+	mes "[Isenberg]";
+	mes "The forrest is located between Alberta and Payon, is intricate enough to be lost in the middle.";
+	mes "Unless you concentrate to figure out the feature of forrest";
+	mes "you will get sick and tired of seeking a way in no time.";
+	next;
+	mes "[Isenberg]";
+	mes "The forrest was named after Payon, the village of independence instead of Alberta, the harbor town.";
+	next;
+	mes "[Isenberg]";
+	mes "Payon the archer village was built deep inside a steep and rugged forrest with intention,";
+	mes "to protect themselves from outside influence.";
+	next;
+	mes "[Isenberg]";
+	mes "I guess that's why people determined the name as forrest as Payon Forrest,";
+	mes "rather than Alberta Forrest.";
+	close;
+}
+
+aldebaran.gat,90,170,4 script "Slot Guy" 47,{
+	mes "[Epthiel]";
+	mes "Some of Weapons or armors possess Slots within,";
+	mes "which are holes for inserting cards obtained from monsters.";
+	next;
+	menu "About the numbers of slots..",L_Menu1,"Relation between Cards and Slots",L_Menu2,"End Conversation",-;
+	mes "[Epthiel]";
+	mes "Do you have a card?";
+	close;
+L_Menu1:
+	mes "[Epthiel]";
+	mes "Items dropped by monsters possess more slots within than ordinary weapons or armors sold at NPC shop.";
+	next;
+	mes "[Epthiel]";
+	mes "Some kinds of those items allow its owner to insert more than 2 cards into, it coule be more valuable.";
+	close;
+L_Menu2:
+	mes "[Epthiel]";
+	mes "Cards inserted into slots once are impossible to be removed.";
+	mes "Please be attentive before you do.";
+	close;
+}
+
+aldebaran.gat,117,181,4	script "Phracon Guy" 48,{
+	mes "[Joy]";
+	mes "Lv 1 weapon the lowest grade needs a metal named 'Phracon' for the upgrade job.";
+	next;
+	menu "About Phracon",L_Menu1,"Advice about Phracon",L_Menu2,"End Conversation",-;
+	mes "[Joy]";
+	mes "Wish you get lucky chance for phracon -";
+	close;
+L_Menu1:
+	mes "[Joy]";
+	mes "It is the most ordinary metal for item upgrade through all over the Rund-Midgard continent.";
+	next;
+	mes "[Joy]";
+	mes "Although it doesn't possess high strength compared other rare metals such as steel, it's been in a great favour by the commonage for a long time because it is easy to get.";
+	next;
+	mes "[Joy]";
+	mes "Either You can obtain Phracons from monsters or";
+	mes "You can purchase at Forging workshop located in towns.";
+	next;
+	mes "[Joy]";
+	mes "When you don't need Phracons anymore 'cause you get to reach at a high level ..";
+	mes "just sell phracons -!!";
+	mes "You can grab 100 zeny per one~!";
+	close;
+L_Menu2:
+	mes "[Joy]";
+	mes "I heard lost of monsters carrying phracons with, why don't you go hunt them?";
+	mes "You will be able to find Phracons without difficulty.";
+	next;
+	mes "[Joy]";
+	mes "Days ago, I went to go hunting with Pub Master,";
+	mes "I got aphracon dropped from Baby Wild Bore.";
+	close;
+}
+
+aldebaran.gat,121,231,4	script "Alchemy Guy" 49,{
+	mes "[Chemirre]";
+	mes "Alchemist is one of 2nd Jobs that has been able to create jewelries out of several meterials from the Ancient age of Al De Baran.";
+	next;
+	menu "About Alchemy of Payon",L_Menu1,"The notion of Alchemy",L_Menu3,". . . . .",L_Menu3,"End Conversation",-;
+	mes "[Chemirre]";
+	mes "Midgard Alchemy equals to Al De Baran Alchemy Guild -!!";
+	mes "Long live Al De Baran Alchemy Guild!!";
+	close;
+L_Menu1:
+	mes "[Chemirre]";
+	mes "Almost at the same old age with Al De Baran,";
+	mes "there was an oriental sorcery origined from Taoism in Payon.";
+	mes "Just like the Alchemy of Al De Baran,";
+	mes "Oriental Alchemists of Payon were able to create gold out of meterials.";
+	mes "So ancient people used to call the one in Payon as 'Payon Alchemy'.";
+	next;
+	mes "[Chemirre]";
+	mes "However due to nature worst and lack of scanty materials, Payon alchemy couldn't be improved as well as Al De Baran one.";
+	next;
+	mes "[Chemirre]";
+	mes "So Alchemist Guild in Al De Baran became one and only Alchemy Research organization through all over the Rune-Midgard continent, as Payon Alchemy got to be retrograded..";
+	close;
+L_Menu2:
+	mes "[Chemirre]";
+	mes "Alchemist is specialised in Chemical research, and in creating useful items out of various stuffs.";
+	close;
+L_Menu3:
+	mes "[Chemirre]";
+	mes "You looks bored now.";
+	mes "Let me tell you something might be interesting to you,";
+	mes "It's about monster cards and slots..";
+	mes "Well if you already possess at least one monster card, you already know what I am going to say anyway.";
+	next;
+	mes "[Chemirre]";
+	mes "Every card has its own reqirements to be placed on equipments.";
+	mes "For instance, let's say you got a poring card..";
+	next;
+	mes "[Chemirre]";
+	mes "Then you will be able to see its description with right click of a mouse, Poring card increases its wearer's LUK by 1, and it can be only inserted on 'Armors'.";
+	mes "It means you can't put it into dagger or somthing.";
+	next;
+	mes "[Chemirre]";
+	mes "Evenmore usually armors sold at NPC shops in towns don't possess slots within, you can insert cards into rare armors dropped by monsters.";
+	next;
+	mes "[Chemirre]";
+	mes "Oh well and let me guide you the simple instruction to use cards properly.";
+	mes "First off unequip an armor you want to insert card,";
+	mes "Theb double click on a card in the inventory window.";
+	next;
+	mes "[Chemirre]";
+	mes "It will lead you to see a list of available items suited for the card,";
+	mes "You can assemble it into the armor you want.";
+	close;
+}
+
+aldebaran.gat,86,228,4 script	"Little Kid" 62,{
+	mes "[Bebe]";
+	mes "A while ago I went out for a walk toward Mt.Mjolnir, carrying q 'Savage Bebe', with me.";
+	mes "Bebevang is a kind of baby wild boar of pink colour, it's very cute and pretty.";
+	next;
+	menu "Story of Savage Bebe",L_Menu1,"About Mt.Mjolnir",L_Menu2,"End Conversation",-;
+	mes "[Bebe]";
+	mes "Ah?! Where is my Savage Bebe..?";
+	mes "Savage Bebe! Where are you!";
+	   emotion 20;
+	close;
+L_Menu1:
+	mes "[Bebe]";
+	mes "I was walking up a narrow lane,";
+	mes "out of the blue, a giant and ugly plant initiated to attack me and my Savage Bebe!";
+	   emotion 0;
+	next;
+	mes "[Bebe]";
+      mes "I was so surprised so I ran away from it a distance,";
+	mes "And threw stones against it(I know it was coward and silly blow!) it withstood my attack without a rolling...";
+	mes "It must have really strong!";
+	next;
+	mes "[Bebe]";
+	mes "There was another surprising thing about it, it was a huge flower with a Human face!!";
+	   emotion 19;
+	next;
+	mes "[Bebe]";
+	mes "Don't ever think of getting near it.";
+	mes "It will bite off you to death !";
+	close;
+L_Menu2:
+	mes "[Bebe]";
+	mes "Even though People are facinated by the scenic beauty of Mt.Mjolnir, this mountain is filled with freaking creatures as flowers,insects ..especially bees,butterflies and moths...";
+	mes "You must be careful.";
+	next;
+	mes "[Bebe]";
+	mes "Most of beasts and insects never cause harm on human unless we attack first.";
+	close;
+}
+
+aldebaran.gat,159,242,4	script "Insect Guy" 119,{
+	mes "[Stromme]";
+	mes "When you take a walk in the Mt. Mjolnir ...";
+	mes "you will easily recognise one thing.";
+	mes "That is, insects in Mt. Mjolnir are classified into different groups by thier habit !";
+	mes "Did you know ?";
+	next;
+	menu "About insects",L_Menu1,"End Conversation",-;
+	mes "[Stromme]";
+	mes "Don't ever dare to attack even a ladybug at haphazard.";
+	mes "Respect mighty nature in Mt. Mjolnir, young man.";
+	close;
+L_Menu1:
+	mes "[Stromme]";
+	mes "Honey Bees, Butterflies or Moths are flying over flowers to gather honey.";
+	mes "Besides they even transfer pollen from an another to the stigma of a flower,";
+	mes "So flowers can pollinate themselves.";
+	next;
+	mes "[Stromme]";
+	mes "However it doesn't mean that you can look down on them.";
+	mes "They have evolved for a long time to be able to encounter when they get attack.";
+	next;
+	mes "[Stromme]";
+	mes "And there are some king of carnivorous insects, such as praying matises, spiders or centipedes.";
+	mes "Especially mutants which have transformed into monsters are too strong for a person at certain level.";
+	mes "Watch out a dude looking like a leech or something like that!!";
+	next;
+	mes "[Stromme]";
+	mes "You could go beyond the realm even at one blow!";
+	mes "Luckily that leech thingy is weak at sight, it worn't notice you go around a distance from it.";
+	close;
+}
+
+aldeba_in.gat,232,241,4	script "RS125" 48,{
+	mes "[RS125]";
+	mes "Even if my first name is not humane or although my way of talking is not nice,";
+	mes "Don't be afraid of me.I am a warm-hearted person.";
+	next;
+	mes "[RS125]";
+	mes "Even though in my body ..";
+	mes "there is an artificial heart beating loudly,";
+	mes "And Everybody hate me for that,";
+	mes "I will run forever for my country, Aldebaran.";
+	next;
+	menu "Oh poor boy.Tell me more of your story.",L_Menu1,"Go for it Buddy!!",-;
+	mes "[RS125]";
+	mes ".. It was 3 years ago .."
+	mes "My big bro 996, was a high-favoured sprinter of Aldebaran."
+	mes "At that time people called him as `Aldebaran's Peco Peco'."
+	mes "He was the fastest runner in the world .."
+	next;
+	mes "[RS125]";
+	mes "Every 4 years, `Aldebaran Turbo Tracks'  take a place in here.";
+	mes "When 996 was popular through the world,So many admirers came to see and clustered round ..";
+	mes "Even me,the manager of him got stressed too much from them,";
+	mes "You can easily imagine how famous he was ..";
+	next;
+	mes "[RS125]";
+	mes "Well Well sadly There is no eternal fame in this world.";
+	mes "There was a girl who was brought up in Payon,the uplander village.";
+	mes "She came to take part in the championship,and finally she vanquished my poor bro.";
+	next;
+	mes "[RS125]";
+	mes "After that humiliated incident, he pushed himself to far with his training.";
+	mes "By that, he got a serious heart trouble and until now he even can't move without help.";
+	next;
+	mes "[RS125]";
+	mes "I am the future of Aldebaran Athletics and am a ray of hope in my brother!";
+	mes "Remember me. I must beat her,`Havana,the breeze of Payon'!";
+	close;
+L_Menu1:
+	mes "[RS125]";
+	mes "I have a dream of making a round-the-world trip.";
+	mes "How wonderful It will be if I could see the sea of Alberta!!";
+	mes "After the championship of next year,Me and my brother are going to travel all over the world together.";
+	close;
+}
+
+aldeba_in.gat,223,121,4	script "Horrible-looking Man"	63,{
+	mes "[Evil-Looking Guy]";
+	mes "Hey dude. Don't you think it's rude enough for a stranger to enter the other's house?";
+	   emotion 1;
+	next;
+	mes "[Evil-Looking Guy]";
+	mes "Now you make me upset.";
+	mes "What makes you come into my house and talk to me?";
+	   emotion 32;
+	next;
+	mes "[Evil-Looking Guy]";
+	mes "Ah alright, alright. Let's quit playing.";
+	mes "You just came into my house because you know I am a helper of you, the NPC. Don't you?";
+	next;
+	menu "Heh you know me.",L_Menu1,"What a bummer.",-;
+	mes "[Evil-Looking Guy]";
+	mes "Whattt!!! Get the heck out of my house!!!";
+	mes "If a cop, show me a search warrant.";
+	mes "If a member of my family, then pull down your pants so I can look at our family mark!";
+	   emotion 0;
+	close;
+L_Menu1:
+	mes "[Evil-Looking Guy]";
+	mes "You! I am not sure you already heard about this or not, In this world, Mercenary System exists.";
+	mes "Besides, I am the one of mercenaries.";
+	next;
+	mes "[Evil-Looking Guy]";
+      mes "The mercenaries of Mercenary System is really simple.";
+	mes "You pay money and they fight for you.";
+	mes "The Better Guy will cost you more.";
+	next;
+	mes "[Evil-Looking Guy]";
+	mes "Forget about the boring talk.";
+	mes "Let me tell you how to pick up a nice one briefly.";
+	mes "I am not gonna make you yawn.";
+	next;
+	mes "[Evil-Looking Guy]";
+	mes "First, check it's nose.";
+	mes "A nice Mercenary has moist nose in its health.";
+	mes "(You can pat its nose if it's possible.) If it has a dry one, you could say that guy cought a cold. No doubt.";
+	next;
+	mes "[Evil-Looking Guy]";
+	mes "And a nice mercenary should have slender ankles.";
+	mes "Umm in adition, it should have a snowy and skinny neck!";
+	mes "I love to see its beautiful hair~Long and Curly hair~! That'll be frosting on the cake.";
+	next;
+	mes "[Evil-Looking Guy]";
+	mes " Finally, Mercenary System means... One Hundred Percent of Customer Support!";
+	mes "Until out Costumers satisfy Mercenaries have to assist them and give counsel behind!";
+	mes "Don't forget to change thier wet tissues as well!!";
+	close;
+}
+
+aldeba_in.gat,219,61,4 script	"Nice-looking Man" 109,{
+	mes "[Good-Looking Guy]";
+	mes "Forget about the goofer living next door.";
+	mes "Frankly 2 years ealier, He fell down from a tree in the Drill Field and Since that incident his brain was out of his control.";
+	mes "I heard he intended to pluck some fruits from that tree.";
+	next;
+	mes "[Good-Looking Guy]";
+	mes "Anyway He keep talking to me and I am gonna be crazy beacuse of him..";
+	mes "Oh my godness!";
+	close;
+}
+
+aldeba_in.gat,152,48,4 script	"Giddy Fellow" 97,{
+	mes "[Giddy Fellow]";
+	mes "E..E..E..Emergenc----y!!!";
+	mes "I CANNOT find my per chicken anywhere!! ";
+	   emotion 23;
+	next;
+	menu "What's the name of it?",L_Menu1,". . . . .",-;
+	mes "[Giddy Fellow]";
+	mes "It's 'The Great Picky ' ..";
+	mes "SOB SOB SOB Gosh..What am I gonna do?!~";
+	mes "Please find my cutty for meee~~~";
+	   emotion 28;
+	next;
+	menu "Dude~! It's such a common name~",-,". . . . .",L_Err;
+ 	mes "[Giddy Fellow]";
+	mes "Wha-What are you talking about!!";
+	mes "My 'The Great Picky ' is ";
+	mes " the one and only cutest chicken in this wide whole WORLD for Christ's sake~!";
+	   emotion 1;
+	close;
+L_Err:
+	mes "[Giddy Fellow]";
+	mes "Don't you laugh at me~! I don't have any siblings";
+	mes " so my cute chicken is like a younger brother to me! SOB SOB SOB SOB";
+	   emotion 28;
+	close;
+L_Menu1:
+	mes "[Giddy Fellow]";
+	mes "Don't you laugh at me~! I don't have any siblings";
+	mes " so my cute chicken is like a younger brother to me! SOB SOB SOB SOB";
+	   emotion 28;
+	close;
+}
+
+aldeba_in.gat,156,179,4	script "Master" 61,{
+	mes "[Master]";
+	mes "The head quarter of Kafra wearhouse is located at here,in Aldebaran.You hear that?";
+	mes "Young Kapra Ladies visit me from time to time,";
+	mes "They are really delightful and funny.";
+	next;
+	mes "[Master]";
+	mes "Alright, Attention! Quiz time Comes up!";
+	mes "We will check your favorite Girl Style here with 'Thank You, Master' time!!";
+	mes "Ah. Ah. Don't Worry. It doesn't matter of your geder whether you are male or female.";
+	next;
+	mes "[Master]";
+	mes "Just. Usually when you look at a nice woman you think.` Wow! This Chick! That Babe!'";
+	mes "What a hot babe~!";
+	mes ".. Choose one Kafra Lady that makes you feel hot!";
+	next;
+	menu "Oh~it turns me on!!!!",L_Menu1,"No way..I am not a pervert.",-;
+	mes "[Master]";
+	mes "Ah~~~!! I stayed up all night last night trying to make this wonderful survey~!!";
+	mes "And you just ditch me~ like thaaat~";
+	mes "I hate you.";
+	close;
+L_Menu1:
+	mes "[Master]";
+	mes "Alright,Here you go,Your Favorite Ladies!!!";
+	mes "Take a look carefully!";
+	next;
+	mes "[Master]";
+	mes "Original Kafra Mascot,the classical blue haired lady!";
+	mes "Candidate Number (1)  ^3355FF' Pavianne '^000000 !!";
+	mes "Graceful Ponytail of her takes men's breath away!Favorite Lady of Young Boys!!";
+	mes "Candidate Number (2) ^5533FF' Blossom'^000000 !!";
+	mes "Long and Straight hair is her charming point. She is the Silk from the East ~! From payon,";
+	mes "Candidate Number (3) ^555555' Jasmine '^000000 !!";
+	next;
+	mes "[Master]";
+	mes "She is a tomboy with the short cut hair.";
+	mes "Candidate Number (4) ^1133DD' Roxie '^000000 !!";
+	mes "She is intelligent and sophisticated.Luxurious Glasses fits her well.";
+	mes "Candidate Number (5)  ^33FF55'Leilah '^000000 !!";
+	mes "Pretty and Cute~Although She looks young and immature,She's the best staff!";
+	mes "Candidate Number (6) ^AAAA00' Curly Sue '^000000 !!";
+	next;
+	mes "[Master]";
+	mes "Approval : Kafra Wearhouse Corp.";
+	mes ". . . . .And Cool Event Corp.";
+	mes "Thank you ~";
+	next;
+	menu "(1) Pavianne",L_Menu2,"(2) Blossom",L_Menu3,"(3) Jasmine",L_Menu4,"(4) Roxie",L_Menu5,"(5) Leilah",L_Menu6,"(6) Curly Sue.",L_Menu7;
+L_Menu2:
+	mes "[Master]";
+	mes "Oh~ You are a very conservative person. ";
+	mes "And very closed mided!";
+	mes "Try to accept new stuff! It's no use trying to escape from the reality!";
+	close;
+L_Menu3:
+	mes "[Master]";
+	mes "You're over-zealous!";
+	mes "If you ever get a partner who's as distractive as you...";
+	mes "You'll cause a LOT of trouble for the neighbors!";
+	   emotion 18;
+	close;
+L_Menu4:
+	mes "[Master]";
+	mes "You're indecisive...You've gotta make up your mind.";
+	mes "Cheer up! Be positive man!";
+	close;
+L_Menu5:
+	mes "[Master]";
+      mes "Wake up~! Till when are you gonna live in a dream world";
+	mes "looking for an unreachable ideal girl?";
+	mes "Be realistic!";
+	   emotion 0;
+	close;
+L_Menu6:
+	mes "[Master]";
+	mes "A piece of advice to cynical you!";
+	mes "Open your mind and embrace others!";
+	mes "Don't just stay alone!";
+	close;
+L_Menu7:
+	mes "[Master]";
+	mes "Wha-what!";
+         emotion 0;
+	next;
+ 	mes "[Master]";
+	mes "A thirst for young girls~~!!";
+	mes "It's a c-c-crime!";
+         emotion 19;
+	close;
+}
+
+aldebaran.gat,60,70,4 script "Senorita" 69,{
+	mes "[Senorita Sylvia]";
+	mes "I came all the way here from Prontera because I heard there is Kafra Main Office somewhere at the city of Al De Baran";
+	mes "B-B-But... sob";
+	mes "It's been 5 hours since I was looking for it.";
+	   emotion 28;
+	next;
+	mes "[Senorita Sylvia]";
+	mes "Where the hell is it~~~?!";
+	   emotion 6;
+	next;
+	mes "[Senorita Sylvia]";	
+	mes "I look like smart, but actually I am sooooo bad with directions. ¡ËA";
+	next;
+	mes "[Senorita Sylvia]";
+	mes "Ah~ by the way, would you like to know a bit of very useful information I have?";
+	next;
+	menu "Please continue.",L_Menu1,"Not really.",-;
+	mes "[Senorita Sylvia]";
+	mes "Whatever.....";
+	   emotion 32;
+	close;
+L_Menu1:
+	mes "[Senorita Sylvia]";
+	mes "Equip Items you get form monsters cannot be equipped sometimes although it definitely is Equip Item.";
+	next;
+	mes "[Senorita Sylvia]";
+	mes "In that case, You've gotta use... Ta-Da~ ^0000FFMagnifier~~!!!!^000000";
+	next;
+	mes "[Senorita Sylvia]";
+	mes "With a magnifier, you can simply acknowledge what kind of Equip Item you have even without Blacksmith in your party.";
+	close;
+}
+
+aldebaran.gat,93,80,4 script "Crane leg" 48,{
+	mes "[Daniel]";
+	mes "With waterways everywhere, the city of Al De Baran is such a wonderful place.";
+	mes "B-U-T!";
+	   emotion 0;
+	next;
+	mes "[Daniel]";
+	mes "Last night on the way to see my girl friend.";
+	mes "without telling my parents, I fell into one of those waterways, spraining my ankle.";
+	mes "So I couldn't enjoy my date in the middle of night.";
+	   emotion 7;
+	next;
+	menu "Gosh, that's too bad.",L_Menu1,"So what happended?",-;
+	mes "[Daniel]";
+	mes "Huh? Sob sob";
+	mes "you think I am a stupid idiot, right? ";
+	   emotion 28;
+	close;
+L_Menu1:
+	mes "[Daniel]";
+	mes "My girl Friend is the youngest daughter of the armor merchant.";
+	mes "And she told me that Equip Items you get from monsters are much better in performance than the regular items you could buy on the market.";
+	next;
+	mes "[Daniel]";
+	mes "And Items dropped by monsters have more quality than the usual ones in shops.";
+	next;
+	mes "[Daniel]";
+	mes "In professional terms, they say ' more slots '";
+	mes "Whatever that means...";
+	close;
+}
+
+aldebaran.gat,180,46,4 script	"Asian" 88,{
+	mes "[Joo Jahk]";
+	mes "I am tourist from Payon, the city of forests..";
+	mes "It's very cool here...probably thanks to the waterways.";
+	next;
+	mes "[Joo Jahk]";
+	mes "But.... Do you think I could drink water from it though?";
+	   emotion 20;
+	next;
+	mes "[Joo Jahk]";
+	mes "Well. I already did but I am still concerned";
+	   emotion 4;
+	next;
+	menu "Continue.",L_Menu1,"End Conversation",-;
+	mes "[Joo Jahk]";
+	mes "Water here tastes really fresh.";
+	mes "Maybe thanks to well-preserved environments.";
+	mes "I don't think I'll have to worry about the water I drank.";
+	close;
+L_Menu1:
+      mes "[Joo Jahk]";
+	mes "I am traveling around Midgard";
+	mes "On the way here, I heard from really high level Magician";
+	next;
+	mes "[Joo Jahk]";
+	mes "that in case of impalpable ^3355FF Spiritual Property Monsters ^000000";
+	mes "physical attack or magic of non-property could hardly damage them.";
+	next;
+	mes "[Joo Jahk]";
+	mes "I hope this advice could come in handy for you.";
+	mes "Well, then excuse me..";
+	close;
+}
+
+aldebaran.gat,212,122,4	script "Citizen" 97,{
+	mes "[Gavin]";
+	mes "Welcome! We, townspeople of Al De Baran all welcome you . . . . .";
+	next;
+	mes "[Gavin]";
+	mes "Well..Is it too over-exaggerated? 'townspeople'...";
+	mes "Hm.. It's just me alone, but hey! Still, I welcome you!";
+	next;
+	menu "Continue Conversation.",L_Menu1,"End Conversation",-;
+	mes "[Gavin]";
+	mes "Welcome you to Al De Baran, a wonderful city of Canal surrounded by the Mjollnir mountains.";
+	close;
+L_Menu1:
+	mes "[Gavin]";
+	mes "Ah~ now I remember! I saw a very interesting monster.";
+	mes "Just a few days ago, I saw a Poring with wings of Heaven's angel around the Mjollnir forest surrounding Al De Baran.";
+	mes "I swear!";
+	   emotion 0;
+	next;
+	mes "[Gavin]";
+	mes "It was jumping around with other ordinary Porings.";
+	mes "Anglering...";
+	mes "What's it like...?";
+	close;
+}
+
+aldebaran.gat,146,124,4	script "Town Girl" 101,{
+	mes "[Nastasia]";
+	mes "Somewhere in the world there is a place called ^3355FF' Assassin Guild '^000000, teaching you how to assassinate a person without even the slightest trace.";
+	mes "They...";
+	next;
+	mes "[Nastasia]";
+	mes "are illegal?";
+	mes ". . . . .";
+	   emotion 1;
+	next;
+	mes "[Nastasia]";
+	mes "And do they collect eDanielonal tutition?";
+	next;
+	menu "Continue conversation.",L_Menu1,"End Conversation.",-;
+	mes "[Nastasia]";
+	mes "Like an old saying, nothing is free in the world.";
+	mes "So I guess they'll educate you for free.";
+	mes "Hm...";
+	close;
+L_Menu1:
+	mes "[Nastasia]";
+	mes "Most monsters with wings are very fast to move and attack.";
+	mes "Therefore, it's very difficult to hit them successfully.";
+	next;
+	mes "[Nastasia]";
+	mes "In order to fight against those kinds, you'll need ore DEX, right?";
+	close;
+}
+
+aldebaran.gat,217,222,0 script "Sign" 111,{
+	mes "^993333- The Sign Reads -^000000";
+      mes "I saw Santa Claus in Lutie!";
+      mes "- The rest looks like scribble -";
+      close;
+}
+
+aldebaran.gat,54,223,0 script "Billboard" 111,{
+	mes "^993333- The Billboard Reads -^000000";
+      mes "Help wanted:";
+      mes "We are looking for young, strong";
+      mes "and athletic people who are";
+      mes "interested in a fulltime carees as";
+      mes "a Blacksmith. If your interested,";
+      mes "We are looking for young, strong";
+      mes "please contact Altiregen";
+      mes "in Geffen!";
+      close;
+}
+
+aldebaran.gat,133,104,0 script "Al De Baran Bulletin" 111,{
+	mes "^993333- The Al De Baran Bulletin Reads -^000000";
+      mes "'Enjoy your stay in Al De baran'";
+      close;
+}

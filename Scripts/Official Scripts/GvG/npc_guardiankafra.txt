@@ -1,0 +1,642 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Guardian Reloader / Kafra Service Disabler Locations.
+//   Makes Guardians Reappear and Disables Kafra Services Until Hired.
+//   prtg_cas01.gat,95,32
+//   prtg_cas02.gat,43,225
+//   prtg_cas03.gat,168,18
+//   prtg_cas04.gat,86,18
+//   prtg_cas05.gat,17,238
+//   aldeg_cas01.gat,34,248
+//   aldeg_cas02.gat,88,163
+//   aldeg_cas03.gat,114,286
+//   aldeg_cas04.gat,149,17
+//   aldeg_cas05.gat,216,103
+//   payg_cas01.gat,215,50
+//   payg_cas02.gat,270,55
+//   payg_cas03.gat,225,30
+//   payg_cas04.gat,250,270
+//   payg_cas05.gat,60,230
+//   gefg_cas01.gat,34,140
+//   gefg_cas02.gat,70,143
+//   gefg_cas03.gat,60,286
+//   gefg_cas03.gat,100,280
+//   gefg_cas03.gat,125,250
+//   gefg_cas03.gat,89,159
+//   gefg_cas04.gat,24,149
+//   gefg_cas05.gat,99,200
+//   nguild_prt.gat,95,32
+//   nguild_alde.gat,34,248
+//   nguild_pay.gat,215,50
+//   nguild_gef.gat,34,140
+//
+//========================================================================================
+
+prtg_cas01.gat,95,32,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "prtg_cas01";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "prtg_cas01","Kafra Service",0;
+FIN:
+	enablenpc "prtg_cas01","CastleCheck",0;
+	return;
+}
+
+prtg_cas02.gat,168,18,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "prtg_cas02";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "prtg_cas02","Kafra Service",0;
+FIN:
+	enablenpc "prtg_cas02","CastleCheck",0;
+	return;
+}
+
+prtg_cas03.gat,168,18,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "prtg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "prtg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "prtg_cas03","CastleCheck",0;
+	return;
+}
+
+prtg_cas04.gat,86,18,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "prtg_cas04";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "prtg_cas04","Kafra Service",0;
+FIN:
+	enablenpc "prtg_cas04","CastleCheck",0;
+	return;
+}
+
+prtg_cas05.gat,17,238,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "prtg_cas05";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "prtg_cas05","Kafra Service",0;
+FIN:
+	enablenpc "prtg_cas05","CastleCheck",0;
+	return;
+}
+
+aldeg_cas01.gat,34,248,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "aldeg_cas01";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "aldeg_cas01","Kafra Service",0;
+FIN:
+	enablenpc "aldeg_cas01","CastleCheck",0;
+	return;
+}
+
+aldeg_cas02.gat,88,163,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "aldeg_cas02";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "aldeg_cas02","Kafra Service",0;
+FIN:
+	enablenpc "aldeg_cas02","CastleCheck",0;
+	return;
+}
+
+aldeg_cas03.gat,114,286,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "aldeg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "aldeg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "aldeg_cas03","CastleCheck",0;
+	return;
+}
+
+aldeg_cas04.gat,149,17,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "aldeg_cas04";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "aldeg_cas04","Kafra Service",0;
+FIN:
+	enablenpc "aldeg_cas04","CastleCheck",0;
+	return;
+}
+
+aldeg_cas05.gat,216,103,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "aldeg_cas05";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "aldeg_cas05","Kafra Service",0;
+FIN:
+	enablenpc "aldeg_cas05","CastleCheck",0;
+	return;
+}
+
+payg_cas01.gat,215,50,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "payg_cas01";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "payg_cas01","Kafra Service",0;
+FIN:
+	enablenpc "payg_cas01","CastleCheck",0;
+	return;
+}
+
+payg_cas02.gat,270,55,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "payg_cas02";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "payg_cas02","Kafra Service",0;
+FIN:
+	enablenpc "payg_cas02","CastleCheck",0;
+	return;
+}
+
+payg_cas03.gat,225,30,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "payg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "payg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "payg_cas03","CastleCheck",0;
+	return;
+}
+
+payg_cas04.gat,250,270,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "payg_cas04";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "payg_cas04","Kafra Service",0;
+FIN:
+	enablenpc "payg_cas04","CastleCheck",0;
+	return;
+}
+
+payg_cas05.gat,60,230,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "payg_cas05";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "payg_cas05","Kafra Service",0;
+FIN:
+	enablenpc "payg_cas05","CastleCheck",0;
+	return;
+}
+
+
+gefg_cas01.gat,34,140,0	script	"GuardianRecaller"	111,{
+OnInit:
+	guildreg "gefg_cas01";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas01","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas01","GuardianRecaller",0;
+	return;
+}
+
+gefg_cas02.gat,70,143,0	script	"GuardianRecaller"	111,{
+OnInit:
+	guildreg "gefg_cas02";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+FIN:
+	enablenpc "gefg_cas02","GuardianRecaller",0;
+	return;
+}
+
+gefg_cas03.gat,60,286,0	script	"GuardianRecaller1"	111,{
+OnInit:
+	guildreg "gefg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas03","GuardianRecaller",0;
+	enablenpc "gefg_cas03","GuardianRecaller3",0;
+	enablenpc "gefg_cas03","GuardianRecaller2",0;
+	enablenpc "gefg_cas03","GuardianRecaller1",0;
+	return;
+}
+
+
+gefg_cas03.gat,100,280,0	script	"GuardianRecaller2"	111,{
+OnInit:
+	guildreg "gefg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas03","GuardianRecaller",0;
+	enablenpc "gefg_cas03","GuardianRecaller1",0;
+	enablenpc "gefg_cas03","GuardianRecaller3",0;
+	enablenpc "gefg_cas03","GuardianRecaller2",0;
+	return;
+}
+
+gefg_cas03.gat,125,250,0	script	"GuardianRecaller2"	111,{
+OnInit:
+	guildreg "gefg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas03","GuardianRecaller",0;
+	enablenpc "gefg_cas03","GuardianRecaller1",0;
+	enablenpc "gefg_cas03","GuardianRecaller2",0;
+	enablenpc "gefg_cas03","GuardianRecaller3",0;
+	return;
+}
+
+
+gefg_cas03.gat,89,159,0	script	"GuardianRecaller"	111,{
+OnInit:
+	guildreg "gefg_cas03";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas03","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas03","GuardianRecaller3",0;
+	enablenpc "gefg_cas03","GuardianRecaller1",0;
+	enablenpc "gefg_cas03","GuardianRecaller2",0;
+	enablenpc "gefg_cas03","GuardianRecaller",0;
+	return;
+}
+
+gefg_cas04.gat,24,149,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "gefg_cas04";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas04","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas04","CastleCheck",0;
+	return;
+}
+
+gefg_cas05.gat,11,134,0	script	"CastleCheck1"	111,{
+OnInit:
+	guildreg "gefg_cas05";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas05","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas05","CastleCheck",0;
+	enablenpc "gefg_cas05","CastleCheck1",0;
+	return;
+}
+
+
+gefg_cas05.gat,99,200,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "gefg_cas05";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "gefg_cas05","Kafra Service",0;
+FIN:
+	enablenpc "gefg_cas05","CastleCheck1",0;
+	enablenpc "gefg_cas05","CastleCheck",0;
+	return;
+}
+
+nguild_prt.gat,95,32,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "nguild_prt";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "nguild_prt","Kafra Service",0;
+FIN:
+	enablenpc "nguild_prt","CastleCheck",0;
+	return;
+}
+
+nguild_alde.gat,34,248,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "nguild_alde";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "nguild_alde","Kafra Service",0;
+FIN:
+	enablenpc "nguild_alde","CastleCheck",0;
+	return;
+}
+
+nguild_pay.gat,215,50,0	script	"CastleCheck"	111,{
+OnInit:
+	guildreg "nguild_pay";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "nguild_pay","Kafra Service",0;
+FIN:
+	enablenpc "nguild_pay","CastleCheck",0;
+	return;
+}
+
+nguild_gef.gat,34,140,0	script	"GuardianRecaller"	111,{
+OnInit:
+	guildreg "nguild_gef";
+	set @GD = 0;
+	check guildid == 0,KAFRA,-;
+Start:
+	check @GD != 8,-,KAFRA;
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,ADD,-;
+	callguard @GD;
+	ADD:
+		set @GD += 1;
+		goto Start;
+KAFRA:
+	check guildkafra == 0,-,FIN;
+	enablenpc "nguild_gef","Kafra Service",0;
+FIN:
+	enablenpc "nguild_gef","GuardianRecaller",0;
+	return;
+}

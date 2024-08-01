@@ -1,0 +1,1645 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Blacksmith Quest - Non Player Character Locations
+//	-translated by yoshiki   
+//	-Converted by Nestor Zulueta
+//
+// - Guildsman -> geffen_in: 110,169
+//   First person to talk to about Blacksmith job change. Also grants job change. 
+//
+// - BS Guildsman -> alberta_in: 174,22
+//   Q&A, gives mission.
+//
+// - BS Guildsman -> morocc: 95,133
+//   Q&A, gives hammer of blacksmith.
+//
+// - Vicelyter -> geffen: 46,164
+//   Receives package
+//
+// - Wikervein -> morocc: 27,112
+//   Receives package
+//
+// - Gromgast -> izlude: 69,181
+//   Receives package
+//
+// - Bismarck -> comodo: 158,342
+//   Receives package
+//
+// - Tilpitz -> payon: 214,79
+//   Receives package
+//
+//========================================================================================
+geffen_in.gat,110,169,4	script	"Guildsman"	731,{
+	mes "[Blacksmith Arteizan]";
+	mes "Welcome! We're the masters of the metal, blacksmiths!";
+	mes "Our skills in creating weapons, in a way, is almost a art form!.";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "Those weapons, heh, can be sold for quite a profit as well.";
+	next;
+	check Job == 0,Lnovice,-;
+	check Job == 1,Lsword,-;
+	check Job == 2,Lwiz,-;
+	check Job == 3,Larcher,-;
+	check Job == 4,Laco,-;
+	check Job == 5,Lmerchant,-;
+	check Job == 6,Ltheif,-;
+	check Job == 7,Lsword,-;
+	check Job == 8,Laco,-;
+	check Job == 9,Lwiz,-;
+	check Job == 10,Lblack,-;
+	check Job == 11,Larcher,-;
+	check Job == 6,Ltheif,-;
+	check Job == 14,Lsword,-;
+	check Job == 15,Laco,-;
+	check Job == 16,Lwiz,-;
+	check Job == 17,Ltheif,-;
+	check Job == 19,Larcher,-;	
+	check Job == 20,Larcher,-;
+	mes "Other jobs except `Merchant' are not permitted to be Blacksmith.";
+	close;
+Lnovice:
+	check gender=0,female,-;
+	check gender=1,male,-;
+female:
+	mes "[Blacksmith Arteizan]";
+	mes "...Hello little lady! If you wish to be a blacksmith, you have to be a merchant first!";
+	close;
+male:
+	mes "[Blacksmith Arteizan]";
+	mes "Hmmm, you look like you wish to be a blacksmith! Sorry, but only merchants can be blacksmiths!.";
+	close;
+Lsword:	
+	mes "[Blacksmith Arteizan]";
+	mes "Hello sir! Come here to order a sword?";
+	mes "Sorry, but I have some paperwork to do, so I can't forge anything now.";
+	close;
+Larcher:
+	mes "[Blacksmith Arteizan]";
+	mes "Hmmm, sorry, but we're not hiring anyone that isn't a merchent.";
+	close;	
+Lwiz:
+	mes "[Blacksmith Arteizan]";
+	mes "Hello mister magician!";
+	mes "I hear your guild is interested in elemental stones, heh.";
+	close;
+Laco:
+	mes "[Blacksmith Arteizan]";
+	mes "Oh! Holymen!";
+	mes "Do me a favor and bless the sword I'm crafting!";
+	close;
+Ltheif:	
+	mes "[Blacksmith Arteizan]";
+	mes "Sorry, but this is more of a office, so there's nothing worth money.";
+	mes "We CAN do knife forges though.";
+	close;
+Lblack:
+	mes "[Blacksmith Arteizan]";
+	mes "Hey! Been a while, running a errand for Christopher?";
+	mes "I feel like my hammer is getting rusty after all this office work.";
+	close;
+Lmerchant:	
+	check job_black > 0,already1,-;
+	mes "[Blacksmith Arteizan]";
+	mes "Hello fellow merchant! Are you here to apply?";
+	mes "Write your name and your job level on this piece of paper.";
+	next;
+	menu "Apply",apply,"What's required?",watreq,"Not now...",notnow;
+apply:
+	check JobLevel < 40,Lowlvl,-;
+	mes "[Blacksmith Arteizan]";
+	mes "Hmmm...";
+	mes "Your job level is satisfactory.";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "Good, but we don't just accept anybody.";
+	mes "We'll need to test your merchant skills and your determination.";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "Rustle Rustle";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "Hmmm, the guildsman Gespanst in Alberta says he's a bit short of hands.";
+	mes "Go help him, that's the first test.";
+	next;
+	set job_black = 1;
+	mes "Have a nice trip!";
+	close;
+Lowlvl:
+	mes "[Blacksmith Arteizan]";
+	mes "You need more training as a merchant.";
+	mes "We only accept job level 40+";
+	mes "Much as I want to accept you, we have regulations.";
+	mes "Sorry, but return later.";
+	close;
+watreq:
+	mes "[Blacksmith Arteizan]";
+	mes "What is required?";
+	mes "First, be job level 40 at least.";
+	mes "And pass the test.";
+	mes "That's it. The test is a bit complicated, but passable.";
+	mes "The test involves delievering items and being quized on the special items of certain regions and then being tested on knowledge of blacksmiths.";
+	close;
+notnow:
+	mes "[Blacksmith Arteizan]";
+	mes "Alright, see you later.";
+	close;
+already1:
+	check job_black < 8,blk1,-;
+	check job_black < 15,blk2,-;	
+	check job_black == 15,blk3,-;
+	check job_black == 16,blk4,-;
+	check job_black == 17,blk5,-;
+blk1:
+	mes "[Blacksmith Arteizan]";
+	mes "You didn't leave yet?";
+	mes "I told you to go see Gespenst in Alberta";
+	mes "See you then.";
+	close;
+blk2:
+	mes "[Blacksmith Arteizan]";
+	mes "How was the work Gespenst gave you?";
+	mes "He can be a pain sometimes.";
+	close;
+blk3:
+	mes "[Blacksmith Arteizan]";
+	mes "Congrats! You've passed the 1st test!";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "Hmm? Heh, there more tests you know.";
+	mes "The guildsman for the 2nd test is in Morroc, go there now.";
+	next;
+	menu "Cruel, but I'll go.",cruel,"......I don't wanna travel T_T",dontgo;
+cruel:
+	set job_black = 16;
+	mes "[Blacksmith Arteizan]";
+	mes "I know its far away, but it's not in my power";
+	mes "Besides, you know the region well, right?";
+	mes "I hope you do, because the blacksmith's guild doesn't like shaming it's status";
+	mes "by hiring idiots!";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "If such a thing happened, I can see the guild crumbling down, sob T_T";
+	mes "Well.....";
+	mes "Get to Morroc and find him!";
+	close;
+dontgo:
+	mes "[Blacksmith Arteizan]";
+	mes "What!? You give up!?!";
+	mes "HOW DARE YOU INSULT OUR GUILD LIKE THAT!";
+	mes "Leave now! Don't you dare even DREAM about becoming a blacksmith!";
+	next;
+	mes "[Blacksmith Arteizan]";
+	mes "Can't endure ANYTHING can you!?";
+	mes "How do you plan to become a blacksmith if you can't do these simple tasks!?";
+	close;
+blk4:	
+	mes "[Blacksmith Arteizan]";
+	mes "Hmmm? Didn't you say you're going to Morroc?";
+	mes "Sorry, but you gotta pass the test there.";	
+	close;
+blk5:
+	checkitem 1005,1,-,noham;
+	check JobLevel > 48,higher,-;
+	mes "[Blacksmith Arteizan]";
+	mes "Lo, I can see the fire in your eyes! You've passed!!";
+	mes "I'll grant you the power to work metals!";
+	next;
+	check skillpoint = 0,-,has;
+	jobchange 10;
+	mes "[Blacksmith Arteizan]";
+	mes "Don't forget! We're the artists that put beauty into metal!";
+	mes "Don't you dare forget that!";
+	next;
+	delitem 1005,1;
+	mes "[Blacksmith Arteizan]";
+	mes "Here's a present! Congrats on passing!";
+	additem 999,5;
+	set job_black = 0;
+	close;
+higher:
+	mes "[Blacksmith Arteizan]";
+	mes "Lo, I can see the fire in your eyes! You've passed!!";
+	mes "I'll grant you the power to work metals!";
+	next;
+	check skillpoint = 0,-,has;
+	jobchange 10;
+	mes "[Blacksmith Arteizan]";
+	mes "Don't forget! We're the artists that put beauty into metal!";
+	mes "Don't you dare forget that!";
+	next;
+	delitem 1005,1;
+	mes "[Blacksmith Arteizan]";
+	mes "Here's a present! Congrats on passing!";
+	additem 999,10;
+	set job_black = 0;
+	close;
+noham:
+	mes "[Blacksmith Arteizan]";
+	mes "Are you forgetting something ?";
+	close;
+has:
+	mes "[Blacksmith Arteizan]";
+	mes "Please used up your remaing skills";
+	mes "before talking to me";
+	close;
+}
+
+alberta_in.gat,174,22,4	script	"BS Guildsman"	63,{
+	mes "[Gespenst]";
+	mes "Hello sir! I'm the blacksmith";
+	mes "'Gespenst! Nice to meet you!";
+	next;
+	check Job = 5,merchant,-;
+	mes "[Gespenst]"
+	mes "Blacksmith is such a great job!!";
+	mes "Don't you think so? Hahahahahahah!";
+	close;
+merchant:	
+	mes "[Gespenst]";
+	mes "Ah, a merchant!";
+	mes "I was needing help on my work!";
+	next;
+	check job_black = 0,no0,-; 
+	check job_black = 1,no1,-;
+	check job_black = 2,no2,-;
+	check job_black = 3,no3,-;
+	check job_black > 3,no4,-;
+no0:	
+	mes "[Gespenst]";
+	mes "Well, I can't keep busy people back.";
+	mes "So, go on!";
+	next;
+	mes "[Gespenst]";
+	mes "Crash Crash";
+	mes "Dadida.....I am a blacksmith of the flames~(singing)";
+	next;
+	mes "[Gespenst]";
+	mes "Why are you still here -.-";
+	close;
+no1:
+	mes "[Gespenst]";
+	mes "You're the one sent by the guild, right?";
+	mes "Whew, the people order so many items >_> We don't have enough people to deliever.";
+	next;
+	mes "[Gespenst]";
+	mes "Well, you ARE the one sent by the guild, right?";
+	mes "Oh well, hopefully >_>";
+	next;
+	mes "[Gespenst]";
+	mes "See, this kid a few days ago,";
+	mes "he wasted SO much of our money.";
+	mes "Just because I sent him on a semi complicated errand >_>";
+	mes "Now, let me ask a few questions!";
+	next;
+	menu "Alright",ready,"Wait, let me go and get prepared",notready;
+notready:
+	mes "[Gespenst]";
+	mes "Ok, return after you're ready.";
+	mes "I'll be waiting here.";
+	close;
+ready:
+	set @black_q = 0
+	random @rand_b 2;
+	check @rand_b = 0,setq1,-;
+	check @rand_b = 0,-,setq2;
+setq1:
+	mes "[Gespenst]";
+	mes "1. Which town and local item don't match?";
+	next;
+	menu "Morroc - Thief Clothes",q1,"Alberta - 2 Hand Axe",q2,"Comodo - Berserk Potion",q3,"Alberta - Swordmace",q4;
+q1:
+	goto change1;
+q2:
+	goto change1;
+q3:
+	goto change1;
+q4:
+	set @black_q + 10;
+change1:
+	mes "[Gespenst]";
+	mes "2. What does the smith skill Hammerfall do?";
+	next;
+	menu "Stun",q5,"Blind",q6,"Poison",q7,"Sleep",q8;
+q5:
+	set @black_q + 10;
+	goto change2;
+q6:
+	goto change2;
+q7:
+	goto change2;
+q8:
+change2:
+	mes "[Gespenst]";
+	mes "3. What is a merchant not good at?";
+	next;
+	menu "Opening Shops",q9,"Buying Cheap",q10,"Selling High",q11,"Running Fast",q12;
+q9:
+	goto change3;
+q10:
+	goto change3;
+q11:
+	goto change3;
+q12:
+	set @black_q + 10;
+change3:
+	mes "[Gespenst]";
+	mes "4. Where do you buy Blue Gems?";
+	next;
+	menu "Alberta",q13,"Morroc",q14,"Geffen",q15,"Prontera",q16;
+q13:
+	goto change4;
+q14:
+	goto change4;
+q15:
+	set @black_q + 10;
+	goto change4;
+q16:
+change4:
+	mes "[Gespenst]";
+	mes "5. Where is the Geffen Tool Shop from the tower?";
+	next;
+	menu "8 o'clock",q17,"11 o'clock",q18,"6 o'clock",q19,"5 o'clock",q20;
+q17:
+	set @black_q + 10;
+	goto change5;
+q18:
+	goto change5;
+q19:
+	goto change5;
+q20:
+change5:
+	mes "[Gespenst]";
+	mes "6. What weapon can't be used by merchants?";
+	next;
+	menu "Stiletto",q21,"Buster",q22,"Chain",q23,"Bible",q24;
+q21:
+	goto change6;
+q22:
+	goto change6;
+q23:
+	goto change6;
+q24:
+	set @black_q + 10;
+change6:
+	mes "[Gespenst]";
+	mes "7. Which has the highest def?";
+	next;
+	menu "Panty",q25,"Mink Coat",q26,"Wooden Mail",q27,"Silk Robe",q28;
+q25:
+	goto change7;
+q26:
+	set @black_q + 10;
+	goto change7;
+q27:
+	goto change7;
+q28:
+change7:
+	mes "[Gespenst]";
+	mes "8. How many times can you upgrade a lvl 3 weapon safely?";
+	next;
+	menu "+3 ",q29,"+4 ",q30,"+5 ",q31,"+6 ",q32;
+q29:
+	goto change8;
+q30:
+	goto change8;
+q31:
+	set @black_q + 10;
+	goto change8;
+q32:
+change8:
+	mes "[Gespenst]";
+	mes "9. What can you make with Trunks?";
+	next;
+	menu "Sakkat",q33,"Ghost Bandana",q34,"Majestic Goat",q35,"Antlers",q36;
+q33:
+	set @black_q + 10;
+	goto change9;
+q34:
+	goto change9;
+q35:
+	goto change9;
+q36:
+change9:
+	mes "[Gespenst]";
+	mes "10. What is the most important to merchants!?";
+	next;
+	menu "Helpfulness",q37,"Honor",q38,"Money",q39,"Honesty",q40;
+q37:
+	set @black_q + 10;
+	check job_black = 2,result2,-;
+	goto result;
+q38:
+	set @black_q + 10;
+	check job_black = 2,result2,-;
+	goto result;
+q39:
+	set @black_q + 10;
+	check job_black = 2,result2,-;
+	goto result;
+q40:
+	set @black_q + 10;
+	check job_black = 2,result2,-;
+	goto result;
+setq2:	
+	mes "[Gespenst]"
+	mes "1. Which town and local item is mismatched?"
+	next;
+	menu "Aldebaran - Ygg Leaf",q41,"Alberta - Hammer",q42,"Comodo - Berserk Potion",q43,"Aldebaran - Hammer",q44;
+q41:
+	goto change10;
+q42:
+	goto change10;
+q43:
+	goto change10;
+q44:
+	set @black_q + 10;
+change10:
+	mes "[Gespenst]";
+	mes "2. How much does Jellopy sell for?";
+	next;
+	menu "1z",q45,"2z",q46,"3z",q47,"4z",q48;
+q45:
+	goto change11;
+q46:
+	goto change11;
+q47:
+	set @black_q + 10;
+	goto change11;
+q48:
+change11:
+	mes "[Gespenst]";
+	mes "3. What's necessary to make a shop?";
+	next;
+	menu "Must have cart",q49,"Item to sell",q50,"Have weapon equiped",q51,"Wear Armor",q52;
+q49:
+	set @black_q + 10;
+	goto change12;
+q50:
+	goto change12;
+q51:
+	goto change12;
+q52:
+change12:
+	mes "[Gespenst]";
+	mes "4. Where is the merchant guild located?";
+	next;
+	menu "Alberta",q53,"Morroc",q54,"Geffen",q55,"Prontera",q56;
+q53:
+	set @black_q + 10;
+	goto change13;
+q54:
+	goto change13;
+q55:
+	goto change13;
+q56:
+change13:
+	mes "[Gespenst]";
+	mes "5. Where is the Morroc Weapon Shop from the center?";
+	next;
+	menu "7 o'clock",q57,"11 o'clock",q58,"6 o'clock",q59,"5 o'clock",q60;
+q57:
+	goto change14;
+q58:
+	goto change14;
+q59:
+	goto change14;
+q60:
+	set @black_q + 10;
+change14:
+	mes "[Gespenst]";
+	mes "6. What can't a merchant equip?";
+	next;
+	menu "Main Gauche",q61,"Claymore",q62,"Chain",q63,"2 hand axe",q64;
+q61:
+	goto change15;
+q62:
+	set @black_q + 10;
+	goto change15;
+q63:
+	goto change15;
+q64:
+change15:
+	mes "[Gespenst]"
+	mes "7. What has the highest defense?"
+	next;
+	menu "Panty",q65,"Mink Coat",q66,"Wooden Mail",q67,"Silk Robe",q68;
+q65:
+	goto change16;
+q66:
+	set @black_q + 10;
+	goto change16;
+q67:
+	goto change16;
+q68:
+change16:
+	mes "[Gespenst]";
+	mes "8. How many times can you upgrade a lvl 4 weapon?";
+	next;
+	menu "+3 ",q69,"+4",q70,"+5",q71,"+6",q72;
+q69:
+	goto change17;
+q70:
+	set @black_q + 10;
+	goto change17;
+q71:
+	goto change17;
+q72:
+change17:
+	mes "[Gespenst]";
+	mes "9. Which monster doesn't drop iron ore?";
+	next;
+	menu "Chonchon",q73,"Steel Chonchon",q74,"Zerom",q75,"Anolian",q76;
+q73:
+	goto change18;
+q74:
+	goto change18;
+q75:
+	goto change18;
+q76:
+	set @black_q + 10;
+change18:
+	mes "[Gespenst]";
+	mes "10. What is the most important to merchants?!";
+	next;
+	menu "Honesty",q77,"Helpfulness",q78,"Money",q79,"Posture",q80;
+q77:
+	set @black_q + 10;
+	check job_black = 2,result2,-;
+	goto result;
+q78:
+	set @black_q + 10;
+	check job_black = 2,result2,-;
+	goto result;
+q79:
+	set @black_q + 10;
+	check job_black = 2,result2,-;	
+	goto result;
+q80:
+	set @black_q + 10;
+	check job_black = 2,result2,-;	
+	goto result;
+result:	
+	mes "[Gespenst]";
+	mes "Good!";
+	next;
+	mes "[Gespenst]";
+	mes "Lets see....your score is $[@black_q].";
+	check @black_q = 100,perfect,-;
+	set job_black = 2;
+	mes ".............";
+	next;
+	mes "[Gespenst]";
+	mes "Sorry friend, I don't want to give you the job.";
+	mes "You need just a bit more knowledge. Go study some more";
+	close;
+perfect:
+	set job_black = 3;
+	mes "Perfect!"
+	next;
+	mes "[Gespenst]"
+	mes "Then you definatly can do the errand!"
+	mes "Are you prepared?"
+	close;
+no2:	
+	mes "[Gespenst]";
+	mes "Ah, I see you've studied more. ";
+	mes "Don't miss any questions!";
+	mes "Here we go!";
+	next;
+	goto ready;
+result2:
+	mes "[Gespenst]";
+	mes "Great!";
+	next;
+	mes "[Gespenst]";
+	mes "Lets see....your score is $[@black_q].";
+	check @black_q > 80,pass,-;
+	set job_black = 2;
+	mes ".............";
+	next;
+	mes "[Gespenst]";
+	mes "You've missed again!";
+	mes "If you keep missing, I can't give you the job. Go study more.";
+	close;
+pass:
+	set job_black = 3;
+	mes "You Passed!";
+	next;
+	mes "[Gespenst]";
+	mes "I'll let you do the job";
+	mes "Are you prepared?";
+	close;
+no3:	
+	mes "[Gespenst]";
+	mes "Let's see... orders....";
+	next;
+	mes "[Gespenst]";
+	mes "Ah, here it is!";
+	mes "Here's the order that's almost due";
+	mes "Hmmm";
+	next;
+	mes "[Gespenst]";
+	mes "I need you to get me....";
+	next;
+	random @black_item 4;
+	check @black_item = 0,item1,-;
+	check @black_item = 1,item2,-;
+	check @black_item = 2,item3,-;
+	check @black_item = 3,item4,-;
+	check @black_item = 4,item5,-;
+item1:
+	set job_black = 4;
+	mes "[Gespenst]";
+	mes "2 Steel";
+	mes "1 Rotten Bandage";
+	mes "2 Blue Gemstone";
+	mes "and 1 Arc Wand from the store.";
+	next;
+	mes "[Gespenst]";
+	mes "Hey, we're not making you bring these because we're cheap! It's a test!";
+	next;
+	mes "[Gespenst]";
+	mes "2 Steel";
+	mes "1 Rotten Bandage";
+	mes "2 Blue Gemstone";
+	mes "and 1 Arc Wand from the store.";
+	next;
+	goto finalword;
+item2:	
+	set job_black = 5;
+	mes "[Gespenst]";
+	mes "2 Star Dust";
+	mes "2 Skel Bones";
+	mes "1 Zargons";
+	mes "and 1 Gladius from the stores.";
+	next;
+	mes "[Gespenst]";
+	mes "Hey! We're not being cheap, this is a test!";
+	next;
+	mes "[Gespenst]";
+	mes "I'll list them again";
+	mes "2 Star Dust";
+	mes "2 Skel Bones";
+	mes "1 Zargons";
+	mes "and 1 Gladius from the stores.";
+	next;
+	goto finalword;
+item3:
+	set job_black = 6;
+	mes "[Gespenst]";
+	mes "2 Coals";
+	mes "2 Shells";
+	mes "2 Red Bloods";
+	mes "and 1 Tsurugi from the stores.";
+	next;
+	mes "[Gespenst]";
+	mes "Hey! We're not being cheap, this is a test!";
+	next;
+	mes "[Gespenst]";
+	mes "I'll list them again";
+	mes "2 Coals";
+	mes "2 Shells";
+	mes "2 Red Bloods";
+	mes "and 1 Tsurugi from the stores.";
+	next;
+	goto finalword;
+item4:
+	set job_black = 7;
+	mes "[Gespenst]";
+	mes "8 Iron Ores";
+	mes "1 Trunk";
+	mes "2 Blue Gems";
+	mes "And a Arbalest from the stores.";
+	next;
+	mes "[Gespenst]";
+	mes "Hey! We're not being cheap!";
+	next;
+	mes "[Gespenst]";
+	mes "I'll list them again.";
+	mes "8 Iron Ores";
+	mes "1 Trunk";
+	mes "2 Blue Gems";
+	mes "And a Arbalest from the stores.";
+	next;
+	goto finalword;
+item5:
+	set job_black = 8;
+	mes "[Gespenst]";
+	mes "8 Iron Ores";
+	mes "20 Green Herbs";
+	mes "2 Animal Skin";
+	mes "and 1 Morning Star from the stores.";
+	next;
+	mes "[Gespenst]";
+	mes "Hey! We're not being cheap! It's a test!";
+	next;
+	mes "[Gespenst]";
+	mes "I'll list them again.";
+	mes "8 Iron Ores";
+	mes "20 Green Herbs";
+	mes "2 Animal Skin";
+	mes "and 1 Morning Star from the stores.";
+	next;
+finalword:
+	mes "[Gespenst]";
+	mes "Good luck!";
+	close;
+no4:
+	check job_black < 9,less9,-;
+	check job_black < 14,less14,-;
+	check job_black = 14,job14,-;
+	check job_black = 15,job15,-;
+	check job_black > 15,great15,-;
+less9:
+	check job_black = 4,job4,-;
+	check job_black = 5,job5,-;
+	check job_black = 6,job6,-;
+	check job_black = 7,job7,-;
+	check job_black = 8,job8,-;
+job4:
+	mes "[Gespenst]";
+	mes "Hmm? Did you bring all the items?";
+	next;
+	checkitem 999,2,-,not1;
+	checkitem 930,1,-,not1;
+	checkitem 717,2,-,not1;
+	checkitem 1610,1,-,not1;
+	mes "[Gespenst]";
+	mes "Didn't I ask for 3 steels?";
+	next;
+	mes "[Gespenst]";
+	mes "Oh yea! I did ask for 2.";
+	mes "Gimme a sec.";
+	delitem 999,2;
+	delitem 930,1;
+	delitem 717,2;
+	delitem 1610,1;
+	set job_black = 9;
+	next;
+	mes "[Gespenst]";
+	mes "Grunt.......";
+	next;
+	mes "[Gespenst]";
+	mes "Ergh......";
+	next;
+	mes "[Gespenst]";
+	mes "Whew";
+	mes "There we go!";
+	mes "Deliever this to Geffen's Vicelyter and bring back the reciept.";
+	additem 1610,1;
+	next;
+	mes "[Gespenst]";
+	mes "WHAT!? Nothing looks different?";
+	mes "Look carefully where my hand is.";
+	mes "See the emphesized groove!?";
+	mes "ITS THE SUPER GESPENST ARC WAND MK II!!!!! XDDDDD";
+	next;
+	mes "[Gespenst]";
+	mes "Feel the difference! Almost no inertia!";
+	next;
+	mes "[Gespenst]";
+	mes "Now, go deliever to Vicelyter!";
+	close;
+not1:
+	mes "[Gespenst]";
+	mes "You didn't bring all the items!";
+	mes "2 Steel";
+	mes "1 Rotten Bandage";
+	mes "2 Blue Gemstones";
+	mes "And a store bought Arc Wand!";
+	next;
+	mes "[Gespenst]";
+	mes "Now go bring it if you don't want to fail the test!";
+	mes "Sigh...how can anyone work with all these distractions >_>";
+	close;
+job5:
+	mes "[Gespenst]";
+	mes "Did you bring all the items?";
+	next;
+	checkitem 1001,2,-,not2;
+	checkitem 932,1,-,not2;
+	checkitem 912,1,-,not2;
+	checkitem 1219,1,-,not2;
+	mes "[Gespenst]";
+	mes "Didn't I ask for 3 Star Dusts?";
+	next;
+	mes "[Gespenst]";
+	mes "Oh yea, 2, that's right.";
+	mes "Okay, gimme a sec.";
+	delitem 1001,2;
+	delitem 932,1;
+	delitem 912,1;
+	delitem 1219,1;
+	set job_black = 10;
+	next;
+	mes "[Gespenst]";
+	mes "Grunt.......";
+	next;
+	mes "[Gespenst]";
+	mes "Ergh......";
+	next;
+	mes "[Gespenst]";
+	mes "Whew";
+	mes "There we go...";
+	mes "Now, take this to Morroc's Wikervein";
+	additem 1219,1;
+	next;
+	mes "[Gespenst]";
+	mes "WHAT!? IT DOESN'T LOOK ANY DIFFERENT!?";
+	mes "Look carefully at the blade!";
+	mes "CAN YOU NOT SEE THE BEAUTIFUL MARKINGS?!";
+	mes "ULTRA GLADIUS GESPENST Mk II!!";
+	next;
+	mes "[Gespenst]";
+	mes "Isnt it so pretty ^_^";
+	next;
+	mes "[Gespenst]";
+	mes "Well, go to Morroc and give it the Wikervein and bring the receipt back.";
+	close;
+not2:
+	mes "[Gespenst]";
+	mes "You didn't bring all the items!!";
+	mes "How many times must i tell you!?";
+	mes "Star Dust x 2";
+	mes "Skel Bone x 1";
+	mes "Zargon x 1";
+	mes "And 1 store bought Gladius.";
+	next;
+	mes "[Gespenst]";
+	mes "Now go bring it if you don't want to fail the test!";
+	mes "Sigh...how can anyone work with all these distractions >_>";
+	close;
+job6:
+	mes "[Gespenst]";
+	mes "Let's see..... did you bring all the items?";
+	next;
+	checkitem 1003,2,-,not3;
+	checkitem 935,2,-,not3;
+	checkitem 990,1,-,not3;
+	checkitem 1119,1,-,not3;
+	mes "[Gespenst]";
+	mes "Didn't I ask for 3 coals??";
+	next;
+	mes "[Gespenst]";
+	mes "That's right, 2 coals";
+	mes "Okay, wait a sec.";
+	delitem 1003,2;
+	delitem 935,2;
+	delitem 990,1;
+	delitem 1119,1;
+	set job_black = 11;
+	next;
+	mes "[Gespenst]";
+	mes "Grunt......";
+	next;
+	mes "[Gespenst]";
+	mes "Ergh......";
+	next;
+	mes "[Gespenst]";
+	mes "Whew";
+	mes "There we go";
+	mes "Give this to Izlude's Gromgast and bring back the receipt.";
+	additem 1119,1;
+	next;
+	mes "[Gespenst]";
+	mes "WHAT!? NOTHING LOOKS DIFFERENT!?";
+	mes "Look carefully at the blade!";
+	mes "Look at the beautiful markings!";
+	mes "ULTRA GESPENST TSURUGI Mk II!!!";
+	next;
+	mes "[Gespenst]";
+	mes "Isn't it so pretty ^_^";
+	next;
+	mes "[Gespenst]";
+	mes "Anyways, Izlude's Gromgast! Go!";
+	close;
+not3:
+	mes "[Gespenst]";
+	mes "You didn't bring everything!";
+	mes "How many times must I tell you!";
+	mes "2 Coal";
+	mes "2 Shells";
+	mes "2 Red Bloods";
+	mes "And a store bought Tsurugi";
+	next;
+	mes "[Gespenst]";
+	mes "Now go bring it if you don't want to fail the test!";
+	mes "Sigh...how can anyone work with all these distractions >_>";
+	close;
+job7:
+	mes "[Gespenst]";
+	mes "Did you get all the items?";
+	next;
+	checkitem 1002,8,-,not4;
+	checkitem 1019,1,-,not4;
+	checkitem 717,2,-,not4;
+	checkitem 1713,1,-,not4;
+	mes "[Gespenst]";
+	mes "Didn't I ask for 30 iron ores?";
+	next;
+	mes "[Gespenst]";
+	mes "Wait, 8 is right >_>";
+	mes "Hmmm, wait a sec then.";
+	delitem 1002,8;
+	delitem 1019,1;
+	delitem 717,2;
+	delitem 1713,1;
+	set job_black = 12;
+	next;
+	mes "[Gespenst]";
+	mes "Grunt.......";
+	next;
+	mes "[Gespenst]";
+	mes "Ergh......";
+	next;
+	mes "[Gespenst]";
+	mes "Whew.";
+	mes "There we go";
+	mes "Deliever this to Payon's Tilpitz";
+	additem 1713,1;
+	next;
+	mes "[Gespenst]";
+	mes "WHAT!? NOTHING LOOKS DIFFERENT!?";
+	mes "LOOK AT THE GROOVES WHERE THE ARROWS GO!!";
+	mes "LOOK HOW CUSTOMIZED IT IS!!!!!";
+	mes "GESPENST'S MASTER ARCHER ARBALEST Mk II!!!";
+	next;
+	mes "[Gespenst]";
+	mes "Look how well built the bow is!";
+	next;
+	mes "[Gespenst]";
+	mes "Well, Tilpitz in Payon, and bring the envelop.";
+	close;
+not4:
+	mes "[Gespenst]";
+	mes "You didn't bring all the items!";
+	mes "How many times must I tell you?!!!";
+	mes "8 Iron ores";
+	mes "1 Trunk";
+	mes "2 Blue Gems";
+	mes "And a store bought arbalest!";
+	next;
+	mes "[Gespenst]";
+	mes "Now go bring it if you don't want to fail the test!";
+	mes "Sigh...how can anyone work with all these distractions >_>";
+	close;
+job8:
+	mes "[Gespenst]";
+	mes "Did you bring all the items?";
+	next;
+	checkitem 1002,8,-,not5;
+	checkitem 511,20,-,not5;
+	checkitem 919,2,-,not5;
+	checkitem 1513,1,-,not5;
+	mes "[Gespenst]";
+	mes "Didn't I ask for 40 ores?";
+	next;
+	mes "[Gespenst]";
+	mes "Wait, 8! That's right!";
+	mes "Okay, wait a sec!";
+	delitem 1002,8;
+	delitem 511,20;
+	delitem 919,2;
+	delitem 1513,1;
+	set job_black = 13;
+	next;
+	mes "[Gespenst]";
+	mes "Grunt.......";
+	next;
+	mes "[Gespenst]";
+	mes "Ergh......";
+	next;
+	mes "[Gespenst]";
+	mes "Whew";
+	mes "There we go";
+	mes "Take this to Bismarck in Comodo and bring me the receipt.";
+	additem 1513,1;
+	next;
+	mes "[Gespenst]";
+	mes "WHAT!? NOTHING LOOKS DIFFERENT!?";
+	mes "Look carefully at the tips of the spikes!!";
+	mes "The green herbs' antidote for poisons have been mixed in!";
+	mes "ANTI POISON GESPENST MORNING STAR MK II!!!!!";
+	next;
+	mes "[Gespenst]";
+	mes "Don't you get it!? When you're poisoned, you stab yourself with it!";
+	mes "The wound.....probably will get bigger! But the poison will be gone!";
+	next;
+	mes "[Gespenst]";
+	mes "Well, take this to Bismarck of Comodo!";
+	close;
+not5:
+	mes "[Gespenst]";
+	mes "You didn't bring everything!";
+	mes "How many times must I tell you!?";
+	mes "8 Iron Ores";
+	mes "20 Green Herbs";
+	mes "20 Animal Skin";
+	mes "and 1 store bought morning star!";
+	next;
+	mes "[Gespenst]";
+	mes "Now go bring it if you don't want to fail the test!";
+	mes "Sigh...how can anyone work with all these distractions >_>";
+	close;
+less14:
+	mes "[Gespenst]";
+	mes "Go deliever!";
+	mes "........you didn't forget.......right?";
+	next;
+	check job_black = 9,no9,-;
+	check job_black = 10,no10,-;
+	check job_black = 11,no11,-;
+	check job_black = 12,no12,-;
+	check job_black = 13,no13,-;
+no9:
+	mes "[Gespenst]";
+	mes "Vicelyter should be at 11 o'clock of Geffen ";
+	close;
+no10:
+	mes "[Gespenst]";
+	mes "Take it to Wikervein near the Sword Mace dealer in Morroc.";
+	close;
+no11:
+	mes "[Gespenst]";
+	mes "Gromgast hangs out at 11 o'clock of Izlude.";
+	close;
+no12:
+	mes "[Gespenst]";
+	mes "Tilpitz hangs out at 5 o'clock of Payon";
+	close;
+no13:
+	mes "[Gespenst]";
+	mes "Bismarck is usually at 12 o'clock area of Comodo.";
+	close;
+job14:
+	mes "[Gespenst]";
+	mes "Did you deliever it?";
+	mes "Lets see the receipt then!";
+	next;
+	menu "Here you go",hereya,"Wait a second.",waita;
+hereya:
+	checkitem 1073,1,-,noreceipt;
+	set job_black = 15;
+	delitem 1073,1;
+	mes "[Gespenst]";
+	mes "Great! Very good!.";
+	mes "You're definalty a honest merchant!";
+	mes "Go see Arteizan back in Geffen!";
+	mes "I know you'll definately pass the test!!!";
+	close;
+noreceipt:
+	set job_black = 3;
+	mes "[Gespenst]";
+	mes "........You don't know where you left the receipt.........";
+	mes ".....That's not too good -.- ";
+	next;
+	mes "[Gespenst]";
+	mes "What is this?! You lost it!?";
+	mes "DId you sell it or something!?";
+	next;
+	mes "[Gespenst]";
+	mes "The receipt is the soul of merchants! The life line of blacksmiths!";
+	mes "Guess what? You get to start over!!";
+	close;
+waita:
+	mes "[Gespenst]";
+	mes "Well, tell me if you find the receipt.";
+	mes "I HOPE you got one.";
+	close;
+job15:
+	mes "[Gespenst]";
+	mes "Thanks for working for me! Now go see Arteizan!";
+	close;
+great15:
+	mes "[Gespenst]";
+	mes "There should be nothing you want now.........";
+	mes "Maybe you're thinking of Morroc or Geffen?";
+	close;
+}
+
+geffen.gat,46,164,4	script	"Vicelyter"	69,{
+	check job_black = 9,wel,-;
+	check job_black = 14,aper,-;
+asking:
+	mes "[Vicelyter]";
+	mes "We're so far away from Alberta.......";
+	mes "Nothing I've ordered arrived!";
+	next;
+	mes "[Vicelyter]";
+	mes "I ordered something from the Geffen BS guild....";
+	mes "But they assigned it to the smith in Alberta!!";
+	next;
+	mes "[Vicelyter]";
+	mes "When's my special Arc Wand gonna arrive T_T";
+	close;
+wel:
+	checkitem 1610,1,-,asking;	
+	set job_black = 14;
+	mes "[Vicelyter]";
+	mes "Wow! Is it finally here?!";
+	mes "Thank you! I was waiting forever!";
+	delitem 1610,1;
+	next;
+	mes "[Vicelyter]";
+	mes "I ordered this from the Geffen BS Guild,";
+	mes "But they assigned it to the smith in Alberta!";
+	next;
+	mes "[Vicelyter]";
+	mes "Thanks for coming from so far away!";
+	mes "Also, make sure to hit Gespenst one for me! How could anything be so late >_>";
+	next;
+	mes "[Vicelyter]";
+	mes "Here's the receipt!";
+	next;
+	mes "Scribble Scribble Rip";
+	next;
+	additem 1073,1;
+	mes "[Vicelyter]";
+	mes "Here you go! Good bye!";
+	broadcast "$charaname, thank you for the delivery!",10;
+	close;
+aper:
+	mes "[Vicelyter]";
+	mes "I really appreciate it!";
+	close;
+}
+
+morocc.gat,27,112,4	script	"Wikervein"	725,{
+	check job_black = 10,here,-;
+	check job_black = 14,done,-;
+asking:
+	mes "[Wikervein]";
+	mes "..........";
+	mes ".....WHEN IS THAT ITEM COMING >_>";
+	next;
+	mes "[Wikervein]";
+	mes "Geffen BS guild, Gespenst";
+	mes "They're BOTH lazy!";
+	next;
+	mes "[Wikervein]";
+	mes ".................rage.";
+	close;
+here:
+	checkitem 1219,1,-,asking;
+	set job_black = 14;
+	mes "[Wikervein]";
+	mes "Is it finally here!?!";
+	mes "Give it!!!!";
+	delitem 1219,1;
+	next;
+	mes "[Wikervein]";
+	mes "Tell the BS guild";
+	mes "and your teacher Gespenst!";
+	next;
+	mes "[Wikervein]";
+	mes "You're LATE";
+	mes "and I was WAITING.";
+	next;
+	mes "[Wikervein]";
+	mes "But the item seems pretty high quality.";
+	next;
+	mes "(Writes something down)";
+	next;
+	additem 1073,1;
+	mes "[Wikervein]";
+	mes "Here's the receipt";
+	broadcast "$charaname, thank you for the delivery!",10;
+	close;
+done:	
+	mes "[Wikervien]"
+	mes "Thank you"
+	close;
+}
+
+izlude.gat,69,181,4	script	"Gromgast"	734,{
+	check job_black = 11,here,-;
+	check job_black = 14,done,-;
+asking:
+	mes "[Gromgast]";
+	mes "..........";
+	mes ".....When will that sword arrive >_>";
+	next;
+	mes "[Gromgast]";
+	mes "I need that sword for my training!";
+	mes "Nooo.....I must not get rusty!";
+	next;
+	mes "[Gromgast]";
+	mes "Noooooooo T_T......";
+	close;
+here:
+	checkitem 1119,1,-,asking;
+	set job_black = 14;
+	mes "[Gromgast]";
+	mes "Ahhh, it's finally here";
+	mes "Let me see it.";
+	delitem 1119,1;
+	next;
+	mes "[Gromgast]";
+	mes "Nice.....";
+	mes "It's better then I expected.";
+	next;
+	mes "[Gromgast]";
+	mes "I think this sword is exactly what I need!!";
+	mes "I like it!";
+	next;
+	mes "[Gromgast]";
+	mes "Here you go.";
+	next;
+	mes "-scribble rip-";
+	next;
+	additem 1073,1;
+	mes "[Gromgast]";
+	mes "Here's the receipt!";
+	broadcast "$charaname, thank you for the delivery!",10;
+	close;
+done:	
+	mes "[Gromgast]";
+	mes "Thanks for the delivery!";
+	close;
+}
+
+comodo.gat,158,342,4	script	"Bismarck"	118,{
+	check job_black = 13,here,-;
+	check job_black = 14,done,-;
+asking:
+	mes "[Bismarck]";
+	mes "......Ughï....";
+	mes ".....When's that delivery coming......";
+	next;
+	mes "[Bismarck]";
+	mes "....the.....p...poison...... >_>....";
+	mes "Ack.....";
+	next;
+	mes "[Bismarck]";
+	mes "....Looks like... I'm....screwed.";
+	close;
+here:
+	checkitem 1513,1,-,asking;
+	set job_black = 14;
+	mes "[Bismarck]";
+	mes "Ugh.........finally...........";
+	mes "Pant pant..........give it to me~";
+	delitem 1513,1;
+	next;
+	mes "[Bismarck]";
+	mes "Ugh....";
+	mes "The green herb is in it........right?";
+	next;
+	mes "[Bismarck]";
+	mes "I........can't move.........help me up";
+	mes "....grunt.....";
+	next;
+	mes "- STAB! -";
+	next;
+	mes "[Bismarck]";
+	mes "AAAAAAAAAAACCCCCCCCCKKKKKK!!!";
+	next;
+	mes "[Bismarck]";
+	mes "whew, that works pretty well..";
+	next;
+	additem 1073,1;
+	mes "[Bismarck]";
+	mes "Cough.... Here's the receipt......";
+	broadcast "$charaname, thank you for the delivery! I guess I get to live longer......",10;
+	close;
+done:
+	mes "[Bismarck]";
+	mes "Whew, thank you.";
+	close
+}
+
+payon.gat,214,79,4	script	"Tilpitz"	59,{
+	check job_black = 12,here,-;
+	check job_black = 14,done,-;
+asking:
+	mes "[Tilpitz]";
+	mes "When's that bow coming..........";
+	mes "How long ago did I order this thing >_>";
+	next;
+	mes "[Tilpitz]";
+	mes "There's no one that can make it execpt 'him'.........";
+	mes "but, WHEN WILL IT COME >_>";
+	next;
+	mes "[Tilpitz]";
+	mes " T_T ";
+	close
+here:
+	checkitem 1713,1,-,asking;
+	set job_black = 14;
+	mes "[Tilpitz]";
+	mes ".......Ohhh! It's finally here!!!";
+	mes "Let me see it!";
+	delitem 1713,1;
+	next;
+	mes "[Tilpitz]";
+	mes "Wow....";
+	mes "Not bad......not bad at all!!";
+	next;
+	mes "[Tilpitz]";
+	mes "Look at this curve!! It's wonderful!!";
+	mes "Oh, I love this";
+	next;
+	mes "[Tilpitz]";
+	mes "Thank you!!!";
+	next;
+	mes "scribble scribble rip";
+	next;
+	additem 1073,1;
+	mes "[Tilpitz]";
+	mes "Here's the receipt! Thank you again!!!!!";
+	broadcast "$charaname, thank you for the delivery!",10;
+	close;
+done:
+	mes "[Tilpitz]";
+	mes "More I look at it, more beautiful it gets!!! ";
+	close;
+}
+
+morocc.gat,95,133,4	script	"BS Guildsman"	726,{
+	check job_black = 16,one,-;
+	check job_black = 17,two,-;
+	mes "[Mitmayer of the BS guild]";
+	mes "Whew, in Morroc, the sun's always shinging!";
+	mes "No, don't get me wrong, its a good thing!";
+	next;
+	mes "[Mitmayer of the BS guild]";
+	mes "It trains our skin! Us blacksmiths hangout by forges anyways, so it's helpful!";
+	next;
+	mes "[Mitmayer of the BS guild]";
+	mes "Our skin turning dark? No worries there, it makes us look fit =P";
+	close;
+two:
+	mes "[Mitmayer]";
+	mes "I told you that you've passed.";
+	next;
+	mes "[Mitmayer]";
+	mes "Return to the guild";
+	next;
+	mes "[Mitmayer]";
+	mes "Also, don't lose the hammer of blacksmiths!!";
+	next;
+	mes "[Mitmayer]";
+	mes "Don't forget to use the skill points too!";
+	close;
+one:
+	mes "[Mitmayer]";
+	mes "Welcome! You want to be a smith?";
+	mes "Okay, but know that not everyody passes.";
+	next;
+	mes "[Mitmayer]";
+	mes "It's a quiz about how well you know metals and the blacksmith class.";
+	mes "I have quite a bit to ask, so lets start";
+	next;
+	menu "ok",now,"not now",notnow;
+notnow:
+	mes "[Mitmayer]";
+	mes "Okay, I'll see you then.";
+	close;
+now:
+	mes "[Mitmayer]";
+	mes "Okay, lets start";
+	mes "You'll fail if you don't get enough right.";
+	next;
+	mes "[Mitmayer]";
+	mes "5 questions";
+	mes "I won't tell you what's right or wrong.";
+	next;
+	random @wizard_m2 2;
+	set @blackss_te = 0;
+	check @wizard_m2 = 0,ques1,-; 
+	check @wizard_m2 = 1,ques2,-; 
+	check @wizard_m2 = 2,ques3,-; 
+ques1:	
+	mes "[Mitmayer]";
+	mes "1. Which skill is needed for discount?";
+	menu "Pushcart Lv 3",q1,"Item Appraisal",q2,"Mammonite Lv 10",q3,"Enlarge Weight Lv 3",q4;
+q1:
+	goto change1;
+q2:
+	goto change1;
+q3:
+	goto change1;
+q4:
+	set @blackss_te + 20;
+change1:
+	mes "[Mittmayer]";
+	mes "2. What effect does hammerfall have?";
+	next;
+	menu "Stun",q5,"Blind",q6,"Confuse",q7,"Poison",q8;
+q5:
+	set @blackss_te + 20;
+	goto change2;
+q6:
+	goto change2;
+q7:
+	goto change2;
+q8:
+change2:
+	mes "[Mitmayer]";
+	mes "3. How much zeny is taken when Mammonite 10 is used?";
+	next;
+	menu "900z",q9,"1,000z",q10,"2,000z",q11,"1,000,000z",q12;
+q9:
+	goto change3;
+q10:
+	set @blackss_te + 20;
+	goto change3;
+q11:
+	goto change3;
+q12:
+change3:
+	mes "[Mitmayer]";
+	mes "4. How much money is saved with max discount??";
+	next;
+	menu "21 % ",q13,"22 % ",q14,"23 % ",q15,"24 % ",q16;
+q13:
+	goto change4;
+q14:
+	goto change4;
+q15:
+	goto change4;
+q16:
+	set @blackss_te + 20;
+change4:
+	mes "[Mitmayer]";
+	mes "5. How much can you earn with max overcharge?";
+	next;
+	menu "21 % ",q17,"22 % ",q18,"23 % ",q19,"24 % ",q20;
+q17:
+	goto result;
+q18:
+	goto result;
+q19:
+	set @blackss_te + 20;
+	goto result;
+q20:
+	goto result;
+ques2:	
+	mes "[Mittmayer]";
+	mes "1. Which monster drops steel?";
+	next;
+	menu "Zerom",q21,"Steel Chonchon",q22,"Skel Worker",q23,"Requiem",q24;
+q21:
+	goto change5;
+q22:
+	goto change5;
+q23:
+	set @blackss_te + 20;
+	goto change5;
+q24:
+change5:
+	mes "[Mitmayer]";
+	mes "2. What can you make with Red Bloods?";
+	next;
+	menu "Flame Heart",q25,"Rough Wind",q26,"Great Nature",q27,"Mystic Frozen",q28;
+q25:
+	set @blackss_te + 20;
+	goto change6;
+q26:
+	goto change6;
+q27:
+	goto change6;
+q28:
+change6:
+	mes "[Mitmayer]";
+	mes "3. Which ore do you have the most of in storage?";
+	next;
+	menu "WoV",q29,"Red Blood",q30,"Green Live",q31,"Crystal Blue",q32;
+q29:
+	set @blackss_te + 20;
+	goto change7;
+q30:
+	set @blackss_te + 20;
+	goto change7;
+q31:
+	set @blackss_te + 20;
+	goto change7;
+q32:
+	set @blackss_te + 20;
+change7:
+	mes "[Mitmayer]";
+	mes "4. What kind of monsters are weak against wind weapons?";
+	next;
+	menu "Fire",q33,"Water",q34,"Earth",q35,"Wind",q36;
+q33:
+	goto change8;
+q34:
+	set @blackss_te + 20;
+	goto change8;
+q35:
+	goto change8;
+q36:
+change8:
+	mes "[Mitmayer]";
+	mes "5. How many irons are needed to make steel?";
+	next;
+	menu "5",q37,"4",q38,"3",q39,"6",q40;
+q37:
+	set @blackss_te + 20;
+	goto result;
+q38:
+	goto result;
+q39:
+	goto result;
+q40:
+	goto result;
+ques3:
+	mes "[Mitmayer]";
+	mes "1. What do you do when you find a person in distress?";
+	next;
+	menu "Ask what they need",q41,"Talk for a bit",q42,"Ignore",q43,"Drop item and leave",q44;
+q41:	
+	set @blackss_te + 20;
+	goto change9;
+q42:
+	set @blackss_te + 20;
+	goto change9;
+q43:
+	goto change9;
+q44:
+change9:
+	mes "[Mitmayer]";
+	mes "2. Where do you learn change cart?";
+	next;
+	menu "Aldebaran",q45,"Alberta",q46,"Morroc",q47,"Izlude",q48;
+q45:
+	goto change10;
+q46:
+	set @blackss_te + 20;
+	goto change10;
+q47:
+	goto change10;
+q48:
+change10:
+	mes "[Mitmayer]";
+	mes "3. Geffen tower is the center, where is the BS guild?";
+	next;
+	menu "11oclock",q49,"5oclock",q50,"7oclock",q51,"12oclock",q52;
+q49:
+	goto change11;
+q50:
+	set @blackss_te + 20;
+	goto change11;
+q51:
+	goto change11;
+q52:
+change11:
+	mes "[Mitmayer]";
+	mes "4. Which town has the most smiths";
+	next;
+	menu "Prontera",q53,"Morroc",q54,"Alberta",q55,"Geffen",q56;
+q53:
+	goto change12;
+q54:
+	goto change12;
+q55:
+	goto change12;
+q56:
+	set @blackss_te + 20;
+change12:
+	mes "[Mitmayer]";
+	mes "5. Which stat affect forge?";
+	next;
+	menu "STR  ",q57,"DEX  ",q58,"AGI  ",q59,"VIT ",q60;
+q57:
+	goto result;
+q58:
+	set @blackss_te + 20;
+	goto result;
+q59:
+	goto result;
+q60:
+result:
+	mes "[Mitmayer]";
+	mes "Great work!";
+	next;
+	mes "[Mitmayer]";
+	mes "lets see... your score is $[@blackss_te] points!";
+	check @blackss_te > 70,pass,-;
+	mes "Failed, go study more!!";
+	next;
+	mes "[Mitmayer]";
+	mes "It's just not enough.....";
+	mes "Please return after you've studied more.";
+	close;
+pass:
+	set job_black = 17;
+	mes "Great! Congrats! You pass!";
+	next;
+	mes "[Mitmayer]";
+	mes "You'll need to return to the guild..";
+	mes "Here's the proof, the Hammer of Blacksmith.";
+	additem 1005,1;
+	next;
+	mes "[Mitmayer]";
+	mes "Don't lose this!";
+	next;
+	mes "[Mitmayer]";
+	mes "Well, good luck!!!!";
+	close;
+}

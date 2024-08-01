@@ -1,0 +1,53 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Assassin Jobchange - Non Player Character Locations
+// - Original script by Khali
+//
+// - Assassin -> in_moc_16: 26,229
+//   Changes you into a assassin.
+//
+//========================================================================================
+
+in_moc_16.gat,71,88,4 script "Assassin" 99,{
+      mes "[Assassin Clan Member]";
+      mes "Welcome to the Assassin Clan.";
+      next;
+      menu "Change job into an Assassin",L_MENU_1,"Requirements",L_MENU_2,"End",-;
+      close;
+L_MENU_1:
+      mes "[Assassin Clan Member]";
+      mes "First I'll check if all the requirements have been met.";
+      next;
+         check Job == 6,-,L_MENU_1_F1;
+         check JobLevel > 39,-,L_MENU_1_F2;
+         check SkillPoint == 0,-,L_MENU1_F3;
+         jobchange 12;
+      mes "[Assassin Clan Member]";
+      mes "Congradulations, you are now an Assassin!";
+      close;
+L_MENU_1_F1:
+      mes "[Assassin Clan Member]";
+      mes "You must be a thief before you can become an assassin";
+      close;
+L_MENU_1_F2:
+      mes "[Assassin Clan Member]";
+      mes "You must be at least Job Level 40 to become a assassin.";
+      close;
+L_MENU1_F3:
+      mes "[Assassin Clan Member]";
+      mes "Please up all your skillpoints.";
+      close;
+L_MENU_2:
+      mes "[Assassin Clan Member]";
+      mes "To become an assassin you must complete the following:";
+      mes "- Become a Thief";
+      mes "- Gain Job Level 40";
+      next;
+      mes "[Assassin Clan Member]";
+      mes "Good luck.";
+      close;
+}

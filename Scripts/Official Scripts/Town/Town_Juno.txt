@@ -1,0 +1,1090 @@
+
+yuno.gat,157,205,4 script "Juno Artisan" 54,{
+	mes "[Artisan]";
+	mes "Mumbling mumbling...";
+	mes "Hello there.";
+	mes "Let me introduce myself.";
+	mes "I am an artisan who tries to";
+	mes "succeed rights and duties of item";
+	mes "makers in Juno";
+	next;
+	menu "About Powerful Equipments.",L1,"About Unique Items",L2,"About Authentic Food",L3,"End Conversation",L4;
+L1:
+	mes "[Artisan]";
+	mes "I can suggest ^0000ff'Holy Guards'^000000 and;
+	mes "^0000ff'Holy Avenger,'^000000which are limited";
+	mes "items for Crusaders.";
+	mes "These equipment items are very light and have sufficient";
+	mes "abilities.";
+	mes "Another remarkable thing about them";
+	mes "is";
+	mes "that they posses holy power,";
+	mes "so they're more powerful over some";
+	mes "kinds of monsters such as";
+	mes "undead or ghost";
+	next;
+	mes "[Artisan]";
+	mes "However it is rumored";
+	mes "that only a few chosen Crusaders";
+	mes "are able";
+	mes "to obtain those items because of";
+	mes "its rarity";
+	close;
+L2:
+	mes "[Artisan]";
+	mes "A magic scroll which has a circle";
+	mes "inside another circle..";
+	mes "and a star."
+	mes "Although ^ff0000'Worn-Out Magic Scroll'^000000";
+	mes "seems";
+	mes "very old and exhausted,";
+	mes "It is a very special magic scroll";
+	mes "which is";
+	next;
+	mes "[Artisan]";
+	mes "favoured by a lot of sages for";
+	mes "their research.";
+	mes "It seems you can use the item when";
+	mes "you chant a high-leveled magic";
+	mes "spell";
+	close;
+L3:
+	mes "[Artisan]";
+	mes "^0000ff'Rice Cake'^000000!!";
+	mes "Yes,it's a traditional food that";
+	mes "has been favoured by a lot of";
+	mes "people.";
+	mes "It reminds you of old memories of";
+	mes "traditional markets!";
+	mes "Ah...that Rice Cake..";
+	mes "I wish I could eat a bit of Rice";
+	mes "Cake right now.";
+	mes "......";
+	close;
+L4:
+	mes "[Artisan]";
+	mes "Before we talk about Juno as a city";
+	mes "of Sages,";
+	mes "I hope you will understand this";
+	mes "'Juno' is also a place where";
+	mes "ordinary people live together.";
+	mes "Please enjoy the unique atmosphere";
+	mes "of Juno";
+	close;
+}
+
+yuno.gat,184,173,4 script "Juno Addict" 729,{
+	mes "[Fridrich]";
+	mes "The city of Sages,";
+	mes "^0000ff'Juno,'^000000consists of";
+	mes "3 islands.";
+	next;
+	mes "[Fridrich]";
+	mes "Those 3 islands are,";	
+	mes "^0000ff'Solomon,the island of honour,'^000000,";
+	mes "^ff0000'Mineta,the island of prosperity,'^000000,";
+	mes "^00ff00'Snotora,the island of^000000";
+	mes "^00ff00knowledge.'^000000";
+	next;
+	mes "[Fridrich]";
+	mes "The location of each island is";
+	mes "North-west:Solomon";
+	mes "North-east:Snotora";
+	mes "South:Mineta.";
+	close;
+}
+
+yuno.gat,261,99,4	script "Sage Yklah" 735,{
+	mes "[Yklah]";
+	mes "0000ffJuphero^000000 -";
+	mes "That was the name of the city that";
+	mes "once existed in ancient times,";
+	mes "where the most intelligent and";
+	mes "talented people used to live,and";
+	mes "lead their lives by controlling the";
+	mes "pieces of Ymir's heart";
+	next;
+	mes "[Yklah]";
+	mes "Unfortunately,they happened to";
+	mes "abuse great power from the pieces";
+	mes "of Ymir's heart";
+	mes "and destroyed themselves.";
+	mes "Young one.If you long to acquire";
+	mes "God's knowledge,";
+	mes "Be humble first.";
+	mes "You won't be able to obtain";
+	mes "anything if you are not willing to";
+	mes "be humble.';
+	close;
+}
+
+yuno.gat,305,207,4 script "Sage Syklah" 735,{
+	mes "[Syklah]";
+	mes "People are talking about a";
+	mes "suspicious man";
+	mes "living somewhere in Juno.";
+	mes "According to hearsay,he's nothing";
+	mes "but a dangerous person";
+	mes "who always immerses himself in some";
+	mes "kind of research.";
+	Next;
+	mes "[Syklah]";
+	mes "A so called 'Mad Scientist,'";
+	mes "He wastes his time,studying";
+	mes "impratical things";
+	mes "beyond the understanding of normal";
+	mes "people."
+	next;
+	mes "[Syklah]";
+	mes "When you go outside Juno,";
+	mes "you will see a monster named";
+	mes "'Blazer'";
+	mes "that is a ball made of magic";
+	mes "flame.";
+	mes "When you go outside Juno,";
+	mes "you will see a monster named";
+	mes "'Blazer'";
+	mes "that is a ball made of magic";
+	mes "flame.";
+ 	mes "When it finds any living creature,";
+	mes "it starts to cast horrible magic";
+	mes "spells such as Fire Bolt or Fire";
+	mes "Ball.";
+	mes "So it scares the hell out of most";
+	mes "people.";
+	mes "It was rumored that the mad";
+	mes "scientist had made his crazy";
+	mes "creature."
+	close;
+}
+
+yuno_in03.gat,30,102,4 script	"Lucius Kelsus" 121,{
+	mes "[Lucius Kelsus]";
+	mes "hmm? what's up. came to see monsters?";
+	Next;
+	mes "[Lucius Kelsus]";
+	mes "looking at monsters is okay, but don't touch them or make too much noise here.";
+	mes "there are lots of objects that are dangerous here.";
+	Next;
+	mes "[Lucius Kelsus]";
+	mes "and, if you find any rare monster, tell me. I'll pay you a lot for that information.";
+	close;
+}
+
+yuno_in03.gat,155,32,4 script	"Meteous Silf" 735,{
+	mes "[Meteous Silf]";
+	mes "welcome. This is the Shubaicher Magic Academy";
+	Next;
+	mes "[Meteous Silf]";
+	mes "We educate Sage here along with research for monsters and magic.";
+	mes "Mages with job level 40 or higher can enter the program.";
+	Next;
+	mes "[Meteous Silf]";
+	mes "If you have any mage friends, let them know of this place.  Have a nice day. ";
+	close;
+}
+
+yuno_in03.gat,169,180,4	script "Hermes Tris" 86,{
+	mes "[Hermes Tris]";
+	mes "Welcome.  This is Shubaicherville Magic academy";
+	Next;
+	mes "[Hermes Tris]";
+	mes "We-Sages- are rather more like scholars than mages.";
+	mes "Sages are great help for party setup as well ";
+	Next;
+	mes "[Hermes Tris]";
+	mes "Next time you go traveling , take a Sage along with you.";
+	mes "Just walking together would tell you how they can handle situations well. ";
+	close;
+}
+
+yuno_in03.gat,62,176,4 script	"History Professor" 109,{
+	mes "[Saphien Layless]";
+	mes "I am not sure if you have business";
+	mes "with me, but please come back";
+	mes "later.";
+	mes "I have some issues to think";
+   	mes "about..";
+   	close;
+}
+
+yuno.gat,263,320,4 script "Juno Soldier" 105,{
+	mes "[Juno Soldier]";
+	mes "Welcome to Juno,the city of";
+	mes "noble-mindedness.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "There is a holy shield named";
+	mes "'Sacred Mission'which can only be";
+	mes "used by Crusaders.";
+	mes "Its a long and narrow shield,";
+	mes "with an angel wing engraved in the";
+	mes "center of the front side.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "It's especially very powerful";
+	mes "against";
+	mes "undead or devil monsters.";
+	close;
+}
+
+yuno.gat,227,292,4 script "Juno Soldier" 105,{
+	mes "[Juno Soldier]";
+	mes "Welcome to Juno,the city of";
+	mes "noble-mindedness.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "Near Juno, there exists a fallen";
+	mes "angel named as 'False Angel'";
+	mes "that pretends to be an innocent";
+	mes "angel.";
+	mes "It pretends to bless adventurers";
+	mes "and then stabs them in the back";
+	mes "without warning.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "Do not be attracted by its";
+	mes "beautiful appearance.";
+	mes "otherwise, you will be in trouble.";
+	close;
+}
+
+yuno.gat,150,283,4 script "Juno Soldier" 105,{
+	mes "[Juno Soldier]";
+	mes "Welcome to Juno,the city of";
+	mes "noble-mindedness.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "There is a monster named 'Lava";
+	mes "Golem.'";
+	mes "It is made out of a stone heart";
+	mes "which happened to amplify";
+	mes "its magic power while being swept";
+	mes "away by molten rock.";
+	mes "Lava dripping from its body is";
+	Next;
+	mes "[Juno Soldier]";
+	mes "so hot,it can melt down armor and";
+	mes "weapons that are made out of high";
+	mes "quality steel."
+	mes "You'd better be careful when you";
+	mes "encounter this monster.";
+	mes "It will damage armour and weapons in";
+	mes "the twinkling of an eye,";
+	mes "Not to mention the whallop its";
+	mes "attack inflict on you!";
+	Next;
+	mes "[Juno Soldier]";
+	mes "you might get a lot of damage on yourself and even get your armor and weapon broken.";
+	close;
+}
+
+yuno.gat,165,283,4 script "Juno Soldier" 105,{
+	mes "[Juno Soldier]";
+	mes "Welcome to Juno,the city of";
+	mes "noble-mindedness.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "'Geographer'";
+	mes "That monster looks like a flower";
+	mes "actively blooming out of the";
+	mes "ground.";
+	mes "Strangely, it can extend its body a";
+	mes "long distance.";
+	mes "so it is pretty dangerous, even if";
+	mes "you're far away from it.";
+	Next;
+	mes "[Juno Soldier]";
+	mes "The name of this monster originated";
+	mes "from a story about a poor";
+	mes "geographer";
+	mes "who, unfortunately, was eaten by";
+	mes "this monster while he was";
+	mes "studying.";
+	close;
+}
+
+yuno.gat,157,87,4	script "A Citizen of Juno" 102,{
+	mes "[Hans]";
+	mes "When you go forward north from Al";
+	mes "De Baran....";
+	mes "You will arrive at 'Elmeth Plateau',";
+	mes "a place covered with molten rocks.";
+	mes "On the top of a mountain connected";
+	mes "to the plateau,";
+	mes "You can find a bridge which leads";
+	mes "to this place!";
+	mes "^0000ff'Juno,'^000000the city of Sages.";
+	Next;
+	mes "[Hans]";
+	mes "In this place,Juno";
+	mes "you can visit worldwide famous";
+	mes "places such as";
+	mes "'Juphero Plaza,' ";
+	mes "'Juno Conference Hall,";
+	mes "'Schweicherbil Magic Academy',";
+	mes "or the 'Monster Museum.' ";
+	Next;
+	mes "[Hans]";
+	mes "Especially the 'Sage Castle,' ";
+	mes "where people can change their job into 'Sage,' ";
+	mes "one of the most luxurious classes.";
+	mes "It's one of the attractions in this";
+	mes "city.";
+	Next;
+	mes "[Hans]";
+	mes "If you're interested in the Sage";
+	mes "class,";
+	mes "why don't you go look around the castle?";
+	close;
+}
+
+yuno_in03.gat,244,31,2 script "Ebeshi Jorge" 120,{
+	mes "[Ebeshi Jorge]";
+	mes "Came here to look around? hmm? well, there's nothing to look at here really? hohoho";
+	Next;
+	mes "[Ebeshi Jorge]";
+	mes "Hohoho, nothing really to look at? still, enjoy yourself here before you go~ hohoho";
+	close;
+}
+
+yuno.gat,163,328,4 script "Sage Esklah" 735,{
+	mes "[Esklah]";
+	mes "I remember I saw it once.";
+	mes "Yeah...I remember..";
+	mes "There was a paper flying in the";
+	mes "air.";
+	mes "So I thought 'Hmm,who lost that";
+	mes "paper?'";
+	Next;
+	mes "[Esklah]";
+	mes "Then,suddenly the paper attacked";
+	mes "me!";
+	mes "It attacked me,one of the greatest";
+	mes "sages in JUNO!";
+	mes "So I was like 'Okay,how dare you";
+	mes "attack me,you little paper!!";
+	mes "and struck back using my trusty";
+	mes "sword.";
+	mes "...That paper thing knew how to";
+	mes "annoy its enemies well.";
+	next;
+	mes "[Esklah]"
+	mes "Using its thin paper-like body";
+	mes "it dodged my sword by standing";
+	mes "straight,";
+	mes "also I couldn't tell whether I hit";
+	mes "it or not because it was damn";
+	mes "thin!";
+	mes "Finally,I just used a magic spell"
+	mes "to eliminate that paper.";
+	mes "That monster was so hard to";
+	mes "defeat.";
+	mes "Later I asked about it from the";
+	mes "other sages,";
+	mes "and figured out what it was.";
+	next;
+	mes "[Esklah]"
+	mes "It is called ^0000ff'The Paper.'^000000";
+	mes "People said that it used to be a";
+	mes "part of an old book that contained";
+	mes "a lot of ancient knowledge about";
+	mes "Juno.";
+	mes "And it suddenly become a";
+	mes "monster...isn't it weird?";
+	close;
+}
+
+yuno_in01.gat,102,157,4 script "Bain" 98,{
+	check babajin = 1,return,-;
+	mes "[Bain]";
+	mes "We are going to invent a doll that";
+	mes "can talk and communicate!";
+	mes "Well, at least, I'm trying to.";
+	mes "I got the idea from a historical";
+	mes "legend. I figure that if it's been";
+	mes "done before, this project is ";
+	mes "definitely possible.";
+	next;
+	mes "[Bain] ";
+	mes "But right now, I lack of supplies";
+	mes "and parts that I need to attempt";
+	mes "this feat. I don't know how ";
+	mes "they gathered all the necessary";
+	mes "materials...";
+	next;
+	mes "[Bain] ";
+	mes "Money can only buy some of what ";
+	mes "I need. There are also those items ";
+	mes "that need to be taken from ";
+	mes "monsters that are much too ";
+	mes "powerful. How will I continue my ";
+	mes "research?";
+	next;
+	menu "I'll get them for you.",helpit,"Good luck.",leave;
+leave:
+	mes "[Bain] ";
+	mes "I wish I was a strong youth like";
+	mes "you.";
+	close;
+helpit:
+	mes "[Bain] ";
+	mes "Really? Such benevolence is rare";
+	mes "in this day and age. We would be";
+	mes "grateful for your assistance.";
+	mes "Here are the items that we will be ";
+	mes "needing.";
+	next;
+	mes "[Bain] ";
+	mes "1 Mixture";
+	mes "5 Mini - Furnace";
+	mes "5 Burnt Tree";
+	mes "5 Coal";
+	mes "5 Fine Sand";
+	mes "3 Rough Elunium";
+	mes "3 Rough Oridecon";
+	next;
+	mes "[Bain] ";
+	mes "We will also need 2,000 zeny. ";
+	mes "The money will help pay for the";
+	mes "minor expenses involved in";
+	mes "undertaking this endeavor.";
+	mes "Godspeed.";
+	set babajin = 1;
+	close;
+return:	
+	checkitem 974,1,-,notcomp;
+	checkitem 612,5,-,notcomp;
+	checkitem 7068,5,-,notcomp;
+	checkitem 1003,5,-,notcomp;
+	checkitem 7043,5,-,notcomp;
+	checkitem 756,3,-,notcomp;
+	checkitem 757,3,-,notcomp;
+	mes "[Bain] ";
+	mes "It seems you have all";
+	mes "the items that we need.";
+	mes "please talk to Bajin.";
+	close;
+notcomp:
+	mes "[Bain] ";
+	mes "In case you forgot, these are the";
+	mes "required materials.";
+	mes "Write it down if you need to.";
+	next;
+	mes "[Bain] ";
+	mes "1 Mixture";
+	mes "5 Mini - Furnace";
+	mes "5 Burnt Tree";
+	mes "5 Coal";
+	mes "5 Fine Sand";
+	mes "3 Rough Elunium";
+	mes "3 Rough Oridecon";
+	next;
+	mes "[Bain] ";
+	mes "In addition to this, you ";
+	mes "will need 2,000 zeny.";
+	mes "Good Luck....";
+	close;
+}
+
+yuno_in01.gat,99,153,4 script "Bajin" 47,{
+	check babajin = 1,return,-;
+	mes "[Bajin]";
+	mes "We are going to invent a doll that";
+	mes "can talk and communicate!";
+	mes "Well, at least, I'm trying to.";
+	mes "I got the idea from a historical";
+	mes "legend. I figure that if it's been";
+	mes "done before, this project is ";
+	mes "definitely possible.";
+	next;
+	mes "[Bajin] ";
+	mes "But right now, I lack of supplies";
+	mes "and parts that I need to attempt";
+	mes "this feat. I don't know how ";
+	mes "they gathered all the necessary";
+	mes "materials...";
+	next;
+	mes "[Bajin] ";
+	mes "Money can only buy some of what ";
+	mes "I need. There are also those items ";
+	mes "that need to be taken from ";
+	mes "monsters that are much too ";
+	mes "powerful. How will I continue my ";
+	mes "research?";
+	next;
+	menu "I'll get them for you.",helpit,"Good luck.",leave;
+leave:
+	mes "[Bajin] ";
+	mes "I wish I was a strong youth like";
+	mes "you.";
+	close;
+helpit:
+	mes "[Bajin] ";
+	mes "Really? Such benevolence is rare";
+	mes "in this day and age. We would be";
+	mes "grateful for your assistance.";
+	mes "Here are the items that we will be ";
+	mes "needing.";
+	next;
+	mes "[Bajin] ";
+	mes "1 Mixture";
+	mes "5 Mini - Furnace";
+	mes "5 Burnt Tree";
+	mes "5 Coal";
+	mes "5 Fine Sand";
+	mes "3 Rough Elunium";
+	mes "3 Rough Oridecon";
+	next;
+	mes "[Bajin] ";
+	mes "We will also need 2,000 zeny. ";
+	mes "The money will help pay for the";
+	mes "minor expenses involved in";
+	mes "undertaking this endeavor.";
+	mes "Godspeed.";
+	set babajin = 1;
+	close;
+return:	
+	checkitem 974,1,-,notcomp;
+	checkitem 612,5,-,notcomp;
+	checkitem 7068,5,-,notcomp;
+	checkitem 1003,5,-,notcomp;
+	checkitem 7043,5,-,notcomp;
+	checkitem 756,3,-,notcomp;
+	checkitem 757,3,-,notcomp;
+	delitem 974,1;
+	delitem 612,5;
+	delitem 7068,5;
+	delitem 1003,5;
+	delitem 7043,5;
+	delitem 756,3;
+	delitem 757,3;
+	mes "[Bajin]"; 
+	mes "Oh ho ho... These are the parts";
+	mes "that I needed. Thank you so much.";
+	mes "Okay, let's try this out!";
+	mes "Hold on for just a second!";
+	next;
+	mes "-Vrrrmrmrmrmrmrmrrmrmrmmrmrmrmrmmm";
+	next;
+	mes "-Pakakakakakakakakakakakakakak";
+	next;
+	mes "-Shakakakakakakakakakakaakakak";
+	next;
+	mes "[Bajin]";
+	mes "AHHH it is a success!";
+	mes "I don't know if we can do anything";
+	mes "else, but this time we have created";
+	random @wowitem 1;
+	check @wowitem = 0,ruby,-;
+	check @wowitem = 1,gold,-;
+ruby:	
+	mes "5 Ruby!";
+	next;
+	additem 723,5;
+	goto last;
+gold:
+	mes "3 Gold!";
+	next;
+	additem 969,3;
+	goto last;
+last:
+	set juno_quest = 1;
+	mes "[Bajin]";
+	mes "Now that we know that it works,";
+	mes "I don't have any need for this.";
+	mes "Why don't you take it? Oh,";
+	mes "and if you find anymore parts,";
+	mes "bring them to me again. Heheheheh.";
+	next;
+	mes "[Bajin]";
+	mes "Thank for helping me out.";
+	mes "You have my eternal gratitude.";
+	mes "I wish you luck in your journeys!";
+	close;
+notcomp:
+	mes "[Bajin] ";
+	mes "In case you forgot, these are the";
+	mes "required materials.";
+	mes "Write it down if you need to.";
+	next;
+	mes "[Bajin] ";
+	mes "1 Mixture";
+	mes "5 Mini - Furnace";
+	mes "5 Burnt Tree";
+	mes "5 Coal";
+	mes "5 Fine Sand";
+	mes "3 Rough Elunium";
+	mes "3 Rough Oridecon";
+	next;
+	mes "[Bajin] ";
+	mes "In addition to this, you ";
+	mes "will need 2,000 zeny.";
+	mes "Good Luck....";
+	close;
+}
+
+yuno.gat,165,111,4 script "Juno Sage" 123,{
+	mes "[Le Morpheus]";
+	mes "^0000ff'Apocalypse'^000000";
+	mes "It is the name of an android that";
+	mes "used to guard Juno a long time";
+	mes "ago.";
+	mes "It is very similar to a robot.";
+	mes "Because its artificial intelligence";
+	mes "has messed up after a long time,";
+	mes "it does not distinguish between its";
+	mes "comrades and enemies any more."
+	mes "Sadly, the andriod is nothing but a ";
+	mes "monster now";
+	close;
+}
+
+yuno.gat,337,227,4 script "Juno Granny" 123,{
+	mes "[Granny]";
+	mes "Here you come...";
+	mes "I am a sage granny who foresees";
+	mes "everything.";
+	mes "Have you heard about the name of a";
+	mes "big boss monster that has been fuzzing";
+	mes "around Juno for a long time?";
+	mes "It's called ^ff0000'Lord of the Dead'^000000";
+	mes "it was rumored to be from another";
+	mes "realm of the dead,"
+	mes "and it carries many undead monsters";
+	mes "with it,intending to lead living";
+	mes "creatures to the cold and icy dead";
+	mes "land.";
+	mes "You have chosen whether you will";
+	mes "challenge the lord of the dead or";
+	mes "not.";
+	mes "All you need to do right now is";
+	mes "understanding why you made the";
+	mes "decision.";
+	close;
+}
+
+yuno.gat,328,239,4 script "Juno Fighter" 732,{
+	mes "[Sergiof]";
+	mes "My name is Sergiof,the fighter who";
+	mes "serves Granny.";
+	mes "I will tell you about the ^0000ffGrand^000000";
+	mes "^0000ffPeco^000000 which is a high level Peco";
+	mes "Peco.";
+	mes "Grand Peco is faster than Peco Peco";
+	mes "and has aggressive tendencies,";
+	mes "attacking targets using its strong";
+	mes "bill."
+	next;
+	mes "[Sergiof];
+	mes "And it carries many Peco Pecos with";
+	mes "it.";
+	mes "...Unfortunately it's time for us";
+	mes "to be apart.";
+	mes "Farewell ..";
+	close;
+}
+
+yuno_in01.gat,17,30,4 script "Wiccan" 85,{
+	   check npc_yuno == 8,L_Start3,-;
+	   check npc_yuno == 9,L_Start4,-;
+	   check npc_yuno >= 1,L_Start2,-;
+	mes "[Wiccan]";
+	mes "This town has a history of";
+	mes "scientific achievement that";
+	mes "dates back to ancient times.";
+	next;
+	mes "[Wiccan]";
+	mes "Our policy of respect for science";
+	mes "has attracted some of the world's";
+	mes "top researchers.";
+	mes "It is very easy to set up a lab";
+	mes "and start research here.";
+	next;
+	mes "[Wiccan]";
+	mes "Some of them are called 'mad scientists'";
+	mes "like that Meto guy.";
+	next;
+	mes "[Wiccan]";
+	mes "Meto devotes himself to his research";
+	mes "a little too much.  He doesn't";
+	mes "care that he's destroying";
+	mes "public property and causing a";
+	mes "huge racket, disturbing other citizens.";
+	mes "Can't it be stopped somehow?";
+	next;
+	menu "I'm on the case",L_Case,"Prayer is the only answer",-;
+	mes "[Wiccan]";
+	mes "Well, somehow I don't";
+	mes "think the power of prayer";
+	mes "is going to solve this one.";
+	mes "Leaving things up to lady luck";
+	mes "is usually a good way to get screwed.";
+	close;
+L_Case:
+      mes "[Wiccan]";
+	mes "Ah!";
+	mes "You're going to help?!";
+	mes "I have to ask...";
+	mes "Do you have a plan?";
+	next;
+	menu "Of course!",L_Course,"Ummm....",L_Uhm;
+L_Course:
+	mes "[Wiccan]";
+	mes "Great!";
+	mes "Meto is a man who believes in";
+	mes "predestination.  Maybe you could";
+	mes "use that to your advantage.";
+	   set npc_yuno = 1;
+	close;
+L_Uhm:
+	mes "[Wiccan]";
+	mes "Well...";
+	mes "Meto is the kind of person";
+	mes "who believes in predestination.";
+	mes "If you can convince him that";
+	mes "his research is no longer";
+	mes "favorable to those above,";
+	next;
+	mes "[Wiccan]";
+	mes "you might be able to get";
+	mes "him to abandon his research.";
+	mes "This is his weakness, so you";
+	mes "should try to use it to your";
+	mes "advantage.";
+	   set npc_yuno = 1;
+	close;
+L_Start2:
+	mes "[Wiccan]";
+	mes "Meto hasn't changed his ways....";
+	close;
+L_Start3:
+	mes "[Wiccan]";
+	mes "Amazing!";
+	mes "Thanks to you, the mad scientist";
+	mes "Meto is now a model citizen!";
+	mes "Now I can sleep well at night!";
+	next;
+	mes "[Wiccan]";
+	mes "Our town should be peaceful";
+	mes "from now on.  Take these as";
+      mes "a token of our gratitude.";
+	next;
+	   additem 717,5;
+	   set npc_yuno = 9;
+	mes "[Wiccan]";
+	mes "Good luck to you in your";
+	mes "future travels.";
+	close;
+L_Start4:
+	mes "[Wiccan]";
+	mes "Good luck to you in your";
+	mes "future travels.";
+	close;
+}
+
+yuno_in03.gat,26,39,4 script "Meto" 709,{
+	   check npc_yuno == 1,L_Start2,-;
+	   check npc_yuno == 2,L_Start3,-;
+	   check npc_yuno == 3,L_Start4,-;
+	   check npc_yuno == 4,L_Start3,-;
+	   check npc_yuno == 5,L_Start5,-;
+	   check npc_yuno == 6,L_Start3,-;
+	   check npc_yuno == 7,L_Start6,-;
+	   check npc_yuno >= 8,L_Start7,-;
+	mes "[Meto]";
+	mes "Research today, research tomorrow,";
+	mes "and the day after that, and";
+	mes "the day after that...;
+	mes "Kakakaka!";
+	next;
+	mes "[Meto]";
+	mes "Someday, I will be the architect of";
+	mes "a new Juno!";
+	mes "If only I could discover the technology";
+	mes "to make the island rise from the deep,";
+	mes "I could rule this entire country!";
+	next;
+	mes "[Meto]";
+	mes "That ^ff0000 Wiccan ^000000 and his";
+	mes "supporters are out to make me look";
+	mes "like an idiot.";
+	mes "No matter, though.  God is on my side, and";
+	mes "my research will succeed no matter what!";
+	close;
+L_Start2:
+	mes "[Meto]";
+	mes "Try visiting ^ff0000Stankirk^000000";
+	mes "if you want to see the progress";
+	mes "of our research thus far.";
+	mes "He's doing most of the gruntwork, anyhow.";
+	mes "It saves me time to do the important stuff.";
+	   set npc_yuno = 2;
+	close;
+L_Start3:
+	mes "[Meto]";
+	mes "I need to continue preparing my";
+	mes "research.  Please come back later.";
+	close;
+L_Start4:
+	mes "[Meto]";
+	mes "What?!";
+	mes "Stankirk suddenly hates my guts.";
+	mes "How did that happen?";
+	mes "It's going to cause a major";
+	mes "delay in my research!";
+	mes "Damnit!";
+	next;
+	mes "[Meto]";
+	mes "But hold on!";
+	mes "There's still hope";
+	mes "If I get the metal 'Great Z'";
+	mes "from ^ff0000Kabuto^000000,";
+	mes "I might be able to continue.";
+	next;
+	mes "[Meto]";
+	mes "If Stankirk was";
+	mes "still helping me, things";
+	mes "would be better, but such is life.";
+	next;
+	mes "[Meto]";
+	   set npc_yuno = 4;
+	close;
+L_Start5:
+	mes "[Meto]";
+	mes "Arrrghhh!";
+	mes "I broke the Great Z I needed";
+	mes "to complete my research!";
+	next;
+	mes "[Meto]";
+	mes "But!";
+	mes "Destiny still smiles on me!";
+	mes "Maybe I can use";
+	mes "^ff0000Jiji's^000000 engine theory to";
+	mes "supplement my research!";
+	next;
+	mes "[Meto]";
+	mes "Yes, yes...God is still on my side!";
+	mes "Kuhihihihihi!";
+	   set npc_yuno = 6;
+	close;
+L_Start6:
+	mes "[Meto]";
+	mes "....";
+	next;
+	mes "[Meto]";
+	mes "......";
+	mes "You've got to be kidding me.";
+	mes "I've tried applying three";
+	mes "different techniques to this";
+	mes "research and they all failed?!";
+	next;
+	mes "[Meto]";
+	mes "Perhaps I wasn't destined to be";
+	mes "successful in my research after";
+	mes "all...";
+	next;
+	mes "[Meto]";
+	mes "Maybe it's time for a";
+	mes "vacation.";
+	mes "Perhaps destiny will guide me";
+	mes "to success on my return.";
+	   set npc_yuno = 8;
+	close;
+L_Start7:
+	mes "[Meto]";
+	mes "On second thought, maybe";
+	mes "I should job-change to an";
+	mes "alchemist or a monk.";
+	mes "This scientist stuff";
+	mes "has lost its charme.";
+	close;
+}
+
+yuno_in01.gat,17,95,4 script "Stankirk" 99,{
+	   check npc_yuno == 2,L_Start2,-;
+	   check npc_yuno >= 3,L_Start3,-;
+	mes "[Stankirk]";
+	mes "I'm Stankirk, a preeminent";
+	mes "scientist in this";
+	mes "town.  You would do well";
+	mes "well to remember that name.";
+	close;
+L_Start2:
+	mes "[Stankirk]";
+	mes "Can I help you?";
+	mes "I'm in a hurry because I need";
+	mes "to meet my colleague Meto to";
+	mes "discuss our project, so please be quick.";
+	next;
+	menu "About Meto...",L_About,"Nothing",-;
+	mes "[Stankirk]";
+	mes "If you have no business, get";
+	mes "lost.  I have work to do.";
+	close;
+L_About:
+	mes "[Stankirk]";
+	mes ".......";
+	next;
+	mes "[Stankirk]";
+	mes ".......";
+	next;
+	mes "[Stankirk]";
+	mes ".......";
+	next;
+	mes "[Stankirk]";
+	mes "You're kidding, right?";
+	mes "Meto is just using me as a";
+	mes "grunt to further his own ends?";
+	next;
+	mes "[Stankirk]";
+	mes "....";
+	mes "That idiot mad scientist!";
+	next;
+	mes "[Stankirk]";
+	mes "I don't want to be seen as";
+	mes "connected to someone who";
+	mes "is so reckless and self-centered.";
+	   set npc_yuno = 3;
+	close;
+L_Start3:
+	mes "[Stankirk]";
+	mes "I'm not working with Meto";
+	mes "anymore.  I have severed all";
+	mes "ties to him.";
+	close;
+}
+
+yuno_in01.gat,19,183,4 script	"Kabuto" 55,{
+	   check npc_yuno == 4,L_Start2,-;
+	   check npc_yuno >= 5,L_Start3,-;
+	mes "[Kabuto]";
+	mes "I'm Kabuto.";
+	mes "I'm a mechanical engineering";
+	mes "specialist.";
+	mes "My masterwork is the unique";
+	mes "metal 'Great Z'.";
+	close;
+L_Start2:
+	mes "[Kabuto]";
+	mes "I am like a machine, cold and";
+	mes "calculating, but with a hot";
+	mes "core of passion for my research.";
+	mes "Do you have business with me?";
+	next;
+	menu "About Great Z...",L_About,"Nothing",-;
+	mes "[Kabuto]";
+	mes "....";
+	mes "Bye.";
+	close;
+L_About:
+	mes "[Kabuto]";
+	mes "What?  You think my Great Z";
+	mes "would be more useful to";
+	mes "Meto's research than it";
+	mes "would be for Stankirk's?";
+	next;
+	mes "[Kabuto]";
+	mes "In that case, I'll lend the";
+	mes "Great Z to Meto for awhile,";
+	mes "but I expect it to be returned";
+	mes "in good condition.";
+	next;
+	mes "[Kabuto]";
+	mes "It was a difficult choice";
+	mes "to make.  Thanks for the advice.";
+	   set npc_yuno = 5;
+	close;
+L_Start3:
+	mes "[Kabuto]";
+	mes "I aspire to someday create";
+	mes "huge man-shaped machines made";
+	mes "of metal.";
+	mes "This special compound brings me";
+	mes "one step closer to making my";
+	mes "dream a reality.";
+	next;
+	mes "[Kabuto]";
+	mes "Who knows, maybe Giants will rule";
+	mes "Shubartsbald one day.";
+	close;
+}
+
+yuno_in03.gat,178,43,4 script "Jiji" 121,{
+	   check npc_yuno >= 7,L_Start3,-;
+	mes "[Jiji]";
+	mes "Hello. I'm Jiji";
+	mes "I'm considered one the three";
+	mes "braniacs of this town.";
+	next;
+	mes "[Jiji]";
+	mes "Because there are many scientists";
+	mes "in this town, being known as";
+	mes "one of the three braniacs";
+	mes "is quite an achievement.";
+	   check npc_yuno == 6,L_Start2,-;
+	close;
+L_Start2:
+	next;
+	mes "[Jiji]";
+	mes "Can I help you?";
+	next;
+	menu "About your engine theory...",L_About,"Nothing",-;
+	mes "[Jiji]";
+	mes "Hey!  Don't waste my";
+	mes "time unless you've got business!";
+	mes "Do I look like I have any free time?";
+	close;
+L_About:
+      mes "[Jiji]";
+	mes "Oh...Meto wants to use the";
+	mes "engine theory I've developed in";
+	mes "his own research?";
+	mes "I would love to show him the";
+	mes "methodology, but he's going to have";
+	mes "to supply his own materials.";
+	next;
+	mes "[Jiji]";
+	mes "If he can gather the necessary";
+	mes "materials on his own time,";
+	mes "then by all means, have him";
+	mes "talk to me and I can show him";
+	mes "how he might integrate it into";
+	mes "his research.";
+	next;
+	   set npc_yuno = 7;
+	close;
+L_Start3:
+	mes "[Jiji]";
+	mes "I'm sorry,";
+	mes "but I don't have the available";
+	mes "materials to show Meto how";
+	mes "to apply my engine theory.";
+	close;
+}
+
+yuno_fild11.gat,299,116,0 script "Sailor" 100,{
+	mes "[Sailor]";
+	mes "Hello my friend, where do you wish to go?";
+	next;
+	menu "Alberta -> 600 Zeny",L_Alberta,"Izlude -> 800 Zeny",L_Izlude,"Cancel",L_End;
+L_Alberta:
+		check Zeny >= 600,-,L_Zeny;
+    		set Zeny -= 600,0;
+		warp "alberta",192,169;
+	close;
+L_Izlude:
+		check Zeny >= 800,-,L_Zeny;
+    		set Zeny -= 800,0;
+		warp "izlude",176,182;
+	close;
+L_Zeny:
+	mes "[Sailor]";
+	mes "Uhmm, you don't have enough zeny.";
+	close;
+L_End:
+	mes "[Sailor]";
+	mes "Thank you, please come again.";
+	close;
+}
+

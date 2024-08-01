@@ -1,0 +1,48 @@
+//----------------------------------------------------------------------------------------
+// Wizard Translation - From Weiss, translated by Khali
+// eWeiss Project 2003 - http://revolve.emuxhaven.net/weiss/
+//----------------------------------------------------------------------------------------
+
+//gef_tower.gat,111,37,4 script Wizard 70,{
+mes "[Wizard]";
+mes "Welcome to the Wizard Guild.";
+//--------------
+next;
+menu "Change job into a Wizard",L_Menu1,"Requirements",L_Menu2,"End",-;
+close;
+ L_Menu1:
+// Check Requirements
+  mes "[Wizard]";
+  mes "First I'll check if all the requirements have been met.";
+  next;
+  check Job == 2,-,L_Menu1_F1;
+  check JobLevel >= 40,-,L_Menu1_F2;
+// Requirement Pass
+// check SkillPoint == 0,-,L_Menu1_F3;
+  set JobLevel = 1,0;
+  jobchange 9;
+  mes "[Wizard]";
+  mes "Congradulations, you are now a Wizard!";
+  close;
+   L_Menu1_F1:
+    mes "[Wizard]";
+    mes "You must be a magician before you can become a wizard.";
+    close;
+   L_Menu1_F2:
+    mes "[Wizard]";
+    mes "You must be at least Job Level 40 to become a wizard.";
+    close;
+//--------------
+ L_Menu2:
+  mes "[Wizard]";
+  mes "To become a wizard you must complete the following:";
+  mes "Become a Magician";
+  mes "Job Level 40";
+  next;
+  mes "[Wizard]";
+  mes "Good luck.";
+  mes "I also recommend you use up all your skills first.";
+  close;
+//--------------
+   close;
+}

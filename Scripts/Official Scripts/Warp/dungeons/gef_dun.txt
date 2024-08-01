@@ -1,0 +1,7 @@
+gef_dun00.gat,104,103,0	warp	warp0196	3,3,gef_tower.gat,153,31
+gef_dun00.gat,107,169,0	warp	warp0197	2,1,gef_dun01.gat,115,236
+gef_dun01.gat,115,240,0	warp	warp0198	2,2,gef_dun00.gat,107,165
+gef_dun01.gat,197,38,0	warp	warp0199	2,1,gef_dun02.gat,106,132
+gef_dun02.gat,106,134,0	warp	warp0200	2,1,gef_dun01.gat,197,40
+gef_dun02.gat,214,68,0	warp	warp0200	2,1,gef_dun03.gat,203,201
+gef_dun03.gat,203,203,0	warp	warp0200	2,1,gef_dun02.gat,214,64

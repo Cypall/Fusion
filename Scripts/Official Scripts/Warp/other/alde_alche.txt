@@ -1,0 +1,33 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//  
+// Alchemist Map Warp Portals
+//
+//========================================================================================
+//Town - Alchemist , Alchemist - Town
+aldebaran.gat,54,66,0	warp	alche01	1,1,alde_alche.gat,41,174
+alde_alche.gat,41,171,0	warp	alche02	1,1,aldebaran.gat,56,68
+//Alchemist Hall 1st Floor Top Rooms
+alde_alche.gat,129,104,0	warp	alche03	1,1,alde_alche.gat,163,163
+alde_alche.gat,159,163,0	warp	alche04	1,1,alde_alche.gat,126,104
+alde_alche.gat,131,77,0	warp	alche05	1,1,alde_alche.gat,162,107
+alde_alche.gat,159,107,0	warp	alche06	1,1,alde_alche.gat,128,77
+//Alchemist Hall 1st Floor Bottom Rooms
+alde_alche.gat,47,103,0	warp	alche07	1,1,alde_alche.gat,88,18
+alde_alche.gat,92,18,0	warp	alche08	1,1,alde_alche.gat,50,103
+alde_alche.gat,47,77,0	warp	alche09	1,1,alde_alche.gat,155,18
+alde_alche.gat,159,18,0	warp	alche10	1,1,alde_alche.gat,50,77
+//Alchemist Hall 2nd Floor - 1st Floor Link
+alde_alche.gat,14,184,0	warp	alche11	1,1,alde_alche.gat,88,113
+alde_alche.gat,88,117,0	warp	alche12	1,1,alde_alche.gat,14,180
+//Alchemist Hall 2nd Floor Rooms
+alde_alche.gat,19,171,0	warp	alche13	1,1,aldebaran.gat,68,56
+aldebaran.gat,66,54,0	warp	alche14	1,1,alde_alche.gat,19,175
+alde_alche.gat,18,28,0	warp	alche15	1,1,alde_alche.gat,89,66
+alde_alche.gat,89,63,0	warp	alche16	1,1,alde_alche.gat,18,24
+//Alchemist Hall 3rd Floor
+alde_alche.gat,41,187,0	warp	alche17	1,1,alde_alche.gat,114,178
+alde_alche.gat,114,182,0	warp	alche18	1,1,alde_alche.gat,41,183

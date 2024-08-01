@@ -1,0 +1,323 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Alberta Town - Non Player Character Locations
+//
+// - Fabian -> alberta: 97,51
+//   Gives short introduction on cards.
+//
+// - Merchant -> alberta: 53,39
+//   Informs about magic armor shop in geffen.
+//
+// - Chad -> alberta_in: 20,183
+//   Informs about legendary weapon, Gungnir.
+//
+// - Drunken Old Man -> alberta: 131,139
+//   Informs about mysterious flame sword.
+//
+// - Shakir -> alberta: 58,80
+//   Gives short introduction about Merchant skills Discount and Overcharge.
+//
+// - Phina -> alberta: 62,156
+//   Gives short introduction on passive monsters becoming aggressive.
+//   
+// - Grandma -> alberta: 93,174
+//   Informs about the Pirate Ghost Ship dungeon.
+//
+// - Fisk -> alberta: 189,151
+//   Warps from Alberta to Pirate Ghost Ship dungeon or Izlude.
+//
+// - Sailor -> alb2trea: 39,50
+//   Warps from Pirate Ghost Ship dungeon to Alberta.
+//
+// - Paul -> alberta: 195,151
+//   Warps from Alberta to Pirate Ghost Ship dungeon.
+//
+// - Billboard -> alberta: 35,241
+//   Billboard that welcomes you to alberta.
+//
+// - Sign -> alberta: 99,151
+//   Alberta tool shop advertisement.
+//
+// - Sign -> alberta: 196,152
+//   Alberta with docking information.
+//
+// - Billboard -> alberta: 37,39
+//   Billboard that welcomes you.
+//
+// - Sign -> alberta: 149,54
+//   Sign that welcomes you.
+//
+//========================================================================================
+
+alberta.gat,97,51,0 script "Fabian" 84,{
+	mes "[Fabian]";
+	mes "When you travel all around the world, you will hear of many rumors. One of Rumors I've heard was really interesting. There are cards which seals the power of monsters within.";
+	mes "If anybody happens to get a hand on those cards, he will obtain the power of monsters...Bah, I don't believe it though.";
+	close;
+}
+
+alberta.gat,53,39,0 script "Merchant" 86,{
+	mes "[Merchant]";
+	mes "Oh, you look like a stranger.  Welcome to Alberta.";
+	   emotion 0;
+	next;
+	mes "[Merchant]";
+	mes "I was just brainstorming on some ideas I have for my business.";
+	next;
+	mes "[Merchant]";
+	mes "You see, I heard that there is a store in Geffen that sells unique armor that is resistant to magic attacks.";
+	mes "If I could somehow get them in bulk for a low price and sell them to the people in other towns......";
+	next;
+	mes "[Merchant]";
+	mes "Cha-ching! (you see dollar signs in her eyes)";
+	   emotion 8;
+	close;
+}
+
+alberta_in.gat,20,183,0	script "Chad" 49,{
+	mes "[Chad]";
+	mes "People say the legendary weapon";
+	mes "Gungnir, never misses a targat...I";
+	mes "wonder if it's true...";
+	close;
+}
+
+alberta.gat,131,139,2 script "Drunken old man" 54,{
+      mes "[Drunken old man]";
+      mes "hiccup.... Huh?.... Wh-what are you staring at? Get lost!!";
+      next;
+      menu "Stay.",L_menu1,"Leave him alone.",L_menu2;
+L_menu1:
+	mes "[Drunken old man]";
+	mes "Hahahaha hiccup... So you got some nerve..";
+      mes "he.. I look worthless now, but I used to be a sailor of the infamous `Going Mary'.";
+	next;
+	menu "Is that a ship?",L_sub1,"Really? No kidding!",L_sub2;
+L_sub1:
+	mes "[Drunken old man]";
+	mes "Come again? Never heard of it?";
+	   emotion 1;
+	next;
+	mes "[Drunken old man]";
+	mes "Stupid! Everybody knew notorious pirateship `Going Mary'! hiccup~";
+	next;
+	mes "[Drunken old man]";
+	mes "Ah~ my ol'days.. Only-only if we hadn't met that STORM...hiccup ";
+	mes "AH~ Captain. I miss our cap'n more than anything...No foe survived before cap'n's sword.";
+	next;
+	mes "[Drunken old man]";
+	mes "CAPTAIN~~~!!! HICCUP~ You know He swung his sword like this..then..THEN!!";
+	mes "Not only the targeted bastard but also enemies next it were surrounded by flames. You know, now I think if it, the sword should've had some sort of mysterious power within.";
+	next;
+	mes "[Drunken old man]";
+	mes "Phew~~ sob sob.. God I miss everyone... Now I'm depressed. Go away now.";
+	   emotion 28;
+	close;
+L_sub2:
+	mes "[Drunken old man]";
+	mes "CAPTAIN~~~!!! HICCUP~ You know He swung his sword like this..then..THEN!!";
+	mes "Not only the targeted bastard but also enemies next it were surrounded by flames. You know, now I think if it, the sword should¡¯ve had some sort of mysterious power within.";
+	next;
+	mes "[Drunken old man]";
+	mes "Phew~~ sob sob.. God I miss everyone¡¦ Now I'm depressed. Go away now.";
+	   emotion 28;
+	close;
+L_menu2:
+	mes "[Drunken old man]";
+	mes "That's right! Go AWAY~";
+	   emotion 32;
+	close;
+}
+	
+alberta.gat,58,80,2 script "Shakir" 99,{
+	mes "[Shakir]";
+	mes "We merchants can open a roadside stand and do some business. With the Discount skill we could buy goods really cheap from the stores in towns and load them in the cart we rent. Then we could go anywhere making money.";
+	next;
+	mes "[Shakir]";
+	mes "This way, business is more convenient and safe. Don't fall asleep though it's too easy.";
+	next;
+	mes "[Shakir]";
+	mes "We merchants have our own negotiating skill when we sell goods. The skill can get us more money than when others sell goods.";
+	mes "When people say 'too cheap! You'll have to give more money please!~~.";
+	next;
+	mes "[Shakir]";
+	mes "We could just get 24 % more with this incredible skill. But remember to train hard to acquire it!!";
+	close;
+}
+	
+alberta.gat,62,156,2 script "Phina" 102,{
+         random @phi 2;
+	   check @phi = 0,no1,-;
+	   check @phi = 1,no2,-;
+	   check @phi = 2,no3,-;
+no1:		
+	mes "[Phina]";
+    	mes "This one time, I was walking in the forest and I saw this little green grass sticking out of the ground.";
+    	mes "It was soooo cute so I wanted to touch it. And then you know what happened? The grass actually slapped my hand.";
+    	next;
+    	mes "[Phina]";
+    	mes "I was soooooo surprised I backed off a bit. Then I realized it was not a grass but a very small animal.";
+	   emotion 0;
+      next;
+    	mes "[Phina]";
+    	mes "Don't startle them even by mistakes. Even calm animals can be very dangerous when they are angry.";
+	close;
+no2:
+    	mes "[Phina]";
+    	mes "You know those dumb-looking bears living in a forest connecting Alberta and Payon...";
+    	mes "playing around with the flies..making buzz noises?";
+    	next;
+    	mes "[Phina]";
+    	mes "Just for the sake of fun, I threw a twig at one. All of sudden it rushed towards me.";
+	mes " I was sooooo scared and quickly moved to the side. Then Bamb!!! It hit the huge tree and the tree crushed into pieces.";
+	   emotion 16;
+    	next;
+    	mes "[Phina]";
+    	mes "I learned the lesson that I shouldn't tempt any animal just in case they might get angry with me.";
+	close;
+no3:
+    	mes "[Phina]";
+    	mes "Did you know? Wolves are much more cooperative than they might seem. If one of them is attacked, then all others will run to help him.";
+    	mes "You'd be careful, too, if you ever want to fight one.";
+	close;
+}
+    
+alberta.gat,93,174,2 script "Grandma" 103,{
+	mes "[Grandma]";
+	mes "Some time ago derelict ship drifted in at the harbor of Alberta.";
+	mes "Holding onto a little hope of survivors, some of town's young people walked into the ship, but they all ran out terrified. They said the corpses are walking around inside the ship.";
+	next;
+	mes "[Grandma]";
+	mes "Oh~ and marine organisms, which they never saw before, were packed inside, so tight people couldn't even get pass the entrance area of the ship....";
+	next;
+	mes "[Grandma]";
+	mes "So we can't do anything about that ominous-looking ship but just leave it. We were just hopping someday it will sink or drift away and then Cool Event Corp. heard the rumor.";
+      mes "I wonder how on earth they knew about the ship. Anyway, they paid the city a huge amount for letting them handle the matter.";
+	next;
+	mes "[Grandma]";
+	mes "Now they recruit all those young people from all over the places to wipe out the monsters. Well..It looks like Cool Event Corp. persuaded the young to test their ability. It might be a good experience as a young person....";
+	mes "But it's not worth risking one's life....";
+	close;
+}
+	
+alberta.gat,189,151,5 script "Fisk" 100,{
+	mes "[Fisk]";
+	mes "Ahoy mate, where'd ya wanna go?";
+	next;
+	menu "Sunken Ship -> 250 zeny.",L_Menu1,"Izlude Marina -> 500 zeny.",L_Menu2,"Comodo Lighthouse -> 600 zeny.",L_menu3,"Quit",L_Quit;
+	close;
+L_Menu1:
+	   check Zeny >= 250,-,L_Menu1_F;
+	   set Zeny -= 250,0;
+         warp "alb2trea",43,53;
+      close;
+L_Menu1_F:
+	mes "[Fisk]";
+	mes "Hey now, don't try to cheat me! I";
+	mes "said 250 zeny!";
+      close;
+L_Menu2:
+	   check Zeny >= 500,-,L_Menu2_F;
+	   set Zeny -= 500,0;
+         warp "izlude",176,182;
+      close;
+L_Menu2_F:
+	mes "[Fisk]";
+	mes "Hey now, don't try to cheat me! I";
+	mes "said 500 zeny!";
+      close;
+L_Menu3:
+	   check Zeny >= 600,-,L_Menu3_F;
+	   set Zeny -= 600,0;
+	   warp "cmd_fild07",82,121;
+      close;
+L_Menu3_F:
+	mes "[Fisk]";
+	mes "Hey now, don't try to cheat me! I";
+	mes "said 600 zeny!";
+      close;
+L_Quit:
+      mes "Do as you wish...";
+      close;
+}
+
+alb2trea.gat,39,50,6 script "Sailor" 100,{
+	mes "[Sailor]";
+	mes "Do you wanna return?";
+	menu "Return to Alberta.",L_Menu1,"Quit.",-;
+	close;
+L_Menu1:
+	   warp "alberta",192,169;
+      close;
+}
+
+alberta.gat,195,151,2 script "Paul" 84,{
+	mes "[Paul]";
+	mes "Good Day, to you. Would you like to";
+	mes "join the exploration team of the Sunken Ship?";
+	mes "Oh before you join, I must war you,";
+	mes "if you are not that strong,";
+	mes "you may not want to go.";
+	next;
+	mes "[Paul]";
+	mes "So, want to sign up?.";
+	mes "Admission fee is only 200 Zeny.";
+	next;
+	menu "Sign me up!",L_menu1,"Uh, no thanks.",L_menu2;
+L_menu1:
+	   check Zeny >= 250,-,L_Menu1_F;
+    	   set Zeny -= 250,0;
+         warp "alb2trea",43,53;
+      close;
+L_Menu1_F:
+    	mes "[Paul]";
+    	mes "It seems you don't have the money my friend,";
+      mes "come back when you're able to pay.";
+	close;
+L_menu2:
+	mes "[Paul]";
+	mes "Alright, well I'll be arround if you";
+	mes "change your mind.";
+	close;
+}
+
+alberta.gat,35,241,0 script "Billboard" 111,{
+	mes "^993333- The Billboard Reads -^000000";
+      mes "Welcome to Alberta, the Merchant's";
+      mes "paradise.";
+      close;
+}
+
+alberta.gat,99,151,0 script "Sign" 111,{
+	mes "^993333- The Sign Reads -^000000";
+      mes "Tools by the cart full!";
+      mes "You need tools? We got'em!";
+      mes "Come on in, we never close!";
+      close;
+}
+
+alberta.gat,196,152,0 script "Sign" 111,{
+	mes "^993333- The Sign Reads -^000000";
+      mes "Docking and Shipment times very on";
+      mes "load. For information regarding";
+      mes "Shipping and Receiving, please...";
+      mes "- You can't make out the rest -";
+      close;
+}
+
+alberta.gat,37,39,0 script "Billboard" 111,{
+	mes "^993333- The Billboard Reads -^000000";
+      mes "Welcome.";
+      close;
+}
+
+alberta.gat,149,54,0 script "Sign" 111,{
+	mes "^993333- The Sign Reads -^000000";
+      mes "Welcome.";
+      close;
+}
+

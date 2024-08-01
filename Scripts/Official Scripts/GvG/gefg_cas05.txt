@@ -1,0 +1,695 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Geffen Guild Castle - Non Player Character Locations
+//
+// - Mersetzdeitz -> gef_fild13: x,y
+//   Information about guild base ownerships
+//
+// - Kafra Service -> gefg_cas05: 61,52
+//   Guild base kafra service.
+//
+// - Beeor -> gefg_cas05: 70,52
+//   Guild base master, buy guardians, kafra service and more
+//
+// - " " -> gefg_cas05: 141,187
+//   Switch that warp you to castle 05.
+//
+// - " " -> gefg_cas05: 62,22
+//   Switch that warp you to geffen guild dungeon.
+//
+//========================================================================================
+
+gef_fild13.gat,302,87,7	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gef_fild13.gat,313,83,0	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gef_fild13.gat,252,51,2	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gef_fild13.gat,26,147,2	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+
+gefg_cas05.gat,77,185,6	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gefg_cas05.gat,92,181,0	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gefg_cas05.gat,83,158,1	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gefg_cas05.gat,62,144,7	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gefg_cas05.gat,62,66,4	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+gefg_cas05.gat,69,66,4	script	"Mersetzdeitz"	722,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_START_1;
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]"
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place can be claimed by every guild.";
+      next;
+      mes "2.In order to ^FF0000claim^000000 this Guild Castle,";
+      mes "  you need to ^FF0000eliminate^000000 the ^FF0000emperium^000000 .";
+      close;
+L_START_1:
+      mes "[ Edict of the Divine Rune Midgard Kingdom ]";
+      mes "                                            ";
+      mes "1.Follow the ordinance of the Divine Rune Midgard Kingdom,";
+      mes "  we approve that this place is in the private possesion of";
+      mes "  ^FF0000$guildname's^000000 Guild.";
+      next;
+      mes "2.The Guild Master of ^FF0000$guildname^000000 is ^FF0000$guildmaster^000000.";
+      mes "  If there is anyone who objects to this, prove your strength and honour";
+      mes "  with a steel blade in your hand.";
+      close;
+OnInit:
+	guildreg "gefg_cas05";
+return;
+}
+
+gefg_cas05.gat,61,52,5	script	"Kafra Service"	117,{
+	guildreg "gefg_cas05";
+	cutin "kafra_01",2;
+	check guildid == 0,-,L_HASGUILD_1;
+	mes "[Kafra Personnel]";
+	mes "I am waiting for my master.";
+	next;
+	mes "[Kafra Personnel]";
+	mes "Brave Player! follow your destiny!...";
+	goto L_EXIT;
+	L_HASGUILD_1:
+	check ismyguild != 0,-,L_DENY;
+	mes "[Kafra Personnel]";
+	mes "Welcome. ^ff0000 $guildname ^000000 members";
+	mes "Kafra Service is always with you guys";
+	next;
+	mes "[Kafra Personnel]";
+	mes "How may I help you?";
+	next;
+	menu "Storage Service",L_MENU_1,"Guild Storage Service",L_MENU_1-2,"Teleport Service",L_MENU_2,"Cart Rental Service",L_MENU_3,"End",L_MENU_4;
+	L_MENU_1:
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_1,-;
+			mes "[Kafra Personnel]";
+			mes "You need to have Basic Skills level 6";
+			mes "in order to use the storage service.";
+			goto L_EXIT;
+	L_SUB_1:
+		store;
+		goto L_EXIT;
+	L_MENU_1-2:
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_1-2,-;
+			mes "[Kafra Personnel]";
+			mes "You need to have Basic Skills level 6";
+			mes "in order to use the guild storage service.";
+			goto L_EXIT;
+	L_SUB_1-2:
+		gstore;
+		goto L_EXIT;
+	L_MENU_2:
+		mes "[Kafra Personnel]";
+		mes "Please pick your destination.";
+		next;
+		menu "Geffen -> 200z",L_MENU_2_1,"Cancel",L_MENU_2_2;
+	L_MENU_2_1:
+		check Zeny < 200,-,L_MENU_2_1_1;
+		mes "[Kafra Personnel]";
+  		mes "Dear. you don't have enough Money.";
+   		mes "Please check again.";
+		goto L_EXIT;
+	L_MENU_2_1_1:
+		set Zeny -= 200,0;
+		set KF_PIT += 10;
+		warp "geffen",120,64;
+	L_MENU_2_2:
+		mes "[Kafra Personnel]";
+		mes "Thank you.";
+		mes "Please come again.";
+		goto L_EXIT;
+	L_MENU_3:
+		check Job != 5,-,L_SUB_3_1;
+		check Job != 10,-,L_SUB_3_1;
+		check Job != 18,-,L_SUB_3_1;
+		check Job != 29,-,L_SUB_3_1;
+		check Job != 34,-,L_SUB_3_1;
+		check Job != 42,-,L_SUB_3_1;
+			mes "[Kafra Personnel]";
+			mes "I'm very sorry. The cart service is available only to";
+			mes "Merchants, High Merchants, Blacksmiths, Whitesmiths, Alchemists and Creators.";
+			goto L_EXIT;
+		L_SUB_3_1:
+			mes "[Kafra Personnel]";
+			mes "The cart rental fee is 800 Zeny.";
+			mes "To use the cart, you'll need the 'Pushcart' skill.";
+			mes "Without the skill, you can't use the cart and your money will be spent.";
+			mes "Would you like to proceed?";
+			next;
+			menu "Yes",L_MENU_3_1,"No",L_MENU_3_2;
+		L_MENU_3_1:
+			check Zeny < 800,-,L_ROOT_3_2;
+			mes "[Kafra Personnel]";
+			mes "You do not have enough money.";
+			mes "The cart rental fee is 800 Zeny.";
+			goto L_EXIT;
+		L_ROOT_3_2:
+			set Zeny -= 800,0;
+			getskilllevel 39,@pushcart_lvl;
+			check @pushcart_lvl => 1,-,L_EXIT;
+			check option == 0,-,L_EXIT;
+			option 0,1;
+			goto L_EXIT;
+		L_MENU_3_2:
+			mes "[Kafra Personnel]";
+			mes "Thank you.";
+			mes "Please come again.";
+			goto L_EXIT;
+	L_MENU_4:
+		mes "[Kafra Personnel]";
+		mes "We strive for perfection in our service.";
+		mes "Rest assured that Kafra Corporation will always be there to help you.";
+		mes "Thank you for your business.";
+		goto L_Exit;
+ L_DENY:
+		mes "[Kafra Personnel]"
+      		mes "I am here to help only for ^ff0000 $guildname ^000000 members.";
+		mes "Please use a different Kafra Personnel. Thank you."
+		goto L_Exit;
+ L_EXIT:
+		cutin "kafra_01",255;
+		close;
+}
+gefg_cas05.gat,70,52,5	script	"Beeor"	55,{
+	guildreg "gefg_cas05";
+	check guildid == 0,-,L_HASGUILD_1;
+	mes "[  Beeor ]";
+	mes "I am waiting for my master.";
+	mes "Brave Player! follow your destiny!...";
+	close;
+	return;
+L_HASGUILD_1:
+	check ismymaster == 0,-,L_ISMASTER_1;
+	mes "[  Beeor ]";
+	mes "I am here to follow ^ff0000 $guildmaster's ^000000 command! where are your guardians!";
+	close;
+	return;
+L_ISMASTER_1:
+	mes "[  Beeor ]";
+	mes "Welcome Master ^ff0000 $guildmaster ^000000!";
+	mes "I'll do anything you tell me to do sir!.";
+	next;
+	menu "Guild Base Property",L_MENU_1,"Commerce Investment",L_MENU_2,"Defense Investment",L_MENU_3,"Guardian Installation",L_MENU_4,"Kafra Service Employement / Dismissal",L_MENU_5,"Enter Master's Room",L_MENU_6,"Empty Guild Base",L_MENU_7,"Cancel",L_MENU_8;
+L_MENU_1:
+	mes "[  Beeor ]";
+	mes "Guild Base Improvement Information:";
+	mes " ";
+	mes "^0000ffCurrent Commerce Investment is $edegree.";
+	mes "   - You have invested $etrigger times in the last period.";
+	mes "   Current Defense Investment is $ddegree.";
+	mes "   - You have invested $dtrigger times in the last period.^000000";
+	mes " ";
+	mes "That is about it.";
+	goto L_Exit;
+L_MENU_2:
+	mes "[  Beeor ]";
+	mes "If you increase your Commerce Investment, Guild's Productive power increases to produce more goods.";
+	mes " ";
+	mes "You must Invest once a day, but you may invest up to two times in a single period.";
+	next;
+	check etrigger == 2,-,L_CANINVEST_1;
+	mes " ";
+	mes "^ff0000Guild's Investment is currently at 100% you don't have to invest anymore.^000000";
+	goto L_Exit;     
+L_CANINVEST_1:
+	mes "[  Beeor ]";
+	mes "^ff0000You may invest up to two times in a single period.^000000";
+	mes " ";
+	mes "Required investment amount is^ff0000 10,000 ^000000 Zeny. Would you like to invest?" 
+	next;
+	menu "Invest Commerce",L_MENU_1-2,"Cancel",L_MENU_2-2;
+L_MENU_1-2:
+	check Zeny < 10000,-,L_HAVEMONEY_1;
+	mes "[  Beeor ]";
+	mes "Master, you do not have enough money to invest, investment has been canceled.";
+	goto L_Exit;
+L_HAVEMONEY_1:
+	mes "[  Beeor ]";
+	mes "NEEDS INVESTMENT FUNCTION HERE";
+	mes "You invested successfully.";
+	goto L_Exit;
+L_MENU_2-2:
+	mes "[  Beeor ]";
+	mes "I'll follow your order Master!... you don't have to be hurry anyway.";      
+	goto L_Exit;
+L_MENU_3:
+	mes "[  Beeor ]";
+	mes "If you improve your defense investment, HP of your Guardians and Emperium increase, it helps when enemies try to seige your guild.";
+	mes " ";
+	mes "You must Invest once a day, but you may invest up to two times in a single period.";
+	next;
+	check dtrigger == 2,-,L_CANINVEST_2;
+	mes " ";
+	mes "^ff0000Guild's Investment is currently at 100% you don't have to invest anymore.^000000";
+	goto L_Exit;     
+L_CANINVEST_2:
+	mes "[  Beeor ]";
+	mes "^ff0000You may invest up to two times in a single period.^000000";
+	mes " ";
+	mes "Required investment amount is^ff0000 10,000 ^000000 Zeny. Would you like to invest?" 
+	next;
+	menu "Invest Defense",L_MENU_1-3,"Cancel",L_MENU_2-3;
+L_MENU_1-3:
+	check Zeny < 10000,-,L_HAVEMONEY_2;
+	mes "[  Beeor ]";
+	mes "Master, you do not have enough money to invest, investment has been canceled.";
+	goto L_Exit;
+L_HAVEMONEY_2:
+	guilddinvest;
+	mes "[  Beeor ]";
+	mes "You invested successfully.";
+	goto L_Exit;
+L_MENU_2-3:
+	mes "[  Beeor ]";
+	mes "I'll follow your order Master!... you don't have to be hurry anyway.";      
+	goto L_Exit;
+L_MENU_4:
+	mes "[  Beeor ]";
+	mes "Would you like to install a guardian? Guardian will protect guild base from enemies.";
+	mes "Please choose guardian.";
+	next;
+	menu "Soldier 1",L_MENU_1-4,"Soldier 2",L_MENU_2-4,"Soldier 3",L_MENU_3-4,"Archer 1",L_MENU_4-4,"Archer 2",L_MENU_5-4,"Knight 1",L_MENU_6-4,"Knight 2",L_MENU_7-4,"Knight 3",L_MENU_8-4;
+L_MENU_1-4:
+	set @GD = 0;
+	goto L_GSTART_1;
+L_MENU_2-4:
+	set @GD = 1;
+	goto L_GSTART_1;
+L_MENU_3-4:
+	set @GD = 2;
+	goto L_GSTART_1;
+L_MENU_4-4:
+	set @GD = 3;
+	goto L_GSTART_1;
+L_MENU_5-4:
+	set @GD = 4;
+	goto L_GSTART_1;
+L_MENU_6-4:
+	set @GD = 5;
+	goto L_GSTART_1;
+L_MENU_7-4:
+	set @GD = 6;
+	goto L_GSTART_1;
+L_MENU_8-4:
+	set @GD = 7;
+	goto L_GSTART_1;
+L_GSTART_1:
+	mes "[  Beeor ]";
+	mes "Would you really like to install the guardian? You need^ff0000 10,000 ^000000zeny to install.";
+	next;
+	menu "Install",L_MENU_1-5,"Cancel",L_MENU_2-5;
+L_MENU_1-5:
+	getgskilllevel 10002,@GDSKILL;
+	check @GDSKILL == 0,-,L_HAVESKILL_1;
+	mes "[  Beeor ]";
+	mes "Master, you do not have any guild skill to install guardian, if you want to gain skill to install guardian, you must get ^ff0000GUARDIAN SKILL^000000. Guardian Installation has been canceled.";
+	goto L_Exit;
+L_HAVESKILL_1:
+	getguardstatus @GD,@NSTATUS;
+	check @NSTATUS == 0,-,L_HAVEGUARD_1;
+	check Zeny < 1000,-,L_HAVEMONEY_3;
+	mes "[  Beeor ]";
+	mes "You do not have enough money to install guardian, installation has been canceled.";
+	goto L_Exit;
+L_HAVEMONEY_3:
+	set Zeny -= 10000,0;
+	setguardstatus @GD,1;
+	callguard @GD;
+	mes "[  Beeor ]";
+	mes "Guardian has been installed, guardian will protect our guild base against enemies.";
+	goto L_Exit;
+L_HAVEGUARD_1:
+	mes "[  Beeor ]";
+	mes "Master...you have installed that guardian already.";
+	goto L_Exit;
+L_MENU_2-5:
+	mes "[  Beeor ]";
+	mes "I'll follow your order sir, but it is worth to have a guardian soon or later.";
+	goto L_Exit;
+L_MENU_5:
+	check guildkafra == 0,-,L_ENABLE_2;
+	mes "[  Beeor ]";
+	mes "Would you like to hire new Kafra Service?";
+	mes "You need ^ff000010,000^000000 Zeny to hire... ";
+	next;
+	menu "Hire",L_MENU_1-8,"Cancel",L_MENU_2-8;
+L_MENU_1-8:
+	getgskilllevel 10001,@GDSKILL;
+	check @GDSKILL == 0,-,L_HAVESKILL_2;
+	mes "[  Beeor ]";
+	mes "Master, you havn't contract with Kafra Service Company. In order to contract with Kafra Server is to have ^ff0000KAFRA SKILL^000000 employment has been canceled .";
+	goto L_Exit;
+L_HAVESKILL_2:
+	check Zeny < 10000,-,L_HAVEMONEY_4;
+	mes "[  Beeor ]";
+	mes "You do not have enough money to hire Kafra, employment has been canceled.";
+	goto L_Exit;
+L_HAVEMONEY_4:
+	set Zeny -= 10000,0;
+	mes "[  Beeor ]";
+	mes "You have been contracted with Kafra Service Company.";
+	next;
+	setguildkafra 1;
+	cutin "kafra_01",2;
+	mes "[ Kafra Service ]";
+	mes "Hello, I came here to follow your order sir!^^.";
+	mes "I'll do the best I can.";
+	next;
+	cutin "kafra_01",255;			
+	mes "[  Beeor ]";
+	mes "You must pay zeny every month to keep Kafra in your guild base.";
+	goto L_Exit;
+L_MENU_2-8:
+	mes "[  Beeor ]";
+	mes "Yes sir! but we must get Kafra as soon as possible.";
+	goto L_Exit;
+L_ENABLE_2:
+	mes "[  Beeor ]";
+	mes "Would you like to dismiss the current Kafra Service?";
+	next;
+	menu "Dismiss",L_MENU_1-6,"Cancel",L_MENU_2-6;
+L_MENU_1-6:
+	cutin "kafra_01",2;
+	mes "[ Kafra Service ]";
+	mes "Have I done something wrong? if so, would you please forgive me?";
+	next;
+	menu "Dismiss",L_MENU_1-7,"Cancel",L_MENU_2-7;
+L_MENU_1-7:
+	mes "[ Kafra Service ]";
+	mes "OMG!! how could you do this to meeeeh!! T_T~";
+	cutin "kafra_01",255;
+	next;
+	setguildkafra 0;
+	mes "[  Beeor ]";
+	mes "....";
+	mes "Kafra Service has been dismissal";
+	goto L_Exit;
+L_MENU_2-7:
+	mes "[ Kafra Service ]";
+	mes "Thank you master, I'll do my best! ^^.";
+	cutin "kafra_01",255;
+	goto L_Exit;
+L_MENU_2-6:
+	mes "[  Beeor ]";
+	mes "I think you should keep the current Kafra sir, she's trying her best sir.";
+	goto L_Exit;
+L_MENU_6:
+	mes "[  Beeor ]";
+	mes "Would you like to get into our treasure room?";
+	mes "That place is only for guild master, which means you are the only one who has access to enter.";
+	next;
+	menu "Enter Master's Room",L_MENU_1-9,"Cancel",L_MENU_2-9;
+L_MENU_1-9:
+	mes "[  Beeor ]";
+	mes "Please follow me through the secret way.";
+	mes "You must push downt the secret switch in order to get out.";
+	warp "gefg_cas05",144,110;
+L_MENU_2-9:
+	mes "[  Beeor ]";
+	mes "Goods are producing everyday, you must get'em whenever you can.";
+	mes "Please don't forget to get all the goods in time.";
+	goto L_Exit;
+L_MENU_7:
+	mes "[  Beeor ]";
+	mes "Master!!";
+	mes "Are you goin to give our guild up?!";
+	mes "It is not worth to give up on our guild master!!!";
+	mes "Please reconsider master!!";
+	next;
+	menu "Empty Guild Base",L_MENU_1-10,"Cancel",L_MENU_2-10;
+L_MENU_1-10:
+	mes "[  Beeor ]";
+	mes "Master, please reconsider...!!";
+	mes "Please!!!!!!!!";
+	next;
+	menu "Cancel",L_MENU_1-11,"Empty Guild Base",L_MENU_2-11;
+L_MENU_1-11:
+	mes "[  Beeor ]";
+	mes "I knew it master^^!!";
+	mes "Please, don't freak me out like that again^^.";
+	goto L_Exit;
+L_MENU_2-11:
+	resetguild;
+	mes "[  Beeor ]";
+	mes "MASTER....!!";
+	mes "AH...HHH...HH....";
+	goto L_Exit;
+L_MENU_2-10:
+	mes "[  Beeor ]";
+	mes "I knew it master^^!!";
+	mes "Please, don't freak me out like that again^^.";
+	goto L_Exit;
+L_MENU_8:
+	goto L_Exit;
+	L_EXIT:
+	close;
+	return;
+}
+gefg_cas05.gat,149,107,0	script	" "	111,{
+	mes " ";
+	mes "There is little switch over here would you like to pull the switch down?";
+	next;
+	menu "Yes",L1,"No",L2;
+L1:
+	warp "gefg_cas05",70,53;
+L2:
+	close;
+}
+
+gefg_cas05.gat,65,22,0	script	" "	111,{
+	mes " ";
+	mes "There is little switch over here would you like to pull the switch down?";
+	next;
+	menu "Yes",L1,"No",L2;
+L1:
+	warp "gld_dun04",230,35;
+L2:
+	close;
+}

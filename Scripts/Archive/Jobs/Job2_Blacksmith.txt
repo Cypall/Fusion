@@ -1,0 +1,45 @@
+//----------------------------------------------------------------------------------------
+// Blacksmith Translation - From Weiss, translated by Khali
+// eWeiss Project 2003 - http://revolve.emuxhaven.net/weiss/
+//----------------------------------------------------------------------------------------
+
+//geffen_in.gat,110,170,4 script Blacksmith 63,{
+mes "[Blacksmith]";
+mes "Welcome to the Blacksmith Workshop.";
+next;
+menu "Change job into a Blacksmith",L_Menu1,"Requirements",L_Menu2,"End",-;
+close;
+// Check Requirements
+ L_Menu1:
+  mes "[Blacksmith]";
+  mes "First I'll check if all the requirements have been met.";
+  next;
+  check Job == 5,-,L_Menu1_F1;
+  check JobLevel >= 40,-,L_Menu1_F2;
+// Requirements Passed
+// check SkillPoint == 0,-,L_Menu1_F3;
+  set JobLevel = 1,0;
+  jobchange 10;
+  mes "[Blacksmith]";
+  mes "Congradulations, you are now a Blacksmith!";
+  close;
+   L_Menu1_F1:
+    mes "[Blacksmith]";
+    mes "You must be a merchant before you can become a blacksmith.";
+    close;
+   L_Menu1_F2:
+    mes "[Blacksmith]";
+    mes "You must be at least Job Level 40 to become a blacksmith.";
+    close;
+//-----
+ L_Menu2:
+  mes "[Blacksmith]";
+  mes "To become a knight you must complete the following:";
+  mes "Become a Swordman";
+  mes "Job Level 40";
+  next;
+  mes "[Blacksmith]";
+  mes "Good luck.";
+  mes "I also recommend you use up all your skills first.";
+  close;
+}

@@ -1,0 +1,97 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Fatal Blow Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Leo -> prt_in: 75,88
+//   Bring items to obtain skill. Applicable jobs are Swordsman, Knight and Crusader.
+//========================================================================================
+
+prt_in.gat,75,88,5	script	Leo	85,{
+	check Job = 1,Lcheck,-; 
+	check Job = 7,Lcheck2,-;
+	check Job = 14,Lcheck2,-;
+	goto LStartOther; 
+Lcheck: 
+	check JobLevel >= 25,-,LStartLowlv; 
+Lcheck2: 
+	check skill_sm2 = 1,LStartTwice,-; 
+	checkitem 1752,10,-,L2; 
+	checkitem 1751,10,-,L2; 
+	checkitem 532,1,-,L2; 
+	checkitem 962,30,-,L2; 
+	checkitem 526,5,-,L2; 
+	getskilllevel 5,@skilllv_bash; 
+	check @skilllv_bash => 6,-,L2a; 
+	goto L3; 
+L2: 
+	mes "[Leo]"; 
+	mes "Hello, I am Leo."; 
+	mes "I would like you to do me a favour. In return I will give you Fatal Blow skill. "; 
+	next;
+	mes "[Leo]";
+	mes "Get me 10 ^FF0000Fire Arrows^000000, 10 ^FF0000Silver Arrows^000000, 1 ^FF0000Banana Juice^000000,"; 
+	mes "30 ^FF0000Tentacles^000000 and 5 ^FF0000Royal Jelly^000000."; 
+	mes "You must also have Your ^FF0000Bash Skill^000000 above lvl 5"; 
+	next;
+	mes "[Leo]";
+	mes "Come back when you have these things and your reward will be waiting for you. "; 
+	close; 
+L2a: 
+	mes "[Leo]"; 
+	mes "Sorry but your bash skill is not above lvl 5"; 
+	mes "Come back when you are more skilled"; 
+	close; 
+L3: 
+	mes "[Leo]"; 
+	mes "You have sure did well. You have found all the ingredients that i asked for."; 
+	next;
+	mes "[Leo]";
+	mes "I told you that I would give you the Fatal Blow skill if you succeded."; 
+	next;
+	mes "[Leo]";
+	mes "Do you still want me to implement this skill into your skilltree?"; 
+	next; 
+	menu "Yes, please",L3_1,"No, thanks",L3_2; 
+L3_1: 
+	mes "[Leo]"; 
+	mes "Congratulations"; 
+	next; 
+	delitem 1752,10; 
+	delitem 1751,10; 
+	delitem 532,1; 
+	delitem 962,30; 
+	delitem 526,5; 
+	set skill_sm2 = 1;
+	setskilllevel 0x91,1;
+	mes "[Leo]"; 
+	mes "Now it is implemented in to your skilltree."; 
+	mes "Good luck"; 
+	close; 
+L3_2: 
+	mes "[Leo]"; 
+	mes "Come back whenever you feel ready for the Fatal Blow skill."; 
+	mes "Good luck with your adventure."; 
+	close; 
+LStartOther: 
+	mes "[Leo]"; 
+	mes "I am Leo and I am a teacher in the Fatal Blow."; 
+	mes "This skill can only be used by a Swordman, Knight "; 
+	mes "and Crusader. Unfortunately you ain't one of them."; 
+	close; 
+LStartLowlv: 
+	mes "[Leo]"; 
+	mes "Hello young Swordman. You have to raise your level a little more before learning this skill."; 
+	mes "You need to be atleast joblevel 25."; 
+	close; 
+LStartTwice: 
+	setskilllevel 0x91,1;
+	mes "[Leo]"; 
+	mes "You already have this skill implemented in your skilltree."; 
+	close; 
+}

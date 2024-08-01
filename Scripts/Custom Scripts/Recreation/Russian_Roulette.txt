@@ -1,0 +1,199 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Borris -> cmd_in02 178 101
+//        Plays Russian Roulette.
+//
+// ** Note: User (the person running Fusion) must supply the item names and id numbers. 
+//       (You may find item id numbers in the database\item_db.txt file)  
+//
+//     For example:
+//       setstr $@prize = "NAME OF PRIZE 6";
+//       additem #,1;
+//       mes "[Borris]";
+//       mes "Your prize is $[$@prize]. Have a good day.";
+//       close; 
+//
+//
+//     Could be changed to:
+//       setstr $@prize = "a Butterfly Wing";
+//       additem 602,1;
+//       mes "[Borris]";
+//       mes "Your prize is $[$@prize]. Have a good day.";
+//       close; 
+//
+//========================================================================================
+
+cmd_in02.gat,180,100,4   script   "Borris"   98,{
+        check BORRIS == 1,HAS,-;
+        set BORRIS = 1;
+        mes "[Borris]";
+        mes "I'd like to play a game, with you..";
+        mes "It's called Russian Roulette. ^_^";
+        mes " ";
+        mes "Do you know the rules?";
+        next;
+        menu "Haha, yes! And I'd like to play!",PLAY,"Err, yes.. and I don't want to play.",NO,"Actually, I don't know the rule",NO;
+        close;
+    HAS:
+        check ROULETTE == 1,WON,-;
+        check ROULETTE == 2,LOST,-;
+        mes "[Borris]";
+        mes "Oh, I remember you, $charaname";
+        mes "You didn't want to play, last time...";
+        mes " ";
+        mes "~*coughCHICKENcough*~";
+        next;
+        mes "[Borris]";
+        mes "Well.. would you like to try your hand at Russian Roulette, now?";
+        next;
+        menu "Absolutely.",PLAY,"No way.",NO;
+        close;
+    WON:
+        mes "[Borris]";
+        mes "Oh, I remember you, $charaname";
+        mes "You won a pretty nice prize, last time, right?";
+        mes "Yea.. I remember.";
+        next;
+        mes "[Borris]";
+        mes "You know, very few people make it out of Russian Roulette.. alive.";
+        mes "You seem to have luck on your side, though.";
+        mes " ";
+        mes "So, do you want to try another round?"
+        next;
+        menu "Absolutely.",PLAY,"Some other time, perhaps.",NO;
+        close;
+    LOST:
+        mes "[Borris]";
+        mes "Oh, I remember you, $charaname";
+        mes "You had a bit of bad luck, last time, right?";
+        mes "Yea.. I remember.";
+        next;
+        mes "[Borris]";
+        mes "You shouldn't feel too bad, though.";
+        mes "You know, very few people make it out of Russian Roulette.. alive.";
+        next;
+        mes "[Borris]";
+        mes "Maybe, you'll do better, next time.";
+        mes " ";
+        mes "So, do you want to try another round?"
+        next;
+        menu "Absolutely.",PLAY,"I'd really rather not.",NO;
+        close;
+     NO:
+        set ROULETTE = 3;
+        mes "[Borris]";
+        mes "Oh.. Well, isn't that too bad?";
+        close;
+     PLAY:
+        mes "[Borris]";
+        mes "So, you're a brave one, aye?";
+        mes "Well, your bravery won't do you any good, in this game.";
+        mes "In fact, if you believe in a God, I suggest you get to prayin'";
+        next;
+        mes "[Borris]";
+        mes "Oh, I'm just kiddin' ya.";
+        mes "Your odds are alright: 1 in 6";
+        next;
+        mes "[Borris]";
+        mes "Plus, if you uh... don't die.. you get a prize!";
+        mes "And the prizes get better, each time you chance!";
+        mes " ";
+        mes "Well, anyway, let's get started..";
+        next;
+        set @odds = 6;
+        set @prize = 0;
+        mes "[Borris]";
+        mes "~*puts 1 bullet in the barrel of a gun*~";
+        next;
+        random @barrel 5;
+        mes "[Borris]";
+        mes "~*spins the barrel*~";
+        next;
+        check @barrel != 0,-,DEAD;
+        set @barrel - 1;
+        set @odds - 1;
+        set @prize + 1;
+        set ROULETTE = 1;
+        mes "[Borris]";
+        mes "**CLICK**";
+        mes " ";
+        mes "Oh, yay! You survived.";
+        mes "Your odds are now 1 in $[@odds]. Do you want to collect your prize or keep playing?";
+        next;
+        menu "Get my prize.",PRIZE,"I'd like to keep playing.",CONTINUE;
+        close;
+     DEAD:
+        die;
+        set ROULETTE = 2;
+        mes "[Borris]";
+        mes "**BOOM*";
+        mes " ";
+        mes "Oh, dear....";
+        close;
+     PRIZE:
+        mes "[Borris]";
+        mes "Well, congratulations, on surviving!";
+        mes "It's been really nice playing with you.";
+        next;
+        check @prize == 1,PRIZE1,-;
+        check @prize == 2,PRIZE2,-;
+        check @prize == 3,PRIZE3,-;
+        check @prize == 4,PRIZE4,-;
+        check @prize == 5,PRIZE5,-;
+        setstr $@prize = "NAME OF PRIZE 6";
+        additem #,1;
+        mes "[Borris]";
+        mes "Your prize is $[$@prize]. Have a good day.";
+        close;
+     PRIZE1:
+        setstr $@prize = "NAME OF PRIZE 1";
+        additem #,1;
+        mes "[Borris]";
+        mes "Your prize is $[$@prize]. Have a good day.";
+        close;
+     PRIZE2:
+        setstr $@prize = "NAME OF PRIZE 2";
+        additem #,1;
+        mes "[Borris]";
+        mes "Your prize is $[$@prize]. Have a good day.";
+        close;
+     PRIZE3:
+        setstr $@prize = "NAME OF PRIZE 3";
+        additem #,1;
+        mes "[Borris]";
+        mes "Your prize is $[$@prize]. Have a good day.";
+        close;
+     PRIZE4:
+        setstr $@prize = "NAME OF PRIZE 4";
+        additem #,1;
+        mes "[Borris]";
+        mes "Your prize is $[$@prize]. Have a good day.";
+        close;
+     PRIZE5:
+        setstr $@prize = "NAME OF PRIZE 5";
+        additem #,1;
+        mes "[Borris]";
+        mes "Your prize is $[$@prize]. Have a good day.";
+        close;
+     CONTINUE:
+        mes "[Borris]";
+        mes "~*spins the barrel*~";
+        next;
+        check @barrel != 0,-,DEAD;
+        set @barrel - 1;
+        set @odds - 1;
+        set @prize + 1;
+        set ROULETTE = 1;
+        mes "[Borris]";
+        mes "**CLICK**";
+        mes " ";
+        mes "Oh, yay! You survived.";
+        mes "Your odds are now 1 in $[@odds]. Do you want to collect your prize or keep playing?";
+        next;
+        menu "Get my prize.",PRIZE,"I'd like to keep playing.",CONTINUE;
+        return;
+}

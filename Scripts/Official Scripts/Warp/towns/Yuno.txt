@@ -1,0 +1,185 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Juno Town Warps - Warp Locations
+//
+//========================================================================================
+
+yuno.gat,117,135,0	warp	junowarp001	1,1,yuno_in01.gat,116,37
+yuno_in01.gat,116,40,0	warp	junowarp002	1,1,yuno.gat,120,138
+yuno_in01.gat,88,36,0	warp	junowarp003	1,1,yuno_in01.gat,173,34
+yuno_in01.gat,176,34,0	warp	junowarp004	1,1,yuno_in01.gat,91,36
+yuno.gat,48,105,0		warp	junowarp005	1,1,yuno_in01.gat,37,176
+yuno_in01.gat,40,176,0	warp	junowarp006	1,1,yuno.gat,51,105
+yuno_in01.gat,32,182,0	warp	junowarp007	1,1,yuno_in01.gat,86,164
+yuno_in01.gat,82,164,0	warp	junowarp008	1,1,yuno_in01.gat,28,182
+yuno.gat,48,151,0		warp	junowarp009	1,1,yuno_in01.gat,30,100
+yuno_in01.gat,34,100,0	warp	junowarp010	1,1,yuno.gat,51,151
+yuno.gat,93,180,0		warp	junowarp011	1,1,yuno_in04.gat,33,127
+yuno_in04.gat,33,130,0	warp	junowarp012	1,1,yuno.gat,95,184
+yuno.gat,196,138,0	warp	junowarp013	1,1,yuno_in01.gat,32,33
+yuno_in01.gat,32,36,0	warp	junowarp014	1,1,yuno.gat,193,142
+yuno.gat,264,87,0		warp	junowarp015	1,1,yuno_in01.gat,168,101
+yuno_in01.gat,168,104,0	warp	junowarp016	1,1,yuno.gat,264,90
+yuno.gat,245,147,0	warp	junowarp017	1,1,yuno_in01.gat,101,88
+yuno_in01.gat,101,85,0	warp	junowarp018	1,1,yuno.gat,245,144
+yuno.gat,342,203,0	warp	junowarp019	1,1,yuno_in04.gat,32,58
+yuno_in04.gat,28,58,0	warp	junowarp020	1,1,yuno.gat,338,203
+yuno_in04.gat,52,58,0	warp	junowarp021	1,1,yuno_in04.gat,97,58
+yuno_in04.gat,95,58,0	warp	junowarp022	1,1,yuno_in04.gat,50,58
+yuno_in04.gat,103,64,0	warp	junowarp023	1,1,yuno_in04.gat,103,95
+yuno_in04.gat,103,93,0	warp	junowarp025	1,1,yuno_in04.gat,103,62
+yuno_in04.gat,115,64,0	warp	junowarp025	1,1,yuno_in04.gat,115,95
+yuno_in04.gat,115,93,0	warp	junowarp026	1,1,yuno_in04.gat,115,62
+yuno_in04.gat,115,51,0	warp	junowarp027	1,1,yuno_in04.gat,115,20
+yuno_in04.gat,115,22,0	warp	junowarp028	1,1,yuno_in04.gat,115,53
+yuno_in04.gat,103,51,0	warp	junowarp029	1,1,yuno_in04.gat,103,20
+yuno_in04.gat,103,22,0	warp	junowarp030	1,1,yuno_in04.gat,103,53
+yuno_in04.gat,122,57,0	warp	junowarp031	1,1,yuno_in04.gat,164,110
+yuno_in04.gat,161,110,0	warp	junowarp032	1,1,yuno_in04.gat,120,57
+yuno.gat,323,284,0	warp	junowarp033	1,1,yuno_in03.gat,167,22
+yuno_in03.gat,167,19,0	warp	junowarp034	1,1,yuno.gat,323,280
+yuno_in03.gat,167,72,0	warp	junowarp035	1,1,yuno_in03.gat,179,113
+yuno_in03.gat,179,109,0	warp	junowarp036	1,1,yuno_in03.gat,167,69
+yuno_in03.gat,186,119,0	warp	junowarp037	1,1,yuno_in03.gat,163,174
+yuno_in03.gat,161,174,0	warp	junowarp038	1,1,yuno_in03.gat,183,119
+yuno_in03.gat,186,131,0	warp	junowarp039	1,1,yuno_in03.gat,163,187
+yuno_in03.gat,161,187,0	warp	junowarp040	1,1,yuno_in03.gat,183,131
+yuno_in03.gat,173,118,0	warp	junowarp041	1,1,yuno_in03.gat,120,178
+yuno_in03.gat,124,178,0	warp	junowarp042	1,1,yuno_in03.gat,176,118
+yuno_in03.gat,111,192,0	warp	junowarp043	1,1,yuno_in03.gat,162,132
+yuno_in03.gat,162,129,0	warp	junowarp044	1,1,yuno_in03.gat,111,188
+yuno_in03.gat,153,134,0	warp	junowarp045	1,1,yuno_in03.gat,62,186
+yuno_in03.gat,66,186,0	warp	junowarp046	1,1,yuno_in03.gat,156,134
+yuno.gat,278,293,0	warp	junowarp047	1,1,yuno_in03.gat,25,15
+yuno_in03.gat,25,11,0	warp	junowarp048	1,1,yuno.gat,278,290
+yuno_in03.gat,25,56,0	warp	junowarp049	1,1,yuno_in03.gat,32,92
+yuno_in03.gat,32,89,0	warp	junowarp050	1,1,yuno_in03.gat,25,53
+yuno.gat,284,366,0	warp	junowarp051	1,1,yuno_in03.gat,224,23
+yuno_in03.gat,224,19,0	warp	junowarp052	1,1,yuno.gat,282,363
+yuno_in03.gat,219,50,0	warp	junowarp053	1,1,yuno_in03.gat,104,118
+yuno_in03.gat,104,115,0	warp	junowarp054	1,1,yuno_in03.gat,219,47
+yuno_in03.gat,244,52,0	warp	junowarp055	1,1,yuno_in03.gat,235,94
+yuno_in03.gat,235,91,0	warp	junowarp056	1,1,yuno_in03.gat,244,49
+yuno_in03.gat,231,58,0	warp	junowarp057	1,1,yuno_in03.gat,239,144
+yuno_in03.gat,239,141,0	warp	junowarp058	1,1,yuno_in03.gat,231,55
+yuno_in03.gat,223,167,0	warp	junowarp059	1,1,yuno_in03.gat,96,59
+yuno_in03.gat,96,62,0	warp	junowarp060	1,1,yuno_in03.gat,223,170
+yuno.gat,87,321,0		warp	junowarp061	1,1,yuno_in02.gat,168,61
+yuno_in02.gat,172,61,0	warp	junowarp062	1,1,yuno.gat,90,318
+yuno_in02.gat,82,14,0	warp	junowarp063	1,1,yuno_in05.gat,192,194
+yuno_in05.gat,196,194,0	warp	junowarp064	1,1,yuno_in02.gat,85,14
+yuno_in05.gat,31,167,0	warp	junowarp065	1,1,yuno_in05.gat,50,85
+yuno_in05.gat,50,88,0	warp	junowarp066	1,1,yuno_in02.gat,85,14
+
+yuno_in05.gat,196,102,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",169,102;
+L1:
+		warp "yuno_in05",128,82;
+L2:
+		warp "yuno_in05",156,141;
+}
+yuno_in05.gat,181,116,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",181,94;
+L1:
+		warp "yuno_in05",176,13;
+L2:
+		warp "yuno_in05",136,75;
+}
+yuno_in05.gat,165,102,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno < 50,L1,-;
+		warp "yuno_in05",192,102;
+L1:
+		warp "yuno_in05",145,82;
+}
+yuno_in05.gat,181,91,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno < 50,L1,-;
+		warp "yuno_in05",181,112;
+L1:
+		warp "yuno_in05",176,48;
+}
+yuno_in05.gat,148,82,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",169,102;
+L1:
+		warp "yuno_in05",128,82;
+L2:
+		warp "yuno_in05",156,141;
+}
+yuno_in05.gat,125,82,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno < 50,L1,-;
+		warp "yuno_in05",192,102;
+L1:
+		warp "yuno_in05",145,82;
+}
+yuno_in05.gat,136,71,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",181,112;
+L1:
+		warp "yuno_in05",16,185;
+L2:
+		warp "yuno_in05",176,48;
+}
+yuno_in05.gat,16,188,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",181,94;
+L1:
+		warp "yuno_in05",176,13;
+L2:
+		warp "yuno_in05",136,75;
+}
+yuno_in05.gat,176,9,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno < 50,L1,-;
+		warp "yuno_in05",181,112;
+L1:
+		warp "yuno_in05",176,48;
+}
+yuno_in05.gat,176,52,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",181,94;
+L1:
+		warp "yuno_in05",176,13;
+L2:
+		warp "yuno_in05",136,75;
+}
+yuno_in05.gat,40,178,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",181,94;
+L1:
+		warp "yuno_in05",176,13;
+L2:
+		warp "yuno_in05",136,75;
+}
+yuno_in05.gat,47,186,0	script "" 45,1,1,{
+	random @rdmwarp_yuno,100;
+	check @rdmwarp_yuno <= 33,L1,-;
+	check @rdmwarp_yuno <= 66,L2,-;
+		warp "yuno_in05",181,94;
+L1:
+		warp "yuno_in05",176,13;
+L2:
+		warp "yuno_in05",136,75;
+}

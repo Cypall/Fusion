@@ -1,0 +1,445 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Kunlun Town - Non Player Character Locations
+// - Translated by the RPG-Advocate.
+//
+// - Kunlun Ambassador -> alberta: 245,69
+//   Npc that can warp you to Kunlun.
+//
+// - Kunlun Ambassador -> gon_fild01: 255,79
+//   Npc that can warp you back to alberta.
+//
+// - Kunlun Ambassador -> gon_fild01: 187,239
+//   Npc that shows you the way.
+//
+// - Kunlun Ambassador -> gonryun: 153,64
+//   Npc that can warp you back to the Kunlun port.
+//
+// - Ryokan Priestess -> gonryun: 200,82
+//   Tells you their alcohol is sold out.
+//
+// - Chow Yun Fat -> gonryun: 200,82
+//   Talks about a festival.
+//
+// - Kuuhao -> gonryun: 173,27
+//   A kid that wants to know what alcohol tastes like.
+//
+// - Drunken Man -> gonryun: 165,16
+//   Dude that drank too much.
+//
+// - Girl -> gonryun: 139,142
+//   Tells you thera are more thieves here now.
+//
+// - Gate Guardian -> gonryun: 113,135
+//   Guards the mayors house.
+//
+// - Gate Guardian -> gonryun: 113,127
+//   Guards the mayors house.
+//
+// - Wife -> gon_in: 18,27
+//   Woman in mayors house.
+//
+// - Elder -> gon_in: 17,93
+//   The Elder of town Kunlun.
+//
+// - Chun Onsoku -> gonryun: 119,111
+//   Man that talks about the elder.
+//
+// - Strange Dude -> gonryun: 100,241
+//   Tells you to go away.
+//
+// - Lun Chinho -> gonryun: 268,88
+//   Says his people is blessed.
+//
+// - Chin Munjin -> gonryun: 181,161
+//   Talks about his son.
+//
+// - Han Yonkyuu -> gonryun: 237,225
+//   Someone that lost his knife.
+//
+// - Gi Sonchuru -> gon_in: 73,82
+//   Dude that is very worried.
+//
+// - Soldier -> gonryun: 166,196
+//   A soldier in front of the dungeon entrance.
+//
+// - Guide -> gonryun: 169,71
+//   A guide that tells you something about Kunlun.
+//
+//========================================================================================
+
+alberta.gat,245,69,4 script "Kunlun Ambassador" 776,{
+	mes "[Wabajo]";
+	mes "Good afternoon!";
+	mes "Want to go to Kunlun?";
+	mes "I'm delighted to see so many";
+	mes "people from Rune-Midgard";
+	mes "going there to experience the culture!";
+	next;
+	menu "Kunlun?",L_Gonryune,"Yeah, I want to go!",L_Go,"Perhaps another time",L_Another;
+      close;
+L_Gonryune:
+	mes "[Wabajo]";
+	mes "The village of Kunlun is the ultimate";
+	mes "tourist destination!";
+	mes "Suspended on a pillar of light,";
+	mes "our beautiful village floats in the clouds.";
+	next;
+	mes "[Wabajo]";
+	mes "While you're there, don't forget";
+	mes "to try our manjuu cakes and peaches,";
+	mes "Kunlun's specialty!";
+	next;
+	mes "[Wabajo]";
+	mes "Kunlun life isn't all peachy, though, so";
+	mes "you should prepare yourself for";
+	mes "possible danger.  There are places the";
+	mes "villagers know not to approach.";
+L_Another:
+	mes "[Wabajo]";	
+        mes "Oh, alright.  If you want";
+	mes "to go to Kunlun in the future,";
+	mes "then please come back.  I would";
+	mes "be pleased to guide you there.";
+	close;
+L_Go:
+	mes "[Wabajo]";
+	mes "It's ^0000ff10,000zeny^000000";
+	mes "for round-trip travel to and from";
+	mes "Kunlun.  Is that agreeable to";
+	mes "you?";
+	next;
+	menu "Sure thing!",L_Sure,"Well, it's kind of expensive...",L_Another;
+L_Sure:
+         check zeny >= 10000,-,L_Error; 
+         set zeny -= 10000;
+	   warp "gon_fild01",258,82;
+L_Error:
+	mes "[Wabajo]";
+	mes "Apologies, but I can't offer a discount.";
+	mes "Please make sure you have
+      mes "^0000ff 10,000zeny ^000000 and then return";
+	mes "here.";
+	close;
+}
+
+gon_fild01.gat,255,79,6	script "Kunlun Ambassador" 776,{
+	mes "[Wabajo]";
+	mes "Did you enjoy your stay in Kunlun?";
+	mes "Do you want to return to Alberta now?";
+	next;
+	menu "Back to Alberta",L_Yes,"I'll stay a little longer",L_No;
+L_Yes:
+	mes "[Wabajo]";
+	mes "Then let's go";
+	next;
+	warp "alberta",243,67;
+	close;
+L_No:
+	mes "[Wabajo]";
+	mes "Oh, no problem.";
+	mes "There's so much to see in Kunlun.";
+	mes "Please take your time and take";
+	mes "in all the sights.";
+	close;
+}
+
+gon_fild01.gat,187,239,4 script "Kunlun Ambassador" 776,{
+	mes "[Chou Seiryuu]";
+	mes "Hello, and welcome to Kunlun!";
+	mes "Please keep going this way to";
+	mes "get to Kunlun.";
+	mes "Enjoy your stay!";
+	close;
+}
+
+gonryun.gat,153,64,0 script "Kunlun Ambassador" 776,{
+	mes "[Chou Seiryuu]";
+	mes "How do you like Kunlun?";
+	mes "Are you enjoying yourself?";
+	mes "If you want to return home, I";
+	mes "can guide you to the port.";
+	next;
+	menu "Please do",L_Yes,"Not just yet",L_No;
+L_Yes:
+	mes "[Chou Seiryuu]";
+	mes "Please come back to Kunlun soon!";
+	next;
+	   warp "gon_fild01",258,82;
+	close;
+L_No:
+	mes "[Chou Seiryuu]";
+	mes "Oh, no problem.";
+	mes "There's so much to see in Kunlun.";
+	mes "Please take your time and take";
+	mes "in all the sights.";
+	close;
+}
+
+gon_in.gat,153,35,4 script "Ryokan Priestess" 702,{
+	mes "[Mayoban]";
+	mes "Oh!  A new face!";
+	mes "Did you come from a foreign land?";
+	mes "The number of guests has been increasing lately.";
+	mes "This boom in busines has left us";
+	mes "short-staffed.";
+	next;
+	mes "[Mayoban]";
+	mes "Oh!  My apologies.  I shouldn't";
+	mes "bore you with my problems.";
+	mes "How can I help you today?";
+	next;
+	menu "How about some alcohol",L_About,"Nothing",L_Nothing;
+L_About:
+	mes "[Mayoban]";
+	mes "Well, I'm sorry, but";
+	mes "due to the number of guests";
+	mes "we've had recently, our alcohol";
+	mes "supply is completely exhausted.";
+	mes "Perhaps later...";
+	close;
+L_Nothing:
+	mes "[Mayoban]";
+	mes "Oh, alright.";
+	mes "Please be safe on your journey.";
+	close;
+}
+
+gonryun.gat,200,82,3 script "Chow Yun Fat" 774,{
+	mes "[Chow Yun Fat]";
+	mes "Celebrations are the best,";
+	mes "That's why I love the merry";
+	mes "Festivals in in this village.";
+	close;
+}
+
+gon_in.gat,173,27,2 script "Kuuhao" 774,{
+	mes "[Kuuhao]";
+	mes "It's not fair!  They won't";
+	mes "sell me alcohol at the ryokan!";
+	mes "The adults who drink there won't";
+	mes "give me a sip, either!  What's the";
+	mes "big secret, anyway?";
+	next;
+	mes "[Kuuhao]";
+	mes "Instead, I have to drink this";
+	mes "second-rate tea.  Maybe if I";
+	mes "claim I'm doing taste-test";
+	mes "research, they'll fall for it";
+	mes "and give me a sip.";
+	close;
+}
+
+gon_in.gat,165,16,4 script "Drunken Man" 748,{
+	    emotion 19;
+	mes "[Solbun]";
+	mes "U-uuuuuuuuuuuuuu.";
+	mes "I drank waaaaay too much yesterday...";
+	mes "U-uuuuuuuuuuuuuu.";
+	close;
+}
+
+gonryun.gat,139,142,0 script "Girl" 772,{
+	mes "[Sanuyon]";
+	mes ".....";
+	mes "The increase in tourism is a good thing,";
+	mes "but with it comes apprehension about";
+	mes "thieves...";
+	close;
+}
+
+gonryun.gat,113,135,6 script "Gate Guardian" 780,{
+	mes "[Gate Guardian]";
+	mes "Welcome to Sayomun's manor.";
+	mes "Sayomun is the current ruler";
+	mes "of Kunlun.";
+	next;
+	mes "[Gate Guardian]";
+	mes "We generally trust you, but if";
+	mes "you act suspiciously, we will";
+	mes "intervene.";
+	next;
+	mes "[Gate Guardian]";
+	mes "Whoa.  That sounded harsh.";
+	mes "If you're a peaceful person, just";
+	mes "pretend we don't exist.";
+	close;
+}
+
+gonryun.gat,113,127,6 script "Gate Guardian" 780,{
+	mes "[Gate Guardian]";
+	mes "Welcome to Sayomun's manor.";
+	mes "Sayomun is the current ruler";
+	mes "of Kunlun.";
+	next;
+	mes "[Gate Guardian]";
+	mes "We generally trust you, but if";
+	mes "you act suspiciously, we will";
+	mes "intervene.";
+	next;
+	mes "[Gate Guardian]";
+	mes "Whoa.  That sounded harsh.";
+	mes "If you're a peaceful person, just";
+	mes "pretend we don't exist.";
+	close;
+}
+
+gon_in.gat,18,27,4 script "Wife" 771,{
+	mes "[Sangufuyon]";
+	mes "You're from a foreign land, eh?";
+	mes "What can I do for you?";
+	next;
+	menu "Just looking around",L_Look,"Where's the village elder?",L_Where;
+L_Look:
+	mes "[Sangufuyon]";
+	mes "Oh, you're quite welcome";
+	mes "to look around.  Time moves slowly";
+	mes "here in Kunlun, so please enjoy";
+	mes "what our quiet village has to offer.";
+	close;
+L_Where:
+	mes "[Sangufuyon]";
+	mes "Oh, the elder?  He's upstairs.";
+         check Gender = 1,-,L_Female;
+	mes "Please be respectful when you";
+	mes "talk to him.";
+	close;
+L_Female:
+	mes "You look nice and gentle,";
+	mes "But compared to me, you still have a way to go.";
+	mes "I hope you won't mind, hahahaha";
+	close;
+}
+
+gon_in.gat,17,93,4 script "Elder" 775,{
+	mes "[Sayomun]";
+	mes "Hmmmm.....";
+	mes ".........";
+	mes "Yes......";
+	next;
+	mes "[Sayomun]";
+	mes "A guest?  My name is Sayomun.";
+	mes "I'm the village elder.  Welcome";
+	mes "to Kunlun.";
+	next;
+	mes "[Sayomun]";
+	mes "Kunlun used to be a completely";
+	mes "insular town.  Recently, we";
+	mes "started a ferry service to bring";
+	mes "people here from Alberta.";
+	next;
+	mes "[Sayomun]";
+	mes "Response has been overwhelmingly";
+	mes "positive, but to be frank, I'm";
+	mes "concerned that we've allowed some";
+	mes "shady characters in as well.";
+	next;
+	mes "[Sayomun]";
+	mes "Will thieves destroy our happy society...?";
+	mes "We'll just have to learn to deal with them...";
+	close;
+}
+
+gonryun.gat,119,111,4 script "Chun Onsoku" 89,{
+	mes "[Chun Onsoku]";
+	mes "The village elder is";
+	mes "a really outgoing person,";
+	mes "but he seems a bit worried";
+	mes "lately.";
+	next;
+	mes "[Chun Onsoku]";
+	mes "If you win the elder's favor,";
+	mes "you win Kunlun's favor.";
+	mes "He's suspicious that thieves";
+	mes "are operating, though.";
+	close;
+}
+
+gonryun.gat,100,241,0 script "Strange Dude" 733,{
+	   emotion 9;
+	mes "[Sanso]";
+	mes "Grumble...";
+	mes "I'm busy!  Don't bother me!";
+	close;
+}
+
+gonryun.gat,268,88,4 script "Lun Chinho" 776,{
+	mes "[Lun Chinho]";
+	mes "As a people, we are blessed.";
+	mes "No enemy has been able to";
+	mes "conquer us.";
+	next;
+	mes "[Lun Chinho]";
+	mes "We believe in our strength";
+	mes "which will lead us to glory!";
+	close;
+}
+
+gonryun.gat,181,161,4 script "Chin Munjin" 773,{
+	mes "[Chin Munjin]";
+	mes "All the men of Kunlun";
+	mes "are blessed with strong";
+	mes "hearts and minds, but that makes";
+	mes "it tough to find someone who's available!";
+	next;
+	mes "[Chin Munjin]";
+	mes "I guess I should be thankful";
+	mes "that my son will be";
+	mes "certain to find someone great.";
+	close;
+}
+
+gonryun.gat,237,225,4 script "Han Yonkyuu" 776,{
+	mes "[Han Yonkyuu]";
+	mes "What the hell?!";
+	mes "I dropped my prize knife!";
+	mes "Oh no!";
+	close;
+}
+
+gonryun.gat,73,82,4 script "Gi Sonchuru" 778,{
+	mes "[Gi Sonchuru]";
+	mes "......";
+	next;
+	mes "[Gi Sonchuru]";
+	mes "Oh...";
+	mes "I'm worried.  I'm really worried...";
+	close;
+}
+
+gonryun.gat,166,196,4 script "Soldier" 780,{
+	mes "[Waguo]";
+	mes "Do you know what this is?";
+	mes "This used to be a sacred temple,";
+	mes "but it was cursed somehow and";
+	mes "became a monster lair.";
+	mes "The monsters have completely erased";
+	mes "its former splendor.";
+	close;
+}
+
+gonryun.gat,169,71,4 script "Guide" 770,{
+	mes "[Lee Shin Min]";
+	mes "Welcome,";
+	mes "Before going to the town,";
+	mes "did you take a look at the bottom of our town ?";
+	mes "We have built the buildings outside our town this";
+	mes "Time.";
+	next;
+	mes "[Lee Shin Min]";
+	mes "In order to see all of the";
+	mes "Kingdom of Rune Midgard";
+	mes "We made a really small model.";
+	mes "Because we were shut off to the";
+	mes "Outside world, although it's tiring";
+	mes "We put much effort into making it.";
+	next;
+	mes "[Lee Shin Min]";
+	mes "If you look everywhere, you";
+	mes "will find many beautiful scenery.";
+	close;
+}

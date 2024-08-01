@@ -1,0 +1,19 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Yggdrasil Warps - Warp Locations
+// - Original info by jathena
+//
+//========================================================================================
+
+um_dun02.gat,126,162,0		warp	yggdrasilwarp001	1,1,yggdrasil01.gat,39,63
+//yggdrasil01.gat,36,63,0	warp	yggdrasilwarp002	1,1,um_dun02.gat,126,147
+yggdrasil01.gat,270,52,0	warp	yggdrasilwarp003	1,1,yggdrasil01.gat,30,196
+yggdrasil01.gat,27,195,0	warp	yggdrasilwarp004	1,1,yggdrasil01.gat,267,56
+yggdrasil01.gat,248,259,0	warp	yggdrasilwarp005	1,1,nif_fild01.gat,315,67
+//nif_fild01.gat,315,63,0	warp	yggdrasilwarp006	1,1,yggdrasil01.gat,245,259
+
+

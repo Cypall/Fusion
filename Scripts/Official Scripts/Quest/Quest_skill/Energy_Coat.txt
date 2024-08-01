@@ -1,0 +1,168 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Energy Coat Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Great Magician -> geffen_in: 151,119
+//   Bring items to obtain skill. Applicable jobs are Mage, Wizard and Sage.
+//========================================================================================
+
+geffen_in.gat,151,119,4	script	"Great Magician"	64,{
+	mes "[Blizzardriss]";
+	mes "Yo! Fellow!";
+  	mes "If you are a magician, please take the ";
+  	mes "courage to seek the un-awakened";
+  	mes "power inside you!";
+	next;
+	menu "Magician's 'un-awakened' power?",L1,"About^3355FF' Energy Coat'^000000 !",L2,"End conversation",L3;
+L1:
+		mes "[Blizzardriss]";
+		mes "Since long time ago ";
+  		mes "ancient magic interests me ";
+  		mes "I researched them ";
+  		mes "up to recently";
+  		mes "when I discovered one very ancient";
+  		mes "yet powerful magic..";
+		next;
+		mes "[Blizzardriss]";
+		mes "It uses energy to coats";
+  		mes "one's body in a barrier that helps";
+  		mes "defend one from enemy attacks";
+  		mes "This magic is only known to those who ";
+  		mes "studied the arts of ancient spells";
+		next;
+		mes "[Blizzardriss]";
+		mes "However...I am the only one";
+  		mes "studying ancient spells";
+  		mes "Heavenly gifted and skilled person!";
+  		mes "Gyahahaha!!";
+		next;
+		mes "[Blizzardriss]";
+		mes "Ok ok, don't get too excited now ";
+  		mes "listen carefully now ";
+  		mes "This spell will cause the hidden";
+  		mes "potential of the person that casts it ";
+  		mes "to awaken, this is important!";
+		next;
+		mes "[Blizzardriss]";
+		mes "That's why the requirement is very complicated ";
+  		mes "First we need some ";
+  		mes "special items ";
+		next;
+		mes "[Blizzardriss]";
+		mes "3x ^3355FF Glass Beads^000000";
+  		mes "1x ^3355FF One Carat Diamond^000000";
+  		mes "5x ^3355FF Shells^000000";
+  		mes "1x ^3355FF Solid Shell^000000";
+  		mes "Please bring those items to me";
+		next;
+		mes "[Blizzardriss]";
+		mes "Furthermore ";
+  		mes "your body must be able to accept this spell";
+  		mes "This is to say, that you need to be at least Job Lvl 35 Magician ";
+  		mes "or a Wizard";
+		next;
+		mes "[Blizzardriss]";
+		mes "Wizard don't have Job Lvl problem ";
+  		mes "They can withstand the magic power";
+ 		mes "due to the amount of magic they frequently use ";
+ 		mes "they developed the willpower and training ";
+ 		mes "necessary to accept it";
+		next;
+		mes "[Blizzardriss]";
+		mes "With that said.";
+  		mes "I have told you what you need to know ";
+		close;
+L2:
+		check skill_mage = 1,L2_1,-;
+		check Job = 2,L2_0,-;
+		check Job = 9,L2_0a,-;
+		check Job = 16,L2_0a,-;
+		goto LStartOther;
+L2_0:
+		check JobLevel >= 35,-,L2_E;
+L2_0a:
+		checkitem 746,3,-,L2_E;
+		checkitem 730,1,-,L2_E;
+		checkitem 935,5,-,L2_E;
+		checkitem 943,1,-,L2_E;
+ 		mes "[Blizzardriss]";
+		mes "I will cast the spell ";
+  		mes "Call out your dormant power. . . . . .";
+  		mes ". . . . . .";
+  		mes ". . . . . . . . . . . . .";
+  		mes ". . . . . . . . . . . . . . . . . . . . . . . . . .";
+  		next;
+  		mes "[Blizzardriss]";
+ 		mes "Oh Ancient Arcane Magicians";
+ 		mes "Here in front of you stands a new brother";
+ 		mes "whom desires to acquire magic powerful enough ";
+ 		mes "to break sword and arrows";
+ 		mes "He had come to ask..";
+  		next;
+  		mes "[Blizzardriss]";
+  		mes "Please awaken and rise";
+  		mes "his dormant power to its fullest potential. . . . . .";
+  		mes "Aetepitae~fospitae ";
+  		mes "Manapitae~Maeteomen ";
+  		mes ". . . . . . . . . . . .";
+  		mes "Energy Coat!!";
+		next;
+		delitem 746,3;
+		delitem 730,1;
+		delitem 935,5;
+		delitem 943,1;
+ 		set skill_mage = 1;
+		setskilllevel 0x9D,1;
+ 		mes "[Blizzardriss]";
+		mes ". . . . .";
+  		mes "Now you can use ";
+  		mes "your skill to cast ";
+  		mes "^3355FF'Energy Coat'^000000";
+  		mes "to defend yourself";
+  		mes "from enemy attack";
+ 		next;
+  		mes "[Blizzardriss]";
+  		mes "Please, use this spell";
+  		mes "with honor for the ancient magicians";
+  		mes "and use it where it is right ";
+		close;
+L2_1:
+		setskilllevel 0x9D,1;
+ 		mes "[Blizzardriss]";
+		mes "You already possess ";
+  		mes "energy coat spell and";
+  		mes "are able to cast it";
+  		mes "I don't have anything else";
+  		mes "to give to you..";
+		close;
+L2_E:
+ 		mes "[Blizzardriss]";
+		mes "Aiya~~!!";
+    		mes "Did you listen to what I said!";
+    		mes "You haven't fulfill all the ";
+   		mes "requirements to 'awaken' your power ";
+    		mes "Please be more serious!";
+    		next;
+    		mes "[Blizzardriss]";
+    		mes "If you want to listen one more time ";
+    		mes "please ask me one more time ";
+    		mes "concerning 'Magician's un-awakened' power?'";
+    		mes "I'll explain to you again..";
+		close;
+L3:
+		mes "[Blizzardriss]";
+		mes "Yes, you're a wise man, you shouldn't be in rush! ";
+  		mes "When you're ready ";
+  		mes "just come here anytime";
+		close;
+LStartOther:
+	mes "I'm a Wizard, I deal in MAGIC.";
+	mes "Do not ask to seek knowledge that you can never understand!";
+	close;
+}

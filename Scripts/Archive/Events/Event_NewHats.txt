@@ -1,0 +1,376 @@
+//---------------------------------------------------------------------------------------- 
+// Event_NewHats.txt Series NPC - From Weiss, created by RedxSwordxHero 
+// eWeiss Project 2003 - http://weiss.kittyloaf.net 
+//----------------------------------------------------------------------------------------
+
+//prontera.gat,140,172,5      script       "Zac"       704,{
+	mes "[Zac]";
+	mes "I am the oldest and strongest of the 4 brothers that makes all the newer hats.";
+	mes "You will need to bring me the correct items for each hat so I can make them."
+	next;
+	mes "I provide 8 hats and my brothers provides the other 24.";
+	next;
+	menu "Join",L1,"Information",L2,"Cancel",L3;
+L1:	
+	mes "[Zac]";
+	mes "What hat do you want me to make?";
+	next;
+	menu "Angel Helm",L1_1,"Apple Hat",L1_2,"Blue Bandana",L1_3,"Bongun Hat",L1_4,"Cake Hat",L1_5,"Candle Hat",L1_6,"Chef's Hat",L1_7,"Colored Egg Shell",L1_8;
+		L1_1:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 2254,1,-,L_ITEM_1;
+			checkitem 2229,1,-,L_ITEM_2;
+			checkitem 7036,5,-,L_ITEM_3;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Angel Helm for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 2254,1;
+			delitem 2229,1;
+			delitem 7036,5;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Angel Helm^000000...! Please Take it!";
+			additem 5025,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Angel Wing...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Slotted Helm...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 5 Fangs of Hatii...";
+			close;
+		L1_2:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 748,1,-,L_ITEM_1;
+			checkitem 512,100,-,L_ITEM_2;
+			checkitem 2285,1,-,L_ITEM_3;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Apple Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 748,1;
+			delitem 512,100;
+			delitem 2285,1;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Apple Hat^000000...! Please Take it!";
+			additem 5037,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Witherless Rose...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 100 Apple...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Apple O Archer...";
+			close;
+		L1_3:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 7003,300,-,L_ITEM_1;
+			checkitem 2211,1,-,L_ITEM_2;
+			checkitem 978,1,-,L_ITEM_3;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Blue Bandana for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 7003,300;
+			delitem 2211,1;
+			delitem 978,1;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Blue Bandana^000000...! Please Take it!";
+			additem 5052,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 300 Anolian Skin...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Bandana...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Cobaltblue Dyestuff...";
+			close;
+		L1_4:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 609,100,-,L_ITEM_1;
+			checkitem 978,1,-,L_ITEM_2;
+			checkitem 2264,1,-,L_ITEM_3;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Bongun Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 609,100;
+			delitem 978,1;
+			delitem 2264,1;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Bongun Hat^000000...! Please Take it!";
+			additem 5046,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 100 Amulet...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Cobaltblue Dyestuff...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Munak Hat...";
+			close;
+		L1_5:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 529,10,-,L_ITEM_1;
+			checkitem 530,5,-,L_ITEM_2;
+			checkitem 538,15,-,L_ITEM_3;
+			checkitem 539,20,-,L_ITEM_4;
+			checkitem 999,10,-,L_ITEM_5;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Cake Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 529,10;
+			delitem 530,5;
+			delitem 538,15;
+			delitem 539,20;
+			delitem 999,10;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Cake Hat^000000...! Please Take it!";
+			additem 5024,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 10 Candy...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 5 Candy Cane...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 15 Well Baked Cookie...";
+			close;
+		L_ITEM_4:
+			mes "[Zac]";
+			mes "Oh, dear. You need 20 Piece of Cake...";
+			close;
+		L_ITEM_5:
+			mes "[Zac]";
+			mes "Oh, dear. You need 10 Steel...";
+			close;
+		L1_6:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 2279,1,-,L_ITEM_1;
+			checkitem 518,100,-,L_ITEM_2;
+			checkitem 7035,50,-,L_ITEM_3;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Candle Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 2279,1;
+			delitem 518,100;
+			delitem 7035,50;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Candle Hat^000000...! Please Take it!";
+			additem 5028,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Bomb Wick...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 100 Honey...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 50 MatchStick...";
+			close;
+		L1_7:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 539,120,-,L_ITEM_1;
+			checkitem 1036,450,-,L_ITEM_2;
+			checkitem 982,1,-,L_ITEM_3;
+			checkitem 949,330,-,L_ITEM_4;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Chef's Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 539,120;
+			delitem 1036,450;
+			delitem 982,1;
+			delitem 949,330;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Chef's Hat^000000...! Please Take it!";
+			additem 5026,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 120 Piece of Cake...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 450 Dragon Scale...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 White Dyestuff...";
+			close;
+		L_ITEM_4:
+			mes "[Zac]";
+			mes "Oh, dear. You need 330 Feather...";
+			close;
+		L1_8:
+			mes "[Zac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 5015,1,-,L_ITEM_1;
+			checkitem 978,1,-,L_ITEM_2;
+			checkitem 7030,50,-,L_ITEM_3;
+			mes "[Zac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Colored Egg Shell for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 5015,1;
+			delitem 978,1;
+			delitem 7030,50;	
+			mes "[Zac]";
+			mes "Tah Dah!!!^FF0000Colored Egg Shell^000000...! Please Take it!";
+			additem 5039,1;
+			next;
+			mes "[Zac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Egg Shell...";
+			close;
+		L_ITEM_2:
+			mes "[Zac]";
+			mes "Oh, dear. You need 1 Cobaltblue Dyestuff...";
+			close;
+		L_ITEM_3:
+			mes "[Zac]";
+			mes "Oh, dear. You need 50 Claw of Desert Wolf...";
+			close;
+L2:	
+	mes "[Zac]";
+	mes "Which hat materials do you wish to know?";
+	next;
+	menu "Angel Helm",L2_1,"Apple Hat",L2_2,"Blue Bandana",L2_3,"Bongun Hat", L2_4,"Cake Hat",L2_5,"Candle Hat",L2_6,"Chef's Hat",L2_7,"Colored Egg Shell",L2_8;
+		L2_1:
+			mes "[Zac]";
+			mes "You need 1 Angel Wing,";
+			mes "1 Slotted Helm and 5 Fangs of Hatii";			
+			mes "for Angel Helm.";
+			close;
+		L2_2:
+			mes "[Zac]";
+			mes "You need 1 Witherless Rose,";
+			mes "100 Apples and 1 Apple O Archer";			
+			mes "for Apple Hat.";
+			close;
+		L2_3:
+			mes "[Zac]";
+			mes "You need 300 Anolian Skin,";
+			mes "1 Bandana and 1 Cobaltblue Dyestuff";			
+			mes "for Blue Bandana.";
+			close;
+		L2_4:
+			mes "[Zac]";
+			mes "You need 100 Amulet,";
+			mes "1 Cobaltblue Dyestuff and 1 Munak Hat";			
+			mes "for Bongun Hat.";
+			close;
+		L2_5:
+			mes "[Zac]";
+			mes "You need 10 Candy, 5 Candy Cane,";
+			mes "15 Well Baked Cookie, 20 Piece Of Cake and 10 Steel";			
+			mes "for Cake Hat.";
+			close;
+		L2_6:
+			mes "[Zac]";
+			mes "You need 1 Bomb Wick";
+			mes "100 Honey and 50 Matchstick";			
+			mes "for Candle Hat.";
+			close;
+		L2_7:
+			mes "[Zac]";
+			mes "You need 120 Piece of Cake, 450 Dragon Scale,";
+			mes "1 White Dyestuff and 330 Feather";			
+			mes "for Chef's Hat.";
+			close;
+		L2_8:
+			mes "[Zac]";
+			mes "You need 1 Egg Shell,";
+			mes "1 Cobaltblue Dyestuff and 50 Claw of Desert Wolf";			
+			mes "for Colored Egg Shell.";
+			close;		
+L3:
+			mes "[Zac]";
+			mes "Stop by some other time";
+			mes "with the right materials";			
+			mes "so I can make the hats for you.";
+			close;
+}

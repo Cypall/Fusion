@@ -1,0 +1,283 @@
+c_tower1.gat,200,157,0	warp	ald003	1,1,aldebaran.gat,139,131
+c_tower1.gat,235,226,0	warp	clt001	1,1,c_tower2.gat,268,26
+c_tower1.gat,123,22,0	warp	clt002	1,1,alde_dun01.gat,297,25
+c_tower2.gat,142,283,0	warp	clt003	1,1,c_tower3.gat,65,147
+c_tower2.gat,24,24,0	warp	clt004	1,1,alde_dun03.gat,277,178
+c_tower2.gat,273,26,0	warp	clt005	1,1,c_tower1.gat,235,223
+//random 2-1
+//warp clt006r
+c_tower2.gat,13,288,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 33,w1,-;
+	check @warp <= 66,w2,w3;
+w1:
+	warp "c_tower2",13,282;
+	return;
+w2:
+	warp "alde_dun03",175,131;
+	return;
+w3:
+	warp "c_tower3",235,7;
+	return;
+}
+//random 2-2
+//warp clt007r
+c_tower2.gat,233,267,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 33,w1,-;
+	check @warp <= 66,w2,w3;
+	w1:
+		warp "c_tower2",288,267;
+		return;
+	w2:
+		warp "alde_dun03",130,130;
+		return;
+	w3:
+		warp "c_tower3",252,29;
+		return;
+}
+//npc
+//c_tower3.gat,10,249,4	script	clt008N	723,{
+//	warp "c_tower4",189,30; end;
+//}
+c_tower3.gat,60,147,0	warp	clt009	1,1,c_tower2.gat,148,283
+c_tower3.gat,212,159,0	warp	clt010	1,1,alde_dun03.gat,276,53
+c_tower3.gat,7,39,0	warp	clt011	1,1,alde_dun01.gat,171,158
+c_tower3.gat,42,41,0	warp	clt012	1,1,alde_dun02.gat,127,169
+c_tower3.gat,146,8,0	warp	clt013	1,1,c_tower1.gat,235,223
+//random3-1
+//warp clt014r
+c_tower3.gat,163,252,0	script	""	45,1,1,{
+	random @warp,50;
+	check @warp <= 25,w1,w2;
+w1:
+	warp "c_tower3",168,252;
+	return;
+w2:
+	warp "alde_dun02",262,41;
+	return;
+}
+//random3-2
+//warp clt015r
+c_tower3.gat,240,7,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 33,w1,-;
+	check @warp <= 66,w2,w3;
+w1:
+	warp "c_tower2",13,282;
+	return;
+w2:
+	warp "alde_dun03",175,131;
+	return;
+w3:
+	warp "c_tower3",235,7;
+	return;
+}
+//random3-3
+//warp clt016r
+c_tower3.gat,252,24,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 33,w1,-;
+	check @warp <= 66,w2,w3;
+w1:
+	warp "c_tower2",228,267;
+	return;
+w2:
+	warp "alde_dun03",130,130;
+	return;
+w3:
+	warp "c_tower3",252,29;
+	return;
+}
+c_tower4.gat,37,70,0	warp	clt017	1,1,alde_dun03.gat,277,54
+c_tower4.gat,51,156,0	warp	clt018	1,1,alde_dun01.gat,171,158
+c_tower4.gat,68,46,0	warp	clt019	1,1,c_tower4.gat,73,154
+c_tower4.gat,70,19,0	warp	clt020	2,2,c_tower3.gat,151,8
+c_tower4.gat,79,49,0	warp	clt021	2,2,c_tower4.gat,204,60
+c_tower4.gat,133,202,0	warp	clt022	1,1,c_tower4.gat,140,149
+c_tower4.gat,153,107,0	warp	clt023	1,1,c_tower2.gat,228,267
+c_tower4.gat,171,179,0	warp	clt024	1,1,alde_dun03.gat,276,53
+c_tower4.gat,198,59,0	warp	clt025	1,1,c_tower4.gat,152,98
+c_tower4.gat,204,57,0	warp	clt026	1,1,c_tower4.gat,65,77
+//random4-1
+//warp clt027r
+c_tower4.gat,75,156,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4
+w1:
+	warp "c_tower3",168,252;
+	return;
+w2:
+	warp "alde_dun02",262,41;
+	return;
+w3:
+	warp "c_tower4",73,154;
+	return;
+w4:
+	warp "c_tower4",140,149;
+	return;
+}
+//random4-2
+//warp clt028r
+c_tower4.gat,68,79,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4
+w1:
+	warp "c_tower2",13,282;
+	return;
+w2:
+	warp "alde_dun03",175,131;
+	return;
+w3:
+	warp "c_tower3",235,7;
+	return;
+w4:
+	warp "c_tower4",65,77;
+	return;
+}
+//random4-3
+//warp clt029r
+c_tower4.gat,142,151,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4
+w1:
+	warp "c_tower3",168,252;
+	return;
+w2:
+	warp "alde_dun02",262,41;
+	return;
+w3:
+	warp "c_tower4",73,154;
+	return;
+w4:
+	warp "c_tower4",140,149;
+	return;
+}
+//random4-4
+//warp clt030r
+c_tower4.gat,151,96,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4
+w1:
+	warp "c_tower2",228,267;
+	return;
+w2:
+	warp "alde_dun03",130,130;
+	return;
+w3:
+	warp "c_tower3",252,29;
+	return;
+w4:
+	warp "c_tower4",152,95;
+	return;
+}
+//random4-5
+//warp clt031r
+c_tower4.gat,189,40,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4
+w1:
+	warp "c_tower2",228,267;
+	return;
+w2:
+	warp "alde_dun03",130,130;
+	return;
+w3:
+	warp "c_tower3",252,29;
+	return;
+w4:
+	warp "c_tower4",152,95;
+	return;
+}
+alde_dun01.gat,292,306,0	warp	aldd01	2,1,alde_dun02.gat,43,24
+alde_dun01.gat,167,158,0	warp	ald002	2,2,c_tower2.gat,148,283
+alde_dun01.gat,302,25,0	warp	ald003	2,2,c_tower1.gat,125,22
+alde_dun02.gat,43,20,0	warp	aldd04	1,1,alde_dun01.gat,292,300
+alde_dun02.gat,279,250,0	warp	aldd05	2,2,alde_dun03.gat,18,267
+alde_dun02.gat,122,169,0	warp	ald006	2,2,c_tower3.gat,47,41
+alde_dun02.gat,187,234,0	warp	ald007	2,2,c_tower3.gat,65,147
+//randomB2
+//warp clt008r
+alde_dun02.gat,267,41,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp < 50,w1,w2;
+w1:
+	warp "c_tower3",168,252;
+	return;
+w2:
+	warp "alde_dun02",262,141;
+	return;
+}
+alde_dun03.gat,12,267,0	warp	aldd09	2,2,alde_dun02.gat,273,250
+alde_dun03.gat,277,183,0	warp	ald010	2,2,c_tower2.gat,27,27
+alde_dun03.gat,191,31,0	warp	ald011	2,2,c_tower3.gat,217,159
+alde_dun03.gat,276,48,0	warp	ald012	2,2,c_tower1.gat,235,223
+//7(npc)
+//alde_dun03.gat,264,16,0	warp	aldd13	2,2,alde_dun04.gat,80,268
+//randomB3-1
+//warp clt014r
+alde_dun03.gat,130,125,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 33,w1,-;
+	check @warp <= 66,w2,w3;
+w1:
+	warp "c_tower2",228,267;
+	return;
+w2:
+	warp "alde_dun03",130,130;
+	return;
+w3:
+	warp "c_tower3",252,29;
+	return;
+}
+//random3-2
+//warp clt015r
+alde_dun03.gat,171,127,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 33,w1,-;
+	check @warp <= 66,w2,w3;
+w1:
+	warp "c_tower2",13,282;
+	return;
+w2:
+	warp "alde_dun03",175,131;
+	return;
+w3:
+	warp "c_tower3",235,7;
+	return;
+}
+alde_dun04.gat,80,273,0	warp	aldd016	2,2,alde_dun03.gat,263,26
+alde_dun04.gat,207,225,0	warp	ald017	1,1,c_tower3.gat,7,34
+alde_dun04.gat,215,192,0	warp	ald018	1,1,c_tower2.gat,148,283
+alde_dun04.gat,32,74,0	warp	aldd19	1,1,alde_dun02.gat,187,239
+alde_dun04.gat,208,58,0	warp	aldd20	2,2,alde_dun04.gat,268,74
+alde_dun04.gat,272,74,0	warp	aldd021	2,2,alde_dun04.gat,204,62
+//warp clt022r
+alde_dun04.gat,80,34,0	script	""	45,1,1,{
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4
+w1:
+	warp "c_tower2",13,282;
+	return;
+w2:
+	warp "alde_dun03",175,131;
+	return;
+w3:
+	warp "c_tower3",235,7;
+	return;
+w4:
+	warp "alde_dun04",84,36;
+	return;
+}

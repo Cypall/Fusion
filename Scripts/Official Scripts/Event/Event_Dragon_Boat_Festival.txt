@@ -1,0 +1,135 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Dragon Boat Festival Event - Non Player Character Locations
+//
+// - Master Fahae -> payon: 125,35
+//   Exorcist npc that sells Realgar Wine and Exorsize Herbs.
+//
+//========================================================================================
+
+payon.gat,125,35,4 script "Master Fahae" 834,{
+	mes "[Exorcist Master Fahae]";
+      mes "Uhoh... what a disaster.";
+      mes "As you can see, the Dragon Boat";
+      mes "Festival is approaching.";
+      mes "However, the White Serpent and the";
+      mes "Green Serpent that were vanquised";
+      mes "have returned to threaten the peace";
+      mes "of man kind.";
+      next;
+	mes "[Exorcist Master Fahae]";
+      mes "I was hoping that I can vanquish";
+      mes "them all by myself.";
+      mes "But that seems impossible now.";
+      mes "This time, they return with so many";
+      mes "clones and minions.";
+      next;
+	mes "[Exorcist Master Fahae]";
+      mes "So I choose to pass my power to";
+      mes "other people and let them handle";
+      mes "the problem.";
+      mes "I will use my energy to produce two";
+      mes "medicine and distribute this";
+      mes "medicine to them.";
+      mes "I am hoping for the best for";
+      mes "them."; 
+      next;
+	mes "[Exorcist Master Fahae]";
+      mes "I figure I should provide them the";
+      mes "medicine for free.";
+      mes "But I think I should atleat get";
+      mes "paid for the ingredients,";
+      mes "so that I will be able to create";
+      mes "more of it for others.";
+      mes "Choose the one you need from the";
+      mes "two medicines.";
+      next; 
+      menu "Realgar Wine 15000zeny",L_Wine,"Exorcize Herb 30000zeny",L_Herb,"Cancel",L_Cancel;
+L_Wine:
+	mes "[Exorcist Master Fahae]";
+      mes "Realgar Wine increases the attack";
+      mes "power for a period of time.";
+      mes "How many do you need?";
+	next;
+         set @Price = 15000;
+         set @ItemID = 682;
+	goto L_InputW;
+L_Herb:
+	mes "[Exorcist Master Fahae]";
+      mes "Exorcize Herbs increases magic power";
+      mes "for a period of time.";
+      mes "How many do you want?";
+	next;
+         set @Price = 30000;
+         set @ItemID = 683;
+	goto L_InputH;
+L_Cancel:
+	mes "[Exorcist Master Fahae]";
+      mes "The deal is cancelled.";
+      mes "Please considder carefully before";
+      mes "you come.";
+      close;
+L_Nozeny:
+	mes "[Exorcist Master Fahae]";
+      mes "I'm sorry...";
+      mes "You don't have enough money.";
+      mes "I have to say so because others";
+      mes "might need help too.";
+      mes "Please forgive me.";
+      close;
+L_Think:
+	mes "[Exorcist Master Fahae]";
+      mes "Please think carefully. The effect";
+      mes "of the medicine is very powerfull.";
+      mes "So it's better to buy the";
+      mes "sufficient quantity.";
+      close;
+L_InputW:
+         input @num;
+         check @num = 0,L_Cancel,-;
+	mes "[Exorcist Master Fahae]";
+      mes "So you need $[@num] Realgar Wine?";
+      mes "It's very effective you know...";
+      mes "Are you sure you need that much?";
+      next;
+	menu "Yes",-,"Let me think again",L_Think;
+         set @PriceT = @Price;
+         set @PriceT * @num;
+         check Zeny < @PriceT,L_Nozeny,-;
+	mes "[Exorcist Master Fahae]";
+      mes "I hope that we will be able to";
+      mes "vanquish the monsters with Realgar";
+      mes "Wine once and for all this time.";
+      mes "I hope this will help you.";
+         set Zeny - @PriceT;
+         additem @ItemID,@num;
+      mes "Please come again if you need";
+      mes "more.";
+	close;
+L_InputH:
+         input @num;
+         check @num = 0,L_Cancel,-;
+	mes "[Exorcist Master Fahae]";
+      mes "So you need $[@num] Exorcize Herbs?";
+      mes "It's very effective you know...";
+      mes "Are you sure you need that much?";
+      next;
+	menu "Yes",-,"Let me think again",L_Think;
+         set @PriceT = @Price;
+         set @PriceT * @num;
+         check Zeny < @PriceT,L_Nozeny,-;
+	mes "[Exorcist Master Fahae]";
+      mes "I hope that we will be able to";
+      mes "vanquish the monsters with Exorcize";
+      mes "Herb once and for all this time.";
+      mes "I hope this will help you.";
+         set Zeny - @PriceT;
+         additem @ItemID,@num;
+      mes "Please come again if you need";
+      mes "more.";
+	close;
+}

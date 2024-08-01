@@ -1,0 +1,466 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Bunny Band Quest - Non Player Character Locations
+//
+// - Kafra Employee -> alberta: 26,229
+//   Give informations and make Bunny Band.
+//
+//   DISABLED NPC's.  Disabled due to kRO patch.
+//   Remove // in front of the script header to reactivate
+//
+// - Kafra Employee -> prontera: 146,87
+//   Give informations and make Bunny Band.
+//
+// - Kafra Employee -> geffen: 116,62
+//   Give informations and make Bunny Band.
+//
+// - Kafra Employee -> morocc: 154,97
+//   Give informations and make Bunny Band.
+//
+// - Kafra Employee -> payon: 97,116
+//   Give informations and make Bunny Band.
+//
+//========================================================================================
+
+alberta.gat,26,229,0 script "Kafra Employee" 83,{
+	   check KAFRA_XMAS == 0,-,L_START_1;
+	mes "[Kafra]";
+	mes "^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+	goto L_START_2;
+L_START_1:
+	mes "[Kafra]";
+	mes "^529DFFWelcome back! Do you wish to take part in the ^FF0000Bunny Band ^529DFFquest?^000000";
+L_START_2:
+	next;
+	menu "Join.",-,"Information.",L_MENU_1,"Cancel.",L_MENU_2;
+	   check KAFRA_XMAS == 0,-,L_SUB_1;
+	   set KAFRA_XMAS = 1;
+	mes "[Kafra]";
+	mes "Thank you for joining us!";
+	mes "Please come back after gathering all items for a Bunny Band!";
+	close;
+L_SUB_1:
+	mes "[Kafra]";
+	mes "Let me check the Items you have brought here.";
+	next;
+	   checkitem 949,100,-,L_ITEM_1;
+	   checkitem 706,1,-,L_ITEM_2;
+	   checkitem 722,1,-,L_ITEM_3;
+	   checkitem 2213,1,-,L_ITEM_4;
+	mes "[Kafra]";
+	mes "Wow!! Well done! Finally you have gathered all items needed!!";
+	mes "We will make the Bunny Band for you right away.";
+	   emotion 21;
+	next;
+	mes "[Kafra]";
+	mes "Please wait a moment.";
+	next;
+	   delitem 949,100;
+	   delitem 706,1;
+	   delitem 722,1;
+	   delitem 2213,1;
+	mes "[Kafra]";
+	mes "Tah Dah!!!^FF0000Bunny Band^000000...! Please Take it!";
+	   additem 2214,1;
+	   set KAFRA_XMAS = 0;
+	next;
+	mes "[Kafra]";
+	mes "We appreciate it so much that you joined our festival, and we promise you that we will serve you as well as we can.";
+	mes "Thank you.";
+	close;
+L_ITEM_1:
+	mes "[Kafra]";
+	mes "Oh, dear. You need more than 100 Feather...";
+	close;
+L_ITEM_2:
+	mes "[Kafra]";
+	mes "Oh, dear. You need at least 1 Four Leaf Clover...";
+	close;
+L_ITEM_3:
+	mes "[Kafra]";
+	mes "Oh, dear. You need at least 1 Pearl...";
+	close;
+L_ITEM_4:
+	mes "[Kafra]";
+	mes "Oh, dear. You need at least 1 kitty Band...";
+	close;
+L_MENU_1:
+	mes "[Kafra]";
+	mes "We opened this event for your great attention.";
+	next;
+	mes "[Kafra]";
+	mes "So-Called, ^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+	mes "This is the event for players to make ^FF0000Bunny Band^000000, the ultra-rare item with Kafra Warehouse Corp.";
+	mes "(Aid: Alberta Merchant Guild)";
+	next;
+	mes "[Kafra]";
+	mes "This event is progressed by players, when you gather all items needed for a Bunny Band and bring them to Kafra,";
+	mes "Staff in charge will make the Bunny Band promptly.";
+	mes "This next list will show you which items are needed for a Bunny Band.";
+	next;
+	mes "[Kafra]";
+	mes "100 Feather.";
+	mes "1 Four Leaf Clover.";
+	mes "1 Pearl.";
+	mes "1 Kitty Band.";
+	next;
+	mes "[Kafra]";
+	mes "Please Come back after gathering all the items.";
+	mes "I'll keep my fingers crossed for you.";
+	close;
+L_MENU_2:
+	close;
+}
+
+//DISABLED NPCs START HERE
+//prontera.gat,146,87,6	script	"Kafra Employee"	83,{
+	check KAFRA_XMAS == 0,-,L_START_1;
+		mes "[Kafra]";
+		mes "^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+		goto L_START_2;
+	L_START_1:
+		mes "[Kafra]";
+		mes "^529DFFWelcome back! Do you wish to take part in the ^FF0000Bunny Band ^529DFFquest?^000000";
+	L_START_2:
+		next;
+		menu "Join.",-,"Information.",L_MENU_1,"Cancel.",L_MENU_2;
+			check KAFRA_XMAS == 0,-,L_SUB_1;
+				set KAFRA_XMAS = 1;
+				mes "[Kafra]";
+				mes "Thank you for joining us!";
+				mes "Please come back after gathering all items for a Bunny Band!";
+				close;
+			L_SUB_1:
+				mes "[Kafra]";
+				mes "Let me check the items you have brought here.";
+				next;
+				checkitem 949,100,-,L_ITEM_1;
+				checkitem 706,1,-,L_ITEM_2;
+				checkitem 722,1,-,L_ITEM_3;
+				checkitem 2213,1,-,L_ITEM_4;
+					mes "[Kafra]";
+					mes "Wow!! Well done! Finally you have gathered all items needed!";
+					mes "We will make the Bunny Band for you right away.";
+					mes "Please Wait a Moment.";
+   					next;
+					delitem 949,100;
+					delitem 706,1;
+					delitem 722,1;
+					delitem 2213,1;
+					mes "[Kafra]";
+					mes "Tah Dah!!!^FF0000Bunny Band^000000...! Please Take it!";
+					additem 2214,1;
+					set KAFRA_XMAS = 0;
+					next;
+					mes "[Kafra]";
+					mes "We appreciate it so much that you joined our festival, and we promise you that we will serve you as well as we can.";
+					mes "Thank you.";
+					close;
+				L_ITEM_1:
+					mes "[Kafra]";
+					mes "Oh, dear. You need more than 100 Feather...";
+					close;
+				L_ITEM_2:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 Four Leaf Clover...";
+					close;
+				L_ITEM_3:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 Pearl...";
+					close;
+				L_ITEM_4:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 kitty Band...";
+					close;
+		L_MENU_1:
+			mes "[Kafra]";
+			mes "We opened this event for your great attention.";
+			next;
+			mes "[Kafra]";
+			mes "So-Called, ^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+			mes "This is the event for players to make ^FF0000Bunny Band^000000, the ultra-rare item with Kafra Warehouse Corp.";
+			mes "(Aid: Alberta Merchant Guild)";
+			next;
+			mes "[Kafra]";
+			mes "This event is progressed by players, when you gather all items needed for a Bunny Band and bring them to Kafra,";
+			mes "Staff in charge will make the Bunny Band promptly.";
+			mes "This next list will show you which Items are needed for a Bunny Band.";
+			next;
+			mes "[Kafra]";
+			mes "100 Feather.";
+			mes "1 Four Leaf Clover.";
+			mes "1 Pearl.";
+			mes "1 Kitty Band.";
+			next;
+			mes "[Kafra]";
+			mes "Please come back after gathering all the items.";
+			mes "I'll keep my fingers crossed for you.";
+			close;
+		L_MENU_2:
+			close;
+}
+
+//geffen.gat,116,62,2	script	"Kafra Employee"	83,{
+	check KAFRA_XMAS == 0,-,L_START_1;
+		mes "[Kafra]";
+		mes "^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+		goto L_START_2;
+	L_START_1:
+		mes "[Kafra]";
+		mes "^529DFFWelcome back! Do you wish to take part in the ^FF0000Bunny Band ^529DFFquest?^000000";
+	L_START_2:
+		next;
+		menu "Join.",-,"Information.",L_MENU_1,"Cancel.",L_MENU_2;
+			check KAFRA_XMAS == 0,-,L_SUB_1;
+				set KAFRA_XMAS = 1;
+				mes "[Kafra]";
+				mes "Thank you for joining us!";
+				mes "Please come back after gathering all items for a Bunny Band!";
+				close;
+			L_SUB_1:
+				mes "[Kafra]";
+				mes "Let me check the items you have brought here.";
+				next;
+				checkitem 949,100,-,L_ITEM_1;
+				checkitem 706,1,-,L_ITEM_2;
+				checkitem 722,1,-,L_ITEM_3;
+				checkitem 2213,1,-,L_ITEM_4;
+					mes "[Kafra]";
+					mes "Wow!! Well done! Finally you have gathered all items needed!";
+					mes "We will make the Bunny Band for you right away.";
+					mes "Please wait a moment.";
+		   			next;
+					delitem 949,100;
+					delitem 706,1;
+					delitem 722,1;
+					delitem 2213,1;
+					mes "[Kafra]";
+					mes "Tah Dah!!!^FF0000Bunny Band^000000...! Please Take it!";
+					additem 2214,1;
+					set KAFRA_XMAS = 0;
+					next;
+					mes "[Kafra]";
+					mes "We appreciate so much that you joined our festival, and we promise you that we will serve you as well as we can.";
+					mes "Thank you.";
+					close;
+				L_ITEM_1:
+					mes "[Kafra]";
+					mes "Oh, dear. You need more than 100 Feather...";
+					close;
+				L_ITEM_2:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 Four Leaf Clover...";
+					close;
+				L_ITEM_3:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 Pearl...";
+					close;
+				L_ITEM_4:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 kitty Band...";
+					close;
+		L_MENU_1:
+			mes "[Kafra]";
+			mes "We opened this Event for your great attention.";
+			next;
+			mes "[Kafra]";
+			mes "So-Called, ^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+			mes "This is the event for players to make ^FF0000Bunny Band^000000, the ultra-rare item with Kafra Warehouse Corp.";
+			mes "(Aid: Alberta Merchant Guild)";
+			next;
+			mes "[Kafra]";
+			mes "This event is progressed by players, when you gather all items needed for a Bunny Band and bring them to Kafra,";
+			mes "Staff in charge will make the Bunny Band promptly.";
+			mes "This next List will show you which items are needed for a Bunny Band.";
+			next;
+			mes "[Kafra]";
+			mes "100 Feather.";
+			mes "1 Four Leaf Clover.";
+			mes "1 Pearl.";
+			mes "1 Kitty Band.";
+			next;
+			mes "[Kafra]";
+			mes "Please Come back after gathering all the items.";
+			mes "I'll keep my fingers crossed for you.";
+			close;
+		L_MENU_2:
+			close;
+}
+
+//morocc.gat,154,97,4	script	"Kafra Employee"	83,{
+	check KAFRA_XMAS == 0,-,L_START_1;
+		mes "[Kafra]";
+		mes "^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+		goto L_START_2;
+	L_START_1:
+		mes "[Kafra]";
+		mes "^529DFFWelcome back! Do you wish to take part in the ^FF0000Bunny Band ^529DFFquest?^000000";
+	L_START_2:
+		next;
+		menu "Join.",-,"Information.",L_MENU_1,"Cancel.",L_MENU_2;
+			check KAFRA_XMAS == 0,-,L_SUB_1;
+				set KAFRA_XMAS = 1;
+				mes "[Kafra]";
+				mes "Thank you for joining us!";
+				mes "Please come back after gathering all Items for a Bunny Band!";
+				close;
+			L_SUB_1:
+				mes "[Kafra]";
+				mes "Let me check the Items you have brought here.";
+				next;
+				checkitem 949,100,-,L_ITEM_1;
+				checkitem 706,1,-,L_ITEM_2;
+				checkitem 722,1,-,L_ITEM_3;
+				checkitem 2213,1,-,L_ITEM_4;
+					mes "[Kafra]";
+					mes "Wow!! Well-Done!. Finally you have gathered all items needed!!";
+					mes "We will make the Bunny Band for you right away.";
+					mes "Please Wait a Moment.";
+		   			next;
+					delitem 949,100;
+					delitem 706,1;
+					delitem 722,1;
+					delitem 2213,1;
+					mes "[Kafra]";
+					mes "Tah DAh!!!^FF0000Bunny Band^000000...! Please Take it!";
+					additem 2214,1;
+					set KAFRA_XMAS = 0;
+					next;
+					mes "[Kafra]";
+					mes "We appreciate so much that you joined our Festival, and we promise you that we will serve you as well as we can.";
+					mes "Thank you.";
+					close;
+				L_ITEM_1:
+					mes "[Kafra]";
+					mes "Oh,Dear.You need more than 100 Feather..";
+					close;
+				L_ITEM_2:
+					mes "[Kafra]";
+					mes "Oh,Dear.You need at least 1 Four Leaf Clover.";
+					close;
+				L_ITEM_3:
+					mes "[Kafra]";
+					mes "Oh,Dear.You need at least 1 Pearl.";
+					close;
+				L_ITEM_4:
+					mes "[Kafra]";
+					mes "Oh,Dear.You need at least 1 kitty Band.";
+					close;
+		L_MENU_1:
+			mes "[Kafra]";
+			mes "We opened this Event for your great Attention.";
+			next;
+			mes "[Kafra]";
+			mes "So-Called, ^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+			mes "This is the Event for players to make ^FF0000Bunny Band^000000, the Ultra-Rare Item with Kafra Wearhouse Corp.";
+			mes "(Aid: Alberta Merchant Guild)";
+			next;
+			mes "[Kafra]";
+			mes "This Event is progressed by Players,when you gather all Items needed for a Bunny Band and bring them to Kafra,";
+			mes "Staff in charge will make the Bunny Band promptly.";
+			mes "Next List will show you which Items are needed for a Bunny Band.";
+			next;
+			mes "[Kafra]";
+			mes "100 Feather.";
+			mes "1 Four Leaf Clover.";
+			mes "1 Pearl.";
+			mes "1 Kitty Band.";
+			next;
+			mes "[Kafra]";
+			mes "Please Come back after gathering all the Items.";
+			mes "I'll keep my fingers crossed for you.";
+			close;
+		L_MENU_2:
+			close;
+}
+
+//payon.gat,97,116,4	script	"Kafra Employee"	83,{
+	check KAFRA_XMAS == 0,-,L_START_1;
+		mes "[Kafra]";
+		mes "^529DFFSpecial festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+		goto L_START_2;
+	L_START_1:
+		mes "[Kafra]";
+		mes "^529DFFWelcome back! Do you wish to take part in the ^FF0000Bunny Band ^529DFFquest?^000000";
+	L_START_2:
+		next;
+		menu "Join.",-,"Information.",L_MENU_1,"Cancel.",L_MENU_2;
+			check KAFRA_XMAS == 0,-,L_SUB_1;
+				set KAFRA_XMAS = 1;
+				mes "[Kafra]";
+				mes "Thank you for joining us!";
+				mes "Please come back after gathering all items for a Bunny Band!";
+				close;
+			L_SUB_1:
+				mes "[Kafra]";
+				mes "Let me check the items you have brought here.";
+				next;
+				checkitem 949,100,-,L_ITEM_1;
+				checkitem 706,1,-,L_ITEM_2;
+				checkitem 722,1,-,L_ITEM_3;
+				checkitem 2213,1,-,L_ITEM_4;
+					mes "[Kafra]";
+					mes "Wow! Well done! Finally you have gathered all items needed!";
+					mes "We will make the Bunny Band for you right away.";
+					mes "Please wait a moment.";
+   					next;
+					delitem 949,100;
+					delitem 706,1;
+					delitem 722,1;
+					delitem 2213,1;
+					mes "[Kafra]";
+					mes "Tah Dah!!!^FF0000Bunny Band^000000...! Please take it!";
+					additem 2214,1;
+					set KAFRA_XMAS = 0;
+					next;
+					mes "[Kafra]";
+					mes "We appreciate you so much that you joined our festival, and we promise you that we will serve you as well as we can.";
+					mes "Thank you.";
+					close;
+				L_ITEM_1:
+					mes "[Kafra]";
+					mes "Oh, dear. You need more than 100 Feather...";
+					close;
+				L_ITEM_2:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 Four Leaf Clover...";
+					close;
+				L_ITEM_3:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 Pearl...";
+					close;
+				L_ITEM_4:
+					mes "[Kafra]";
+					mes "Oh, dear. You need at least 1 kitty Band...";
+					close;
+		L_MENU_1:
+			mes "[Kafra]";
+			mes "We opened this event for your great attention.";
+			next;
+			mes "[Kafra]";
+			mes "So-Called, ^529DFFSpecial Festival, ^FF0000Bunny Band ^529DFFquest!!^000000";
+			mes "This is the event for players to make ^FF0000Bunny Band^000000, the ultra-rare item with Kafra Warehouse Corp.";
+			mes "(Aid: Alberta Merchant Guild)";
+			next;
+			mes "[Kafra]";
+			mes "This event is progressed by players, when you gather all items needed for a Bunny Band and bring them to Kafra,";
+			mes "Staff in charge will make the Bunny Band promptly.";
+			mes "This next list will show you which items are needed for a Bunny Band.";
+			next;
+			mes "[Kafra]";
+			mes "100 Feather.";
+			mes "1 Four Leaf Clover.";
+			mes "1 Pearl.";
+			mes "1 Kitty Band.";
+			next;
+			mes "[Kafra]";
+			mes "Please Come back after gathering all the items.";
+			mes "I'll keep my fingers crossed for you.";
+			close;
+		L_MENU_2:
+			close;
+}

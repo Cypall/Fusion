@@ -1,0 +1,639 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Magician Quest - Non Player Character Locations
+//
+// - Mage Guildsman -> geffen_in: 164,124
+//   Gives Quest to Novice wanting to become Mage.
+//
+// - Mixing Machine -> geffen_in: 164,112
+//   Mixes Ingrediants for Required Potion, to finish Quest.
+//
+// - Ponka Hontas -> moc_ruins: 101,125
+//   Gives Quest applicant Potion for 50z and empty test tube.
+//
+// - Dollshoi -> pay_arche: 122,100
+//   Gives Quest applicant Potion for 50z and empty test tube.
+//
+// - Book Shelf -> geffen_in: 177,113
+//   Gives Players Vital Informatiion on Potion Given in Quest.
+//
+//========================================================================================
+
+geffen_in.gat,164,124,4	script "Mage Guildsman"	123,{
+	mes "[Mage Guildsman]";
+	mes "Yo.What's up?";
+	next;
+	menu "I want to be a Mage.",-,"Tell me the Requirements.",REQ,"Not Pretty Much.",Cancel;
+		mes "[Mage Guildsman]";
+		check job == 4,Mage,-;
+		check job == 26,Mage,-;
+		check job == 24,Nov,-;
+		check job != 0,Other,-;
+		Nov:
+			check job_magician_q >= 1,QUEST_DONE,-;
+    				mes "Wanna be a Mage? Hmmm.....";
+    				next;
+				mes "[Mage Guildsman]";
+				check gender == 1,-,Girl;
+					mes "... Hey Look at you..I think you are kinda Cute? Not my taste though..";
+					goto Continue;
+				Girl:
+					mes "... Oh,what a Hot Babe you are~~ I like the Girl like you~";
+				Continue:
+					mes "Hmm..By the way You said that you wanna be a Mage?";
+   					mes "Then...Sign up the Mage Application First.";
+					next;
+					menu "Sign Up.",-,"Quit.",QUIT;
+						mes "[Mage Guildsman]";
+						mes "Yeah..Ok Sign on here....Oh~ You are very good at Spelling~ Cool.Aright.";
+						mes "Your name is... $charaname .";
+						next;
+						mes "[Mage Guildsman]";
+						mes "I will give you the test...";
+						random @RAND,100;
+						check @RAND <= 25,Q1,-;
+						check @RAND <= 50,Q2,-;
+						check @RAND <= 75,Q3,-;
+						check @RAND <= 100,Q4,Q4;
+						Q1:
+    							mes "Make the Mixed Solution No.1 and bring back to me.";
+    							set job_magician_q = 1;
+							goto Start;
+						Q2:
+    							mes "Make the Mixed Solution No.2 and bring back to me.";
+    							set job_magician_q = 2;
+							goto Start;
+						Q3:
+    							mes "Make the Mixed Solution No.3 and bring back to me.";
+    							set job_magician_q = 3;
+							goto Start;
+						Q4:
+    							mes "Make the Mixed Solution No.4 and bring back to me.";
+    							set job_magician_q = 4;
+    						Start:
+    							next;
+    							additem 1092,1;
+    							mes "[Mage Guildsman]";
+    							mes "You can refer Neccessary Datas to the Guide Book in this Guild. Figure out by yourself.";
+    							mes "Also you can use the machine in the Centre to Mix the Solution.";
+    							mes "Good Luck~";
+    							close;
+    					Quit:
+    						mes "[Mage Guildsman]";
+    						mes "Whatttt?!You told me that  you wanna be a Mage,How can you change your mind so Quickly!?";
+						close;
+    			QUEST_DONE:
+				mes "Yeah..? Ready...?";
+				check Joblevel != 10,-,Solutions;
+	    	   			mes "... What a Bummer.. You didn't meet the requirements at all.";
+	       				mes "Go back and reach at Novice Job level 10 first.Don't forget you have to learn Basic Skills before everything.";
+	       				close;
+				Solutions:
+			       		mes " $charaname 's test was..";
+			       		mes "Making the Mixed Solution No. $[job_magician_q] .";
+			       		mes "Okay,Let's get started to check?";
+					next;
+					mes "[Mage Guildsman]";
+					check job_magician_q == 1,S1,-;
+					check job_magician_q == 2,S2,-;
+					check job_magician_q == 3,S3,-;
+					check job_magician_q == 4,S4,-;
+						S1:
+							checkitem 1071,1,Success,WrongSolution;
+						S2:
+							checkitem 1085,1,Success,WrongSolution;
+						S3:
+							checkitem 1086,1,Success,WrongSolution;
+						S4:
+							checkitem 1087,1,Success,WrongSolution;
+
+							checkitem 1071,1,Success,WrongSolution;
+							delitem 1071,1;
+						S2:
+							checkitem 1085,1,Success,WrongSolution;
+						S3:
+							checkitem 1086,1,Success,WrongSolution;
+						S4:
+							checkitem 1087,1,Success,WrongSolution;
+						WrongSolution:
+		   	       				mes "....... Darn it. This is not exactly what I asked. What you have to do is.....";
+		            	       			mes "Making the Mixed Solution No. $[job_magician_q] and Bring back to me.";
+							set @pass = 1;
+							goto ITEMDELETION;
+						Success:
+					    	       	mes "..... Hmm.I can see how hard you tried. Although it is not perfect,but It will be fine.";
+							mes "Alright! You pass the Mage Test. I will transform you right away.";
+							set @pass = 2;
+						ITEMDELETION:
+							getitemamount 1071,@Sol1;
+							getitemamount 1085,@Sol2;
+							getitemamount 1086,@Sol3;
+							getitemamount 1087,@Sol4;
+							getitemamount 1090,@Sol5;
+							check @Sol1 > 0,-,Check2;
+								delitem 1071,@Sol1;
+							Check2:
+							check @Sol2 > 0,-,Check3;
+								delitem 1085,@Sol2;
+							Check3:
+							check @Sol3 > 0,-,Check4;
+								delitem 1086,@Sol3;
+							Check4:
+							check @Sol4 > 0,-,Check5;
+								delitem 1087,@Sol4;
+							Check5:
+							check @Sol5 > 0,-,Resume;
+								delitem 1090,@Sol5;
+							Resume:
+								check @pass = 1,-,Good;
+									mes "Try again.";
+									Else:
+									close;
+							Good:
+								check @pass = 2,-,Else;
+									next;
+									mes "Ehem...Now you are one of us,the Mages.";
+									mes "I sincerely congratulate you.";
+									next;
+									check job = 24,HIGH,-;
+										jobchange 2;
+										goto CONGRA;
+									HIGH:
+										jobchange 26;
+									CONGRA:
+									set Zeny += 50;
+									mes "[Mage Guildsman]";
+						      			mes "'Welcome to My World~'";
+						      			mes "Quate from the Well-Known Movie. Heh heh,I just wanna try this~";
+					   	  			mes "Anyway,I congratulate you to join us.~Let's be friends,Alright?~";
+					   				close;
+	REQ:
+		mes "[Mage Guildsman]";
+		mes "Wanna be a Mage?";
+    				check gender = 1,-,GIRLY;
+    					mes "Be my guest any time. I like a Hunk like you~";
+					goto Continue2;
+				GIRLY:
+					mes "Be my guest,Lady. I like a Babe like you~";
+				Continue2:
+					next;
+					mes "[Mage Guildsman]";
+					mes "First of all, you have to reach at Novice Level 9 with fulfilled Basic Skills.";
+					mes "Second, you have to pass the Mage Test.";
+					next;
+					check job_magician_q != 0,-,Info;
+						mes "[Mage Guildsman]";
+	        				mes "I will give you the test....";
+	        	       			mes "Make the Mixed Solution No. $[job_magician_q] and Bring back to me.";
+						mes "You can refer Neccessay Datas to the Guide Book in this Guild. Figure out by yourself.";
+						next;
+						mes "[Mage Guildsman]";
+						mes "Let me know when you are ready to become a Mage.";
+						close;
+					Info:
+						mes "[Mage Guildsman]";
+	        				mes "You will get to know the Particular Solution for you after Signing up the Application Form first.";
+						next;
+						mes "[Mage Guildsman]";
+						mes "Let me know when you are ready to become a Mage.";
+						close;
+	Cancel:
+		mes "[Mage Guildsman]";
+		mes "Errr..? What's that...?";
+		close;
+	MissingSolution:
+		mes "Where's the Solution I asked...? I can't check it out if you don't show me,can I?";
+		close;
+	Mage:
+		mes "Hey..Hey..Haven't you recognised yet??? You are aleady a Mage.";
+		mes "Yeah Whatever..One of thesedays you will realise the Power inside of you when you can make a Fire with Psychic Force.";
+		close;
+	Other:
+		mes "Hey..Hey..Oh,C'mon.Let's Quit playing a Game.You know you can't be a Mage because you have another Job.";
+		close;
+}
+
+//From Aegis, Converted by Tsusai
+geffen_in.gat,164,112,4	script	"Mixing Machine"	111,{
+	set @solution = 0;
+	set @t_jello = 0;
+	set @t_fluff = 0;
+	set @t_milk = 0;
+	mes "[Mixing Machine]";
+	mes "This is the Unique Machine only for Mixing Solution of Magic.";
+	mes "And is the property of the Geffen Mage Guild.";
+	next;
+	menu "Use Machine.",-,"Cancel.",PFB;
+		mes "[Mixing Machine]";		
+		mes "Choose the Solution you want to Mix.";
+   		next;
+		menu "Payon Solution.",-,"Morroc Solution.",MocSol,"Skip the Menu.",MachineStart;
+			checkitem 1089,1,HavePS,-;
+				NOSOL_1:
+					mes "[Mixing Machine]";
+					mes "Cannot Find the Item. Please Check again.";
+					mes "Finish the Process. Thank you.";
+					close;
+    		     	HavePS:
+				set @solution = 1;
+    		     		goto MachineStart;
+		MocSol:
+			checkitem 1088,1,-,NOSOL_1;
+				set @solution = 2;
+		MachineStart:
+				mes "[Mixing Machine]";
+				mes "Jellopy: $[@t_jello] ea.";
+				mes "Fluff: $[@t_fluff] ea.";
+				mes "Milk: $[@t_milk] ea.";
+				check @solution = 1,PS2,-;
+				check @solution = 2,MS2,-;
+					mes "Solvent Solution : Not Appliable.";
+					goto AddItems;
+				PS2:
+					mes "Solvent Solution : Payon Solution.";
+					goto AddItems;
+				MS2:
+					mes "Solvent Solution : Morroc Solution.";
+				AddItems:
+					next;
+					mes "[Mixing Machine]";
+					mes "Select Items to Mix.";
+					next;
+					menu "Jellopy.",-,"Fluff.",MF,"Milk.",MM,"Finish.",Initiate;
+						input @j_in;
+						check @j_in > 10000,Over10k,-;						
+						set @t_jello + @j_in;
+						goto MachineStart;
+					MF:
+						input @f_in;
+						check @f_in > 10000,Over10k,-;
+						set @t_fluff + @f_in;
+						goto MachineStart;
+					MM:
+						input @m_in;
+						check @m_in > 10000,Over10k,-;
+						set @t_milk + @m_in;
+						goto MachineStart;
+					Over10k:
+                         			        mes "[Mixing Machine]";
+                          			        mes "Over the Limit . Please Adjust as 10000 ea and Less again.";
+                          			        goto MachineStart;
+				Initiate:
+		        		mes "";
+           				mes "Do you initiate into Mixing items? or Continue to Check items?";
+					next;
+					menu "Initiate.",-,"Check items.",MachineStart,"Reset.",Reset;
+						mes "[Mixing Machine]";
+						mes "Please put items into the Drum.";
+						mes "Make sure you cannot adjust or restore items back after once put into the Drum.";
+						mes "Please Consider once again and when you are ready,Press 'Mix' button or 'Finish' button.";
+						next;
+						menu "Press 'Mix' Button.",-,"Press 'Finish' Button.",PFB;
+							mes "[Mixing Machine]";
+							mes "Put Items into the Drum now.";
+							mes "Please wait.";
+							next;
+							checkitem 909,@t_jello,Resume1,-;
+								mes "[Mixing Machine]";
+								mes "Not Enough of Jellopy. Please Check again.";
+								mes "Finish the Mixing Process.Thank you..";
+								close;
+							Resume1:
+								checkitem 914,@t_fluff,Resume2,-;
+									mes "[Mixing Machine]";
+									mes "Not Enough of Fluff. Please Check again.";
+									mes "Finish the Mixing Process.Thank you..";
+									close;
+							Resume2:
+								checkitem 519,@t_milk,Resume3,-;
+									mes "[Mixing Machine]";
+									mes "Not Enough of Milk. Please Check again.";
+									mes "Finish the Mixing Progress.Thank you..";
+									close;
+							Resume3:
+								check @solution > 0,-,SerialIn;
+									check @solution = 1,-,sol2chk;
+										checkitem 1089,1,SerialIn,NoSol4Mix;
+									sol2chk:
+										checkitem 1088,1,SerialIn,-;
+									NoSol4Mix:
+										mes "[Mixing Machine]";
+										mes "Cannot find the Solution. Please Check again.";
+	                                                                        mes "Finish the Mixing Progress.Thank you..";
+    			    			PFB:
+							close;
+           				RESET:
+						set @t_jello = 0;
+						set @t_fluff = 0;
+						set @t_milk = 0;
+						mes "[Mixing Machine]";
+						mes "Reset Competed. Initiate again?";
+       			    			next;
+       			    			menu "Yes.",MachineStart,"No.",-;
+							mes "[Mixing Machine]";
+       							mes "Finish the Process.Thank you.";
+							close;
+			SerialIn:
+				mes "[Mixing Machine]";
+				mes "Please note the serial numbers of Magic Powder.";
+				next;
+				input @serial;
+       			        mes "[Mixing Machine]";
+				check @serial <= 0,SkipSerial,-;
+				check @serial < 1000,Invalid,-;
+				check @serial > 9000,Invalid,SerialConfirmation;
+				SkipSerial:
+					mes "Do you want to skip this Menu?";
+	              			next;
+					menu "Yes.",Stone,"No.",-;
+					goto SerialIn;
+				Invalid:
+    	          			mes "Invalid Serial Numbers.Please Note again.";
+        	      			next;
+					goto SerialIn;
+				SerialConfirmation:
+              			        mes "[Mixing Machine]";
+					mes "The Serial Numbers is #^000000$[@serial]^000000. Positive?";
+					next;
+              			        menu "Positive.",-,"Negative.",SerialIn;
+			Stone:
+				mes "[Mixing Machine]";
+				mes "For the Last, Choose a Catalyst Stone.";
+				next;
+				menu "Yellow Gemstone.",Stone1,"Red Gemstone.",Stone2,"Blue Gemstone.",Stone3,"1carat Diamond.",Stone4,"Skip.",AllGood;
+				Stone1:
+					set @stone = 1;
+					goto AllGood;
+				Stone2:
+					set @stone = 2;
+					goto AllGood;
+				Stone3:
+					set @stone = 3;
+					goto AllGood;
+				Stone4:
+					set @stone = 4;
+			AllGood:
+				mes "[Mixing Machine]";
+				mes "All Set. Initiate the Mixing process.";
+				mes "Please Wait.";
+				next;
+				mes "[Mixing Machine]";
+				mes "- Proverb of the Day -";
+				random @proverb,125;
+				check @proverb <= 25,Pro1,-;
+				check @proverb <= 50,Pro2,-;
+				check @proverb <= 75,Pro3,-;
+				check @proverb <= 100,Pro4,-;
+					mes "'Deliberately Deny the Truth of What was said.'";
+					mes "It means 'When you lie too much to others, they won't Trust  you forever'.";
+					goto MIXMIX;
+				Pro1:
+					mes "'Claw me, and I'll claw thee.'";
+					mes "It means 'You must respect others if you want to be held in respect.'.";
+					goto MIXMIX;
+				Pro2:
+					mes "'In Trust is Treason.'";
+					mes "It means the One who you believe in could harm you'.";
+					goto MIXMIX;
+				Pro3:
+					mes "'Encounter an Enemy on a Log Bridge.'";
+					mes "It means 'When you Harm Another you will be Harmed by him soon under the Unavoidable Situation'.";
+					goto MIXMIX;
+				Pro4:
+					mes "'A good Neighbor is better than a Brother far off..'";
+					mes "It means ' When you're in Danger,You could get helped by a close neighbor rather than your Family at a Distance'.";
+			MIXMIX:
+				next;
+				check @solution = 0,-,HaveSolutions;
+				//Solution 2 (no solution needed)
+					check @t_jello = 3,-,Error;
+					check @t_fluff = 1,-,Error;
+					check @t_milk = 1,-,Error;
+					check @serial = 3735,-,Error;
+					check @stone = 2,-,Error;
+						delitem 909,@t_jello;
+						delitem 914,@t_fluff;
+						delitem 519,@t_milk;
+	    					mes "Mage Test Solution No.2.";
+    						additem 1085,1;
+						goto Finish;
+				HaveSolutions:
+				//Solution 4 (Morroc)
+				check @solution = 2,-,PayonSolutions;
+					check @t_jello = 2,-,Error;
+					check @t_fluff = 3,-,Error;
+					check @t_milk = 0,-,Error;
+					check @serial = 5429,-,Error;
+					check @stone = 4,-,Error;
+						delitem 909,@t_jello;
+						delitem 914,@t_fluff;
+						delitem 1088,1;
+	    					mes "Mage Test Solution No.4.";
+	    					additem 1087,1;
+						goto Finish;
+				PayonSolutions:
+				check @solution = 1,-,Error;
+					//Jellopy count is used to determine which solution used
+					check @t_jello = 2,-,PayonSol2;
+					//Solution 1
+					check @t_fluff = 3,-,Error;
+					check @t_milk = 1,-,Error;
+					check @serial = 8472,-,Error;
+					check @stone = 1,-,Error;
+						delitem 909,@t_jello;
+						delitem 914,@t_fluff;
+						delitem 519,@t_milk;
+						delitem 1089,1;
+	    					mes "Mage Test Solution No.1.";
+	    					additem 1071,1;
+						goto Finish;
+				PayonSol2:
+				//Solution 3
+					check @t_jello = 6,-,Error;
+					check @t_fluff = 1,-,Error;
+					check @t_milk = 0,-,Error;
+					check @serial = 2750,-,Error;
+					check @stone = 3,-,Error;
+						delitem 909,@t_jello;
+						delitem 914,@t_fluff;
+						delitem 1089,1;
+	    					mes "Mage Test Solution No.3.";
+	    					additem 1086,1;
+						goto Finish;
+				Error:
+    					mes "Unexpected Error Occurred.";
+    					additem 1071,1;
+			Finish:
+				next;
+				mes "[Mixing Machine]";
+				mes "Mixing Completed.";
+   				mes "Finish the Progress. Thank you.";
+				close;
+}
+
+moc_ruins.gat,101,125,5	script "Ponka Hontas" 93,{
+	mes "[Mage Guildsman]";
+	mes "You want the Solution? Then give me 50 Zeny and at least 1 Empty Testube.";
+	next;
+	menu "Allright, Deal",-,"Nah, forget it.",EXIT; 
+	   checkitem 1092,1,-,NO_T;
+	   check Zeny >= 50,-,NO_Z;
+	mes "[Mage Guildsman]";
+	mes "Ok, you have the money and a empty Testube, that's good!";
+	   delitem 1092,1;
+	   set Zeny -= 50,0;
+	next;
+	mes "[Mage Guildsman]";
+	   additem 1088,1;
+	mes "Thank you, I think you will be a great mage, you are so generous.";
+	mes "I hope i'll see you soon again here";
+	close;
+NO_T:
+	mes "[Mage Guildsman]";
+	mes "You can't Carry fluid without a bottle, are you sure you want to become a mage?";
+	mes "Bring an Empty Testube";
+	close;
+NO_Z:
+	mes "[Mage Guildsman]";
+	mes "Pfff, You are too poor to buy our noble Solution!";
+	mes "Bring 50 Zeny, go to the merchant sell something, it will not be too hard, I know so.";
+	close;
+EXIT:
+	mes "[Mage Guildsman]";
+	mes "Than go away out of here!"
+	mes "And stop wasting my preceous time."
+	close;
+}
+
+pay_arche.gat,122,100,5	script	"Dollshoi"	88,{
+	mes "[Mage Guildsman]";
+	mes "You want the Solution? Then give me 50 Zeny and at least 1 Empty Testube.";
+	next;
+	menu "Allright, Deal",-,"Nah, forget it.",EXIT;  
+	   checkitem 1092,1,-,NO_T;
+	   check Zeny >= 50,-,NO_Z;
+	mes "[Mage Guildsman]";
+	mes "Ok, you have the money and a empty Testube, that's good!";
+	   delitem 1092,1;
+	   set Zeny -= 50,0;
+	next;
+	mes "[Mage Guildsman]";
+	   additem 1089,1;
+	mes "Thank you, I think you will be a great mage, you are so generous.";
+	mes "I hope i'll see you soon again here";
+	close;
+NO_T:
+	mes "[Mage Guildsman]";
+	mes "You can't Carry  fluid without a bottle, are you sure you want to become a mage?";
+	mes "Bring an Empty Testube";
+	close;
+NO_Z:
+	mes "[Mage Guildsman]";
+	mes "Pfff, You are too poor to buy our noble Solution!";
+	mes "Bring 50 Zeny, go to the merchant, sell something, it will not be too hard I hope";
+	close;
+EXIT:
+	mes "[Mage Guildsman]";
+	close;
+}
+
+geffen_in.gat,177,113,1	script "Book Shelf" 111,{
+	mes "[Book]";
+	mes "This book belongs to the Geffen Mage Association. Please handle with care.";
+	next;
+	menu "Solution No. 1.",-,"Solution No. 2.",SOL2,"Solution No. 3.",SOL3,"Solution No. 4",SOL4,"Close.",EXIT;
+	mes "[Mage Test Solution No. 1]";
+	mes "* Ingredients list *";
+	mes " - Jellopy 2 ea";
+	mes " - Fluff 3 ea";
+	mes " - Milk 1 ea";
+	next;
+	mes "[Mage Test Solution No. 1]";
+	mes "* Solvent Agent *";
+	mes "  Payon Solution";
+	mes "  Where to find: A Small Spring in";
+	mes "  Archer Village, Payon.";
+	next;
+	mes "[Mage Test Solution No. 1]";
+	mes "* Chemical ingredients *";
+	mes " - 8472";
+	next;
+	mes "[Mage Test Solution No. 1]";
+	mes "* A Catalyst *";
+	mes " - Yellow Gemstone";
+	mes "   (Mixing Machine Will provide";
+	mes "   this item.)";
+	close;
+SOL2:
+	mes "[Mage Test Solution No. 2]";
+	mes "* Ingredients list *";
+	mes " - Jellopy 3 ea";
+	mes " - Fluff 1 ea";
+	mes " - Milk 1 ea";
+	next;
+	mes "[Mage Test Solution No. 2]";
+	mes "* Solvent Agent *";
+	mes " - Not Appliable.";
+	next;
+	mes "[Mage Test Solution No. 2]";
+	mes "* Chemical ingredients *";
+	mes " - 3735";
+	next;
+      mes "[Mage Test Solution No. 2]";
+	mes "* A Catalyst *";
+	mes " - Red Gemstone";
+	mes "   (Mixing Machine Will provide";
+	mes "   this item.)";
+	close;
+SOL3:
+	mes "[Mage Test Solution No. 3]";
+	mes "* Ingredients list *";
+	mes " - Jellopy 6 ea";
+	mes " - Fluff 1 ea";
+	next;
+	mes "[Mage Test Solution No. 3]";
+	mes "* Solvent Agent *";
+	mes "  Payon Solution";
+	mes "  Where to find: A Small Spring in";
+	mes "  Archer Village, Payon.";
+	next;
+	mes "[Mage Test Solution No. 3]";
+	mes "* Chemical ingredients *";
+	mes " - 2750";
+	next;
+	mes "[Mage Test Solution No. 3]";
+	mes "* A Catalyst *";
+	mes " - Blue Gemstone";
+	mes "   (Mixing Machine Will provide";
+	mes "   this item.)";
+	close;
+SOL4:
+	mes "[Mage Test Solution No. 4]";
+	mes "* Ingredients list *";
+	mes " - Jellopy 2 ea";
+	mes " - Fluff 3 ea";
+	next;
+	mes "[Mage Test Solution No. 4]";
+	mes "* Solvent Agent *";
+	mes "  Morroc Solution";
+	mes "  Where to find: A Small Spring";
+	mes "  Near the Enterance of Pyramid";
+	mes "  in Morroc.";
+	next;
+	mes "[Mage Test Solution No. 4]";
+	mes "* Chemical ingredients *";
+	mes " - 5429";
+	next;
+	mes "[Mage Test Solution No. 4]";
+	mes "* A Catalyst *";
+	mes " - 1 carat Diamond";
+	mes "   (Mixing Machine Will provide";
+	mes "   this item.)";
+	close;
+EXIT:
+	close;
+}

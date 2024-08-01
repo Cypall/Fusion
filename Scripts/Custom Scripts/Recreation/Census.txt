@@ -1,0 +1,4319 @@
+//============================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------
+//
+//              Census Taker - Non Player Character Locations
+//
+// - prontera 150 307
+//
+// - izlude 120 96
+//
+// - payon 97 122
+//
+// - alberta 38 244
+//
+// - aldebaran 119 116
+//
+// - geffen 116 75
+//
+// - morocc 164 115
+//
+// - comodo 190 141
+//
+// - xmas 138 124
+//
+// - amatsu 130 168
+//
+// - gonryun 152 115
+//
+// - louyang 223 122
+//
+// - niflheim 190 176
+//
+// - umbala 118 143
+//
+// - yuno 153 192
+//
+//============================================================================
+
+prontera.gat,150,307,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Hello, there! I'm the census taker, for Rune-Midgard.";
+	next;
+	mes "[Census Taker]";
+	mes "I can show you how many people are in each city!";
+	mes " ";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+izlude.gat,120,96,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+payon.gat,97,122,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+alberta.gat,38,244,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+aldebaran.gat,119,116,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+geffen.gat,116,75,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+morocc.gat,164,115,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+comodo.gat,190,141,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+xmas.gat,138,124,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+amatsu.gat,130,168,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+gonryun.gat,152,115,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+louyang.gat,223,122,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+niflheim.gat,190,176,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+umbala.gat,118,143,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+
+yuno.gat,153,192,4   script   "Census Taker"   725,{
+	getmapusers alberta,@albe;
+	getmapusers aldebaran,@alde;
+	getmapusers amatsu,@amat;
+	getmapusers geffen,@geff;
+	getmapusers gonryun,@gonr;
+	getmapusers comodo,@como;
+	getmapusers izlude,@izlu;
+	getmapusers morocc,@moro;
+	getmapusers xmas,@luti;
+	getmapusers payon,@payo;
+	getmapusers louyang,@louy;
+	getmapusers umbala,@umba;
+	getmapusers yuno,@juno;
+	getmapusers prontera,@pront;
+	getmapusers niflheim,@nifl;
+	mes "[Census Taker]";
+	mes "Please, choose a map.";
+	next;
+CITIES:
+	menu "Nevermind",DAY2,"Alberta",albe,"Prontera",pront,"Al de Baran",alde,"Geffen",geff,"Amatsu",amat,"Lutie",xmas,"Payon",payo,"Lou Yang",louy,"Izlude",izlu,"Morocc",moro,"Umbala",umba,"Juno",juno,"Niflheim",nifl,"Gon Ryune",gonr,"Comodo",-;
+	check @como = 1,-,como2;
+	mes "[Census Taker]";
+	mes "There is $[@como] person in Comodo.";
+	next;
+	goto DAY;
+como2:
+	check @como = 0,como3,-;
+	mes "[Census Taker]";
+	mes "There are $[@como] people in Comodo.";
+	next;
+	goto DAY;
+como3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Comodo.";
+	next;
+	goto DAY;
+albe:
+	check @albe = 1,-,albe2;
+	mes "[Census Taker]";
+	mes "There is $[@albe] person in Alberta.";
+	next;
+	goto DAY;
+albe2:
+	check @albe = 0,albe3,-;
+	mes "[Census Taker]";
+	mes "There are $[@albe] people in Alberta.";
+	next;
+	goto DAY;
+albe3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Alberta.";
+	next;
+	goto DAY;
+alde:
+	check @alde = 1,-,alde2;
+	mes "[Census Taker]";
+	mes "There is $[@alde] person in Al de Baran.";
+	next;
+	goto DAY;
+alde2:
+	check @alde = 0,alde3,-;
+	mes "[Census Taker]";
+	mes "There are $[@alde] people in Al de Baran.";
+	next;
+	goto DAY;
+alde3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Al de Baran.";
+	next;
+	goto DAY;
+amat:
+	check @amat = 1,-,amat2;
+	mes "[Census Taker]";
+	mes "There is $[@amat] person in Amatsu.";
+	next;
+	goto DAY;
+amat2:
+	check @amat = 0,amat3,-;
+	mes "[Census Taker]";
+	mes "There are $[@amat] people in Amatsu.";
+	next;
+	goto DAY;
+amat3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Amatsu.";
+	next;
+	goto DAY;
+geff:
+	check @geff = 1,-,geff2;
+	mes "[Census Taker]";
+	mes "There is $[@geff] person in Geffen.";
+	next;
+	goto DAY;
+geff2:
+	check @geff = 0,geff3,-;
+	mes "[Census Taker]";
+	mes "There are $[@geff] people in Geffen.";
+	next;
+	goto DAY;
+geff3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Geffen.";
+	next;
+	goto DAY;
+gonr:
+	check @gonr = 1,-,gonr2;
+	mes "[Census Taker]";
+	mes "There is $[@gonr] person in Gon Ryune.";
+	next;
+	goto DAY;
+gonr2:
+	check @gonr = 0,gonr3,-;
+	mes "[Census Taker]";
+	mes "There are $[@gonr] people in Gon Ryune.";
+	next;
+	goto DAY;
+gonr3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Gon Ryune.";
+	next;
+	goto DAY;
+xmas:
+	check @luti = 1,-,xmas2;
+	mes "[Census Taker]";
+	mes "There is $[@luti] person in Lutie.";
+	next;
+	goto DAY;
+xmas2:
+	check @luti = 0,xmas3,-;
+	mes "[Census Taker]";
+	mes "There are $[@luti] people in Lutie.";
+	next;
+	goto DAY;
+xmas3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lutie.";
+	next;
+	goto DAY;
+pront:
+	check @pront = 1,-,pront2;
+	mes "[Census Taker]";
+	mes "There is $[@pront] person in Prontera.";
+	next;
+	goto DAY;
+pront2:
+	check @pront = 0,pront3,-;
+	mes "[Census Taker]";
+	mes "There are $[@pront] people in Prontera.";
+	next;
+	goto DAY;
+pront3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Prontera.";
+	next;
+	goto DAY;
+umba:
+	check @umba = 1,-,umba2;
+	mes "[Census Taker]";
+	mes "There is $[@umba] person in Umbala.";
+	next;
+	goto DAY;
+umba2:
+	check @umba = 0,umba3,-;
+	mes "[Census Taker]";
+	mes "There are $[@umba] people in Umbala.";
+	next;
+	goto DAY;
+umba3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Umbala.";
+	next;
+	goto DAY;
+moro:
+	check @moro = 1,-,moro2;
+	mes "[Census Taker]";
+	mes "There is $[@moro] person in Morocc.";
+	next;
+	goto DAY;
+moro2:
+	check @moro = 0,moro3,-;
+	mes "[Census Taker]";
+	mes "There are $[@moro] people in Morocc.";
+	next;
+	goto DAY;
+moro3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Morocc.";
+	next;
+	goto DAY;
+juno:
+	check @juno = 1,-,juno2;
+	mes "[Census Taker]";
+	mes "There is $[@juno] person in Juno.";
+	next;
+	goto DAY;
+juno2:
+	check @juno = 0,juno3,-;
+	mes "[Census Taker]";
+	mes "There are $[@juno] people in Juno.";
+	next;
+	goto DAY;
+juno3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Juno.";
+	next;
+	goto DAY;
+payo:
+	check @payo = 1,-,payo2;
+	mes "[Census Taker]";
+	mes "There is $[@payo] person in Payon.";
+	next;
+	goto DAY;
+payo2:
+	check @payo = 0,payo3,-;
+	mes "[Census Taker]";
+	mes "There are $[@payo] people in Payon.";
+	next;
+	goto DAY;
+payo3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Payon.";
+	next;
+	goto DAY;
+izlu:
+	check @izlu = 1,-,izlu2;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu2:
+	check @izlu = 0,izlu3,-;
+	mes "[Census Taker]";
+	mes "There are $[@izlu] people in Izlude.";
+	next;
+	goto DAY;
+izlu3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Izlude.";
+	next;
+	goto DAY;
+nifl:
+	check @nifl = 1,-,nifl2;
+	mes "[Census Taker]";
+	mes "There is $[@nifl] person in Niflheim.";
+	next;
+	goto DAY;
+nifl2:
+	check @nifl = 0,nifl3,-;
+	mes "[Census Taker]";
+	mes "There are $[@nifl] people in Niflheim.";
+	next;
+	goto DAY;
+nifl3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Niflheim.";
+	next;
+	goto DAY;
+louy:
+	check @louy = 1,-,louy2;
+	mes "[Census Taker]";
+	mes "There is $[@louy] person in Lou Yang.";
+	next;
+	goto DAY;
+louy2:
+	check @louy = 0,louy3,-;
+	mes "[Census Taker]";
+	mes "There are $[@louy] people in Lou Yang.";
+	next;
+	goto DAY;
+louy3:
+	mes "[Census Taker]";
+	mes "There are 0 people in Lou Yang.";
+	next;
+DAY:
+	mes "[Census Taker]";
+	mes "Would you like to see another city?";
+	next;
+	menu "Yes",cities,"No",-;
+DAY2:
+	mes "[Census Taker]";
+	mes "Ok. Have a nice day.";
+	close;
+}
+

@@ -1,0 +1,15 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Niflheim Field Warps - Warp Locations
+// - Original info by jathena
+//
+//========================================================================================
+
+nif_fild01.gat,344,322,0	warp	nif-fieldwarp001	1,1,nif_fild02.gat,26,311
+nif_fild02.gat,22,311,0		warp	nif-fieldwarp002	1,1,nif_fild01.gat,340,322
+nif_fild02.gat,378,235,0	warp	nif-fieldwarp002	1,1,niflheim.gat,23,154
+niflheim.gat,19,154,0		warp	nif-fieldwarp004	1,1,nif_fild02.gat,375,235

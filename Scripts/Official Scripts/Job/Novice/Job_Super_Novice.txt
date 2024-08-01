@@ -1,0 +1,307 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Super Novice Job Quest - Non Player Character Locations
+// - Translated by RPG-Advocate.
+//
+// - Tozel -> aldeba_in: 223,167
+//   Supernovice Jobchange Npc.
+//
+// - Serei -> aldeba_in: 216,169
+//   A Super Novice guildmember.
+//
+// - Kafra -> aldebaran: 54,238
+//   A special Kafra where only Super Novices can get a cart.
+//
+//========================================================================================
+
+aldeba_in.gat,223,167,3	script "Tozel" 709,{
+	   check job_snovice == 1,L_Start2,-;
+	   check Job == 23,L_Twice,-;
+         check Job != 0,L_Otherjob,-;
+	mes "[Tozel]";
+	mes "Hello, Novice!";
+	mes "Are you enjoying yourself as a novice,";
+      mes "the preferred class of the common man?";
+	next;
+	mes "[Tozel]";
+	mes "Would you like to join the";
+	mes "Novice Guild and add your";
+	mes "common character to the";
+	mes "common pool of talent so that";
+	mes "we can perform common services?";
+	next;
+	mes "[Tozel]";
+	mes "If you join us, I'll change your";
+	mes "class from Novice to the highly";
+	mes "skilled Super Novice!  How does";
+	mes "that sound?";
+	next;
+	menu "I'm sold!",-,"Super Novice is Super Stupid",L_Stupid,"Well, to make an informed choice...",L_Well;
+         check JobLevel < 10,L_LowSkill,-;
+         check BaseLevel < 45,L_Lowlevel,-; 
+	mes "[Tozel]";
+	mes "Wonderful!";
+	mes "You're on the road to becoming";
+	mes "an uncommonly common individual.";
+	next;
+	mes "[Tozel]";
+	mes "Common is a great word, isn't it?";
+	next;
+	mes "[Tozel]";
+	mes "Just because you've applied to";
+	mes "become a member of the Novice";
+	mes "Guild doesn't mean automatic";
+	mes "admission.  There are requirements";
+      mes "you must meet.";
+	next;
+	mes "[Tozel]";
+	mes "Being a guild of common men, it's";
+	mes "only fitting that you bring";
+	mes "me a common item as an";
+	mes "entry requirement.  So, go and find";
+	mes "thirty each of ^FF0000Sticky Mucus^000000 and"
+      mes "^FF0000Resin^000000.";
+      next;
+	mes "[Tozel]";
+	mes "Once you collect this common number of";
+	mes "common items, head on back to this common";
+	mes "guild of common men.";
+	   set job_snovice = 1;
+	close;
+L_Stupid:
+	mes "[Tozel]";
+	mes "Hm...That's an attitude shared by";
+	mes "a lot of common criminals and";
+	mes "other commonly marginalized types.";
+	mes "...They don't understand the fulfillment";
+	mes "gained by a common pool of friends.";
+	next;
+      mes "[Tozel]";
+      mes "Of course, it's common to change one's";
+      mes "mind as well.  If you do, please";
+      mes "drop by again.";
+	close;
+L_Well:
+	mes "[Tozel]";
+	mes "Oh, you want to know a bit";
+	mes "more about this guild, eh?";
+	mes "I'll be happy to explain!";
+	next;
+	mes "[Tozel]";
+	mes "Let me tell you about Kima, the";
+	mes "guild founder.  Kima founded this";
+	mes "guild because those of common";
+	mes "ancestry and common our status had no place";
+	mes "to assemble and enjoy each other's";
+	mes "company.";
+	next;
+	mes "- Tozel talks for ten -";
+	mes "- minutes.  His tone is so common -";
+	mes "- that it bores you to tears. -";
+	next;
+	mes "[Tozel]";
+	mes "...Anyway, the Novice guild has";
+	mes "propsered greatly since its founding.";
+	mes "We pride ourselves on our slogan";
+	mes "'Common Man, Common Goals, Common Dreams'!";
+	close;
+L_Start2:
+	   checkitem 938,30,-,L_ItemError;
+	   checkitem 907,30,-,L_ItemError;
+	mes "[Tozel]";
+	mes "Well, your performance seems to";
+	mes "be uh...common, but that's good";
+	mes "enough for us!  Welcome to the";
+	mes "Novice Guild!";
+	next;
+	mes "[Tozel]";
+	mes "According to my promise, I'll make you";
+	mes "a Super Novice.  Are you ready?!"
+	next;
+	menu "Huh?!",-,"Maybe?!",-;
+	mes "- Tozel's uncommon demeanor -";
+	mes "- catches you off guard, leaving -";
+	mes "- you speechless! -";
+	next;
+	   jobchange 23;
+	   delitem 938,30;
+	   delitem 907,30;
+	   additem 2339,1;
+	mes "[Tozel]";
+	mes "Hahahah!  Were you surprised?!";
+	mes "Just because we're common people";
+	mes "doesn't mean we can't be misfits";
+	mes "sometimes!";
+	next;
+	mes "[Tozel]";
+	mes "So, now your new life as";
+	mes "a Super Novice begins!";
+	next;
+	mes "[Tozel]";
+	mes "Now you're a part of Kima's";
+	mes "legacy!  Please continue his";
+	mes "good (but common) name.";
+         set job_snovice = 2;
+	next;
+	close;
+L_LowSkill:
+	mes "[Tozel]";
+	mes "Well...it seems your level is a little";
+	mes "too common at the moment.  You";
+	mes "need to have a class level of ^0000FFat least 9^000000";
+	mes "in order to join us.";
+	close;
+L_LowLevel:
+	mes "[Tozel]";
+	mes "Well...it seems your level is a little";
+	mes "too common at the moment.  You";
+	mes "need to have a primary level of ^0000FFat least 45^000000";
+	mes "in order to join us.";
+	close;
+L_ItemError:
+	mes "[Tozel]";
+	mes "Did you forget what you were supposed";
+	mes "to find?  I'll tell you again.";
+	next;
+	mes "[Tozel]";
+	mes "You need to find thirty each of";
+	mes "^FF0000Goopy Liquid^000000 and"
+      mes "^FF0000Resin^000000.";
+	close;
+L_Twice:
+	mes "[Tozel]";
+	mes "You're a member of the Novice Guild";
+	mes "now.  There's no need to have";
+	mes "exceptional talents here.  Your common";
+	mes "vigilance is all we require.";
+	next;
+	mes "[Tozel]";
+	mes "Go, then, and live a common and";
+	mes "unexceptional life, in order to";
+	mes "bring respect to our guild.";
+	close;
+L_Otherjob:
+	mes "[Tozel]";
+	mes "Hey!  You're not a man of common";
+	mes "heritage!  I'm Tozel, the master";
+	mes "of the Novice Guild.";
+	next;
+	mes "[Tozel]";
+	mes "This place is for people who";
+	mes "who have common goals, common";
+	mes "beliefs, common lives.  For you, an";
+	mes "uncommon person, this place is";
+	mes "anathema.";
+	next;
+	mes "[Tozel]";
+	mes "Such people don't have a place in our";
+	mes "common society.  I'm sorry.";
+	close;
+}
+
+aldeba_in.gat,216,169,5 script "Serei" 86,{
+         check Job == 23,L_Supernovice,-;
+         check Job != 0,L_Otherjob,-;
+	mes "[Serei]";
+	mes "You're pretty common.  A common";
+	mes "man should live a happy life.  You";
+	mes "should consider joining the;
+	mes "Novice Guild.";
+	next;
+	mes "[Serei]";
+	mes "GO NOVICE CLASS!";
+	mes "Hahahahahahahaha!";
+	close;
+L_Supernovice:
+	mes "[Serei]";
+	mes "Yaaaaaaaaaaaaaaaaaaaaaaaay!";
+	mes "You're a member of the Novice";
+	mes "guild!  Sweet!";
+	next;
+	mes "[Serei]";
+	mes "That's great!";
+	mes "Are you trying to extend the Guild's";
+	mes "legacy of uneventfulness?";
+	next;
+	mes "[Serei]";
+	mes "I'm Guildmaster Tozel's number one";
+	mes "man!";
+	close;
+L_Otherjob:
+	mes "[Serei]";
+	mes "Oh no!";
+	mes "You're one of those people who";
+	mes "rejected the common way of life!";
+	mes "You might be dangerous to those";
+	mes "who walk the common path!";
+	mes "Ahhhh!";
+	close;
+}
+
+aldebaran.gat,54,238,5 script	"Kafra" 117,{
+	   check Job != 23,L_Otherjob,-;
+	mes "[Kafra]";
+	mes "Oh, a Super Novice!";
+	mes "You're annoyed that the other";
+	mes "Kafras won't lend you a cart?";
+	mes "No problem!";
+	next;
+	mes "[Kafra]";
+	mes "I can lend you a cart, but try to";
+	mes "keep a low profile, because";
+	mes "we are under orders from Kafra";
+	mes "management not to lend carts to";
+	mes "any Novice.";
+	next;
+	mes "[Kafra]";
+	mes "There will be a fee of";
+	mes "^FF00001900zeny^000000 to use the cart.";
+	next;
+	mes "[Kafra]";
+	mes "You need to have the Push Cart";
+	mes "skill in order to use a cart.";
+	mes "If you don't have this skill,";
+	mes "you won't be able to use the cart and";
+	mes "You'll lose your money.  Do you want";
+      mes "me to lend you a cart?";
+	next;
+	menu "Lend me a cart",-,"Not Necessary",L_End;
+      mes "[Kafra]";
+      mes "Since I'm secretly lending you";
+      mes "a cart, I can't ensure you";
+	mes "have the Push Cart skill.  If you don't,";
+	mes "you won't be able to use the cart and";
+	mes "You'll lose your money.  Are you sure";
+      mes "you want the cart?";
+	next;
+	menu "I heard you the first time!",-,"Uhhh...wait a minute...",L_End;
+         check Zeny <= 1899,L_Error,-;
+	   set Zeny -= 1900,0;
+	   option 0,1;
+	mes "[Kafra]";
+	mes "Thanks for using the Kafra";
+	mes "service, even if it is under the";
+	mes "table.  Hehehehehe...";
+	close;
+L_Error:
+	mes "[Kafra]";
+	mes "Hmmm.  It seems you're";
+	mes "short of funds.";
+	close;
+L_End:
+	mes "[Kafra]";
+	mes "Thank you for your patronage.";
+	mes "Please come again.";
+	close;
+L_Otherjob:
+	mes "[Kafra]";
+	mes "I'm sorry, but I'm not taking";
+	mes "customers right now.  Please try";
+	mes "asking the other Kafra staff";
+	mes "for assistance.";
+	close;
+}

@@ -1,0 +1,193 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Archer Quest - Non Player Character Locations
+//
+// - Archer Guildsman -> payon_in02: 64,71
+//   Gives Quest to Novice wanting to become archer.
+//   Checks if Quest is completed & changes class.
+//
+//========================================================================================
+
+payon_in02.gat,64,71,4	script	"Archer Guildsman"	85,{
+	mes "[Archer Guildsman]";
+	mes "Good Day. How may I help you?";
+	next;
+	menu "I want to be an Archer.",-,"Need the Requirements Tip.",REQ,"No thanks.",EXIT;
+		check Job == 3,ERR0,-;
+		check Job == 27,ERR0,-;
+		check Job == 24,NOV,-;
+		check Job == 0,-,ERR1;
+	NOV:
+		check Archer_Quest >= 1,QUEST_GIVEN,GIVE_QUEST;
+		GIVE_QUEST:
+			mes "[Archer Guildsman]";
+			mes "Do you want to be an Archer?";
+			mes "If so, you'd better fill this application form.";
+			next;
+			menu "Apply.",-,"Cancel",SELECT1_END;
+				mes "[Archer Guildsman]";
+				mes "Ok, Sign here.. Alright...I will promote you when you meet the Requirements.";
+				mes "If you qualified already, I can promote you now.";
+				mes "Continue?";
+				next;
+				menu "Yes, Sure.",-,"No,not yet.",SELECT2_END;
+					check JobLevel == 10,-,ERR2;
+					check SkillPoint == 0,-,ERR2;
+					set Archer_Quest = 1;
+					mes "[Archer Guildsman]";
+					mes "Let me check.";
+					next;     									
+					goto QUEST_GIVEN;
+				SELECT2_END:
+					mes "[Archer Guildsman]";
+					mes "I understand.";
+					mes "Be my guest if you want to know the Requirements.";
+					close;
+			SELECT1_END:
+				mes "[Archer Guildsman]";
+				mes "Yes..see you next time.";
+				close;
+		QUEST_GIVEN:
+			mes "[Archer Guildsman]";
+			mes "Are you ... $charaname ?";
+			next;
+			check JobLevel == 10,-,ERR2;
+			check SkillPoint == 0,-,ERR2;
+			mes "[Archer Guildsman]";
+			mes "Excellent. Well done, kid.";
+			mes "Ok from now on I will appraise the Value of articles, 'Trunk' needed for producing a 'Bow'.";
+			next;
+			set @X = 0;
+			set @Y = 0;
+			set @Z = 0;
+			set @V = 0;
+			set @X2 = 0;
+			set @Y2 = 0;
+			set @Z2 = 0;
+			set @TotalTrunk = 0;
+			checkitem 1066,1,COUNT_TRUNK1,-;
+			checkitem 1067,1,COUNT_TRUNK2,-;
+			checkitem 1068,1,COUNT_TRUNK3,-;
+			checkitem 1019,1,COUNT_TRUNK4,NO_TRUNK;
+				COUNT_TRUNK1:
+					getitemamount 1066, @var;
+					set @X += @var;
+					set @var *= 5;
+					set @X2 += @var;
+					set @TotalTrunk += @X2;
+					goto COUNT_TRUNK2;
+				COUNT_TRUNK2:
+					getitemamount 1067, @var;
+					set @Y += @var;
+					set @var *= 3;
+					set @Y2 += @var;
+					set @TotalTrunk += @Y2;
+					goto COUNT_TRUNK3;
+				COUNT_TRUNK3:
+					getitemamount 1068, @var;
+					set @Z += @var;
+					set @var *= 2;
+					set @Z2 += @var;
+					set @TotalTrunk += @Z2;
+					goto COUNT_TRUNK4;
+				COUNT_TRUNK4:
+					getitemamount 1019, @var;
+					set @V += @var;
+					set @TotalTrunk += @V;
+					goto FINISH;
+			FINISH:
+				mes "[Archer Guildsman]";
+				mes  "  Grade S :  $[@X]  ea/ Grades : $[@X2]";
+				mes  "  Grade A :  $[@Y]  ea/ Grades : $[@Y2]";
+				mes  "  Grade B :  $[@Z]  ea/ Grades : $[@Z2]";
+				mes  "  Grade C :  $[@V]  ea/ Grades : $[@V]";
+				mes " ";	
+				check @TotalTrunk > 40,HighTrunk,-;
+				check @TotalTrunk > 30,MediumTrunk,-;
+				check @TotalTrunk >= 25,LowTrunk,-;
+					mes  "  Total Grades :  ^FF0000$[@TotalTrunk]^000000 / 25";
+					next;
+					mes "[Archer Guildsman]";
+					mes "Below 25 !? You have to gain at least 25! Try Harder!!";
+					close;
+				HighTrunk:
+					mes  "  Total Grades :  ^0000FF$[@TotalTrunk]^000000 / 25";
+					next;
+					mes "[Archer Guildsman]";
+					mes "Above 30! Excellent! Congraulations!";
+					goto DONE;
+				 MediumTrunk:
+					mes  "  Total Grades :  ^0000FF$[@TotalTrunk]^000000 / 25";
+					next;
+					mes "[Archer Guildsman]";
+					mes "Wow!! Above 25! Excellent! Congraulations!";
+					goto DONE;
+				LowTrunk:
+					mes  "  Total Grades :  ^0000FF$[@TotalTrunk]^000000 / 25";
+					next;	
+					mes "[Archer Guildsman]";
+					mes "Sigh~ You barely passed. Anyway well-done.";
+					goto DONE;
+		DONE:
+			mes "Finally You achieved the Goal. I will promote you right away.";
+			next;
+			check Job == 24,HIGH,-;
+				jobchange 3;
+				goto CONGRA;
+			HIGH:
+				jobchange 27;
+			CONGRA:
+			mes "[Archer Guildsman]";
+			mes "Congratulations! We expect you to cooperate with us for the future of Archer Guild.";
+			mes "Ah,Your bow has arrived from Bow Making Department. Please take it.";
+			mes "Now you are a real Archer with this Bow of your own.";
+			additem 1702,1;
+			additem 1750,100;
+			delitem 1066,@X;
+			delitem 1067,@Y;
+			delitem 1068,@Z;
+			delitem 1019,@V;
+			next;
+			mes "[Archer Guildsman]";
+			mes "Then Farewell. I wish you will be the greatest archer in all of Midgard.";
+			close;
+	REQ:
+		mes "[Archer Guildsman]";
+		mes "I will explain the Requirements of an Archer.";
+		next;
+		mes "[Archer Guildsman]";
+		mes "First of all, you have to reach Novice Job level 10 with all the Basic Skills learned.";
+		mes "An archer needs high-concentration due to their specialty, We Don't accept the people who lose their attention.";
+		next;
+		mes "[Archer Guildsman]";
+		mes "You have to gather different ^FF0000Trunk^000000 as many as you can.";
+		mes "Those Trunks you bring will be separeted into 4 kinds by their each Quality, and you'll be given marks with them.";
+		mes "Lastly We will grant you to become an Archer when you receive grades at least ^0000FF25^000000 in 25 total.";
+		next;
+		mes "[Archer Guildsman]";
+		mes "You can get 'Trunk' from 'Willow' the Tree. I can't say they are tough monsters, but be careful.";
+		close;
+NO_TRUNK:	
+	mes "[Archer Guildsman]";
+	mes "..... Unfortunately you didn't bring the required items.";
+	close;
+ERR0:
+	mes "[Archer Guildsman]";
+	mes "You're an Archer already.";
+	close;
+ERR1:
+	mes "[Archer Guildsman]";
+	mes "Hmm...You don't look like Novice at all..";
+	mes "Anyway whatever you are, you cannot choose a job as an Archer anymore because you have a Job already.";
+	close;
+ERR2:
+	mes "[Archer Guildsman]";
+	mes "Please check the Requirements again. And level up at least Job Level 10. Don't forget you should learn all the Basic Skills. You may come back after that.";
+	close;
+EXIT:
+	close;
+}

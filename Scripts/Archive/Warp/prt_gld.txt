@@ -1,0 +1,7 @@
+//prt_gld.gat,159,298,0	warp	warp1532	1,1,prt_fild01.gat,199,30
+//prt_gld.gat,159,25,0	warp	warp1533	1,1,prt_castle.gat,102,178
+//prt_gld.gat,129,65,0	warp	warp1534	1,1,prtg_cas01.gat,99,32
+//prt_gld.gat,240,124,0	warp	warp1535	1,1,prtg_cas02.gat,43,229
+//prt_gld.gat,153,141,0	warp	warp1536	1,1,prtg_cas03.gat,168,12
+//prt_gld.gat,107,240,0	warp	warp1537	1,1,prtg_cas04.gat,86,13
+//prt_gld.gat,212,240,0	warp	warp1538	1,1,prtg_cas05.gat,17,235

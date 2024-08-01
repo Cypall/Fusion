@@ -1,0 +1,46 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Alberta Town Warps - Warp Locations
+//
+//========================================================================================
+
+alberta_in.gat,14,141,0	 warp	 albertawarp001	2,3,alberta.gat,61,233
+alberta_in.gat,22,113,0	 warp	 albertawarp002	3,2,alberta_in.gat,22,134
+alberta_in.gat,22,130,0	 warp	 albertawarp003	3,2,alberta_in.gat,22,109
+alberta_in.gat,22,153,0	 warp	 albertawarp004	3,2,alberta_in.gat,22,174
+alberta_in.gat,22,170,0	 warp	 albertawarp005	3,2,alberta_in.gat,22,149
+alberta_in.gat,24,33,0	 warp	 albertawarp006	3,2,alberta_in.gat,64,35
+alberta_in.gat,24,54,0	 warp	 albertawarp007	3,2,alberta_in.gat,64,53
+alberta_in.gat,64,31,0	 warp	 albertawarp008	3,2,alberta_in.gat,24,29
+alberta_in.gat,64,57,0	 warp	 albertawarp009	3,2,alberta_in.gat,24,58
+alberta_in.gat,66,113,0	 warp	 albertawarp010	3,1,alberta_in.gat,66,132
+alberta_in.gat,66,130,0	 warp	 albertawarp011	3,1,alberta_in.gat,66,111
+alberta_in.gat,66,153,0	 warp	 albertawarp012	3,2,alberta_in.gat,66,174
+alberta_in.gat,66,170,0	 warp	 albertawarp013	3,2,alberta_in.gat,66,149
+alberta_in.gat,73,141,0	 warp	 albertawarp014	2,3,alberta.gat,138,37
+alberta_in.gat,78,44,0	 warp	 albertawarp015	2,5,alberta.gat,37,41
+alberta_in.gat,114,49,0	 warp	 albertawarp016	2,2,alberta_in.gat,155,153
+alberta_in.gat,114,97,0	 warp	 albertawarp017	2,2,alberta_in.gat,155,175
+alberta_in.gat,114,130,0 warp	 albertawarp018	2,2,alberta.gat,93,201
+alberta_in.gat,114,183,0 warp	 albertawarp019	1,1,alberta_in.gat,148,186
+alberta_in.gat,125,160,0 warp	 albertawarp020	2,2,alberta.gat,102,222
+alberta_in.gat,152,186,0 warp	 albertawarp021	1,1,alberta_in.gat,118,183
+alberta_in.gat,159,153,0 warp	 albertawarp022	2,2,alberta_in.gat,117,49
+alberta_in.gat,159,175,0 warp	 albertawarp023	2,2,alberta_in.gat,117,97
+alberta_in.gat,180,34,0	 warp	 albertawarp024	2,2,alberta.gat,117,42
+alberta_in.gat,189,89,0	 warp	 albertawarp025	2,2,alberta.gat,102,153
+alberta.gat,15,234,0	 warp	 albertawarp026	2,5,pay_fild03.gat,388,63
+alberta.gat,33,42,0	 warp	 albertawarp027	2,2,alberta_in.gat,74,44
+alberta.gat,65,233,0	 warp	 albertawarp028	2,3,alberta_in.gat,20,141
+alberta.gat,93,205,0	 warp	 albertawarp029	2,2,alberta_in.gat,114,134
+alberta.gat,98,153,0	 warp	 albertawarp030	2,2,alberta_in.gat,185,89
+alberta.gat,99,221,0	 warp	 albertawarp031	2,2,alberta_in.gat,122,161
+alberta.gat,117,38,0	 warp	 albertawarp032	2,2,alberta_in.gat,180,30
+alberta.gat,134,37,0	 warp	 albertawarp033	1,1,alberta_in.gat,70,141
+alberta.gat,170,170,0	 warp	 albertawarp034	1,1,alb_ship.gat,26,168
+alberta.gat,178,165,0	 warp	 albertawarp035	1,2,alb_ship.gat,39,163
+alberta.gat,209,173,0	 warp	 albertawarp036	1,2,alb_ship.gat,162,171

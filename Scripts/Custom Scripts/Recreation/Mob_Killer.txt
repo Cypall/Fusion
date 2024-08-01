@@ -1,0 +1,105 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Hit-Man -> prontera 156 309
+//	Kills ALL monsters spawned inside listed cities.
+//
+//========================================================================================
+
+
+prontera.gat,156,309,6	script	"Hit-man"	732,{
+	mes "[Monster Hit-man]";
+	mes "Lol, $charaname.. lost control of the mobs, aye?";
+	mes " ";
+	mes "Well, what's your pleasure?";
+	next;
+	menu "Archer Village",arch,"Alberta",albe,"Al de Baran",alde,"Amatsu",amat,"Comodo",como,"Geffen",geff,"Gon Ryune",kunl,"Izlude",izlu,"Jawaii",jawa,"Juno",juno,"Lou Yang",louy,"Lutie",luti,"Morocc",moro,"Niflheim",nifl,"Payon",payo,"Prontera",pront,"Rune-Midgard Prison",pris,"Umbala",umba;
+   arch:
+	resetmymob pay_arche";
+	setstr $@mapname = "Archer Village";
+	goto RESET2;
+   albe:
+	resetmymob alberta;
+	setstr $@mapname = "Alberta";
+	goto RESET;
+   alde:
+	resetmymob aldebaran;
+	setstr $@mapname = "Al de Baran";
+	goto RESET;
+   amat:
+	resetmymob amatsu;
+	setstr $@mapname = "Amatsu";
+	goto RESET;
+   como:
+	resetmymob comodo;
+	setstr $@mapname = "Comodo";
+	goto RESET;
+   geff:
+	resetmymob geffen;
+	setstr $@mapname = "Geffen";
+	goto RESET;
+   izlu:
+	resetmymob izlude;
+	setstr $@mapname = "Izlude";
+	goto RESET;
+   jawa:
+	resetmymob jawaii;
+	setstr $@mapname = "Jawaii";
+	goto RESET;
+   juno:
+	resetmymob yuno;
+	setstr $@mapname = "Juno";
+	goto RESET;
+   kunl:
+	resetmymob gonryun;
+	setstr $@mapname = "Gon Ryune";
+	goto RESET;
+   louy:
+	resetmymob louyang;
+	setstr $@mapname = "Lou Yang";
+	goto RESET;
+   luti:
+	resetmymob xmas;
+	setstr $@mapname = "Lutie";
+	goto RESET;
+   moro:
+	resetmymob morocc;
+	setstr $@mapname = "Morocc";
+	goto RESET;
+   nifl:
+	resetmymob niflheim;
+	setstr $@mapname = "Niflheim";
+	goto RESET;
+   payo:
+	resetmymob payon;
+	setstr $@mapname = "Payon";
+	goto RESET;
+   pront:
+	resetmymob prontera;
+	setstr $@mapname = "Prontera";
+	goto RESET;
+   pris:
+	resetmymob sec_pri;
+	setstr $@mapname = "Rune-Midgard Prison";
+	goto RESET2;
+   umba:
+	resetmymob umbala;
+	setstr $@mapname = "Umbala";
+	goto RESET;
+   RESET:
+	mes "[Monster Hit-man]";
+	mes "All monsters in the city of $[$@mapname] have been captured and killed.";
+	next;
+	goto OOPS;
+   RESET2:
+	mes "[Monster Hit-man]";
+	mes "All monsters in the $[$@mapname] have been captured and killed.";
+	next;
+   OOPS:
+	mes "[Monster Hit-man]";
+	mes "Hope you have a nice day.";
+	close;
+}

@@ -1,0 +1,26 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Kunlun Town Warps - Warp Locations
+//
+//========================================================================================
+
+gonryun.gat,195,93,0	warp	gonryunwarp001	1,1,gon_in.gat,95,23
+gon_in.gat,95,26,0	warp	gonryunwarp002	1,1,gonryun.gat,195,96
+gonryun.gat,215,114,0	warp	gonryunwarp003	1,1,gon_in.gat,152,24
+gon_in.gat,149,24,0	warp	gonryunwarp004	1,1,gonryun.gat,212,114
+gon_in.gat,184,11,0	warp	gonryunwarp005	1,1,gon_in.gat,189,85
+gon_in.gat,186,85,0	warp	gonryunwarp006	1,1,gon_in.gat,181,11
+gon_in.gat,186,107,0	warp	gonryunwarp007	1,1,gon_in.gat,181,36
+gon_in.gat,184,36,0	warp	gonryunwarp008	1,1,gon_in.gat,189,107
+gonryun.gat,221,162,0	warp	gonryunwarp009	1,1,gon_in.gat,112,98
+gon_in.gat,109,98,0	warp	gonryunwarp010	1,1,gonryun.gat,218,162
+gonryun.gat,107,184,0	warp	gonryunwarp011	1,1,gon_in.gat,72,70
+gon_in.gat,72,67,0	warp	gonryunwarp012	1,1,gonryun.gat,107,181
+gonryun.gat,109,131,0	warp	gonryunwarp013	1,1,gon_in.gat,44,24
+gon_in.gat,47,24,0	warp	gonryunwarp014	1,1,gonryun.gat,112,131
+gon_in.gat,42,35,0	warp	gonryunwarp015	1,1,gon_in.gat,34,97
+gon_in.gat,31,97,0	warp	gonryunwarp016	1,1,gon_in.gat,39,35

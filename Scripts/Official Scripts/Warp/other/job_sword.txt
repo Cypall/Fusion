@@ -1,0 +1,240 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Swordman Quest - Non Player Character Locations
+//
+// - Warps -> sword_1-1: ALL
+// - Warps -> sword_2-1: ALL
+// - Warps -> sword_3-1: ALL
+//
+//========================================================================================
+
+//========================================================================================
+// - Main Warps
+//========================================================================================
+
+//sword_1-1.gat,192,245,0 warp jobsword1 1,1,sword_1-1.gat,215,244
+sword_1-1.gat,224,244,0 warp jobsword2 1,1,sword_2-1.gat,10,207
+//sword_2-1.gat,192,206,0 warp jobsword3 1,1,sword_2-1.gat,215,205
+sword_2-1.gat,224,206,0 warp jobsword4 1,1,sword_3-1.gat,10,168
+//sword_3-1.gat,192,169,0 warp jobsword5 1,1,sword_3-1.gat,215,167
+
+sword_1-1.gat,192,245,0 script	""	45,1,1,{
+		broadcast "Applicant $charaname, has passed the 1st course.",10; 
+		warp "sword_1-1",215,244;
+		return;
+}
+
+sword_2-1.gat,192,206,0 script	""	45,1,1,{
+         	broadcast "Applicant $charaname, has passed the 2nd course.",10; 
+	   	warp "sword_2-1",215,205;
+		return;
+}
+
+sword_3-1.gat,192,169,0 script	""	45,1,1,{
+        	broadcast "Applicant $charaname, has passed the 3rd course.",10; 
+		warp "sword_3-1",215,167;
+		return;
+}
+
+//========================================================================================
+// - Trap Hall Warps 1
+//========================================================================================
+
+sword_1-1.gat,17,238,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,18,238,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,18,251,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,17,251,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,24,245,0 hiddenwarp jobtrap1 0,2,sword_1-1.gat,66,35
+sword_1-1.gat,29,247,0 hiddenwarp jobtrap1 4,0,sword_1-1.gat,66,35
+sword_1-1.gat,28,242,0 hiddenwarp jobtrap1 4,0,sword_1-1.gat,66,35
+sword_1-1.gat,40,251,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,39,251,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,40,238,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,39,238,0 hiddenwarp jobtrap1 1,1,sword_1-1.gat,66,35
+sword_1-1.gat,33,244,0 hiddenwarp jobtrap1 0,2,sword_1-1.gat,66,35
+sword_1-1.gat,62,247,0 hiddenwarp jobtrap1 8,0,sword_1-1.gat,66,35
+sword_1-1.gat,71,245,0 hiddenwarp jobtrap1 0,2,sword_1-1.gat,66,35
+sword_1-1.gat,54,244,0 hiddenwarp jobtrap1 0,2,sword_1-1.gat,66,35
+sword_1-1.gat,63,242,0 hiddenwarp jobtrap1 8,0,sword_1-1.gat,66,35
+sword_1-1.gat,62,250,0 hiddenwarp jobtrap1 8,0,sword_1-1.gat,66,35
+sword_1-1.gat,70,250,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,62,251,0 hiddenwarp jobtrap1 8,0,sword_1-1.gat,66,35
+sword_1-1.gat,70,251,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,62,239,0 hiddenwarp jobtrap1 8,0,sword_1-1.gat,66,35
+sword_1-1.gat,70,239,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,62,238,0 hiddenwarp jobtrap1 8,0,sword_1-1.gat,66,35
+sword_1-1.gat,70,238,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,102,247,0 hiddenwarp jobtrap1 2,0,sword_1-1.gat,66,35
+sword_1-1.gat,105,245,0 hiddenwarp jobtrap1 0,2,sword_1-1.gat,66,35
+sword_1-1.gat,103,242,0 hiddenwarp jobtrap1 2,0,sword_1-1.gat,66,35
+sword_1-1.gat,100,244,0 hiddenwarp jobtrap1 0,2,sword_1-1.gat,66,35
+sword_1-1.gat,156,248,0 hiddenwarp jobtrap1 14,0,sword_1-1.gat,66,35
+sword_1-1.gat,170,248,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,156,249,0 hiddenwarp jobtrap1 14,0,sword_1-1.gat,66,35
+sword_1-1.gat,170,249,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,156,245,0 hiddenwarp jobtrap1 14,0,sword_1-1.gat,66,35
+sword_1-1.gat,170,245,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,156,244,0 hiddenwarp jobtrap1 14,0,sword_1-1.gat,66,35
+sword_1-1.gat,170,244,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,156,241,0 hiddenwarp jobtrap1 14,0,sword_1-1.gat,66,35
+sword_1-1.gat,170,241,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,156,240,0 hiddenwarp jobtrap1 14,0,sword_1-1.gat,66,35
+sword_1-1.gat,170,240,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,181,239,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,182,239,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,181,250,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+sword_1-1.gat,182,250,0 hiddenwarp jobtrap1 1,0,sword_1-1.gat,66,35
+
+//========================================================================================
+// - Trap Hall Warps 2
+//========================================================================================
+
+sword_2-1.gat,16,206,0 hiddenwarp jobtrap2 0,3,sword_2-1.gat,193,38
+sword_2-1.gat,97,206,0 hiddenwarp jobtrap2 0,3,sword_2-1.gat,193,38
+sword_2-1.gat,31,203,0 hiddenwarp jobtrap2 14,0,sword_2-1.gat,193,38
+sword_2-1.gat,60,203,0 hiddenwarp jobtrap2 14,0,sword_2-1.gat,193,38
+sword_2-1.gat,86,203,0 hiddenwarp jobtrap2 11,0,sword_2-1.gat,193,38
+sword_2-1.gat,31,212,0 hiddenwarp jobtrap2 15,0,sword_2-1.gat,193,38
+sword_2-1.gat,60,212,0 hiddenwarp jobtrap2 14,0,sword_2-1.gat,193,38
+sword_2-1.gat,86,212,0 hiddenwarp jobtrap2 11,0,sword_2-1.gat,193,38
+sword_2-1.gat,31,210,0 hiddenwarp jobtrap2 15,0,sword_2-1.gat,193,38
+sword_2-1.gat,60,210,0 hiddenwarp jobtrap2 14,0,sword_2-1.gat,193,38
+sword_2-1.gat,86,210,0 hiddenwarp jobtrap2 11,0,sword_2-1.gat,193,38
+sword_2-1.gat,31,201,0 hiddenwarp jobtrap2 15,0,sword_2-1.gat,193,38
+sword_2-1.gat,60,201,0 hiddenwarp jobtrap2 14,0,sword_2-1.gat,193,38
+sword_2-1.gat,86,201,0 hiddenwarp jobtrap2 11,0,sword_2-1.gat,193,38
+sword_2-1.gat,100,206,0 hiddenwarp jobtrap2 0,3,sword_2-1.gat,193,38
+sword_2-1.gat,127,206,0 hiddenwarp jobtrap2 0,3,sword_2-1.gat,193,38
+sword_2-1.gat,127,212,0 hiddenwarp jobtrap2 0,0,sword_2-1.gat,193,38
+sword_2-1.gat,127,210,0 hiddenwarp jobtrap2 0,0,sword_2-1.gat,193,38
+sword_2-1.gat,127,201,0 hiddenwarp jobtrap2 0,0,sword_2-1.gat,193,38
+sword_2-1.gat,130,212,0 hiddenwarp jobtrap2 0,0,sword_2-1.gat,193,38
+sword_2-1.gat,130,210,0 hiddenwarp jobtrap2 0,0,sword_2-1.gat,193,38
+sword_2-1.gat,130,201,0 hiddenwarp jobtrap2 0,0,sword_2-1.gat,193,38
+sword_2-1.gat,113,212,0 hiddenwarp jobtrap2 13,0,sword_2-1.gat,193,38
+sword_2-1.gat,113,210,0 hiddenwarp jobtrap2 13,0,sword_2-1.gat,193,38
+sword_2-1.gat,113,203,0 hiddenwarp jobtrap2 13,0,sword_2-1.gat,193,38
+sword_2-1.gat,113,201,0 hiddenwarp jobtrap2 13,0,sword_2-1.gat,193,38
+sword_2-1.gat,130,206,0 hiddenwarp jobtrap2 0,3,sword_2-1.gat,193,38
+sword_2-1.gat,183,206,0 hiddenwarp jobtrap2 0,3,sword_2-1.gat,193,38
+sword_2-1.gat,145,206,0 hiddenwarp jobtrap2 14,0,sword_2-1.gat,193,38
+sword_2-1.gat,171,212,0 hiddenwarp jobtrap2 12,0,sword_2-1.gat,193,38
+sword_2-1.gat,171,210,0 hiddenwarp jobtrap2 12,0,sword_2-1.gat,193,38
+sword_2-1.gat,171,203,0 hiddenwarp jobtrap2 12,0,sword_2-1.gat,193,38
+sword_2-1.gat,171,201,0 hiddenwarp jobtrap2 12,0,sword_2-1.gat,193,38
+
+//========================================================================================
+// - Trap Hall Warps 3
+//========================================================================================
+
+sword_3-1.gat,17,174,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,18,174,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,17,163,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,18,163,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,26,169,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,28,166,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,31,168,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,29,171,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,37,169,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,37,168,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,36,169,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,36,168,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,167,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,166,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,171,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,170,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,42,168,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,42,166,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,42,171,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,43,169,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,41,163,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,41,162,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,163,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,162,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,41,175,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,41,174,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,175,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,40,174,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,47,175,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,50,175,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,48,173,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,49,173,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,47,162,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,50,162,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,48,164,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,49,164,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,55,169,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,54,169,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,54,171,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,55,166,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,52,168,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,57,169,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,55,168,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,54,168,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,59,175,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,60,173,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,61,173,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,59,162,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,60,164,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,61,164,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,77,164,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,76,164,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,78,162,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,77,173,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,76,173,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,78,175,0 hiddenwarp jobtrap3 1,1,sword_3-1.gat,165,122
+sword_3-1.gat,96,163,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,94,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,99,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,96,174,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,94,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,96,168,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,97,168,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,96,169,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,97,169,0 hiddenwarp jobtrap3 0,0,sword_3-1.gat,165,122
+sword_3-1.gat,99,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,114,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,115,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,114,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,115,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,126,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,127,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,126,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,127,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,168,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,169,162,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,168,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,169,175,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+sword_3-1.gat,160,163,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,161,163,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,160,174,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,161,174,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,176,174,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,178,172,0 hiddenwarp jobtrap3 1,0,sword_3-1.gat,165,122
+sword_3-1.gat,181,174,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,179,168,0 hiddenwarp jobtrap3 3,0,sword_3-1.gat,165,122
+sword_3-1.gat,179,169,0 hiddenwarp jobtrap3 3,0,sword_3-1.gat,165,122
+sword_3-1.gat,182,169,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,183,169,0 hiddenwarp jobtrap3 0,2,sword_3-1.gat,165,122
+sword_3-1.gat,181,163,0 hiddenwarp jobtrap3 2,0,sword_3-1.gat,165,122
+sword_3-1.gat,180,167,0 hiddenwarp jobtrap3 0,1,sword_3-1.gat,165,122
+
+//========================================================================================
+// - Exit Warps
+//========================================================================================
+
+sword_1-1.gat,66,117,0 warp jobexit1 1,1,sword_1-1.gat,10,245
+sword_2-1.gat,240,117,0 warp jobexit2 1,1,sword_2-1.gat,10,207
+sword_3-1.gat,162,27,0 warp jobexit3 1,1,sword_3-1.gat,10,168
+sword_3-1.gat,97,27,0 warp jobexit3 1,1,sword_3-1.gat,10,168
+
+
+
+
+
+
+

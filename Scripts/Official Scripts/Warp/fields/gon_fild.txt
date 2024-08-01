@@ -1,0 +1,12 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Kunlun Field Warps - Warp Locations
+//
+//========================================================================================
+
+gon_fild01.gat,192,266,0	warp	gonfieldwarp001	1,1,gonryun.gat,161,11
+gonryun.gat,161,8,0		warp	gonfieldwarp002	1,1,gon_fild01.gat,191,261

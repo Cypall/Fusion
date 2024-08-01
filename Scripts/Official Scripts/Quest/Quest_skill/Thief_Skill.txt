@@ -1,0 +1,547 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+// http://cobax.net
+// ---------------------------------------------------------------------------------------
+//
+// Thief Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Alcouskou -> moc_prydb1: 154,128
+//   Bring items to obtain skill. Applicable jobs are Thief , Assasin and Rogue.
+//
+// - RuRumuni -> payon.gat: 149,120
+//   Bring items to receive Leather bag of Infinity.
+//========================================================================================
+
+moc_prydb1.gat,154,128,4	script	"Alcouskou"	118,{
+	check Job = 6,LStart,-;
+	check Job = 12,LStart,-;
+	check Job = 17,LStart,-;
+	goto LStart1;
+LStart:
+	mes "[Alcouskou]";
+	mes "Living in this world, sometimes";
+	mes "the most unuseful knowledge";
+	mes "can eventually be very useful";
+	mes "I can teach you some of them";
+	mes "Anyways, which one";
+	mes "are you interested in?";
+	next;
+	menu "Throw Sand",L1,"Back Sliding",L2,"Pick Stone",L3,"Throw Stone",L4,"Let me think about it, I'll come back later",L5;
+//-----------------------------------------------
+//==== Throw Sand - TF_SPRINKLESAND
+//-----------------------------------------------
+L1:
+	check skill_thief_1 = 3,L1_End,-;
+	check skill_thief_1 = 2,L1_2,-;
+	check skill_thief_1 = 1,L1_1,-;
+	check Job = 12,L1_0,-;
+	check Job = 17,L1_0,-;
+	check JobLevel >= 25,-,L1_E;
+	check Job = 6,L1_0,-;
+L1_0:
+	checkitem 7041,5,-,L1_E;
+	mes "[Alcouskou]";
+	mes "So you brought the Fine Grits ";
+    	mes "Why do we need this many Grits? ";
+    	mes "No matter where you are adventuring";
+    	mes "whether it is inside a cave on a rocky ";
+    	mes "mountains, or deep inside a thick forest ";
+    	mes "you must have";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "these Grits in case of emergency ";
+    	mes "I will grind these yellow rocks ";
+    	mes "into powdery substance ";
+    	mes "so please get me a bag";
+    	next;
+   	mes "[Alcouskou]";
+    	mes "What? You think I'm here ";
+    	mes "to help with everything ";
+   	mes "you need? Go to Payon";
+   	mes "and look for Master RuRumuni";
+    	mes "He will help you make";
+    	mes "a magical bag ";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "Master RuRumuni is in West ";
+    	mes "of Payon Village ";
+    	mes "I'll grind the Grits in the meantime ";
+    	mes "and give it to you later";
+	delitem 7041,5;
+	set skill_thief_1 = 1;
+	close;
+L1_E:
+	mes "[Alcouskou]";
+	mes "Being a thief means ";
+    	mes "to use any means and ways possible";
+    	mes "to take advantage in any situation ";
+    	mes "Some people might say ";
+    	mes "that it is lowly and dishonorable ";
+    	mes "But I would say otherwise ";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "This is a world where the ones with the upper hand";
+    	mes "becomes the victor!! Since you are a brother";
+    	mes "in arms and profession, I'll teach ";
+    	mes "this skill to you ";
+    	mes "What kind of skill? It's ";
+    	mes "called Throw Sand ";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "When the enemy vision becomes blurred";
+    	mes "you attack them with all you have";
+    	mes "This ensures more damage as";
+    	mes "your opponents enters a state of confusion ";
+   	next;
+    	mes "[Alcouskou]";
+    	mes "This is...our way of life ";
+    	mes "it will always be like it.. ";
+    	mes "You should always have sands,";
+    	mes "just for precaution ";
+    	mes "Can you prepare some?";
+    	mes "I would need 5 Fine Grits";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "I know you're in the rush to ";
+    	mes "learn this skill, but before you";
+    	mes " have 5 Fine Grits ";
+    	mes "I cannot teach you ";
+    	mes "I know this is unfortunate, but please go look for it.";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "And one more thing ";
+    	mes "If you're an assassin, it's not a problem ";
+    	mes "But if you're a thief, you would need to ";
+    	mes "be Jov lvl 25 or above";
+    	mes "to be able to learn this skill ";
+    	mes "Please note this";
+	close;
+L1_1:
+	mes "[Alcouskou]";
+	mes "Go to Payon Village ";
+    	mes "and look for Master RuRumuni";
+    	mes "no the West side, he'll help ";
+    	mes "you make a magical bag ";
+   	next;
+    	mes "[Alcouskou]";
+    	mes "I'll grind the Grits in the meantime ";
+   	mes "and give it to you later";
+	close;
+L1_2:
+	mes "[Alcouskou]";
+    	mes "Hehehe! ok !!";
+    	mes "This bag will hold smaller things ";
+    	mes "in huge volume ";
+    	mes "^3355FFLeather Bag of Infinity^000000 !!";
+    	mes "Now you're set ";
+    	mes "I'll teach you ";
+    	mes " the skill";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "Look carefully now!";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "eeeyaah!!";
+    	mes "^5533FF- Sha Sha  -^000000";
+    	next;
+    	mes "^5533FF- Shaa Shaa -^000000";
+    	next;
+    	mes "[Alcouskou]";
+    	mes "Throw the sand as you turn ";
+    	mes "for more velocity";
+    	mes "Alright, that's all about ";
+    	mes "Throwing sands, there's nothing else ";
+    	mes "I can teach you ";
+    	mes "Use it wisely in your ";
+    	mes "forthcoming battles";
+	delitem 7042,1;
+	set skill_thief_1 = 3;
+	setskilllevel 0x95,1;
+	close;
+L1_End:
+	setskilllevel 0x95,1;
+	mes "[Alcouskou]";
+	mes "You have master this skill";
+	mes "Why don't you master another.";
+	close;
+//-----------------------------------------------
+//==== Back Sliding - TF_BACKSLIDING
+//-----------------------------------------------
+L2:
+		check skill_thief_2 = 1,L2_End,-;
+		check Job = 12,L2_0,-;
+		check Job = 17,L2_0,-;
+		check JobLevel >= 35,-,L2_E;
+		check Job = 6,L2_0,-;
+L2_0:
+		checkitem 940,20,-,L2_E;
+ 		mes "[Alcouskou]";
+  		mes "Ok, watch carefuly ";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "*shoo shoo* -";
+  		next;
+ 		mes "[Alcouskou]";
+  		mes "*shoo shoo* -";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "*moonwalking* -";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "Alright ¡V now you should ";
+  		mes "be able to practice on your own ";
+  		mes "Good luck";
+ 		delitem 940,20;
+		set skill_thief_2 = 1;
+		setskilllevel 0x96,1;
+ 		close;
+L2_E:
+ 		mes "[Alcouskou]";
+		mes "When you're in battle";
+  		mes "facing the enemy and";
+  		mes "you feel overwhelmed ";
+  		mes "sometimes the most reasonable step is to withdraw";
+  		mes "rather than attacking the enemy ";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "Our agility and fast attacks  ";
+  		mes "on enemies is one of the strongest ";
+  		mes "point being a thief ";
+  		mes "But I have to admit";
+  		mes "it also relies on our flexible body ";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "which can be easily harmed by enemy attacks";
+  		mes "When the time comes ";
+  		mes "to face a horde of enemies ";
+  		mes "at once, your priority should be";
+  		mes "of evading";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "Act smart! ";
+  		mes "Any ordinary man would turn around";
+  		mes "and start running if this happens ";
+  		mes "But we don't have to be running like ";
+  		mes "them as well";
+  		mes "We have a skill for evading";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "That skill is";
+  		mes "simply flowing your energy ";
+  		mes "to your foot and sliding backward ";
+  		mes "from your enemy within a fraction of a time ";
+  		mes "to a safe distance";
+  		mes "This requires some amount of practice";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "before you can master it ";
+  		mes "To learn this skill you would need ";
+  		mes "some items, please bring to me ";
+  		mes "^3355FF 20 Grasshopper's leg^000000";
+  		mes "and I will teach you ";
+  		next;
+  		mes "[Alcouskou]";
+  		mes "One more important thing ";
+  		mes "You would have to be of certain job level ";
+  		mes "if you have not advanced to";
+  		mes "^3355FF Job Level 35^000000";
+  		mes "I cannot teach you the skill";
+		close;
+L2_End:
+	setskilllevel 0x95,6;
+	mes "[Alcouskou]";
+	mes "You have master this skill";
+	mes "Why don't you master another.";
+	close;
+//-----------------------------------------------
+//==== Pick Stone - TF_PICKSTONE
+//-----------------------------------------------
+L3:
+	check skill_thief_3 = 1,L3_End,-;
+	check Job = 12,L3_0,-;
+	check Job = 17,L3_0,-;
+	check JobLevel >= 20,-,L3_E;
+	check Job = 6,L3_0,-;
+L3_0:
+	checkitem 912,1,-,L3_E;
+	checkitem 948,1,-,L3_E;
+	checkitem 908,5,-,L3_E;
+ 	mes "[Alcouskou]";
+	mes "Haha! You brought all the ingredients ";
+  	mes "Alright, not bad at all ";
+  	mes "You are really determined. ";
+  	mes "You want me to pick a stone right...";
+  	mes "Which one? The sleek one ";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "with a  slant edge ";
+  	mes "is what you want ";
+  	mes "But enough with useless talks ";
+  	mes "Practice is what you need ";
+  	mes "Now observe ";
+  	next;
+  	mes "^3355FF- *zan*! -^000000";
+  	next;
+  	mes "^3355FF- *shake*! -^000000";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "Ok ok, that's enough";
+  	mes "What's left now is ";
+  	mes "how to use it..";
+  	mes "From now on ";
+  	mes "it's all up to your hands ";
+  	mes ". . . . . good luck";
+	delitem 912,1;
+	delitem 948,1;
+	delitem 908,5;
+	set skill_thief_3 = 1;
+	setskilllevel 0x97,1;
+ 	close;
+L3_E:
+ 	mes "[Alcouskou]";
+	mes "Our guild members";
+  	mes "are skilled people!";
+  	mes "A lot of them can pick up ";
+  	mes "stone from the roadside and throw ";
+  	mes "them far away and hit their target ";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "This is a very ";
+  	mes "useful skill in real life ";
+  	mes "But what you want to know really ";
+ 	mes "is how to do it right..";
+  	mes "The skills are called ^3355FF' Pick Stone '^000000 and";
+  	mes "^3355FF' Throw Stone'^000000 ";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "You can find stones everywhere ";
+  	mes "and pick them up then ";
+  	mes "throw them at your enemies";
+  	mes "to cause damage";
+  	mes "Maximum profit for minimum";
+  	mes "capital";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "Very useful skill... don't you think?";
+  	mes ". . . . . fu fu . . . . . .";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "^3355FF' Pick Stone! '^000000";
+  	mes "With this skill you can";
+  	mes "easily pick up stones anywhere ";
+  	mes " not just ordinary stones, but light ";
+  	mes "and sharp stones";
+  	mes "This requires profound knowledge ";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "That's why this skill needs a great ";
+  	mes "deal of learning and preparation ";
+  	mes ". . . . . kekeke. . . . .";
+  	mes "First, to learn Pick Stone you would need";
+ 	mes " ^3355FF A Bear's Foot ^000000";
+ 	next;
+  	mes "[Alcouskou]";
+  	mes "Besides Bear's Foot ";
+  	mes "You should also gather.. ^3355FF A Zargon^000000 !";
+  	mes "Picking up Zargon would be boring no? ";
+  	mes "There's also ^3355FF 5 Spawn^000000 !!";
+  	mes "Lastly we need your enthusiasm as well!";
+  	mes "Understand? Hurry up and gather those items. ";
+ 	close;
+L3_End:
+	setskilllevel 0x97,1;
+	mes "[Alcouskou]";
+	mes "You have master this skill";
+	mes "Why don't you master another.";
+	close;
+//-----------------------------------------------
+//==== Throw Stone - TF_THROWSTONE
+//-----------------------------------------------
+L4:
+	check skill_thief_4 = 1,L1_End,-;
+	check Job = 12,L4_0,-;
+	check Job = 17,L4_0,-;
+	check JobLevel >= 15,-,L4_E;
+	check Job = 6,L4_0,-;
+L4_0:
+	checkitem 910,2,-,L4_E;
+	checkitem 911,2,-,L4_E;
+ 	mes "[Alcouskou]";
+	mes "Aiyo. Why did you get back so fast!";
+  	mes "Alright alright, I'll teach you ";
+  	mes "Now the Garlets and Scells..";
+  	next;
+  	mes "^3355FF- shoo ¡V ta ! -^000000";
+  	next;
+  	mes "^3355FF- shoonyoo - tu . . -^000000";
+  	next;
+  	mes "^3355FF- shoopaa!! ¡V ta !! -^000000";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "Good throw!!";
+  	mes "Alright, not bad!";
+  	mes "No we don't need the ";
+  	mes "Garlet and Scell anymore ";
+  	mes "You're developed good accuracy " ;
+  	next;
+  	mes "[Alcouskou]";
+  	mes "Now how you use the skill ";
+  	mes "is entirely up to you... ";
+  	mes "I wish you luck, friend!";
+ 	delitem 910,2;
+	delitem 911,2;
+	set skill_thief_4 = 1;
+	setskilllevel 0x98,1;
+ 	close;
+L4_E:
+ 	mes "[Alcouskou]";
+	mes "Our guild members";
+  	mes "are skilled people!";
+  	mes "A lot of them can pick up ";
+  	mes "stone from the roadside and throw ";
+  	mes "them far away and hit their target ";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "This is a very ";
+  	mes "useful skill in real life ";
+  	mes "But what you want to know really ";
+  	mes "is how to do it right..";
+  	mes "The skills are called ^3355FF' Pick Stone '^000000 and";
+  	mes "^3355FF' Throw Stone'^000000 ";
+  	next;
+  	mes "You can find stones everywhere ";
+  	mes "and pick them up then ";
+  	mes "throw them at your enemies";
+  	mes "to cause damage";
+  	mes "Maximum profit for minimum";
+  	mes "capital";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "Very useful skill... don't you think?";
+  	mes ". . . . . fu fu . . . . . .";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "^3355FF Throw Stone!!^000000";
+  	mes "With this skill you can ";
+  	mes "use stones you gather ";
+  	mes "and hurl them at your enemies ";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "Which stones are good for throwing?;
+  	mes "If you don't know how to pick ";
+  	mes "then you can ask fellow thieves who can";
+  	mes "do it for you";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "To learn this skill there are ";
+  	mes "few requirements you have to meet ";
+  	mes "It's not easy, but with the help of your friends ";
+  	mes "it should be simple enough...";
+  	next;
+  	mes "[Alcouskou]";
+  	mes "You need 2 ^3355FF'Garlet'^000000";
+  	mes "and 2 ^3355FF'Scell'^000000";
+  	mes "Just think of it as substitute for";
+  	mes "the stones. When you gathered the items";
+  	mes "come back and I'll teach you ";
+ 	close;
+L5:
+	mes "[Alcouskou]";
+	mes "You are full of consideration my friend.";
+	mes "Very well! Just come back when you made up your mind ";
+	close;
+LStart1:
+	mes "[Alcouskou]";
+	mes "Being a thief myself I think that ";
+	mes "there are some essential survival skill ";
+	mes "you should learn ";
+	mes "I can teach fellow thieves and assassins ";
+	mes "some of those skills";
+	next;
+	mes "[Alcouskou]";
+	mes "If you have a thieve , assassin or rogue partner";
+	mes "tell them about me so they ";
+	mes "can learn new skills for their own benefit as well ";
+	close;
+L4_End:
+	setskilllevel 0x98,1;
+	mes "[Alcouskou]";
+	mes "You have master this skill";
+	mes "Why don't you master another.";
+	close;
+}
+
+//-----------------------------------------------
+//==== leather bag of Infinity(skill_thief_1ŠÖ˜A)
+//-----------------------------------------------
+payon.gat,149,120,6	script	"Bag Merchant"	99,{
+	mes "[RuRumuni]";
+	mes "Here in Payon Village ";
+	mes "I live surrounded by bow and arrows";
+	mes "wielding hunters.. ";
+	mes "Gathering leathers and making bags ";
+	mes "is what I do for profession ";
+	mes "I was born to make leather bags ";
+	next;
+	check skill_thief_1 >= 2,L2,-;
+	check skill_thief_1 = 1,L1,-;
+ 	mes "[RuRumuni]";
+	mes "Our guild and Morroc Thief Guild ";
+  	mes "has established good ";
+  	mes "relationship since long..";
+  	mes "Sometimes they requested help ";
+  	mes "from us";
+  	mes "^3355FF' Leather bag of Infinity '^000000";
+	close;
+L1:
+	checkitem 952,1,-,LE;
+	checkitem 1055,1,-,LE;
+	checkitem 1025,1,-,LE;
+	mes "[RuRumuni]";
+	mes "Whoa.. you got it";
+  	mes "not bad not bad";
+  	mes "let me make";
+  	mes "the magical bag now.. heigh-ho! Heigh-ho!";
+  	mes "*dan* *dan* *din* *din* *din* ";
+  	mes "- - - - -";
+  	next;
+  	mes "[RuRumuni]";
+  	mes "Here it's finished";
+  	mes "Take this bag now,";
+  	mes "and give it to Master Alcouskou of the thieves guild ";
+  	mes "He will teach you";
+  	mes "the skill then";
+	mes "I bid you farewell ";
+	delitem 952,1;
+	delitem 1055,1;
+	delitem 1025,1;
+	additem 7042,1;
+	set skill_thief_1 = 2;
+	close;
+LE:
+	mes "[RuRumuni]";
+	mes "I've got this recipe from the";
+  	mes "Master Alcouskou of the Thieves Guild. ";
+  	mes "To make a Leather bag of Infinity ";
+  	mes "requires a lot of effort ";
+  	mes "Please gather these stuff";
+  	next;
+  	mes "This is the ingredient needed";
+  	mes "We only need 3 things...";
+  	mes "One of each:";
+  	mes "^3355FF' Cactus Needle '^000000";
+  	mes "^3355FF' Earthworm Peeling '^000000";
+  	mes "^3355FF' Spiderweb '^000000";
+	close;
+L2:
+	mes "[RuRumuni]";
+	mes "Give the Leather bag of Infinity ";
+  	mes "to Master Alcouskou";
+  	mes "of the Thieves Guild";
+  	mes "He'll teach you";
+  	mes "the skill in return.";
+	close;
+}

@@ -1,0 +1,425 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+//  Kafra Main Office - Non Player Character Locations
+//
+// - Kafra Employee -> aldeba_in: 24,245
+//   Gives info on kafra service 
+//
+// - Kafra Employee -> aldeba_in: 81,166
+//   Sells Kafra Pass
+//
+// - Kafra Employee -> aldeba_in: 91,244
+//   Just a normal chat.
+//
+// - Kafra Employee -> aldeba_in: 96,181
+//   Save, Storage, Teleport, Rent Cart, kafra Pass and More services.
+//
+// - Kafra Employee -> aldeba_in: 148,244
+//   Just a normal chat.
+//
+// - Kafra Employee -> aldeba_in: 83,244
+//   Just a normal chat.
+//
+//========================================================================================
+
+aldeba_in.gat,24,245,4	script	"Kafra Employee"	115,{
+	cutin "kafra_03",2;
+	mes "[Kafra Jasmine]";
+	mes "Hi~ I am Kafra No. 1 Type Jasmine.";
+	mes "Thank you for comming all the way to Kafra Main Office here at Al De Baran!";
+	next;
+	mes "[Kafra Jasmine]";
+	mes "Our Kafra Service is always together with our customers!";
+	mes "Our Kafra Service has a history and legacy of 5 thousand 8 hundred years old...";
+	mes "Blah-blah-blah.....";
+	next;
+	menu "FIVE THOUSNAD AND EIGHT HUNDRED YEARS?!",L0,"Ahh~ Shut Up!",L1,"You go a boyfriend?",L2;
+	L0:
+	mes "[Kafra Jasmine]";
+	mes "Shut UP! And listen! It to me a week to memorice this!";
+	mes "I've got poor memory unlike other Kafra agents!";
+	   emotion 6;
+	mes "[Kafra Jasmine]";
+	next;
+	mes "..... Eh!... What did I just say...";
+	   emotion 19;
+	next;
+	mes "[Kafra Jasmine]";
+	mes "Hohohoho. S-sorry... I-it was a show, a standing comedy...";
+	mes "Right... Dream Show only for Ka-Kafra customers~!";
+	   emotion 4;
+	mes "(but a solo show)";
+	cutin "kafra_03",255;
+	close;
+L1:
+	mes "[Kafra Jasmine]";
+	mes ". . . . .";
+	   emotion 6;
+    	next;
+	mes "[Kafra Jasmine]";
+	mes "I was the member of Kafra Garrion before I joined Kafra Service Team...";
+	mes "The speciality was 'Bash'!!";
+	mes "I'm trying to be feminine and live a quiet life";
+	mes "So please don't tempt me...";
+	   emotion 32;
+	cutin "kafra_03",255;
+	close;
+L2:
+	mes "[Kafra Jasmine]";
+	mes "My, my~. Kafra Service has a ridiculous rule that no Agent can have a boyfriend";
+	mes ". . . . .";
+	mes ". . . . . . . . . .";
+	next;
+	mes "[Kafra Jasmine]";
+	mes "Just kidding~~ Hehe";
+	   emotion 18;
+	cutin "kafra_03",255;
+	close;
+}
+
+aldeba_in.gat,81,166,4	script	"Kafra Employee"	117,{
+	cutin "kafra_01",2;
+	mes "[Kafra Pavianne]";
+	mes "Welcome! I'm Kafra service's the first Kafra Type 'Pavianne'";
+	next;
+	mes "[Kafra Pavianne]";
+	mes "Our Kafra Service is always trying to meet 100% customers satisfaction based on 3 principles, Trust, Devotion and Truest.";
+	mes "With complete Service training and supervision, we serve our customers to meet thier needs.";
+	next;
+	menu "Buy Kafra Pass",L0,"What is Kafra Pass",L1,"Good Bye",L3;
+	L0:
+		check Zeny < 2000,NeedZenys,-;
+		additem 1084,1;
+		set Zeny - 2000;
+		mes "[Kafra Pavianne]";
+		mes "Thank you for using our Kafra Service all the time!";
+		mes "Have a Nice Day!";
+		   emotion 15;
+		cutin "kafra_01",255;
+		close;
+	L1:
+		mes "[Kafra Pavianne]";
+		mes "The best gift you could get only at Kafra Main Office!";
+		mes "^4040FF'K A P R A's   P A S S'^000000!!";
+		mes "TaDa~!";
+		next;
+		mes "[Kafra Pavianne]";
+		mes "With Kafra Pass, you could experience the convenience of Kafra Service world-wide! No Hassle!";
+		mes "The price is 2000 zeny~~";
+		next;
+		mes "[Kafra Pavianne]";
+		mes "Visit any Kafra Service in Midgard, and you could enjoy Kafra Service any time any where for once.";
+		mes "Ending a a conversation with Kafra Service Agent will expire the pass.";
+		cutin "kafra_01",255;
+		close;
+	L3:
+		mes "[Kafra Pavianne]";
+		mes "Thank you for using Kafra Service!";
+		mes "I'm Kafra Pavianne, and it was a pleasure to assist you.";
+		   emotion 15;
+		cutin "kafra_01",255;
+		close;
+	NeedZenys:
+                mes "[Kafra]";
+               	mes "Dear. you don't have enough Money.";
+               	cutin "kafra_02",255;
+               	close;
+}
+
+aldeba_in.gat,91,244,4	script	"Kafra Employee"	112,{
+	cutin "kafra_06",2;
+	mes "[Kafra Curly Sue]";
+	mes "Hello, hello?!!";
+	mes "The youngest of all! Kafra cutty~~";
+	mes "I am Kafra Type 'Curly Sue'";
+	next;
+	mes "[Kafra Curly Sue]";
+	mes "It hasn't been long meeting customers since I am new, but I am always doing my best!!";
+	next;
+	menu "Where is your mom?",L0,"End conversation",LEnd;
+	L0:
+		mes "[Kafra Curly Sue]";
+		mes ". . . . .";
+		mes "Sob sob ...";
+		mes "I am no a KID!!";
+		    emotion 28;
+		cutin "kafra_06",255;
+		close;
+	LEnd:
+		mes "[Kafra Curly Sue]";
+		mes "Here at Kafra Service, We're all doing out B-E-S-T! to provide our customers the B-E-S-T! services.";
+		mes "We really appreciate your business with us.";
+		cutin "kafra_06",255;
+		close;
+}
+
+aldeba_in.gat,96,181,4	script	"Kafra Employee"	113,{
+	set @KAFRA_COUPON = 0;
+	cutin "kafra_05",2;
+	mes "[Kafra Leilah]";
+	mes "Welcome.";
+	mes "Kafra Services is always by your side.";
+	next;
+ L_START_1:
+	check @KAFRA_COUPON = 1,-,L_SUB_0_1;
+		mes "[Kafra Leilah]";
+		mes "How may I help you?";
+		next;
+ L_SUB_0_1:
+	menu "Save",L_MENU_1,"Storage Service",L_MENU_2,"Teleport Service",L_MENU_3,"Cart Rental Service",L_MENU_4,"Use Kafra Coupon",L_MENU_5,"Quit",L_MENU_7;
+	L_MENU_1:
+		save "prt_fild01",198,51;
+		mes "[Kafra Leilah]";
+		mes "Your position has been saved.";
+		check @KAFRA_COUPON = 0,-,L_SUB_1_2;
+			mes "Thank you for using Kafra Services.";
+			emotion 15;
+			goto L_EXIT;
+	L_SUB_1_2:
+			next;
+			goto L_START_1;
+	L_MENU_2:
+			getskilllevel 1,@skilllv_basic; 
+			check @skilllv_basic => 6,L_SUB_2_1,-; 
+			mes "[Kafra Leilah]";
+			mes "You need to have Basic Skills level 6";
+			mes "in order to use the storage service.";
+			check @KAFRA_COUPON = 0,-,L_ROOT_2_1;
+			goto L_EXIT;
+		L_ROOT_2_1:
+				next;
+				goto L_START_1;
+	L_SUB_2_1:
+		check @KAFRA_COUPON = 0,-,L_SUB_2_2;
+			check Zeny < 40,-,L_ROOT_2_2;
+				mes "[Kafra Leilah]";
+				mes "You don't have enough money.";
+				mes "The storage usage fee is 40 Zeny.";
+				goto L_EXIT;
+		L_ROOT_2_2:
+			set Zeny -= 40,0;
+			store;
+			goto L_EXIT;
+	L_SUB_2_2:
+		store;
+		goto L_EXIT;
+	L_MENU_3:
+		mes "[Kafra Leilah]";
+		mes "Please pick your destination.";
+		next;
+		menu "Izlude -> 900 z",L_MENU_3_1,"Geffen -> 1400 z",L_MENU_3_2,"Payon -> 1700 z",L_MENU_3_3,"Morroc -> 1800 z",L_MENU_3_4,"Comodo -> 2000 z",L_MENU_3_4a,"Orc Dungeon -> 1700 z",L_MENU_3_5,"Cancel",L_MENU_3_6;
+		L_MENU_3_1:
+			check @KAFRA_COUPON = 0,-,L_SUB_3_1;
+				check Zeny < 900,-,L_ROOT_3_1;
+					mes "[Kafra Leilah]";
+					mes "You don't have enough money.";
+					mes "Please verify the amount of money you have.";
+					goto L_EXIT;
+			L_ROOT_3_1:
+				set Zeny -= 900,0;
+				set KF_PIT += 90;
+			L_SUB_3_1:
+				warp "izlude",91,105;
+		L_MENU_3_2:
+			check @KAFRA_COUPON = 0,-,L_SUB_3_2;
+				check Zeny < 1400,-,L_ROOT_3_2;
+					mes "[Kafra Leilah]";
+					mes "You don't have enough money.";
+					mes "Please verify the amount of money you have.";
+					goto L_EXIT;
+			L_ROOT_3_2:
+				set Zeny -= 1400,0;
+				set KF_PIT += 140;
+			L_SUB_3_2:
+				warp "geffen",120,39;
+		L_MENU_3_3:
+			check @KAFRA_COUPON = 0,-,L_SUB_3_3;
+				check Zeny < 1700,-,L_ROOT_3_3;
+					mes "[Kafra Leilah]";
+					mes "You don't have enough money.";
+					mes "Please verify the amount of money you have.";
+					goto L_EXIT;
+			L_ROOT_3_3:
+				set Zeny -= 1700,0;
+				set KF_PIT += 170;
+			L_SUB_3_3:
+				warp "payon",69,100;
+		L_MENU_3_4:
+			check @KAFRA_COUPON = 0,-,L_SUB_3_4;
+				check Zeny < 1800,-,L_ROOT_3_4;
+					mes "[Kafra Leilah]";
+					mes "You don't have enough money.";
+					mes "Please verify the amount of money you have.";
+					goto L_EXIT;
+			L_ROOT_3_4:
+				set Zeny -= 1800,0;
+				set KF_PIT += 180;
+			L_SUB_3_4:
+				warp "morocc",156,46;
+		L_MENU_3_4a:
+			check @KAFRA_COUPON = 0,-,L_SUB_3_4a;
+				check Zeny < 2000,-,L_ROOT_3_4a;
+					mes "[Kafra Leilah]";
+					mes "You don't have enough money.";
+					mes "Please verify the amount of money you have.";
+					goto L_EXIT;
+			L_ROOT_3_4a:
+				set Zeny -= 2000,0;
+				set KF_PIT += 180;
+			L_SUB_3_4a:
+				warp "comodo",209,143;
+		L_MENU_3_5:
+			check @KAFRA_COUPON = 0,-,L_SUB_3_5;
+				check Zeny < 1700,-,L_ROOT_3_5;
+					mes "[Kafra Leilah]";
+					mes "You don't have enough money.";
+					mes "Please verify the amount of money you have.";
+					goto L_EXIT;
+			L_ROOT_3_5:
+				set Zeny -= 1700,0;
+				set KF_PIT += 170;
+			L_SUB_3_5:
+				warp "gef_fild10",52,326;
+		L_MENU_3_6:
+			check @KAFRA_COUPON = 0,-,L_START_1;
+				mes "[Kafra Leilah]";
+				mes "Thank you.";
+				mes "Please come again.";
+				goto L_EXIT;
+	L_MENU_4:
+		check Job != 5,-,L_SUB_4_1;
+		check Job != 10,-,L_SUB_4_1;
+		check Job != 18,-,L_SUB_4_1;
+			mes "[Kafra Leilah]";
+			mes "I'm very sorry.";
+			mes "The cart service is available to";
+			mes "Merchant, Blacksmith, and Alchemist classes.";
+			check @KAFRA_COUPON = 0,-,L_ROOT_4_1;
+				goto L_EXIT;
+			L_ROOT_4_1:
+				next;
+				goto L_START_1;
+		L_SUB_4_1:
+			check @KAFRA_COUPON = 0,-,L_SUB_4_2;
+				mes "[Kafra Leilah]";
+				mes "The cart rental fee is 800 Zeny.";
+				mes "Would you like to proceed?";
+				next;
+				menu "Yes, please",L_MENU_4_1,"No, thanks",L_MENU_4_2;
+		L_MENU_4_1:
+				getskilllevel 39,@skilllv_pushcart; 
+				check @skilllv_pushcart => 1,-,L_skill;
+				check Zeny < 800,-,L_ROOT_4_2;
+				mes "[Kafra Leilah]";
+				mes "You do not have enough money.";
+				mes "The cart rental fee is 800 Zeny.";
+				goto L_EXIT;
+		L_skill:
+				mes "You do not have the skill PushCart.";
+				mes "You can't get a cart without that."
+				goto L_EXIT;
+		L_ROOT_4_2:
+				set Zeny -= 800,0;
+				option 0,1;
+				goto L_EXIT;
+		L_MENU_4_2:
+				mes "[Kafra Leilah]";
+				mes "Thank you.";
+				mes "Please come again.";
+				goto L_EXIT;
+		L_SUB_4_2:
+			option 0,1;
+			goto L_START_1;
+	L_MENU_5:
+		check @KAFRA_COUPON = 1,-,L_ROOT_5_1;
+			mes "[Kafra Leilah]";
+			mes "You are now using a Kafra Coupon.";
+			next;
+			goto L_START_1;
+		L_ROOT_5_1:
+			checkitem 1084,1,L_SUB_5_1,-;
+				mes "[Kafra Leilah]";
+				mes "You need a Kafra Coupon.";
+				goto L_EXIT;
+		L_SUB_5_1:
+			delitem 1084,1;
+			set @KAFRA_COUPON = 1;
+			mes "[Kafra Leilah]";
+			mes "You have used your Kafra Coupon.";
+			next;
+			goto L_START_1;
+	L_MENU_7:
+		mes "[Kafra Leilah]";
+		mes "We strive for perfection in our service.";
+		mes "Rest assured that Kafra Corporation will always be there to help you.";
+		mes "Thank you for your business.";
+ L_EXIT:
+		cutin "kafra_05",255;
+		close;
+}
+
+aldeba_in.gat,148,244,4	script "Kafra Employee" 114,{
+	cutin "kafra_04",2;
+	mes "[Kafra Roxie]";
+	mes "Welcome! I'm Kafra type 'Roxie'.  Let me let you in on a special secret about the Kafras!";
+	next;
+	mes "[Kafra Roxie]";
+	mes "You know... Our Kafra Service wasn't originally called Kafra.... Well what do you think it was?~";
+	next;
+	mes "[Kafra Roxie]";
+	mes "TaDa~ Surprisingly it was.... Ka....";
+	next;
+	mes "[Kafra Roxie]";
+	mes "(Ring Ring Ring) Oh... my phone... Sorry please wait...";
+	next;
+	mes "[Kafra Roxie]";
+	mes "Hi, Kafra Type Roxie here.... Huh! Director, sir!... Yes!... Yes!... I understand! ..... Sure!... Ah... Huh?!";
+	next;
+	mes "[Kafra Roxie]";
+	mes "No-no sir!.... Yes I understand!!";
+	next;
+	mes "[Kafra Roxie]";
+	mes "(*Click*) ..... Heh heh....";
+	next;
+	mes "[Kafra Roxie]";
+	mes "Uh... please ignore what I was talking about earlier. Hahaha.....heh...";
+	   emotion 4;
+	cutin "kafra_04",255;
+	close;
+}
+
+aldeba_in.gat,83,244,4 script	"Kafra Employee" 116,{
+	cutin "kafra_02",2;
+	mes "[Kafra Blossom]";
+	mes "..... Pavianne is soooo old school! She's too stubborn is what it is...";
+	   emotion 32;
+	next;
+	mes "[Kafra Blossom]";
+	mes "We should be trying to make our customers' experience more unique, with new and creative ideas...";
+	next;
+	mes "[Kafra Blossom]";
+	mes "Anyways... WEELLLLCOOMMME!!!~~ I am Kafra type ^3333ffBlossom^000000.";
+	mes "Please don't forget to continue using our Kafra Services, and ask for me, ^3333ffBlossom^000000!";
+	next;
+	menu "I'm an admirer of you~!",L_0,"Ehhaha",L_1;
+L_0:
+	mes "[Kafra Blossom]";
+	mes "Really! Thank you sooo much!! Here is... my... autograph...";
+	   emotion 15;
+	next;
+	mes "[Kafra Blossom]";
+	mes "Don't bother to look in your Item Iventory for it.  It won't be there... tehehe... for my autograph will remail winthin your heart.";
+	   emotion 33;
+	cutin "kafra_02",255;
+	close;
+L_1:
+	mes "[Kafra Blossom]";
+	mes "Huh? . . . . . That's all? Phew~ such a dull customer...";
+	   emotion 1;
+	cutin "kafra_02",255;
+	close;
+}

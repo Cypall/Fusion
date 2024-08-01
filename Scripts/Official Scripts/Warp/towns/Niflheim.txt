@@ -1,0 +1,33 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Niflheim Town Warps - Warp Locations
+// - Original info by jathena
+//
+//========================================================================================
+
+niflheim.gat,166,162,0	warp	niflheimwarp001	1,1,nif_in.gat,157,81
+nif_in.gat,154,78,0	warp	niflheimwarp002	1,1,niflheim.gat,169,162
+nif_in.gat,169,82,0	warp	niflheimwarp003	1,1,nif_in.gat,189,106
+nif_in.gat,186,106,0	warp	niflheimwarp004	1,1,nif_in.gat,166,82
+niflheim.gat,189,210,0	warp	niflheimwarp005	1,1,nif_in.gat,23,14
+nif_in.gat,23,11,0	warp	niflheimwarp006	1,1,niflheim.gat,189,207
+nif_in.gat,34,34,0	warp	niflheimwarp007	1,1,nif_in.gat,88,32
+nif_in.gat,88,29,0	warp	niflheimwarp008	1,1,nif_in.gat,34,30
+niflheim.gat,219,198,0	warp	niflheimwarp009	1,1,nif_in.gat,137,15
+nif_in.gat,135,13,0	warp	niflheimwarp010	1,1,niflheim.gat,217,196
+niflheim.gat,219,169,0	warp	niflheimwarp011	1,1,nif_in.gat,14,88
+nif_in.gat,11,88,0	warp	niflheimwarp012	1,1,niflheim.gat,216,171
+niflheim.gat,189,241,0	warp	niflheimwarp013	1,1,nif_in.gat,81,77
+nif_in.gat,78,74,0	warp	niflheimwarp014	1,1,niflheim.gat,186,241
+niflheim.gat,202,248,0	warp	niflheimwarp015	1,1,nif_in.gat,95,102
+nif_in.gat,95,106,0	warp	niflheimwarp016	1,1,niflheim.gat,202,254
+niflheim.gat,255,194,0	warp	niflheimwarp017	1,1,nif_in.gat,21,157
+nif_in.gat,18,154,0	warp	niflheimwarp018	1,1,niflheim.gat,253,191
+nif_in.gat,65,174,0	warp	niflheimwarp019	1,1,nif_in.gat,140,174
+nif_in.gat,140,171,0	warp	niflheimwarp020	1,1,nif_in.gat,65,170
+
+

@@ -1,0 +1,51 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Monk Job Changer - Non Player Character Locations
+// created by Muad_Dib
+//
+// - Master Monk -> monk_in: 99,64
+//   Npc where you can become a Monk.
+//
+//========================================================================================
+
+monk_in.gat,99,64,4 script "Master Monk" 120,{
+      mes "[Master Monk]";
+      mes "Good Day,This is the Monk's Guild.";
+      next;
+      menu "Change job to Monk",L_MENU1,"The Requirements",L_MENU2,"End",-;
+      close;
+L_MENU1:
+      mes "[Master Monk]";
+      mes "First I'll check if all the requirements have been met.";
+      next;
+      check Job == 4,-,L_MENU1_F1;
+      check JobLevel >= 40,-,L_MENU1_F2;
+      check SkillPoint == 0,-,L_MENU1_F3;
+      jobchange 15;
+      mes "[Master Monk]";
+      mes "Welcome to the Monk's guild!";
+      close;
+L_MENU1_F1:
+      mes "[Master Monk]";
+      mes "Other jobs except `Acolyte's' are not permitted to be Monks.";
+      close;
+L_MENU1_F2:
+      mes "[Master Monk]";
+      mes "I can't make u a Monk with your current joblevel.";
+      close;
+L_MENU1_F3:
+      mes "[Master Monk]";
+      mes "Please use all your skills up first";
+      close;
+L_MENU2:
+      mes "[Master Monk]";
+      mes "Once you are a Acolyte and have job level 40, you may become a Monk.";
+      next;
+      mes "[Master Monk]";
+      mes "Its a Great Time to become a Monk they are in demand!";
+      close;
+}

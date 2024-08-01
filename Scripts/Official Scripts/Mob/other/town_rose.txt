@@ -1,0 +1,26 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Town Wild Roses - Monster Spawn Locations
+// - Wild Rose City Spawns.
+//
+//========================================================================================
+
+alberta.gat,0,0,0,0	monster	"Wild Rose" 1261,2,0,0,0
+aldebaran.gat,0,0,0,0	monster	"Wild Rose" 1261,3,0,0,0
+amatsu.gat,0,0,0,0	monster	"Wild Rose" 1261,2,0,0,0
+comodo.gat,0,0,0,0	monster	"Wild Rose" 1261,3,0,0,0
+geffen.gat,0,0,0,0	monster	"Wild Rose" 1261,2,0,0,0
+gonryun.gat,0,0,0,0	monster	"Wild Rose" 1261,3,0,0,0
+izlude.gat,0,0,0,0	monster	"Wild Rose" 1261,1,0,0,0
+xmas.gat,0,0,0,0		monster	"Wild Rose" 1261,1,0,0,0
+yuno.gat,0,0,0,0		monster	"Wild Rose" 1261,3,0,0,0
+morocc.gat,0,0,0,0	monster	"Wild Rose" 1261,3,0,0,0
+payon.gat,0,0,0,0		monster	"Wild Rose" 1261,3,0,0,0
+prontera.gat,0,0,0,0	monster	"Wild Rose" 1261,3,0,0,0
+umbala.gat,0,0,0,0	monster	"Wild Rose" 1261,2,0,0,0
+louyang.gat,0,0,0,0	monster	"Wild Rose" 1261,3,0,0,0
+ayothaya.gat,0,0,0,0	monster	"Wild Rose" 1261,2,0,0,0

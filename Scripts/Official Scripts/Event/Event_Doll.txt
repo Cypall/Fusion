@@ -1,0 +1,265 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Doll Event - Non Player Character Locations
+//
+// - Elin -> alberta: 117,134
+//   Trade Dolls for other items.
+//
+//========================================================================================
+
+alberta.gat,117,135,8 script "Elin"	96,{
+	check Gender == 1,LStartM,-;
+LStartF:
+	mes "[Elin]";
+	mes "Hello, lady. Since you're a girl, you must like dolls, don't you?";
+	mes "I love dolls!";
+	next;
+	mes "[Elin]";
+	mes "I want a new doll. Daddy is going to buy me one for my birthday.";
+	next;
+	menu "That's nice",L1,"Want a doll?",L2;
+LStartM:
+	mes "[Elin]";
+	mes "Hi, hi~! He he... You're a guy so";
+	mes "you probably don't like dolls,";
+	mes "right?";
+	mes "I like dolls very, very much!";
+      next;
+	mes "[Elin]";
+	mes "You know.. I really, want a";
+	mes "new doll~ I think my daddy will buy";
+	mes "me one on my birthday...";
+	next;
+	menu "Ah, you must be happy...",L1,"How about I give you one now?",L2;
+L1:
+	mes "[Elin]";
+	mes "Yeah, this time I'm hoping for a";
+	mes "Yoyo doll.. Hehe~ they're so cute!";
+	mes "They're my favourite.";
+	close;
+L2:
+	mes "[Elin]";
+	mes "Oh my goodness! Really? You're such";
+	mes "a sweetie, gimme gimme!";
+	mes "What kind of doll are you going to";
+	mes "give me? Are you really gonna give";
+	mes "me one?";
+	next;
+	menu "Poring doll",L21,"Chonchon doll",L22,"Puppet",L23,"Rocker doll",L24,"Spore doll",L25,"Osiris doll",L26,"Baphomet doll",L27,"Racoon doll",L28,"Yoyo doll",L29,"I am as adorable as a doll.",LME;
+L21:
+	checkitem 741,1,-,LEndB;
+	mes "[Elin]";
+	mes "Yay, it's a poring doll!"
+	next;
+	delitem 741,1;
+	additem 529,1;
+	mes "[Elin]";
+	mes "Thank you for the doll!";
+	close;
+L22:
+	checkitem 742,1,-,LEndB;
+	mes "[Elin]";
+	mes "Eh .... Chonchon ... doll ...";
+	next;
+	mes "[Elin]";
+	mes "Oh well, since you're giving it to me, I have to treasure it ....";
+	next;
+	mes "[Elin]";
+	check Gender == 1,L22M2,-;
+	mes "Here, lady, take this.";
+	goto L22B2;
+L22M2:
+	mes "Here, mister, take this.";
+L22B2:
+	next;
+	delitem 742,1;
+	additem 530,1;
+	mes "[Elin]";
+	mes "If I ate too much of it, I'll get cavities anyway.";
+	check Gender == 1,L22M3,-;
+	mes "You too, lady, ";
+	goto L22B3;
+L22M3:
+	mes "You too, mister, ";
+L22B3:
+	mes "don't eat too much, ok?";
+	mes "And thanks, by the way ...";
+	next;
+	mes "[Elin]";
+	mes "(Chonchon .... *mumble mumble*)";
+	close;
+L23:
+	checkitem 740,1,-,LEndB;
+	mes "[Elin]";
+	mes "Wow--! It's a rabbit!";
+	mes "It's so cute!!";
+	check Gender == 1,L23M1,-;
+	mes "Thank you so much, lady!";
+	goto L23B1;
+L23M1:
+	mes "Thank you so much, mister!";
+L23B1:
+	next;
+	mes "[Elin]";
+	mes "So fluffy~";
+	mes "Oh yeah! Let me give you a present too!";
+	mes "Ummm ... found it!";
+	mes "Take this!";
+	next;
+	delitem 740,1;
+	additem 530,1;
+	mes "[Elin]";
+	mes "I got this from Santa. It's a candy cane~";
+	check Gender == 1,L23M3,-;
+	mes "Eat it too, lady.";
+	goto L23B3;
+L23M3:
+	mes "Eat it too, mister.";
+L23B3:
+	mes "Thank you for the rabbit doll!";
+	mes "I'm gonna hug this to sleep every night~";
+	close;
+L24:
+	checkitem 752,1,-,LEndB;
+	mes "[Elin]";
+	mes "Ah, a Rocker doll.";
+	mes "I hate hopping things but the doll's kinda cute.";
+	next;
+	mes "[Elin]";
+	mes "Thank you~";
+	mes "I'll have to give you something too.";
+	mes "Hmm, didn't I get some stuff from my uncle ...";
+	next;
+	delitem 752,1;
+	additem 532,7;
+	mes "[Elin]";
+	mes "We've got tons of them at home.";
+	mes "So I'll share some with you~";
+	mes "Thank you for the doll!";
+	close;
+L25:
+	checkitem 743,1,-,LEndB;
+	mes "[Elin]";
+	mes "Blehh ....";
+	mes "It's a mushroom...";
+	mes "Mom's always scolding me for not eating mushrooms ...";
+	next;
+	mes "[Elin]";
+	mes "I'll take it anyway, since the doll looks cute.";
+	mes "But I still won't eat mushrooms though ...";
+	mes "Hmm, I'll need to give you a present too.";
+	next;
+	delitem 743,1;
+	additem 538,5;
+	mes "[Elin]";
+	mes "Mom made this.";
+	check Gender == 1,L25M,-;
+	mes "Take it, lady!";
+	goto L25B;
+L25M:
+	mes "Take it, mister!";
+L25B:
+	next;
+	mes "[Litte Kid]";
+	mes "Thank you for the doll~";
+	close;
+L26:
+	checkitem 751,1,-,LEndB;
+	mes "[Elin]";
+	mes "Yay! It's an Osiris doll!"
+	next;
+	delitem 751,1;
+	additem 522,2;
+	mes "[Elin]";
+	mes "Thank you for the doll!";
+	close;
+L27:
+	checkitem 750,1,-,LEndB;
+	mes "[Elin]";
+	mes "Yay! It's a Baphomet doll!"
+	next;
+	delitem 750,1;
+	additem 525,5;
+	mes "[Elin]";
+	mes "Thank you for the doll!";
+	close;
+L28:
+	checkitem 754,1,-,LEndB;
+	mes "[Elin]";
+	mes "Ah, it's a racoon doll~";
+	mes "I hate Smokies, but the doll's really cute!";
+	next;
+	mes "[Elin]";
+	mes "It's really cute~";
+	check Gender == 1,L28M1,-;
+	mes "Thank you very much, lady!";
+	goto L28B1;
+L28M1:
+	mes "Thank you very much, mister!";
+L28B1:
+	next;
+	delitem 754,1;
+	additem 539,3;
+	mes "[Elin]";
+	mes "Let me give you some of Grandma's home-made cakes!";
+	check Gender == 1,L28M2,-;
+	mes "Do you like sweet things, lady?";
+	goto L28B2;
+L28M2:
+	mes "Do you like sweet things, mister?";
+L28B2:
+	mes "This is really good, so eat it~";
+	next;
+	mes "[Elin]";
+	mes "Thank you for this cute doll!";
+	close;
+L29:
+	checkitem 753,1,-,LEndB;
+	mes "[Elin]";
+	mes "Wow--!!!";
+	mes "It's a monkey! So cute~";
+	check Gender == 1,L29M1,-;
+	mes "Thank you very much, lady!";
+	goto L29B1;
+L29M1:
+	mes "Thank you very much, mister!";
+L29B1:
+	mes "I really wanted it~";
+	next;
+	mes "[Elin]";
+	mes "It's so cute~";
+	mes "That's right!";
+	mes "As a thank you, I'll give you this.";
+	next;
+	delitem 753,1;
+	additem 608,1;
+	mes "[Elin]";
+	mes "Dad picked them up during his travels.";
+	mes "It's a seed of some kind.";
+	mes "We tried planting them at home, but it doesn't seem to grow.";
+	check Gender == 1,L29M3,-;
+	mes "I'll give it to you, lady!";
+	goto L29B3;
+L29M3:
+	mes "I'll give it to you, mister!";
+L29B3:
+	next;
+	mes "[Elin]";
+	mes "Thank you so much for the doll!";
+	close;
+LEndB:
+	mes "[Elin]";
+	mes "Aw... You're making fun of me,";
+	mes "huh.. You don't even have a doll..";
+      mes "snif.. sniff.. waaaaaaaaaah~~";
+	close;
+LME:
+	mes "[Elin]";
+	mes "Bleh~ Blaaaaaaah~ Don't make fun";
+	mes "of me cuz I,m young~ stu~ pid~";
+      close;
+}

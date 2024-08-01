@@ -1,0 +1,43 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Comodo Town Warps - Warp Locations
+//
+//========================================================================================
+
+comodo.gat,24,214,0	warp	comodowarp001	1,1,beach_dun.gat,266,67
+comodo.gat,176,358,0	warp	comodowarp002	1,1,beach_dun2.gat,154,25
+comodo.gat,333,175,0	warp	comodowarp003	1,1,beach_dun3.gat,23,260
+comodo.gat,92,128,0	warp	comodowarp004	1,1,cmd_in01.gat,85,174
+comodo.gat,265,74,0	warp	comodowarp005	1,1,cmd_in01.gat,123,180
+comodo.gat,271,271,0	warp	comodowarp006	1,1,cmd_in01.gat,113,125
+comodo.gat,192,294,0	warp	comodowarp007	1,1,cmd_in01.gat,177,123
+comodo.gat,145,328,0	warp	comodowarp008	1,1,cmd_in01.gat,120,71
+comodo.gat,236,298,0	warp	comodowarp009	1,1,cmd_in01.gat,179,81
+comodo.gat,130,195,0	warp	comodowarp010	1,1,cmd_in02.gat,143,173
+comodo.gat,115,291,0	warp	comodowarp011	1,1,cmd_in02.gat,67,132
+comodo.gat,140,111,0	warp	comodowarp012	1,1,cmd_in02.gat,178,132
+comodo.gat,153,97,0	warp	comodowarp013	1,1,cmd_in02.gat,212,97
+comodo.gat,126,98,0	warp	comodowarp014	1,1,cmd_in02.gat,144,97
+comodo.gat,140,90,0	warp	comodowarp015	1,1,cmd_in02.gat,74,25
+cmd_in01.gat,90,174,0	warp	comodowarp016	1,1,comodo.gat,97,128
+cmd_in01.gat,123,186,0	warp	comodowarp017	1,1,comodo.gat,265,79
+cmd_in01.gat,109,125,0	warp	comodowarp018	1,1,comodo.gat,269,273
+cmd_in01.gat,183,123,0	warp	comodowarp019	1,1,comodo.gat,195,294
+cmd_in01.gat,120,67,0	warp	comodowarp020	1,1,comodo.gat,145,324
+cmd_in01.gat,183,81,0	warp	comodowarp021	1,1,comodo.gat,239,296
+cmd_in02.gat,139,169,0	warp	comodowarp022	1,1,comodo.gat,127,191
+cmd_in02.gat,208,206,0	warp	comodowarp023	1,1,cmd_in02.gat,97,211
+cmd_in02.gat,98,216,0	warp	comodowarp024	1,1,cmd_in02.gat,207,210
+cmd_in02.gat,69,129,0	warp	comodowarp025	1,1,comodo.gat,115,288
+cmd_in02.gat,178,136,0	warp	comodowarp026	1,1,comodo.gat,140,115
+cmd_in02.gat,216,97,0	warp	comodowarp027	1,1,comodo.gat,157,97
+cmd_in02.gat,139,97,0	warp	comodowarp028	1,1,comodo.gat,122,98
+cmd_in02.gat,74,21,0	warp	comodowarp029	1,1,comodo.gat,140,86
+cmd_in02.gat,168,113,0	warp	comodowarp030	1,1,cmd_in02.gat,63,73
+cmd_in02.gat,58,74,0	warp	comodowarp031	1,1,cmd_in02.gat,166,116
+cmd_in02.gat,187,78,0	warp	comodowarp032	1,1,cmd_in02.gat,84,37
+cmd_in02.gat,90,37,0	warp	comodowarp033	1,1,cmd_in02.gat,191,77

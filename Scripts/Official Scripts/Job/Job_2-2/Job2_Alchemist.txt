@@ -1,0 +1,1360 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Alchemist Quest - Non Player Character Locations
+// 	-Written by nestor_zulueta
+// 	-Finished on 07-02-2004
+//
+// - Guild Dealer -> alde_alche: 24,188
+//   A Shop of Alchemist
+//
+// - Alchemist Guildsman -> alde_alche: 27,185
+//   Application to be alchemist
+//
+// - Fastidious Alchemist -> alde_alche: 175,107
+//   Gives a test
+//
+// - Studying Man -> alde_alche: 13,15
+//   Show how to make potion as part of a test
+//
+// - Experiment Expert -> alde_alche: 79,19
+//   Gives a quest
+//
+// - Chief Researcher -> alde_alche: 145,19 
+//   Gives a test and a quest
+//
+// - Master Alchemist -> alde_alche: 101,184
+//   Gives a Jobchange
+//
+//========================================================================================
+
+alde_alche.gat,24,188,3 script "Guild Dealer" 740,{
+	mes "[Gever AI Sharp]";
+	mes "Welcome to the Alchemist Union.";
+	mes "How can I assist you today?";
+	next;
+	menu "Purchase materials.",material,"Purchase a production manual.",manual,"Cancel Deal.",bye;
+material:
+	mes "[Gever AI Sharp]";
+	mes "What would you like?";
+	next;
+	menu "Medicine Bowl - 8z",bowl,"Cancel.",bye;
+bye:
+	mes "[Gever AI Sharp]";
+	mes "Then come again next time.";
+	close;
+bowl:
+	mes "[Gever AI Sharp]";
+	mes "How many do you want?
+	mes "Enter '0' if you want to quit.";
+	next;
+	input @num;
+	check @num = 0,bye,-;
+	set @price = @num;
+	set @price * 8;
+	check zeny => @price,-,notemomey;
+	checkadditem 7134,@num,-,overw;
+	set zeny - @price;
+	additem 7134,@num;
+	goto goodbuy;
+notemomey:
+	mes "[Gever AI Sharp]";
+	mes "Sir you dont have enough money.";
+	close;
+overw:
+	mes "[Gever AI Sharp]";
+	mes "Hmmm Overweight...";
+	close;
+manual:
+	mes "[Gever AI Sharp]";
+	mes "What do you need?";
+	mes "Manuals are generally 100,000 zeny.";
+	mes "Except for a couple of special";
+	mes "manuals.";
+	next;
+	menu "Potion Creation Guide",potion,"Alchohol Creation Guide",alchohol,"Bottle Grenade Creation Guide",grenade,"Acid Bottle Creation Guide",acid,"Plant Bottle Creation Guide",plant,"Marine Sphere Bottle Creation Guide",marine,"Glistening Coat Creation Guide",coat,"Concentration Potion Creation Guide",concen,"Cancel Deal.",bye;
+potion:
+	set @itemid = 7144;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Potion Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+alchohol:
+	set @itemid = 7127;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Alchohol Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+grenade:
+	set @itemid = 7128;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Bottle Grenade Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+acid:
+	set @itemid = 7129;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Acid Bottle Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+plant:
+	set @itemid = 7130;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Plant Bottle Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+marine:
+	set @itemid = 7131;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Marine Sphere Bottle Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+coat:
+	set @itemid = 7132;
+	set @price = 100000;
+	mes "[Gever AI Sharp]";
+	mes "Glistening Coat Creation Guide?";
+	mes "It is 100,000 zeny.";
+	goto choice;
+concen:
+	set @itemid = 7133;
+	set @price = 240000;
+	mes "[Gever AI Sharp]";
+	mes "Concentration Potion Creation Guide?";
+	mes "It is 240,000 zeny.";
+	goto choice; 
+choice:
+	next;
+	menu "Purchase.",purchase,"Quit.",bye;
+purchase:
+	check zeny => @price,-,notemomey;	
+	checkadditem @itemid,1,-,overw;
+	additem @itemid,1;
+	set zeny - @price;
+	goto goodbuy;
+goodbuy:
+	mes "[Gever AI Sharp]";
+	mes "Thank you for buying!";
+	mes "Come again.";
+	close;
+}
+
+alde_alche.gat,27,185,4 script "Alchemist Guildsman" 744,{
+	check al_quest = 1,jobq1,-;
+	check al_quest = 2,jobq3,-;
+	check Job = 5,merchant,-;
+busy:	
+	mes "[Parmry Gianino]";
+	mes "Ah, I apologize.";
+	mes "I'm busy right now.";
+	close;
+merchant:	
+	check al_quest = 0,-,busy;
+	mes "[Parmry Gianino]";
+	mes "Welcome to the Alchemist Union.";
+	mes "How may i help you?";
+	next;
+	menu "I would like to learn about Alchemist",learn,"I want to become an Alchemist.",bealchemist,"Nothing.",nothing;
+learn:
+	mes "[Parmry Gianino]";
+	mes "Alchemists study and create new ";
+	mes "materials using a variety of";
+	mes "existing substances.";
+	mes "They research the atoms of";
+	mes "chemicals, and experiment to change";
+	mes "the properties of the chemicals.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Most people think the final goal is";
+	mes "to create gold, but that's not the";
+	mes "entire truth.";
+	mes "They make anything from simple ";
+	mes "medicines, to new materials.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "At times, some research the ";
+	mes "creation of life .... but that's ";
+	mes "considered god's territory...";
+	mes "That field is so complex, everyone";
+	mes "simply researhes for now.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "If you are interested in becoming";
+	mes "an Alchemist, I recommend that you";
+	mes "gain a lot experience as a";
+	mes "Merchant.";
+	mes "Being a merchant is a great";
+	mes "opportunity to learn about";
+	mes "materials while you deal with ";
+	mes "them.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Only you can decide for yourself.";
+	mes "The road to becoming an Alchemist";
+	mes "is very challenging.";
+	mes "You will need to focus on";
+	mes "experimenting and researching ";
+	mes "rather than trade.";
+	close;
+nothing:
+	mes "[Parmry Gianino]";
+	mes "Umm... Please say something if you";
+	mes "need anything.";
+	close;
+bealchemist:
+	check JobLevel >= 40,-,noelvl;
+	mes "[Parmry Gianino]";
+	mes "Is that so? Nice to meet you.";
+	mes "My name is Parmry Gianino of the"; 
+	mes "Alchemist Association.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "If you join our Union and pass some ";
+	mes "training ";
+	mes "you will be officially recognized ";
+	mes "as an Alchemist and be able to join ";
+	mes "our researches.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "But we dont accept everyone.";
+	mes "You must have a lot of effort,";
+	mes "tenacity, and be able to devote ";
+	mes "yourself to research.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "There are a couple of requirements";
+	mes "to join the association....";
+	mes "but we'll discuss that after you apply.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Then, would you like to apply to ";
+	mes "register?";
+	next;
+	menu "I would like to apply.",apply,"I'll do it later.",later;
+later:
+	mes "[Parmry Gianino]";
+	mes "If you are a talented Merchant,";
+	mes "you are always welcome here.";
+	mes "Come again soon.";
+	close;
+apply:
+	mes "[Parmry Gianino]";
+	mes "Then I'll accept your application.";
+	mes "You must pay 50,000 zeny to join";
+	mes "the association.";
+	mes "Also, you will need to bring a";
+	mes "couple of items before the training";
+	mes "begins.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "But those who bring an Old Magic ";
+	mes "Book and Hammer of Blacksmith...";
+	mes "dont need to bring any additional";
+	mes "items.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "First sign the application please.";
+	next;	
+	menu "Sign Application form",char;
+char:
+	check zeny =>50000,-,notmoney;
+	checkitem 1005,1,-,nospecial;
+	checkitem 1006,1,-,nospecial;
+ 	set zeny - 50000;
+	delitem 1005,1;
+	delitem 1006,1;
+	mes "[Parmry Gianino]";
+	mes "I'll take the application fee";
+	mes "and the Old Magic Book";
+	mes "and Hammer of Blacksmith";
+	mes "the you brought.";
+	next;
+	goto pass1; 
+nospecial:	
+	set zeny - 50000;
+	mes "[Parmry Gianino]";
+	mes "I'll take the application fee.";
+	mes "Also, ill tell you what items";
+	mes "you will need to bring.";
+	mes "Be sure to gather everything.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Let's see.... $charaname needs to ";
+	mes "bring....";
+	mes "100 Mini Furnace ";
+	mes "Prepare these and come back.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Since I've received the";
+	mes "application,";
+	mes "see you soon...";
+	set al_quest = 1;
+	close;
+jobq1:	
+	checkitem 612,100,jobq2,-;
+	mes "[Parmry Gianino]";
+	mes "Are you not ready yet?";
+	mes "As I mentioned before, you must ";
+	mes "bring 100 Mini Furnace to join";
+	mes "the union.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Please come back after you are ";
+	mes "ready...";
+	close;
+jobq2:	
+	mes "[Parmry Gianino]";
+	mes "You seem to be ready...";
+	mes "Well put the item's you brough to ";
+	mes "good use.";
+	next;
+pass1:	
+	mes "[Parmry Gianino]";
+	mes "You must now learn the basics of ";
+	mes "being an Alchemist.";
+	mes "Go learn about the process of ";
+	mes "mixing chemicals and medicine.";
+	next;
+	mes "[Parmry Gianino]";
+	mes "But before that... Raspuchin is";
+	mes "calling you... ?";
+	mes "I'm not sure what it could be about....";
+	next;
+	mes "[Parmry Gianino]";
+	mes "Go visit him now. ";
+	mes "Should'nt be anything ";
+	mes "extraordinary.";
+	set al_quest = 2;
+	close;	
+notmoney:
+	mes "[Parmry Gianino]";
+	mes "You need to pay first 50000 zeny ";
+	mes "for the application. And it seems";
+	mes "you don't have enough money to pay.";
+	close;
+jobq3:
+	mes "[Parmry Gianino]";
+	mes "Go visit Raspuchin now!";
+	close;
+noelvl:
+	mes "[Parmry Gianino]";
+	mes "You must be at least Job Level 40 ";
+	mes "to become a Alchemist.";
+	close;
+}
+
+alde_alche.gat,175,107,4 script "Fastidious Alchemist" 749,{
+	check al_quest = 2,jobq1,-;
+	check al_quest = 3,returned,-;
+	check al_quest = 4,fished,-;
+	mes "[Raspuchin Gregory]";
+	mes "Kikikikikekekekeke.";
+	mes "What is it! You punk.";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "A Merchant should go and set up a";
+	mes "shop...";
+	mes "Why'd you come to a place like";
+	mes "this!?";
+	mes "Are you looking for something to ";
+	mes "scab off?";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Kikiki... Go, leave this place.";
+	mes "Dont loiter ... Kekeke.";
+	close;
+jobq1:
+	mes "[Raspuchin Gregory]";
+	mes "Keke, another dumb one has stumbled";
+	mes "into here.";
+	mes "Join the Union?";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "I don't like it... I just";
+	mes "don't...!";
+	mes "Everywhere, all joining and";
+	mes "being called Alchemist just for";
+	mes "knowing how to mix herbs!!!";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Kikiki, so for that reason";
+	mes "an interview is necessary!";
+	mes "I plan on scolding all the";
+	mes "incompetent";
+	mes "ones and chasing them away!!";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "You look dumb founded. It must be";
+	mes "pretty crazy.";
+	mes "If you were thinking of just";
+	mes "changing clothes";
+	mes "you thought wrong... Kekeke..";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Now try solving the problems I give";
+	mes "you.";
+	mes "We'll see how smart you are.";
+//set of question 1
+q1:
+	mes "[Raspuchin Gregory]";
+	mes "12+23+34+45 =?";
+	next;
+	input @num;
+	check @num = 114,-,q2;
+	set @score + 10; 
+q2:	
+	mes "[Raspuchin Gregory]";
+	mes "1000-36-227-348 =?";
+	next;
+	input @num;
+	check @num = 389,-,q3;
+	set @score + 10;
+q3:
+	mes "[Raspuchin Gregory]";
+	mes "9765/3/5/7 =?";
+	next;
+	input @num;
+	check @num = 93,-,q4;
+	set @score + 10;
+q4:
+	mes "[Raspuchin Gregory]";
+	mes "(2646/7) + (13*28) =?";
+	next;
+	input @num;
+	check @num = 742,-,q5;
+	set @score + 10;
+q5:
+	mes "[Raspuchin Gregory]";
+	mes "With a 24% discount";
+	mes "How much are 12 Red Potions,";
+	mes "5 Fly Wings, and ";
+	mes "1 Butterfly Wing altogether?";
+	next;
+	input @num;
+	check @num = 909,-,q6;
+	set @score + 10;
+q6:
+	mes "[Raspuchin Gregory]";
+	mes "What is the total weight of 3 ";
+	mes "Scimiters,";
+	mes "2 Helms and 1 Coat";
+	next;
+	input @num;
+	check @num = 450,-,q7;
+	set @score + 10;
+q7:	
+	mes "[Raspuchin Gregory]";
+	mes "What is the total defense of ";
+	mes "a Biretta, Mantle, Opera Mask,";
+	mes "Ribbon, ";
+	mes "Muffler, Boots, and Ear Muffs?";
+	next;
+	input @num;
+	check @num = 22,-,q8;
+	set @score + 10;
+q8:	
+	mes "[Raspuchin Gregory]";
+	mes "If you buy 5 Helms with a 24%";
+	mes "discount ";
+	mes "and sell it at 20%, how much do you";
+	mes "earn?";
+	next;
+	input @num;
+	check @num = 1760,-,compute1;
+	set @score + 10;
+compute1:
+	check @score = 80,passed,-;	
+	set al_quest = 3;
+	goto fail;
+returned:
+	mes "[Raspuchin Gregory]";
+	mes "What, you want to take the test";
+	mes "again?";
+	mes "I thought I told you to leave.";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Well, I'll let you go this one";
+	mes "time...";
+	mes "I forgive you ... Kekeke.";
+	mes "Do well this time...";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Now then, answer the question I";
+	mes "ask.";
+	mes "Let see how smart you are.";
+//set of question 2
+q11:
+	mes "[Raspuchin Gregory]";
+	mes "13+25+37+48=?";
+	next;
+	input @num;
+	check @num = 123,-,q12;
+	set @score + 10;
+q12:
+	mes "[Raspuchin Gregory]";
+	mes "1000-58-214-416 =?";
+	next;
+	input @num;
+	check @num = 312,-,q13;
+	set @score + 10;
+q13:
+	mes "[Raspuchin Gregory]";
+	mes "12*24*3=?";
+	next;
+	input @num;
+	check @num = 864,-,q14;
+	set @score + 10;
+q14:
+	mes "[Raspuchin Gregory]";
+	mes "10530/3/5/2=?";
+	next;
+	input @num;
+	check @num = 351,-,q15;
+	set @score + 10;
+q15:
+	mes "[Raspuchin Gregory]";
+	mes "(35*19) - (1792/7) =?";
+	next;
+	input @num;
+	check @num = 400,-,q16;
+	set @score + 10;
+q16:
+	mes "[Raspuchin Gregory]";
+	mes "(2368/8) + (24*17) = ?";
+	next;
+	input @num;
+	check @num = 704,-,q17;
+	set @score + 10;
+q17:
+	mes "[Raspuchin Gregory]";
+	mes "(2646/7) + (13*28)=?";
+	next;
+	input @num;
+	check @num = 742,-,q18;
+	set @score + 10;
+q18:
+	mes "[Raspuchin Gregory]";
+	mes "If buying at a 24% discount,";
+	mes "What is the total price of";
+	mes "15 Green Potions,";
+	mes "6 Magnifiers and 4 Traps?";
+	next;
+	input @num;
+	check @num = 934,-,q19;
+	set @score + 10;
+q19:
+	mes "[Raspuchin Gregory]";
+	mes "What is the total weight of ";
+	mes "3 Ring Pommels Saber,";
+	mes "4 Caps and 2 Boots?";
+	next;
+	input @num;
+	check @num = 550,-,q20;
+	set @score + 10;
+q20:
+	mes "[Raspuchin Gregory]";
+	mes "What is the total defense of a ";
+	mes "Bucler, Coat, Gas Mask, Big";
+	mes "Ribbon, Ribbon, Sakkat and";
+	mes "Glasses?";
+	next;
+	input @num;
+	check @num = 16,-,q21;
+	set @score + 10;
+q21:
+	mes "[Raspuchin Gregory]";
+	mes "How much zeny do you make";
+	mes "if you buy Tights at a 24%";
+	mes "discount";
+	mes "and sell it at 20% of the normal";
+	mes "price?";
+	next;
+	input @num;
+	check @num = 2840,-,compute1;
+	set @score + 10;
+	goto compute1;
+fail:
+	mes "[Raspuchin Gregory]";
+	mes "...Kekeke, you idiot,";
+	mes "I feel dumb asking you all the";
+	mes "question!";
+	mes "you got them all wrong!!!";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "How can a person that can't even";
+	mes "answer these question think of ";
+	mes "being an Alchemist!";
+	mes "What? did you get any right?";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Stupid! If you get one wrong";
+	mes "everything is wrong for an";
+	mes "Alchemist!";
+	mes "Go! Leave! Get out of here!";
+	close;
+passed:
+	set al_quest = 4;
+	mes "[Raspuchin Gregory]";
+	mes "Kikiki... I'll let you go.";
+	mes "Do some good research and be of"; 
+	mes "some help to Raspuchin... Kikiki!";
+	next;	
+	mes "[Raspuchin Gregory]";
+	mes "Well then go! Gp to Darwin.";
+	mes "He'll teach you how to do the";
+	mes "experiments.";
+	mes "Tell him I sent you.";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Kikikikekeke.";
+	mes "Dont think this is the end of it!";
+	close;
+fished:
+	mes "[Raspuchin Gregory]";
+	mes "[Raspuchin Gregory]";
+	mes "What are you doing? Leave already.";
+	mes "Since you joined, dont forget to";
+	mes "study,";
+	mes "and dont you need to change as well?";
+	next;
+	mes "[Raspuchin Gregory]";
+	mes "Kikikikekeke.";
+	mes "Dont think this is the end of it!";
+	close;
+}
+
+alde_alche.gat,13,15,8 script "Studying Man" 750,{
+	check al_quest = 4,start,-;
+	check al_quest = 5,jbq1,-;
+	mes "[Darwin]";
+	mes "more to lose or gain...";
+	mes "It's always like that...";
+	next;
+	mes "[Darwin]";
+	mes "All I can see through my cursed";
+	mes "eyes";
+	mes "are illusions from the past,";
+	mes "Ahahahaha...";
+	next;
+	mes "[Darwin]";
+	mes "There's no such thing as";
+	mes "paradise ... is there ?";
+	mes "My love Harmona.... Aah....";
+	close;
+start:	
+	mes "[Darwin]";
+	mes "...........";
+	mes ".........";
+	mes "....Who is it...";
+	next;
+	mes "[Darwin]";
+	mes "A wolf? Or a human...";
+	mes "You must be looking for something";
+	mes "as well.";
+	next;
+	mes "[Darwin]";
+	mes "If you have something precious, be";
+	mes "careful.";
+	mes "You may lose something else while";
+	mes "while going after another...";
+	next;
+	mes "[Darwin]";
+	mes "..........";
+	next;
+	mes "[Darwin]";
+	mes "... but what brings you here.";
+	mes "Coming to a place like this.";
+	next;
+	menu "I want to learn how to experiment.",experiment,"Tell me more about flowers.",flower;
+flower:	
+	mes "[Darwin]";
+	mes ".......";
+	mes "......";
+	mes "...think about your precious";
+	mes "things...";
+	next;
+	mes "[Darwin]";
+	mes ".... There is a flower ";
+	mes "that I faintly remember....";
+	next;
+	mes "[Darwin]";
+	mes "I divulged into researching one";
+	mes "thing";
+	mes "for the one I love...";
+	next;
+	mes "[Darwin]";
+	mes "Lets just say that it was about ";
+	mes "the relationship between wolf and";
+	mes "flowers...";
+	mes "I wont tell you the details.";
+	next;
+	mes "[Darwin]";
+	mes "But yes ... it was a flower.";
+	mes "with its shine, it was said to ";
+	mes "let you see paradise Illusion";
+	mes "Flower...";
+	next;
+	mes "[Darwin]";
+	mes "I made a homunculus.";
+	mes "Nobody believe me. that I made";
+	mes "life from a flower!!!";
+	mes "My research!";
+	next;
+	mes "[Darwin]";
+	mes "But now, I have nothing left..";
+	mes "It's all over.";
+	mes "Time has stopped at that moment ";
+	mes "in my life...";
+	next;
+	mes "[Darwin]";
+	mes "Aag... Harmona, in the";
+	mes "beautiful fields of flowers,";
+	mes "where have you gone....";
+	close;
+experiment:
+	mes "[Darwin]";
+	mes "You want to learn Alchemy...";
+	mes "All the knowledge I possess..";
+	mes "I made to make my dreams come";
+	mes "true...";
+	next;
+	mes "[Darwin]";
+	mes "I'll teach you the basics...";
+	mes "but you must determine your own";
+	mes "wishes.";
+	next;
+	mes "[Darwin]";
+	mes "So, here are the basics.";
+	mes "This is how you make simple ";
+	mes "medicine...";
+	mes "Prepare some stuff...";
+	next;
+	mes "[Darwin]";
+	mes "3 Medicine Bowl";
+	mes "3 Empty Bottle";
+	mes "1 Red Herb";
+	mes "1 Yellow Herb";
+	mes "1 White Herb";
+	next;
+	mes "[Darwin]";
+	mes "Once you have prepared all the";
+	mes "items... come here.";
+	set al_quest = 5;
+	close;
+jbq1:
+	mes "[Darwin]";
+	mes "...........";
+	mes ".........";
+	mes "...Who is it....";
+	next;
+	mes "[Darwin]";
+	mes "Ah You're the one that wants to ";
+	mes "learn Alchemy...";
+	mes "So did you prepare everything?";
+	next;
+	checkitem 7134,3,donall,-;
+	checkitem 713,3,donall,-;
+	checkitem 507,1,donall,-;
+	checkitem 508,1,donall,-;
+	checkitem 509,1,donall,-;
+	delitem 7134,3;
+	delitem 713,3;
+	delitem 507,1;
+	delitem 508,1;
+	delitem 509,1;
+	mes "[Darwin]";
+	mes "Seems like you have everything ";
+	mes "ready ";
+	mes "As i promised, I'll teach you how";
+	mes "to make medicine";
+	next;
+	mes "[Darwin]";
+	mes "First, prepare the Medicine Bowl";
+	mes "then put the Herbs inside like";
+	mes "this";
+	mes "and you slowly crush them";
+	next;
+	mes "[Darwin]";
+	mes "Pour small amounts of clean water";
+	mes "and stirr until it become thick, ";
+	mes "then add some more Herbs";
+	next;
+	mes "[Darwin]";
+	mes "That's how you make it ";
+	mes "if you think you have enough, ";
+	mes "gently pour it into an empty bottle";
+	next;
+	mes "[Darwin]";
+	mes "There you go, its complete.";
+	mes "This time, do as I showed you.";
+	mes "It should be easy since its so";
+	mes "simple.";
+	next;
+	mes "[Darwin]";
+	mes "... even though you don't have";
+	mes "one?";
+	next;
+	menu "Spray clean water.",pr1,"Drink clean water.",pr2,"Pour clean water.",pr3;
+pr1:
+	goto answ2;
+pr2:
+	set @score + 10;
+	goto answ2;
+pr3:
+	goto answ2;
+answ2:
+
+	menu "Continue crushing the Herbs.",pr4,"Continue eating the Herbs.",pr5,"Continue dancing and singing.",pr6;
+pr4:
+	set @score + 10;	
+	goto answ3;
+pr5:
+	goto answ3;
+pr6:
+	goto answ3;
+answ3:
+	menu "Put noodles in and fry it.",pr7,"Pour it in a empty bottle.",pr8,"Hold the Medicine Bowl and drink it.",pr9;
+pr7:
+	goto compute1;
+pr8:
+	set @score + 10;	
+	goto compute1;
+pr9:
+	goto compute1;
+compute1:
+	check @score = 30,passed,-;
+	mes "[Darwin]";
+	mes "... You messed up all the";
+	mes "ingredients.";
+	mes "... Go bring some more.";
+	close;
+passed:
+	set al_quest = 6;
+	additem 501,1;
+	additem 503,1;
+	additem 504,1;
+	mes "[Darwin]";
+	mes "... Good job. It came out pretty";
+	mes "well";
+	mes "considering it's your first time...";
+	mes "As a";
+	mes "souvenier, take these.";
+	next;
+	mes "[Darwin]";
+	mes "Go to Van Helmont in the next ";
+	mes "room...";
+	mes "He'll teach you more details.";
+	mes "Go learn from him.";
+	next;
+	mes "[Darwin]";
+	mes "Don't forget...";
+	mes "You must protect what is trully";
+	mes "precious";
+	mes "to you now that is with you.....	";
+	close;
+donall:
+	mes "[Darwin]";
+	mes "...You must've forgotten the";
+	mes "materials to bring.";
+	mes "I'll tell you again.";
+	mes "Dont forget them this time.";
+	next;
+	mes "[Darwin]";
+	mes "3 Medicine Bowl";
+	mes "3 Empty Bottle";
+	mes "1 Red Herb";
+	mes "1 Yellow Herb";
+	mes "1 White Herb";
+	next;
+	mes "[Darwin]";
+	mes "Come back when you are ready...";
+	close;	
+}
+
+alde_alche.gat,79,19,4 script "Experiment Expert" 748,{
+	check al_quest = 6,start,-;
+	check al_quest = 7,jbq1,-;
+	check al_quest = 8,finished,-;
+	mes "[Van Helmont]";
+	mes "Just a little ... yes, a little bit";
+	mes "more ....";
+	mes "agh, just a little bit more and it";
+	mes "would've been done!";
+	next;
+	mes "[Van Helmont]";
+	mes "Why, why another failure!!!";
+	mes "Nothing was wrong!";
+	mes "Why! Why!";
+	next;
+	mes "[Van Helmont]";
+	mes "Does that mean I have to get more";
+	mes "materials...";
+	mes "But I should be able to complete it";
+	mes "one day....Heeh...";
+	close;
+start:
+	mes "[Van Helmont]";
+	mes "Arrrrgh... Why does this formula";
+	mes "just stop... What's wrong.";
+	mes "Theoretically it's all correct...";
+	mes "I'm sure it's because there is ";
+	mes "an error in the formula";
+	mes "somewhere...";
+	next;
+	mes "[Van Helmont]";
+	mes "That's it, I pour it here";
+	mes "and it should stop... but this is";
+	mes "the formula that solution doesn't ";
+	mes "stop flowing. How could I make ";
+	mes "such a stupid mistake... when did I";
+	mes "switch these...";
+	next;
+	mes "[Van Helmont]";
+	mes "Yes, that's it. I just need to fix ";
+	mes "this part. No need to start over.";
+	mes "I just have to fix it...";
+	mes "....But, wait. wait.";
+	next;
+	mes "[Van Helmont]";
+	mes ".....................";
+	next;
+	mes "[Van Helmont]";
+	mes "....Who are you?";
+	next;
+	menu "I want to become an Alchemist.",cont1,".....",bye;
+cont1:
+	mes "[Van Helmont]";
+	mes "Oh, I see....";
+	mes "Haha you want to learn Alchemy in";
+	mes "world like this, what a funny";
+	mes "merchant... hmmm.";
+	next;
+	mes "[Van Helmont]";
+	mes "Well, that's nice, but I have";
+	mes "a very urgent experiment I must";
+	mes "tend to. So don't get in the way.";
+	next;
+	menu "Teach me something.",cont2,"..........",bye;
+cont2:
+	mes "[Van Helmont]";
+	mes "Argh... didn't I just tell you not";
+	mes "to bother me?";
+	mes "Why can't you understand when I say";
+	mes "something!";
+	next;
+	mes "[Van Helmont]";
+	mes "Ok, I'll give you an assignment.";
+	mes "Go study and come back. Let's see.";
+	mes "What would be good... Hmm...";
+	next;
+	mes "[Van Helmont]";
+	mes "Oh, I got it. Go learn from";
+	mes "Morugen Stain. Learn how to ";
+	mes "make a Neutralizer and Mixture.";
+	next;
+	mes "[Van Helmont]";
+	mes "You don't need to bring what you";
+	mes "made. But just go watch how he";
+	mes "makes medicine and stuff. Got ";
+	mes "it?";
+	next;
+	mes "[Van Helmont]";
+	mes "Well then, see you later.";
+	mes "You'd be best off going as soon as";
+	mes "you can.";
+	set al_quest = 7;
+	close;
+jbq1:	
+	mes "[Van Helmont]";
+	mes "Yes, cut the Tentacle..";
+	mes "and mix some Sticku Mucus,";
+	mes "Jellopy solution in the test tube";
+	mes "....Darn, where did the Medicine ";
+	mes "Bowl go...";
+	next;
+	mes "[Van Helmont]";
+	mes "Did I use them all.. At a time";
+	mes "like this, grrr. I wonder if";
+	mes "Nicholas has any left.";
+	mes "Ganfunnit... what a pain.";
+	mes "....but, wait. wait.";
+	next;
+	mes "[Van Helmont]";
+	mes "Ah, you're that merchant from";
+	mes "before. So.. did you learn ";
+	mes "anything? I didn't send you there";
+	mes "to play.";
+	next;
+	mes "[Van Helmont]";
+	mes "Let me ask you a couple of";
+	mes "questions. Answer how you heard and";
+	mes "learned.";
+	next;
+	mes "[Van Helmont]";
+	mes "What item do you need to make a ";
+	mes "Neutralizer?";
+	next;
+	check counter_agent = 1,real1,-;
+	menu "Feather",wro1,"Sticky Mucus",wro1,"Animal Gore",wro1;
+wro1:
+	goto nquest1; 
+real1:
+	menu "Karvodailnirol",ans1,"Detrimindextra",ans2,"Alcohol",ans3;
+ans1:
+	goto nquest1;
+ans2:
+	set @score + 10; 
+	goto nquest1;
+ans3:
+	goto nquest1;
+nquest1:
+	mes "[Van Helmont]";
+	mes "What item do you need to make a";
+	mes "Mixture?";
+	next;
+	check mixture = 1,real2,-;
+	menu "Monster Feed",wro2,"Ancient Lips",wro2,"Rotten Bandage",wro2;
+wro2:
+	goto failed;
+real2:
+	menu "Karvodailnirol",ans4,"Detrimindextra",ans5,"Alcohol",ans6;
+ans4:
+	set @score + 10;
+	goto compute;
+ans5:
+	goto compute;
+ans6:
+	goto compute;
+compute:
+	check @score = 20,passed,-;
+failed:
+	mes "[Van Helmont]";
+	mes "...Be honest. You don't know,";
+	mes "do you? I thought I told you to go";
+	mes "learn from Molgenstein...";
+	next;
+	mes "[Van Helmont]";
+	mes "Don't even think about coming back";
+	mes "before you've learned for sure!";
+	mes "Stop bothering me and leave!";
+	close;
+passed:
+	mes "[Van Helmont]";
+	mes "Hmm, you learned well. Ok, now";
+	mes "you know some stuff about medicine?";
+	mes "Eh?";
+	mes "I know, you must have a lot to say";
+	mes "but let me continue with my ";
+	mes "experiment.";
+	next;
+	mes "[Van Helmont]";
+	mes "Go out and to the room next to ";
+	mes "here. Nicholas probably has more to";
+	mes "teach you than me.";
+	set al_quest = 8;
+	close;
+finished:
+	mes "[Van Helmont]";
+	mes "What are you doing? Go.";
+	mes "I have no more business with you.";
+	close;
+bye:
+	mes "[Van Helmont]";
+	mes "If you dont have business";
+	mes "here just go away. Ok!!!";
+	close;
+}
+
+alde_alche.gat,145,19,4 script "Chief Researcher" 57,{
+	check al_quest = 8,start,-;
+	check al_quest = 9,return,-;
+	check al_quest = 10,jbq1,-;
+	check al_quest = 11,jbq2,-;
+	check al_quest = 12,finished,-;
+	mes "[Nicholas Flamel]";
+	mes "Lorem ipsum dolor sit amet,";
+	mes "consectetuer adipiscing elit.";
+	mes "Vivamus sem. Sed metus ";
+	mes "lacus, viverra id, rutrum eget,";
+	mes "rhoncus sit amet, lectus.";
+	mes "Suspendisse sit amet urna in";
+	mes "nisl frigilla faucibus. Nulla";
+	mes "scelerisque eros";
+	mes "...mumblemumble....";
+	close;
+start:
+	mes "[Nicholas Flamel]";
+	mes "Ooh... you're the Merchant that";
+	mes "wants to become an Alchemist?";
+	mes "But you know... not anyone can";
+	mes "become an Alchemist.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "The Union doesn't like those that";
+	mes "just want to become Alchemist";
+	mes "without a clear goal.";
+	mes "So... to see if you qualify, I'll ";
+	mes "test how smart you are.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "As you can see, Alchemist must";
+	mes "memorize many equations, chemical";
+	mes "equations and a lot of other";
+	mes "information.";
+	mes "If you're not at a certain level..";
+	mes "it's actually pretty tough.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "The idea is to prevent those that";
+	mes "are going to be useless Alchemists";
+	mes "from joining the union!";
+	next;
+question:	
+	mes "[Nicholas Flamel]";
+	mes "Ok... Here go the questions!";
+	mes "This is to test your concentration ";
+	mes "so that you won't get confused when ";
+	mes "looking at charts.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "Find the words from the group of";
+	mes "letters. They can be made by using";
+	mes "some or all the letters given";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "You pass if you choose the word";
+	mes "that is 'IN' the puzzle.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "s m i e x b w u n e n t a g l r";
+	next;
+	menu "tiger",ans1,"wolf",ans2,"pumpkin",ans3,"tripped",ans4;
+ans1:
+	set @score + 10;
+	goto qa2;
+ans2:
+	goto qa2;
+ans3:
+	goto qa2;
+ans4:
+	goto qa2;
+qa2:
+	mes "[Nicholas Flamel]";
+	mes "n i e g b o p d s o a u w r v";
+	menu "bash",ans5,"provoke",ans6,"endure",ans7,"stun",ans8,"abracadabra",ans9;
+ans5:
+	goto qa3;
+ans6:
+	goto qa3;
+ans7:
+	set @score + 10;
+	goto qa3;
+ans8:
+	goto qa3;
+ans9:
+	goto qa3;
+qa3:
+	mes "[Nicholas Flamel]";
+	mes "l r m g r e x t a v i n e d e";
+	menu "alberta",ans10,"latifoliate",ans11,"crimson",ans12,"maple",ans13,"evergreen",ans14;
+ans10:
+	goto qa4;
+ans11:
+	goto qa4;
+ans12:
+	goto qa4;
+ans13:
+	goto qa4;
+ans14:
+	set @score + 10;
+	goto qa4;
+qa4:
+	mes "[Nicholas Flamel] ";
+	mes "r o e h n r o m c a i n p t t";
+	menu "forgemerchant",ans15,"potionmerchant",ans16,"dcmerchant",ans17,"vendingmerchant",ans18;
+ans15:
+	goto compute1;
+ans16:
+	set @score + 10;
+	goto compute1;
+ans17:
+	goto compute1;
+ans18:
+	goto compute1;
+compute1:
+	check @score = 40,passed,-;
+	mes "[Nicholas Flamel]";
+	mes "Hmmm... You failed!";
+	mes "Get your glasses maybe";
+	mes "you can pass next time";
+	mes "wearing those.";
+	set al_quest = 9;
+	close;
+return:
+	mes "[Nicholas Flamel]";
+	mes "Hmmm you returned.";
+	mes "Well will see if you";
+	mes "changed."; 
+	next;
+	goto question;	
+passed:
+	set al_quest = 10;
+	mes "[Nicholas Flamel]";
+	mes "You seem to be done.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "Let's see.";
+	mes "...Good job. Excellent.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "Somehow you found all of them.";
+	mes "With that kind of concentration,";
+	mes "you should ";
+	mes "easily be able to read the medicine";
+	mes "dictionaries.";
+	mes "Let's see... next is..";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "Come back in a little bit. Get";
+	mes "organized too..";
+	close;
+jbq1:
+	mes "[Nicholas Flamel]";
+	mes "Next, you have to go somewhere.";
+	mes "Go to 'The Forgotten City Juno' and";
+	mes "meet the ";
+	mes "Bain and Bajin brothers who are";
+	mes "researching";
+	mes "alchemy with the Sages there.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "Go help out and come back";
+	mes "Here, take this... it will help you";
+	mes "get close to them.";
+	next;
+	additem 974,1;
+	additem 7068,5;
+	additem 1001,5;
+	additem 756,3;
+	additem 757,3;
+	mes "[Nicholas Flamel]";
+	mes "1 Mixture";
+	mes "5 Burnt Tree";
+	mes "5 Stardust ";
+	mes "3 Rough Oridecon ";
+	mes "3 Rough Elunium";
+	set al_quest = 11;
+	next;
+	mes "[Nicholas Flamel]";
+	mes "Have a safe trip.";
+	mes "It's Juno. Come back in one piece.";
+	close;
+jbq2:
+	check juno_quest = 1,junoq,-;
+	mes "[Nicholas Flamel]";
+	mes "Bain and Bajin brothers are";
+	mes "in Juno go help them.";
+	close;
+junoq:
+	set al_quest = 12;
+	mes "[Nicholas Flamel]";
+	mes "Ooh! Well done on such a long ";
+	mes "trip.";
+	mes "I got a message saying that the ";
+	mes "Bain and Bajin brothers were happy";
+	mes "about your visit.";
+	next;
+	mes "[Nicholas Flamel]";
+	mes "You must have successfully helped";
+	mes "them.";
+	mes "If you're good enough to be of help";
+	mes "to the brothers... ok, I think you ";
+	mes "qualify.";
+	next;
+finished:
+	mes "[Nicholas Flamel]";
+	mes "Go to the Union Leader on the 2nd ";
+	mes "floor! Congratulations. You'll ";
+	mes "change jobs soon!";
+	close;
+}
+
+alde_alche.gat,101,184,4 script "Master Alchemist" 122,{
+	check Job = 5,talk,-;
+	mes "[Vincent Carsciallo]";
+	mes "Hmmm? What may a civilian";
+	mes "have to do here?";
+	next;
+	mes "[Vincent Carsciallo]";
+	mes "There's nothing amusing.";
+	mes "Dont wander and leave.";
+	close;
+talk:
+	check al_quest = 12,start,-;
+	mes "[Vincent Carsciallo]";
+	mes "Hmmm? A merchant.";
+	mes "Are you interested in Alchemy?";
+	next;
+	mes "[Vincent Carsciallo]";
+	mes "This is the Alchemist Union.";
+	mes "We research many different";
+	mes "substances.";
+	mes "Our goal is to make something new";
+	mes "without the power of magic.";
+	next;
+	mes "[Vincent Carsciallo]";
+	mes "Create new life, and study how to ";
+	mes "live long and not die ... and we also";
+	mes "make";
+	mes "new materials out of existing ";
+	mes "ones...";
+	mes "These are just some of the things";
+	mes "we do.";
+	next;
+	mes "[Vincent Carsciallo]";
+	mes "After being a Merchant for a long";
+	mes "time ";
+	mes "you start to become interested in";
+	mes "everything.";
+	mes "If you would like to learn Alchemy";
+	mes "as well,";
+	mes "try joining our Union.";
+	close;
+start:
+	check skillpoint = 0,-,has;
+	mes "[Vincent Carsciallo]";
+	mes "Ooh, ok. You joined and learned";
+	mes "the basics, too. Well done.";
+	next;
+	jobchange 18;
+	mes "[Vincent Carsciallo]";
+	mes "From now on, you are also a member";
+	mes "of the Union as an Alchemist.";
+	mes "I hope you learn a lot...";
+	next;
+	additem 7127,1;
+	mes "[Vincent Carsciallo]";
+	mes "Here's a little something. ";
+	mes "Use it to start off with some";
+	mes "research.";
+	next;
+	mes "[Vincent Carsciallo]";
+	mes "I'll see you later then...";
+	mes "Be proud of being an Alchemist!";
+	set al_quest = 0;
+	close;
+has:
+	mes "[Vincent Carsciallo]";
+	mes "Please use all your skill point";
+	mes "before talking to me.";
+	close;
+}

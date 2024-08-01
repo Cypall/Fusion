@@ -1,0 +1,13 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Rogue Guild - Warp Locations
+//
+//========================================================================================
+cmd_fild07.gat,193,117,0	warp	rogue01	0,0,in_rogue.gat,379,46
+in_rogue.gat,375,46,0	warp	rogue02	0,0,cmd_fild07.gat,196,117
+in_rogue.gat,375,33,0	warp	rogue03	0,0,in_rogue.gat,380,125
+in_rogue.gat,375,125,0	warp	rogue04	0,0,in_rogue.gat,379,33

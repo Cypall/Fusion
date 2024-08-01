@@ -1,0 +1,29 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Geffenia Event - Non Player Character Locations
+//
+// Stone -> gef_dun03: 129,114
+// - Stone with what looks like some sort of key hole,
+// - wich can warp you to geffenia dungeon.
+//
+//========================================================================================
+
+gef_dun03.gat,129,114,0 script "Stone" 111,{
+         checkitem 7025,1,L_START_1,-;
+	mes "^3355ff- You see a stone with some sort of hole in it. -";
+	close;
+L_START_1:
+	mes "You see a stone with some sort of hole in it.";
+	mes "When you examine it further you notice it's some sort of key hole,";
+	mes "and you see Lucifer's Lament has the righ shape.";
+	next;
+	mes "You insert Lucifer's Lament,";
+	mes "and slowly turned it.";
+      next;
+	   warp "gefenia01",58,169;
+      close;
+}

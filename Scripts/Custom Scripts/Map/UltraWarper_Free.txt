@@ -1,0 +1,5310 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//              Warper - Non Player Character Locations
+//			Warps to all towns (Free), guild castles (Free), and dungeons (Free).
+//
+// - prontera 164 174
+//
+// - izlude 136 90
+//
+// - payon 97 120
+//
+// - alberta 24 241
+//
+// - aldebaran 136 118
+//
+// - geffen 124 68
+//
+// - morocc 164 281
+//
+// - comodo 193 158
+//
+// - xmas 150 135
+//
+// - amatsu 193 85
+//
+// - gonryun 255 88
+//
+// - lou_fild01 187 101
+//
+// - niflheim 190 190
+//
+// - umbala 126 140
+//
+// - yuno 153 164
+//
+//
+//
+// - prt_fild01 139 365
+//
+// - gef_fild10 71 335
+//
+// - moc_fild04 204 330
+//
+// - mjolnir_02 83 360
+//
+// - moc_fild19 106 97
+//
+// - moc_ruins 60 168
+//
+// - glast_01 203 291
+//
+// - comodo 32 219
+//
+// - tur_dun01 162 30
+//
+// - yuno_fild03 38 144
+//
+// - izlu2dun 110 112
+//
+// - alb2trea 44 57
+//
+// - pay_arche 54 145
+//
+//
+//========================================================================================
+
+
+//Prontera
+prontera.gat,164,174,3	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Izlude
+izlude.gat,136,90,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Geffen
+geffen.gat,124,68,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Alberta:ENY,-;
+	set Zeny -= 100,0;
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:NY,-;
+	set Zeny -= 100,0;
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Alberta
+alberta.gat,24,241,5	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Payon
+payon.gat,97,120,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Al de Baran
+aldebaran.gat,136,118,5	script	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Morocc
+morocc.gat,164,281,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Lutie
+xmas.gat,150,135,4	script	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Comodo
+comodo.gat,193,158,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Juno",M_Juno,"Lutie",M_Xmas,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Juno
+yuno.gat,153,164,0	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Umbala
+umbala.gat,126,140,3	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Amatsu
+amatsu.gat,193,85,6	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Gon Ryune
+gon_fild01.gat,255,88,6	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Niflheim
+niflheim.gat,190,190,5	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Lou Yang
+lou_fild01.gat,187,101,8	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Jawaii",M_Jawai;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Jawaii
+jawaii.gat,115,249,8	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	check pay_arche_warp = 1,-,HASNT;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	set pay_arche_warp = 1;
+	save "pay_arche",50,145;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Payon Dungeon
+pay_arche.gat,54,145,5	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Sunken Ship Dungeon
+alb2trea.gat,44,57,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Bibalan Dungeon
+izlu2dun.gat,110,112,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Magma Dungeon
+yuno_fild03.gat,38,144,5	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Turtle Dungeon
+tur_dun01.gat,162,30,0	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Beach Dungeon
+comodo.gat,32,219,5	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Pyramids Dungeon
+moc_ruins.gat,60,168,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Sphinx Dungeon
+moc_fild19.gat,106,97,6	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Glast Heim Prison
+glast_01.gat,203,291,3	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Coal Mines
+mjolnir_02.gat,83,360,3	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Ant Hell
+moc_fild04.gat,204,330,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+
+//Orc Dungeon
+gef_fild10.gat,71,335,3	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}
+
+//Hidden Temple
+prt_fild01.gat,139,365,4	script	"Warper"	117,{
+	cutin "kafra_01",2;
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_0:
+	menu "Cities",Cities,"Dungeons",Dungeons,"Guild Castle",Guilds;
+	close;
+   HASNT:
+	mes "[Warper]";
+	mes "I can warp you to any Town, Dungeon or Guildcastle.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	goto L_MENU_0_0;
+ Cities:
+	mes "[Warper]";
+	mes "I can send you to any town, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+   L_MENU_0_1:
+	menu "Nevermind",NVM,"Prontera",M_Prontera,"Izlude",M_Izlude,"Geffen",M_Geffen,"Alberta",M_Alberta,"Umbala",M_Umbala,"Al de Baran",M_Aldebaran,"None of these.. Next?",More1;
+	close;
+   M_Prontera:
+	warp "prontera",155,184;
+   M_Izlude:
+	warp "izlude",128,93;
+   M_Geffen:
+	warp "geffen",120,63;
+   M_Alberta:
+	warp "alberta",30,234;
+   M_Umbala:
+	warp "umbala",123,143;
+   M_Aldebaran:
+	warp "aldebaran",140,121;
+ More1:
+	menu "Nevermind",NVM,"Payon",M_Payon,"Morocc",M_Morocc,"Lutie",M_Xmas,"Juno",M_Juno,"Comodo",M_Comodo,"Nifflheim",M_Nifflheim,"None of these.. Next?",More2;
+	close;
+   M_Payon:
+	warp "payon",89,122;
+   M_Morocc:
+	warp "morocc",158,282;
+   M_Xmas:
+	warp "xmas",148,130;
+   M_Juno:
+	warp "yuno",158,169;
+   M_Comodo:
+	warp "comodo",191,153;
+   M_Nifflheim:
+	warp "niflheim",202,171;
+ More2:
+	menu "Nevermind",NVM,"Amatsu",M_Amatsu,"Gon Ryune",M_Kunlun,"Lou Yang",M_louyang,"Jawaii",M_Jawai;
+	close;
+   M_Amatsu:
+	warp "amatsu",197,86;
+   M_Kunlun:
+	warp "gon_fild01",257,90;
+   M_louyang:
+	warp "lou_fild01",190,102;
+   M_Jawai:
+	warp "jawaii",232,101;
+Dungeons:
+	mes "[Warper]";
+	mes "I can send you to any dungeon, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+L_MENU_0_2:
+	menu "Nevermind",NVM,"Bibalan Dungeon",M_Bil,"Sunken Ship",M_Sunken,"Hidden Temple",M_Prt_fild01,"Orc Dungeon",M_Gef_fild10,"Ant Hell",M_Moc_fild04,"None of these.. Next?",2More2;
+	close;
+M_Bil:
+        warp "izlu2dun",108,111;
+M_Sunken:
+        warp "alb2trea",43,53;
+M_Prt_fild01:
+        warp "prt_fild01",136,368;
+M_Gef_fild10:
+        warp "gef_fild10",67,334;
+M_Moc_fild04:
+        warp "moc_fild04",210,328;
+2More2:
+	menu "Nevermind",NVM,"Coal Mines",M_mjolnir_02,"Sphinx Dungeon",M_moc_fild19,"Pyramids Dungeon",M_moc_ruins,"Glast Heim Prison",M_gef_fild06,"Beach Dungeon",M_Beach,"Turtle Dungeon",M_Turtle,"Magma Dungeon",M_Magma;
+	close;
+M_mjolnir_02:
+        warp "mjolnir_02",79,361;
+M_moc_fild19:
+        warp "moc_fild19",106,99;
+M_moc_ruins:
+        warp "moc_ruins",62,162;
+M_gef_fild06:
+        warp "glast_01",200,292;
+M_Beach:
+        warp "comodo",28,215;
+M_Turtle:
+        warp "tur_dun01",162,33;
+M_Magma:
+        warp "yuno_fild03",41,146;
+Guilds:
+	mes "[Warper]";
+	mes "I can send you to any Guild Castle, for free.";
+	mes " ";
+	mes "Where would you like to go?";
+	next;
+	menu "Nevermind",NVM,"Prontera",L_Prt,"Aldebaran",L_Alde,"Payon",L_Pay,"Geffen",L_Gef;
+	close;
+L_Prt:
+	mes "[Warper]";
+	mes "Please choose a Prontera castle:";
+	menu "Nevermind",NVM,"Top Left",L_p1,"Top Right",L_p2,"Middle",L_p3,"Bottom Left",L_p4,"Bottom Right",L_p5;
+	close;
+L_Alde:
+	mes "[Warper]";
+	mes "Please choose a Aldebaran castle:";
+	menu "Nevermind",NVM,"Top Right",L_a1,"Top Left",L_a2,"Bottom Right",L_a3,"Bottom Left",L_a4,"Bottom Middle",L_a5;
+	close;
+L_Gef:
+	mes "[Warper]";
+	mes "Please choose a Geffen castle:";
+	menu "Nevermind",NVM,"Top Left",L_g1,"Top Right",L_g2,"Middle Left",L_g3,"Bottom Right",L_g4,"Bottom Left",L_g5;
+	close;
+L_Pay:
+	mes "[Warper]";
+	mes "Please choose a Payon castle:";
+	menu "Nevermind",NVM,"Top Right",L_pp1,"Top Middle",L_pp2,"Top Left",L_pp3,"Bottom Right",L_pp4,"Bottom Left",L_pp5;
+	close;
+//payon castle warps
+L_pp1:
+	warp "pay_gld",315,294;
+L_pp2:
+	warp "pay_gld",199,262;
+L_pp3:
+	warp "pay_gld",120,231;
+L_pp4:
+	warp "pay_gld",297,115;
+L_pp5:
+	warp "pay_gld",140,161;
+//geffen castle warps
+L_g1:
+	warp "gef_fild13",193,276;
+L_g2:
+	warp "gef_fild13",308,239;
+L_g3:
+	warp "gef_fild13",83,178;
+L_g4:
+	warp "gef_fild13",310,89;
+L_g5:
+	warp "gef_fild13",217,73;
+//prontera castle warps
+L_p1:
+	warp "prt_gld",109,240;
+L_p2:
+	warp "prt_gld",210,240;
+L_p3:
+	warp "prt_gld",153,138;
+L_p4:
+	warp "prt_gld",134,64;
+L_p5:
+	warp "prt_gld",240,127;
+//aldebaran castle warps
+L_a1:
+	warp "alde_gld",240,245;
+L_a2:
+	warp "alde_gld",93,247;
+L_a3:
+	warp "alde_gld",268,88;
+L_a4:
+	warp "alde_gld",46,84;
+L_a5:
+	warp "alde_gld",144,85;
+   NVM:
+	mes "[Warper]";
+	mes "Come back, if you're ever in need.";
+	cutin "kafra_01",255;
+	close;
+}

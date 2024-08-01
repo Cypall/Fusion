@@ -1,0 +1,134 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Cart Revolution Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Gershaun -> alberta: 232,106
+//   Bring items to obtain skill. Applicable jobs are Merchant, Blacksmith and Alchemist.
+//========================================================================================
+
+alberta.gat,232,106,6   script   "Gershaun"   57,6,6,{ 
+	check Job = 5,Lcheck,-; 
+	check Job = 10,LStart,-;
+	check Job = 18,LStart,-;
+	goto LStartOther; 
+Lcheck:
+	check JobLevel >= 30,-,LStartLowlv;
+LStart:
+	check skill_mc3 = 1,LStartTwice,-; 
+	checkitem 532,1,-,BananaJ; 
+	checkitem 533,2,-,L0; 
+	checkitem 998,15,-,L0; 
+	checkitem 938,30,-,L0; 
+	checkitem 601,20,-,L0; 
+	checkitem 962,5,-,L0; 
+	goto L3;	
+BananaJ: 
+	mes "[Gershaun]"; 
+	mes "The price for my tale"; 
+	mes "1 FF0000Banana Juice^000000, fresh is the best"; 
+	mes "Come back when you have one"; 
+	close; 
+L0:
+	mes "[Gershaun]"; 
+	mes "Welcome to my simple place here in Alberta."; 
+	mes "I am Gershaun a merchant trainer."; 
+	mes "I can learn you the skill called: ^0033FFCart Revolution^000000."; 
+	next;
+	mes "[Gershaun]";
+	mes "Would you like to know how to get this skill?"; 
+	next; 
+	menu "Yes, please",L1_1,"No, thanks",L1_2; 
+L1_1:
+	mes "[Gershaun]"; 
+	mes " As you may understand it is not for free."; 
+	mes "That's why you need to give me some stuff in return."; 
+	next;
+	mes "[Gershaun]";
+	mes "Do you want to proceed, if not leave now and don't botter me anymore"; 
+	next; 
+	menu "Yes, proceed",L2_1,"No, leave me alone",L2_2; 
+L1_2: 
+	mes "[Gershaun]";
+	mes "Bad for you then. Don't botter me anymore."; 
+	mes "Good bye"; 
+	close; 
+L2_1:
+	mes "[Gershaun]"; 
+	mes "Okay, For this skillquest you will need:"; 
+	mes ""; 
+	mes "30 ^FF0000Sticky Mucus"; 
+	mes "20 ^FF0000Fly wings"; 
+	mes "15 ^FF0000Iron"; 
+	mes "5 ^FF0000Tentacles"; 
+	mes "2 ^FF0000Grape Juice^000000"; 
+	next;
+	mes "[Gershaun]"; 
+	mes "Come back later when you have all these stuff."; 
+	mes "Good luck with your task."; 
+	close; 
+L2_2: 
+	mes "[Gershaun]"; 
+	mes "Bad for you then. Don't botter me anymore."; 
+	mes "Good bye"; 
+	close; 
+L3:
+	mes "[Gershaun]"; 
+	mes "Well, well you have succeded with your task."; 
+	mes "What should I say, congratulations I guess."; 
+	next;
+	mes "[Gershaun]";
+	mes "I am a man that keep a promise"; 
+	mes "Are you sure you want this skill?"; 
+	next;
+	menu "yes, hand it over",L3_1,"No, thanks",L3_2; 
+L3_1:
+	mes "[Gershaun]"; 
+	mes "Well then, I will now implement this skill."; 
+	mes "Please stand by."; 
+	next; 
+	delitem 533,2; 
+	delitem 998,15; 
+	delitem 938,30; 
+	delitem 601,20; 
+	delitem 962,5; 
+	set skill_mc3 =1;
+	setskilllevel 0x99,1;
+	mes "[Gershaun]"; 
+	mes "Congratulations now you have it."; 
+	mes "Good luck."; 
+	close; 
+L3_2: 
+	mes "[Gershaun]"; 
+	mes "Well that was a pitty.Sad man."; 
+	mes "Good luck and don't BOTHER me again."; 
+	close; 
+LStartOther:
+	mes "[Gershaun]"; 
+	mes "I am an merchant and I can teach other merchants how to make carts better."; 
+	mes "This skill can only be used by merchants."; 
+	mes "Unfortunately you ain't a merchant."; 
+	close; 
+LStartLowlv:
+	mes "[Gershaun]"; 
+	mes "Hello friendly merchant. You have to raise your level a little more before using Change Cart."; 
+	mes "You need to be atleast joblevel 35."; 
+	close; 
+LStartTwice: 
+	setskilllevel 0x99,1;
+	mes "[Gershaun]"; 
+	mes "You already have this skill implemented in your skilltree."; 
+	close;
+	return;
+OnTouch: 
+	mes "[Gershaun]"; 
+	mes "If it doesn't work, make it work.";
+	mes "If it doesn't work, make it work.";
+	mes "If it doesn't work, make it work.";
+	close;
+}

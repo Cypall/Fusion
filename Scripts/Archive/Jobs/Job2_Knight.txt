@@ -1,0 +1,54 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Knight Jobchange - Non Player Character Locations
+// - Original script by Khali
+//
+// - Knight -> in_hunter: 88,101
+//   Changes you into a Knight.
+//
+//========================================================================================
+
+//prt_in.gat,88,101,4 script "Knight" 56,{
+      mes "[Prontera Knight]";
+      mes "Good Day, This is the Prontera Chivarly.";
+      next;
+      menu "Change Job into a Knight.",L_MENU1,"Requirements",L_MENU2,"End",-;
+      close;
+L_Menu1:
+      mes "[Prontera Knight]";
+      mes "First I'll check if all the requirements have been met.";
+      next;
+         check Job == 1,-,L_MENU1_F1;
+         check JobLevel > 39,-,L_MENU1_F2;
+         check SkillPoint == 0,-,L_MENU1_F3;
+         set JobLevel = 1,0;
+         jobchange 7;
+      mes "[Prontera Knight]";
+      mes "Congradulations, you are now a Knight!";
+      close;
+L_MENU1_F1:
+      mes "[Prontera Knight]";
+      mes "You must be a swordman before you can become a knight.";
+      close;
+L_MENU1_F2:
+      mes "[Prontera Knight]";
+      mes "You must be at least Job Level 40 to become a knight.";
+      close;
+L_MENU1_F3:
+      mes "[Prontera Knight]";
+      mes "Please up all your skillpoints.";
+      close;
+L_MENU2:
+      mes "[Prontera Knight]";
+      mes "To become a knight you must complete the following:";
+      mes "- Become a Swordman";
+      mes "- Gain Job Level 40";
+      next;
+      mes "[Prontera Knight]";
+      mes "Good luck.";
+      close;
+}

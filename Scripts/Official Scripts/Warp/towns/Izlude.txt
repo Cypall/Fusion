@@ -1,0 +1,25 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Izlude Town Warps - Warp Locations
+//
+//========================================================================================
+
+izlude_in.gat,65,84,0	warp	izludewarp001	5,2,izlude.gat,113,147
+izlude_in.gat,74,158,0	warp	izludewarp002	3,2,izlude.gat,52,136
+izlude_in.gat,87,169,0	warp	izludewarp003	2,3,izlude_in.gat,111,169
+izlude_in.gat,108,169,0	warp	izludewarp004	2,3,izlude_in.gat,84,169
+izlude_in.gat,116,46,0	warp	izludewarp005	3,2,izlude.gat,145,145
+izlude_in.gat,148,127,0	warp	izludewarp006	2,5,izlude.gat,212,129
+izlude_in.gat,171,97,0	warp	izludewarp007	3,2,izlude_in.gat,172,119
+izlude_in.gat,172,116,0	warp	izludewarp008	3,2,izlude_in.gat,172,94
+izlude_in.gat,172,139,0	warp	izludewarp009	3,2,izlude_in.gat,172,161
+izlude_in.gat,172,158,0	warp	izludewarp010	3,2,izlude_in.gat,172,136
+izlude.gat,30,78,0	warp	izludewarp011	3,3,prt_fild08.gat,367,212
+izlude.gat,52,140,0	warp	izludewarp012	2,2,izlude_in.gat,74,161
+izlude.gat,109,151,0	warp	izludewarp013	3,3,izlude_in.gat,65,87
+izlude.gat,148,148,0	warp	izludewarp014	2,2,izlude_in.gat,116,49
+izlude.gat,216,129,0	warp	izludewarp015	3,2,izlude_in.gat,151,127

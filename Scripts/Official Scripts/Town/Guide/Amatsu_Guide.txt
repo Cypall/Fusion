@@ -1,0 +1,100 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Amatsu Guides - Non Player Character Locations
+//
+// - Miss Amatsu -> amatsu: 207,91
+//   Shows you the way arround amatsu.
+//
+// - Guide -> amatsu: 251,283
+//   Shows you the way arround amatsu.
+//
+//========================================================================================
+
+amatsu.gat,207,91,4 script "Miss Amatsu" 758,{
+	mes "[Hotaru-Chan]";
+	mes "I'm Hotaru, the thirteenth in the";
+	mes "line of Amatsu guides.";
+	mes "There are no stupid questions here,";
+	mes "so please, if you need directions";
+	mes "to a location, don't hesitate to ask.";
+	next;
+	menu "Castle",L1,"Tool shop",L2,"Weapon shop",L3,"Bar",L4; 
+L1:
+		viewpoint 1,85,235,0,0xFF3355;
+	mes "[Hotaru-Chan]";
+	mes "I marked the Castle with a";
+	mes "^FF3355+^000000 on your";
+	mes "minimap.";
+	goto L_End;
+L2:
+		viewpoint 1,96,118,1,0xCE6300;
+	mes "[Hotaru-Chan]";
+	mes "I marked the Tool shop with a";
+	mes "^CE6300+^000000 on your";
+	mes "minimap.";
+	goto L_End;
+L3:
+		viewpoint 1,132,117,2,0x55FF33;
+	mes "[Hotaru-Chan]";
+	mes "I marked the Weapon shop with a";
+	mes "^55FF33+^000000 on your";
+	mes "minimap.";
+	goto L_End;
+L4:
+ 		viewpoint 1,217,116,3,0x3355FF;
+	mes "[Hotaru-Chan]";
+	mes "I marked the bar with a";
+	mes "^3355FF+^000000 on your";
+	mes "minimap.";
+L_End:
+	mes "Please enjoy your stay";
+	mes "in Amatsu.";
+	close;
+}
+
+amatsu.gat,251,283,4 script "Guide" 767,{
+	mes "[Guide]";
+	mes "Good evening!";
+	mes "Today is a good day to take";
+	mes "a tour of Amatsu!";
+	next;
+	mes "[Guide]";
+	mes "Are you interested in someplace specific?";
+	next;
+	menu "Castle",L1,"Tool shop",L2,"Weapon shop",L3,"Bar",L4;
+L1:
+		viewpoint 1,85,235,0,0xFF3355;
+	mes "[Guide]";
+	mes "I marked the Castle with a";
+	mes "^FF3355+^000000 on your";
+	mes "minimap.";
+	goto L_End;
+L2:
+		viewpoint 1,96,118,1,0xCE6300;
+	mes "[Guide]";
+	mes "I marked the Tool shop with a";
+	mes "^CE6300+^000000 on your";
+	mes "minimap.";
+	goto L_End;
+L3:
+		viewpoint 1,132,117,2,0x55FF33;
+	mes "[Guide]";
+	mes "I marked the Weapon shop with a";
+	mes "^55FF33+^000000 on your";
+	mes "minimap.";
+	goto L_End;
+L4:
+		viewpoint 1,217,116,3,0x3355FF;
+	mes "[Guide]";
+	mes "I marked the Bar with a";
+	mes "^3355FF+^000000 on your";
+	mes "minimap.";
+L_End:
+	mes "Please enjoy your stay";
+	mes "in Amatsu.";
+	close;
+}

@@ -1,0 +1,114 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Louyang Town - Non Player Character Locations
+//
+// - Taka -> alberta: 245,45
+//   Warps you to LouYang.
+//
+// - Taka -> lou_fild01: 190,100
+//   Warps you back to Alberta.
+//
+//========================================================================================
+
+alberta.gat,245,45,4 script "Taka" 726,{
+	mes "[Taka]";
+	mes "Did you know that on the other side of the ocean";
+	mes "a new town was discovered ? ";
+	mes "with stories totally unheard of in this town.";
+	mes "Have you heard of it before?";
+	next;
+	menu "I want to know more about LouYang.",L_MENU_1,"Go to Louyang.",L_MENU_2,"End Conversation.",-;
+	mes "[Taka]";
+	mes "If you are a true adventurer,";
+      mes "you should try to leave this continent.";
+	mes "Nothing is more exciting than exploring new area's.";
+	mes "However, do whatever you want.";
+	close;
+L_MENU_1:
+	mes "[Taka]";
+	mes "Well, nothing much is know yet of this city. ";
+	mes "It was only discovered a few weeks ago";
+	next;
+	mes "[Taka]";
+	mes "If you want to go to LouYang,";
+	mes "then just tell me...!";
+	close;
+L_MENU_2:
+	mes "[Taka]";
+	mes "Yea, LouYang is a Beautiful place!";
+	mes "Because to cross that treacherous ocean";
+	mes "is not a very easy thing to do.";
+	mes "I hope you find the travelling fee acceptable.";
+	next;
+	mes "[Taka]";
+	mes "The round trip costs 10,000 Zeny.";
+	mes "Our commercial vessels are very sturdy.";
+	mes "The passenger rooms are specially designed as well.";
+	next;
+	mes "[Taka]";
+	mes "So, have you decided to leave?";
+	mes "Do you have enough zeny for travelling?";
+	next;
+	menu "Yes",L_GO,"No",-;
+	mes "[Taka]";
+	mes "Not drawn to this new continent?";
+	mes "People never like";
+	mes "to head for the far coast on the other side.";
+	close;
+L_GO:
+      check zeny >= 10000,-,L_ZENY; 
+      set zeny -= 10000;
+	mes "[Taka]";
+	mes "All aboard!";
+	next;
+	warp "lou_fild01",191,104;
+	close;
+L_ZENY:
+	mes "[Taka]";
+	mes "Did you forget what I said?";
+	mes "10,000 zeny. If you can't come up with enough zeny,";
+	mes "hunt around the Sunken Ship,";
+	mes "and hope for some luck hunting treasure...";
+	mes "and get enough zeny.";
+	close;
+}
+
+lou_fild01.gat,190,100,4 script "Taka" 726,{
+	mes "[Taka]";
+	mes "Ready to leave?";
+	mes "Probably had lots of fun exploring.";
+	mes "Are you really ready to leave?";
+      next;
+	menu "Time to go home!",L_MENU_1,"I will stay a bit longer",-;
+	mes "[Taka]";
+	mes "Alright! Roger that.";
+	mes "The vessel for return will always be ready.";
+	mes "Have a nice day.";
+	close;
+L_MENU_1:
+	mes "[Taka]";
+	mes "Set sail.";
+	mes "Hope you enjoyed yourself here.";
+	next;
+	warp "alberta",242,44;
+	close;
+}
+
+lou_in02.gat,62,183,5 script "" 820,{
+}
+
+lou_in02.gat,58,183,4 script "" 823,{
+}
+
+lou_in02.gat,53,175,1 script "" 822,{
+}
+
+lou_in02.gat,60,175,4 script "" 818,{
+}
+
+lou_in02.gat,43,169,8 script "" 827,{
+}

@@ -1,0 +1,837 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Dye Event - Non Player Character Locations
+//
+// - Ruitsu -> alberta_in: 133,55
+//   Need description.
+//
+// - Auru day phon -> geffen: 184,114
+//   Need description.
+//
+// - Molgen Stein -> geffen_in: 141,140
+//   Need description.
+//
+// - Dairen -> prontera: 78,150
+//   Need description.
+//
+// - Java Dullihan -> morocc_in: 146,99
+//   Need description.
+//
+// - Jineda inlay full -> prt_in.gat: 284,168
+//   Need description.
+//
+// - Yobichi -> prt_in.gat: 243,168
+//   Need description.
+//
+//========================================================================================
+
+alberta_in.gat,133,55,3	script	"Ruitsu"	84,{
+		check MOLGENSTEIN == 2,-,L_START_1;
+			mes "[Merchant RUITSU]";
+			mes "Mr. ...";
+			mes "it is how -- or [ having called on the scientist with that amusing head of ? Geffen ]?";
+			next;
+			menu "Talk about MOLGEN Stein.",-,"Go Away",L_MENU_1;
+				mes "[Merchant RUITSU]";
+				mes "Although that fellow's room was heard by Geffen, has not it visited yet??";
+				mes "... what?...it is already...isn't it useless? An uncanny thing may be made with that solution.";
+				close;
+	L_MENU_1:
+				mes "[Merchant RUITSU]";
+				mes "if you want to say some in some cases -- talking -- it is how Although there is no way of accustoming depending on which mind does not progress well";
+				close;
+	L_START_1:
+		mes "[Merchant RUITSU]";
+		mes "What business?";
+		next;
+		checkitem 971,1,-,L_START_2;
+		checkitem 972,1,-,L_START_2;
+		menu "Talk",L_MENU_1_1,"Talk about solution etc.",L_MENU_1_2,"Go Away.",L_MENU_1_3;
+	L_MENU_1_1:
+			mes "[Merchant RUITSU]";
+			mes "It is Geffen in order to get a magic tool.   There was a time of being in the village to say. Then, the rumor about a chemist with the amusing one head will be heard.";
+			mes "It is because ... which was not obtained at all, because he did not look at me since they were doing unconsciousness to research, although visited and seen, interest having been made and hearing it here and there.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "Then, surely he heard the language said in the soliloquy.";
+			mes "'KARUBODIRU ... Date RIMIN ... '";
+			mes "Although merely considered and cooked at least to somniloquy at first, other new liquids with which it is different from water during long time if commercial work is done came to be found.";
+			close;
+	L_MENU_1_2:
+			set MOLGENSTEIN = 1;
+			mes "[Merchant RUITSU]";
+			mes "... is this that solution? the new thing which has not been seen in fact although I also heard only rumor -- what -- good -- a hand -- putting in -- a shelf";
+			mes "However, although it is regrettable what should be carried out now, I am not dividing. Only that fellow should know all.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "Probably, you who are an adventure person want to surely visit to that chemist and to solve the question.";
+			mes "A chemist's room is obtained in the gratitude which was allowed to carry out the actual thing of the new solution. Since it is an old thing, although he does not remember the detailed position,";
+			mes "The chemist lives in Geffen. Name^0000ffMOLGEN Stein^000000he had said.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "If it is heard by Geffen, it turns out that it is detailed.";
+			mes "Good luck.";
+			close;
+	L_MENU_1_3:
+			mes "[Merchant RUITSU]";
+			mes "Is it unsatisfying?.";
+			close;
+	L_START_2:
+		checkitem 972,1,-,L_START_3;
+		menu "Talk.",L_MENU_1_1,"Talk about KARUBODIRU.",-,"Don't Talk",L_MENU_1_3;
+			set MOLGENSTEIN = 1;
+			mes "[Merchant RUITSU]";
+			mes "... is this the KARUBODIRU? the new thing which has not been seen in fact although I also heard only rumor -- what -- good -- a hand -- putting in -- a shelf.";
+			mes "However, although it is what should be carried out now, I am not dividing. Only that fellow should know all.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "A chemist's room is obtained in the gratitude which was allowed to carry out the actual thing of the new solution. Since it is an old thing, although he does not remember the detailed position...,";
+			mes "The chemist lives in Geffen. Named^0000ffMOLGEN Stein^000000 he had said.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "If it is heard by Geffen, it turns out that it is detailed.";
+			mes "Good luck.";
+			close;
+	L_START_3:
+		checkitem 971,1,-,L_START_4;
+		menu "Talk.",L_MENU_1_1,"Talk about KARUBODIRU.",-,"Don't Talk",L_MENU_1_3;
+			set MOLGENSTEIN = 1;
+			mes "[Merchant RUITSU]";
+			mes "... is this the KARUBODIRU? the new thing which has not been seen in fact although I also heard only rumor -- what -- good -- a hand -- putting in -- a shelf..";
+			mes "However, although it is what should be carried out now, I am not dividing. Only that fellow should know all.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "A chemist's room is obtained in the gratitude which was allowed to carry out the actual thing of the new solution. Since it is an old thing, although he does not remember the detailed position...,";
+			mes "The chemist lives in Geffen. Named^0000ffMOLGEN Stein^000000 he had said.";
+			next;
+			mes "[Merchant RUITSU]";
+			mes "If it is heard by Geffen, it turns out that it is detailed.";
+			mes "Good luck.";
+			close;
+	L_START_4:
+		menu "Talk",L_MENU_1_1,"Leave alone",L_MENU_1_3;
+}
+
+geffen.gat,181,114,4 script "Auru day phon" 55,{
+	mes "[Geffen residents AURU day phon]";
+	mes "TIME never WAITS for you!! Even MAGIC cannot SLOW it down!  I can feel it passing me by even as we speak!!....";
+	   emotion 0;
+	next;
+	mes "[Geffen residents AURU day phon]";
+	mes "So... why did you stop me??";
+	   emotion 20;
+	   check MOLGENSTEIN = 1,L_Menu2,-;
+L_Menu:
+	next;
+	menu "Talk",L_Talk,"Cancel",L_Cancel;
+L_Menu2:
+	next;
+	menu "Talk",L_Talk,"More about Molgen Stain",L_Molgenstain,"Cancel",L_Cancel;
+L_Talk:
+	mes "[Geffen residents AURU day phon]";
+	mes "It's true that I'm a little excentric because of my quest to gain the power of magic, but I assure that there are others out there that are even stranger than myself.";
+	next;
+	mes "[Geffen residents AURU day phon]";
+	mes "Like that mad scientist ^0000ddMOLGEN STEIN^000000.  Anyway, if it were up to you, would you be able to devote your ENTIRE life to one single purpose?";
+	next;
+	mes "[Geffen residents AURU day phon]";
+	mes "Would you be able to give up everthing else in your life to achieve that goal? Even if it meant risking insanity??";
+	   check MOLGENSTEIN = 1,L_Menu2,-;
+	goto L_Menu;
+L_Molgenstain:
+	   set MOLGENSTEIN = 2;
+	mes "[Geffen residents AURU day phon]";
+	mes "MOLGEN STEIN? Now that man definatley has a few screws loose.  He's always in the ^0000ddBlasksmith Guild Building^000000 making crazy potions.";
+	mes "He calls them ^ff0000Mixtures^000000 and ^ff0000Counteragents^000000.  I'm not sure what there used for though.";
+	next;
+	mes "[Geffen residents AURU day phon]";
+	mes "You should go speak with him if your that curious about his work.";
+	goto L_Menu2;
+L_Cancel:
+	mes "[Geffen residents AURU day phon]";
+	mes "Human beings are just a small part of Nature.... therefore the human will is that of Natures will.....";
+	close;
+}
+
+geffen_in.gat,141,140,2	script "Molgen Stein" 121,{
+	   check MOLGENSTEIN = 2,L_Ask,-;
+	   check MOLGENSTEIN = 3,L_What,-;
+	mes "[Chemist Molgen Stein]";
+	mes "Heheheheheh... Sniff Sniff... I can smell something appetizing here.";
+	mes "It is a Human Being... living one... umm yummy... Heheheheheh";
+	   emotion 29;
+	close;
+L_Ask:
+	mes "[Chemist Molgen Stein]";
+	mes "So you've been asking about me huh? What is it that you want to know?";
+L_Menu:
+	next;
+	menu "Ask about his research",L_Research,"Nothing",L_End;
+L_Research:
+	mes "[Chemist Molgen Stein]";
+	mes "Heheheheheh... You probably already heard about what I do ...";
+	mes "Okay.. I will tell you everything... there is nothing left for me to hide.... Heheheheheh...";
+	   emotion 29;
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "As far as I'm concerned my research has already been completed.....";
+	mes "I am a genius you know, and I can make anything!! Heheheheh... it's only a matter how long it will take...";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "You know what I mean..... time?.... Hehehehehehehya....";
+	   emotion 29;
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "Um.... did you say you want to know about my Research?... Oh it's all very simple.... I'm just trying to find ways to combine different materials...";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "Isn't it interesting? I'm perfecting a method that melts materials, such as iron and stone, and then mixes them into a new substance!!!";
+	mes "Once it is perfected, I will be able to turn anything in the word into a new substance.....";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "~~~~ !! Hehe!!!...Heheheheheh!!!...squash squash!!!..Kekekekekelll!!!!";
+	   emotion 29;
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "Ack!~cough~cough~ Ahem.... Though it is not yet possible, I did figure out something else incredible.";
+	mes "Through my research I found out how to make different types of liquids.  I call them ^5533FF'counteragents and mixtures'^000000.";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "I can make one for you right now,if you want?? Ahhh... Talking about my experiments and research makes me.... 'excited'.......";
+	mes "You too can feel my 'excitement' if you wish..... Ahhhhh.... I can make you feel...";
+	   set MOLGENSTEIN = 3;
+	close;
+L_What:
+	mes "[Chemist Molgen Stein]";
+	mes "What do you want now?";
+L_Menu2:
+	next;
+	menu "Ask about research",L_Research,"Make a new one",L_Make,"Nothing",L_End;
+L_Make:
+	mes "[Chemist Molgen Stein]";
+	mes "Heheheheheheh.... So I see you are interested in my creations?..... Who woudn't.... Kekekekekekeke!!!";
+	mes "So what do you want me to make for you?? Huh? Heheheheheh.............";
+	   emotion 29;
+	next;
+	menu "-Make Counteragent",L_CounterA,"-Make Mixture",L_Mixture,"-Nevermind",L_End;
+L_CounterA:
+	mes "[Chemist Molgen Stein]";
+	mes "Oh... You said Counteragent... Kekekekekekeke... Let's see.... I'll need some items.......";
+	mes "... Let me check... Oh... Oh...... Ahhhh..... Hmmm.....";
+      next;
+	mes "[Chemist Molgen Stein]";
+	mes "Oh.... As I recall I need....:";
+	mes "^5533FF1 Alcohol";
+	mes "1 Detrimindexta^000000......";
+	mes "and ^5533FF1 Empty Bottle^000000....";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "With these 3 things I'll be able to make you a counteragent.  It won't be a big deal to make..... Kekekekekekeke....";
+	mes "Oh, and there will be a fee of ^5533FF3000 zeny^000000 okay? Heheheheheh..... Oh, surely you don'ty think it's rip-off?...";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "Alright?....";
+	next;
+	menu "Sure",-,"Cancel",L_End;
+	   checkitem 970,1,-,L_Sorry;
+	   checkitem 971,1,-,L_Sorry;
+	   checkitem 713,1,-,L_Sorry;
+	   check Zeny >= 3000,L_CounterGet,-;
+L_Sorry:
+	mes "[Chemist Molgen Stein]";
+	mes "I'm sorry but you need 1 Alcohol, 1 Detrimindexta, and 3000 Zeny for me to make a Counteragent.";
+	close;
+L_CounterGet:
+	mes "OhOhOhOh...... Heheheheheh...... Fine... Like this..... Fine... Keep... More........ Heheheheheh";
+	mes ".... Ahhhh.... ..... OhOh.... OhOh!..... OhOhOhOhOhOh!!!...!!!!!!";
+	next;
+	   additem 973,1;
+	   delitem 970,1;
+	   delitem 971,1;
+	   delitem 713,1;
+	set Zeny -= 3000,0;
+      set counter_agent = 1;
+	mes "[Chemist Molgen Stein]";
+	mes ".... Hmmm......";
+     close;
+L_Mixture:
+	mes "Oh... You said Mixture?... Kekekekekekeke... Let's see... I'll need some items.......";
+	mes "... Let me check... Oh... Oh...... Ahhhh..... Hmmm.....";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "Oh.... As I recall I need....:";
+	mes "^5533FF1 Alcohol";
+	mes "1 Karvodailnirol^000000.....";
+	mes "and ^5533FF1 Empty Bottle^000000...........";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "With these 3 things I'll be able to make you a mixture.  It won't be a big deal to make..... Kekekekekekeke....";
+	mes "Oh, and there will be a fee of ^5533FF4000 zeny^000000 okay? Heheheheheh..... Oh, surely you don'ty think it's rip-off?...";
+	next;
+	mes "[Chemist Molgen Stein]";
+	mes "Alright??...";
+	next;
+	menu "Make",-,"Cancel",L_End;
+	   checkitem 970,1,-,L_Sorry2;
+	   checkitem 972,1,-,L_Sorry2;
+	   checkitem 713,1,-,L_Sorry2;
+	   check Zeny >= 4000,L_MixtureGet,-;
+L_Sorry2:
+	mes "[Chemist Molgen Stein]";
+	mes "I'm sorry but you need 1 Alcohol, 1 Karvodainirol, and 4000 Zeny for me to make a Mixture.";
+	close;		
+L_MixtureGet:
+	mes "[Chemist Molgen Stein]";
+	mes "OhOhOhOh...... Heheheheheh...... Fine... Like this..... Fine... Keep... More........ Heheheheheh";
+	mes ".... Ahhhh.... ..... OhOh.... OhOh!..... OhOhOhOhOhOh!!!...!!!!!!";
+	next;
+	   additem 974,1;
+	   delitem 970,1;
+	   delitem 972,1;
+         set Zeny -= 4000,0;
+	   set mixture = 1;
+	set mixture = 1;
+	mes "[Chemist Molgen Stein]";
+	mes ".... Hmmm......";
+	close;
+L_End:
+	mes "[Chemist Molgen Stein]";
+	mes "... Kekekekekekeke....";
+	close;
+}
+
+prontera.gat,78,150,3	script	"Dairen"	90,{
+		mes "[Maiden of a village   Dairen]";
+		mes "such ... these days -- an open space -- people -- many -- double -- it is coarse";
+		mes "What -- this dust - being dirty ... isn't all it a good reason just because it is a capital?";
+		mes " ... What does it seem to be from it? ";
+		next;
+		menu "Talk",-,"Stop",L_MENU_1;
+			mes "[Maiden of a village   Dairen]";
+			mes "or [ that it is possibly interested in a party or a dress ] -- not knowing .";
+			mes "the highest of late -- being in fashion -- splendid, whatever it may call it   Is it the dress decorated by the color?";
+			next;
+			mes "[Maiden of a village   Dairen]";
+			mes "in order to take out the color from which even the soul is likely to be taken -- desert village   the dye currently made only from MOROKU -- using it --  -- although it has said that it is useless ...  to which the price of the dye is beyond imagination";
+			mes "such .. what to wear at least at once";
+			close;
+	L_MENU_1:
+			mes "[Maiden of a village   Dairen]";
+			mes "...What ? man's thing..... setting ... a strange person";
+			close;
+}
+
+morocc_in.gat,146,99,3	script	"Java Dullihan"	58,{
+	mes "[Dye Maker Java Dullihan]";
+	mes "Wow... Such a nice strong day. Days like this are perfect to make dyes.";
+	next;
+	menu "Talk",-,"Make Dyestuffs",MENU_1,"Cancel",END;
+		mes "[Dye Maker Java Dullihan]";
+		mes "I don't really have much to say to you...";
+		mes "But, if you would like to talk about my life, i can do that.";
+		mes "It may be a little long a boring, but would you like to listen?";
+		next;
+		menu "Listen",-,"Don't Listen",END;
+			mes "[Dye Maker Java Dullihan]";
+			mes "Ever since i was born my father has been making dyes";
+			mes "He made dyes for countless hours.";
+			mes "Yeah... Even when my mother passed away after being sick for son long... He never stopped making dyes.";
+			mes "At one point, I hated my father so much...";
+			next;
+			mes "[Dye Maker Java Dullihan]";
+			mes "Because I hated my father.. Natrually, I quit making dyes, and even ran away from home to try new things.";
+			mes "Anyways... Now i'm back home to carry on the family tradition.";
+			mes "Making dyes... You can't abandon your blood... I've been doing this for.. 15 years already.";
+			next;
+			mes "[Dye Maker Java Dullihan]";
+			mes "Something I realized these days is... I can understand my father.";
+			mes "Why my father devoted everything into making dyes...";
+			next;
+			mes "[Dye Maker Java Dullihan]";
+			mes "While doing that tedious and hard work... he probally felt the magical colors passing on so many dreams.. it was probally for those dreams that he tried so hard to make dyes...";
+			next;
+			mes "[Dye Maker Java Dullihan]";
+			mes "Heh... how do i know this?... That's... because that's the way i feel right now. since a couple years ago... ever since... I was able to hear what the colors were saying......";
+			mes "Just watch, I'm going to succeed in making the color my father wanted to, but never did.";
+			next;
+			close;
+MENU_1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Great! If you want, I'll make it for you. I promise I'll make you the color you want.";
+	mes "But what color would you like me to make? The fee is diffrent depending on the color.";
+	mes "Why, do you ask? Just remember there are colors that are easy to make, and those that require more effort and work.";
+	mes "Please don't think the fee is too expensive. The color of dye is special.. Made with all my heart and soul.";
+	next;
+	menu "Scarlet Dyestuffs",RED,"Lemon Dye",YELLOW,"Cobaltblue Dye",BLUE,"Darkgreen Dye",GREEN,"Orange Dye",ORANGE,"Violet Dye",PURPLE,"White Dye",WHITE,"Black Dye",BLACK;
+	close;
+RED:
+	checkitem 507,30,-,R1;
+	checkitem 973,1,-,R1;
+	checkitem 713,1,-,R1;
+	check zeny >= 3000,-,R1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 3000;
+	delitem 507,30;
+	delitem 973,1;
+	delitem 713,1;
+	additem 975,1;
+	goto DONE;
+R1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 30 Red Herbs,1 Counteragent,and 1 Empty Bottle to make Red Dyestuffs.The fee is only 3000 zeny to make it.";
+	next;
+	close;
+YELLOW:
+	checkitem 508,30,-,Y1;
+	checkitem 973,1,-,Y1;
+	checkitem 713,1,-,Y1;
+	check zeny >= 3000,-,Y1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 3000;
+	delitem 508,30;
+	delitem 973,1;
+	delitem 713,1;
+	additem 976,1
+	goto DONE;
+Y1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 30 Yellow Herbs,1 Counteragent,and 1 Empty Bottle to make Lemon Dyestuffs.The fee is only 3000 zeny to make it.";
+	next;
+	close;
+BLUE:
+	checkitem 510,20,-,C1;
+	checkitem 973,1,-,C1;
+	checkitem 713,1,-,C1;
+	check zeny >= 3500,-,C1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 3500;
+	delitem 510,20;
+	delitem 973,1;
+	delitem 713,1;
+	additem 978,1;
+	goto DONE;
+C1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 20 Blue Herbs,1 Counteragent,and 1 Empty Bottle to make Cobaltblue Dyestuff.Its hard to use the Blue Herb,so the fee is going to be 3500 zeny.";
+	next;
+	close;
+GREEN:
+	checkitem 510,5,-,G1;
+	checkitem 511,20,-,G1;
+	checkitem 508,20,-,G1;
+	checkitem 973,1,-,G1;
+	checkitem 974,1,-,G1;
+	checkitem 713,1,-,G1;
+	check zeny >= 5000,-,G1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 5000;
+	delitem 510,5;
+	delitem 511,20;
+	delitem 508,20;
+	delitem 973,1;
+	delitem 974,1;
+	delitem 713,1;
+	additem 979,1;
+	goto DONE;
+G1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 5 Blue Herbs,20 Green Herbs,20 Yellow Herbs,1 Counteragent,1 Mixture,and 1 Empty Bottle to make Darkgreen Dyestuff.Dont get all of the materials confused.The fee is only 5000 zeny.";
+	next;
+	close;
+ORANGE:
+	checkitem 507,20,-,O1;
+	checkitem 508,20,-,O1;
+	checkitem 973,1,-,O1;
+	checkitem 974,1,-,O1;
+	checkitem 713,1,-,O1;
+	check zeny >= 5000,-,O1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 5000;
+	delitem 507,20;
+	delitem 508,20;
+	delitem 973,1;
+	delitem 974,1;
+	delitem 713,1;
+	additem 980,1;
+	goto DONE;
+O1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 20 Red Herbs,20 Yellow Herbs,1 Counteragent,1 Mixture,and 1 Empty Bottle to make Orange Dyestuffs.The fee is going to be 5000 zeny.";
+	next;
+	close;
+PURPLE:
+	checkitem 510,10,-,P1;
+	checkitem 507,30,-,P1;
+	checkitem 973,1,-,P1;
+	checkitem 974,1,-,P1;
+	checkitem 713,1,-,P1;
+	check zeny >= 5000,-,P1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 5000;
+	delitem 510,10;
+	delitem 507,30;
+	delitem 973,1;
+	delitem 974,1;
+	delitem 713,1;
+	additem 981,1;
+	goto DONE;
+P1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 10 Blue Herbs,30 Red Herbs,1 Counteragent,1 Mixture,and 1 Empty Bottle to make Violet Dyestuffs.The fee will be 5000 zeny.";
+	next;
+	close;
+WHITE:
+	checkitem 509,30,-,W1;
+	checkitem 973,1,-,W1;
+	checkitem 713,1,-,W1;
+	check zeny >= 3000,-,W1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 3000;
+	delitem 509,30;
+	delitem 973,1;
+	delitem 713,1;
+	additem 982,1;
+	goto DONE;
+W1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 30 White Herbs,1 Counteragent,and 1 Empty Bottle to make White Dyestuffs.The fee will be 3000 zeny.";
+	next;
+	close;
+BLACK:
+	checkitem 507,30,-,B1;
+	checkitem 508,30,-,B1;
+	checkitem 511,30,-,B1;
+	checkitem 510,5,-,B1;
+	checkitem 973,1,-,B1;
+	checkitem 974,1,-,B1;
+	checkitem 713,1,-,B1;
+	check zeny >= 7000,-,B1;
+	mes "[Dye Maker Java Dullihan]";
+	mes "Ok!I would belive you would have everything ready...would you like to start the process?";
+	menu "Yes",-,"No",END;
+	set zeny -= 7000;
+	delitem 507,30;
+	delitem 508,30;
+	delitem 511,30;
+	delitem 510,5;
+	delitem 973,1;
+	delitem 974,1;
+	delitem 713,1;
+	additem 983,1;
+	goto DONE;
+B1:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Mmm...I need 30 of each Red,Yellow,and Green Herb,5 Blue Herbs,1 Counter agent,1 Mixture,and 1 Empty Bottle.This process takes longer and more effort than the others,so it is going to be 7000 zeny.";
+	next;
+	close;
+DONE:
+	mes "[Dye Maker Java Dullihan]";
+	mes "Hmm... It came out prety well. A very rich color.";
+	mes "Of course I'll be trying hard to make a more charming color...";
+	mes "Well... then. Stop by whenever you need more dyes.";
+	next;
+	close;
+END:
+	close;
+}
+
+prt_in.gat,284,168,3	script	"Jineda inlay full"	55,{
+		mes "[Jineda]";
+		mes "11...10 ... obtaining ... means the party of tonight should do somehow or other that is right";
+		mes "...carries out now and it is a seed. Now, was it made needed on what business?";
+		next;
+		menu "Talk",-,"Dress is dyed.",L_MENU_1,"Stop talking",L_MENU_2;
+			mes "[Jineda]";
+			mes "as for a few, this world tried to have become easy -- although held ... dress   Mr. ... who is generous for a while when an order is seen pour in ... it was in the world which may be taken. Isn't it by mistake?";
+			mes "... It is although is not thought... Probably, it will ? and be good. Since such men are also in a world, can the ? exhibition of the beauty which man pursues be carried out?.";
+			mes "Of course, this is although it is only my idea... A few ways the man whom neither hair nor scales has can express his individuality and beauty are whether it is what led not others but dress.";
+			next;
+			mes "[Jineda]";
+			mes "HAHAHA ... When it sees at such a view point, I think that this work of me who thought to me is very noble-minded work. doing being large.";
+			mes "It is moved also by you. When a splendid and first color is dyed that unseemly and rude cloth and leather ... It is degree so that a completely new life may be produced.   The passion and energy";
+			mes "it was completed although it was very tight and difficult work  it is felt when a dress is seen that  those difficulties are enough recompensed only by one";
+			close;
+	L_MENU_1:
+//          mes "[Jineda]";
+//          mes "Cheek ... Do I hear that it came for you to dye dress? And is good. Is this work interesting?";
+//          mes "But a material required for dyeing has direct me with. It does not provide. If all are not brought ... Has the material which I need all gathered?   Or [ I see ]?";
+			mes "[Jineda]";
+			mes "You are also dress.   Was it made to be necessary for dyeing?
+			mes "Although it is not explanation, there is no margin of time to dye your dress now. full of this that makes a order meet the deadline it is since...";
+			mes "Or [ not giving next time again, although it is not explanation ]?";
+			close;
+	L_MENU_2:
+			mes "[Jineda]";
+			mes "Please make .... there be nothing slowly. Although I am busy and could not take care even if?";
+			close;
+}
+
+prt_in.gat,243,168,4	script	"Yobichi"	91,{
+ 	mes "[Yobobichi]";
+	check Gender == 1,-,L_SUB_1;
+		mes "Welcome.";
+		mes "Like this hair hurting ...";
+		mes "Is tidy care required?";
+		mes "Then, please sit down.";
+		goto L_START_1;
+	L_SUB_1:
+		random @R_SEL_NUM,2;
+		check @R_SEL_NUM == 0,-,L_SUB_2;
+			mes "Welcome.";
+			mes "At all. Elder sister";
+			mes "Does hair hurt very much?";
+			mes "Please leave me.";
+			goto L_START_1;
+	L_SUB_2:
+			mes "At all. Elder sister";
+			mes "If hair dyeing is carried out,";
+			mes "How is it?";
+			mes "It can become more beautiful?";
+			mes "The image of is changed decisively.";
+			mes "Or [ not carrying out ]?";
+ L_START_1:
+ 	next;
+	menu "Hair is dyed",-,"About hair dyeing",L_START_10,"Stop talking",L_START_11;
+		mes "[Beautician Yobobichi]";
+		mes "Well, was courage taken out?";
+		mes "Then, it gives up.";
+		mes "Let's disguise ourselves?";
+		mes "Which color is all right?";
+		next;
+		set @CHOOSE_SUCCESS = 0;
+ L_START_2:
+	check @CHOOSE_SUCCESS = 1,-,L_START_3;
+		mes "[Beautician Yobobichi]";
+		mes "In other colors which will be how?";
+		mes "Does it dye??";
+		next;
+		menu "Yes",-,"No",L_MENU_2_1;
+			mes "[Beautician Yobobichi]";
+			mes "Yes, certainly.";
+			mes "Please [ color / of hope ].";
+			next;
+			goto L_START_3;
+ L_MENU_2_1:
+		check Gender == 1,-,L_SUB_2_1;
+			mes "[Beautician Yobobichi]";
+			mes "It is...";
+			mes "It is great!";
+			mes "It waits for next coming.";
+			mes "It gets down.";
+			close;
+ L_SUB_2_1:
+			mes "[Beautician Yobobichi]";
+			mes "It is...";
+			mes "It is great!";
+			mes "It waits for next coming.";
+			mes "It gets down.";
+			close;
+ L_START_3:
+	menu "I need your help in red.",-,"I need your help in yellow.",L_MENU_3_1,"It is purple and I need your help.",L_MENU_3_2,"I need your help in red.",L_MENU_3_3,"It is green and I need your help.",L_MENU_3_4,"It is blue and I need your help.",L_MENU_3_5,"It is white and I need your help.",L_MENU_3_6,"It is black and I need your help.",L_MENU_3_7,"It is right now.",L_MENU_3_8;
+		mes "[Beautician Yobobichi]";
+		mes "Then, is it dyed red?";
+		set @HEADPALETTE = 8;
+		goto L_START_4;
+ L_MENU_3_1:
+		mes "[Beautician Yobobichi]";
+		mes "Then, is it dyed yellow?";
+		set @HEADPALETTE = 1;
+		goto L_START_4;
+ L_MENU_3_2:
+		mes "[Beautician Yobobichi]";
+		mes "Then, does it dye purple?";
+		set @HEADPALETTE = 2;
+		goto L_START_4;
+ L_MENU_3_3:
+		mes "[Beautician Yobobichi]";
+		mes "Then, is it dyed red?";
+		set @HEADPALETTE = 3;
+		goto L_START_4;
+ L_MENU_3_4:
+		mes "[Beautician Yobobichi]";
+		mes "Then, does it dye green?";
+		set @HEADPALETTE = 4;
+		goto L_START_4;
+ L_MENU_3_5:
+		mes "[Beautician Yobobichi]";
+		mes "Then, does it dye blue?";
+		set @HEADPALETTE = 5;
+		goto L_START_4;
+ L_MENU_3_6:
+		mes "[Beautician Yobobichi]";
+		mes "Then, does it dye white?";
+		set @HEADPALETTE = 6;
+		goto L_START_4;
+ L_MENU_3_7:
+		mes "[Beautician Yobobichi]";
+		mes "Then, does it dye black?";
+		set @HEADPALETTE = 7;
+		goto L_START_4;
+ L_MENU_3_8:
+	check @CHOOSE_SUCCESS > 0,-,L_SUB_3_1;
+		mes "[Beautician Yobobichi]";
+		mes "Was the present color pleased?";
+		mes "It is well-matched.";
+		close;
+ L_SUB_3_1:
+		mes "[Beautician Yobobichi]";
+		mes "Do you remain as it is and come?";
+		mes "Although somewhat wasteful mind is also carried out";
+		mes "The present color is also well-matched.";
+		close;
+ L_START_4:
+	next;
+	menu "Yes?",L_START_5,"No!",-;
+		mes "[Beautician Yobobichi]";
+		mes "Do you remain as it is and come?";
+		mes "Although somewhat wasteful mind is also carried out";
+		mes "The present color is also well-matched.";
+		close;
+ L_START_5:
+	check Hcolor = @HEADPALETTE,-,L_START_6;
+		mes "[Beautician Yobobichi]";
+		mes "And it is color are a visitor.";
+		mes "It is the same as the present hair.";
+		next;
+		goto L_START_3;
+ L_START_6:
+	check @HEADPALETTE = 8,-,L_ROOT_6_1;
+		checkitem 975,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that red";
+		mes "The dye of a red color is required.";
+		close;
+ L_ROOT_6_1:
+	check @HEADPALETTE = 1,-,L_ROOT_6_2;
+		checkitem 976,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that yellow.";
+		mes "Yellow dye is required.";
+		close;
+ L_ROOT_6_2:
+	check @HEADPALETTE = 2,-,L_ROOT_6_3;
+		checkitem 981,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that purple";
+		mes "Purple dye is required.";
+		close;
+ L_ROOT_6_3:
+	check @HEADPALETTE = 3,-,L_ROOT_6_4;
+		checkitem 980,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that red";
+		mes "Red dye is required.";
+		close;
+ L_ROOT_6_4:
+	check @HEADPALETTE = 4,-,L_ROOT_6_5;
+		checkitem 979,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that green";
+		mes "Green dye is required.";
+		close;
+ L_ROOT_6_5:
+	check @HEADPALETTE = 5,-,L_ROOT_6_6;
+		checkitem 978,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that blue";
+		mes "The dye of a blue color is required.";
+		close;
+ L_ROOT_6_6:
+	check @HEADPALETTE = 6,-,L_ROOT_6_7;
+		checkitem 982,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that white";
+		mes "The dye of a white color is required.";
+		close;
+ L_ROOT_6_7:
+		checkitem 983,1,L_START_7,-;
+		mes "[Beautician Yobobichi]";
+		mes "For dyeing it that black";
+		mes "The dye of a black color is required.";
+		close;
+ L_START_7:
+	check Zeny < 5000,-,L_START_8;
+		mes "[Beautician Yobobichi]";
+		mes "A visitor and a charge are prepayment.";
+		mes "They are 5000 zeny";
+		close;
+ L_START_8:
+	check @HEADPALETTE = 8,-,L_ROOT_8_1;
+		delitem 975,1;
+		goto L_START_9;
+ L_ROOT_8_1:
+	check @HEADPALETTE = 1,-,L_ROOT_8_2;
+		delitem 976,1;
+		goto L_START_9;
+ L_ROOT_8_2:
+	check @HEADPALETTE = 2,-,L_ROOT_8_3;
+		delitem 981,1;
+		goto L_START_9;
+ L_ROOT_8_3:
+	check @HEADPALETTE = 3,-,L_ROOT_8_4;
+		delitem 980,1;
+		goto L_START_9;
+ L_ROOT_8_4:
+	check @HEADPALETTE = 4,-,L_ROOT_8_5;
+		delitem 979,1;
+		goto L_START_9;
+ L_ROOT_8_5:
+	check @HEADPALETTE = 5,-,L_ROOT_8_6;
+		delitem 978,1;
+		goto L_START_9;
+ L_ROOT_8_6:
+	check @HEADPALETTE = 6,-,L_ROOT_8_7;
+		delitem 982,1;
+		goto L_START_9;
+ L_ROOT_8_7:
+		delitem 983,1;
+ L_START_9:
+	set Zeny -= 5000,0;
+	hcolor @HEADPALETTE;
+	set @CHOOSE_SUCCESS = 1;
+	goto L_START_2;
+ L_START_10:
+	mes "[Beautician Yobobichi]";
+	mes "When a feeling does not float,";
+	mes "when shaken at a sweetheart,";
+	mes "when there are those who want to show strikingly,";
+	mes "when you want to carry out foppish,";
+	mes "the image of is changed at such time.";
+	mes "Or [ not feeling refreshed ]?";
+	next;
+	mes "[Beautician Yobobichi]";
+	mes "Dye which dyes hair here";
+	mes "It is great hair if you have.";
+	mes "It changes more strikingly, puts and raises.";
+	mes "Don't care in a charge etc.";
+	mes "Since a better thing is obtained.";
+	next;
+	mes "[Beautician Yobobichi]";
+	mes "*Material and charge guidance*";
+	mes "?^FF3080Dye of the color of hope   One piece^000000";
+	mes "?^FF3080Hair dyeing charge 5000 zeny^000000";
+	close;
+ L_START_11:
+	mes "[Beautician Yobobichi]";
+	mes "A man or woman . People become beautiful.";
+	mes "A right and duty occur.";
+	close;
+}

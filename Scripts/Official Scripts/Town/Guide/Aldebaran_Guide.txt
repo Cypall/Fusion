@@ -1,0 +1,53 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Al de Baran Guides - Non Player Character Locations
+//
+// - Soldier-> aldebaran: 139,63
+//   Soldier you the way arround al de baran.
+//
+// - Soldier-> aldebaran: 241,136
+//   Shows you the way arround al de baran.
+//
+//========================================================================================
+
+aldebaran.gat,139,63,4 script "Soldier" 105,{
+		scriptlabel Guidealdebaran;
+		cutin "prt_soldier",2;
+	mes "[Al De Baran Guard]";
+	mes "I amjust any ordinary guard you";
+	mes "could find on any other town!!";
+	mes "I am in charge of the Service Guide of";
+	mes "the Al De Baran Garrison, and";
+	mes "the name is Al De Baran Guard (No Name) !!";
+	mes "I will guide you through our town!";
+	next;
+	menu "Get location Guide.",-,"End conversation.",L_End;
+		viewpoint 1,57,222,1,0xFF6633;
+		viewpoint 1,73,196,2,0x0000FF;
+		viewpoint 1,224,224,3,0x00FFFF;
+		viewpoint 1,233,106,4,0x515151;
+		viewpoint 1,197,71,5,0x3355FF;
+		viewpoint 1,60,60,6,0xFF5555;
+		mes "^FF6633+^000000 -> Kafra Main Office";
+		mes "^0000FF+^000000 -> Weapon Shop";
+		mes "^00FFFF+^000000 -> Sorcerer Guild (Closed)";
+		mes "^515151+^000000 -> Pub";
+		mes "^3355FF+^000000 -> Item Shop";
+		mes "^FF5555+^000000 -> Chemical Academy (Closed)";
+		cutin "prt_soldier",255;
+	close;
+L_End:
+	mes "[Al De Baran Guard]";
+	mes "We are sworn to protect Al De Baran!!";
+		cutin "prt_soldier",255;
+	close;
+}
+
+aldebaran.gat,241,136,4	script "Soldier" 105,{
+		script Guidealdebaran;
+}
+

@@ -1,0 +1,64 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Prontera Town Warps - Warp Locations
+//
+//========================================================================================
+
+prontera.gat,22,203,0	 warp	 warpprontera001	2,3,prt_fild05.gat,367,205
+prontera.gat,42,67,0	 warp	 warpprontera002	2,2,prt_in.gat,44,29
+prontera.gat,45,346,0	 warp	 warpprontera003	2,2,prt_in.gat,80,110
+prontera.gat,73,100,0	 warp	 warpprontera004	1,1,prt_in.gat,208,176
+prontera.gat,74,90,0	 warp	 warpprontera005	2,2,prt_in.gat,248,170
+prontera.gat,84,89,0	 warp	 warpprontera006	1,1,prt_in.gat,282,176
+prontera.gat,107,215,0	 warp	 warpprontera007	2,2,prt_in.gat,240,139
+prontera.gat,120,267,0	 warp	 warpprontera008	2,2,prt_in.gat,180,97
+prontera.gat,133,183,0	 warp	 warpprontera009	2,2,prt_in.gat,50,105
+prontera.gat,134,221,0	 warp	 warpprontera010	1,1,prt_in.gat,131,71
+prontera.gat,156,22,0	 warp	 warpprontera011	3,2,prt_fild08.gat,170,375
+prontera.gat,156,360,0	 warp	 warpprontera012	4,2,prt_castle.gat,102,20
+prontera.gat,177,221,0	 warp	 warpprontera013	2,2,prt_in.gat,168,128
+prontera.gat,179,184,0	 warp	 warpprontera014	2,2,prt_in.gat,60,73
+prontera.gat,192,267,0	 warp	 warpprontera015	2,2,prt_in.gat,178,55
+prontera.gat,204,192,0	 warp	 warpprontera016	2,2,prt_in.gat,68,134
+prontera.gat,208,154,0	 warp	 warpprontera017	2,2,prt_in.gat,172,29
+prontera.gat,237,317,0	 warp	 warpprontera018	2,2,prt_church.gat,100,60
+prontera.gat,289,203,0	 warp	 warpprontera019	2,3,prt_fild06.gat,27,193
+prt_church.gat,31,19,0	 warp	 warpprontera020	1,2,prt_church.gat,94,81
+prt_church.gat,90,81,0	 warp	 warpprontera021	1,2,prt_church.gat,27,19
+prt_church.gat,100,56,0	 warp	 warpprontera022	7,1,prontera.gat,234,314
+prt_church.gat,109,81,0	 warp	 warpprontera023	1,2,prt_church.gat,172,19
+prt_church.gat,168,19,0	 warp	 warpprontera024	1,2,prt_church.gat,105,81
+prt_in.gat,37,65,0	 warp	 warpprontera025	1,3,prt_in.gat,51,65
+prt_in.gat,47,29,0	 warp	 warpprontera026	2,1,prontera.gat,46,67
+prt_in.gat,48,65,0	 warp	 warpprontera027	1,3,prt_in.gat,34,65
+prt_in.gat,53,105,0	 warp	 warpprontera028	1,2,prontera.gat,136,186
+prt_in.gat,60,77,0	 warp	 warpprontera029	2,1,prontera.gat,175,188
+prt_in.gat,68,130,0	 warp	 warpprontera031	2,1,prontera.gat,204,188
+prt_in.gat,69,65,0	 warp	 warpprontera032	1,3,prt_in.gat,85,65
+prt_in.gat,70,143,0	 warp	 warpprontera033	2,1,prt_in.gat,70,165
+prt_in.gat,70,162,0	 warp	 warpprontera034	2,1,prt_in.gat,70,140
+prt_in.gat,80,113,0	 warp	 warpprontera035	2,1,prontera.gat,48,343
+prt_in.gat,82,65,0	 warp	 warpprontera036	1,3,prt_in.gat,66,65
+prt_in.gat,135,71,0	 warp	 warpprontera037	1,2,prontera.gat,136,219
+prt_in.gat,168,124,0	 warp	 warpprontera038	2,1,prontera.gat,174,218
+prt_in.gat,172,33,0	 warp	 warpprontera039	2,1,prontera.gat,205,157
+prt_in.gat,181,55,0	 warp	 warpprontera040	1,2,prontera.gat,192,264
+prt_in.gat,183,97,0	 warp	 warpprontera041	1,2,prontera.gat,120,264
+prt_in.gat,208,179,0	 warp	 warpprontera042	3,1,prontera.gat,76,102
+prt_in.gat,217,163,0	 warp	 warpprontera043	1,3,prt_in.gat,236,163
+prt_in.gat,234,163,0	 warp	 warpprontera044	1,3,prt_in.gat,215,163
+prt_in.gat,240,141,0	 warp	 warpprontera045	3,1,prontera.gat,107,218
+prt_in.gat,248,173,0	 warp	 warpprontera046	3,2,prontera.gat,77,93
+prt_in.gat,254,113,0	 warp	 warpprontera047	3,2,prt_in.gat,256,134
+prt_in.gat,256,131,0	 warp	 warpprontera048	2,2,prt_in.gat,254,110
+prt_in.gat,263,163,0	 warp	 warpprontera049	1,3,prt_in.gat,276,163
+prt_in.gat,274,163,0	 warp	 warpprontera050	1,3,prt_in.gat,261,163
+prt_in.gat,280,68,0	 warp	 warpprontera051	6,6,prontera.gat,147,287
+prt_in.gat,281,36,0	 warp	 warpprontera052	6,6,prontera.gat,147,287
+prt_in.gat,282,100,0	 warp	 warpprontera053	6,6,prontera.gat,147,287
+prt_in.gat,282,179,0	 warp	 warpprontera054	3,1,prontera.gat,87,91
+prt_in.gat,285,130,0	 warp	 warpprontera055	6,6,prontera.gat,147,287

@@ -1,0 +1,1591 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Advanced 2nd Class Quest/Changers - Non Player Character Locations
+//  - Created by Tsusai
+//
+//	Authur's Note: These are by no means official,
+//	but follow as much research as collected.
+//	To go to Valhalla to turn into High Novice, find the
+//	Scroll of Ymir somewhere in Nifel Heim, and find the NPC
+//	that will take you there.  By default, since Nifel Heim
+//	is a dangerous place, the character will die and will respawn
+//	at the Novice training ground.  To become High 1st classes,
+//	take the same quest as you were in a previously.  i.e. If you
+//	were an assassin, you must take the theif quest.  At the time
+//	you would be able to become 2-#, you need to return to Valhalla
+//	via the same NPC.
+//
+//	Included as well in this script is a Prontera warper to Valhalla
+//	that will grant you your appropriate High First Job, and warp you
+//	again for the Adv 2nd change in Valhalla.  This skips the item finding quest.
+//	That NPC is disabled by default.  Enable if you wish to use it.
+//
+// - NPCs at Valkyrie
+//
+//	"Kafra" - 53,32
+//	Storage Capability
+//
+//	"Paladin" - 53,38
+//	Changes Crusader into High Novice; Changes High Swordsman to Paladin
+//
+//	"Creator" - 53,42
+//	Changes Alchemist into High Novice; Changes High Merchant to Creator
+//
+//	"Professor" - 53,46
+//	Changes Sage into High Novice; Changes High Magician to Professor
+//
+//	"Clown" - 53,50
+//	Changes Bard into High Novice; Changes Archer High to Clown
+//
+//	"Gypsy" - 53,54
+//	Changes Dancer into High Novice; Changes Archer High to Gypsy
+//
+//	"Champion" - 53,56
+//	Changes Monk into High Novice; Changes Acolyte High to Champion
+//
+//	"Stalker" - 53,58
+//	Changes Rogue into High Novice; Changes Thief High to Stalker
+//
+//	"Transporter" - 44,32
+//	Warps characters back to Nifelheim or Prontera for those using the Easy Changer
+//
+//	"Lord Knight" - 44,38
+//	Changes Knight into High Novice; Changes High Swordsman to Lord Knight
+//
+//	"High Priest" - 44,42
+//	Changes Priest into High Novice; Changes Acolyte High to High Priest
+//
+//	"High Wizard" - 44,46
+//	Changes Wizard into High Novice; Changes High Magician to High Wizard
+//
+//	"Whitesmith" - 44,50
+//	Changes Blacksmith into High Novice; Changes Merchant High to Whitesmith
+//
+//	"Sniper" - 44,55
+//	Changes Hunter into High Novice; Changes Archer High to Sniper
+//
+//	"Assassin Cross" - 44,58
+//	Changes Assassin into High Novice; Changes Thief High to Assassin Cross
+//
+// - Other NPCs
+//
+//	"Dusty Scroll" - 
+//	Gives the Scroll of Ymir needed for teleport to Valkyrie
+//
+//	"?" - 
+//	Takes the Scroll of Ymir and teleports character to Valkyrie
+//
+//	"Advanced Class Info" - Prontera: X,Y
+//	Warps character to Valhalla for High Novice and Adv 2nd class change
+//	Grants High First Class Change
+//
+//========================================================================================
+
+//Valkyrie NPCs
+//Right side going from south to north
+//valkyrie.gat,53,32,3	script	"Kafra"	117,{
+	set @Kafra_COUPON = 0;
+	cutin "Kafra_01",2;
+	mes "[Kafra Personnel]";
+	mes "Welcome to Kafra Corp.";
+	mes "We will stay with you";
+	mes "wherever you go.";
+	next;
+ L_START_1:
+	check @Kafra_COUPON = 1,-,L_SUB_0_1;
+		mes "[Kafra Personnel]";
+		mes "How can I help you?";
+		next;
+ L_SUB_0_1:
+	menu "Storage",L_MENU_2,"Cancel",L_MENU_7;
+	L_MENU_2:
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_2_1,-;
+			mes "[Kafra Personnel]";
+			mes "I am sorry but you have to be at least";
+			mes "Novice level 6 if you want to use the storage.";
+			check @Kafra_COUPON = 0,-,L_ROOT_2_1;
+				goto L_EXIT;
+		L_ROOT_2_1:
+				next;
+				goto L_START_1;
+	L_SUB_2_1:
+		check @Kafra_COUPON = 0,-,L_SUB_2_2;
+			check Zeny < 40,-,L_ROOT_2_2;
+				mes "[Kafra Personnel]";
+				mes "Dear. you don't have enough Money.";
+				mes "The Storage fee is 40 Zeny.";
+				goto L_EXIT;
+		L_ROOT_2_2:
+			set Zeny -= 40,0;
+			store;
+			goto L_EXIT;
+	L_SUB_2_2:
+		store;
+		goto L_EXIT;
+	L_MENU_7:
+		mes "[Kafra Personnel]";
+		mes "We strive for perfection in our service.";
+		mes "Rest assured that Kafra Corporation will always be there to help you.";
+		mes "Thank you for your business.";
+ L_EXIT:
+		cutin "Kafra_01",255;
+		close;
+}
+
+//valkyrie.gat,53,38,3	script	"Paladin"	752,{
+//Crusader->HighSword->Paladin
+	check job = 14,Rebirth,-;
+	check job = 25,Transform,-;
+		mes "[Paladin]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Paladin]";
+		mes "Greetings my fellow Crusader";
+		next;
+		mes "Do you wish to be reborn so that you may become a Paladin?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Paladin]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Paladin]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Paladin]";
+					mes "Alright.";
+					next;
+					mes "[Paladin]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 14;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Paladin]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Paladin]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Paladin]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Paladin]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Paladin]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Paladin?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Paladin];
+				mes "I must check one last time to see if you can become a Paladin.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Paladin]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 38;
+					mes "[Paladin]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Paladin]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Paladin]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,53,42,3	script	"Creator"	52,{
+//Alchemist->Merchant High->Creator
+	check job = 18,Rebirth,-;
+	check job = 29,Transform,-;
+		mes "[Creator]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Creator]";
+		mes "Greetings my fellow Alchemist";
+		next;
+		mes "Do you wish to be reborn so that you may become a Creator?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Creator]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Creator]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Creator]";
+					mes "Alright.";
+					next;
+					mes "[Creator]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 18;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Creator]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Creator]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Creator]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Creator]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Creator]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Creator?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Creator];
+				mes "I must check one last time to see if you can become a Creator.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Creator]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 42;
+					mes "[Creator]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Creator]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Creator]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,53,46,3	script	"Professor"	743,{
+//Sage->Acolyte High->Professor
+	check job = 16,Rebirth,-;
+	check job = 28,Transform,-;
+		mes "[Professor]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Professor]";
+		mes "Greetings my fellow Sage";
+		next;
+		mes "Do you wish to be reborn so that you may become a Professor?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Professor]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Professor]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Professor]";
+					mes "Alright.";
+					next;
+					mes "[Professor]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 16;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Professor]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Professor]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Professor]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Professor]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Professor]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Professor?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Professor];
+				mes "I must check one last time to see if you can become a Professor.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Professor]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 40;
+					mes "[Professor]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Professor]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Professor]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,53,50,3	script	"Clown"	122,{
+//Bard->High Archer->Clown
+	check job = 19,Rebirth,-;
+	check job = 27,Transform,-;
+		mes "[Clown]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Clown]";
+		mes "Greetings my fellow Bard";
+		next;
+		mes "Do you wish to be reborn so that you may become a Clown?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Clown]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Clown]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Clown]";
+					mes "Alright.";
+					next;
+					mes "[Clown]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 19;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Clown]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Clown]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Clown]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Clown]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Clown]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Clown?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Clown];
+				mes "I must check one last time to see if you can become a Clown.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Clown]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 43;
+					mes "[Clown]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Clown]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Clown]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,53,54,3	script	"Gypsy"	741,{
+//Dancer->High Archer->Gypsy
+	check job = 20,Rebirth,-;
+	check job = 27,Transform,-;
+		mes "[Gypsy]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Gypsy]";
+		mes "Greetings my fellow Dancer";
+		next;
+		mes "Do you wish to be reborn so that you may become a Gypsy?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Gypsy]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Gypsy]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Gypsy]";
+					mes "Alright.";
+					next;
+					mes "[Gypsy]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 20;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Gypsy]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Gypsy]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Gypsy]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Gypsy]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Gypsy]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Gypsy?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Gypsy];
+				mes "I must check one last time to see if you can become a Gypsy.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Gypsy]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 44;
+					mes "[Gypsy]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Gypsy]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Gypsy]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,53,56,3	script	"Champion"	101,{
+//Monk->Acolyte High->Champion
+	check job = 15,Rebirth,-;
+	check job = 28,Transform,-;
+		mes "[Champion]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Champion]";
+		mes "Greetings my fellow Monk";
+		next;
+		mes "Do you wish to be reborn so that you may become a Champion?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Champion]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Champion]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Champion]";
+					mes "Alright.";
+					next;
+					mes "[Champion]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 15;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Champion]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Champion]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Champion]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Champion]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Champion]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Champion?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Champion];
+				mes "I must check one last time to see if you can become a Champion.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Champion]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 39;
+					mes "[Champion]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Champion]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Champion]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,53,58,3	script	"Stalker"	747,{
+//Rogue->Theif High->Stalker
+	check job = 17,Rebirth,-;
+	check job = 30,Transform,-;
+		mes "[Stalker]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Stalker]";
+		mes "Greetings my fellow Rogue";
+		next;
+		mes "Do you wish to be reborn so that you may become a Stalker?";
+		next;
+		menu "Yes Ma'am",-,"No Ma'am",Cancel;
+			mes "[Stalker]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Stalker]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Ma'am",-,"No Ma'am",Cancel;
+					mes "[Stalker]";
+					mes "Alright.";
+					next;
+					mes "[Stalker]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 17;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Stalker]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Stalker]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Stalker]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Stalker]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Stalker]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Stalker?";
+			next;
+			menu "Yes Ma'am",-,"No Ma'am",Cancel;
+				mes "[Stalker];
+				mes "I must check one last time to see if you can become a Stalker.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Stalker]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 41;
+					mes "[Stalker]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Stalker]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Stalker]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//Left side going from south to north
+//valkyrie.gat,44,32,5	script	"Transporter"	124,{
+	mes "Ready to go back?";
+	next;
+	menu "Yes",-,"No",No;
+		warp "prontera",155,155;
+		close;
+		No:
+		close;
+}
+
+//valkyrie.gat,44,38,5	script	"Lord Knight"	56,{
+//Knight->HighSword->Lord Knight
+	check job = 7,Rebirth,-;
+	check job = 25,Transform,-;
+		mes "[Lord Knight]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Lord Knight]";
+		mes "Greetings my fellow Knight";
+		next;
+		mes "Do you wish to be reborn so that you may become a Lord Knight?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Lord Knight]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Lord Knight]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Lord Knight]";
+					mes "Alright.";
+					next;
+					mes "[Lord Knight]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 7;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Lord Knight]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Lord Knight]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Lord Knight]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Lord Knight]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Lord Knight]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Lord Knight?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Lord Knight];
+				mes "I must check one last time to see if you can become a Lord Knight.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Lord Knight]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 31;
+					mes "[Lord Knight]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Lord Knight]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Lord Knight]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,44,42,5	script	"High Priest"	60,{
+//Priest->Acolyte High->High Priest
+	check job = 8,Rebirth,-;
+	check job = 28,Transform,-;
+		mes "[High Priest]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[High Priest]";
+		mes "Greetings my fellow priest";
+		next;
+		mes "Do you wish to be reborn so that you may become a High Priest?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[High Priest]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[High Priest]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[High Priest]";
+					mes "Alright.";
+					next;
+					mes "[High Priest]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 8;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[High Priest]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[High Priest]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[High Priest]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[High Priest]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[High Priest]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a High Priest?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[High Priest];
+				mes "I must check one last time to see if you can become a High Priest.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[High Priest]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 32;
+					mes "[High Priest]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[High Priest]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[High Priest]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,44,46,5	script	"High Wizard"	735,{
+//Wizard->Magician High->High Wizard
+	check job = 9,Rebirth,-;
+	check job = 26,Transform,-;
+		mes "[High Wizard]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[High Wizard]";
+		mes "Greetings my fellow Wizard";
+		next;
+		mes "Do you wish to be reborn so that you may become a High Wizard?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[High Wizard]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[High Wizard]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[High Wizard]";
+					mes "Alright.";
+					next;
+					mes "[High Wizard]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 9;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[High Wizard]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[High Wizard]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[High Wizard]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[High Wizard]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[High Wizard]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a High Wizard?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[High Wizard];
+				mes "I must check one last time to see if you can become a High Wizard.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[High Wizard]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 33;
+					mes "[High Wizard]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[High Wizard]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[High Wizard]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,44,50,5	script	"Whitesmith"	731,{
+//Blacksmith->Merchant High->Whitesmith
+	check job = 10,Rebirth,-;
+	check job = 29,Transform,-;
+		mes "[Whitesmith]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Whitesmith]";
+		mes "Greetings my fellow Blacksmith";
+		next;
+		mes "Do you wish to be reborn so that you may become a Whitesmith?";
+		next;
+		menu "Yes Sir",-,"No Sir",Cancel;
+			mes "[Whitesmith]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Whitesmith]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Sir",-,"No Sir",Cancel;
+					mes "[Whitesmith]";
+					mes "Alright.";
+					next;
+					mes "[Whitesmith]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 10;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Whitesmith]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Whitesmith]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Whitesmith]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Whitesmith]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Whitesmith]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Whitesmith?";
+			next;
+			menu "Yes Sir",-,"No Sir",Cancel;
+				mes "[Whitesmith];
+				mes "I must check one last time to see if you can become a Whitesmith.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Whitesmith]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 34;
+					mes "[Whitesmith]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Whitesmith]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Whitesmith]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,44,55,5	script	"Sniper"	727,{
+//Hunter->Archer High->Sniper
+	check job = 11,Rebirth,-;
+	check job = 27,Transform,-;
+		mes "[Sniper]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Sniper]";
+		mes "Greetings my fellow Hunter";
+		next;
+		mes "Do you wish to be reborn so that you may become a Sniper?";
+		next;
+		menu "Yes Ma'am",-,"No Ma'am",Cancel;
+			mes "[Sniper]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Sniper]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Ma'am",-,"No Ma'am",Cancel;
+					mes "[Sniper]";
+					mes "Alright.";
+					next;
+					mes "[Sniper]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 11;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Sniper]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Sniper]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Sniper]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Sniper]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Sniper]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Sniper?";
+			next;
+			menu "Yes Ma'am",-,"No Ma'am",Cancel;
+				mes "[Sniper];
+				mes "I must check one last time to see if you can become a Sniper.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Sniper]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 35;
+					mes "[Sniper]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Sniper]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Sniper]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//valkyrie.gat,44,58,5	script	"Assassin Cross"	725,{
+//Assassin->Theif High->Assassin Cross
+	check job = 12,Rebirth,-;
+	check job = 30,Transform,-;
+		mes "[Assassin Cross]";
+		mes "I'm sorry, but I cannot assist you.";
+		mes "Ask another.";
+		close;
+	Rebirth:
+		mes "[Assassin Cross]";
+		mes "Greetings my fellow Assassin";
+		next;
+		mes "Do you wish to be reborn so that you may become a Assassin Cross?";
+		next;
+		menu "Yes Ma'am",-,"No Ma'am",Cancel;
+			mes "[Assassin Cross]";
+			mes "Most Excelent";
+			mes "I will now check to see if you are in deed worthy.";
+			next;
+			check baselevel >= 99,-,LowBlvl;
+			check joblevel >= 50,-,LowJlvl1;
+			check skillpoint = 0,-,SkPoint;
+				mes "[Assassin Cross]";
+				mes "You meet my requirements.";
+				mes "I will ask once more, are you sure you wish to relive your life, and return to me for the final phase?";
+				next;
+				menu "Yes Ma'am",-,"No Ma'am",Cancel;
+					mes "[Assassin Cross]";
+					mes "Alright.";
+					next;
+					mes "[Assassin Cross]";
+					mes "Ashes to ashes";
+					mes "Dust to dust";
+					next;
+					save "new_1-1",50,100;
+					set REBIRTH = 12;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					speed 140;
+					jobchange 24;
+					basereset;
+					resetstat;
+					resetskill;
+					set statuspoint = 100;
+					set skillpoint = 0;
+					setskilllevel 0x1,0;
+					die;
+					close;
+			LowBlvl:
+				mes "[Assassin Cross]";
+				mes "I am sorry, but you must have a base level of 99";
+				ReturnHome:
+					next;
+					mes "[Assassin Cross]";
+					mes "Return home and train yourself";
+					close;
+			LowJlvl1:
+				mes "[Assassin Cross]";
+				mes "I am sorry, but you must have a job level of 50";
+				goto ReturnHome;
+			SkPoint:
+				mes "[Assassin Cross]";
+				mes "Please use up all your skill points";
+				close;
+	Transform:
+			mes "[Assassin Cross]";
+			mes "Ah, you have returned.";
+			mes "Are you ready to become a Assassin Cross?";
+			next;
+			menu "Yes Ma'am",-,"No Ma'am",Cancel;
+				mes "[Assassin Cross];
+				mes "I must check one last time to see if you can become a Assassin Cross.";
+				next;
+				check joblevel >= 40,-,LowJlvl2;
+				check skillpoint = 0,-,SkPoint;
+					mes "[Assassin Cross]";
+					mes "Congradualations";
+					mes "You pass my tests";
+					next;
+					option 0,0;
+					option 1,0;
+					option 2,0;
+					jobchange 36;
+					mes "[Assassin Cross]";
+					mes "Go and use your new skills.";
+					close;
+				LowJlvl2:
+					mes "[Assassin Cross]";
+					mes "I am sorry, but you must have a job level of 40";
+					goto ReturnHome;
+	Cancel:
+		mes "[Assassin Cross]";
+		mes "Go and follow your soul";
+		mes "It'll lead you to true happiness";
+		close;
+}
+
+//The road to Valhalla
+//nif_in.gat,147,31,0	script	"Dusty Scroll"	111,{
+	mes "*You see a scroll*";
+	next;
+	check ymirscroll >= 1,-,Ymir;
+		random @scroll,100;
+		check @scroll <= 25,S1,-;
+		check @scroll <= 50,S2,-;
+		check @scroll <= 75,S3,-;
+			mes "*This scroll is worn out, and shatters in your hands*";
+			close;
+		S1:
+			mes "*This scroll is written in an unknown language*";
+			close;
+		S2:
+			mes "*This scroll shows a list of proverbs*";
+			next;
+			mes "'Deliberately Deny the Truth of What was said.'";
+			mes "It means 'When you lie too much to others, they won't Trust  you forever'.";
+			next;
+			mes "'Claw me, and I'll claw thee.'";
+			mes "It means 'You must respect others if you want to be held in respect.'.";
+			close;
+		S3:
+			mes "*This scroll shows a list of proverbs*";
+			next;
+			mes "'In Trust is Treason.'";
+			mes "It means the One who you believe in could harm you'.";
+			next;
+			mes "'Encounter an Enemy on a Log Bridge.'";
+			mes "It means 'When you Harm Another you will be Harmed by him soon under the Unavoidable Situation'.";
+			next;
+			mes "'A good Neighbor is better than a Brother far off..'";
+			mes "It means ' When you're in Danger,You could get helped by a close neighbor rather than your Family at a Distance'.";
+			close;
+	Ymir:
+		mes "*The scroll describes a man in the great house, in the city of the dead, who has the power to send you to the heavens to become more powerful than ever.*";
+		next;
+		mes "*You place the scroll in your pocket to give to that man, so that you may have that power.*;
+		next;
+		set ymirscroll = 1;
+		close;
+}
+
+//nif_in.gat,70,33,6	script	"?"	124,{
+	check Road = 1,Ready,-;
+		check ymirscroll = 1,-,NoPower;
+			mes "[?]";
+			mes "What is that you have?";
+			mes "*Points at your Scroll of Ymir.";
+			next;
+			mes "[?]";
+			mes "You realize that scroll has teleportation capabilities to Valhalla";
+			next;
+			mes "[?]";
+			mes "The strongest of all the job guilds reside there.  They will make you stronger only if you are as strong as they are.";
+			next;
+			mes "[?]";
+			mes "I believe they only help those who are level 99/50";
+			next;
+			Send:
+			mes "[?]";
+				mes "Do you wish me to use the power of the scroll to send you to the realm of the Valkryies?";
+				next;
+				menu "Yes",-,"No, I am weak",No;
+					mes "[?]";
+					mes "Lets go";
+					next;
+					warp "valkyrie",45,45;
+					close;
+				No:
+					mes "[?]";
+					mes "Come back when you are ready";
+					set Road = 1;
+					close;
+	Ready:
+		mes "[?]";
+		mes "You've returned.";
+		next;
+		goto Send;
+	NoPower:
+		mes "[?]";
+		mes "I remember the days, where I had the power to visit Valhalla.";
+		next;
+		mes "[?]";
+		mes "I was given so many powers to use by reading ancient scrolls, but I am confined by evil magic to never to return there.";
+		next;
+		mes "[?]";
+		mes "I could return, but I lost a magic scroll, in which it would send me anywhere, somewhere away from the city of the dead.";
+		next;
+		mes "[?]";
+		mes "Some do nothing, but if you find a scroll of some interest, I might be interested in it.";
+		close;
+}
+
+//Easy way NPC
+//Only works with the Valhalla changes (i.e. you don't want to go find a scroll, etc.)
+//prontera.gat,159,187,4	script	"Advanced Class Info"	124,{
+	check Job < 7,TooLow,-;
+	check Job < 21,Trip1,-;
+	check Job = 22,NoWed,-;
+	check Job = 23,NoSup,-;
+	check Job = 24,First,-;
+	check Job < 30,Trip2,-;
+		mes "[Guide]";
+		mes "You're already an Advanced Class Job";
+		close;
+	TooLow:
+		mes "[Guide]";
+		mes "I'm sorry, but you must be a Second Class Character to go to Valhalla.";
+		close;
+	Trip1:
+		mes "[Guide]";
+		mes "Since you are a Second Class Job, I will warp you to Valhalla";
+		next;
+		warp "valkyrie",48,8;
+		close;
+	NoWed:
+		mes "[Guide]";
+		mes "I'm sorry, but married couples cannot change into an Advanced Class";
+		close;
+	NoSup:
+		mes "[Guide]";
+		mes "I'm sorry, but being a super novice is permanent for you.";
+		close;
+	First:
+		mes "I will check to see if you can become your destined High First Class;
+		next;
+		check Joblevel != 10,LowJob,-;
+		check Skillpoint != 0,SkillPts,-;
+			menu "High Swordsman",Sword,"High Acolyte",Acolyte,"High Archer",Archer,"High Merchant",Merchant,"High Magician",Mage,"High Thief",Thief,"Cancel",-;
+				close;
+			Sword:
+				jobchange 25;
+				goto Done;
+			Acolyte:
+				jobchange 26;
+				goto Done;
+			Archer:
+				jobchange 27;
+				goto Done;
+			Merchant:
+				jobchange 28;
+				goto Done;
+			Mage:
+				jobchange 29;
+				goto Done;
+			Thief:
+				jobchange 30;
+		Done:
+			mes "There you go.";
+			close;
+	Trip2:
+		mes "[Guide]";
+		mes "Since you are a High First Class Job, I will warp you to Valhalla";
+		next;
+		warp "valkyrie",48,8;
+		close;
+	LowJob:
+		mes "[Guide]";
+		mes "You are not job level 10";
+		close;
+	SkillPts:
+		mes "[Guide]";
+		mes "Please finish using your skill points";
+		close;
+}

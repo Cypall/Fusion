@@ -1,0 +1,598 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Monster Taming Quests - Non Player Character Locations
+//
+// - Iwado -> alberta_in: 173,76
+//   Transform items into Monsters Taming items: Monster Juice, Singing Flower, Wild Flower.
+//
+// - Shogo ->  izlude_in: 129,64
+//   Transform items into Monsters Taming items: Book of the Devil, No Recipient, Horror of Tribe.
+//
+// - Tammy -> aldeba_in 168,175
+//   Transform items into Monsters Taming items: Skull Helm, Monster Gas Mask, Silk Ribbon, Stellar Hairpin, Tiny Egg Shell, Rocker Glasses.
+//
+//========================================================================================
+
+alberta_in.gat,173,76,4	script	"Iwado"	125,{
+	mes "[Iwado]";
+	mes "At the height of the era of monster taming!";
+	mes "Don't you feel to need to gather monster items in able to communicate with the cute monsters!?";
+	next;
+	menu "'Monster Taming' ?",-,"Order 'Monster Juice'",L_MENU_1,"Order 'Singin Flower'",L_MENU_2,"Order 'Wild Flower'",L_MENU_3,"Cancel",L_MENU_4;
+		mes "[Iwado]";
+		mes "The monster items necessary to communicate with monsters that is a must have!";
+		mes "Us monster tamer guild members' very reasonable offer.";
+		next;
+		mes "[Iwado]";
+		mes "A system that allows you to get your hands on these cool items without a burden!";
+		mes "Monster Juice !";
+		mes "Singing Flower !";
+		mes "aaand.... Wild Flower !";
+		next;
+		mes "[Iwado]";
+		mes "To make Monster Juice, you need '1 Animal Gore' '2 Appel'.";
+		mes "'1 Singing Plant' for 1 Singing Flower,";
+		mes "and '1 Fancy Flower' and '1 Clover' for 1 Wild Flower.";
+		mes "Try these fantastic items!";
+		close;
+	L_MENU_1:
+		mes "[Iwado]";
+		mes "This is an item that is far beyond what humans can drink!";
+		mes "The name ...... 'Monster Juice' !!";
+		mes "This extremely sour taste is perfect for monsters...";
+		next;
+		checkitem 702,1,-,L_SUB_1;
+		checkitem 512,2,-,L_SUB_1;
+		mes "[Iwado]";
+		mes "You have the required items to make a 'Monster Juice' !!
+		next;
+		mes "[Iwado]";
+		mes "I will make one for you!";
+		next;
+		mes "[Iwado]";
+		mes "Use it well!";
+		delitem 702,1;
+		delitem 512,2;
+		additem 626,1;
+		close;
+	L_SUB_1:
+		mes "[Iwado]";
+		mes "For the monster owner that loves to use monster juice..";
+		mes "Once recipe for Monster Juice!";
+		mes "If you bring me '1 Animal Gore' and '2 Appel'";
+		mes "With all my pride as a monster tamer...";
+		next;
+		mes "[Iwado]";
+		mes "I will make it for you!";
+		close;
+	L_MENU_2:
+		mes "[Iwado]";
+		mes "This is a song that is far beyond human's reach!";
+		mes "The name... 'Singing Flower' !!";
+		mes "Dizzy and scenty.";
+		mes "A perfect item for monsters...";
+		next;
+		checkitem 707,1,-,L_SUB_2;
+		mes "[Iwado]";
+		mes "You have the required items to make a 'Singing Flower' !";
+		next;
+		mes "[Iwado]";
+		mes "I will make one for you";
+		next;
+		mes "[Iwado]";
+		mes "Use it well!";
+		delitem 707,1;
+		additem 629,1;
+		close;
+	L_SUB_2:
+		mes "[Iwado]";
+		mes "For the monster owner";
+		mes "that loves to use Singing Flower..";
+		mes "One way to make 1 Singing Flower!";
+		mes "If you bring me '1 Singing Plant'";
+		mes "With all my pride as a monster tamer...";
+		next;
+		mes "[Iwado]";
+		mes "I will make one for you right away!";
+		close;
+	L_MENU_3:
+		mes "[Iwado]";
+		mes "This is a flower far beyond what humans can gaze at!";
+		mes "The name 'Wild Flower' !!";
+		mes "A troublesome design!";
+		mes "An item perfect for monsters...";
+		next;
+		checkitem 2207,1,-,L_SUB_3;
+		checkitem 705,1,-,L_SUB_3;
+		mes "[Iwado]";
+		mes "You have the required items to make a 'Wild Flower' !"
+		next;
+		mes "[Iwado]";
+		next;
+		mes "I will make one for you!";
+		next;
+		mes "[Iwado]";
+		mes "Use it well!";
+		delitem 2207,1;
+		delitem 705,1;
+		additem 10009,1;
+		close;
+	L_SUB_3:
+		mes "[Iwado]";
+		mes "For the monster owner";
+		mes "that loves to use Wild Flower..";
+		mes "One way to make 1 Wild Flower!";
+		mes "One of 'Fancy Flower', 'Clover' each!";
+		mes "If you bring them to me";
+		mes "With all my pride as monster tamer...
+		next;
+		mes "[Iwado]";
+		mes "I will make one for you";
+		close;
+	L_MENU_4:
+		mes "[Iwado]";
+		mes "Please come back when you need Monster Taming items!";
+		close;
+}
+
+izlude_in.gat,129,64,4	script	"Monster Tamer" 125,{
+	mes "[Shogo]";
+	mes "Are you pre-accupied with gathering items for monsters and want a break?";
+	mes "We will gather items for your cute pets.";
+	next;
+	menu "^3355FF'Monster Taming'^000000?",-,"Order ^3355FF'Book of the Devil'^000000",L_MENU_1,"Order ^3355FF'No Recipient'^000000",L_MENU_2,"Order ^3355FF'Horror of Tribe'^000000",L_MENU_3,"Cancel",L_MENU_4;
+		mes "[Shogo]";
+		mes "The monster items necessary to communicate with the monster of your choice!";
+		mes "Us monster tamer guild members have very reasonable deals.";
+		next;
+		mes "[Shogo]";
+		mes "A system that allows you to get your hands on these cool items without a burden.";
+		mes "Horror of Tribe!";
+		mes "No Recipent!";
+		mes "Book of the Devil!";
+		next;
+		mes "[Shogo]";
+		mes "You can exchange ^3355FF'1 Old Magic Book'^000000 and";
+		mes "^3355FF'2 Horrendous Mouth'^000000 for 1 Book of the Devil.";
+		mes "You can exchange ^3355FF'1 Old Portrait'^000000 for 1 No Recipient.";
+		mes "And you can exchange ^3355FF'1 Chibalry Emblem'^000000 and ";
+		mes "^3355FF'1 Scorpion Tail'^000000 for 1 Horror of Tribe.";
+		mes "Try these fantastic items!";
+		close;
+	L_MENU_1:
+		mes "This is an item far beyond what humans can read!";
+		mes "The name ^3355FF'Book of the Devil'^000000 !!";
+		mes "The item that cannot be understood but possessing"
+		mes "the mysterious ability to summon monsters.";
+		next;
+		checkitem 1006,1,-,L_SUB_1;
+		checkitem 958,2,-,L_SUB_1;
+		mes "[Shogo]";
+		mes "Ah-ha ! You have with you";
+		mes "The correct items to create";
+		mes "Book of Devil! Good, very good!";
+		mes "As I've promised before";
+		mes "I will get to work for you right away.";
+		next;
+		mes "[Shogo]";
+		mes "Mixing 2 horrendous mouths and old magic book together...";
+		next;
+		mes "^3355FF- *mixing* -^000000";
+		next;
+		mes "[Shogo]";
+		mes "Good! It is complete!";
+		mes "This Book of Devil was";
+		mes "‘made exclusively for your";
+		mes "future pet.";
+		delitem 1006,1;
+		delitem 958,2;
+		additem 642,1;
+		close;
+	L_SUB_1:
+		mes "[Shogo]";
+		mes "For the owner that raises a monster";
+		mes "that can be summoned using the Book of the Devil...";
+		mes "One way to make 1 Book of the Devil!";
+		mes "^3355FF1 Old Magicbook, 2 Horrendous Mouth^000000!";
+		mes "If you bring me these items,;
+		mes "with all my pride as a monster tamer,";
+		next;
+		mes "[Shogo]";
+		mes "I will make it for you!";
+		close;
+	L_MENU_2:
+		mes "This is an item far beyond what a human can feel...";
+		mes "The name ^3355FF'No Recipient'^000000 !!";
+		mes "Neither the reciever nor the sender can tell who sent this item...";
+		next;
+		checkitem 7014,1,-,L_SUB_2;
+		mes "[Shogo]";
+		mes "Ah-ha ! You have with you";
+		mes "the correct items to make";
+		mes "No recipient! Good, very good!";
+		mes "And as I've promised you before";
+		mes "I will get to work right away.";
+		next;
+		mes "[Shogo]";
+		mes "Taking the Old portrait and bang it up.";
+		next;
+		mes "^3355FF- *banging* -^000000";
+		next;
+		mes "[Shogo]";
+		mes "There! It is complete!";
+		mes "This No Recipient was";
+		mes "created especially for you.";
+		mes "Please use it wisely.";
+		delitem 7014,1;
+		additem 636,1;
+		close;
+	L_SUB_2:
+		mes "[Shogo]";
+		mes "For the monster owner that is fond of No Recipient...";
+		mes "One way to make No Recipient!";
+		mes "^3355FF1 Old Portrait!^000000";
+		mes "If you bring this to me,";
+		mes "with all my pride as a monster tamer,";
+		next;
+		mes "[Shogo]";
+		mes "I will make it for you!";
+		close;
+	L_MENU_3:
+		mes "This is an item far beyond";
+		mes "what a human can taste!";
+		mes "The name ^3355FF'Horror of Tribe'^000000 !!";
+		mes "A troublesome design!";
+		mes "An item perfect for monsters...";
+		next;
+		checkitem 1004,1,-,L_SUB_3;
+		checkitem 904,1,-,L_SUB_3;
+		mes "[Shogo]";
+		mes "Ah-ha ! You have with you the";
+		mes "correct ingredients to create";
+		mes "Horror of Tribe! Good, Very good!";
+		mes "And as I've promised you before";
+		mes "I will get to work right away for you.";
+		next;
+		mes "[Shogo]";
+		mes "Scorpion Tail.... together";
+		mes "with Patriotism Marks.";
+		next;
+		mes "^3355FF- *working* -^000000";
+		next;
+		mes "[Shogo]";
+		mes "There! It is complete!";
+		mes "This Horror of Tribe was created";
+		mes "especially for your needs!";
+		mes "Please use it wiesely.";
+		delitem 1004,1;
+		delitem 904,1;
+		additem 635,1;
+		close;
+	L_SUB_3:
+		mes "[Shogo]";
+		mes "For the monster owner";
+		mes "who is fond of Horror of Tribe...";
+		mes "One way to make Horror of Tribe!";
+		mes "^3355FF1 Chivalry Emblem!^000000";
+		mes "^3355FF! Scorpion Tail!^000000";
+		mes "If you bring these items to me,";
+		mes "with all my pride as a monster tamer...";
+		next;
+		mes "[Shogo]";
+		mes "I will make it for you!";
+		close;
+	L_MENU_4:
+		mes "[Shogo]";
+		mes "Ah..you must have not decided";
+		mes "which monster to raise yet.";
+		mes "Not a decision to be made carelessly, for";
+		mes "they will accompany you throughout your life...";
+		mes "Please take your time";
+		mes "and return when you have decided.";
+		close;
+}
+
+aldeba_in.gat,168,175,4	script	"Pet Item Maker"	125,{
+	mes "[Tammy]";
+	mes "Never thought I would find you here!";
+	mes "There is no one is this world";
+	mes "That can create wonderful Pet Items";
+	mes "As good as me.";
+	mes "I can create any";
+	mes "Wonderful Pet Items for your Pet !";
+	next;
+	menu "Ask about^3355FF' Pets '^000000.",-,"Order^3355FF' Skull Helm'^000000 .",L_MENU_1,"Order^3355FF' Monster Gas Mask'^000000 .",L_MENU_2,"Order^3355FF' Silk Ribbon'^000000 .",L_MENU_3,"Order^3355FF' Stellar Hairpin '^000000 .",L_MENU_4,"Order^3355FF' Tiny Egg Shell'^000000 .",L_MENU_5,"Order^3355FF' Rocker Glasses '^000000 .",L_MENU_6,"Cancel",L_MENU_7;
+		mes "[Tammy]";
+		mes "To make your pets live happily with you";
+		mes "You must communicate with it";
+		mes "You must all buy them";
+		mes "Their personally Item !";
+		mes "And we Pet Item Makers";
+		mes "Will make you want you and your pet needs";
+		next;
+		mes "[Tammy]";
+		mes "Providing Wonderful Items";
+		mes "For our players and your pets";
+		mes "Do not worry !We have!";
+		mes "Silk Ribbon!";
+		mes "Monster Gas Mask!";
+		mes "Skull Helm !";
+		next;
+		mes "[Tammy]";
+		mes "Stellar Hairpin!";
+		mes "Tiny Egg Shell !!";
+		mes "Rocker Glasses!!!";
+		next;
+		mes "[Tammy]";
+		mes "To get Skull Helm, you need a ^3355FF' Bone Helm '^000000 to trade for it";
+		mes "To get Monster Gas Mask, you need a ^3355FF' Oxygen Mask '^000000 to trade for it";
+		mes "To get Silk Ribbon, you need a ^3355FF' Ribbon '^000000 to trade for it";
+		mes "To get Stellar Hairpin, you need a ^3355FF' Star Dust'^000000 to trade for it";
+		mes "To get Tiny Egg Shell, you need a ^3355FF' Egg Shell '^000000 to trade for it";
+		mes "To get Rocker Glasses, you need a ^3355FF' Masquerade '^000000 to trade for it";
+		next;
+		mes "[Tammy]";
+		mes "Please collect your items";
+		mes "And give your pets some Items";
+		mes "As that is what a Pet owner must do !!";
+		close;
+	L_MENU_1:
+		mes "This is an item that very useful";
+		mes "When used correctly!";
+		mes "It is called a  ^3355FF'Skull Helm'^000000 !!";
+		mes "The outside of this looks pretty bad, but there is power within";
+		mes "Now give me your Bone Helm";
+		mes "And turn it into this powerful item";
+		next;
+		checkitem 5017,1,-,L_SUB_1;
+		mes "[Tammy]";
+		mes "Ah! Good! You got one";
+		mes "Now we can make it";
+		mes "Good! Very Good!";
+		mes "To satisfy out costumer, which we guaranteed";
+		mes "Now I will do my best to make your item";
+		next;
+		mes "[Tammy]";
+		mes "Now give me your Bone Helm.";
+		next;
+		mes "^3355FF- Cling Clang -^000000";
+		next;
+		mes "[Tammy]";
+		mes "Good! Sucess!";
+		mes "This here, is our specially made";
+		mes "Item for your pet";
+		mes "Skull Helm!";
+		delitem 5017,1;
+		additem 10001,1;
+		close;
+	L_SUB_1:
+		mes "[Tammy]";
+		mes "To make your pet's favourite item,";
+		mes "Skull Helm...";
+		mes "There is a way...";
+		mes "You need ^3355FF1 Bone Helm !^000000";
+		mes "You should get one";
+		mes "To keep your Pet happy";
+		next;
+		mes "[Tammy]";
+		mes "Now I must work on other stuff!";
+		close;
+	L_MENU_2:
+		mes "This is an item that very useful";
+		mes "When used correctly!";
+		mes "It is called ^3355FF' Monster Oxygen Mask '^000000 !!";
+		mes "When wore on the face, no matter human or pets";
+		mes "You can hide yourself";
+		next;
+		checkitem 5004,1,-,L_SUB_2;
+		mes "[Tammy]";
+		mes "Ah! Good! You got one";
+		mes "Now we can make it";
+		mes "Good! Very Good!";
+		mes "To satisfy out costumer, which we guaranteed";
+		mes "Now I will do my best to make your item";
+		next;
+		mes "[Tammy]";
+		mes "Now give me your Oxygen Mask";
+		next;
+		mes "^3355FF- Cling Clang -^000000";
+		next;
+		mes "[Tammy]";
+		mes "Good! Sucess!";
+		mes "This here, is our specially made";
+		mes "Item for your pet";
+		mes "Monster Oxygen Mask!";
+		delitem 5004,1;
+		additem 10002,1;
+		close;
+	L_SUB_2:
+		mes "[Tammy]";
+		mes "To make your pet's favourite item,";
+		mes "Monster Oxygen Mask...";
+		mes "There is a way...";
+		mes "You need ^3355FF1 Oxygen Mask !^000000";
+		mes "You should get one";
+		mes "To keep your Pet happy";
+		next;
+		mes "[Tammy]"
+		mes "Now I must work on other stuff!"
+		close;
+	L_MENU_3:
+		mes "This is an item that very useful";
+		mes "When used correctly!";
+		mes "It is called  ^3355FF'Silk Ribbon'^000000 !!";
+		mes "It is very delicate! Perfect for Cute Pets";
+		mes "And they love it too ...";
+		next;
+		checkitem 2208,1,-,L_SUB_3;
+		mes "[Tammy]";
+		mes "Ah! Good! You got one";
+		mes "Now we can make it";
+		mes "Good! Very Good!";
+		mes "To satisfy out costumer, which we guaranteed";
+		mes "Now I will do my best to make your item";
+		next;
+		mes "[Tammy]";
+		mes "Now give me your Ribbon";
+		next;
+		mes "^3355FF- Cling Clang -^000000";
+		next;
+		mes "[Tammy]";
+		mes "Good! Sucess!";
+		mes "This here, is our specially made";
+		mes "Item for your pet";
+		mes "Silk Ribbon!";
+		delitem 2208,1;
+		additem 10007,1;
+		close;
+	L_SUB_3:
+		mes "[Tammy]"
+		mes "To make your pet's favourite item,";
+		mes "Monster Oxygen Mask...";
+		mes "There is a way...";
+		mes "You need ^3355FF1 Ribbon!^000000";
+		mes "You should get one";
+		mes "To keep your Pet happy";
+		next;
+		mes "[Tammy]";
+		mes "Now I must work on other stuff!";
+		close;
+	L_MENU_4:
+		mes "This is an item that very useful";
+		mes "When used correctly!";
+		mes "It is called ^3355FF'Stellar Hairpin'^000000 !!";
+		mes "It might look bad, but when you wear it,";
+		mes "You will feel the power";
+		mes "from within";
+		next;
+		checkitem 2294,1,-,L_SUB_4;
+		mes "[Tammy]";
+		mes "Ah! Good! You got one";
+		mes "Now we can make it";
+		mes "Good! Very Good!";
+		mes "To satisfy out costumer, which we guaranteed";
+		mes "Now I will do my best to make your item";
+		next;
+		mes "[Tammy]";
+		mes "Now give me your Star Dust.";
+		next;
+		mes "^3355FF-Cling Clang -^000000";
+		next;
+		mes "[Tammy]";
+		mes "Good! Sucess!";
+		mes "This here, is our specially made";
+		mes "Item for your pet";
+		mes "Stellar Hairpin!";
+		delitem 2294,1;
+		additem 10011,1;
+		close;
+	L_SUB_4:
+		mes "[Tammy]"
+		mes "To make your pet's favourite item,";
+		mes "Stellar Hairpin...";
+		mes "There is a way...";
+		mes "You need ^3355FF1 Star Dust!^000000";
+		mes "You should get one";
+		mes "To keep your Pet happy";
+		next;
+		mes "[Tammy]";
+		mes "Now I must work on other stuff!";
+		close;
+	L_MENU_5:
+		mes "This is an item that very useful";
+		mes "When used correctly!";
+		mes "It is called ^3355FF'Tiny Egg Shell  '^000000 !!";
+		mes "It spreads wonder smells";
+		mes "And make the world more colorful!";
+		next;
+		checkitem 5015,1,-,L_SUB_5;
+		mes "[Tammy]";
+		mes "Ah! Good! You got one";
+		mes "Now we can make it";
+		mes "Good! Very Good!";
+		mes "To satisfy out costumer, which we guaranteed";
+		mes "Now I will do my best to make your item";
+		next;
+		mes "[Tammy]";
+		mes "Now give me your Egg Shell";
+		next;
+		mes "^3355FF- Cling Clang -^000000";
+		next;
+		mes "[Tammy]";
+		mes "Good! Sucess!";
+		mes "This here, is our specially made";
+		mes "Item for your pet";
+		mes "Tiny Egg Shell !";
+		delitem 5015,1;
+		additem 10012,1;
+		close;
+	L_SUB_5:
+		mes "[Tammy]"
+		mes "To make your pet's favourite item,";
+		mes "Tiny Egg Shell...";
+		mes "There is a way...";
+		mes "You need ^3355FF1 Egg Shell!^000000";
+		mes "You should get one";
+		mes "To keep your Pet happy";
+		next;
+		mes "[Tammy]";
+		mes "Now I must work on other stuff!";
+		close;
+	L_MENU_6:
+		mes "This is an item that very useful";
+		mes "When used correctly!";
+		mes "It is called°µ ^3355FF' Rocker Glasses '^000000 !!";
+		mes "It is a delicate item. Perfect for a careful pet";
+		mes "And they love it too . .";
+		next;
+		checkitem 912,2,-,L_SUB_6;
+		checkitem 2208,1,-,L_SUB_6;
+		check Zeny >= 400,-,L_SUB_6;
+		mes "[Tammy]";
+		mes "Ah! Good! You got one";
+		mes "Now we can make it";
+		mes "Good! Very Good!";
+		mes "To satisfy out costumer, which we guaranteed";
+		mes "Now I will do my best to make your item";
+		next;
+		mes "[Tammy]";
+		mes "Now give me your Masquerade";
+		next;
+		mes "^3355FF- Cling Clang -^000000";
+		next;
+		mes "[Tammy]";
+		mes "Good! Sucess!";
+		mes "This here, is our specially made";
+		mes "Item for your pet";
+		mes "Rocker Glasses!";
+		delitem 912,2;
+		delitem 2208,1;
+		set Zeny -= 400,0;
+		additem 10014,1;
+		close;
+	L_SUB_6:
+		mes "[Tammy]"
+		mes "To make your pet's favourite item,";
+		mes "Rocker Glasses...";
+		mes "There is a way...";
+		mes "You need ^3355FF1 Masquerade!^000000";
+		mes "You should get one";
+		mes "To keep your Pet happy";
+		next;
+		mes "[Tammy]";
+		mes "Now I must work on other stuff!";
+		close;
+	L_MENU_7:
+		mes "[Tammy]";
+		mes "You have not choose which pet to get";
+		mes "As your favourite";
+		mes "Pets can help you liver happier!";
+		mes "But you have to choose a Pet carefully ..";
+		mes "After you made your decision";
+		mes "Come back and see me!";
+		close;
+}

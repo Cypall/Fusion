@@ -1,0 +1,1625 @@
+comodo.gat,112,182,8 script "Munak's Grandma" 103,{
+	mes "[Munak's Grandma]";
+	mes "Oh my... granddaughter... don't you";
+      mes "have a heart? She was so young...
+      close;
+}
+
+comodo.gat,206,310,4 script "Rochito" 704,{
+	   check COMODO_NPC == 0,-,L_START_1;
+	mes "[Rochito]";
+	mes "Good day, nice to see you!";
+	mes "I am Rochito, a real expert on barbecue in Comodo.";
+         emotion 3;
+	next;
+	mes "[Rochito]";
+	mes "Comodo is a real heaven for all types of meat, do you wish to know more about them?";
+	next;
+	menu "Ask about meat",-,"Cancel",L_MENU_1;
+	mes "[Rochito]";
+	mes "Very well, to start off, the most famous Comodo meat products are from the well-raised Comodo cattles.";
+	mes "Just about every part of Comodo cattles are delicious.";
+	next;
+	mes "[Rochito]";
+	mes "Speaking of Comodo cattles, I have a bunch of cooked ones infront of me ^ ^, do you want some?";
+	mes "Hmm, I think we will need more salt and pepper...";
+         emotion 21;
+	next;
+	mes "[Rochito]";
+	mes "Oh yeah, I also heard that Comodo's steak are absolutely amazing when coupled with Comodo's own special spice.";
+	mes "They are called ^3355FFMagical Peppers^000000, I wish I had some with me right now!!";
+         emotion 19;
+	next;
+	mes "[Rochito]";
+	mes "These Magical Peppers are also only available in Comodo due to the fact that it is illegal for people to export them.";
+	mes "This restriction is due to the fact that overdose of Magical Peppers could cause hallucinations.";
+	next;
+	mes "[Rochito]";
+	mes "Yeah, this decision was made by the mayor, he's a real man of wisdom and leadership, you should pay him a visit.";
+	mes "Simply walk west from here or ask the guides for the directions to the mayor's house.";
+	   set COMODO_NPC = 1;
+	close;
+L_MENU_1:
+	mes "[Rochito]";
+	mes "Do you want to know a bit about Comodo's history?";
+	mes "Well, Comodo Town was constructed for the remembrance of the great heroes who died during the battle against the evil witch.";
+	next;
+	mes "[Rochito]";
+	mes "Seems like you are a bit busy, I guess I'll see you later.";
+	close;
+L_START_1:
+	   check COMODO_NPC == 1,-,L_START_2;
+	mes "[Rochito]";
+	mes "Oh yeah, Comodo's steak are absolutely amazing when coupled with Comodo's own special spice";
+	mes "^3355FFMagical Peppers^000000 , I wish I have some with me right now";
+	next;
+	mes "[Rochito]";
+	mes "Hmm, you want to know about the direction to mayor's house?  Well, simply walk west from here or ask one of the guides.";
+	close;
+L_START_2:
+	   check COMODO_NPC == 2,-,L_START_3;
+	mes "[Rochito]";
+	mes "Sigh, we still have around 90 thousand miles left on our journey, I just can't believe why we stop here for...";
+	next;
+	mes "^3355FF-Gave Rochito the Magical Peppers!-^000000";
+	next;
+	mes "[Rochito]";
+	mes "What!! Aren't these, Comodo's special spice, Magical Peppers? Such rare item, how?";
+     	   emotion 0;
+	next;
+	mes "[Rochito]";
+	mes "Hmm, I guess our old friend asked you to give the spices to us, I really appreciate you for bringing them to us.";
+	   emotion 15;
+	next;
+	mes "[Rochito]";
+	mes "Hey fellows, it looks like our old friend, Chu Jang have provided us some spices!";
+	next;
+	mes "[Emralhandas]";
+	mes "Ah, he is such a great guy!";
+	next;
+	mes "[Rotute]";
+	mes "What? For free? Are you serious?!";
+	next;
+	mes "[Rockha]";
+	mes "...";
+	next;
+	mes "[Rochito]";
+	mes "We should really give something back in return as well, to prove the bond of our friendship.";
+	mes "Let me see....";
+	mes "Well, I guess some wine and red rose from the mainland would be great.";
+	next;
+	mes "[Rochito]";
+	mes "Could you be so kind to deliver these for us?";
+	mes "I am sorry that we could not personally deliver the wine and the red rose to the mayor, we really don't want to remind everyone of the terrible battle few years ago.";
+	next;
+	mes "[Rochito]";
+	mes "We think that this is the best thing to do after all this years.";
+	mes "So please, for the good of myself, my friends, and the mayor, deliver the wine and the red rose to the mayor.";
+	next;
+	mes "^3355FF- Received Wine and Red Rose -^000000";
+	   set COMODO_NPC = 3;
+	close;
+L_START_3:
+	   check COMODO_NPC == 3,-,L_START_4;
+	mes "[Rochito]";
+	mes "I just have one request, for the good of myself, my friends, and the mayor, please deliver the wine and the rose to they mayor.";
+	close;
+L_START_4:
+	mes "[Rochito]";
+	mes "So that's that, thank you for delivering the stuff for us, we could finally continue our journey without any worries.";
+	   emotion 15;
+	next;
+	mes "[Rochito]";
+	mes "Oh yeah, by the way, I have heard that someone in the pub have some information regarding the rare Comodo Cheese, you might want to check it out.";
+	close;
+}
+
+comodo.gat,204,310,4 script "Rockha" 65,{
+	check COMODO_NPC == 0,-,L_START_1;
+	mes "[Rockha]";
+	mes "...";
+	mes "My friend...";
+	mes "Would you...like...";
+	mes "some barbecue...?";
+	mes "...";
+	next;
+	menu "Continue talking ^3355FF(About mayor)^000000",-,"Cancel",L_MENU_1;
+	mes "[Rockha]";
+	mes "...";
+	mes "Yeah, we recently just found out that one of our old fellow soldiers who survived the battle against the evil witch lived here...as the mayor.";
+	next;
+	mes "[Rockha]";
+	mes "I guess because the he feared of the resurrection of the witch, he decided to become the mayor and help to organize protections for the town.";
+	close;
+L_MENU_1:
+	mes "[Rockha]";
+	mes "Whoo...";
+	mes "The taste of this barbecue is simply delicious~";
+	close;
+L_START_1:
+	check COMODO_NPC == 1,-,L_START_2;
+	mes "[Rockha]";
+	mes "...";
+	mes "My friend...";
+	mes "Would you...like...";
+	mes "some barbecue...?";
+	mes "...";
+	next;
+	menu "Continue talking ^3355FF(About mayor)^000000",-,"Cancel",L_MENU_2;
+	mes "[Rockha]";
+	mes "...";
+	mes "Yeah, we recently just found out that one of our old fellow soldiers who survived the battle against the evil witch still lives here...as the mayor.";
+	next;
+	mes "[Rockha]";
+	mes "I guess because that he feared of the resurrection of the witch, he decided to become the mayor and help to organize protections for the town.";
+	close;
+L_MENU_2:
+	mes "[Rockha]";
+	mes "Whoo...";
+	mes "The taste of this barbecue is simply delicious~";
+	close;
+L_START_2:
+	check COMODO_NPC == 2,-,L_START_3;
+	mes "[Rockha]";
+	mes "...";
+	mes "Old friend, I hope you still remember me...";
+	   emotion 18;
+	close;
+L_START_3:
+	check COMODO_NPC == 3,-,L_START_4;
+	mes "[Rockha]";
+	mes "...";
+	mes "Please deliver our message to our old friend, we haven't forgotten about him.";
+	close;
+L_START_4:
+	check COMODO_NPC == 4,-,L_START_5;
+	mes "[Rockha]";
+	mes "...";
+	mes "Let us all enjoy this unforgettable time with food and drinks!";
+	next;
+	mes "^FF3355- Ieeeeeeeei!! -^000000";
+	mes "^FF3355- Hyahoo!!! -^000000";
+	set COMODO_NPC = 5;
+	close;
+L_START_5:
+	mes "[Rockha]";
+	mes "I thank you for everything you have done for us, it means a great deal for us.";
+	mes "Whenever you need anything, anytime, just come and look for me, ^3355FF'Rockha'^000000.";
+	close;
+}
+
+comodo.gat,209,305,4 script "Emralhandas"	71,{
+	mes "[Emralhandas]";
+	mes "Rockha, empty your glass so I can pour you a drink.";
+	next;
+	mes "[Emralhandas]";
+	mes "Many years ago, during the War with the Witch, we dreamed of the day when we could live in peace.";
+	mes "Today that dream has come true and it's all because of you my freinds!!";
+	emotion 21;
+	next;
+	menu "Ask about here friends....",-,"Cancel",L_MENU_1;
+		mes "[Emralhandas]";
+		mes "Many years ago, heroes from every region of Rune Midgard were selected to embark upon a very unique and important quest.";
+		next;
+		mes "[Emralhandas]";
+		mes "The goal was to find the ^5555FF4 rare 'Swords of Power'^000000! These 4 swords were said to be the most powerful weapons to have ever been made.";
+		next;
+		mes "[Emralhandas]";
+		mes "After 10 hard years of searching, all 4 swords were found and brought together.";
+		mes "Out of all of those who searched the swords, the four bravest were chosen to protect them.";
+		next;
+		mes "[Emralhandas]";
+		mes "I, Emralhandas, was one of the four that were chosen.";
+		next;
+		mes "[Emralhandas]";
+		mes "Of course there were many hardships that we had to endure before, and even after these swords were found........";
+		next;
+		mes "[Emralhandas]";
+		mes "Our team of adventures consisted of myself, our ship's captain 'Rockha', our comrade 'Rochito', and the Mayor of this town, 'Tausupa'.";
+		next;
+		mes "[Emralhandas]";
+		mes "We had found the last sword and headed back to the island.  Up to this point we had not even thought about the weapon's owner.";
+		mes "As we left we began to have a bad feeling about what was going to happen next.";
+		next;
+		mes "[Emralhandas]";
+		mes "When we returned to the island, we were confronted by ^790079'Mariposum'^000000, a powerful Witch who practiced the dark art of EVIL magic!!";
+		next;
+		mes "[Emralhandas]";
+		mes "Her goal was to take over the world and plunge into a dark chaos!! We had to defend not only ourselves, but the future of humanity!!";
+		mes "So it was here that me made our stand against this terrible evil!";
+		emotion 0;
+		next;
+		mes "[Emralhandas]";
+		mes "A tremendous battle took place and many of our comrades fell that day... but their efforts were not in vain.";
+		next;
+		mes "[Emralhandas]";
+		mes "With bloodshed and feirce determination we were able to defeat the witch and inprison her beneath the earth.";
+		next;
+		mes "[Emralhandas]";
+		mes "Of all of those who risked their lives that day, one stood out amoungst the rest and became the deciding factor in the witch's defeat.....";
+		next;
+		mes "[Emralhandas]";
+		mes "It was ^5555FFTausupa^000000.";
+		next;
+		mes "[Emralhandas]";
+		mes "Of course we are greatful to all the brave warriors who fought and lost their lives that day.";
+		mes "Especially to 'Rotute's' father who cannot be with us today, may he rest in peace.";
+		next;
+		mes "[Emralhandas]";
+		mes "Rotute does not know about this yet, but hopefully he will find out about his father's heroism before this quest is complete......";
+		close;
+L_MENU_1:
+		mes "[Emralhandas]";
+		mes "Our quest has not yet been completed.  Rockha we must eat all of the meat in Rune Midgard untill there is none left!!";
+		mes "We must eat and eat, for the pride of our Meat Club!!! (~hiccup~)";
+		close;
+}
+
+comodo.gat,209,314,4 script "Rotute" 706,{
+	   check COMODO_NPC == 0,-,L_START_1;
+	mes "[Rotute]";
+	mes "Our search for the rare swords have not ended yet. Even though we have already found four rare swords, we are still searching for even more powerful ones, such as Balmung.";
+	next;
+	mes "[Rotute]";
+	mes "In searching for more powerful Doomed Swords, my companions and I set out in a whole new journey, I am pretty sure they are all as excited as I am right now.";
+	close;
+L_START_1:
+	   check COMODO_NPC == 1,-,L_START_2;
+	mes "[Rotute]";
+	mes "Our search for the rare swords have not ended yet. Even though we have already found four rare swords, we are still searching for even more powerful ones, such as Balmung.";
+	next;
+	mes "[Rotute]";
+	mes "In searching for more powerful rare swords, my companions and I set out in a whole new journey, I am pretty sure they are all as excited as I am right now.";
+	   emotion 27;
+	close;
+L_START_2:
+	   check COMODO_NPC == 2,-,L_START_3;
+	mes "[Rotute]";
+	mes "Whoa!";
+	mes "So that is the rumored Comodo spice?";
+	   emotion 0;
+	close;
+L_START_3:
+	   check COMODO_NPC == 3,-,L_START_4;
+	mes "[Rotute]";
+	mes "Whoa!";
+	mes "So that is the rumored Comodo spice?";
+	   emotion 0;
+	close;
+L_START_4:
+	mes "[Rotute]";
+	mes "For some reason, Comodo reminds me of my hometown even though this is my first time here.";
+	next;
+	mes "[Rotute]";
+	mes "When the journey's over I hope to visit this wonderful place again, it feels like something is waiting for me here.";
+	close;
+}
+
+comodo.gat,221,310,4 script "Rinta"	86,{
+	mes "[Rinta]";
+	mes "Supposedly, some people west of where I am standing are great friends of the mayor.";
+	next;
+	mes "[Rinta]";
+	mes "With their close connections to the mayor, they are allowed to use the famous Comodo spice without any restrictions.";
+	   emotion 5;
+	close;
+}
+
+comodo.gat,218,309,4 script "Woman" 90,{
+	mes "[Razy]";
+	mes "I really dislike the bunch of people over there talking about the past, I am really annoyed by it.";
+	next;
+	mes "[Razy]";
+	mes "However, that lady in that group looks really beautiful, I wonder where she got her pedicure and manicure?";
+	close;
+}
+
+comodo.gat,216,310,4 script "BBQ Papa" 50,{
+	mes "[BBQ Son]";
+	mes "Papa, papa!";
+	mes "Was our town really used to be a hideout for the witch?";
+	next;
+	mes "[BBQ Mama]";
+	mes "Son, where did you hear about that?";
+	next;
+	mes "[BBQ Papa]";
+	mes "Well, son, just because this cave used to be the witch's hideout, you don't have to be afraid.";
+	next;
+	mes "[BBQ Son]";
+	mes "No, no, I am not afraid, it's just hard to believe how peaceful this town is now.";
+	next;
+	mes "[BBQ Mama]";
+	mes "Yes son, we are all very lucky to live here thanks to all the brave heroes. Now finish up your food, you are overcooking it.";
+	next;
+	mes "[BBQ Son]";
+	mes "Yes mom~";
+	close;
+}
+
+comodo.gat,215,307,4 script "BBQ Mama" 74,{
+	close;
+}
+
+
+comodo.gat,213,310,4 script "BBQ Son" 706,{
+      close;
+}
+
+cmd_in02.gat,32,140,4 script "Mayor" 49,{
+	   check COMODO_NPC > 4,-,L_START_1;
+	mes "[Mayor Tausupa]";
+	mes "If you haven't noticed, Comodo is a town inside a huge cave.";
+	mes "Therefore, it always seems to be night time everyday throughout the year.";
+	mes "It is through these specialties that signify the unique culture of Comodo and leaves unforgettable memories for all tourists.";
+	close;
+L_START_1:
+	   check COMODO_NPC == 3,-,L_START_2;
+	mes "[Mayor Tausupa]";
+	mes "Hello again, how are my old friends doing?";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "Hmm, they said that they want me to go on a journey with them again?  Don't be ridiculous.";
+	next;
+	mes "^3355FF- Wine and Red Rose were given -^000000";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "...";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "Sigh, I guess my old friends really want me to go with them...";
+	mes "However, I decided a long time ago to dedicate myself to the town of Comodo and for the people here.";
+         emotion 5;
+	next;
+	mes "[Mayor Tausupa]";
+	mes "Please thank my friends for me, I am very thankful for them because they have alway supported me and I hope they could understand my situation.";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "So send my regards to Rockha, and I show you my deepest gratitude for everything you have done for us.";
+	   set COMODO_NPC = 4;
+	close;
+L_START_2:
+	   check COMODO_NPC == 4,-,L_START_3;
+	mes "[Mayor Tausupa]";
+	mes "I thank you for everything you have done so far, thank you...";
+	close;
+L_START_3:
+	mes "[Mayor Tausupa]";
+	mes "I am Chu Jang, the mayor of Comodo.";
+	mes "The tropical town of Comodo is a place of entertainment, relaxation, and beauty.";
+	mes "Please make yourself at home and also get plenty of rest before continuing your journey.";
+	next;
+	menu "Ask about the casino",-,"Ask about the evil witch",L_MENU_1,"Cancel",L_MENU_2;
+	mes "[Mayor Tausupa]";
+	mes "So you are interested in the famous Comodo Casino?";
+	mes "To start off, you will need to exchange for tokens inside the casino in order to participate in a variety of games.";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "As you might have expected, tokens could also be exchanged for prizes so make good use of them.";
+	mes "Also please remember that tokens can not be exchanged for zeny.";
+	close;
+L_MENU_1:
+	   check COMODO_NPC == 0,-,L_START_4;
+	mes "[Mayor Tausupa]";
+	mes "...";
+	mes "You look like a new visitor.";
+	mes "I guess you have also heard of many forgotten legends...";
+	close;
+L_START_4:
+	   check COMODO_NPC == 1,-,L_START_5;
+	mes "[Mayor Tausupa]";
+	mes "...";
+	mes "Hmm, you came from the encampment right?";
+	mes "I guess my old friends have came to visit me and ask me to start out a new journey with them.";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "However, due to my responsibilities as the mayor of Comodo, I have to decline their offer.";
+	mes "I still sense tiny dark powers left from the evil witch, I have to stay here to make sure that everything will be alright.";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "I have a small request, could you give these spices to my old friends?";
+	next;
+	mes "- ^3355FF Recieved 'Magical Peppers'! ^000000 -";
+	next;
+	mes "[Mayor Tausupa]";
+	mes "Thank you...";
+	mes "Now that you have these 'Magical Peppers' could you deliver them to";
+	mes "^3355FFRochito^000000?";
+	   set COMODO_NPC = 2;
+	close;
+L_START_5:
+	mes "[Mayor Tausupa]";
+	mes "Thank you...";
+	mes "Now that you have these 'Magical Peppers' could you deliver them to";
+	mes "^3355FFRochito^000000?";
+	close;
+L_MENU_2:
+	mes "[Mayor Tausupa]";
+	mes "If you haven't noticed, Comodo is a town inside a huge cave.";
+	mes "Therefore, it always seems to be night time everyday throughout the year.";
+	mes "It is through these specialties that signify the unique culture of Comodo and leaves unforgettable memories for all tourists.";
+	close;
+}
+
+cmd_in02.gat,73,81,4 script "Martine" 48,{
+	mes "[Martine]";
+	mes "Gambling? Oh no, it's NOT gambling! Don't say that the Comodo 'CASINO' houses gambling.....";
+	   emotion 0;
+	next;
+	mes "[Martine]";
+	mes "We provide some of the greatest 'GAMES' in the world. It's much more of a sophisticated form of 'GAMING' than it is 'GAMBLING'.....";
+	mes "You know what I mean?? (~wink~)";
+	next;
+	mes "[Martine]";
+	mes "What?......... Don't look at me like that!.................";
+	   emotion 0;
+	next;
+	mes "[Martine]";
+	mes "..... Ok, FINE! I see how it is.  I don't care what you think.  I've lost all my zeny playing in this casino and I have NO regrets whatsoever!";
+	   emotion 7;
+	next;
+	mes "[Martine]";
+	mes "Today's competition is over! I'll have to go to the ^5555FFComodo Dungeon^000000 and kill some monsters to earn back the zeny I lost.";
+	mes "But no worries here cause after I've made some zeny, I'll be right back were I left off!!";
+	next;
+	mes "[Martine]";
+	mes "WOO HOO!! I'm gonna have a blast!! HAHAHA!";
+	   emotion 29;
+	close;
+
+}
+
+cmd_in02.gat,48,55,4 script "Scoursege"	51,{
+	mes "[Scoursege]";
+	mes "Darn it, where is that guy who borrowed my zeny? He better not be hiding from me, he told me he would double my money!";
+	   emotion 19;
+	next;
+	mes "[Scoursege]";
+	mes "He was positive that he could double my money and make a little for himself! Where is he?...............";
+	next;
+	mes "[Scoursege]";
+	mes "Have I been scammed!?? On no! What should I do?? My zeny..... (~sob~sob~)";
+	   emotion 28;
+	close;
+}
+
+cmd_in02.gat,64,43,4 script "Roberto" 709,{
+	mes "[Roberto]";
+	mes "Muhahaha... What a stupid man! Now that's easy money! (~counts his money~)";
+	   emotion 29;
+	next;
+	mes "[Roberto]";
+	mes "Hey you! What are you looking at!? Get out of here!! What... you've never seen someone count money before??";
+	   emotion 1;
+	close;
+}
+
+cmd_in02.gat,89,72,4 script "Deniroz" 89,{
+	mes "[Deniroz]";
+	mes "If the bead falls in this time, i'll hit the JACKPOT!! All I have to do is put this small bead into that little hole.";
+	   emotion 0;
+	next;
+	mes "[Deniroz]";
+	mes "Most people give up after a few tries, but not me..... *whispers*(the can of beer in my hand is actually a powerful magnet)...";
+	next;
+	mes "[Deniroz]";
+	mes "Keee hee hee hee!! I'm going to get rich with my secret plan!!";
+	   emotion 29;
+	close;
+}
+
+cmd_in02.gat,178,92,4 script "Sharon" 101,{
+	mes "[Sharon]";
+	mes "Sigh, darn it!!";
+	mes "You lost again..";
+	mes "I was trying to give you some advice but you wouldn't listen.";
+	next;
+	mes "[Sharon]";
+	mes "(This costumer just can't seem to win...)";
+	mes "(What a pity...)";
+	close;
+}
+
+cmd_in02.gat,178,86,4 script "???" 98,{
+	mes "[Stonae]";
+	mes "WHAT!! Dang it!! AGAIN!! Arghhhhhhh!!!............";
+	   emotion 23;
+	next;
+	mes "[Stonae]";
+	mes "Sheesh! I can't quit after losing this badly! I won't quit until I win!";
+	   emotion 7;
+	next;
+	mes "[Stonae]";
+	mes "Let's go!!";
+	emotion 27;
+	close;
+}
+
+cmd_in02.gat,172,105,4 script	"G.J." 86,{
+	mes "[G.J.]";
+	mes "You know, I have thought about this for quite a while.";
+	mes "Trying to make a fortune from this casino isn't really exciting...";
+	next;
+	mes "[G.J.]";
+	mes "I am starting to think that it would be much better if I get a real job and earn my money.";
+	mes "I hate having people staring at me with weird looks, don't you agree?";
+	next;
+	mes "[G.J.]";
+	mes "I mean, think about it.  If you or your friend luckily hit a jackpot, either one of you might be greedy and ask for a share, and sometime this might even stur up disputes.";
+	next;
+	mes "[G.J.]";
+	mes "I really begin to think that this isn't really worth my time anymore.";
+	close;
+}
+
+cmd_in02.gat,174,126,4 script	"Loyar" 83,{
+	mes "[Loyar]";
+	mes "Wow, the casino at Comodo is sure clean and well decorated!";
+	mes "I really feel like gambling now!";
+	next;
+	   random @LOYAR,3;
+	   check @LOYAR == 0,-,L_START_1;
+	mes "[Loyar]";
+	mes "What?";
+	mes "What's with the dust here!";
+	mes "( Wipes it clean )";
+	mes "I just can't bear a dirty casino!";
+	mes "I'm gonna make it spick'n'span!";
+	close;
+L_START_1:
+	   check @LOYAR == 1,-,L_START_2;
+	mes "[Loyar]";
+	mes "Comodo's casino is simply one of the best casinos around.";
+	mes "The atmosphere and the architecture here really sets people into the gambling mood.";
+	   emotion 33;
+	close;
+L_START_2:
+	mes "[Loyar]";
+	mes "How do you like this casino?";
+	mes "I personally enjoy this place a whole lot.";
+	close;
+}
+
+cmd_in02.gat,57,62,4 script "Moo" 109,{
+	   random @MOOZ,10;
+	   check @MOOZ == 0,-,L_START_1;
+	mes ". . . . . ?! ?! ?! . . . . .";
+	mes ". . . . . Hmm?";
+	mes ". Sorry, I zoned out a little there . . . . .";
+	mes "How are you doing?";
+	mes "I am the manager of Comodo Casino";
+	mes "My name is ^3355FF` Moo'^000000.";
+	close;
+L_START_1:
+	mes "[Moo]";
+	mes "I'm the manager of the Comodo Casino,";
+	mes "My name is^3355FFMoo^000000.";
+	mes "For the entertainment of everybody, I work non-stop every single day.";
+	mes "So enjoy your stay here and get some rest before leaving.";
+	next;
+	mes "[Moo]";
+	mes "This floor I am managing right now is mainly for VIP members, so please take advantage of it and enjoy the games.";
+	close;
+}
+
+cmd_fild04.gat,188,74,4	script "Zyosegirl" 93,{
+	mes "[Zyosegirl]";
+	mes "Hello, I gather seashells in the sea all day and sell them to make a living.";
+	next;
+	mes "[Zyosegirl]";
+	mes "Even though it seems to be a simple lifestyle, I absolutely love it here.";
+	close;
+}
+
+cmd_fild04.gat,248,86,4	script "Ziyaol" 709,{
+	mes "[Ziyaol]";
+	mes "I don't care what you think of me, I am a fisherman, and it is a very tough profession.";
+	next;
+	mes "[Ziyaol]";
+	mes "I am just taking a short break right now, then I will resume fishing again in a few minutes...";
+	close;
+}
+
+cmd_fild04.gat,267,137,4 script "Kid" 703,{
+	mes "[Daeguro]";
+	mes "The sand here are so gentle and the smell of the ocean is great.";
+	mes "I hope one day I could get on one of those boats and head to Alberta.";
+	close;
+}
+
+moc_fild12.gat,35,303,4	script "Serutero"	59,{
+	mes "[Serutero]";
+      mes "Hello, I am Serutero!
+	mes "These days I guard the roads";
+      mes "that lead to the fortress of Saint Darmain.";
+	mes "Are you sure you want to continue?";
+	mes "If you really want to go to";
+      mes "Saint Darmain,";
+	mes "then you may continue.";
+	next;
+	menu "Continue to Saint Darmain's Fortress",-,"about Saint Darmain",L_MENU_1,"end conversation",L_MENU_2;
+	mes "[Serutero]";
+	mes "I see you want to continue";
+      mes "to Saint Darmain's Fortress ..";
+	mes "I wish you a worth while journey.";
+	mes "may your travel be blessed and";
+      mes "fortunate.";
+	mes ".....";
+	   warp "cmd_fild08",331,319;
+      close;
+L_MENU_1:
+	mes "[Serutero]";
+	mes "Since long ago, the province of";
+      mes "Saint Darmain";
+	mes "has been victim of invasion after";
+	mes "invasion.";
+      mes "Neighboring armies would";
+	mes "continually";
+      mes "be pillaging the lanbd and it's";
+	mes "people.";
+	mes "To defend themselves from this";
+      mes "continued";
+	mes "violation of their homes, the";
+      mes "people developed...";
+	next;
+	mes "[Serutero]";
+	mes "a smoke signal communication";
+      mes "method.";
+	mes "This gave the people time to";
+	mes "prepare their defenses";
+      mes "and fortify their cities.";
+	mes "with this technique, they were able";
+      mes "to survive the ravages of war,";
+	mes "that tore their country.";
+	mes "^3355FF' New Saint Dermain '^000000 was formed.";
+      next;
+	mes "[Serutero]";
+	mes "However, this was not the end of";
+      mes "Saint Dermain.";
+	mes "as the neighboring province of";
+	mes "Comodo became stronger and";
+      mes "more influental, they annexed";
+	mes "Saint Dermain. As time";
+      mes "passed they lost interest in";
+	mes "Saint Dermain.";
+	mes "Saint Dermain is now, but a forgotten";
+      mes "land..."; 
+      next;
+	mes "[Serutero]";
+	mes "Recently, the area had gone";
+      mes "into a revolution. A new";
+	mes "government was put into power.";
+	mes "Then the monsters came.";
+      mes "The monsters took over everything.";
+	mes "No man could set step into the land";
+      mes "of Saint Dermain.";
+	mes "Saint Dermain became nothing but a";
+	mes "monster hell.";
+      next;
+	mes "[Serutero]";
+	mes "If you are looking for the Paros";
+      mes "Lighthouse island,";
+	mes "you can find it to the soutwest.";
+	mes "I wish you luck and hope the";
+	mes "best in your voyage.";
+	close;
+L_MENU_2:
+	mes "[Serutero]";
+	mes "If you ever become exhausted of your journey,";
+      mes " you should stop by the nearby island of";
+	mes "^3355FF`Comodo'^000000 City.";
+	mes "The tropical weather over there is a";
+      mes "brand new experience for most people.";
+	close;
+}
+
+cmd_fild07.gat,192,58,4	script "Rahasu" 100,{
+	mes "[Rahasu]";
+	mes "'Rahasu' is what you can call me.";
+	mes "How are you doing? Let me tell you";
+	mes "about ^3355FF`Paros lighthouse'^000000!";
+	mes "I wil educate you a little on the Lighthouse.";
+	next;
+	menu "about Paros Light House",-,"end conversation",L_MENU_1;
+	mes "[Rahasu]";
+	mes "Paros Lighthouse was used by";
+	mes "ships for many years. It played";
+	mes "a keyrole in bringing the ships";
+	mes "in from their ocean voyages.";
+	mes "However, now the Lighthouse";
+	mes "sits quietly, out of use.";
+      next;
+	mes "[Rahasu]";
+	mes "Without it, the area has had";
+	mes "difficulty in trading and commerce.";
+	mes "The lighthouse is undergoing";
+	mes "interior restoration at the moment.";
+	mes "There are so many beautiful sights";
+	mes "in the tower of that lighthouse...";
+	close;
+L_MENU_1:
+	mes "[Rahasu]";
+	mes "What a waste....";
+	mes "You really came at a bad time.";
+	mes "The vieuw from the lighthouse is";
+	mes "breathtaking....";
+	mes "You are going to come back?";
+	mes "Right?";
+	mes "If you come back, I will be sure to";
+	mes "show you.";
+      close;
+}
+
+cmd_fild07.gat,52,280,4	script "Hallosu" 100,{
+	mes "[Hallosu]";
+	mes "Hello, this is one of the lighthouses";
+	mes "among many that make up the Paro Lighthouse.";
+	mes "You can not enter at this time";
+	mes "due to renovation of the Paros Lighthouse.";
+	mes "Once we have restored the interior you,";
+	mes "will be able to visit our lighthouse.";
+	next;
+	mes "[Hallosu]";
+	mes "We plan to open our doors to";
+	mes "the public very soon!";
+	mes "Please return after our";
+	mes "renovation is complet.";
+	mes "^3355FF(the gate keeper seems anxious)^000000";
+	close;
+}
+
+cmd_fild07.gat,299,83,4	script "Zain" 100,{
+	mes "[Zain]";
+	mes "If you wish to travel to";
+	mes "Izlude or alberta, plaese use our";
+	mes "'Reudelus'connecting route.";
+	mes "We thank you for considering";
+	mes "Reudelus as one of your travel";
+	mes "options.";
+	mes "Will you be joining us on our";
+	mes "voyage?";
+	next;
+	menu "Alberta Fare = 600 Zeny.",L_Menu1,"Izlude Fare = 800 Zeny.",L_Menu2,"end conversation",-;
+	mes "[Zain]";
+	mes "Thank you for choosing 'Reudelus'!";
+	mes "We are grateful for your choice in us.";
+      close;
+L_Menu1:
+	   check Zeny >= 600,-,L_Menu1_F;
+	   set Zeny -= 600,0;
+     	   warp "alberta",192,169;
+      close;
+L_Menu1_F:
+	mes "[Zain]";
+	mes "Umm, you do not have enough zeny.";
+     	close;
+L_Menu2:
+	   check Zeny >= 800,-,L_Menu1_F;
+	   set Zeny -= 800,0;
+     	   warp "izlude",176,182;
+      close;
+}
+
+cmd_fild07.gat,94,134,4	script "Sarumane"	100,{
+	mes "[Sarumane]";
+	mes "If you wish to travel to";
+	mes "Izlude or alberta, plaese use our";
+	mes "'Reudelus'connecting route.";
+	mes "We thank you for considering";
+	mes "Reudelus as one of your travel";
+	mes "options.";
+	mes "Will you be joining us on our";
+	mes "voyage?";
+	next;
+	menu "Alberta Fare = 600 Zeny.",L_Menu1,"Izlude Fare = 800 Zeny.",L_Menu2,"end conversation",-;
+	mes "[Sarumane]";
+	mes "Thank you for choosing 'Reudelus'!";
+	mes "We are grateful for your choice in us.";
+      close;
+L_Menu1:
+	   check Zeny >= 600,-,L_Menu1_F;
+	   set Zeny -= 600,0;
+     	   warp "alberta",192,169;
+      close;
+L_Menu1_F:
+	mes "[Sarumane]";
+	mes "Umm, you do not have enough zeny.";
+     	close;
+L_Menu2:
+	   check Zeny >= 800,-,L_Menu1_F;
+	   set Zeny -= 800,0;
+     	   warp "izlude",176,182;
+      close;
+}
+
+comodo.gat,88,97,4 script "Cheese Maniac"	109,{
+	mes "[Toruna]";
+	mes "I have heard that Comodo is also very famous in cheese, but I have never gotten the chance to try it everytime I come here.";
+	mes "Supposedly, Comodo cheese are made inside Comodo Caves.";
+	next;
+	menu "Ask about the caves",-,"Comodo is inside a cave?",L_MENU_1,"Cancel",L_MENU_2;
+	mes "[Toruna]";
+	mes "Similar to most caves, Comodo caves were formed mainly as a result of the solvent action of water and compounds.";
+	next;
+	mes "[Toruna]";
+	mes "However, since Comodo caves are sea caves, they are also formed by long-term wave impacts against seaside cliffs.";
+	next;
+	mes "[Toruna]";
+	mes "As you explore more of Comodo's surroundings you might even begin to recognize these unique features.";
+	close;
+L_MENU_1:
+	   check COMODO_NPC == 5,-,L_START_1;
+	mes "[Toruna]";
+	mes "Yep, before this town was constructed, this place is actually just a gigantic cave.";
+	mes "With the hard work of the Comodo residents, they were finally able to set up a town here after days and nights of digging.";
+	next;
+	mes "[Toruna]";
+	mes "As you could clearly see through the beautiful surroundings of Comodo, all the difficult work have finally paid off!";
+	mes "With the help of Comodo caves, we are also able to make the speical Comodo Cheese, which is simply delicious ~";
+	mes "You will understand how good the cheeses are once you try them.";
+	   set COMODO_NPC = 6;
+	close;
+L_START_1:
+	   check COMODO_NPC == 6,-,L_START_2;
+	mes "[Toruna]";
+	mes "Check out all the other people in the pub, they just can't stop talking about the Comodo cheese, it is so popular.";
+	close;
+L_START_2:
+	mes "[Toruna]";
+	mes "Yep, before this town was constructed, this place is actually just a gigantic cave.";
+	mes "With the hard work of the Comodo residents, they were finally able to set up a town here after days and nights of digging.";
+	mes "As you could clearly see through the beautiful surroundings of Comodo, all the difficult work have finally paid off!";
+	next;
+	mes "[Toruna]";
+	mes "...";	
+	mes "Just too bad how this cave was originally used as a hideout for that evil witch.";
+	mes "If it wasn't for the witch, many people would have survived, and this town could have prospered even more.";
+	next;
+	mes "[Toruna]";
+	mes "Well, its not like I regret it that much, look at where we are now?";
+	mes "Comodo has become a wonderful place!!";
+	next;
+	mes "[Toruna]";
+	mes "Anyway, just watch out where you explore, some places could be extremely dangerous.";
+	close;
+L_MENU_2:
+	mes "[Toruna]";
+	mes "The taste of Comodo Cheese is simply out of this world.";
+	mes "Just after one taste, I guarantee you that you will not even buy normal cheese from merchants anymore.";
+	   emotion 3;
+	next;
+	mes "[Toruna]";
+	mes "Oh if I could just have one piece.... I'd be soooo happy I'd dance all night on that ^5555FFHula Dancing Stage^000000!!";
+	close;
+}
+
+comodo.gat,164,291,4 script "Comodo Resident" 73,{
+	   check COMODO_NPC == 6,-,L_START_1;
+	mes "[Rakusa]";
+	mes "That man sitting over there simply won't stop talking about Comodo's special food ^3355FF'Comodo Cheese'^000000.";
+	next;
+	mes "[Rakusa]";
+	mes "I just can't stop wondering about what kind of cheese it is.";
+	mes "I surely hope someday I will have the opportunity to try it.";
+	next;
+	mes "[Rakusa]";
+	mes "Speaking of Comodo Cheese, I heard that some guy in the pub know something about a cheese farm of some sort.";
+	   set COMODO_NPC = 7;
+	close;
+ L_START_1:
+	   check COMODO_NPC == 7,-,L_START_2;
+	mes "[Rakusa]";
+	mes "I remember hearing about someone in the pub talking about a cheese farm, but I can't remember who said it though.";
+	close;
+ L_START_2:
+	mes "[Rakusa]";
+	mes "Comodo is also known as the city of relaxation.";
+	mes "However, the only downside is that the access to the outside world are only through three caves, and it is not a walk in the park...";
+	next;
+	mes "[Rakusa]";
+	mes "Due to the fact that dark powers are still a bit strong in this area, many strong monsters are also around.";
+	mes "So always be on guard for anything.";
+	close;
+}
+
+comodo.gat,169,284,4 script "Comodo Resident" 98,{
+	   check COMODO_NPC == 7,-,L_START_1;
+	mes "[Kichiri]";
+	mes "The guy sitting near me just won't stop talking about Comodo Cheese, it is going to drive me insane!";
+	mes "Yeah, right over there, the guy named";
+	mes "^3355FF' Magatu '^000000.";
+	next;
+	mes "[Kichiri]";
+	mes "Can you do something about it?";
+	mes "I just want to have a quit time and have a few drinks, is this too much to ask for?";
+	   set COMODO_NPC = 8;
+	close;
+L_START_1:
+	   check COMODO_NPC == 8,-,L_START_2;
+	mes "[Kichiri]";
+	mes "Sigh, Magatu, that drunkard is really driving me nuts!";
+	mes "Please do something about it.";
+	close;
+L_START_2:
+	mes "[Kichiri]";
+	mes "In the middle of Comodo town, there's a stage in which people enjoy all kinds of performances up there.";
+	mes "Many hardcore dancers from the nearby dancing club also changed their jobs to bards and dancers becuase of their love for dancing.";
+	close;
+}
+
+comodo.gat,163,280,4 script "Comodo Drunk" 55,{
+	   check COMODO_NPC == 8,-,L_START_1;
+	mes "[Magatu]";
+	mes "What? You want to know some information regarding Comodo Cheese?";
+	mes "I guess I could give you some insider information.";
+	next;
+	mes "[Magatu]";
+	mes "From here go to the very, very, very bottom of town...then...then...er...go even more south then you should see the casino.";
+	next;
+	mes "[Magatu]";
+	mes "On the first floor of the casino, go ask someone named";
+	mes " 'Manzi'.";
+	mes "Manzi has a huge scar on his face and give this to him as a sign of friendship...";
+	mes "Simply give this bottle cap to him, and don't loose it!";
+	 next;
+	mes "[Magatu]";
+	mes "^3355FF- Received a Bottle Cap -^000000";
+	   set COMODO_NPC = 9;
+	close;
+L_START_1:
+	   check COMODO_NPC == 9,-,L_START_2;
+	mes "[Magatu]";
+	mes "Oh yeah, I gotta tell you my friend's name.";
+	mes "O? I already told you?";
+	mes "Bah, I am so drunk";
+	mes "Minza, his name is Minza, got it?";
+	close;
+L_START_2:
+	mes "[Magatu]";
+	mes "Yes!!! This is it!!!!";
+	mes "One of the most amazing taste in the entire world!!";
+	   emotion 3;
+	next;
+	mes "[Magatu]";
+	mes "I ! Don't ! Care !";
+	mes "This is absolutely the best cheese in the world!";
+	   mes "Bwahahahaha!";
+	emotion 3;
+	close;
+}
+
+cmd_in02.gat,189,99,4 script "Comodo Gambler" 85,{
+         check COMODO_NPC == 9,-,L_START_1;
+	mes "^3355FF- Gives him Bottle Cap-^000000";
+	next;
+	mes "[Manzi]";
+	mes "Whoa !!";
+	mes "This is from my friend Magatu, you must be someone of great importance to him.";
+	mes "Otherwise, he wouldn't have gave you the cap.";
+	next;
+	mes "This is amazing ?!";
+	mes "You must be that mysterious person he was talking about!";
+	mes ". . . . .";
+	mes "Anyway, to keep my promises to Magatu, follow me.";
+	next;
+	mes "[Manzi]";
+	mes "In this town, only a selected few could get a taste of the legendary cheese";
+	mes "^3355FF'Comodo Cheese'^000000 !!";
+	next;
+	mes "[Manzi]";
+	mes "Well, I guess you could find out more about Comodo Cheese from a lady near the ^3355FF 'Stage' ^000000 located near the center of town.";
+	mes "Here take this";
+	next;
+	   set COMODO_NPC = 10;
+	mes "^3355FF- Received Shiny Coin -^000000";
+	next;
+	mes "[Manzi]";
+	mes "Just tell her that Manzi from the casino told you to go see her.";
+	next;
+	mes "[Manzi]";
+	mes "No one's listening this right?";
+	mes "Well, that lady is actually incharge of the Comodo Cheese distribution.";
+	close;
+L_START_1:
+	   check COMODO_NPC == 10,-,L_START_2;
+	mes "[Manzi]";
+	mes "The cheese lady should be the only few near the stage, you shouldn't have a tough time locating her.";
+	mes "Just remember to show her the coin when asking her about the cheese.";
+	close;
+L_START_2:
+	   check Job == 0,-,L_START_3;
+	mes "[Manzi]";
+	mes "Stop bothering you little kid.";
+	mes "This is place is adult only, get out of here.";
+	close;
+L_START_3:
+	mes "[Manzi]";
+	mes "There some people who bet too much and lost a pecopeco and many other precious items.";
+	mes "So becareful in making bets or you might face great consequences.";
+	close;
+}
+
+comodo.gat,187,153,4 script "Woman"	701,{
+	   check COMODO_NPC == 10,-,L_START_1;
+	mes "[Hullaris]";
+	mes "Ah, such a great day -";
+	next;
+	menu "Show her the Shiny Coin",-,"Don't show her the coin, but continue talking",L_MENU_1;
+	mes "^3355FF- Shows the lady Shiny Coin -^000000";
+	next;
+	mes "[Hullaris]";
+	mes "Hmm, that coin...";
+	mes "Why did you know to come and look for me?";
+	mes "Aha, I got it, Manzi must have told you about me";
+	next;
+	mes "[Hullaris]";
+	mes "I presume you are also interested in the famous Comodo cheese.";
+	mes "Very well, you're talking to the real expert.";
+	mes "And let me tell you something, the taste of Comodo Cheese is something that some people will never taste it in their lifetime.";
+	next;
+	mes "[Hullaris]";
+	mes "However, before I let you taste the Comodo Cheese, I will need to tell you about the truths of some misconception from the public.";
+	next;
+	mes "[Hullaris]";
+	mes "In reality, Comodo Cheese is not actually a cheese, it is actually a very powerful enchanted magical stone, know as";
+	mes "^3355FF`Stone of Awakening'^000000.";
+	mes "Because of the similarities between normal cheese and the stone in shape, form, and color, people often think it is some sort of cheese.";
+	next;
+	mes "[Hullaris]";
+	mes "Legend has it that, the user of the Stone of Awakening, could gain great knowledge and power through daily training faster than normal people.";
+	mes "Many past wizards and mages have grew very powerful in very short time after consuming the Stone of Awakening.";
+	next;
+	mes "[Hullaris]";
+	mes "Therefore, even though my close friend told you to come to me, I can not just give you this rare item.";
+	mes "I am very sorry about this, but you'll need some sort of proof that you are worthy of this stone.";
+	mes ". . . . . ";
+	next;
+	mes "[Hullaris]";
+	mes "Some sort of proof of worthiness could be obtained through the wizard 'Nigirboran' he is usually inside East Comodo Dungeon.";
+	mes "Just tell Nigirboran everything I have told you and he will judge whether or not you are worthy of the Stone of Awakening.";
+	   set COMODO_NPC = 11;
+	close;
+L_MENU_1:
+	mes "[Hullaris]";
+	mes "Hey !";
+	mes "Don't look at me like that, get out of here!";
+	close;
+L_START_1:
+	   check COMODO_NPC == 11,-,L_START_2;
+	mes "[Hullaris]";
+	mes "Some sort of proof of worthiness could be obtained through the wizard 'Nigirboran' he is usually inside East Comodo Dungeon.";
+	mes "Just tell Nigirboran everything I have told you and he will judge whether or not you are worthy of the Stone of Awakening.";
+	mes "Best of luck to you.";
+	close;
+L_START_2:
+	   check COMODO_NPC == 12,-,L_START_3;
+	mes "[Hullaris]";
+	mes "You did not pass the judgement yet, I can not give you the Comodo Cheese.";
+	close;
+L_START_3:
+	   check COMODO_NPC == 13,-,L_START_4;
+	mes "[Hullaris]";
+	mes "I guess you past the test?.";
+	next;
+	mes "^3355FF- Shows Hullaris -^000000";
+	mes "^3355FF- Proof of Worthiness-^000000";
+	next;
+	mes "[Hullaris]";
+	mes "Ah, this is the proof ?!";
+	mes "I knew you would have passed the judgement.";
+	mes "No, I really did think you definitely would have passed the test.";
+	next;
+	mes "^3355FF- You received the cheese -^000000";
+	mes "^3355FF- from Hullaris, you quickly -^000000";
+	mes "^3355FF- eat it. . . . . -^000000";
+	next;
+	mes "^3355FF- Munch . .Munch . . -^000000";
+	next;
+	mes "^3355FF- Tastes like some sort of mushroom -^000000";
+	mes "^3355FF- with some tiny bit of sourness -^000000";
+	next;
+	mes "^3355FF- You somehow feel more confident -^000000";
+	mes "^3355FF- and more courageous now -^000000";
+	set COMODO_NPC = 14;
+	next;
+	mes "[Hullaris]";
+	mes "What you think?";
+	mes "Some sort of indescribable taste and smell I bet?";
+	mes "I could tell from your looks";
+	mes "I guess I will see you later then ~";
+	close;
+L_START_4:
+	mes "[Hullaris]";
+	mes "Hey, can't you see that I am busy trying to dance?";
+	mes "If you have nothing to say, please stop bothering me";
+	close;
+}
+
+beach_dun3.gat,30,220,4	script "Wizard" 704,{
+	   check COMODO_NPC == 11,-,L_START_1;
+	mes "[Nigirboran]";
+	mes ". . . . .";
+	mes ". . . . . Hmm . . . . .";
+	mes "Hullaris told you to come didn't she?";
+	mes "Let me introduce myself.";
+	mes "I am Nigirboran, a wizard still in training. .";
+	next;
+	mes "[Nigirboran]";
+	mes "In my hometown, Comodo Cheese were known as the 'Stone of Awakening' or the 'Stone of Wisdwom'.";
+	mes "It seems like people today only know about cheese as some sort of desert...";
+	next;
+	mes "[Nigirboran]";
+	mes "Long time ago, cheese were actually made from Payon's poisonous mushrooms, Aldebaran region's singing plant, and Morroc's juice from cactus skins.";
+	mes "With all these ingredients, the cheese is then stored inside Comodo for three years.";
+	next;
+	mes "[Nigirboran]";
+	mes "If anyone mistakenly consumes the cheese before the three years period, the posion and magic from the cheese could melt anyone...instantly...hehe";
+	next;
+	mes "[Nigirboran]";
+	mes "Now I remember why Hullaris sent you here, she wants you to test whether or not you could withstand such strong poison.";
+	next;
+	mes "[Nigirboran]";
+	mes "If you think you are ready to take this test, come talk to me again.";
+	   set COMODO_NPC = 12;
+	close;
+L_START_1:
+	   check COMODO_NPC == 12,-,L_START_2;
+	mes "[Nigirboran]";
+	mes ". . . . . Looks like you have decided";
+	mes "Very good, then let us begin the test.";
+	next;
+	mes "[Nigirboran]";
+	mes "After the test, if you body can not handle the poison and you see hallucinations, then you are not qualified to eat Comodo Cheese!";
+	mes ". . . . .";
+	next;
+	   check JobLevel > 20,-,L_SUB_1;
+	   check BaseLevel > 25,-,L_SUB_1;
+	   random @NIGIRBORAN,3;
+	   check @NIGIRBORAN == 0,-,L_ROOT_1;
+	mes "^3355FF- You suddenly felt a heat wave-^000000";
+	mes "^3355FF- all over your body.-^000000";
+	mes "^3355FF- You also feel very irritated-^000000";
+	next;
+	mes "[Nigirboran]";
+	mes "It seems that your body barely made it through, but metally you are still fine.";
+	mes "Nevertheless, if you eat Comodo Cheese now, you will probably be instantly vaporized into a puddle of water.";
+	mes "Come to me again if you think you are ready for another test.";
+	close;
+L_ROOT_1:
+	   check @NIGIRBORAN == 1,-,L_ROOT_2;
+	mes "^3355FF- You suddenly felt a heat wave-^000000";
+	mes "^3355FF- all over your body, followed -^000000";
+	mes "^3355FF- by a cold wave that made you -^000000";
+	mes "^3355FF- very drowsy . . -^000000";
+	next;
+	mes "[Nigirboran]";
+	mes "Yeah, your body and mind barely made it through the poison.";
+	mes "Consuming the Comodo Cheese now will most likely cause instant death or vaporization ";
+	mes "Come to me again if you think you are ready for another test.";
+	close;
+L_ROOT_2:
+	mes "^3355FF- You suddenly felt a heat wave-^000000";
+	mes "^3355FF- all over your body. -^000000";
+	mes "^3355FF- You also starts to feel very  -^000000";
+	mes "^3355FF- comfortable and clear minded -^000000";
+	next;
+	mes "[Nigirboran]";
+	mes "Whoa, now that's rare!";
+	mes "It seems like you are in top shape both mentally and physically, you should have no problem eating the Comodo Cheese.";
+	next;
+	mes "[Nigirboran]";
+	mes "Just show Hullaris this and she will let you take the cheese.";
+	next;
+	mes "^3355FF- Received -^000000";
+	mes "^3355FF- `Proof of Worthiness'  -^000000";
+	   set COMODO_NPC = 13;
+	next;
+	mes "[Nigirboran]";
+	mes ". . . . .";
+	mes "Oh yeah, why did you come and seek for Comodo Cheese anyway?";
+	mes ". . . . . ?";
+	mes "Hmm... ?";
+	next;
+	mes "[Nigirboran]";
+	mes "I surely hope its not because of the temptations of the three Doomed Swords...";
+	mes "....Huh? You don't know what the three Doomed Swords are?";
+	next;
+	mes "[Nigirboran]";
+	mes "Legend has it that the one who wields the three Doomed Swords";
+	mes "^3355FF- Executioner -^000000";
+	mes "^3355FF- Mysteltain-^000000";
+	mes "^3355FF- Grimtooth -^000000";
+	mes "could conquer the whole world with ease.";
+	next;
+	mes "[Nigirboran]";
+	mes "And again, to summon these three Doomed Swords, the user is also required to possess";
+	mes "both ^3355FF` Tablet of Power '^000000 and";
+	mes "^3355FF` Book of the Tiresome Sheep'^000000.";
+	next;
+	mes "[Nigirboran]";
+	mes "I remember an old friend in ^3355FF Aldebaran ^000000 named,";
+	mes "^3355FF` Moet Leng Good '^000000 ";
+	mes "who might have some information regarding 'Tablet of Power'.";
+	next;
+	mes "[Nigirboran]";
+	mes "Anyway, before you set out on another journey, go see Hullaris for the Comodo Cheese.";
+	mes "So...good luck to you.";
+	close;
+L_SUB_1:
+	mes "^3355FF- You feel so much heat in your body-^000000";
+	mes "^3355FF- that caused you to faint-^000000";
+	next;
+      mes "[Nigirboran]";
+	mes "Sigh, you are simply not strong enough to withstand the poison.";
+	mes "Come back again when you are much stronger.";
+	close;
+L_START_2:
+	   check COMODO_NPC == 13,-,L_START_3;
+	mes "[Nigirboran]";
+	mes "I remember an old friend in ^3355FF Aldebaran ^000000 named,";
+	mes "^3355FF` Moet Leng Good '^000000.";
+	mes "who might have some information regarding 'Tablet of Power'.";
+	next;
+	mes "[Nigirboran]";
+	mes "Anyway, before you set out on another journey, go see Hullaris for the Comodo Cheese.";
+	mes "So...good luck to you.";
+	close;
+L_START_3:
+	   check COMODO_NPC == 14,-,L_START_4;
+	mes "[Nigirboran]";
+	mes "Look for ^3355FFMoet Leng Good^000000 somewhere";
+	mes "inside ^3355FFAldebaran^000000 ";
+	mes "regarding information about the 'Tablet of Power'";
+	close;
+L_START_4:
+	mes "[Nigirboran]";
+	mes ". . . . . . . . . . . . . . .";
+	mes "Well, I am Nigirboran, a wizard still in training...";
+	next;
+	mes "[Nigirboran]";
+	mes "If you don't have anything to say, please do not bother me, I am very busy.";
+	close;
+}
+
+aldebaran.gat,44,53,4 script "Wizard in Training" 64,{
+	   check COMODO_NPC == 14,-,L_START_1;
+	mes "[Moet Leng Good]";
+	mes "I guess you are the possessor of the 'Stone of Awakening' and also the one seeking for the 'Tablet of Power'.";
+	next;
+	mes "[Moet Leng Good]";
+	mes "Very well then, I will help you to make a 'Tablet of Power'.";
+	mes "However, it is not a simple task, I will need a number of materials in order to succeed.";
+	next;
+	mes "[Moet Leng Good]";
+	mes "I will need one of these stones, gems, and ores.";
+	mes "^3355FF`Blue Gemstone'^000000";
+	mes "^3355FF`Sapphire'^000000";
+	mes "^3355FF`Aquarmarine'^000000";
+	mes "^3355FF`Shining Stone'^000000";
+	mes "and ^3355FF`Rough Elunium'^000000";
+	next;
+	mes "[Moet Leng Good]";
+	mes "In other words, the 'Tablet of Power' is very valuable, and might take you a while to gather the resources for it.";
+	   set COMODO_NPC = 15;
+	close;
+L_START_1:
+	   check COMODO_NPC == 15,-,L_START_2;
+	   checkitem 717,1,-,L_SUB_1;
+	   checkitem 726,1,-,L_SUB_1;
+	   checkitem 720,1,-,L_SUB_1;
+	   checkitem 727,1,-,L_SUB_1;
+	   checkitem 757,1,-,L_SUB_1;
+	mes "[Moet Leng Good]";
+	mes ". . . . . ! !";
+	mes "I can hardly believe that you actually gathered all the resources for the 'Tablet of Power'";
+	mes "Because you have worked so hard, let me make the tablet for you now.";
+	next;
+	   delitem 717,1;
+	   delitem 726,1;
+	   delitem 720,1;
+	   delitem 727,1;
+	   delitem 757,1;
+	mes "^3355FF- Gives him all the stones -^000000";
+	   set COMODO_NPC = 16;
+	next;
+	mes "[Moet Leng Good]";
+	mes "Now, I'll just need you to gather a few ingredients for the fininshing touch of the tablet.";
+	mes "I will need just one ^3355FF`Cobweb'^000000";
+	mes "You could easily obtain them through argos in Mt. Mjolnir";
+	next;
+	mes "[Moet Leng Good]";
+	mes "^3355FF- Moet Leng Good's-^000000";
+	mes "^3355FF- working hard on the tablet -^000000";
+	close;
+L_SUB_1:
+	mes "[Moet Leng Good]";
+	mes "Very well then, I will help you to make a 'Tablet of Power'.";
+	mes "However, it is not a simple task, I will need a number of materials in order to succeed.";
+	next;
+	mes "I will need one of these stones, gems, and ores.";
+	mes "^3355FF`Blue Gemstone'^000000";
+	mes "^3355FF`Sapphire'^000000";
+	mes "^3355FF`Aquarmarine'^000000";
+	mes "^3355FF`Shining Stone'^000000";
+	mes "and ^3355FF`Rough Elunium'^000000";
+	next;
+	mes "[Moet Leng Good]";
+	mes "In other words, the 'Tablet of Power' is very valuable, and might take you a while to gather the resources for it.";
+	close;
+L_START_2:
+	   check COMODO_NPC == 16,-,L_START_3;
+	   checkitem 1025,1,-,L_SUB_2;
+	mes "[Moet Leng Good]";
+	mes "Ah, very good, you got a cobweb, please just leave it over there.";
+	next;
+	mes "^3355FF- Gives cobweb to him-^000000";
+	   delitem 1025,1;
+	next;
+	mes "[Moet Leng Good]";
+	mes "Alright, here we go !!";
+	next;
+	mes "^3355FF- Clang ! Clang ! Clunk ! -^000000";
+	mes "^3355FF- Boom ! ! -^000000";
+	next;
+	mes "^3355FF- `Tablet of Power'-^000000";
+	mes "^3355FF- is forged -^000000";
+	next;
+	mes "^3355FF- Received 'Tablet of Power'-^000000";
+	   set COMODO_NPC = 17;
+	next;
+	mes "[Moet Leng Good]";
+	mes "Even though you possess the 'Tablet of Power' now, the tablet would not be effective without";
+	mes "the ^3355FF` Book of the Tiresome Sheep'^000000";
+	next;
+	mes "[Moet Leng Good]";
+	mes "^3355FF`Book of the Tiresome Sheep'^000000";
+	mes "was originally crafted by demons located in the desert and now the crafting skill have been passed down to a few wanderers near Morroc.";
+	next;
+	mes "[Moet Leng Good]";
+	mes "So if you wish to obatin the 'Book of the Tiresome Sheep', Morroc would be a smart place to look";
+	close;
+L_SUB_2:
+	mes "[Moet Leng Good]";
+	mes "The tablet will be done when I finish!";
+	mes "Please do not bother me for now, I need to concentrate";
+	next;
+	mes "[Moet Leng Good]";
+	mes "Meanwhile, please go find a cobweb so I could use it to provide some finishing touches to the tablet, thanks.";
+	close;
+L_START_3:
+	   check COMODO_NPC == 17,-,L_START_4;
+	mes "[Moet Leng Good]";
+	mes "Head to Morroc then!";
+	mes "Show the someone the 'Tablet of Power' and maybe some people will tell you about the 'Book of the Tiresome Sheep'.";
+	close;
+L_START_4:
+	mes "[Moet Leng Good]";
+	mes "Did you know that some people signed contract in shadows with the Dark Lord with the";
+	mes "^3355FF`Tablet of Power'^000000?!";
+	next;
+	mes "[Moet Leng Good]";
+	mes "As a result of their greed for power, it brought disasters for the entire world.";
+	mes "So please, be happy with what you already have and do not give in to the dark side.";
+      close;
+}
+
+morocc.gat,203,30,4 script "Tourist from Comodo" 99,{
+	   check COMODO_NPC == 17,-,L_START_1;
+	mes "[ZAKA]";
+	mes ". . . . .";
+	next;
+	mes "[ZAKA]";
+	mes "! ! ! ! ! ! !";
+	next;
+	mes "[ZAKA]";
+	mes "Isn't that ?! That tablet?!";
+	mes "^3355FF`Tablet of Power'^000000";
+	mes "Right?!";
+	mes "Wha ! !";
+	next;
+	mes "[ZAKA]";
+	mes "Who are you? Why do you possess the 'Tablet of Power'?";
+	mes "Bah, nevermind, it doesn't matter who you are.";
+	mes "Whoever possesses the 'Tablet of Power' is a natural-born leader.";
+	next;
+	mes "[ZAKA]";
+	mes "Well, we are one of the wanderers of Morroc.";
+	mes "It is tradition and duty to make the possessor of^3355FF` Tablet of Power '^000000";
+	mes "a ^3355FF`Book of the Tiresome Sheep'^000000";
+	next;
+	mes "[ZAKA]";
+	mes "I will craft you a 'Book of the Tiresome Sheep', only for your personal use.";
+	mes "As you might have expected, I will need various ingredients to make you the book.";
+	next;
+	mes "[ZAKA]";
+	mes "The first thing will need are two ^3355FF`Snake Scale'^000000 , please bring them to me.";
+	   set COMODO_NPC = 18;
+	close;
+L_START_1:
+	   check COMODO_NPC == 18,-,L_START_2;
+	   checkitem 926,2,-,L_SUB_1;
+	mes "Gives Zaka two^3355FF`Scales of Snakes'^000000";
+	   delitem 926,2;
+	   set COMODO_NPC = 19;
+	next;
+	mes "[ZAKA]";
+	mes "Now I can construct the basic layout of the book witht the snake scales, but I now need 1 piece of";
+	mes "^3355FF`Scale Shell'^000000 in order to block only negative energies from the book.";
+	close;
+L_SUB_1:
+	mes "[ZAKA]";
+	mes "If you want the 'Book of the Tiresome Sheep', I will need two pieces of snake scales.";
+	close;
+L_START_2:
+	check COMODO_NPC == 19,-,L_START_3;
+	checkitem 936,1,-,L_SUB_2;
+	mes "Gives^3355FF`Scale Shell^000000";
+	mes "to Zaka";
+	delitem 936,1;
+	set COMODO_NPC = 20;
+	next;
+	mes "[ZAKA]";
+	mes "Alright, good.";
+	mes "Next, I will need one piece of ^3355FF`Shining Scale'^000000 in order to distribute the magical power equally throughout the book.";
+	next;
+	mes "[ZAKA]";
+	mes "While you are getting the scale, I will continue to the next phase of crafting, good luck.";
+	close;
+L_SUB_2:
+	mes "[ZAKA]";
+	mes "Please bring me the next ingredient needed for the 'Book of the Tiresome Sheep', I will need one";
+	mes "^3355FF`Scale Shell'^000000 ";
+	mes ". . . . .";
+	close;
+L_START_3:
+	   check COMODO_NPC == 20,-,L_START_4;
+	   checkitem 954,1,-,L_SUB_3;
+	mes "Gives^3355FF`Shining Scale'^000000";
+	mes "to Zaka";
+	   delitem 954,1;
+	   set COMODO_NPC = 21;
+	next;
+	mes "[ZAKA]";
+	mes "Great job!";
+	mes "Finally, the last ingredient I need is one ^3355FF`Stinky Scale'^000000 to complete the book, please bring it to me";
+	close;
+L_SUB_3:
+	mes "[ZAKA]";
+	mes "In order to finish crafting the 'Book of the Tiresome Sheep, I will need you to gather me one piece of ^3355FF`Shining Scale'^000000, okay?";
+	close;
+L_START_4:
+	   check COMODO_NPC == 21,-,L_START_5;
+	   checkitem 959,1,-,L_SUB_4;
+	mes "Gives^3355FF`Stinky Scale'^000000";
+	mes "to Zaka";
+	   delitem 959,1;
+	next;
+	mes "[ZAKA]";
+	mes "Ooo. this is all I need to finish up the book, thank you.";
+	next;
+	mes "^3355FF-Zaka is working hard in-^000000";
+	mes "^3355FF-finalizing the book-^000000";
+	next;
+	mes "^3355FF- You receive the Book of-^000000";
+	mes "^3355FF- the Tiresome Sheep from Zaka-^000000";
+	   set COMODO_NPC = 22;
+	next;
+	mes "[ZAKA]";
+	mes "There, that's for you..";
+	mes "I guess you have the required items to summon and use the Doomed Swords.";
+	mes "But if you are really going to use the Doomed Swords please go talk to Won, a wandering swordsman, he might have some important advice.";
+	next;
+	mes "[ZAKA]";
+	mes "Legend has it that Won's sword fighting skills is already at god-like level, and he is also one of the ten most influential people in the world.";
+	next;
+	mes "[ZAKA]";
+	mes "Right now, he might be training inside Comodo Town, so you might be able to find him there.";
+	close;
+L_SUB_4:
+	mes "[ZAKA]";
+	mes "All I need to craft the 'Book of the Tiresome Sheep' is one piece of stinky scale now, please bring one to me.";
+	close;
+L_START_5:
+	   check COMODO_NPC == 22,-,L_START_6;
+	mes "[ZAKA]";
+	mes "The wandering swordsman ^3355FF`Won'^000000";
+	mes "should be training somwhere in Comodo, look for him very carefully.";
+	close;
+L_START_6:
+	mes "[ZAKA]";
+	mes "Heard of the story of the Doomed Swords right?";
+	mes "^3355FF` Mysteltain '^000000";
+	mes "^3355FF` Grimtooth '^000000";
+	mes "and ^3355FF` Executioner '^000000 . .";
+	next;
+	mes "[ZAKA]";
+	mes "Have you ever seen these swords by any chance?";
+      close;
+}
+
+comodo.gat,232,87,4 script "Wandering Swordsman" 106,{
+	   check COMODO_NPC == 22,-,L_START_1;
+	mes "^3355FF- The swordsman examines you -^000000";
+	mes "^3355FF- for a few seconds -^000000";
+	next;
+	mes "[WON]";
+	mes "Heh, you're just a normal fella.";
+	mes "I am a wandering swordsman, ";
+	mes "^3355FF`WON'^000000";
+	next;
+	mes "[WON]";
+	mes "What? You say you are gonna summon the Doomed Swords?";
+	mes "Psh, I don't care what you say, I will be the judge on whether or not you are worthy.";
+      mes "Let me explain...";
+	next;
+	mes "[WON]";
+	mes "Even though you do have all the required materials to summon the Doomed Swords but that does not mean that you could withstand the energy drained during one summoning.";
+	next;
+	mes "[WON]";
+	mes "Without careful control of energy transfer from the normal world to the Dark World, many disasters could arise upon the world or even unforeseen consequences.";
+	next;
+	mes "[WON]";
+	mes "I am sure that you have heard that the three different Doomed Swords are:";
+	mes "^3355FF` Mysteltain '^000000";
+	mes "^3355FF` Grimtooth '^000000";
+	mes "and ^3355FF` Executioner '^000000.";
+	mes "Each of them with very distinct specialties.";
+	next;
+	mes "[WON]";
+	mes "Now that you understand these, let us start the summoning then.";
+	next;
+	mes "[WON]";
+	mes "- `Won'-";
+	mes "- draws his sword -";
+	mes "- and starts to swing it around -";
+	next;
+	mes "[WON]";
+	mes "- You notice something -";
+	mes "- a blue light descending -";
+	mes "- from the sky -";
+	next;
+	mes "[WON]";
+	mes "^3355FF-You got-^000000";
+	mes "^3355FF-Voucher of Power-^000000";
+	   set COMODO_NPC = 23;
+	next;
+	mes "[WON]";
+	mes ". . . . .";
+	mes "Hmm, it seems like the Dark World is not ready to give you the Doomed Sword just yet...even though you have what it takes to be the master of the swords.";
+	next;
+	mes "[WON]";
+	mes "However, when the day is as long as the night, when the sunlight is as bright as solar sword.";
+	mes "Only during that time, you will have the opportunity to receive the Doomed Swords.";
+	next;
+	mes "[WON]";
+	mes "When that time comes, visit the East for a quiet city name Payon, and you shall find yourself in a new journey for the Doomed Swords.";
+	close;
+L_START_1:
+	   check COMODO_NPC == 23,-,L_START_2;
+	mes "[WON]";
+	mes "Hmm, it seems like the Dark World is not ready to give you the Doomed Sword just yet...even though you have what it takes to be the master of the swords.";
+	next;
+	mes "[WON]";
+	mes "However, when the day is as long as the night, when the sunlight is as bright as solar sword.";
+	mes "Only during that time, you will have the opportunity to receive the Doomed Swords.";
+	next;
+	mes "[WON]";
+	mes "When that time comes, visit the East for a quiet city name Payon, and you shall find yourself in a new journey for the Doomed Swords.";
+	close;
+L_START_2:
+	   check COMODO_NPC == 24,-,L_START_3;
+	mes "123456789101112131415";
+	close;
+L_START_3:
+	mes "[WON]";
+	mes "My name is ^3355FF`Won'^000000";
+	mes "To defeat stronger monsters, I have traveled through the desert, rivers, and mountains to here.";
+	mes "I even defeated the evil witch many, many years ago...";
+	next;
+	mes "[WON]";
+	mes "Now I just stay in this town all day to train and protect the villagers.";
+	mes ". . . . .";
+	mes ". . . . . . . . . .";
+	mes ". . . . . . . . . . . . . . .";
+	mes ". . . . . . . . . . . . . . . . . . . .";
+	close;
+}

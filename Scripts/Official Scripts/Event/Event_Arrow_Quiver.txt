@@ -1,0 +1,148 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Jellopy Event - Non Player Character Location
+//
+// - Quiver Maker -> payon_in01: 5,119
+//   Turns arrows into arrow quivers.
+//
+//========================================================================================
+
+payon_in01.gat,5,119,4 script "Quiver Maker" 88,{
+	mes "[Arrow Quiver Maker]";
+	mes "Welcome to my shop."
+	mes "Are you here to make 'Arrow Quivers' ?";
+	next;
+	menu "Yes, Please make me some",L_Yes,"More information about arrow quivers.",L_More,"Nevermind.",L_Come;
+L_Yes:
+	mes "[Arrow Quiver Maker]";
+	mes "Wich Quiver do you want me to make for you ?";
+	next;
+	menu "Arrow Quiver",Q1,"Iron Arrow Quiver",Q2,"Steel Arrow Quiver",Q3,"Oridecon Arrow Quiver",Q4,"Fire Arrow Quiver",Q5,"Silver Arrow Quiver",Q6,"Wind Arrow Quiver",Q7,"Stone Arrow Quiver",Q8,"Crystal Arrow Quiver",Q9,"Shadow Arrow Quiver",Q10,"Immaterial Arrow Quiver",Q11,"Rusty Arrow Quiver",Q12,"Nevermind",L_Come;
+L_More:
+	mes "# Arrow Quiver Information #";
+	mes "^0000FFArrow Quiver^000000 - ^0000FFArrow000000 x ^FF6633500ea^000000.";
+	mes "^0000FFIron Arrow Quiver^000000 - ^0000FFIron Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFSteel Arrow Quiver^000000 - ^0000FFSteel Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFOridecon Arrow Quiver^000000 - ^0000FFOridecon Arrow^000000 x ^FF6633500ea^000000.";
+	next;
+	mes "^0000FFFire Arrow Quiver^000000 - ^0000FFFire Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFSilver Arrow Quiver^000000 - ^0000FFSilver Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFWind Arrow Quiver^000000 - ^0000FFWind Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFStone Arrow Quiver^000000 - ^0000FFStone Arrow^000000 x ^FF6633500ea^000000.";
+	next;
+	mes "^0000FFCrystal Arrow Quiver^000000 -  ^0000FFCrystal Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFShadow Arrow Quiver^000000 - ^0000FFShadow Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFImmaterial Arrow Quiver^000000 - ^0000FFImmaterial Arrow^000000 x ^FF6633500ea^000000.";
+	mes "^0000FFRusty Arrow Quiver^000000 - ^0000FFRusty Arrow^000000 x ^FF6633500ea^000000.";
+	close;
+Q1:
+		set @BUY_ID = 1750;
+		set @GET_ID = 12004;
+	goto L_Make;
+Q2:
+		set @BUY_ID = 1770;
+		set @GET_ID = 12005;
+	goto L_Make;
+Q3:
+		set @BUY_ID = 1753;
+		set @GET_ID = 12006;
+	goto L_Make;
+Q4:
+		set @BUY_ID = 1765;
+		set @GET_ID = 12007;
+	goto L_Make;
+Q5:
+		set @BUY_ID = 1752;
+		set @GET_ID = 12008;
+	goto L_Make;
+Q6:
+		set @BUY_ID = 1751;
+		set @GET_ID = 12009;
+	goto L_Make;
+Q7:
+		set @BUY_ID = 1744;
+		set @GET_ID = 12010;
+	goto L_Make;
+Q8:
+		set @BUY_ID = 1756;
+		set @GET_ID = 12011;
+	goto L_Make;
+Q9:
+		set @BUY_ID = 1754;
+		set @GET_ID = 12012;
+	goto L_Make;
+Q10:
+		set @BUY_ID = 1767;
+		set @GET_ID = 12013;
+	goto L_Make;
+Q11:
+		set @BUY_ID = 1757;
+		set @GET_ID = 12014;
+	goto L_Make;
+Q12:
+		set @BUY_ID = 1762;
+		set @GET_ID = 12015;
+	goto L_Make;
+L_Make:
+	mes "[Arrow Quiver Maker]";
+	mes "Ok, then let me take  alook at the arrows you brought.";
+	next;
+		checkitem @BUY_ID,500,-,Sorry;
+	mes "[Arrow Quiver Maker]";
+	mes "Ho...Well done.";
+	mes "How many Quivers do you want to get?";
+	next;
+		set @QUIVER= 0;
+	menu "As many as I can get.",L_Many,"I want to set the number.",L_Set,"Nevermind.",L_End;
+L_Many:
+		checkitem @BUY_ID,500,-,L_Manyb;
+		delitem @BUY_ID,500;
+		set @QUIVER += 1;
+	goto L_Many;
+L_Manyb:
+		check @QUIVER== 0,Sorry,-;
+		additem @GET_ID,@QUIVER;
+	goto Give_Quiver;
+L_Set:
+	mes "[Arrow Quiver Maker]";
+	mes "Please, choose a number between 1 and 100, OK?";
+      mes " If you change your mind, just write '0'.";
+	next;
+L_Create:
+		input @flag_num;
+		check @flag_num <= 0,L_Come,-;
+		check @flag_num >= 100,L_Error,-;
+		set @flag_total = @flag_num;
+		set @flag_total * 500;
+		checkitem @BUY_ID,@flag_total,-,L_No_Arrow;
+		delitem @BUY_ID,@flag_total;
+		additem @GET_ID,@flag_num;
+	goto Give_Quiver;
+L_No_Arrow:
+	mes "[Arrow Quiver Maker]";
+	mes "Well, you don't have enough arrows.";
+	close;
+L_Error:
+	mes "[Arrow Quiver Maker]";
+	mes "Please choose a number between 1 and 100.";
+	next;
+	goto L_Create;
+Give_Quiver:
+	mes "[Arrow Quiver Maker]";
+	mes "There you go~! Here are your Arrow Quivers.";
+	close;
+L_Come:
+	mes "[Arrow Quiver Maker]";
+	mes "Please come again whenever you want too.";
+	close;	
+Sorry:
+	mes "[Arrow Quiver Maker]";
+	mes "Sorry, but you need 500 Arrows to make 1 Arrow Quiver.";
+	close;
+L_End:
+	close;
+}

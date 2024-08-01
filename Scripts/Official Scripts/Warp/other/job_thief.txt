@@ -1,0 +1,1 @@
+job_thief1.gat,180,15,0	warp	warp0434	7,1,moc_ruins.gat,145,117

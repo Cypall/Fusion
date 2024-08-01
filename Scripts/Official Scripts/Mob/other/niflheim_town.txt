@@ -1,0 +1,23 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Niflheim Town - Monster Spawn Locations
+//
+//========================================================================================
+
+//========================================================================================
+// - Niflheim Town Mob
+//========================================================================================
+
+niflheim.gat,0,0,0,0	monster	"Lord of Death" 1373,1,1800000,900000,1
+niflheim.gat,0,0,0,0	monster	"Gibbet" 1503,2,0,0,0
+niflheim.gat,0,0,0,0	monster	"Dullahan" 1504,2,0,0,0
+niflheim.gat,0,0,0,0	monster	"Loli Ruri" 1505,2,0,0,0
+niflheim.gat,0,0,0,0	monster	"Disquise" 1506,2,0,0,0
+niflheim.gat,0,0,0,0	monster	"Bloody Murderer" 1507,2,0,0,0
+niflheim.gat,0,0,0,0	monster	"Quve" 1508,2,0,00,0
+niflheim.gat,0,0,0,0	monster	"Lude" 1509,2,0,0,0
+niflheim.gat,0,0,0,0	monster	"Hylozoist" 1510,2,0,0,0

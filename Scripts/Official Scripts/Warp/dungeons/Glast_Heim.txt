@@ -1,0 +1,79 @@
+gl_cas01.gat,135,40,0	warp	glast0301	1,1,gl_cas01.gat,144,314
+gl_cas01.gat,149,314,0	warp	glast0302	1,1,gl_prison.gat,14,70
+gl_cas01.gat,167,191,0	warp	glast0303	1,1,gl_prison.gat,14,70
+gl_cas01.gat,185,236,0	warp	glast0304	1,1,gl_cas01.gat,163,191
+gl_cas01.gat,200,18,0	warp	glast0305	2,2,glast_01.gat,200,294
+gl_cas01.gat,200,165,0	warp	glast0306	1,1,gl_cas02.gat,104,25
+gl_cas01.gat,215,236,0	warp	glast0307	1,1,gl_cas01.gat,238,192
+gl_cas01.gat,234,192,0	warp	glast0308	1,1,gl_prison.gat,14,70
+gl_cas01.gat,371,301,0	warp	glast0309	1,1,gl_prison.gat,14,70
+gl_cas01.gat,372,39,0	warp	glast0310	1,1,gl_cas01.gat,367,301
+gl_cas02.gat,104,15,0	warp	glast0311	1,1,gl_cas01.gat,200,160
+gl_cas02.gat,104,193,0	warp	glast0312	1,1,glast_01.gat,199,325
+gl_church.gat,16,299,0	warp	glast0313	1,1,gl_chyard.gat,147,284
+gl_church.gat,156,4,0	warp	glast0314	1,1,glast_01.gat,200,134
+gl_church.gat,301,46,0	warp	glast0315	1,1,gl_chyard.gat,147,15
+gl_chyard.gat,12,149,0	warp	glast0316	1,1,gl_sew02.gat,29,270
+gl_chyard.gat,147,12,0	warp	glast0317	1,1,gl_church.gat,295,46
+gl_chyard.gat,147,287,0	warp	glast0318	1,1,gl_church.gat,16,295
+gl_dun01.gat,133,277,0	warp	glast0319	1,1,gl_sew04.gat,101,78
+gl_dun01.gat,225,18,0	warp	glast0320	1,1,gl_dun02.gat,224,274
+gl_dun02.gat,224,277,0	warp	glast0321	1,1,gl_dun01.gat,225,22
+gl_in01.gat,81,68,0	warp	glast0322	1,1,glast_01.gat,165,330
+gl_in01.gat,83,174,0	warp	glast0323	1,1,glast_01.gat,181,357
+gl_in01.gat,106,125,0	warp	glast0324	1,1,glast_01.gat,219,357
+gl_in01.gat,118,59,0	warp	glast0325	1,1,glast_01.gat,234,330
+gl_knt01.gat,12,148,0	warp	glast0326	1,1,gl_knt02.gat,15,140
+gl_knt01.gat,104,204,0	warp	glast0327	1,1,gl_knt01.gat,123,292
+gl_knt01.gat,128,292,0	warp	glast0328	1,1,gl_knt01.gat,104,199
+gl_knt01.gat,150,6,0	warp	glast0329	2,2,glast_01.gat,74,193
+gl_knt01.gat,150,291,0	warp	glast0330	1,1,gl_knt02.gat,157,287
+gl_knt01.gat,231,197,0	warp	glast0331	1,1,gl_sew02.gat,296,22
+gl_knt01.gat,287,144,0	warp	glast0332	1,1,gl_knt02.gat,283,140
+gl_knt02.gat,10,138,0	warp	glast0333	1,1,gl_knt01.gat,7,148
+gl_knt02.gat,157,292,0	warp	glast0334	1,1,gl_knt01.gat,150,286
+gl_knt02.gat,289,138,0	warp	glast0335	1,1,gl_knt01.gat,292,144
+gl_prison1.gat,62,187,0	warp	glast0336	1,1,gl_sew01.gat,258,255
+gl_prison1.gat,150,10,0	warp	glast0337	1,1,gl_prison.gat,149,178
+gl_prison.gat,149,183,0	warp	glast0338	1,1,gl_prison1.gat,150,14
+gl_prison.gat,10,70,0	script	""	45,1,1,{
+	random @warp,100;
+		check @warp <= 25,w1,-;
+		check @warp <= 50,w2,-;
+		check @warp <= 75,w3,-;
+			warp "gl_cas01",163,193; 
+			return;
+			w1:
+				warp "gl_cas01",238,192;
+				return;
+			w2:
+				warp "gl_cas01",368,301;
+				return;
+			w3:
+				warp "gl_cas01",144,314;
+				return;
+}
+gl_sew01.gat,19,21,0	warp	glast0339	1,1,gl_sew02.gat,108,291
+gl_sew01.gat,258,258,0	warp	glast0340	1,1,gl_prison1.gat,61,183
+gl_sew02.gat,16,26,0	warp	glast0341	1,1,gl_prison1.gat,61,183
+gl_sew02.gat,30,273,0	warp	glast0342	1,1,gl_chyard.gat,15,149
+gl_sew02.gat,109,294,0	warp	glast0343	1,1,gl_sew01.gat,19,24
+gl_sew02.gat,290,156,0	warp	glast0344	1,1,gl_step.gat,117,124
+gl_sew02.gat,296,18,0	warp	glast0345	1,1,gl_knt01.gat,231,192
+gl_sew02.gat,299,294,0	warp	glast0346	1,1,gl_sew03.gat,171,283
+gl_sew03.gat,64,10,0	warp	glast0347	1,1,gl_sew04.gat,68,277
+gl_sew03.gat,171,286,0	warp	glast0348	1,1,gl_sew02.gat,295,294
+gl_sew04.gat,68,280,0	warp	glast0349	1,1,gl_sew03.gat,64,13
+gl_sew04.gat,104,78,0	warp	glast0350	1,1,gl_dun01.gat,133,271
+gl_step.gat,8,7,0	warp	glast0351	1,1,glast_01.gat,54,108
+gl_step.gat,120,124,0	warp	glast0352	1,1,gl_sew02.gat,285,158
+glast_01.gat,51,108,0	warp	glast0353	1,1,gl_step.gat,12,7
+glast_01.gat,77,193,0	warp	glast0354	1,1,gl_knt01.gat,150,15
+glast_01.gat,162,330,0	warp	glast0355	1,1,gl_in01.gat,77,68
+glast_01.gat,179,360,0	warp	glast0356	1,1,gl_in01.gat,80,174
+glast_01.gat,199,322,0	warp	glast0357	1,1,gl_cas02.gat,104,189
+glast_01.gat,200,137,0	warp	glast0358	1,1,gl_church.gat,156,7
+glast_01.gat,200,297,0	warp	glast0359	1,1,gl_cas01.gat,199,29
+glast_01.gat,220,360,0	warp	glast0360	1,1,gl_in01.gat,110,125
+glast_01.gat,237,330,0	warp	glast0361	1,1,gl_in01.gat,122,59
+glast_01.gat,380,304,0	warp	glast0362	1,1,gef_fild06.gat,22,304

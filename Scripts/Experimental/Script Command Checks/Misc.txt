@@ -1,0 +1,183 @@
+prt_are01.gat,147,147,7	script	"Misc Commands"	811,{
+	mes "I will be testing alot of commands, please make sure your health is low, and you have an item equipped before begining the main test.";
+	next;
+	mes "the commands used are:"
+	mes "1:mes
+	mes "2:next
+	mes "3:close
+	mes "4:menu
+	mes "5:goto
+	mes "6:cutin
+	mes "7:store
+	mes "9:save
+	mes "10:heal
+	mes "12:additem
+	mes "13:delitem
+	mes "14:checkitem
+	mes "16:checkadditem
+	mes "19:input
+	mes "20:random
+	mes "24:ccolor
+	mes "26:getitemamount
+	mes "27:getskilllevel
+	mes "28:setskilllevel
+	mes "31:lockitem
+	mes "32:hcolor
+	mes "40:enablenpc
+	mes "45:resetstat
+	mes "46:resetskill
+	mes "47:hstyle
+	mes "57:resetbonusstat
+	next;
+	menu "Shitload",-,"storage",stora,"cancel",can;
+	next;
+	mes "lets begin."
+	next;
+	mes "I will heal your hp";
+	next;
+	heal 30000,0;
+	mes "I will heal your sp";
+	next;
+	heal 0,30000;
+	mes "I will heal all";
+	next;
+	heal 30000,30000;
+	mes "i will show a picture of a card i am about to add";
+	next;
+	cutin "데비루치카드.bmp",2;
+	mes "You should see a picture of a Deviruchi card i believe";
+	mes "I will now take it off the screen and add the item";
+	next;
+	cutin "데비루치카드.bmp",255;
+	additem 4122,2;
+	mes "Now i will check the quantity of cards";
+	next;
+	getitemamount 4122,@item;
+	mes "you have $[@item] cards";
+	mes "now i will delete one card";
+	next;
+	delitem 4122,1;
+	mes "I will now save your location";
+	mes "check your character file to check";
+	next;
+	save "prt_are01",150,150;
+	mes "I will test to see if you can carry 30 Emperiums."
+	next;
+	checkadditem 714,30,-,YES;
+	mes "you can't carry 30 emperiums;
+	goto continue;
+	YES:
+		mes "you can carry 30 emperiums;
+		next;
+	continue:
+	next;
+	lockitem 1;
+	mes "I have just locked your equipment";
+	mes "try disarming yourself now.";
+	mes "do not hit next until you try";
+	next;
+	lockitem 0;
+	mes "Unlocked";
+	mes "I will now choose a random number";
+	next;
+	random @rand,5;
+	mes "Done";
+	mes "the number is $[@rand] alright?";
+	mes "i will do this again";
+	next;
+	random @rand,5;
+	mes "Done";
+	mes "the number is $[@rand] alright?";
+	mes "skills are next";
+	next;
+	getskilllevel 0,@skill;
+	mes "your level is $[@skill] on the basic skill";
+	mes "I will now add lvl 10 LoV";
+	next;
+	setskilllevel 0x55,9;
+	mes "please check your skills for it now";
+	next;
+	mes "i will now attempt to remove it";
+	next;
+	setskilllevel 0x55,0;
+	mes "it should be removed or at least inactive, no scripts actively remove skills";
+	mes "i will now change your hair color";
+	next;
+	set @dye = 2;
+	hcolor @dye;
+	mes "your hair should have changed colors";
+	mes "i will change it again to be safe";
+	next;
+	set @dye -= 1;
+	hcolor @dye;
+	mes "your hair should have changed colors";
+	mes "now your hair style";
+	next;
+	hstyle @dye;
+	mes "your hair should have changed styles";
+	mes "i will change it again to be safe";
+	next;
+	set @dye +=1;
+	hstyle @dye;
+	mes "your hair should have changed styles";
+	mes "now for cloths";
+	next;
+	set @dye -= 1;
+	ccolor @dye;
+	mes "your cloths should have dyed";
+	mes "i will test again";
+	next;
+	set @dye += 1;
+	ccolor @dye;
+	mes "your cloths should have dyed";
+	mes "now for reset your stats";
+	mes "make sure you have altered them beofre you continue";
+	next;
+	resetskill;
+	mes "done, make a note of how many you have now";
+	mes "please apply some again, and continue";
+	next;
+	resetbonusstat;
+	mes "done, you should notice that the stat points should be more than usual.";
+	mes "now i will reset your skills";
+	next;
+	resetskill;
+	mes "done, i will now check the number of users on two maps";
+	next;
+	getmapusers "prontera",@pron;
+	getmapusers "prt_are01",@prt;
+	mes "Map count list";
+	mes "Prontera: $[@pron] ";
+	mes "This place: $[@prt] ";
+	next;
+	mes "I will now disable 2 other npc's near here";
+	next;
+	enablenpc "prt_are01","Guild and Guild Castle",0;
+	enablenpc "prt_are01","Mobs",0;
+	mes "done, i will now bring them back";
+	next;
+	enablenpc "prt_are01","Guild and Guild Castle",1;
+	enablenpc "prt_are01","Mobs",1;
+	mes "they should be back now";
+	mes "now please input a number";
+	next;
+	input @input;
+	mes "you have entered";
+	mes "the number $[@input] ";
+	next;
+	mes "I will check to see if you have 1 jellopy";
+	next;
+	checkitem 909,1,-,nojello;
+		mes "You have a jellopy";
+		goto end;
+	nojello:
+		mes "You don't have a jellopy.";	
+	end:
+	next;
+	mes "this concludes this insaine test";
+	close;
+stora:
+	store;
+can:
+	close;
+}

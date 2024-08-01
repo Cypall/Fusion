@@ -1,0 +1,696 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Legendary Blacksmith Quest
+// -Coded by Tsusai
+//
+// - Carter -> prt_in: 162,11
+//   A guy in a pub that wonders where the famous blacksmith has gone.
+//
+// - Bill -> prontera: 197,188
+//   Informs you about the Mysteltain.
+//
+// - Sherze-> morocc:  281,178
+//   Informs you of the Grimtooth.
+//
+// - Naren-> izlude_in:  173,88
+//   Informs you of the Executioner's Ax
+//
+// - Guy/Blacksmith -> pay_fild08: 218,283
+//   The MIA Blacksmith who fills you in on more information about what he forges, tells you the items, and forges the weapons.
+//
+//========================================================================================
+prt_in.gat,162,11,2	script	"Carter"	86,{
+	check Event_Magum == 1,EM_1,-;
+	check Event_Magum >= 2,Carter_End,-;
+		check Magum_Mist == 1,ConfirmPayonRumor,-;
+		check Magum_Tooth == 1,ConfirmPayonRumor,-;
+		check Magum_Ax == 1,ConfirmPayonRumor,Start_Magum_Quest;
+			ConfirmPayonRumor:
+			mes "[Carter]";
+			mes "Yes... I heard that this guy is able to forge a sword into a sword with special attributes.";
+			next;
+			mes "[Carter]";
+			mes "I heard that he is now living in the mountains... but I do not know what's the reason for it.";
+			mes "Maybe it's because of this special ability, there are a lot of rich and powerful people requested him to evil things for them.";
+			next;
+			mes "[Carter]";
+			mes "Now, because of such requests, he has become a very quiet person.  He used to be a very happy and lovable person you know.";
+			next;
+			mes "[Carter]";
+			mes "I wondered if someone actually threatened him? Well, from here you can see how powerful his forging is.";
+			mes "He probably escaped into the mountains just to hide his skills. This is so irritating.";
+				Set Event_Magum = 5;
+			close;
+		Start_Magum_Quest:
+			mes "[Carter]";
+			mes "There's a blacksmith living in Payon Forest. He used to be very famous.";
+			next;
+			mes "[Carter]";
+			mes "I heard that he is now living in the mountains... but I do not know what's the reason for it.";
+			mes "Maybe it's because of this special ability, there are a lot of rich and powerful people requested him to evil things for them.";
+			next;
+			mes "[Carter]";
+			mes "Now, because of such requests, he has become a very quiet person.  He used to be a very happy and lovable person you know.";
+			next;
+			mes "[Carter]";
+			mes "I wondered if someone actually threatened him? Well, from here you can see how powerful his forging is.";
+				Set Event_Magum = 1;
+			close;
+		EM_1:
+			mes "[Carter]";
+			mes "Yes... I heard that this guy is able to forge a sword into a sword with special attributes.";
+			next;
+			mes "[Carter]";
+			mes "I heard that he is now living in the mountains... but I do not know what's the reason for it.";
+			mes "Maybe it's because of this special ability, there are a lot of rich and powerful people requested him to evil things for them.";
+			next;
+			mes "[Carter]";
+			mes "Now, because of such requests, he has become a very quiet person.  He used to be a very happy and lovable person you know.";
+			next;
+			mes "[Carter]";
+			mes "I wondered if someone actually threatened him? Well, from here you can see how powerful his forging is.";
+			mes "He probably escaped into the mountains just to hide his skills. This is so irritating.";
+				Set Event_Magum  = 5;
+			close;
+		Carter_End:
+			mes "[Carter]";
+			mes "There's a blacksmith in Payon Forest who might be able to forge a legendary sword.";
+			mes "You have to be careful if you want to go and find him.  I heard that he's quite eccentric";
+			close;
+}
+
+prontera.gat,197,188,1	script	"Bill"	50,{
+	check Event_Magum  == 1,-,Bill2;
+		check Magum_Mist == 1,EM_Mist,-;
+			mes "[Bill]";
+			//UNKNOWN NAME : GOD OF LIGHT
+			mes "Have you heard of the evil sword called the Mysteltain? It is a name of a ^0099FFyoung twig^000000 that killed the God of Light: Badule... ";
+			mes "It was initally a young twig. I'm not sure about the details though.";
+			next;
+			mes "[Bill]";
+			mes "Nevertheless, there is already a way to create this sword.";
+			mes "There used to be this blacksmith living in prontera who knows how to make it.  But I have no idea where is he now.";
+				Set Event_Magum = 5;
+				Set Magum_Mist = 1;
+			close;
+		EM_Mist:
+			mes "[Bill]";
+			mes "Maybe it's because Badule is the son of our God, Odin, that's why I would like to have the sword very much.";
+			close;
+		Bill2:
+			check Magum_Mist >= 1,EncounterBill,-;
+			mes "[Bill]";
+			mes "Have you heard of the evil sword called the Mysteltain? It is a name of a ^0099FFyoung twig^000000that killed the God of Light: Badule... ";
+			mes "It was initally a young twig. I'm not sure about the details though.";
+			next;
+			mes "[Bill]";
+			mes "Nevertheless, there is already a way to create this sword.";
+			mes "There used to be this blacksmith living in prontera who knows how to make it.  But I have no idea where is he now.";
+				Set Magum_Mist = 1;
+			close;
+		EncounterBill:
+			mes "[Bill]";
+			mes "Maybe it's because Badule is the son of our God, Odin, that's why I would like to have the sword very much.";
+			close;
+}
+
+morocc.gat,281,178,2	script	"Sherze"	97,{
+	check Event_Magum == 1,-,Sherze2;
+		check Magum_Tooth >= 1,EM_Tooth,-;
+			mes "[Sherze]";
+			mes "I heard that there's this daggar called Grimtooth";
+			mes "I'm afraid you can't just use normal material to make it.";
+			next;
+			mes "[Sherze]";
+			mes "You need special materials to create it, and I heard that there's a blacksmith in Prontera who know show to make it.";
+			next;
+			mes "[Sherze]";
+			mes "Unfortunately, he has left Prontera and I do not know where he is now.";
+				Set Event_Magum = 5;
+				Set Magum_Tooth = 1;
+			close;
+		EM_Tooth:
+			mes "[Sherze]";
+			mes "I'm also interested in how Grimtooth is made.. but I'm not a balcksmith.. so it doesn't matter I guess!";
+			close;
+	Sherze2:
+		check Magum_Tooth >= 1,Encounter_Sherze,-;
+			mes "[Sherze]";
+			mes "I heard that there's this daggar called Grimtooth";
+			mes "I'm afraid you can't just use normal material to make it.";
+			next;
+			mes "[Sherze]";
+			mes "You need special materials to create it, and I heard that there's a blacksmith in Prontera who know show to make it.";
+			next;
+			mes "[Sherze]";
+			mes "Unfortunately, he has left Prontera and I do not know where he is now.";
+				Set Magum_Tooth = 1;
+			close;
+		Encounter_Sherze:	
+			mes "[Sherze]";
+			mes "I'm also interested in how Grimtooth is made.. but I'm not a blacksmith.. so it doesn't matter I guess!";
+			close;
+}
+
+izlude_in,173,88,2	script	"Naren"	102,{
+		check Event_Magum == 1,-,Naren2;
+			check Magum_Ax >= 1,EM_Ax,-;
+				mes "[Naren]";
+				mes "Long time ago, there's a sword that is used to execute prisoners. The sword's name is Executioner.";
+				next;
+				mes "[Naren]";
+				mes "But I heard that it is possessed by those dead spirits.  This made the beheader very unconfortable.  The sword is then destoryed.";
+				next;
+				mes "[Naren]";
+				mes "I heard that the person who destroyed the sword used to live in Prontera. But he seemed to be disappeared. ";
+					Set Event_Magum = 5;
+					Set Magum_Ax = 1;
+				close;
+			EM_Ax:
+				mes "[Naren]";
+				mes "A sword that is possessed by dead spirits.. eww... I won't even want it if it is given it to me.";
+				close;
+		Naren2:
+			check Magum_Ax >= 1,Encounter_Naren,-;
+				mes "[Naren]";
+				mes "Long time ago, there's a sword that is used to execute prisoners. The sword's name is Executioner.";
+				next;
+				mes "[Naren]";
+				mes "But I heard that it is possessed by those dead spirits.  This made the beheader very unconfortable.  The sword is then destoryed.";
+				next;
+				mes "[Naren]";
+				mes "I heard that the person who destroyed the sword used to live in Prontera. But he seemed to be disappeared. ";
+					Set Magum_Ax = 1;
+				close;
+			Encounter_Naren:
+				mes "[Naren]";
+				mes "A sword that is possessed by dead spirits.. eww... I won't even want it if it is given it to me.";
+				close;
+}
+
+pay_fild08,218,283,1	script	"Guy"	89,{
+	check Event_Magum == 1,-,EventMag5;
+		mes "[Guy]";
+		mes "Yes? How can I help you?";
+		next;
+		menu "Are you the blacksmith?",-,"Nothing",Cancel2;
+		mes "[Blacksmith]";
+		mes "what?.. Where did you heard about me? I do not do forging anymore. Please Leave!";
+		close;
+		Cancel2:
+			mes "[Blacksmith]";
+			mes "......";
+			close;
+	EventMag5:
+	check Event_Magum == 5,-,EventMag6;
+		mes "[Blacksmith]";
+		mes "Yes? How can I help you?";
+		next;
+		menu "I want you to make a sword for me.",-,"Nothing.",Cancel3;
+			mes "[Blacksmith]";
+			mes "Ha ha ha.... I don't know how you manage to find your way here. but since you are here...";
+			next;
+			mes "[Blacksmith]";
+			mes "What type of sword are you looking for? Maybe I can help you.";
+			next;
+				menu "Mysteltain",-,"Grimtooth",ToothIntro,"Executioner",AxIntro;
+					check Magum_Mist == 1,-,StupidMist;
+							mes "[Blacksmith]";
+							mes "This sword is no ordinary sword. You know what kind of sword this is? Not only you should know the sword's name, you ought to know about the history of this sword too!";
+							mes "This is the cursed sword that killed Badule, the son of our God, Odin and the Godess of Love Puricle.";
+							next;
+							mes "[Blacksmith]";
+							mes "After knowing about this, Loki went to see God Hudele. God Hudele is a blind god who lives in an isoSlated location.";
+							mes "He is not like any other celestial beings, who always make fun of Badule by throwing things at him. However, Hudele was eventually deceived by Loki, and made a huge mistake.";
+							next;
+							mes "[Blacksmith]";
+							mes "One day, Puricle dreamt that Badule died. This made her and those who love Badule very worried and uneasy.";
+							next;
+							mes "[Blacksmith]";
+							mes "Hence Puricle decided that she will not let any celestial being or anything hurt her son.";
+							mes "Puricle then casted a spell which will prevent anything from hurting Badule.";
+							next;
+							mes "[Blacksmith]";
+							mes "Since then, in order to prove that Puricle spell worked, other celestial beings started to throw dangerous weapons and item at him.";
+							mes "But, they still continue to throw things at him for the fun of it.";
+							next;
+							mes "[Blacksmith]";
+							mes "There's this god who was very jealous of Badule's ability.  His name is Loki. He decided to find a weakness of the spell.";
+							mes "In the end, he finally found a weakness , the original form of Mysteltain - a young twig, because Puricle thought that a young twig can't hurt her son, so she ignored it.";
+							next;
+							mes "[Blacksmith]";
+							mes "Loki continuously tempted Hudele to throw the young twig, Hudele then threw the young twig.  Never did he realise that the young twig suddenly became a sharp sword and it pireces through Badule's heart...";
+							next;
+							mes "[Blacksmith]";
+							mes "The sword is then banned from being used, but.. ha ha....sometimes there are people like you who come to me for it...";
+							next;
+							mes "[Blacksmith]";
+							mes "No matter what, I only want to make a good sword...";
+							next;
+							mes "[Blacksmith]";
+							mes "Although I've finally completed the sword, but alas, I lost my wife and child during the progress... it's probably retribution...";
+							next;
+							mes "[Blacksmith]";
+							mes "Oops.. I think I talked too much. You are only here for the sword.. Have you got the materials for it?";
+							next;
+							mes "[Blacksmith]";
+							mes "If you have been hearing what I've just said, you should know what are the materials needed...";
+							mes "^0099FFYoung Twig x 1^000000";
+							mes "^0099FFLoki's Whispers x 1^000000";
+							mes "^0099FFMother's Nightmare x 1^000000";
+							mes "^0099FFFoolishness of the Blind x 1^000000";
+							next;
+							mes "[Blacksmith]";
+							mes "I do not want any reward... because you made the effort to come and find me.... and I also want to feel this sword again..";
+							next;
+							mes "[Blacksmith]";
+							mes "Oh, to show that you are eligible to hold this sword, please also give me 1 ^0099FFEmperium^000000 together with the rest of the materials.";
+								set Magum_Mist = 2;
+								set Event_Magum = 6;
+							close;
+						StupidMist:
+							mes "[Blacksmith]";
+							mes "It seems to me that you do have even have a basic knowledge of Mysteltain. How can I just simply help someone like you?";
+							close;
+				ToothIntro:
+					check Magum_Tooth == 1,-,StupidTooth;
+							mes "[Blacksmith]";
+							mes "Hmm... Grimtooth is a very powerful daggar. But do you know why is it called a Grimtooth?";
+							mes "And do you know why Grimtooth has such strong powers?";
+							next;
+							mes "[Blacksmith]";
+							mes "You can't just use simple forging methods to forge Grimtooth... it requires the help from cursed strength... yes... cursed strength...";
+							next;
+							mes "[Blacksmith]";
+							mes "Many people wanted its powers, which is why they ignored the curse and requested me to make one... you are this kind of person aren't you?";
+							next;
+							mes "[Blacksmith]";
+							mes "Sigh...I like weapons to much that even though I know about the curse, I still can't give up making it.";
+							next;
+							mes "[Blacksmith]";
+							mes "Till now, I have not heard anyone who have the dagger able to create a name for himself...";
+							mes "Do you have the confidence to control yourself?";
+							next;
+							mes "[Blacksmith]";
+							mes "In order to put the curse on the dagger, I need cursed ruby and blades lost in darkness.... and also require orge teeth, which can able to counter the curse..";
+							next;
+							mes "[Blacksmith]";
+							mes "Steel? Ha.. the curse will cause that thing to melt straight away. Only orge teeth is able to counter the curse and convert it to its own strength.";
+							next;
+							mes "[Blacksmith]";
+							mes "Other than ^0099FFCursed Ruby x 5^000000», ^0099FFBlades Lost in Darkness x 10^000000";
+							mes "and ^0099FFOrge Tooth x 100^000000, please also prepare ^0099FFOld Hilt x 1^000000...";
+							mes "Cough..My movement is now constrained... can't even find a hilt.. please forgive me, oh, to prove that you are eligible to hold this daggar, bring ^0099FFEmperium x 1^000000 too!";
+								set Magum_Tooth = 2;
+								set Event_Magum = 6;
+							close;
+    						StupidTooth:
+							mes "[Blacksmith]";
+							mes "It seems to me that you do have even have a basic knowledge of Grimtooth. How can I just simply help someone like you?";
+							close;
+				AxIntro:
+					check Magum_Ax == 1,-,StupidAx;
+							mes "[Blacksmith]";
+							mes "You want that sword? Haha.. interesting... do you know what kind of sword this is?";
+							mes "Long ago, that sword was used to execute prisoners' heads.... it's a sword which you can't compare with any other swords.";
+							next;
+							mes "[Blacksmith]";
+							mes "The dead spirits possessed the sword, hunger for fresh blood. Hence, they empowered the sword.";
+							mes "Eventually, the executioner feels the sword, which is why they requested me to destroy it.. but now you want me to make the sword again?";
+							next;
+							mes "[Blacksmith]";
+							mes "If you want to have a feel of the sword,";
+							mes "you need to prepare ^0099FFExecutioner's Mitten x 2^000000 and";
+							mes "^0099FFNecklace of Oblivion x 3^000000";
+							mes "In addition, you need ^0099FFBloody Edge x 10^000000 and";
+							mes "the item that can summon spirits - ^0099FFAmulet x 50^000000.";
+							next;
+							mes "[Blacksmith]";
+							mes "Lastly, to prove that you are eligible to hold that sword...";
+							mes "you must also bring along ^0099FFEmperium x 1^000000.";
+								set Magum_Ax = 2;
+								set Event_Magum = 6;
+							close;
+					StupidAx:
+							mes "[Blacksmith]";
+							mes "It seems to me that you do have even have a basic knowledge of Executioner. How can I just simply help someone like you?";
+							close;
+			Cancel3:
+				mes "[Blacksmith]";
+				mes "You're here again.. does anything matter?";
+				close;
+	EventMag6:
+	check Event_Magum == 6,-,EncounterBlackSmith;
+		mes "[Blacksmith]";
+		mes "Hmm.. you are here with the materials? Which one do you want to make?";
+		next;
+		menu "I want to reconfirm the required materials",-,"I want to make a sword",MakeSword,"Nothing.",Cancel4;
+				mes "[Blacksmith]";
+				mes "Oh... which one do you want to know?";
+				next;
+				menu "Mysteltain requires...",-,"Grimtooth requires...",ToothItemReview,"Executioner requires...",AxItemReview,"I'll come back later.",Cancel4;
+					check Magum_Mist >= 2,-,MistIdiot;
+							mes "[Blacksmith]";
+							mes "Mysteltain requires";
+							mes "^0099FFYoung Twig x 1^000000";
+							mes "^0099FFLoki's Whispers x 1^000000";
+							mes "^0099FFMother's Nightmare x 1^000000";
+							mes "^0099FFFoolishness of the Blind x 1^000000";
+							mes "^0099FFEmperium x 1^000000";
+							close;
+						MistIdiot:
+							mes "[Blacksmith]";
+							mes "Don't tell me you don't know what a Mysteltain is..";
+							close;
+				ToothItemReview:
+					check Magum_Tooth >= 2,-,ToothIdiot;
+							mes "[Blacksmith]";
+							mes "Grimtooth requires";
+							mes "^0099FFOld Hilt x 1^000000";
+							mes "^0099FFBlade Lost in Darkness x 10^000000";
+							mes "^0099FFCursed Ruby x 5^000000";
+							mes "^0099FFOgre Tooth x 100^000000";
+							mes "^0099FFEmperium x 1^000000";
+							close;
+						ToothIdiot:	
+							mes "[Blacksmith]";
+							mes "Don't tell me you don't know what a Grimtooth is..";
+							close;
+				AxItemReview:
+					check Magum_Ax >= 2,-,AxIdiot;
+							mes "[Blacksmith]";
+							mes "Executioner requires";
+							mes "^0099FFExecutioner's Mitten x 2^000000";
+							mes "^0099FFBloody Edge x 10^000000";
+							mes "^0099FFNecklace of Oblivion x 3^000000";
+							mes "^0099FFAmulet x 50^000000";
+							mes "^0099FFEmperium x 1^000000";
+							mes "such items.";
+							close;
+						AxIdiot:
+							mes "[Blacksmith]";
+							mes "Don't tell me you don't know what a Executioner is..";
+							close;
+				Cancel4:
+					mes "[Blacksmith]";
+					mes "Come back to me once you collected all the materials.";
+					close;
+			MakeSword:
+				mes "[Blacksmith]";
+				mes "Hmm... ok.. which sword do you want to make?";
+				next;
+				menu "I want make a Mysteltain.",-,"I want to make a Grimtooth.",MakeTooth,"I want to make a Executioner.",MakeAx,"I'll come back later.",Cancel5;
+						check Magum_Mist == 2,-,MistIntro2;
+							mes "[Blacksmith]";
+							mes "Hmm.. Mysteltain... have you brought all the required materials? Let me see.";
+							next;
+							checkitem 7018,1,-,ForgotTwig;
+							checkitem 7019,1,-,ForgotLoki;
+							checkitem 7020,1,-,ForgotNightmare;
+							checkitem 7021,1,-,ForgotBlind;
+							checkitem 714,1,MakeMysteltain,ForgotEmp;
+								ForgotTwig:
+									mes "[Blacksmith]";
+									mes "You actually forgot about the most important material.... ^0099FFYoung Twig^000000 is the original form of Mysteltain.. go find it!";
+									close;
+								ForgotLoki:
+									mes "[Blacksmith]";
+									mes "Mysteltain requires ^0099FFLoki's Whispers^000000 that deceived Hudele... go find it!";
+									close;
+								ForgotNightmare:
+									mes "[Blacksmith]";
+									mes "You missed out ^0099FFMother's Nightmare^000000.. you can't make Mysteltain without it... go find it!";
+									close;
+								ForgotBlind:
+									mes "[Blacksmith]";
+									mes "It seems that you missed out the deceived Hudele's ^0099FFFoolishness of the Blind^000000... go find it!...";
+									close;
+								ForgotEmp:
+									mes "[Blacksmith]";
+									mes "Even if you prepare all the materials, if you missed out ^0099FFEmperium^000000 which can prove your eligibility, I still can't make the item for you!";
+									close;
+								MakeMysteltain:
+									mes "[Blacksmith]";
+									mes "Very good... you have prepared all the materials.. next; for a while!";
+									next;
+									delitem 7018,1;
+									delitem 7019,1;
+									delitem 7020,1;
+									delitem 7021,1;
+									delitem 714,1;
+									mes "[Blacksmith]";
+									mes "Cough.. cough... I can finally feel this sword again... there you go! It's completed... cough.. cough.. surely you wanna feel that sword right?";
+									mes "Don't worry, it won't do anything to you.";
+									next;
+									mes "[Blacksmith]";
+									mes "Done..";
+									additem 1138,1;
+									next;
+									mes "[Blacksmith]";
+									mes "You must use it righteously.. cough.. cough.. cough.. ";
+									close;
+						MistIntro2:
+						check Magum_Mist == 1,-,StupidMist2;
+							mes "[Blacksmith]";
+							mes "This sword is no ordinary sword. You know what kind of sword this is? Not only you should know the sword's name, you ought to know about the history of this sword too!";
+							//NOTE: NAME OF GODS MAY DIFFER
+						 	mes "This is the cursed sword that killed Badule, the son of our God, Odin and the Godess of Love Puricle.";
+							next;
+							mes "[Blacksmith]";
+							mes "One day, Puricle dreamt that Badule died. This made her and those who love Badule very worried and uneasy.";
+							next;
+							mes "[Blacksmith]";
+							mes "Hence Puricle decided that she will not let any celestial being or anything hurt her son.";
+							mes "Puricle then casted a spell which will prevent anything from hurting Badule.";
+							next;
+							mes "[Blacksmith]";
+							mes "Since then, in order to prove that Puricle spell worked, other celestial beings started to throw dangerous weapons and item at him.";
+							mes "But, they still continue to throw things at him for the fun of it.";
+							next;
+							mes "[Blacksmith]";
+							mes "There's this god who was very jealous of Badule's ability.  His name is Loki. He decided to find a weakness of the spell.";
+							mes "In the end, he finally found a weakness , the original form of Mysteltain - a young twig, because Puricle thought that a young twig can't hurt her son, so she ignored it.";
+							next;
+							mes "[Blacksmith]";
+							mes "Loki continuously tempted Hudele to throw the young twig, Hudele then threw the young twig.  Never did he realise that the young twig suddenly became a sharp sword and it pireces through Badule's heart...";
+							next;
+							mes "[Blacksmith]";
+							mes "The sword is then banned from being used, but.. ha ha....sometimes there are people like you who come to me for it...";
+							next;
+							mes "[Blacksmith]";
+							mes "No matter what, I only want to make a good sword...";
+							next;
+							mes "[Blacksmith]";
+							mes "Although I've finally completed the sword, but alas, I lost my wife and child during the progress... it's probably retribution...";
+							next; 
+							mes "[Blacksmith]";
+							mes "Oops.. I think I talked too much. You are only here for the sword.. Have you got the materials for it?";
+							next;
+							mes "[Blacksmith]";
+							mes "If you have been hearing what I've just said, you should know what are the materials needed..." ;
+							mes "^0099FFYoung Twig x 1^000000";
+							mes "^0099FFLoki's Whispers x 1^000000";
+							mes "^0099FFMother's Nightmare x 1^000000";
+							mes "^0099FFFoolishness of the Blind x 1^000000";
+							next;
+							mes "[Blacksmith]";
+							mes "I do not want any reward... because you made the effort to come and find me.... and I also want to feel this sword again..";
+							next;
+							mes "[Blacksmith]";
+							mes "Oh, to show that you are eligible to hold this sword, please also give me 1 ^0099FFEmperium^000000 together with the rest of the materials.";
+								set Magum_Mist = 2;
+							close;
+						StupidMist2:
+							mes "[Blacksmith]";
+							mes "Hmph... you should gather more information about Mysteltain before coming here...";
+							close;
+					MakeTooth:
+						check Magum_Tooth == 2,-,ToothIntro2;
+						mes "[Blacksmith]";
+						mes "Hmm... you want to make a Grimtooth... have you brought the materials?";
+						next;
+							checkitem 7002,100,-,MissingOrgeTooth;
+							checkitem 724,5,-,MissingCursedRuby;
+							checkitem 7023,10,-,MissingBladeLostInDarkness;
+							checkitem 7022,1,-,MissingOldHilt;
+							checkitem 714,1,MakeGrimTooth,MissingToothEmperium;
+								MissingOrgeTooth:
+									mes "[Blacksmith]";
+									mes "Sheesh... you didn't bring the most important item - ^0099FFOrge Tooth x 100^000000... go find it...";
+									close;
+								MissingCursedRuby:
+									mes "[Blacksmith]";
+									mes "^0099FFCursed Rudy x 5^000000 is required to cast the curse.. how can you missed out? Go find it!";
+									close;
+								MissingBladeLostInDarkness:
+									mes "[Blacksmith]";
+									mes "^0099FFBlade Lost in Darkness x 10^000000 is required to cast the curse.. how can you missed out? Go find it!";
+									close;
+								MissingOldHilt:
+									mes "[Blacksmith]";
+									mes "Cough.. cough.. cough... I'm too old to find the ^0099FFOld Hilt x 1^000000. Please find it and bring it to me.";
+									close;
+								MissingToothEmperium:
+									mes "[Blacksmith]";
+									mes "You must prove worthy to hold Grimtooth.. Come back after you got ^0099FFEmperium x 1^000000!";
+									close;
+								MakeGrimTooth:
+									mes "[Blacksmith]";
+									mes "Very good.. you've brought all the materials.. next; for a while!";
+									next;
+									delitem 7002,100;
+									delitem 724,5;
+									delitem 7023,10;
+									delitem 7022,1;
+									delitem 714,1;
+									mes "[Blacksmith]";
+									mes "There.. it's completed.. cough.. cough... Grimtooth is reborn again... isn't this daggar perfect?";
+									mes "There.. take it.. take it..";
+									additem 1237,1;
+									next;
+									mes "[Blacksmith]";
+									mes "You can finally feel the powess of this weapon... cough... cough...";
+									close;
+						ToothIntro2:
+						check Magum_Tooth == 1,-,StupidTooth2;
+							mes "[Blacksmith]";
+							mes "Hmm... Grimtooth is a very powerful daggar. But do you know why is it called a Grimtooth?";
+							mes "And do you know why Grimtooth has such strong powers?";
+							next;
+							mes "[Blacksmith]";
+							mes "You can't just use simple forging methods to forge Grimtooth... it requires the help from cursed strength... yes... cursed strength...";
+							next;
+							mes "[Blacksmith]";
+							mes "Many people wanted its powers, which is why they ignored the curse and requested me to make one... you are this kind of person aren't you?";
+							next;
+							mes "[Blacksmith]";
+							mes "Sigh...I like weapons to much that even though I know about the curse, I still can't give up making it.";
+							next;
+							mes "[Blacksmith]";
+							mes "Till now, I have not heard anyone who have the dagger able to create a name for himself...";
+							mes "Do you have the confidence to control yourself?";
+							next;
+							mes "[Blacksmith]";
+							mes "In order to put the curse on the dagger, I need cursed ruby and blades lost in darkness.... and also require orge teeth, which can able to counter the curse..";
+							next;
+							mes "[Blacksmith]";
+							mes "Steel? Ha.. the curse will cause that thing to melt straight away. Only orge teeth is able to counter the curse and convert it to its own strength.";
+							next;
+							mes "[Blacksmith]";
+							mes "Other than ^0099FFCursed Ruby x 5^000000», ^0099FFBlades Lost in Darkness x 10^000000";
+							mes "and ^0099FFOrge Tooth x 100^000000, please also prepare ^0099FFOld Hilt x 1^000000...";
+							mes "Cough..My movement is now constrained... can't even find a hilt.. please forgive me, oh, to prove that you are eligible to hold this daggar, bring ^0099FFEmperium x 1^000000 too!";
+								set Magum_Tooth = 2;
+							close;
+						StupidTooth2:
+							mes "[Blacksmith]";
+							mes "Hmph... you should gather more information about Mysteltain before coming here...";
+							close;
+					MakeAx:
+						check Magum_Ax == 2,-,AxIntro2;
+						mes "[Blacksmith]";
+						mes "Hmm... you want to make an Executioner... have you brought the materials?";
+						next;
+						checkitem 7017,2,-,MissingMitten;
+						checkitem 7024,10,-,MissingBEdge;
+						checkitem 1008,3,-,MissingHeart;
+						checkitem 609,50,-,MissingAmulet;
+						checkitem 714,1,MakeExecutioner,MissingAxEmperium;
+							MissingMitten:
+								mes "[Blacksmith]";
+								mes "Sheesh... if you want an Executioner, you should bring ^0099FFExecutioner's Mitten x 2^000000!";
+								close;
+							MissingBEdge:
+								mes "[Blacksmith]";
+								mes "^0099FFBloody Edge x 10^000000 is required to make Executioner.. go find it!";
+								close;
+							MissingHeart:
+								mes "[Blacksmith]";
+								mes "To make an Executioner, ^0099FFNecklace of Oblivion x 3^000000 is essential... go find it!";
+								close;
+							MissingAmulet:
+								mes "[Blacksmith]";
+								mes "You missed out ^0099FFAmulet x 50^000000 that can be used to summon spirits... go find it!";
+								close;
+							MissingAxEmperium:
+								mes "[Blacksmith]";
+								mes "Oh, to show that you are eligible to hold this sword, please also give me 1 ^0099FFEmperium^000000 together with the rest of the materials.";
+								close;
+							MakeExecutioner:
+								mes "[Blacksmith]";
+								mes "Very good... the materials are all here... next; for a while!";
+								next;
+								delitem 7017,2;
+								delitem 7024,10;
+								delitem 1008,3;
+								delitem 609,50;
+								delitem 714,1;
+								mes "[Blacksmith]";
+								mes "Cough.. cough... I can finally feel this sword again... there you go! It's completed... cough.. cough.. surely you wanna feel that sword right?";
+								next;
+								mes "[Blacksmith]";
+								mes "Take it!";
+								additem 1169,1;
+								next;
+								mes "[Blacksmith]";
+								mes "You must use it righteously.. cough.. cough.. cough.. ";
+								close;
+						AxIntro2:
+						check Magum_Ax == 1,-,StupidAx2;
+							mes "[Blacksmith]";
+							mes "You want that sword? Haha.. interesting... do you know what kind of sword this is?";
+							mes "Long ago, that sword was used to execute prisoners' heads.... it's a sword which you can't compare with any other swords.";
+							next;
+							mes "[Blacksmith]";
+							mes "The dead spirits possessed the sword, hunger for fresh blood. Hence, they empowered the sword.";
+							mes "Eventually, the executioner feels the sword, which is why they requested me to destroy it.. but now you want me to make the sword again?";
+							next;
+							mes "[Blacksmith]";
+							mes "If you want to have a feel of the sword,";
+							mes "you need to prepare ^0099FFExecutioner's Mitten x 2^000000 and";
+							mes "^0099FFNecklace of Oblivion x 3^000000";
+							mes "In addition, you need ^0099FFBloody Edge x 10^000000 and";
+							mes "the item that can summon spirits - ^0099FFAmulet x 50^000000.";
+							next;
+							mes "[Blacksmith]";
+							mes "Lastly, to prove that you are eligible to hold that sword...";
+							mes "you must also bring along ^0099FFEmperium x 1^000000.";
+								set Magum_Ax = 2;
+							close;
+						StupidAx2:
+							mes "[Blacksmith]";
+							mes "Hmph... you should gather more information about the Executioner before coming here...";
+							close;
+					Cancel5:
+						mes "[Blacksmith]";
+						mes "Well, We'll talk next time...";
+						close;
+	EncounterBlacksmith:
+		check Magum_Mist >= 1,Mag0_Sword1,-;
+		check Magum_Tooth >= 1,Mag0_Sword1,-;
+		check Magum_Ax >= 1,Mag0_Sword1,DeadBeat;
+			Mag0_Sword1:
+				mes "[Guy]";
+				mes "Yes? How can I help you?";
+				next;
+				menu "Do you know anything about the legenary swords?",-,"Nothing",Cancel1;
+					mes "[Guy]";
+					mes "How am I suppose to know? I just want to rest, please go away....";
+					close;
+				Cancel1:
+					mes "[Guy]";
+					mes "......";
+					close;
+			DeadBeat:
+				mes "[Guy]";
+				mes "Yes? How can I help you?";
+				next;
+				menu "Urmmm...urmm.....",-,"Nothing",Cancel1;
+				mes "[Guy]";
+				mes "Don't come and disturb me, I just want to rest...";
+				close;
+}

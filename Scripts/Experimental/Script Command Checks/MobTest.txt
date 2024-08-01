@@ -1,0 +1,60 @@
+prt_are01.gat,152,152,3	script	"Mobs"	811,{
+	mes "I test all forms of monster summons and scripts needed for such.";
+	next;
+	mes "Script commands used are:"
+	mes "1:mes";
+	mes "2:next";
+	mes "3:close";
+	mes "4:menu";
+	mes "5:goto";
+	mes "33:callmob";
+	mes "34:broadcast";
+	mes "37:return";
+	mes "41:resetmymob";
+	mes "54:callmymob";
+	next;
+	mes "Please choose one.";
+	next;
+	LaMenu:
+	menu "Kill summoned mobs",-,"callmob w/o npc tag",call1,"callmob w/ npc tag",call2,"callmymob (uses OnMyModDead)",call3;
+		resetmymob "prt_are01";
+		mes "Mobs summoned are wiped.
+		next;
+		goto LaMenu;
+	call1:
+		mes "I will now summon a poring."
+		next;
+		callmob "prt_are01",150,150,"Summoned Monster 1",1002,0;
+		mes "It was summoned.";
+		mes "You may kill it";
+		next;
+		goto LaMenu;
+	call2:
+		mes "I will now summon a poporing."
+		next;
+		callmob "prt_are01",151,151,"Summoned Monster 2",1031,0,whee;
+		mes "It was summoned.";
+		mes "You must kill it by hand to trigger the NPC.";
+		mes "Upon it's death it should broadcast `The Poporing is dead'";
+		next;
+		LaMenu2:
+		menu "Return to main menu",LaMenu,"I will kill it now to test",-;
+		close;
+	call3:
+		mes "I will now summon a scorpion."
+		next;
+		callmymob "SCORPION",149,149,0,0;
+		mes "It was summoned, it will show up momentarily.";
+		mes "You must kill it by hand to trigger the NPC.";
+		mes "Upon it's death it should broadcast `The Scorpion is dead';
+		next;
+		goto LaMenu2;
+	OnMyMobDead:
+		broadcast "The Scorpion is dead",10;
+		return;
+}
+
+prt_are01.gat,0,0,0	script	"whee"	-1,{
+	broadcast "The Poporing is dead",10;	
+	return;
+}

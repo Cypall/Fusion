@@ -1,0 +1,66 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Ayothaya Town Warps - Warp Locations
+//
+//========================================================================================
+
+//Castle
+ayothaya.gat,207,285,0		warp	ayothayawarp001	2,2,ayo_in02.gat,99,149
+ayo_in02.gat,99,146,0		warp	ayothayawarp002	2,2,ayothaya.gat,207,282
+
+//Tool Shop
+ayothaya.gat,128,86,0		warp	ayothayawarp003	2,2,ayo_in01.gat,27,172
+ayo_in01.gat,29,170,0		warp	ayothayawarp004	2,2,ayothaya.gat,132,86
+ayothaya.gat,129,96,0		warp	ayothayawarp005	2,2,ayo_in01.gat,44,183
+ayo_in01.gat,47,183,0		warp	ayothayawarp006	2,2,ayothaya.gat,131,98
+ayothaya.gat,130,75,0		warp	ayothayawarp007	2,2,ayo_in01.gat,17,155
+ayo_in01.gat,17,152,0		warp	ayothayawarp008	2,2,ayothaya.gat,132,73
+
+//Inn
+ayothaya.gat,202,141,0		warp	ayothayawarp009	2,2,ayo_in01.gat,30,81
+ayo_in01.gat,30,78,0		warp	ayothayawarp010	2,2,ayothaya.gat,202,138
+ayothaya.gat,210,150,0		warp	ayothayawarp011	2,2,ayo_in01.gat,48,94
+ayo_in01.gat,51,94,0		warp	ayothayawarp012	2,2,ayothaya.gat,213,150
+ayothaya.gat,202,158,0		warp	ayothayawarp013	2,2,ayo_in01.gat,31,108
+ayo_in01.gat,31,111,0		warp	ayothayawarp014	2,2,ayothaya.gat,202,161
+ayothaya.gat,193,150,0		warp	ayothayawarp015	2,2,ayo_in01.gat,13,94
+ayo_in01.gat,10,94,0		warp	ayothayawarp016	2,2,ayothaya.gat,190,150
+ayo_in01.gat,13,83,0		warp	ayothayawarp017	2,2,ayo_in01.gat,19,15
+ayo_in01.gat,22,15,0		warp	ayothayawarp018	2,2,ayo_in01.gat,16,83
+ayo_in01.gat,59,15,0		warp	ayothayawarp019	2,2,ayo_in01.gat,45,83
+ayo_in01.gat,48,83,0		warp	ayothayawarp020	2,2,ayo_in01.gat,62,15
+ayo_in01.gat,136,27,0		warp	ayothayawarp021	2,2,ayo_in01.gat,16,106
+ayo_in01.gat,13,106,0		warp	ayothayawarp022	2,2,ayo_in01.gat,133,27
+ayo_in01.gat,175,27,0		warp	ayothayawarp023	2,2,ayo_in01.gat,45,106
+ayo_in01.gat,48,106,0		warp	ayothayawarp024	2,2,ayo_in01.gat,178,27
+
+//Weapon Shop
+ayothaya.gat,172,78,0		warp	ayothayawarp025	2,2,ayo_in01.gat,85,151
+ayo_in01.gat,85,148,0		warp	ayothayawarp026	2,2,ayothaya.gat,172,75
+ayothaya.gat,166,90,0		warp	ayothayawarp027	2,2,ayo_in01.gat,75,173
+ayo_in01.gat,72,173,0		warp	ayothayawarp028	2,2,ayothaya.gat,163,90
+ayothaya.gat,176,90,0		warp	ayothayawarp029	2,2,ayo_in01.gat,96,173
+ayo_in01.gat,99,173,0		warp	ayothayawarp030	2,2,ayothaya.gat,180,90
+
+//Restaurant
+ayothaya.gat,229,68,0		warp	ayothayawarp031	2,2,ayo_in01.gat,136,192
+ayo_in01.gat,136,195,0		warp	ayothayawarp032	2,2,ayothaya.gat,229,72
+
+//House
+ayothaya.gat,77,89,0		warp	ayothayawarp033	2,2,ayo_in01.gat,192,183
+ayo_in01.gat,195,183,0		warp	ayothayawarp034	2,2,ayothaya.gat,77,93
+
+//House
+ayothaya.gat,111,109,0		warp	ayothayawarp035	2,2,ayo_in01.gat,179,128
+ayo_in01.gat,176,128,0		warp	ayothayawarp036	2,2,ayothaya.gat,111,106
+
+
+
+
+
+
+

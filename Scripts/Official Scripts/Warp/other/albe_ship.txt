@@ -1,0 +1,6 @@
+alb_ship.gat,26,166,0	warp	warp0001	3,1,alberta.gat,170,168
+alb_ship.gat,37,174,0	warp	warp0002	1,2,alb_ship.gat,70,99
+alb_ship.gat,41,163,0	warp	warp0003	1,3,alberta.gat,180,165
+alb_ship.gat,68,99,0	warp	warp0004	1,3,alb_ship.gat,35,173
+alb_ship.gat,160,171,0	warp	warp0005	1,3,alberta.gat,207,173
+alb2trea.gat,88,111,0	warp	warp0006	1,1,treasure01.gat,69,24

@@ -1,0 +1,37 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Amatsu Town Warps - Warp Locations
+//
+//========================================================================================
+
+amatsu.gat,94,117,0	warp	amatsuwarp001	1,1,ama_in01.gat,30,24
+ama_in01.gat,33,24,0	warp	amatsuwarp002	1,1,amatsu.gat,97,117
+amatsu.gat,132,117,0	warp	amatsuwarp003	1,1,ama_in01.gat,89,23
+ama_in01.gat,86,23,0	warp	amatsuwarp004	1,1,amatsu.gat,129,117
+amatsu.gat,52,148,0	warp	amatsuwarp005	1,1,ama_in01.gat,88,97
+ama_in01.gat,88,94,0	warp	amatsuwarp006	1,1,amatsu.gat,52,145
+amatsu.gat,168,182,0	warp	amatsuwarp007	1,1,ama_in01.gat,34,99
+ama_in01.gat,34,96,0	warp	amatsuwarp008	1,1,amatsu.gat,168,179
+amatsu.gat,177,138,0	warp	amatsuwarp009	1,1,ama_in01.gat,28,176
+ama_in01.gat,31,176,0	warp	amatsuwarp010	1,1,amatsu.gat,180,138
+amatsu.gat,217,116,0	warp	amatsuwarp011	1,1,ama_in01.gat,162,25
+ama_in01.gat,157,25,0	warp	amatsuwarp012	1,1,amatsu.gat,214,116
+ama_in01.gat,162,34,0	warp	amatsuwarp013	1,1,ama_in01.gat,166,77
+ama_in01.gat,166,73,0	warp	amatsuwarp014	1,1,ama_in01.gat,162,31
+amatsu.gat,248,160,0	warp	amatsuwarp015	1,1,ama_in01.gat,79,178
+ama_in01.gat,76,178,0	warp	amatsuwarp016	1,1,amatsu.gat,245,160
+amatsu.gat,85,235,0	warp	amatsuwarp017	1,1,ama_in02.gat,223,45
+ama_in02.gat,226,45,0	warp	amatsuwarp018	1,1,amatsu.gat,88,235
+ama_in02.gat,195,44,0	warp	amatsuwarp019	1,1,ama_in02.gat,65,40
+ama_in02.gat,65,38,0	warp	amatsuwarp020	1,1,ama_in02.gat,195,41
+ama_in02.gat,56,42,0	warp	amatsuwarp021	1,1,ama_in02.gat,59,144
+ama_in02.gat,59,141,0	warp	amatsuwarp022	1,1,ama_in02.gat,56,41
+ama_in02.gat,222,161,0	warp	amatsuwarp023	1,1,ama_in02.gat,130,163
+ama_in02.gat,127,163,0	warp	amatsuwarp024	1,1,ama_in02.gat,220,161
+amatsu.gat,248,292,0	warp	amatsuwarp025	1,1,ama_fild01.gat,75,33
+ama_fild01.gat,75,30,0	warp	amatsuwarp026	1,1,amatsu.gat,248,289
+

@@ -1,0 +1,49 @@
+//----------------------------------------------------------------------------------------
+// Blacksmith Translation - From Weiss, translated by Khali
+// eWeiss Project 2003 - http://revolve.emuxhaven.net/weiss/
+//----------------------------------------------------------------------------------------
+
+//alberta_in.gat,53,43,6	script	"Merchant"	86,{
+mes "[Merchant]";
+mes "What is it you are looking for?";
+//Menu
+next;
+menu "Change job to Merchant",L_Menu1,"Requirements",L_Menu2,"End",-;
+close;
+  L_Menu1:
+//Requirements check
+   mes "[Merchant]";
+   mes "First I'll check if all the requirements have been met.";
+   next;
+   check Job == 0,-,L_Menu1_F1;
+   check JobLevel >= 10,-,L_Menu1_F2;
+// pass requirement check
+// check SkillPoint == 0,-,L_Menu1_F3;
+   set JobLevel = 1,0;
+   jobchange 05;
+   mes "[Merchant]";
+   mes "Welcome to the Merchant guild!";
+   close;
+    L_Menu1_F1:
+     mes "[Merchant]";
+     mes "You are not a novice.";
+     close;
+    L_Menu1_F2:
+     mes "[Merchant]";
+     mes "First, you must learn a Basic Skill of Level 9. If you can't qualify this condition, you won't be able to earn any job.";
+     close;
+    L_Menu1_F3:
+     mes "[Merchant]";
+     mes "Please use all your skills up first";
+     close;
+//--------------
+//--------------
+  L_Menu2:
+   mes "[Merchant]";
+   mes "Once you are job level 10, you may become a Merchant";
+   mes "In the future, you will have to complete a quest to change your job.";
+   next;
+   mes "[Merchant]";
+   mes "Good Luck";
+   close;
+}

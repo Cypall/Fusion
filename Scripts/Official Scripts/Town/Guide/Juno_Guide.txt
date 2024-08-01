@@ -1,0 +1,89 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Juno Guides - Non Player Character Locations
+//
+// - Juno Guide-> yuno: 153,47
+//   Shows you the way arround Juno.
+//
+//========================================================================================
+
+yuno.gat,153,47,4	script "Juno Guide" 700,{
+	mes "[Ms. Yoon]";
+	mes "A place that envisions the present,";
+	mes "a place that foresees the future.";
+	mes "This is Juno,";
+	mes "the city of Sages.";
+	mes "J*U*N*O.";
+	mes "Welcome to Juno";
+	next;
+	menu "Armoury",L1,"Tool Shop",L2,"Sage Castle",L3,"Street of Book Stores",L4,"Juphero Plaza",L5,"Library of the Republic",L6,"Schweicherbil Magic Academy",L7,"Monster Museum",L8,"End Conversation",L9;
+L1:
+		viewpoint 1,117,135,1,0xff0000;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^ff0000+^000000 -> Armoury";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L2:
+		viewpoint 1,163,189,2,0x0000ff;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^0000ff+^000000 -> Tool Shop";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L3:
+		viewpoint 1,89,320,3,0x00ff00;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^00ff00+^000000 -> Sage Castle";
+	mes "(Sage Job Change Place)";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L4:
+		viewpoint 1,193,141,4,0xff0000;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^ff0000+^000000 -> Street of Book Stores";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L5:
+		viewpoint 1,157,327,5,0x0000ff;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^0000ff+^000000 -> Juphero Plaza";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L6:
+		viewpoint 1,335,204,6,0x00ff00;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^00ff00+^000000 -> Library of the Republic";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L7:
+		viewpoint 1,323,280,7,0xff0000;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^ff0000+^000000 -> Schweicherbil Magic Academy";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L8:
+		viewpoint 1,278,291,8,0x0000ff;
+	mes "[Ms. Yoon]";
+	mes "Please look at the mini map.";
+	mes "^0000ff+^000000 -> Monster Museum";
+	mes "Thank you, have a good day";
+	goto LEnd;
+L9:
+	mes "[Ms. Yoon]";
+      mes "A great city of wise men.";
+	mes "A city of Knowledge!";
+	mes "Welcome to Juno.";
+	goto LEnd;
+LEnd:
+	close;
+}

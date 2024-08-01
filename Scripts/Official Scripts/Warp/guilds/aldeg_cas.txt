@@ -1,0 +1,104 @@
+aldebaran.gat,35,140,0	warp	warp1792	1,1,alde_gld.gat,280,160
+alde_gld.gat,284,160,0	warp	warp1793	1,1,aldebaran.gat,39,140
+alde_gld.gat,48,79,0	warp	warp1794	1,1,aldeg_cas01.gat,34,248
+alde_gld.gat,95,253,0	warp	warp1795	1,1,aldeg_cas02.gat,88,163
+alde_gld.gat,142,81,0	warp	warp1796	1,1,aldeg_cas03.gat,114,286
+alde_gld.gat,243,242,0	warp	warp1797	1,1,aldeg_cas04.gat,149,17
+alde_gld.gat,259,90,0	warp	warp1798	1,1,aldeg_cas05.gat,216,103
+aldeg_cas01.gat,34,252,0	warp	warp1799	1,1,alde_gld.gat,48,83
+aldeg_cas01.gat,50,222,0	warp	warp1800	1,1,aldeg_cas01.gat,104,108
+aldeg_cas01.gat,66,191,0	warp	warp1801	1,1,aldeg_cas01.gat,122,61
+aldeg_cas01.gat,26,188,0	warp	warp1802	1,1,aldeg_cas01.gat,50,70
+aldeg_cas01.gat,70,112,0	warp	warp1803	1,1,aldeg_cas01.gat,42,225
+aldeg_cas01.gat,104,112,0	warp	warp1804	1,1,aldeg_cas01.gat,45,224
+aldeg_cas01.gat,126,61,0	warp	warp1805	1,1,aldeg_cas01.gat,62,191
+aldeg_cas01.gat,89,23,0	warp	warp1806	1,1,aldeg_cas01.gat,207,132
+aldeg_cas01.gat,54,27,0	warp	warp1807	1,1,aldeg_cas01.gat,62,191
+aldeg_cas01.gat,46,70,0	warp	warp1808	1,1,aldeg_cas01.gat,24,188
+aldeg_cas01.gat,206,188,0	warp	warp1809	1,1,aldeg_cas01.gat,216,50
+aldeg_cas01.gat,232,186,0	warp	warp1810	1,1,aldeg_cas01.gat,42,197
+aldeg_cas01.gat,207,128,0	warp	warp1811	1,1,aldeg_cas01.gat,89,27
+aldeg_cas01.gat,171,175,0	warp	warp1812	1,1,aldeg_cas01.gat,35,197
+aldeg_cas01.gat,216,54,0	warp	warp1813	1,1,aldeg_cas01.gat,206,184
+aldeg_cas01.gat,46,197,0	warp	warp1814	1,1,aldeg_cas01.gat,232,182
+aldeg_cas01.gat,31,197,0	warp	warp1815	1,1,aldeg_cas01.gat,175,175
+aldeg_cas01.gat,39,222,0	warp	warp1816	1,1,aldeg_cas01.gat,70,108
+aldeg_cas02.gat,88,159,0	warp	warp1817	1,1,alde_gld.gat,95,249
+aldeg_cas02.gat,84,208,0	warp	warp1818	1,1,aldeg_cas02.gat,105,84
+aldeg_cas02.gat,50,185,0	warp	warp1819	1,1,aldeg_cas02.gat,192,192
+aldeg_cas02.gat,33,174,0	warp	warp1820	1,1,aldeg_cas02.gat,126,61
+aldeg_cas02.gat,22,194,0	warp	warp1821	1,1,aldeg_cas02.gat,88,13
+aldeg_cas02.gat,88,9,0	warp	warp1822	1,1,aldeg_cas02.gat,22,190
+aldeg_cas02.gat,45,39,0	warp	warp1823	1,1,aldeg_cas02.gat,79,208
+aldeg_cas02.gat,130,61,0	warp	warp1824	1,1,aldeg_cas02.gat,33,179
+aldeg_cas02.gat,121,88,0	warp	warp1825	1,1,aldeg_cas02.gat,177,135
+aldeg_cas02.gat,105,88,0	warp	warp1826	1,1,aldeg_cas02.gat,79,208
+aldeg_cas02.gat,177,131,0	warp	warp1827	1,1,aldeg_cas02.gat,121,84
+aldeg_cas02.gat,192,196,0	warp	warp1828	1,1,aldeg_cas02.gat,50,180
+aldeg_cas02.gat,206,196,0	warp	warp1829	1,1,aldeg_cas02.gat,197,13
+aldeg_cas02.gat,197,9,0	warp	warp1830	1,1,aldeg_cas02.gat,206,192
+aldeg_cas03.gat,114,290,0	warp	warp1831	1,1,alde_gld.gat,142,85
+aldeg_cas03.gat,92,217,0	warp	warp1832	1,1,aldeg_cas03.gat,127,90
+aldeg_cas03.gat,87,247,0	warp	warp1833	1,1,aldeg_cas03.gat,54,90
+aldeg_cas03.gat,44,222,0	warp	warp1834	1,1,aldeg_cas03.gat,213,182
+aldeg_cas03.gat,91,57,0	warp	warp1835	1,1,aldeg_cas03.gat,60,236
+aldeg_cas03.gat,130,90,0	warp	warp1836	1,1,aldeg_cas03.gat,96,215
+aldeg_cas03.gat,51,90,0	warp	warp1837	1,1,aldeg_cas03.gat,87,251
+aldeg_cas03.gat,93,124,0	warp	warp1838	1,1,aldeg_cas03.gat,87,251
+aldeg_cas03.gat,79,130,0	warp	warp1839	1,1,aldeg_cas03.gat,201,149
+aldeg_cas03.gat,201,145,0	warp	warp1840	1,1,aldeg_cas03.gat,79,126
+aldeg_cas03.gat,199,190,0	warp	warp1841	1,1,aldeg_cas03.gat,195,51
+aldeg_cas03.gat,195,54,0	warp	warp1842	1,1,aldeg_cas03.gat,199,186
+aldeg_cas03.gat,214,186,0	warp	warp1843	1,1,aldeg_cas03.gat,49,222
+aldeg_cas03.gat,60,241,0	warp	warp1844	1,1,aldeg_cas03.gat,91,61
+aldeg_cas04.gat,145,17,0	warp	warp1845	1,1,alde_gld.gat,239,242
+aldeg_cas04.gat,197,40,0	warp	warp1846	1,1,aldeg_cas04.gat,26,88
+aldeg_cas04.gat,175,54,0	warp	warp1847	1,1,aldeg_cas04.gat,74,88
+aldeg_cas04.gat,185,87,0	warp	warp1848	1,1,aldeg_cas04.gat,111,210
+aldeg_cas04.gat,171,100,0	warp	warp1849	1,1,aldeg_cas04.gat,152,210
+aldeg_cas04.gat,196,86,0	warp	warp1850	1,1,aldeg_cas04.gat,49,57
+aldeg_cas04.gat,49,53,0	warp	warp1851	1,1,aldeg_cas04.gat,196,82
+aldeg_cas04.gat,78,88,0	warp	warp1852	1,1,aldeg_cas04.gat,174,58
+aldeg_cas04.gat,22,88,0	warp	warp1853	1,1,aldeg_cas04.gat,192,41
+aldeg_cas04.gat,50,132,0	warp	warp1854	1,1,aldeg_cas04.gat,129,210
+aldeg_cas04.gat,21,123,0	warp	warp1855	1,1,aldeg_cas04.gat,125,168
+aldeg_cas04.gat,121,168,0	warp	warp1856	1,1,aldeg_cas04.gat,25,123
+aldeg_cas04.gat,156,210,0	warp	warp1857	1,1,aldeg_cas04.gat,169,97
+aldeg_cas04.gat,108,210,0	warp	warp1858	1,1,aldeg_cas04.gat,186,92
+//aldeg_cas04.gat,132,231,0	warp	warp1859	1,1,aldeg_cas04.gat,14,196
+aldeg_cas04.gat,132,209,0	warp	warp1859a	1,1,aldeg_cas04.gat,50,129
+aldeg_cas04.gat,17,196,0	warp	warp1860	1,1,aldeg_cas04.gat,132,228
+aldeg_cas04.gat,132,231,4	script	""	45,1,1,{
+OnTouch:
+	random @warp,100;
+	check @warp <= 25,w1,-;
+	check @warp <= 50,w2,-;
+	check @warp <= 75,w3,w4;
+w1:
+	warp "aldeg_cas04",170,100;
+	return;
+w2:
+	warp "aldeg_cas04",186,88;
+	return;
+w3:
+	warp "aldeg_cas04",129,212;
+	return;
+w4:
+	warp "aldeg_cas04",132,209;
+	return;
+}
+aldeg_cas05.gat,216,107,0	warp	warp1861	1,1,alde_gld.gat,264,90
+aldeg_cas05.gat,194,71,0	warp	warp1862	1,1,aldeg_cas05.gat,129,194
+aldeg_cas05.gat,164,86,0	warp	warp1863	1,1,aldeg_cas05.gat,66,189
+aldeg_cas05.gat,150,67,0	warp	warp1864	1,1,aldeg_cas05.gat,9,187
+aldeg_cas05.gat,188,49,0	warp	warp1865	1,1,aldeg_cas05.gat,165,288
+aldeg_cas05.gat,195,42,0	warp	warp1866	1,1,aldeg_cas05.gat,19,227
+aldeg_cas05.gat,15,227,0	warp	warp1867	1,1,aldeg_cas05.gat,195,46
+aldeg_cas05.gat,5,187,0	warp	warp1868	1,1,aldeg_cas05.gat,151,62
+aldeg_cas05.gat,70,189,0	warp	warp1869	1,1,aldeg_cas05.gat,166,81
+aldeg_cas05.gat,13,175,0	warp	warp1870	1,1,aldeg_cas05.gat,162,194
+aldeg_cas05.gat,166,194,0	warp	warp1871	1,1,aldeg_cas05.gat,13,179
+aldeg_cas05.gat,125,194,0	warp	warp1872	1,1,aldeg_cas05.gat,199,70
+aldeg_cas05.gat,165,232,0	warp	warp1873	1,1,aldeg_cas05.gat,193,49
+aldeg_cas05.gat,156,231,0	warp	warp1874	1,1,aldeg_cas05.gat,18,88
+aldeg_cas05.gat,14,88,0	warp	warp1875	1,1,aldeg_cas05.gat,156,227

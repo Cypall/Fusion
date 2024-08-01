@@ -1,0 +1,93 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Crazy Uproar Quest Skill - Non Player Character Locations
+//
+// - Necko -> alberta: 83,96
+//   Bring items to obtain skill. Applicable jobs are Merchant, Blacksmith and Alchemist.
+//
+//========================================================================================
+ 
+alberta.gat,83,96,5 script "Necko" 98,{ 
+	   check Job = 5,Lcheck,-; 
+	   check Job = 10,LStart,-;
+	   check Job = 18,LStart,-;
+	goto LStartOther; 
+Lcheck: 
+	   check JobLevel >= 15,-,LStartLowlv; 
+LStart: 
+	   check skill_mc = 1,LStartTwice,-; 
+	   checkitem 722,7,-,L2; 
+	   checkitem 532,1,-,L2; 
+	   checkitem 921,50,-,L2; 
+	goto L3; 
+L2: 
+	mes "[Necko]"; 
+	mes "Hi I'm the master of"; 
+	mes "^0033FFLoud Exclamation^000000."; 
+	mes "I can teach it to you if you help"; 
+	mes "me get some items!"; 
+	next; 
+	mes "[Necko]"; 
+	mes "The items I need are:"; 
+	mes "- 7 ^FF0000Pearls^000000"; 
+	mes "- 1 ^FF0000Banana juice^000000"; 
+	mes "- 50 ^FF0000Mushroom spores^000000"; 
+	mes "Now go out and hunt som items for me!"; 
+	close; 
+L3: 
+	mes "[Necko]"; 
+	mes "Oh You've gathered the items!"; 
+	mes "Now I'll reward you with the"; 
+	mes "skill 'cause that's what you"; 
+	mes "want, right?"; 
+	next; 
+	menu "Of course!!!!",L1_1,"Of course not!!!!",L1_2; 
+L1_1: 
+	mes "[Necko]"; 
+	mes "Ok then!"; 
+	next; 
+	   delitem 722,7; 
+	   delitem 532,1; 
+	   delitem 921,50; 
+ 	   set skill_mc = 1;
+	   setskilllevel 0x9B,1;
+	mes "[Necko]"; 
+	mes "Now you're an official user"; 
+	mes "of the skill ^0033FFLoud Exclamation^000000"; 
+	mes "CONGRATZ!"; 
+	close; 
+L1_2: 
+	mes "[Necko]"; 
+	mes "Oh? I guess that's fine with me."; 
+	mes "Thou I'm a little bit hurt..."; 
+	mes "Go away I don't like you anymore!"; 
+	close; 
+LStartLowlv: 
+	mes "[Necko]"; 
+	mes "Necko's store is closed right now."; 
+	mes "come again later. Hehe~"; 
+	close; 
+LStartOther: 
+	mes "[Necko]"; 
+	mes "I'm sorry you just don't have"; 
+	mes "what it takes to learn this skill!"; 
+	close; 
+LStartTwice: 
+	   setskilllevel 0x9B,1;
+	mes "[Necko]"; 
+	mes "Hey! It's you again?"; 
+	mes "I'm afraid I taught you everything"; 
+	mes "I know."; 
+	close; 
+}
+
+alberta.gat,83,95,0 script "" 139,7,4,{ 
+	mes "[!?]"; 
+	mes "Muahahahahahahahahahahahaha!!"; 
+	mes "Pukakakakakakakakakakaka!"; 
+	close;
+}

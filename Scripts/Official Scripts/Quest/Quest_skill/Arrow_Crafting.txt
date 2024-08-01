@@ -1,0 +1,90 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Arrow Crafting Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Roberto -> morocc.dwm: 121,109
+//   Bring items to obtain skill. Applicable jobs are Archer, Dancer and Bard.
+//========================================================================================
+
+morocc.gat,121,109,5	script	Roberto	88,{ 
+	check Job = 3,Lcheck1,-; 
+	check Job = 11,LStart2,-;
+	check Job = 19,LStart2,-;
+	check Job = 20,LStart2,-;
+	goto LStartOther;
+LCheck1: 
+	check JobLevel >= 30,-,LStartLowlv; 
+LStart2: 
+	check skill_acher = 1,LStartTwice,-;
+	mes "[Roberto]";
+	mes "Welcome!!!";
+	mes "I am a Arrow Maker and I can teach archers how to make arrows."; 
+	checkitem 907,20,-,LStart; 
+	checkitem 7033,7,-,LStart; 
+	checkitem 906,41,-,LStart; 
+	checkitem 1019,13,-,LStart; 
+	checkitem 501,1,-,LStart; 
+	goto L3; 
+Lstart: 
+	next;
+	mes "[Roberto]";
+	mes "If you want to learn this skill you will have to help me out with a task first."; 
+	next;
+	menu "Ok, tell me",L1,"No, nevermind",L2; 
+L1: 
+	mes "[Roberto]"; 
+	mes "You see since I can't leave my tree I want you to get me some ingredients for the skill."; 
+	next;
+	mes "Get me"; 
+	mes "20 ^FF0000Resin^000000";
+	mes "7 ^FF0000Poison Spore^000000";
+	mes "41 ^FF0000Pointed Scale^000000";
+	mes "13 ^FF0000Trunk^000000";
+	mes "and 1 ^FF0000Red Potion^000000";
+	mes "Come back later when you have all these stuff."; 
+	mes "Good luck with your task.";	
+	close;
+L2: 
+	mes "[Roberto]"; 
+	mes "Well I am sorry to hear that."; 
+	mes "Good luck"; 
+L3: 
+	next;
+	mes "[Roberto]"; 
+	mes "Congratulations you have now the arrow making skill!!!"; 
+	next; 
+	delitem 907,20;
+	delitem 7033,7;
+	delitem 906,41;
+	delitem 1019,13;
+	delitem 501,1;
+	set skill_acher = 1;
+	setskilllevel 0x93,1;
+	mes "[Roberto]"; 
+	mes "Hope to see you some other time."; 
+	mes "For now good luck with your new skill."; 
+	close; 
+LStartOther: 
+	mes "[Roberto]"; 
+	mes "Eh... First time seeing an acher or something?"; 
+	mes "Just go where you are going.";
+	mes "I only talk to high level archers.";
+	mes "Won't open my mouth otherwise!";
+	close; 
+LStartLowlv: 
+	mes "[Roberto]"; 
+	mes "Hello friendly archer. You have to raise your level a little more before crafting arrows."; 
+	mes "You need to be atleast joblevel 35."; 
+	close; 
+LStartTwice: 
+	setskilllevel 0x93,1;
+	mes "[Roberto]"; 
+	mes "You already have this skill implemented in your skilltree."; 
+	close; 
+}

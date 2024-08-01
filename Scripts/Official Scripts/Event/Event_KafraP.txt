@@ -1,0 +1,503 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Kafra Headquarter - Non Player Character Locations
+//
+// - Kafra Employee -> aldeba_in: 79,161
+//   Information about Special Reserve Points and alot of random games with points.
+//
+//========================================================================================
+
+aldeba_in.gat,79,161,6	script	"Kafra Employee"	115,{
+	set @Kafratemp = KF_PIT,0;
+	mes "[Kafra] Employee";
+	mes "Welcome $charaname";
+	mes "Thank you for participate in the Special Reserve Point service";
+	mes "You can use this service to trade your points with items";
+	next;
+	mes "[Kafra] Employee";
+	mes "I'll use your Special Reserve points";
+	mes "from ^7D0781100p to 3000p until ^000000";
+	mes "can be used to trade for item";
+	next;
+	check KF_PIT = 0,LError4,-;
+	mes "[Kafra] Employee";
+	mes "You have";
+	mes "^FF0000 $[KF_PIT] ^000000 points";
+	mes "Please choise from the following items";
+	next;
+	menu "100p = 7 Carrot",L1_1,"200p = 15 Carrot",L1_2,"300p = 25 Carrot",L1_3,"400p = 35 Carrot",L1_4,"500p = 50 Carrot",L1_5,"600p = 60 Carrot",L1_6,"700p = 75 Carrot",L1_7,"800p = 85 Carrot",L1_8,"900p = 100 Carrot",L1_9,"1000p = Lottery Chance 1",L1_10,"Next Menu",LMenu2,"Cancel",LEnd2;
+LMenu2:
+	menu "1100p = 7 Red Potion",L2_1,"1300p = 15 Red Potion",L2_2,"1500p = 25 Red Potion",L2_3,"1700p = 35 Red Potion",L2_4,"1900p = 50 Red Potion",L2_5,"2100p = 60 Red Potion",L2_6,"2300p = 75 Red Potion",L2_7,"2500p = 85 Red Potion",L2_8,"2800p = 100 Red Potion",L2_9,"3000p = Lottery Chance 2",L2_10,"Cancel",LEnd2;
+L1_1:
+	check KF_PIT >= 100,-,LError;
+	set @Kafratemp - 100,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 100,0;
+	additem 515,7;
+	goto LEnd1;
+L1_2:
+	check KF_PIT >= 200,-,LError;
+	set @Kafratemp - 200,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 200,0;
+	additem 515,15;
+	goto LEnd1;
+L1_3:
+	check KF_PIT >= 300,-,LError;
+	set @Kafratemp - 300,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 300,0;
+	additem 515,25;
+	goto LEnd1;
+L1_4:
+	check KF_PIT >= 400,-,LError;
+	set @Kafratemp - 400,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 400,0;
+	additem 515,35;
+	goto LEnd1;
+L1_5:
+	check KF_PIT >= 500,-,LError;
+	set @Kafratemp - 500,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 500,0;
+	additem 515,50;
+	goto LEnd1;
+L1_6:
+	check KF_PIT >= 600,-,LError;
+	set @Kafratemp - 600,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 600,0;
+	additem 515,60;
+	goto LEnd1;
+L1_7:
+	check KF_PIT >= 700,-,LError;
+	set @Kafratemp - 700,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 700,0;
+	additem 515,75;
+	goto LEnd1;
+L1_8:
+	check KF_PIT >= 800,-,LError;
+	set @Kafratemp - 800,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 800,0;
+	additem 515,85;
+	goto LEnd1;
+L1_9:
+	check KF_PIT >= 900,-,LError;
+	set @Kafratemp - 900,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 900,0;
+	additem 515,100;
+	goto LEnd1;
+L2_1:
+	check KF_PIT >= 1100,-,LError;
+	set @Kafratemp - 1100,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 1100,0;
+	additem 501,7;
+	goto LEnd1;
+L2_2:
+	check KF_PIT >= 1300,-,LError;
+	set @Kafratemp - 1300,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 1300,0;
+	additem 501,15;
+	goto LEnd1;
+L2_3:
+	check KF_PIT >= 1500,-,LError;
+	set @Kafratemp - 1500,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 1500,0;
+	additem 501,25;
+	goto LEnd1;
+L2_4:
+	check KF_PIT >= 1700,-,LError;
+	set @Kafratemp - 1700,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 1700,0;
+	additem 501,35;
+	goto LEnd1;
+L2_5:
+	check KF_PIT >= 1900,-,LError;
+	set @Kafratemp - 1900,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 1900,0;
+	additem 501,50;
+	goto LEnd1;
+L2_6:
+	check KF_PIT >= 2100,-,LError;
+	set @Kafratemp - 2100,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 2100,0;
+	additem 501,60;
+	goto LEnd1;
+L2_7:
+	check KF_PIT >= 2300,-,LError;
+	set @Kafratemp - 2300,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 2300,0;
+	additem 501,75;
+	goto LEnd1;
+L2_8:
+	check KF_PIT >= 2500,-,LError;
+	set @Kafratemp - 2500,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 2500,0;
+	additem 501,85;
+	goto LEnd1;
+L2_9:
+	check KF_PIT >= 2800,-,LError;
+	set @Kafratemp - 2800,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 2800,0;
+	additem 501,100;
+	goto LEnd1;
+L1_10:
+	check KF_PIT >= 1000,-,LError;
+	set @Kafratemp - 1000,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the item, you will have";
+	mes "^FF0000$[@Kafratemp]^000000 points left";
+	mes "Would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 1000,0;
+	mes "[Kafra] Employee";
+	mes "^0000ffChance1!^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Alright, I wish you good luck";
+	mes "Are you ready?";
+	next;
+	mes "[Kafra] Employee";
+	mes "Here's the Prize Spinning Wheel";
+	mes "You can spin it up to 5 rounds";
+	mes "How many times would you like you spin it?";
+Linput1:
+	next;
+	input @chance1;
+	check @chance1 != 0,-,LError3-1;
+	check @chance1 >= 6,LError3-1,-;
+Lrandom1:
+	random @chance2,3;
+	check @chance2 = 0,Lr1_1,-;
+	check @chance2 = 1,Lr1_2,-;
+	check @chance2 = 2,Lr1_3,-;
+Lr1_1:
+	set @chance1 - 1,0;
+	mes "kakakakakakaka";
+	next;
+	check @chance1 = 0,Lc1,-;
+	goto Lrandom1;
+Lr1_2:
+	set @chance1 - 1,0;
+	mes "kakakakaka.....";
+	next;
+	check @chance1 = 0,Lc1,-;
+	goto Lrandom1;
+Lr1_3:
+	set @chance1 - 1,0;
+	mes "kakaka...";
+	next;
+	check @chance1 = 0,Lc1,-;
+	goto Lrandom1;
+Lc1:
+	mes "[Kafra] Employee";
+	mes "Ok, the wheel has stopped";
+	mes "Let's see...";
+	next;
+	mes "[Kafra] Employee";
+	mes "^ff0000OOOOOHHHH^000000";
+	next;
+	random @chance3,4;
+	check @chance3 = 0,Lc1_1,-;
+	check @chance3 = 1,Lc1_2,-;
+	check @chance3 = 2,Lc1_3,-;
+	check @chance3 = 3,Lc1_4,-;
+Lc1_1:
+	additem 2328,1;
+	mes "[Kafra] Employee";
+	mes "Number 1!";
+	mes "We have a winner! 1st prize!";
+	mes "You got ^00ff00Wooden Armor^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+Lc1_2:
+	additem 2403,1;
+	mes "[Kafra] Employee";
+	mes "Number 2!";
+	mes "2nd prize";
+	mes "You got ^00ff00Shoes^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+Lc1_3:
+	additem 602,4;
+	mes "[Kafra] Employee";
+	mes "Number 3";
+	mes "3rd prize";
+	mes "You got 4 ^00ff00Butterfly Wings^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "You should use this when you're in danger!";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+Lc1_4:
+	additem 516,100;
+	mes "[Kafra] Employee";
+	mes "Oh...  I'm sorry";
+	mes "4th prize";
+	mes "You got 100 ^00ff00Carrots^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+L2_10:
+	check KF_PIT >= 3000,-,LError;
+	set @Kafratemp - 3000,0;
+	mes "[Kafra] Employee";
+	mes "If you trade the points with item";
+	mes "you will have ^FF0000$[@Kafratemp]^000000 points left";
+	mes "would you like to trade?";
+	next;
+	menu "Trade",-,"Cancel",LEnd2;
+	set KF_PIT - 3000,0;
+	mes "[Kafra] Employee";
+	mes "^0000ffChance2!^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Alright, I wish you good luck";
+	mes "Are you ready?";
+	next;
+	mes "[Kafra] Employee";
+	mes "Here's the Prize Spinning Wheel";
+	mes "You can spin it up to 5 rounds";
+	mes "How many times would you like you spin it?";
+Linput2:
+	next;
+	input @chance1;
+	check @chance1 >= 6,LError3-2,-;
+	check @chance1 != 0,-,LError3-2;
+Lrandom2:
+	random @chance2,3;
+	check @chance2 = 0,Lr2_1,-;
+	check @chance2 = 1,Lr2_2,-;
+	check @chance2 = 2,Lr2_3,-;
+Lr2_1:
+	set @chance1 - 1,0;
+	mes "kakakakakakakakaka...";
+	next;
+	check @chance1 = 0,Lc2,-;
+	goto Lrandom2;
+Lr2_2:
+	set @chance1 - 1,0;
+	mes "kakakakakaka....";
+	next;
+	check @chance1 = 0,Lc2,-;
+	goto Lrandom2;
+Lr2_3:
+	set @chance1 - 1,0;
+	mes "kakaka...";
+	next;
+	check @chance1 = 0,Lc2,-;
+	goto Lrandom2;
+Lc2:
+	mes "[Kafra] Employee";
+	mes "Ok, the wheel has stopped";
+	mes "Let's see...";
+	next;
+	mes "[Kafra] Employee";
+	mes "^ff0000OOOOOHHHHHH^000000";
+	next;
+	random @chance3,4;
+	check @chance3 = 0,Lc2_1,-;
+	check @chance3 = 1,Lc2_2,-;
+	check @chance3 = 2,Lc2_3,-;
+	check @chance3 = 3,Lc2_4,-;
+Lc2_1:
+	additem 505,3;
+	mes "[Kafra] Employee";
+	mes "We have a winner!";
+	mes "1st prize!";
+	mes "You got 3 ^00ff00Blue Potions^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+Lc2_2:
+	additem 2226,1;
+	mes "[Kafra] Employee";
+	mes "Number 2!";
+	mes "2nd Prize!";
+	mes "You got 1 ^00ff00Cap^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+Lc2_3:
+	additem 2201,1;
+	mes "[Kafra] Employee";
+	mes "Number 3!";
+	mes "3rd Prize!";
+	mes "You got 1 ^00ff00Sunglasses^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "I have been using this when I'm spying";
+	mes "on someone, please don't use it";
+	mes "that way...";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+Lc2_4:
+	additem 501,100;
+	mes "[Kafra] Employee";
+	mes "Oh...  I'm sorry";
+	mes "4th prize";
+	mes "you got 100 ^00ff00red potions^000000";
+	next;
+	mes "[Kafra] Employee";
+	mes "Thank you for using the Special Reserve point service";
+	goto LEnd1;
+LError:
+	mes "[Kafra] Employee";
+	mes "I'm sorry, you don't have enough";
+	mes "points for the item you've chosen";
+	mes "so we cannot trade with you";
+	mes "please check your points again";
+	close;
+LError2:
+	mes "[Kafra] Employee";
+	mes "You seems to be overweighted";
+	mes "even if you trade the item";
+	mes "You won't be able to hold them";
+	next;
+	mes "[Kafra] Employee";
+	mes "I'm sorry, please use the Storage service, and remove";
+	mes "^0000FF1100^000000 of items";
+	close;
+LError3-1:
+	mes "[Kafra] Employee";
+	mes ".....";
+	mes "Please spin it from 1-5 times";
+	goto Linput1;
+LError3-2:
+	mes "[Kafra] Employee";
+	mes ".....";
+	mes "Please spin it from 1-5 times";
+	goto Linput2;
+LError4:
+	mes "[Kafra] Employee";
+	mes "I'm sorry, you don't even have 1 point on you";
+	mes "Please come again with points";
+	close;
+LEnd1:
+	next;
+	mes "[Kafra] Employee";
+	mes "Please collect more points and";
+	mes "support the Kafra service";
+	mes "Thank you for coming";
+	close;
+LEnd2:
+	mes "[Kafra] Employee";
+	mes "I understand, please continue to";
+	mes "use the Kafra service, thank you";
+	close;
+}

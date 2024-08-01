@@ -1,0 +1,884 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Merchant Quest - Non Player Character Locations
+//   -Created by Nestor Zulueta
+//
+// - Merchant -> alberta_in: 53,43
+//   First person to talk to about merchant job change. Also grants job change. 
+//
+// - Merchant Guildsman -> alberta_in: 28,29
+//   Gives the package according to destination and receives the receipt.
+//
+// - Guild Staff -> geffen_in: 155,122
+//   One of package destination
+//
+// - Student -> morocc_in.gat: 140,102
+//   One of package destination
+//
+//========================================================================================
+alberta_in.gat,53,43,6	script	Merchant	86,{
+	set @TEMP = 0;
+	mes "[Chief Mahnsoo]";
+	check job_merchant_q == 2,JobMercQE2,-;
+	check job_merchant_q == 10,JobMerQE10o9,-;
+	check job_merchant_q == 9,JobMerQE10o9,-;
+	check job_merchant_q == 8,a1,-;
+	check job_merchant_q == 7,a1,-;
+	check job_merchant_q <= 6,b1,-;
+	goto lm;	
+a1:	
+	check job_merchant_q == 0,-,JobMerQE8o7aN0;
+	goto lm;
+b1:
+	check job_merchant_q == 0,-,JobMerQLE6aN0;
+lm:
+	mes "What brings you here? Have something to say?";
+	next;
+	menu "I want to be a Merchant.",M0,"Show me the way of Merchant.",M1,"Give me the Requirements.",M2,"Nope, Sir.",MEnd;
+M0:
+	check Job == 29,JobMer,-;
+	check Job == 5,JobMer,-;
+	check Job == 24,NOV,-;
+	check Job == 0,-,JNMaJNN;
+       NOV:
+	mes "[Chief Mahnsoo]";
+	mes "Do you want to be a Merchant? Well...";
+	next;
+	check JobLevel >= 10,-,NotLvl;
+	mes "[Chief Mahnsoo]";
+	mes "Ok. Sign up on this Application and prepare 1000 Zeny for a Membership Fee.";
+	mes "Oh~ If you don't have Enough Money, I will take 500 Zeny first. You can pay the rest after the Merchant License Test.";
+	mes "So how do you think? Will you join now?";
+	next;
+	menu "Yes, I will.",M00,"Umm, Later..",M0End;
+M00:
+	set job_merchant_q =0;
+	set job_merchant_q2 = 0;
+	set nov_3_merchant = 0;
+	set nov_1_2_cos_c = 0;
+	set nov_1st_cos = 0;
+	set nov_2nd_cos = 0;
+	set nov_3_acolyte = 0;
+	set nov_3_archer = 0;
+	set nov_3_magician = 0;
+	mes "[Chief Mahnsoo]";
+	mes "This application should be registered with a Membership Fee together..... What about the Fee?";
+	next;
+	menu "Pay 1000 Zeny Now.",M000,"Split into 500 Zeny.",M001,"Quit.",M00End;
+M000:
+	mes "[Chief Mahnsoo]";
+	check Zeny >= 1000,Zeny1k,-;
+	mes "What makes you harden your face?... You can pay 500 Zeny first. Think about it then.";
+	close;
+Zeny1k:
+	set Zeny - 1000;
+	set job_merchant_q = 4;
+	mes "Let's see... 1000 Zeny.... Good.";
+	goto M00Cont;
+M001:
+	mes "[Chief Mahnsoo]";
+	check Zeny >= 500,Zeny05k,-;
+	mes "... Don't make an anguished look like that. Your Face appears to told 'I hate myself having No money.'... It's not late yet. Go get more money.";
+	close;
+Zeny05k:
+	set half = 1;
+	set Zeny - 500;
+	set job_merchant_q = 3;
+	mes "Let's See... 500 Zeny.... Good. I don't think the Amortization is not that good Habit though.";
+	goto M00Cont;
+M00End:
+	mes "[Chief Mahnsoo]";
+	mes "Feel free to return anytime when you are ready, Alright?.";
+	close;
+M0End:
+	mes "[Chief Mahnsoo]";
+	mes "You have no money now? Ok, No Problem.";
+	mes "Take your time, Ok?";
+	close;
+M00Cont:
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "Alright, I will put you on the Applicant List. Let me explain the Merchant License List. Ah, Before get started I shall check one thing.";
+	mes "There are some Dull and Dumb guys who misunderstand other's saying and do stupid things. But I hope you not, Will you?";
+	next;
+	mes "[Chief Mahnsoo]";
+	random @TEMP 4;
+	goto R0;
+R0:
+	check @TEMP == 0,-,R1;
+	mes "Receive the Product from the Storehouse, go to the Former Swordman Association in Prontera. Then visit the Chief Girl in the Prontera Chapter of Kapra's Corp. Get that???";
+	random @TEMP 2;
+	goto R00;
+R00:
+	check @TEMP == 0,-,R01;
+	mes "Its Serial Numbers are 2485741.";
+	set job_merchant_q2 = 1;
+	next;
+	goto M00Cont1;
+R01:
+	mes "Its Serial Numbers are 2328137.";
+	set job_merchant_q2 = 2;
+	next;
+	goto M00Cont1;
+R1:
+	check @TEMP == 1,-,R2;
+	mes "Receive the Product from the Storehouse, go to the Mage Guild in Geffen. Then Visit somebody in Charge.";
+	random @TEMP 2;
+	goto R10;
+R10:
+	check @TEMP == 0,-,R11;
+	mes "Its Serial Numbers are 2989396.";
+	set job_merchant_q2 = 3;
+	next;
+	goto M00Cont1;
+R11:
+	mes "Its Serial Numbers are 2191737.";
+	set job_merchant_q2 = 4;
+	next;
+	goto M00Cont1;
+R2:
+	check @TEMP == 2,-,R3;
+	mes "Receive the Product from the Storehouse, Give it to JavaDullihan,the Dyermaker in Morroc.";
+	random @TEMP 2;
+	goto R20;
+R20:
+	check @TEMP == 0,-,R21;
+	mes "Its Serial Numbers are 3012685.";
+	set job_merchant_q2 = 5;
+	next;
+	goto M00Cont1;
+R21:
+	mes "Its Serial Numbers are 3487372.";
+	set job_merchant_q2 = 6;
+	next;
+	goto M00Cont1;
+R3:
+	mes "Receive the Product from the Storehouse, Convey it to the Kapra's Staff in Byalan island.";
+	random @TEMP 2;
+	goto R30;
+R30:
+	check @TEMP == 0,-,R31;
+	mes "Its Serial Numbers are 3318702.";
+	set job_merchant_q2 = 7;
+	next;
+	goto M00R3;
+R31:
+	mes "Its Serial Numbers are 3543625.";
+	set job_merchant_q2 = 8;
+	next;
+	goto M00R3;
+M00R3:
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "Umm and... (This is my personal request... Give this message together when you deliver the Product. Please~)";
+	set message = 1;
+	additem 1072,1;
+	next;
+	goto M00Cont1;
+M00Cont1:
+	mes "[Chief Mahnsoo]";
+	mes "Keep in mind this Serial Numbers and the Destination. You have to Let the Storekeeper check them both. He will assist you.";
+	mes "The Storehouse is a Room on the Right side of me.";
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "And After the Job, Return and Give the Receipt to a Storekeeper. And Come back to me. Clear?";
+	mes "Alright, That's my boy, Take Care.";
+	close;
+M1:
+	mes "[Chief Mahnsoo]";
+	mes "Merchant? Briefly, Sell goods and Make Money. That's the Merchant.";
+	mes "We are not goot at the Fight, have any special Attack/Cure Skills. But see? We can buy Goods at lower price and sell them at Highter price.";
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "Yeah, The Ultimate Attack Skill we have is 'Mammonite'... It is pasting money on the weapon and stiriking an enemy.";
+	mes "Anyway, We use most weapons except some class as Bow, Rod and Two-Handed Sword Class. Needless to say, although we cannot equip them but we can trade them.";
+	mes "Whatever people call us, we have to make Money as Much as we can. Understand?";
+	close;
+M2:
+	mes "[Chief Mahnsoo]";
+	mes "There are three conditions to be qualified if you want to be a Merchant.";
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "First, You have to be at Novice job level 9 with fulfilled Basic Skills.";
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "Secon, You have to pay 1000 Zeny for acquire a Memebrship. I believe a Merchant Candidate will be able to earn 1000 Zeny at ease. Oh yeah~";
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "Third, There is a License Test to examine your basic Physical Strength and a Sense of Direction. You must Deliever the Goods to the Specific person in the Specific Town.";
+	close;
+MEnd:
+	close;
+JobMer:
+	mes "[Chief Mahnsoo]";
+	mes ".....? Huh? What did you say? You, Moron.. Take a Look, you are already a Merchant. Oh, My Sweet Lord!!!";
+	mes "Oops?! Hhhh, Aaahh....Want me to Make fun of you more than this?!";
+	close;
+JNMaJNN:
+	mes "[Chief Mahnsoo]";
+	mes "We Merchant Guild members dislike those guys who work like this.";
+	mes "Working as a Merchant at the day, and then going to strange bars during the night. They make money easy and spend Money easy. Gosh,I hate those guys~";
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "Well.. I talked a little too long, I guess... but if you already have an occupation, we don't need you.";
+	close;
+NotLvl:
+	mes "[Chief Mahnsoo]";
+	mes "However, You have to be at Novice Job level 10 with Fulfuilled Basic Skills.";
+	mes "No matter who calls us as Money Makers, We need to protect ourselves from Enemies.";
+	close;
+JobMercQE2:
+	set job_merchant_q = 0;
+	set job_merchant_q2 = 0;
+	set nov_3_merchant = 0;
+	set nov_1_2_cos_c = 0;
+	set nov_1st_cos = 0;
+	set nov_2nd_cos = 0;
+	set nov_3_acolyte = 0;
+	set nov_3_archer = 0;
+	set nov_3_magician = 0;
+	mes "Name $charaname .";
+	mes "You have failed in the Merchant License Test. Dismiss!";
+	close;
+JobMerQE10o9:
+	check gender == 0,jobmercqE10a9L,-;
+	mes "Oh, Gentleman, $charaname .";
+	goto JobMerQE10a9Cont;
+jobmercqE10a9L:
+	mes "Oh, Lady, $charaname .";
+	goto JobMerQE10a9Cont;
+JobMerQE10a9Cont:
+	mes "I am glad that I can bring the Good News for you.";
+	check half == 0,JobMerQE10,-;
+	check half == 1,JobMerQE9,-;
+	mes "^FF0000***** ERROR *****^000000";
+	close;
+JobMerQE10:
+	mes "The Merchant Guild Accept you to Join in and Qualify you for a Merchant.";
+	goto JobMerQua;
+JobMerQE9:
+	mes "The Merchant Guild Accept you to Join in and Qalify you for a Merchant.";
+	mes "Then the Last Thing we have to do is... Dealing with a Membership Fee. Are you ready?";
+	next;		           			
+	menu "Pay the rest 500 Zeny",M0JobMerQE9,"Quit",EndJobMerQE9;
+M0JobMerQE9:
+	mes "[Chief Mahnsoo]";
+	check Zeny < 500,M0JobMerQE9NZ,-;
+	set Zeny - 500;
+	mes "Oh yeah... 500 Zeny. Gotcha!";
+	goto JobMerQua;
+M0JobMerQE9NZ:
+	mes "You came to here and you have a problem with paying a Membership fee You want to be a merchant, yet you're not very reliable, huh That's not right! So go forth and do something about it.";
+	goto EndJobMerQE9;
+EndJobMerQE9:
+	mes "[Chief Mahnsoo]";
+	mes "Ehh..? Do you have a problem with it?";
+	close;
+JobMerQua:
+	mes "Ok, Press Next Button!";
+	next;
+	check SkillPoint = 0,-,moresk;
+	mes "[Chief Mahnsoo]";
+	mes "Congratulations!";
+	check job = 24,HIGH,-;
+		JobChange 5;
+		goto CONGRA;
+	HIGH:
+		jobchange 29;
+    CONGRA:
+	mes "I am so Pleased that you join the Merchant Guild and I hope you will play an Active Part in Rune Midgard Economy.";
+	check message == 2,JobMerQ2E7o8,-;
+	check message == 0,JobMerQua1,-;
+	next;
+	mes "[Chief Mahnsoo]";
+	mes "(The Message you delivered by my personal request....errr.....You've forgotten...???...Never Mind...Well done.)";
+	goto JobMerQua1;
+moresk:
+	mes "[Chief Mahnsoo]";
+	mes "Please use all your remaining skills";
+	mes "Then talk to me again.";
+	close;
+JobMerQ2E7o8:
+	mes "[Chief Mahnsoo]";
+	mes "(Aaand....I will give you some reward money for Delivering the Message. I hope you will help me next time~)";
+	set Zeny + 100;
+	goto JobMerQua1;
+JobMerQua1:
+	set s_flag = 0;
+	set loc = 0;
+	set message = 0;
+	set job_merchant_q = 0;
+	set job_merchant_q2 = 0;
+	set half = 0;
+	set nov_3_merchant = 0;
+	set nov_1_2_cos_c = 0;
+	set nov_1st_cos = 0;
+	set nov_2nd_cos = 0;
+	set nov_3_acolyte = 0;
+	set nov_3_archer = 0;
+	set nov_3_magician = 0;
+	close;
+JobMerQE8o7aN0:
+	mes "Ah, $charaname . There you are back here safe and sound! I will tell you the Good News for you, Give a Receipt to the Storekeeper first and Come back to me. Hurry up.";
+	close;
+JobMerQLE6aN0:
+	mes "You, What are you doing here and not yet to Leave? You are supposed to be on your way now.";
+	check job_merchant_q2 == 1,JobMerQ2E1oE2,-;
+	check job_merchant_q2 == 2,JobMerQ2E1oE2,-;
+	check job_merchant_q2 == 3,JobMerQ2E3oE4,-;
+	check job_merchant_q2 == 4,JobMerQ2E3oE4,-;
+	check job_merchant_q2 == 5,JobMerQ2E5oE6,-;
+	check job_merchant_q2 == 6,JobMerQ2E5oE6,-;
+	check job_merchant_q2 == 7,JobMerQ2E7oE8,-;
+	check job_merchant_q2 == 8,JobMerQ2E7oE8,-;
+	mes "^FF0000***** ERROR *****^000000";
+	JobMerQ2E1oE2:
+	mes "Receive the Product from the Storehouse, go to the Former Swordman Association in Prontera. Then visit  the Chief Girl in the Prontera Chapter of Kapra's Corp. Get that???";
+	check job_merchant_q2 == 2,JobMerQ2E2,-;
+	mes "Its Serial Numbers are 2485741.";
+	goto JobMerQ2Cont;
+JobMerQ2E2:
+	mes "Its Serial Numbers are 2328137.";
+	goto JobMerQ2Cont;
+JobMerQ2E3oE4:
+	mes "Receive the Product from the Storehouse, go to the Mage Guild in Geffen. Then Visit somebody in Charge.";
+	check job_merchant_q2 == 4,JobMerQ2E4,-;
+	mes "Its Serial Numbers are 2989396.";
+	goto JobMerQ2Cont;
+JobMerQ2E4:
+	mes "Its Serial Numbers are 2191737.";
+	goto JobMerQ2Cont;
+JobMerQ2E5oE6:
+	mes "Receive the Product from the Storehouse, Give it to JavaDullihan, the Dyermaker in Morroc.";
+	check job_merchant_q2 == 6,JobMerQ2E6,-;
+	mes "Its Serial Numbers are 3012685.";
+	goto JobMerQ2Cont;
+JobMerQ2E6:
+	mes "Its Serial Numbers are 3487372.";
+	goto JobMerQ2Cont;
+JobMerQ2E7oE8:
+	mes "Receive the Product from the Storehouse, Convey it to the Kapra's Staff in the Byalan island.";
+	check job_merchant_q2 == 8,JobMerQ2E8,-;
+	mes "Its Serial Numbers are 3318702.";
+	goto JobMerQ2Cont;
+JobMerQ2E8:
+	mes "Its Serial Numbers are 3543625.";
+	goto JobMerQ2Cont;
+JobMerQ2Cont:
+	mes "The Storehouse is a Room on the right side of me.";
+	check job_merchant_q2 == 7,JobMerQ2ContE7o8,-;
+	check job_merchant_q2 == 8,JobMerQ2ContE7o8,-;
+	goto JobMerQ2Cont1;
+JobMerQ2ContE7o8:
+	mes "Aaaand... (Don't Forget to Deliever the Message for me~~)";
+	goto JobMerQ2Cont1;
+JobMerQ2Cont1:
+	mes "Keep in mind this Serial Numbers and the Destination. You have to Let the Storekeeper check them both. He will assist you.";
+	mes "And After the Job, Return and Give the Receipt to a Storekeeper. And Come back to me.Clear?";
+	mes "Alright, That's my boy, Take Care.";
+	close;
+}
+
+//-----------------------------------------
+//alberta merchant guildman
+//-----------------------------------------
+alberta_in.gat,28,29,2	script	"Merchant Guildsman"	83,{
+	set S_FLAG = 0;
+	mes "[Union Staff Kay]";
+	mes "Hey~ What brings you here?";
+	next;
+	menu "I came here for the Merchant Test.",M0,"I came here for a Part Time job.",M1,"Nope,Nothing.",MEnd;
+M0:
+	mes "[Union Staff Kay]";
+	check Job == 29,JobMer,-;
+	check Job == 5,JobMer,-;
+	check job_merchant_q==10,JobMerQE10oE9oE2,-;
+	check job_merchant_q==9,JobMerQE10oE9oE2,-;
+	check job_merchant_q==8,JobMerQE8oE7,-;
+	check job_merchant_q==7,JobMerQE8oE7,-;
+	check job_merchant_q==6,b1,-;
+	check job_merchant_q==5,b1,-;
+	goto b2;
+b1:
+	checkitem 1081,0,JobMerQE6oE5aBoxE0,-;
+	checkitem 1082,0,JobMerQE6oE5aBoxE0,-;
+ 	checkitem 1083,0,JobMerQE6oE5aBoxE0,-;
+	checkitem 1081,0,-,JobMerQE6oE5aBoxNE0;
+	checkitem 1082,0,-,JobMerQE6oE5aBoxNE0;
+	checkitem 1083,0,-,JobMerQE6oE5aBoxNE0;	
+b2:
+	mes "Name? $charaname ....";
+	check job_merchant_q==0,M0JobMerQE0,-;
+	mes "Oh, I find ya. I shall give you the Product.";
+	mes "Choose the Destination.";
+	goto M0Cont;
+M0JobMerQE0:
+	mes "Ehh? I can't find your name on the List. Why don't you check it again?";
+	close;
+ResJobCE0:
+	mes "Select the Destination.";
+	goto M0Cont;
+M0Cont:
+	next;
+	menu "Prontera.",M00,"Geffen.",M01,"Morroc.",M02,"Byalan Island.",M03;
+M00:
+	set S_FLAG = 1;
+	goto M0Cont1;
+M01:
+	set S_FLAG = 2;
+	goto M0Cont1;
+M02:
+	set S_FLAG = 3;
+	goto M0Cont1;
+M03:
+	set S_FLAG = 4;
+	goto M0Cont1;
+M0Cont1:
+	mes "[Union Staff Kay]";
+	mes "Now, Note the Serial Numbers. If you want to Cancel, Just note '0', Alright?";
+	next;
+	input @jam;
+	check @jam < 1000000,inputErr,-;
+	check @jam > 5000000,inputErr,-;
+	check @jam == 0,-,inputM0;
+	mes "[Union Staff Kay]";
+	mes "Are you sure that you wanna cancel?";
+	menu "Oh yes.",M000,"No way.",M001;
+M000:
+	mes "Do as you wish~I cancel~";
+	close;
+M001:
+	next;    						
+	goto inputM0;
+inputErr:
+	mes "[Union Staff Kay]";
+	mes "Hey~ Hey~ It's out of valid numbers. Note Numbers from 1000000 to 5000000 or less.";
+	next;
+	goto inputM0;
+inputM0:
+	mes "[Union Staff Kay]";
+	check S_FLAG == 1,M00Cont,-;
+	check S_FLAG == 2,M01Cont,-;
+	check S_FLAG == 3,M02Cont,-;
+	check S_FLAG == 4,M03Cont,-;
+M00Cont:
+	mes "Destination is Prontera. Its Serial Numbers are $[@jam] . Positive?";
+	goto inputM0Cont;
+M01Cont:
+	mes "Destination is Geffen. Phew~ Really far from here~ You hit by bad luck, did you?";
+	mes "Its Serial Numbers are $[@jam] . Positive?";
+	goto inputM0Cont;
+M02Cont:
+	mes "Destination is Morroc. Phew~ Really far from here~ You hit by Goddamn bad luck, did you?";
+	mes "Its Serial Numbers are $[@jam] . Positive?";
+	goto inputM0Cont;
+M03Cont:
+	mes "Destination is Izlude. Its Serial Numbers are $[@jam] . Positive?";
+	goto inputM0Cont;
+inputM0Cont:
+	next;
+	menu "Positive.",M0000,"Negative.",M0001;
+M0000:
+	goto M0Cont2;
+M0001:
+	close;
+M0Cont2:
+	check S_FLAG == 1,M000Cont,-;
+	check S_FLAG == 2,M001Cont,-;
+	check S_FLAG == 3,M002Cont,-;
+	check S_FLAG == 4,M003Cont,-;
+M000Cont:
+	set loc = 1;
+	check job_merchant_q2 == 1,c1,-; 
+	check job_merchant_q2 == 2,c2,-;
+	additem 1083,1;
+	goto M0Cont3;
+c1:
+	check @jam == 2485741,M000JobMerQ2E1,-;
+	additem 1083,1;
+	goto M0Cont3;
+c2:	
+	check @jam == 2328137,M000JobMerQ2E2,-;
+	additem 1083,1;
+	goto M0Cont3;
+M000JobMerQ2E1:
+	additem 1081,1;
+	goto M0Cont3;
+M000JobMerQ2E2:
+	additem 1082,1;
+	goto M0Cont3;
+M001Cont:
+	set loc = 2;
+	check job_merchant_q2 == 3,c3,-; 
+	check job_merchant_q2 == 4,c4,-;
+	additem 1083,1;
+	goto M0Cont3;	
+c3:
+	check @jam == 2989396,M000JobMerQ2E3,-;
+	delitem 1083,1;
+	goto M0Cont3;
+c4:
+ 	check @jam == 2191737,M000JobMerQ2E4,-;
+	delitem 1083,1;
+	goto M0Cont3;
+M000JobMerQ2E3:
+	additem 1081,1;
+	goto M0Cont3;
+M000JobMerQ2E4:
+	additem 1082,1;
+	goto M0Cont3;
+M002Cont:
+	set loc = 3;
+	check job_merchant_q2 == 5,c5,-; 
+	check job_merchant_q2 == 6,c6,-; 
+	additem 1083,1;
+	goto M0Cont3;
+c5:
+	check @jam == 3012685,M000JobMerQ2E5,-;
+	additem 1083,1;
+	goto M0Cont3;
+c6:
+	check @jam == 3487372,M000JobMerQ2E6,-;
+	additem 1083,1;
+	goto M0Cont3;
+M000JobMerQ2E5:
+	additem 1081,1;
+	goto M0Cont3;
+M000JobMerQ2E6:
+	additem 1082,1;
+	goto M0Cont3;
+M003Cont:
+	set loc = 4;
+	check job_merchant_q2 == 7,c7,-;
+	check job_merchant_q2 == 8,c8,-;
+	additem 1083,1;
+	goto M0Cont3;
+c7:
+ 	check @jam == 3318702,M000JobMerQ2E7,-;
+	additem 1083,1;
+	goto M0Cont3;
+c8:
+	check @jam == 3543625,M000JobMerQ2E8,-;
+	additem 1083,1;
+	goto M0Cont3;
+M000JobMerQ2E7:
+	additem 1081,1;
+	goto M0Cont3;
+M000JobMerQ2E8:
+	additem 1082,1;
+	goto M0Cont3;
+M0Cont3:
+	check job_merchant_q == 4,M0JobMerQE4,-;
+	check job_merchant_q == 3,M0JobMerQE5,-;
+M0JobMerQE4:
+	set job_merchant_q = 6;
+	goto M0Cont4;
+M0JobMerQE5:
+	set job_merchant_q = 5;
+	goto M0Cont4;
+M0Cont4:
+	mes "[Union Staff Kay]";
+	mes "The product once given will not be provided any more. So if you lost it, you could not be a Merchant in your entire life. Please Do not lose this thing, Alright?";
+	mes "Then, I Wish you luck. Ah! And You must keep the Receipt after the Delivery alright?";
+	close;
+JobMer:
+	mes "What are you talking about? You are a merchant, Dumbo.";
+	close;
+JobMerQE10oE9oE2:
+	mes "We already transmit your file to Job Department. Visit 'Chief Mahnsoo' in Centre.";
+	close;
+JobMerQE8oE7:
+	mes "Oh, Yeah? Ok, Let me check. Your name is $charaname .";
+	next;
+	mes "[Union Staff Kay]";
+	mes "Your destination was....";
+	check job_merchant_q2 == 1,JobMerQ2E1oE2,-;
+	check job_merchant_q2 == 2,JobMerQ2E1oE2,-;
+	check job_merchant_q2 == 3,JobMerQ2E3oE4,-;
+	check job_merchant_q2 == 4,JobMerQ2E3oE4,-;
+	check job_merchant_q2 == 5,JobMerQ2E5oE6,-;
+	check job_merchant_q2 == 6,JobMerQ2E5oE6,-;
+	check job_merchant_q2 == 7,JobMerQ2E7oE8,-;
+	check job_merchant_q2 == 8,JobMerQ2E7oE8,-;
+	mes "^FF0000***** ERROR *****^000000";
+JobMerQ2E1oE2:
+	mes "Wow! You met Kapra's Babe in Prontera. Cool.. Receipt?";
+	check job_merchant_q2 == 1,c9,-; 
+	check job_merchant_q2 == 2,c10,-;
+	goto JobNotQua;
+c9:
+	checkitem 1073,1,JobMerQ2E1,-;
+	goto JobNotQua;
+c10:
+	checkitem 1074,1,JobMerQ2E2,-;
+	goto JobNotQua;	
+JobMerQ2E1:
+	delitem 1073,1;
+	goto JobMerVou;
+JobMerQ2E2:
+	delitem 1074,1;
+	goto JobMerVou;
+JobMerQ2E3oE4:
+	mes "Geffen Magic Academy. Ok, Receipt?";
+	check job_merchant_q2 == 3,c11,-; 
+	check job_merchant_q2 == 4,c12,-; 
+	goto JobNotQua;
+c11:
+	checkitem 1075,1,JobMerQ2E3,-;
+	goto JobNotQua;
+c12:
+	checkitem 1076,1,JobMerQ2E4,-;
+	goto JobNotQua;
+JobMerQ2E3:
+	delitem 1075,1;
+	goto JobMerVou;
+JobMerQ2E4:
+	delitem 1076,1;
+	goto JobMerVou;
+JobMerQ2E5oE6:
+	mes "Morroc, The Dyermaker. Not bad... Receipt?";
+	check job_merchant_q2 == 5,c13,-; 
+	check job_merchant_q2 == 6,c14,-; 
+	goto JobNotQua;
+c13:
+	checkitem 1077,1,JobMerQ2E5,-;
+	goto JobNotQua;
+c14:
+	checkitem 1078,1,JobMerQ2E6,-;
+	goto JobNotQua;
+JobMerQ2E5:
+	delitem 1077,1;
+	goto JobMerVou;
+JobMerQ2E6:
+	delitem 1078,1;
+	goto JobMerVou;
+JobMerQ2E7oE8:
+	mes "Oh-hohohoho~! Kapra's Babe in Bybialan~ Awesome. Anyway, Didn't forget to bring the Receipt?";
+	check job_merchant_q2 == 7,c15,-; 
+	check job_merchant_q2 == 8,c16,-; 
+	goto JobNotQua;
+c15:
+	checkitem 1079,1,JobMerQ2E7,-;
+	goto JobNotQua;
+c16:
+	checkitem 1080,1,JobMerQ2E8,-;
+	goto JobNotQua;
+JobMerQ2E7:
+	delitem 1079,1;
+	goto JobMerVou;
+JobMerQ2E8:
+	delitem 1080,1;
+	goto JobMerVou;
+JobNotQua:
+	mes "Errr? What the Heck!? Where's the Receipt? What happened?";
+	mes "I will transmit your file to Jod Department. Visit 'Chief Mahnsoo' in Centre. Dismiss!";
+	close;
+JobMerVou:
+	mes "....Great! Everything is perfect! I will transmit your file to Job Department. Visit 'Chief Mahnsoo' in Centre.";
+	set job_merchant_q = 10;
+	close;
+JobMerQE6oE5aBoxE0:
+	mes "Huh? Oh~ How was the Trip?";
+	next;
+	menu "*Sob**Sniff* I lost the Stuff.",JobMerQE6oE5aBoxE00,"Fine.",JobMerQE6oE5aBoxE01;
+JobMerQE6oE5aBoxE00:
+	set job_merchant_q = 2;
+	mes "[Union Staff Kay]";
+	mes "Oh My Godness! Lost the product?! What have you done, you moron!!!";
+	mes "According to the policy, I have to record this incident on your file with Job Department. I feel Sorry for you.";
+	close;
+JobMerQE6oE5aBoxE01:
+	mes "[Union Staff Kay]";
+	mes "....Alright....";
+	close;
+JobMerQE6oE5aBoxNE0:
+	mes "Huh? What are you doing here yet to leave? You are supposed to be on your way now.";
+	next;
+	menu "Please Exchange the Product.",JobMerQE6oE5aBoxNE00,"Oh, yeah..... you right,man.",JobMerQE6oE5aBoxNE01;
+JobMerQE6oE5aBoxNE00:
+	mes "[Union Staff Kay]";
+	checkitem 1081,0,c17,-;
+	goto pain;	
+c17:
+	checkitem 1082,0,c18,-; 
+	goto pain;
+c18:	
+	checkitem 1083,0,MerBoxE0,-;
+pain:	
+	mes "Sigh... What a Dumbass! Haven't you realised you could be pain in my ass?";
+	checkitem 1081,0,-,MerBox1NE0;
+	checkitem 1082,0,-,MerBox2NE0;
+	checkitem 1083,0,-,MerBox3NE0;
+MerBox1NE0:
+	delitem 1081,1;
+	goto MerBoxEnd;
+MerBox2NE0:
+	delitem 1081,1;
+	goto MerBoxEnd;
+MerBox3NE0:
+	delitem 1081,1;
+	goto MerBoxEnd;
+MerBoxEnd:
+	set 3017 = 0;
+	set 3005 = 4;
+	close;
+MerBoxE0:
+	mes "Where's the Box? Where is it?!";
+	next;
+	menu "*Sob**Sniff*I lost it.",MerBoxE00,"Never mind. I keep it..",MerBoxE01;
+MerBoxE00:
+	set 3005 = 2;
+	mes "[Union Staff Kay]";
+	mes "Hhhhhhey you Moron! Lost the Box?! What have you done, oh my lord!!";
+	mes "According to the policy, I have to record this incident on your file with Job Department. I feel Sorry for you.";
+	close;
+MerBoxE01:
+	mes "[Union Staff Kay]";
+	mes "Hmm... I thought you lost it. But Alright you keep it.";
+	close;
+JobMerQE6oE5aBoxNE01:
+	mes "[Union Staff Kay]";
+	mes "....What a bummer....";
+	close;
+M1:
+	mes "[Union Staff Kay]";
+	mes "Part Time job? Not ready yet.";
+	mes "Darn... Paymaster's Department never afford the Budget so we can't help it.";
+	close;
+MEnd:
+	mes "[Union Staff Kay]";
+	mes "...? Huh..? Huh..?";
+	mes "What..?";
+	close;
+}
+
+//--------------------------------------
+//geffen guild staff
+//--------------------------------------
+geffen_in.gat,155,122,4	script	"Guild Staff"	47,{
+	check loc == 2,-,1stJobQuestNE2;
+	check job_merchant_q == 8,JobMerQE8o7,-;
+	check job_merchant_q == 7,JobMerQE8o7,-;
+	check job_merchant_q == 6,JobMerQE6o5,-;
+	check job_merchant_q == 5,JobMerQE6o5,-;
+JobMerQE6o5:
+	mes "[Guild Staff]";
+	mes "Woah! It's arrived~ Arrived~ They sent the Box~ Ok ok , Put down here....";
+	checkitem 1081,1,MerBox123E1,-;
+	checkitem 1082,1,MerBox123E1,-;
+	checkitem 1083,1,MerBox123E1,-;
+	mes "Huh? Where? Where is the Box?";
+	close;
+MerBox123E1:
+	mes "You must have been tired enough to travel in hot weather like this.";
+	next;
+	mes "[Guild Staff]";
+	mes "Alright, Let's get checked the Serial Numbers? Ehh....";
+	check job_merchant_q2 == 3,JobMerQ2E3oMerBox1NE0,-;
+	checkitem 1081,0,-,JobMerQ2E3oMerBox1NE0;
+	check job_merchant_q2 == 4,JobMerQ2E4oMerBox2NE0,-;
+	checkitem 1082,0,-,JobMerQ2E4oMerBox2NE0;
+	mes ".....! Ehh??? Wrong Numbers!?";
+	next;
+	mes "[Guild Staff]";
+	mes "Hey wait a Minute! This is not the one we ordered.! Its Serial Numbers should be 2989396 or 2191737, either of two kinds.";
+	mes "Don't you feel something Wrong?";
+	close;
+JobMerQ2E3oMerBox1NE0:
+	mes "2989396.... This is the Right one we ordered. Here, Your receipt.";
+	set job_merchant_q = 8;
+	delitem 1081,1;
+	additem 1075,1;
+	goto MerBox123;
+JobMerQ2E4oMerBox2NE0:
+	mes "2191737.... This is the Right one we ordered. Here, Your receipt.";
+	set job_merchant_q = 7;
+	delitem 1082,1;
+	additem 1076,1;
+	goto MerBox123;
+MerBox123:
+	next;
+	mes "[Guild Staff]";
+	mes "Heheh~ Thank you, Bye Bye.";
+	close;
+JobMerQE8o7:
+	mes "[Guild Staff]";
+	mes "Yo~ Merchant Guildsman, Hello~";
+	mes "I Give you many thanks.";
+	close;
+1stJobQuestNE2:
+	mes "[Guild Staff]";
+	mes "It should be arrived about this time....";
+	mes "It seems to be late.... Hmm...";
+	close;
+}
+
+//------------------------------------------------
+//student
+//------------------------------------------------
+morocc_in.gat,140,102,4	script	Student	86,{
+	check loc == 3,-,1stJobQNE3;
+	check job_merchant_q == 8,JobMerQE8oE7,-;
+	check job_merchant_q == 7,JobMerQE8oE7,-;
+	check job_merchant_q == 6,JobMerQE6oE5,-;
+	check job_merchant_q == 5,JobMerQE6oE5,-;
+JobMerQE6oE5:
+	mes "[Dyer's Student]";
+	mes "From the Merchant Guild...? Ah, Yes! You visit the Right place~";
+	checkitem 1081,1,MerBox123E1,-;
+	checkitem 1082,1,MerBox123E1,-;
+	checkitem 1083,1,MerBox123E1,-;
+	mes "But where's the Product? Muhahahaha~";
+	close;
+MerBox123E1:
+	mes "Ok, Please Put down here.";
+	next;
+	mes "[Dyer's Student]";
+	mes "Let me check the Serial Numbers of it,because I have to give you the Receipt, right?";
+	check job_merchant_q2 == 5,d1,-; 
+	check job_merchant_q2 == 6,d2,-; 
+	goto notx;
+d1:
+	checkitem 1081,1,JobMerQ2E5oMerBox1NE0,-;
+	goto notx;
+d2:
+	checkitem 1082,1,JobMerQ2E5oMerBox2NE0,-;	
+notx:
+	next;
+	mes "[Dyer's Student]";
+	mes "....Excuse me. I don't think this is the Right one we ordered..? Its serial numbers should be 3012685 or 3487372, either of two Kinds...";
+	close;			
+JobMerQ2E5oMerBox1NE0:
+	mes "3012685.... That's right. Here,your receipt.";
+	set job_merchant_q = 8;
+	delitem 1081,1;
+	additem 1077,1;
+	goto MerBox123;
+JobMerQ2E5oMerBox2NE0:
+	mes "3487372.... That's right. Here, your receipt.";
+	set job_merchant_q = 7;
+	delitem 1082,1;
+	additem 1078,1;
+	goto MerBox123;
+MerBox123:
+	next;
+	mes "[Dyer's Student]";
+	mes "Thank you, See you next time~";
+	close;
+1stJobQNE3:
+	mes "[Dyer's Student]";
+	mes "Mr. JavaDullihan is one and Only the Best in Midgard continent.";
+	mes "Aaaand I am his Student!! How proude of I am!!!!";
+	next;
+	mes "[Dyer's Student]";
+	mes ".....That's what I am saying..";
+	close;
+JobMerQE8oE7:
+	mes "[Dyer's Student]";
+	mes "Oh, You gonna return? Take Care~";
+	close;
+}

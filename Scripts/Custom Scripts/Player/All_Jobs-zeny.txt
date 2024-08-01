@@ -1,0 +1,378 @@
+// =======================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Faberau -> prontera 164 183
+// 	Job Changer for all jobs, including 2-3(Advanced 2nd Job) and Super Novice.
+//		5k for 1st job, 5k for Super Novice, 10k for 2nd job, 20k for Advanced 2nd Job
+//
+// =======================================================================================
+
+prontera.gat,164,183,4 script "Faberau" 110,{
+	mes "[Faberau]";
+	mes "Greetings $charaname!";
+	next;
+	mes "[Faberau]";
+	mes "I guess you want to change your class?";
+	next;
+	menu "Yes",-,"No",L_NEVERMIND;
+		mes "[Faberau]";
+		mes "Let me check your possibilities...";
+		next;
+		goto L_CHECKJOB;
+	L_CHECKJOB:
+		check Job != 22,-,L_NOJOBS;
+		check Job != 23,-,L_ERRSUPERNOV;
+		check SkillPoint = 0,-,L_SKILLPOINT;
+		check Job > 0,-,L_JOBNOVICE;
+		check Job > 6,-,L_1STCLASS;
+		check Job > 21,-,L_JOBHIGHNOV;
+		check Job > 24,-,L_HIGH1st;
+		check Job > 30,L_NOMOREJOBS,L_HIGH2ND;
+	L_JOBNOVICE:
+		check JobLevel = 10,-,L_REQJLEVEL;
+		mes "[Faberau]";
+		mes "Ah, young one, this is a list of the classes you can improve.";
+		mes " ";
+		next;
+		menu "Swordman",L_CHGSWORD,"Mage",L_CHGMAGE,"Archer",L_CHGARCHER,"Acolyte",L_CHGACO,"Merchant",L_CHGMERC,"Thief",L_CHGTHIEF,"Super Novice (Req Base Level 60)",L_SUPERNOVICE;
+		close;
+		L_CHGSWORD:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 1;
+			set HIGHNOVFLAG = 1;
+			goto L_SETJOBLEVEL;
+		L_CHGMAGE:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 2;
+			set HIGHNOVFLAG = 2;
+			goto L_SETJOBLEVEL;
+		L_CHGARCHER:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 3;
+			set HIGHNOVFLAG = 3;
+			goto L_SETJOBLEVEL;
+		L_CHGACO:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 4;
+			set HIGHNOVFLAG = 4;
+			goto L_SETJOBLEVEL;
+		L_CHGMERC:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 5;
+			set HIGHNOVFLAG = 5;
+			goto L_SETJOBLEVEL;
+		L_CHGTHIEF:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 6;
+			set HIGHNOVFLAG = 6;
+			goto L_SETJOBLEVEL;
+		L_SUPERNOVICE:
+			check BaseLevel = 60,-,L_REQBLEVEL;
+			mes "[Faberau]";
+			mes "Before I change you to Super Novice, I will tell you that this choice is permanent, you can't change later to other classes.";
+			next;
+			mes "[Faberau]";
+			mes "So, are you really sure that do you want to change?";
+			next;
+			menu "Yes",-,"No",L_NEVERMIND;
+				check Zeny >= 5000,-,NOZENY;
+				set Zeny -= 5000,0;
+				jobchange 23;
+				goto L_SETJOBLEVEL;
+	L_1STCLASS:
+		check JobLevel > 39,-,L_REQJLEVEL;
+		mes "[Faberau]";
+		mes "Ah, I can see you've got more experience. I'll give you right away your options...";
+		next;
+		goto L_CHECK1ST;
+		L_CHECK1ST:
+			check Job > 1,-,L_JOBSWORD;
+			check Job > 2,-,L_JOBMAGE;
+			check Job > 3,-,L_JOBARCHER;
+			check Job > 4,-,L_JOBACO;
+			check Job > 5,L_JOBTHIEF,L_JOBMERC;
+		L_JOBSWORD:
+			menu "Knight",L_CHGKNIGHT,"Crusader",L_CHGCRUSADER,"Nevermind",L_NEVERMIND;
+				L_CHGKNIGHT:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 7;
+					goto L_SETJOBLEVEL;
+				L_CHGCRUSADER:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 14;
+					goto L_SETJOBLEVEL;
+		L_JOBMAGE:
+			menu "Wizard",L_CHGWIZARD,"Sage",L_CHGSAGE,"Nevermind",L_NEVERMIND;
+				L_CHGWIZARD:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 9;
+					goto L_SETJOBLEVEL;
+				L_CHGSAGE:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 16;
+					goto L_SETJOBLEVEL;
+		L_JOBARCHER:
+			check Gender = 0,-,L_1STMALE;
+			menu "Dancer",L_CHGDANCER,"Hunter",L_CHGHUNTER,"Nevermind",L_NEVERMIND;
+				L_CHGDANCER:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 20;
+					goto L_SETJOBLEVEL;
+			L_1STMALE:
+				menu "Bard",L_CHGBARD,"Hunter",L_CHGHUNTER,"Nevermind",L_NEVERMIND;
+					L_CHGBARD:
+						check Zeny >= 10000,-,NOZENY;
+						set Zeny -= 10000,0;
+						jobchange 19;
+						goto L_SETJOBLEVEL;
+			L_CHGHUNTER:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 11;
+				goto L_SETJOBLEVEL;
+		L_JOBACO:
+			menu "Priest",L_CHGPRIEST,"Monk",L_CHGMONK,"Nevermind",L_NEVERMIND;
+				L_CHGPRIEST:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 8;
+					goto L_SETJOBLEVEL;
+				L_CHGMONK:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 15;
+					goto L_SETJOBLEVEL;
+		L_JOBMERC:
+			menu "Blacksmith",L_CHGSMITH,"Alchemist",L_CHGALCHEM,"Nevermind",L_NEVERMIND;
+				L_CHGSMITH:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 10;
+					goto L_SETJOBLEVEL;
+				L_CHGALCHEM:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 18;
+					goto L_SETJOBLEVEL;
+		L_JOBTHIEF:
+			menu "Assassin",L_CHGASSA,"Rogue",L_CHGROGUE,"Nevermind",L_NEVERMIND;
+				L_CHGASSA:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 12;
+					goto L_SETJOBLEVEL;
+				L_CHGROGUE:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 17;
+					goto L_SETJOBLEVEL;
+	L_JOBHIGHNOV:
+		check BaseLevel > 98,-,L_REQBLEVEL;
+		check JobLevel > 49,-,L_REQJLEVEL;
+		mes "[Faberau]";
+		mes "Ah! So you want to aspire for the 2-3 advanced classes? First you'll need to turn to novice again...";
+		next;
+		mes "[Faberau]";
+		mes "Is that ok with you?";
+		next;
+		menu "Yes",-,"No",L_NEVERMIND;
+			mes "[Faberau]";
+			mes "Ok, you asked for it...";
+			next;
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			ccolor 0;
+			jobchange 24;
+			basereset;
+			resetstat;
+			set statuspoint = 100;
+			set skillpoints = 0;
+			setskilllevel 0x1,0;
+			close;
+	L_HIGH1st:
+		check Job = 24,-,L_NOJOBS;
+		check JobLevel = 10,-,L_REQJLEVEL;
+		mes "[Faberau]";
+		mes "Ah! I can see you have a lot of free time to make it this far... ^_^";
+		mes "I'll change you right away if that is ok with you.";
+		next;
+		menu "Yes",-,"No",L_NEVERMIND;
+			check HIGHNOVFLAG > 1,-,L_HIGHSWORD;
+			check HIGHNOVFLAG > 2,-,L_HIGHMAGE;
+			check HIGHNOVFLAG > 3,-,L_HIGHARCH;
+			check HIGHNOVFLAG > 4,-,L_HIGHACO;
+			check HIGHNOVFLAG > 5,L_HIGHTHIEF,L_HIGHMERC;
+		L_HIGHSWORD:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 25;
+			goto L_SETJOBLEVEL;
+		L_HIGHMAGE:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 26;
+			goto L_SETJOBLEVEL;
+		L_HIGHARCH:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 27;
+			goto L_SETJOBLEVEL;
+		L_HIGHACO:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 28;
+			goto L_SETJOBLEVEL;
+		L_HIGHMERC:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 29;
+			goto L_SETJOBLEVEL;
+		L_HIGHTHIEF:
+			check Zeny >= 5000,-,NOZENY;
+			set Zeny -= 5000,0;
+			jobchange 30;
+			goto L_SETJOBLEVEL;
+	L_HIGH2ND:
+		check JobLevel > 39,-,L_REQJLEVEL;
+		mes "[Faberau]";
+		mes "What? You still here? I guess you're a real RO Fanatic...";
+		mes "Here is the list of posibilities...";
+		next;
+		check Job > 25,-,L_ADVSWORD;
+		check Job > 26,-,L_ADVMAGE;
+		check Job > 27,-,L_ADVARCHER;
+		check Job > 28,-,L_ADVACO;
+		check Job > 29,L_ADVTHIEF,L_ADVMERC;
+		L_ADVSWORD:
+			menu "Lord Knight",L_LORDKNIGHT,"Paladin",L_PALADIN,"Nevermind",L_NEVERMIND;
+			L_LORDKNIGHT:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 31;
+				goto L_SETJOBLEVEL;
+			L_PALADIN:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 38;
+				goto L_SETJOBLEVEL;
+		L_ADVMAGE:
+			menu "High Wizard",L_HIGHWIZARD,"Professor",L_PROFESSOR,"Nevermind",L_NEVERMIND;
+			L_HIGHWIZARD:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 33;
+				goto L_SETJOBLEVEL;
+			L_PROFESSOR:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 40;
+				goto L_SETJOBLEVEL;
+		L_ADVARCHER:
+			check Gender = 0,-,L_HIGHMALE;
+			menu "Gypsy",L_GYPSY,"Sniper",L_SNIPER,"Nevermind",L_NEVERMIND;
+			L_GYPSY:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 44;
+				goto L_SETJOBLEVEL;
+			L_HIGHMALE:
+				menu "Clown",L_CLOWN,"Sniper",L_SNIPER;
+				close;
+				L_CLOWN:
+					check Zeny >= 10000,-,NOZENY;
+					set Zeny -= 10000,0;
+					jobchange 43;
+					goto L_SETJOBLEVEL;
+			L_SNIPER:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 35;
+				goto L_SETJOBLEVEL;
+		L_ADVACO:
+			menu "High Priest",L_HIGHPRIEST,"Champion",L_CHAMPION,"Nevermind",L_NEVERMIND;
+			L_HIGHPRIEST:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 32;
+				goto L_SETJOBLEVEL;
+			L_CHAMPION:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 39;
+				goto L_SETJOBLEVEL;
+		L_ADVMERC:
+			menu "Whitesmith",L_WHITESMITH,"Creator",L_CREATOR,"Nevermind",L_NEVERMIND;
+			L_WHITESMITH:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 34;
+				goto L_SETJOBLEVEL;
+			L_CREATOR:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 42;
+				goto L_SETJOBLEVEL;
+		L_ADVTHIEF:
+			menu "Assassin Cross",L_ASSCROSS,"Stalker",L_STALKER,"Nevermind",L_NEVERMIND;
+			L_ASSCROSS:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 36;
+				goto L_SETJOBLEVEL;
+			L_STALKER:
+				check Zeny >= 10000,-,NOZENY;
+				set Zeny -= 10000,0;
+				jobchange 41;
+				goto L_SETJOBLEVEL;
+	L_SETJOBLEVEL:
+		//Redundant, jobchange does this
+		//set JobLevel = 1,0;
+		close;
+	L_SKILLPOINT:
+		mes "[Faberau]";
+		mes "You need to spend all your skill points before changing your class.";
+		close;
+	L_NOJOBS:
+		check Job = 22,-,L_ERRSUPERNOV;
+		mes "[Faberau]";
+		mes "You need to change clothes, before you can change your job.";
+		close;
+	L_ERRSUPERNOV:
+		mes "[Faberau]";
+		mes "The choice of Super Novice is permanent! You can't change jobs now!";
+		close;
+	L_NOMOREJOBS:
+		mes "[Faberau]";
+		mes "There arent any more Jobs for you to change into.. make another character or something! :P";
+		close;
+	L_REQBLEVEL:
+		mes "[Faberau]";
+		mes "You need more base levels, in order to change to the class you selected.";
+		close;
+	L_REQJLEVEL:
+		mes "[Faberau]";
+		mes "You need more job levels, in order to change to the class you selected.";
+		close;
+	L_NEVERMIND:
+		mes "[Faberau]";
+		mes "Well, come back, if you ever change your mind. ^,^";
+		close;
+	NOZENY:
+		mes "[Faberau]";
+		mes "Not enough zeny? Oh, that is unfortunate..";
+		close;
+}

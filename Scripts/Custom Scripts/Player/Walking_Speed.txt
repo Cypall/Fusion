@@ -1,0 +1,78 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Stephane -> prontera 156 321
+// 	Walking speed changer. (very slow, slow, normal, fast, and very fast)
+//
+// =======================================================================================
+
+prontera.gat,156,321,7	script	"Stephane"	118,{	
+	check Stephane >= 1,HAS,-;
+	set Stephane = 1;
+	mes "[Stephane]";
+	mes "Hola! I got some nice powder, if you're willing. These babies can change your walking speed, and they're really nice.";
+	mes " ";
+	mes "Faster or slower, amigo, it's your choice.. but, the price is high!";
+	next;
+	mes "[Stephane]";
+	mes "Normal speed is free. If you want to go slower, the price gets cheaper - if you want to go faster, things get more expensive.";
+	next;
+	menu "Very slow (80k)",Very_Slow,"Slow (200k)",Slow,"Normal (FREE)",Normal,"Fast (400k)",Fast,"Very Fast (800k)",Very_Fast,"No drugs for me, thanks.",LEAVE; 
+	close;
+    Has:
+	set Stephane + 1;
+	check Stephane > 5,continue,-;
+	check Stephane > 3,-,continue;
+	mes "[Stephane]";
+	mes "Listen, $charaname, I think you're an addict. And, I suggest that you get help, before coming back..";
+	close;
+    continue:
+	mes "[Stephane]";
+	mes "Hola! I got some nice powder, if you're willing. These babies can change your walking speed, and they're really nice.";
+	mes " ";
+	mes "Faster or slower, amigo, it's your choice.. but, the price is high!";
+	next;
+	mes "[Stephane]";
+	mes "Normal speed is free. If you want to go slower, the price gets cheaper - if you want to go faster, things get more expensive.";
+	next;
+	menu "Very slow (80k)",Very_Slow,"Slow (200k)",Slow,"Normal (FREE)",Normal,"Fast (400k)",Fast,"Very Fast (800k)",Very_Fast,"No drugs for me, thanks.",LEAVE; 
+	close;
+    Very_Slow:
+	set @Price = 80000;
+	set @Speed = 160;
+	goto CASHIER;
+    Slow:
+	set @Price = 200000;
+	set @Speed = 150;
+	goto CASHIER;
+    Normal:
+	set @Price = 0;
+	set @Speed = 140;
+	goto CASHIER;
+    Fast:
+	set @Price = 400000;
+	set @Speed = 130;
+	goto CASHIER;
+    Very_Fast:
+	set @Price = 800000;
+	set @Speed = 120;
+	goto CASHIER;
+    CASHIER:
+	check Zeny >= @Price,-,NOZENY;
+	set Zeny - @Price;
+	speed @Speed;
+	mes "[Stephane]";
+	mes "Maybe I'll see you, again? There's more where that came from, you know..";
+	close;
+    NOZENY:
+	mes "[Stephane]";
+	mes "What the.. I'M NOT DOING THIS FOR FREE, MY FRIEND. GET SOME ZENY OR SCRAM.";
+	close;
+    LEAVE:
+	mes "[Stephane]";
+	mes "Oh, that's ok.. Some other time, perhaps.";
+	close;
+}

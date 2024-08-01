@@ -1,0 +1,2 @@
+//gl_step.gat,8,7,0	warp	warp0351	1,1,glast_01.gat,54,108
+//gl_step.gat,120,124,0	warp	warp0352	1,1,gl_sew02.gat,285,158

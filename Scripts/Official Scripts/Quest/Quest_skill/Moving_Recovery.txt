@@ -1,0 +1,83 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Moving Recovery Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Thomas De Knight -> izlude_in: 175,130
+//   Bring items to obtain skill. Applicable jobs are Swordsman, Knight and Crusader.
+//========================================================================================
+
+izlude_in.gat,175,130,2	script	"Thomas De Knight" 98,{ 
+	check Job = 1,Lcheck,-; 
+	check Job = 7,Lcheck2,-;
+	check Job = 14,Lcheck2,-;
+	goto LStartOther; 
+Lcheck: 
+	check JobLevel >= 35,-,LStartLowlv; 
+Lcheck2: 
+	check skill_sm = 1,LStartTwice,-;
+	checkitem 713,200,-,LStart; 
+	checkitem 1058,1,L3,-; 
+Lstart: 
+	mes "[Thomas De Knight]"; 
+	mes "Hello, I am Thomas De Knight."; 
+	mes "I would like you to do me a favour. In return I will give you the HP movement recovery skill. "; 
+	next;
+	mes "[Thomas De Knight]";
+	mes "Get me 200 ^FF0000Empty Bottles^000000, 1 ^FF0000Wing of Moth^000000"; 
+	mes "Come back when you have these things and your reward will be waiting for you. "; 
+	close; 
+L3: 
+	mes "[Thomas De Knight]"; 
+	mes "So you have succeded with your task."; 
+	mes "I promised you that I would give you the HP movement recovery skill."; 
+	next;
+	mes "[Thomas De Knight]";
+	mes "Do you want me to implement the skill right away?"; 
+	next;
+	menu "Yes, please",L3_1,"No, thanks",L3_2; 
+L3_1: 
+	mes "[Thomas De Knight]"; 
+	mes "Congratulations"; 
+	next; 
+	mes "[Thomas De Knight]"; 
+	mes "I will now give you the ability to move around and gain HP."; 
+	mes "This is an old skill and only taught to strong men."; 
+	next; 
+	delitem 713,200;
+	delitem 1058,1;
+	set skill_sm = 1;
+	setskilllevel 0x90,1;
+	mes "[Thomas De Knight]"; 
+	mes "Now it is implemented in to your skilltree."; 
+	mes "The skill will be used automaticaly."; 
+	mes "Good luck"; 
+	close; 
+L3_2: 
+	mes "[Thomas De Knight]"; 
+	mes "Come back when you feel ready."; 
+	mes "I will be waiting for your arrival."; 
+	mes "Good luck."; 
+	close; 
+LStartOther: 
+	mes "[Thomas De Knight]"; 
+	mes "I am Thomas De Knight and I am a teacher in the HP recovery skill."; 
+	mes "This skill can only be used by a Swordman."; 
+	mes "Unfortunately you ain't a swordman."; 
+	close; 
+LStartLowlv: 
+	mes "[Thomas De Knight]"; 
+	mes "Hello young Swordman. You have to raise your level a little more before learning the HP recovery skill."; 
+	mes "You need to be atleast joblevel 35."; 
+	close; 
+LStartTwice: 
+	setskilllevel 0x90,1;
+	mes "[Thomas De Knight]"; 
+	mes "You already have this skill implemented in your skilltree."; 
+	close; 
+}

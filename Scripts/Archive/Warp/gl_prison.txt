@@ -1,0 +1,20 @@
+//gl_prison1.gat,62,187,0	warp	warp0336	1,1,gl_sew01.gat,258,255
+//gl_prison1.gat,150,10,0	warp	warp0337	1,1,gl_prison.gat,149,178
+//gl_prison.gat,149,183,0	warp	warp0338	1,1,gl_prison1.gat,150,14
+//gl_prison.gat,10,70,4	script	""	45,{
+	random @warp,2;
+		check @warp = 0,w1,-;
+		check @warp = 1,w2,-;
+		check @warp = 2,w3,-;
+			warp "gl_cas01.gat",163,193; 
+			close;
+			w1:
+				warp "gl_cas01.gat",238,192;
+				close;
+			w2:
+				warp "gl_cas01.gat",368,301;
+				close;
+			w3:
+				warp "gl_cas01.gat",144,314;
+				close;
+}

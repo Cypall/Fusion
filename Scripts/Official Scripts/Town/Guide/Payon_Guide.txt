@@ -1,0 +1,201 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Payon Guides - Non Player Character Locations
+//
+// - Guide-> payon: 148,213
+//   Shows you the way arround payon.
+//
+// - Guide-> pay_arche: 85,30
+//   Shows you the way arround archer village.
+//
+//========================================================================================
+
+payon.gat,148,213,4 script "Guide" 708,{
+		scriptlabel GuidePayon1;
+		cutin "pay_soldier",2;
+	mes "[Payon Squad]";
+	mes "Welcome to Payon,the uplander village.";
+	mes "We will help you when you take the wrong way, Feel free to inquire at us anytime.";
+	mes "Please Choose a menu `Notice' if you are a beginner of Ragnarok.";
+L_START_1:
+	next;
+	menu "View Buildings",L_MENU_1,"Wipe all Indications on Mini-Map",L_MENU_2,"Notice",L_MENU_3,"Cancel",L_MENU_4;
+L_MENU_1:
+		check @COMPASS_CHECK == 0,-,L_MENU_1_ROOT;
+	mes "[Payon Squad]";
+	mes "Please choose a Menu first.";
+	mes "Do you want me to leave indications on the Mini-Map?";
+	next;
+	menu "Yes",-,"No",L_MENU_1_ROOT;
+		set @COMPASS_CHECK = 1;
+L_MENU_1_ROOT:
+	mes "[Payon Squad]";
+	mes "Please select your destination.";
+L_SUB_1:
+	next;
+	menu "^FF0000Archer Guild^000000",L_MENU_1_1,"Armory",L_MENU_1_2,"Kit Shop",L_MENU_1_3,"Inn",L_MENU_1_4,"Central Palace",L_MENU_1_5,"Cancel",L_MENU_1_6;
+L_MENU_1_1:
+	mes "[Payon Squad]";
+	mes "'Archer Guild' is a Control Office of Archers. It is located at Northeast Contour of the Archer Village.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,227,329,1,0xFF0000;
+	goto L_SUB_1;
+L_MENU_1_2:
+	mes "[Payon Squad]";
+	mes "'Armory' is located at Northwest around the Centre.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,135,158,2,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_3:
+	mes "[Payon Squad]";
+	mes "'Kit Shop' is located at Northwest Contour of the Archer Village.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,227,329,3,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_4:
+	mes "[Payon Squad]";
+	mes "'Inn' is located at East around the Centre.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,223,117,4,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_5:
+	mes "[Payon Squad]";
+	mes "'Central Palace' is at North around the Centre.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,155,242,5,0x00FF00;
+	goto L_SUB_1;
+L_MENU_1_6:
+	mes "[Payon Squad]";
+	mes "If you want to remove location marks, Please choose 'Wipe all Indications on the Mini-Map'.";
+	goto L_START_1;
+L_MENU_2:
+	mes "[Payon Squad]";
+	mes "All Map indications have been removed.";
+		viewpoint 2,227,329,1,0xFF0000;
+		viewpoint 2,135,158,2,0xFF00FF;
+		viewpoint 2,227,329,3,0xFF00FF;
+		viewpoint 2,223,170,4,0xFF00FF;
+		viewpoint 2,155,242,5,0x00FF00;
+		set @COMPASS_CHECK = 0;
+	goto L_START_1;
+L_MENU_3:
+	mes "[Payon Squad]";
+	mes "We altered the";
+	mes "Location Guide into";
+	mes "the Newest Digital Style,";
+	mes "out of the";
+	mes "former Analog One.";
+	next;
+	mes "[Payon Squad]";
+	mes "Don't forget to refer to";
+	mes "the Mini-Map";
+	mes "on the Upper-Right";
+	mes "of your the Screen.";
+	next;
+	mes "[Payon Squad]";
+	mes "If you can't see the Mini-Map,";
+	mes " just use Shortcut 'ctrl+tab'";
+	mes " or Click 'map' button on the Basic Information Window.";
+	next;
+	mes "[Payon Squad]";
+	mes "After that, Click";
+	mes "^3355FF -  ^000000button on the Mini-Map";
+	mes "until whole buildings";
+	mes "are shown on it.";
+	goto L_START_1;
+L_MENU_4:
+	mes "[Payon Squad]";
+	mes "Good Bye.";
+		cutin "pay_soldier",255;
+	close;
+}
+
+pay_arche.gat,85,30,2 script "Guide" 708,{
+		scriptlabel GuidePayon2;
+		cutin "pay_soldier",2;
+	mes "[Payon Squad]";
+	mes "Welcome to Payon,the uplander village.";
+	mes "We will help you when you take the wrong way, Feel free to inquire at us anytime.";
+	mes "Please Choose a menu `Notice' if you are a beginner of Ragnarok.";
+L_START_1:
+	next;
+	menu "View Buildings",L_MENU_1,"Wipe all Indications on Mini-Map",L_MENU_2,"Notice",L_MENU_3,"Cancel",L_MENU_4;
+L_MENU_1:
+		check @COMPASS_CHECK == 0,-,L_MENU_1_ROOT;
+	mes "[Payon Squad]";
+	mes "Please choose a Menu first.";
+	mes "Do you want me to leave indications on the Mini-Map?";
+	next;
+	menu "Yes",-,"No",L_MENU_1_ROOT;
+		set @COMPASS_CHECK = 1;
+L_MENU_1_ROOT:
+	mes "[Payon Squad]";
+	mes "Please select your destination.";
+L_SUB_1:
+	next;
+	menu "^FF0000Archer Guild^000000",L_MENU_1_1,"Kit Shop",L_MENU_1_2,"Payon Cave",L_MENU_1_3,"Cancel",L_MENU_1_4;
+L_MENU_1_1:
+	mes "[Payon Squad]";
+	mes "'Archer Guild' is a Control Office of Archers";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,144,164,1,0xFF0000;
+	goto L_SUB_1;
+L_MENU_1_2:
+	mes "[Payon Squad]";
+	mes "'Kit Shop' 'Armory' is located at Northwest around the Centre.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,71,156,2,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_3:
+	mes "[Payon Squad]";
+	mes "'Payon Cave' is located at West Contour arround the Centre of Mini-Map.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,34,132,3,0xFFFFFF;
+	goto L_SUB_1;
+L_MENU_1_4:
+	mes "[Payon Squad]";
+	mes "If you want to remove location marks, Please choose 'Wipe all Indications on the Mini-Map'.";
+	goto L_START_1;
+L_MENU_2:
+	mes "[Payon Squad]";
+	mes "All Map indications have been removed.";
+		viewpoint 2,144,164,1,0xFF0000;
+		viewpoint 2,71,156,2,0xFF00FF;
+		viewpoint 2,34,132,3,0xFFFFFF;
+		set @COMPASS_CHECK = 0;
+	goto L_START_1;
+L_MENU_3:
+	mes "[Payon Squad]";
+	mes "We altered the";
+	mes "Location Guide into";
+	mes "the Newest Digital Style,";
+	mes "out of the";
+	mes "former Analog One.";
+	next;
+	mes "[Payon Squad]";
+	mes "Don't forget to refer to";
+	mes "the Mini-Map";
+	mes "on the Upper-Right";
+	mes "of your the Screen.";
+	next;
+	mes "[Payon Squad]";
+	mes "If you can't see the Mini-Map,";
+	mes " just use Shortcut 'ctrl+tab'";
+	mes " or Click 'map' button on the Basic Information Window.";
+	next;
+	mes "[Payon Squad]";
+	mes "After that, Click";
+	mes "^3355FF -  ^000000button on the Mini-Map";
+	mes "until whole buildings";
+	mes "are shown on it.";
+	goto L_START_1;
+L_MENU_4:
+	mes "[Payon Squad]";
+	mes "Good Bye.";
+		cutin "pay_soldier",255;
+	close;
+}

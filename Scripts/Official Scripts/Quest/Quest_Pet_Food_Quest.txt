@@ -1,0 +1,146 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Pet Food Quest - Non Player Character Locations
+//
+// - Liza -> prontera: 116,77
+//   A girl who says her peco is hungry asking to met Egar in payon for food.
+//
+// - Gon-Chan -> prontera: 116,79
+//   Liza's Peco peco.
+//
+// - Egar -> payon: 172,204
+//   A guy who can sell peco food for the Liza's Peco.
+//
+//========================================================================================
+
+prontera.gat,116,77,4	script	"Liza"	96,{
+	check F_Pet_Food_QUEST > 0,L_CHECK_1,-;
+	mes "[Liza]";
+	mes "My Pecopeco seems hungry.";
+	next;
+	mes "[Liza]";
+	mes "I would like to feed it, but he already ate everything.";
+	next;
+	mes "[Liza]";
+	mes "I would go to Payon to buy it, but my Peco won't follow me because he's too hungry. This is troublesome~";
+	next;
+	menu "I'll buy it for you",LMenu1,"Oh well, too bad.",LEnd;
+	close;
+LMenu1:
+	mes "[Liza]";
+	mes "Thank you very much~";
+	next;
+	set F_Pet_Food_QUEST = 1;
+	mes "[Liza]";
+	mes "Please take this money and talk to Egar in Payon. He will give you the ^0000FF PecoPeco feed ^000000.";
+	next;
+	set Zeny += 1500,0;
+	mes "[Liza]";
+	mes "Okay, good luck~";
+	close;
+LEnd:
+	mes "[Liza]";
+	mes "This really sucks~";
+	close;
+L_CHECK_1:
+	checkitem 541,1,L_CHECK_2,-;
+	mes "[Liza]";
+	mes "Talk to Egar in Payon. He will give you the ^0000FF Peco Peco feed ^000000~";
+	close;
+L_CHECK_2:
+	check F_Pet_Food_QUEST = 2,L_CHECK_2-2,-;
+	mes "[Liza]";
+	mes "Yay, you bought the Pecopeco feed!";
+	mes "Thank you~";
+	set F_Pet_Food_QUEST = 2;
+	next;
+L_CHECK_2-2:
+	mes "[Liza]";
+	mes "Gon-chan, food time~";
+	next;
+	delitem 541,1;
+	mes "[Gon-chan]";
+	mes "Kue~! Kue~!!";
+	next;
+	mes "*crunch crunch*";
+	next;
+	random N_Pet_fail,100;
+	check N_Pet_fail > 70,L_CHECK_3,-;
+	mes "[Gon-chan]";
+	mes "Kue~...";
+	next;
+	mes "[Liza]";
+	mes "Huh? Gon-chan is still not satisfied...";
+	next;
+	mes "[Liza]";
+	mes "Get me another!";
+	close;
+L_CHECK_3:
+	mes "[Gon-chan]";
+	mes "Kue-!!";
+	next;
+	mes "[Liza]";
+	mes "Gon-chan is happy again!";
+	mes "Thank you~";
+	next;
+	mes "[Liza]";
+	mes "Here, please accept as my gratitude.";
+	check F_Pet_Food_QUEST = 3,L_CHECK_3-2,-;
+	additem 2222,1;
+	additem 746,1;
+	set F_Pet_Food_QUEST = 3;
+	close;
+L_CHECK_3-2:
+	additem 539,1;
+	set F_Pet_Food_QUEST = 4;
+	close;
+}
+
+prontera.gat,116,79,4	script	"Gon-chan"	1019,{
+	mes "[Gon-chan]";
+	mes "Kue! Kue!";
+	next;
+	mes "Grrrrr...";
+	next;
+	mes "[Gon-chan]";
+	mes "Kue~...";
+	close;
+}
+
+payon.gat,172,204,4	script	"Egar"	709,{
+	check F_Pet_Food_QUEST > 0,L_CHECK_1,-;
+	mes "[Egar]";
+	mes "Can I help you?";
+	close;
+L_CHECK_1:
+	mes "[Egar]";
+	mes "Hmm? You want Pecopeco feed?";
+	next;
+	menu "Yes",LMenu1,"I haven't said a thing!",LEnd;
+LMenu1:
+	mes "[Egar]";
+	mes "This is pretty expensive, you know~";
+	mes "One for 500z!";
+	mes "So, do you still want to buy?";
+	next;
+	menu "Yes",LMenu2,"No way",LEnd;
+LMenu2:
+	check Zeny >= 500,-,LMenu2_2;
+	set Zeny -= 500,0;
+	additem 541,1;
+	mes "[Egar]";
+	mes "There! The feed is still fresh. If you don't use it immediately, it will turn bad.";
+	close;
+LMenu2_2:
+	mes "[Egar]";
+	mes "If you had the money, I would give it you.";
+	close;
+LEnd:
+	mes "[Egar]";
+	mes "If you're just fishing around for prices, please leave ...";
+	close;
+}

@@ -1,0 +1,124 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2003-2004, Cobax Information Systems
+//
+// ---------------------------------------------------------------------------------------
+//
+// Holy Light Quest Skill - Non Player Character Locations
+//    translated by Victor Huang
+//    fixed and coded by nestor_zulueta
+//
+// - Father -> prt_church: 173,23
+//   Bring items to obtain skill.
+//========================================================================================
+
+prt_church.gat,173,23,4	script	"Father"	79,{
+	check Job = 4,aco,-;
+	check Job = 8,aco,-;
+	check Job = 15,aco,-; 
+	mes "[Father Clifford]";
+	mes "What can for you my child?";
+	mes "This is a house of prayers.";
+	close; 
+aco:	
+	mes "[Father Clifford]";
+	mes "Aah, brethren! I'm here to assist";
+	mes "all lost sheep";
+  	mes "Do you feel strong in your heart?";
+  	mes "I will accompany and help you";
+	next;
+	menu "About ^3355FF'Father's hidden ability'^000000..",L1,"Succeed ^3355FF' Holy Light '^000000 ",L2,"End conversation",L3;
+L1:
+	mes "[Father Clifford]";
+	mes "Just like the other members of the clergy";
+  	mes "discovering for ourselves";
+  	mes "our hidden ability, you have to first";
+  	mes "learn everything that's passed through the clergy";
+  	mes "before you can use it";
+	next;
+	mes "[Father Clifford]";
+	mes "To prevent evil forces from prevail over us";
+  	mes "To help those who are in pain";
+ 	mes "We can use the ^3355FF'Holy Light'^000000 spell";
+ 	mes "To pass this spell onto you";
+  	mes "you will need special items";
+	next;
+	mes "[Father Clifford]";
+	mes "The necessary items are";
+  	mes "^FF3355A Opal^000000";
+  	mes "^FF3355A Crystal Blue^000000";
+  	mes "^FF3355A Rosary^000000";
+  	mes "etc";
+	next;
+	mes "[Father Clifford]";
+	mes "But to succeed at this skill";
+  	mes "you must also be of certain degree";
+  	mes "^FF3355Job Level 30 and above 30^000000";
+  	mes "is needed if you are a acolyte before you"
+	mes "can acquire the spell";
+	next;
+	mes "[Father Clifford]";
+	mes "Like a Priest once said"
+  	mes "Only a true and strong person";
+  	mes "should 'succeed' at this skill so the spell";
+  	mes "won't a have side effect on him";
+	close;
+L2:
+		check skill_aco = 1,L2_1,-;
+		check Job = 4,L2_0,-;
+		check Job = 8,high,-;
+		check Job = 15,high,-;
+L2_0:
+		check JobLevel >= 30,-,L2_E;
+high:
+		checkitem 727,1,-,L2_E;
+		checkitem 991,1,-,L2_E;
+		checkitem 2608,1,-,L2_E;
+ 		mes "[Father Clifford]";
+ 		mes "Thou art responsible and honest at heart,";
+  		mes "To thee I giveth ";
+  		mes "the ability to use 'Holy Light'";
+  		mes "May happiness be with you";
+  		mes " on your path always. . . . .";
+ 		next;
+		delitem 727,1;
+		delitem 991,1;
+		delitem 2608,1;
+		set skill_aco = 1;
+		setskilllevel 0x9C,1;
+ 		mes "[Father Clifford]";
+ 		mes "From now on,";
+  		mes "make full use of the Holy Light, and I hope you ";
+  		mes "use it for good. . . . .";
+ 		close;
+L2_1:
+		mes "[Father Clifford]";
+		setskilllevel 0x9C,1;
+		mes "Brethren, you already embrace";
+  		mes "'Holy Light'";
+  		mes "and know how to use it..";
+  		mes "Please use it";
+  		mes "righteously..";
+		close;
+L2_E:
+		mes "[Father Clifford]";
+		mes "Oh, my child";
+    		mes "You haven't got the necessary items";
+    		mes "to acquire Holy Light..";
+		next;
+		mes "[Father Clifford]";
+		mes "Listen closely to what";
+    		mes "I said about acquiring";
+    		mes "the hidden ability.";
+    		mes "You shall understand, and will";
+    		mes "supplement for the trait you lack";
+		close;
+L3:
+		mes "[Father Clifford]";
+		mes ". . . . .";
+  		mes "I understand";
+  		mes "Please think thoroughly ";
+  		mes "before you make a decision";
+  		mes "Have a safe journey . . . . .";
+		close;
+}

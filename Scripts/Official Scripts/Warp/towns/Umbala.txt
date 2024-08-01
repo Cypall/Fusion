@@ -1,0 +1,30 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Umbala Town Warps - Warp Locations
+//
+//========================================================================================
+
+umbala.gat,220,189,0 script "" 45,1,1,{
+	check event_umbala != 7,-,End;
+		warp "um_in",32,71;
+	End:
+		return;
+}
+um_in.gat,28,70,0    warp  umbalawarp002   1,1,umbala.gat,217,187 
+umbala.gat,125,157,0 warp  umbalawarp003   1,1,um_in.gat,155,114 
+um_in.gat,155,111,0  warp  umbalawarp004   1,1,umbala.gat,126,152 
+umbala.gat,138,129,0 warp  umbalawarp005   1,1,um_in.gat,99,114 
+um_in.gat,99,110,0   warp  umbalawarp006   1,1,umbala.gat,136,127 
+umbala.gat,95,186,0  warp  umbalawarp007   1,1,um_in.gat,141,42 
+um_in.gat,141,39,0   warp  umbalawarp008   1,1,umbala.gat,95,183 
+umbala.gat,100,202,0 warp  umbalawarp009   1,1,um_in.gat,163,70 
+um_in.gat,166,70,0   warp  umbalawarp010   1,1,umbala.gat,102,204 
+umbala.gat,156,249,0 warp  umbalawarp011   1,1,um_in.gat,99,67 
+um_in.gat,99,63,0    warp  umbalawarp012   1,1,umbala.gat,160,247 
+umbala.gat,108,164,0 warp  umbalawarp013   1,1,um_in.gat,38,113
+um_in.gat,38,110,0   warp  umbalawarp014   1,1,umbala.gat,104,163 
+umbala.gat,136,195,0 hiddenwarp Bungee	1,1,umbala.gat,145,166

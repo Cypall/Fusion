@@ -1,0 +1,327 @@
+//---------------------------------------------------------------------------------------- 
+// Event_NewHats.txt Series NPC - From Weiss, created by RedxSwordxHero 
+// eWeiss Project 2003 - http://weiss.kittyloaf.net 
+//----------------------------------------------------------------------------------------
+
+//prontera.gat,141,172,5      script       "Jac"       107,{
+	mes "[Jac]";
+	mes "I am the 2nd oldest and calmest of the 4 brothers that makes all the newer hats.";
+	mes "You will need to bring me the correct items for each hat so I can make them.";
+	next;
+	mes "I provide 8 hats and my brothers provides the other 24.";
+	next;
+	menu "Join",L1,"Information",L2,"Cancel",L3;
+L1:	
+	mes "[Jac]";
+	mes "What hat do you want me to make?";
+	next;
+	menu "Heart of Merchant",L1_17,"Innocence of Maiden",L1_18,"Kafra Band",L1_19,"Lightbulb Hairband",L1_20,"Magic Hat",L1_21,"Miner's Helm",L1_22,"Mysterious Apple Hat",L1_23,"Panda Hat",L1_24;
+		L1_17:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 2233,1,-,L_ITEM_1;
+			checkitem 969,1,-,L_ITEM_3;
+			checkitem 949,80,-,L_ITEM_4;
+			checkitem 938,100,-,L_ITEM_5;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Heart of Merchant for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 2233,1;
+			delitem 969,1;
+			delitem 949,80;
+			delitem 938,100;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Heart of Merchant^000000...! Please Take it!";
+			additem 5021,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Slotted Circlet...";
+			close;
+		L_ITEM_3:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Gold...";
+			close;
+		L_ITEM_4:
+			mes "[Jac]";
+			mes "Oh, dear. You need 80 Feather...";
+			close;
+		L_ITEM_5:
+			mes "[Jac]";
+			mes "Oh, dear. You need 100 Sticky Muscus...";
+			close;
+		L1_18:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 7047,100,-,L_ITEM_1;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Innocence of Maiden for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 7047,100;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Innocence of Maiden^000000...! Please Take it!";
+			additem 5040,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 100 Alice's Apron...";
+			close;
+		L1_19:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 10007,1,-,L_ITEM_1;
+			checkitem 10008,1,-,L_ITEM_2;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Kafra Band for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 10007,1;
+			delitem 10009,1;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Kafra Band^000000...! Please Take it!";
+			additem 5020,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Silk Ribbon...";
+			close;
+		L_ITEM_2:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Wild Flower...";
+			close;
+		L1_20:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 2233,1,-,L_ITEM_1;
+			checkitem 746,20,-,L_ITEM_2;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Lightbulb Hairband for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 2233,1;
+			delitem 746,20;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Lightbulb Hairband^000000...! Please Take it!";
+			additem 5034,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Slotted Criclet...";
+			close;
+		L_ITEM_2:
+			mes "[Jac]";
+			mes "Oh, dear. You need 20 Glass Bead...";
+			close;
+		L1_21:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 2252,1,-,L_ITEM_1;
+			checkitem 943,150,-,L_ITEM_2;
+			checkitem 1054,50,-,L_ITEM_3;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Magic Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 2252,1;
+			delitem 943,150;
+			delitem 1054,50;		
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Magic Hat^000000...! Please Take it!";
+			additem 5045,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Wizard's Hat...";
+			close;
+		L_ITEM_2:
+			mes "[Jac]";
+			mes "Oh, dear. You need 150 Solid Shell...";
+			close;
+		L_ITEM_3:
+			mes "[Jac]";
+			mes "Oh, dear. You need 50 Ancient Lips...";
+			close;
+		L1_22:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 5009,1,-,L_ITEM_1;
+			checkitem 999,25,-,L_ITEM_3;
+			checkitem 747,1,-,L_ITEM_4;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Miner's Helm for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 5009,1;
+			delitem 999,25;
+			delitem 747,1;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Miner's Helm^000000...! Please Take it!";
+			additem 5031,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Safety Helmet...";
+			close;
+		L_ITEM_3:
+			mes "[Jac]";
+			mes "Oh, dear. You need 25 Steel...";
+			close;
+		L_ITEM_4:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Crystal Mirror...";
+			close;
+		L1_23:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 5037,1,-,L_ITEM_1;
+			checkitem 1058,100,-,L_ITEM_2;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Mysterious Apple Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 5037,1;
+			delitem 1058,100;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Mysterious Apple Hat^000000...! Please Take it!";
+			additem 5050,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 1 Apple Hat...";
+			close;
+		L_ITEM_2:
+			mes "[Jac]";
+			mes "Oh, dear. You need 100 Moth Wing...";
+			close;
+		L1_24:
+			mes "[Jac]";
+			mes "Let me check the items you have brought here.";
+			next;
+			checkitem 999,10,-,L_ITEM_1;
+			checkitem 948,50,-,L_ITEM_2;
+			mes "[Jac]";
+			mes "Wow!! Well done! Finally you have gathered all items needed!";
+			mes "We will make the Panda Hat for you right away.";
+			mes "Please Wait a Moment.";
+   			next;
+			delitem 999,10;
+			delitem 948,50;	
+			mes "[Jac]";
+			mes "Tah Dah!!!^FF0000Panda Hat^000000...! Please Take it!";
+			additem 5030,1;
+			next;
+			mes "[Jac]";
+			mes "I liked that, I look forward to making more.";
+			mes "Thank you.";
+			close;
+		L_ITEM_1:
+			mes "[Jac]";
+			mes "Oh, dear. You need 10 Steel...";
+			close;
+		L_ITEM_2:
+			mes "[Jac]";
+			mes "Oh, dear. You need 50 Bear Footskin...";
+			close;	
+L2:	
+	mes "[Jac]";
+	mes "Which hat materials do you wish to know?";
+	next;
+	menu "Heart of Merchant",L2_17,"Innocence of Maiden",L2_18,"Kafra Band",L2_19,"Lightbulb Hairband",L2_20,"Magic Hat",L2_21,"Miner's Helm",L2_22,"Mysterious Apple Hat",L2_23,"Panda Hat",L2_24;
+		L2_17:
+			mes "[Jac]";
+			mes "You need 1 Slotted Circlet, 1 Gold,";			
+			mes "80 Feather and 100 Sticky Muscus";
+			mes "for Heart of Merchant";
+			close;
+		L2_18:
+			mes "[Jac]";
+			mes "You need 100 Alice's Apron";			
+			mes "for Innocence of Maiden.";
+			close;
+		L2_19:
+			mes "[Jac]";
+			mes "You need 1 Silk Ribbon";
+			mes "and 1 Wild Flower";			
+			mes "for Kafra Band.";
+			close;
+		L2_20:
+			mes "[Jac]";
+			mes "You need 1 Slotted Circlet";
+			mes "and 20 Glass Bead";			
+			mes "for Lightbulb Hairband.";
+			close;
+		L2_21:
+			mes "[Jac]";
+			mes "You need 1 Wizard's Hat,";
+			mes "150 Solid Shell and 50 Ancient Lips";			
+			mes "for Magic Hat.";
+			close;
+		L2_22:
+			mes "[Jac]";
+			mes "You need 1 Safety Helmet,";
+			mes "25 Steel and 1 Crystal Mirror";			
+			mes "for Miner's Helm.";
+			close;
+		L2_23:
+			mes "[Jac]";
+			mes "You need 1 Apple Hat";
+			mes "and 100 Moth Wing";			
+			mes "for Mysterious Apple Hat.";
+			close;
+		L2_24:
+			mes "[Jac]";
+			mes "You need 10 Steel";
+			mes "and 50 Bear Footskin";			
+			mes "for Panda Hat.";
+			close;		
+L3:
+			mes "[Jac]";
+			mes "Stop by some other time";
+			mes "with the right materials";			
+			mes "so I can make the hats for you.";
+			close;
+}

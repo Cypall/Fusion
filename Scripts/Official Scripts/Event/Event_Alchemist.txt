@@ -1,0 +1,198 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Alchemist Event - Non Player Character Locations
+//
+// - Alchemist -> ama_in02: 61,27
+//   An alchemist that can convert elemental stones.
+//
+//========================================================================================
+
+ama_in02.gat,61,27,6 script "Alchemist" 749,{
+	mes "[Gregory]";
+	mes "kikikikikikekekeke!";
+	mes "I'm surprised at the results";
+	mes "of this experiment!  This is the";
+	mes "first time I've seen this!";
+	next;
+	mes "[Gregory]";
+	mes "When the castle lord commissioned";
+	mes "my work, I didn't expect to be";
+	mes "blessed with a stroke of accidental";
+	mes "genius!";
+	next;
+	mes "[Gregory]";
+	mes "Kukuku...but, I should be careful.";
+	mes "People who drink this solution get";
+	mes "angry and start breathing fire...";
+	next;
+	mes "[Gregory]";
+	mes "Oh, do you have business with me?";
+	mes "People who come to the village on
+      mes "sightseeing trips don't";
+	mes "usually stop by.";
+	mes "It's a shame.  Even an acid bottle";
+	mes "can taste good after awhile.  Kikiki!";
+	next;
+	menu "Back away slowly...",L1,"Do you need help with something?",L2;
+L1:
+	mes "[Gregory]";
+	mes "Forget everything I told you, then.";
+	mes "It will be our secret.";
+	mes "Kikikiki...";
+	close;
+L2:
+	mes "[Gregory]";
+	mes "Really?";
+	mes "So...";
+	mes "My dream is almost completed.";
+	mes "Kikikiki...";
+	next;
+	mes "[Gregory]";
+	mes "I need some stones of different elements";
+	mes "in order to complete my experiment.";
+	mes "Do you happen to have some with you?";
+	next;
+	menu "Sorry...",L2_1,"Now that you mention it...",L2_2;
+L2_1:
+	mes "[Gregory]";
+	mes "Alright then.";
+	mes "In order to proceed, I need";
+	mes "eight stones, all of one element.";
+	mes "If you find them, I'll convert them";
+	mes "into a stone of a different element.";
+	next;
+	mes "[Gregory]";
+	mes "If you screw up, I'll throw";
+	mes "this flammable liquid at your";
+	mes "feet!";
+	next;
+	mes "[Gregory]";
+	mes "Remember, you've promised to help me.";
+	mes "Don't let me down!  Kikikiki!";
+	close;
+L2_2:
+	mes "[Gregory]";
+	mes "Alright then.  What do you have?";
+	next;
+	menu "Mystic Frozen",L2_2_1,"Great Nature",L2_2_2,"Flame Heart",L2_2_3,"Rough Wind",L2_2_4;
+L2_2_1:
+         checkitem 995,8,-,L_Lowitem;
+	mes "[Gregory]";
+	mes "I can convert these eight stones";
+      mes "to one stone of a different element.";
+	mes "Do you think that's a good deal?";
+	next;
+	mes "[Gregory]";
+	mes "Which should I convert them to?";
+	next;
+	menu "Great Nature",L2_2_1_1,"Flame Heart",L2_2_1_2,"Rough Wind",L2_2_1_3,"I changed my mind",L_End;
+L2_2_1_1:
+	   delitem 995,8;
+         additem 997,1;
+      goto L_Final;
+L2_2_1_2:
+	   delitem 995,8;
+         additem 994,1;
+      goto L_Final;
+L2_2_1_3:
+	   delitem 995,8;
+         additem 996,1;
+      goto L_Final;
+L2_2_2:
+         checkitem 997,8,-,L_Lowitem;
+	mes "[Gregory]";
+	mes "I can convert these eight stones";
+      mes "to one stone of a different element.";
+	mes "Do you think that's a good deal?";
+	next;
+	mes "[Gregory]";
+	mes "Which should I convert them to?";
+	next;
+	menu "Mystic Frozen",L2_2_2_1,"Flame Heart",L2_2_2_2,"Rough Wind",L2_2_2_3,"I changed my mind",L_End;
+L2_2_2_1:
+	   delitem 997,8;
+         additem 995,1;
+      goto L_Final;
+L2_2_2_2:
+	   delitem 997,8;
+         additem 994,1;
+      goto L_Final;
+L2_2_2_3:
+	   delitem 997,8;
+         additem 996,1;
+      goto L_Final;
+L2_2_3:
+         checkitem 994,8,-,L_Lowitem;
+	mes "[Gregory]";
+	mes "I can convert these eight stones";
+	mes "to one stone of a different element.";
+	mes "Do you think that's a good deal?";
+	next;
+	mes "[Gregory]";
+	mes "Which should I convert them to?";
+	next;
+	menu "Mystic Frozen",L2_2_3_1,"Great Nature",L2_2_3_2,"Rough Wind",L2_2_3_3,"I changed my mind",L_End;
+L2_2_3_1:
+	   delitem 994,8;
+         additem 995,1;
+      goto L_Final;
+L2_2_3_2:
+	   delitem 994,8;
+         additem 997,1;
+      goto L_Final;
+L2_2_3_3:
+	   delitem 994,8;
+         additem 996,1;
+      goto L_Final;
+L2_2_4:
+         checkitem 996,8,-,L_Lowitem;
+	mes "[Gregory]";
+	mes "I can convert these eight stones";
+	mes "to one stone of a different element.";
+	mes "Do you think that's a good deal?";
+	next;
+	mes "[Gregory]";
+	mes "Which should I convert them to?";
+	next;
+	menu "Mystic Frozen",L2_2_4_1,"Great Nature",L2_2_4_2,"Flame Heart",L2_2_4_3,"I changed my mind",L_End;
+L2_2_4_1:
+	   delitem 996,8;
+         additem 995,1;
+      goto L_Final;
+L2_2_4_2:
+	   delitem 996,8;
+         additem 997,1;
+      goto L_Final;
+L2_2_4_3:
+	   delitem 996,8;
+         additem 994,1;
+      goto L_Final;
+L_Final:
+	mes "[Gregory]";
+	mes "Jijiji...Garigarigori!";
+	mes "Well, I hope you get some";
+	mes "good use out of the stones.";
+	mes "I'm always in need of more stones.";
+	close;
+L_Lowitem:
+	mes "[Gregory]";
+	mes "Jijiji...Garigarigori!";
+	mes "What did you do with the stones?";
+	mes "Did you lose them?";
+	next;
+	mes "[Gregory]";
+	mes "In any case, you need to find more";
+	mes "stones.  Remember, you";
+	mes "promised you would help!  Kikikiki!";
+	close;
+L_End:
+	mes "[Gregory]";
+	mes "OK....";
+	mes "Remember, my work here is secret!";
+	mes "Don't tell anyone about it!";
+	close;
+}

@@ -1,0 +1,4 @@
+anthell01.gat,35,267,0	warp	warp0094	1,1,moc_fild04.gat,213,327
+anthell01.gat,253,32,0	warp	warp0095	2,1,anthell02.gat,34,263
+anthell02.gat,32,267,0	warp	warp0096	2,2,anthell01.gat,253,35
+anthell02.gat,171,169,0	warp	warp0097	1,2,moc_fild15,251,248

@@ -1,0 +1,1 @@
+Add this to territory_db --> prt_are01,"Test Script Site" for the guild script to work

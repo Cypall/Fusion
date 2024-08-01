@@ -1,0 +1,97 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Cricket -> prontera 152 327
+//        Heals for 550z.
+//
+//========================================================================================
+
+prontera.gat,155,327,6 script "Cricket" 773,{
+	check CRICKET = 1,HAS,HASNT;
+   HAS:
+	mes "[Cricket]";
+	mes "Hello, again, $charaname-san.";
+	mes "It's nice to see a familiar face";
+	mes " ";
+	mes "You want to be healed, this time?";
+	next;
+	menu "Heal, plz.",FINE,"Nah, just checking in.",SO2;
+   FINE:
+	mes "[cricket]";
+	mes "As you know, $charaname, it costs 550z";
+	mes "Do you still want my help?";
+	next;
+	menu "Heal, plz.",-,"No, thanks..",SO2;
+	check Zeny>=550,-,SO;
+	set Zeny -= 550,0;
+	heal 30000,30000;
+	mes "[Cricket]";
+	mes "Here you go.";
+	mes "Come back, if you're ever in need.";
+	close;
+   SO:
+	mes "[Cricket]";
+	mes "Wow, still don't have 550z, aye?";
+	next;
+	mes "[Cricket]";
+	mes "Come back, when you've got some zeny!";
+	close;
+   HASNT:
+	set CRICKET = 1;
+	mes "[Cricket]";
+	mes "Wow, a first-timer!";
+	mes "You must be new..";
+	mes " ";
+	mes "What's your name?";
+	next;
+	mes "[Cricket]";
+	mes "$charaname?";
+	next;
+	mes "[Cricket]";
+	mes "Pleasure to meet you, $charaname!";
+	mes " ";
+	mes "Do you want to be healed?";
+	next;
+	menu "Heal, plz.",FINE2,"Nah.",SO2;
+   FINE2:
+	mes "[Cricket]";
+	mes "... it's not free...";
+	next;
+	mes "[Cricket]";
+	mes "Heals cost 550z";
+	mes "Do you still want my help?";
+	next;
+	menu "Heal, plz.",-,"No, thanks..",SO22;
+	check Zeny => 550,-,SO21;
+	set Zeny - 550,0;
+	heal 3000,30000;
+	mes "[Cricket]";
+	mes "Here you go.";
+	mes "Come back, if you're ever in need.";
+	close;
+   SO21:
+	mes "[Cricket]";
+	mes "Don't have 550z, aye?";
+	next;
+	mes "[Cricket]";
+	mes "Come back, when you've got zeny!";
+	close;
+   SO2:
+	mes "[Cricket]";
+	mes "Oh, ok.. well...";
+	mes "Nice chatting, with you, again!";
+	next;
+	mes "[Cricket]";
+	mes "Go tell your friends, about me!";
+	close;
+SO22:
+	mes "[Cricket]";
+	mes "Well, it was nice to meet you.";
+	next;
+	mes "[Cricket]";
+	mes "Go tell your friends, about me!";
+	close;
+}

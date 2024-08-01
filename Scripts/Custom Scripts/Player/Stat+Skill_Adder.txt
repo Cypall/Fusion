@@ -1,0 +1,93 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Elaine -> prontera 149 179
+// 	Stat & Skill points seller/trader.
+//
+// =======================================================================================
+
+prontera.gat,159,323,4 script "Elaine" 67,{
+	mes "[Elaine]";
+	mes "Howdy, $charaname...";
+	mes "How are you, today?";
+	next;
+	menu "Let's go to the point please",-,"Leave",L_LEAVE;
+		mes "[Elaine]";
+		mes "Ok, ok...";
+		mes "As you wish...";
+		next;
+		mes "[Elaine]";
+		mes "My business here is to sell (or trade) 10 stat points or 1 skill point. The cost of dealing with me isnt cheap.";
+		next;
+		mes "[Elaine]";
+		mes "In case you want to buy from me the cost is 2 million zeny for either of those.";
+		mes "In case you want to trade them, the cost is 1 Gold, 2 Tiger's Footskin, and 1 Corsair.";
+		next;
+		mes "[Elaine]";
+		mes "So what do you choose, buying or trading?";
+		next;
+		menu "Buying",L_BUYING,"Trading",L_TRADING,"Nevermind",L_LEAVE;
+		L_BUYING:
+			check Zeny >= 4000000,-,L_ERRBUY;
+			mes "[Elaine]";
+			mes "And what would you buy?";
+			next;
+			menu "10 Stat Points",-,"1 Skill Point",L_BUYSKILL,"Nevermind",L_LEAVE;
+				set Zeny - 2000000;
+				addstatpoints 10;
+			goto L_DONE;
+			L_BUYSKILL:
+				set Zeny - 2000000;
+				addskillpoints 1;
+			goto L_DONE;
+		L_TRADING:
+			checkitem 969,1,-,L_ERRTRADE1;
+			checkitem 1030,2,-,L_ERRTRADE3;
+			checkitem 5019,1,-,L_ERRTRADE4;
+			mes "[Elaine]";
+			mes "And what would you trade?";
+			next;
+			menu "10 Stat Points",-,"1 Skill Point",L_TRADESKILL;
+			delitem 969,1;
+			delitem 1030,2;
+			delitem 5019,1;
+			addstatpoints 10;
+			goto L_DONE;
+		L_TRADESKILL:
+			delitem 969,1;
+			delitem 1030,2;
+			delitem 5019,1;
+			addskillpoints 1;
+			goto L_DONE;
+		L_ERRTRADE1:
+			mes "[Elaine]";
+			mes "You dont have the Gold. Come back when you have it.";
+			close;
+		L_ERRTRADE3:
+			mes "[Elaine]";
+			mes "You dont have the 2 Tiger's Footskins. Come back when you have them.";
+			close;
+		L_ERRTRADE4:
+			mes "[Elaine]";
+			mes "You dont have the Corsair. Come back when you have it.";
+			close;
+		L_ERRBUY:
+			mes "[Elaine]";
+			mes "You don't have enough money...";
+			mes "I'm a greedy one, so come back when you have the 4 million.";
+			close;
+	L_LEAVE:
+		mes "[Elaine]";
+		mes "Oh, you didnt want to make business with me...";
+		next;
+		mes "[Elaine]";
+		mes "Cheap bastard.";
+		close;
+	L_DONE:
+		mes "[Elaine]";
+		mes "All done. Have a nice day.";
+		close;
+}

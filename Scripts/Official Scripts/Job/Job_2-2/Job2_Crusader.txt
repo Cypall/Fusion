@@ -1,0 +1,461 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Crusader Quest - Non Player Character Locations
+//
+// - Crusader -> prt_castle: 34,103
+//   Starts the Crusader Job quest: Collect items
+//
+// - Old Heathen -> prt_castle: 163,31
+//   Walk through crowded hallway without attacking - incomplete
+// - Cathedral Knight -> prt_church: 109,97
+//   Crusader knowledge Test
+//
+// - Renalds -> prt_castle: 80,49
+//  The final battle - incomplete
+//
+// - Still working on the quest...
+//
+//========================================================================================
+
+// By KyuubiKitsune 2-06-04 modified by icbob
+prt_castle.gat,34,103,2 script "Crusader" 752,{
+mes "[Crusader]";
+mes "Hello, may I ask that you state your purpose?";
+next;
+menu "I would like to Register as a Crusader",L_MENU_0,"What are the Requirements for Crusader?",L_MENU_1,"Just Here Enjoying the Castle",-;
+mes "[Crusader]";
+mes "Please continue about your business, and may God be with you.";
+close;
+L_MENU_1:
+mes "[Crusader]";
+mes "Well it all begins with being a Swordsman of at least level 40 in job or greater, so only those quality warrior fight for the name of God";
+next;
+mes "[Crusader]";
+mes "Secondly, it involves a test of your faith and devotion to God. Without any notice you must do what we say perfectly without second thought.";
+close;
+L_MENU_0:
+mes "[Crusader]";
+mes "Let me see if you meet our initial requirements.";
+next;
+check Job = 14,L_CRUSADER,-;
+check TEST4COMPLETE = 1,L_COMPLETION,-;
+check TEST1COMPLETE = 1,L_DONE,-;
+check Job = 1,-,L_WRONGJOB;
+check JobLevel >= 40,-,L_JOBLEVEL;
+check SkillPoint = 0,-,L_SKILLPOINTS;
+check QUEST_1 = 1,L_QUESTACTIVE,-;
+check QUEST_2 = 1,L_QUESTACTIVE,-;
+mes "[Crusader]";
+mes "Good everything seems perfect so far. Let me test you with a quest.";
+next;
+random @randquest 100;
+check @randquest <= 50,L_QUEST1,-;
+check @randquest >= 51,L_QUEST2,-;	
+L_QUEST1:
+mes "[Crusader]";
+mes "Hah, perfect I know the perfect way to test your devotion!.";
+next;
+mes "[Crusader]";
+mes "You must get me the follwing items: 10 Nail of Deceased, 10 Daenggies, 10 Rotten Scales, and 10 Worn-Out Prisoner's Uniforms";
+set QUEST_1 = 1;
+next;
+mes "[Crusader]";
+mes "If you truely belive in the cause you shall get me these items, otherwise a loyal crusader you are not.";
+close;
+L_QUEST2:
+mes "[Crusader]";
+mes "Hah, perfect I know the perfect way to test your devotion!.";
+next;
+mes "[Crusader]";
+mes "You must get me the following items: 10 Skel Bones, 10 Nail of Orc, 10 Manacles, 10 Daenggies";
+set QUEST_2 = 1;
+next;
+mes "[Crusader]";
+mes "If you truely belive in the cause you shall get me these items, otherwise a loyal crusader you are not.";
+close;
+L_CRUSADER:
+mes "[Crusader]";
+mes "Have you purified many heathens today brother $charaname ?";
+close;
+L_JOBLEVEL:
+mes "[Crusader]";
+mes "Im sorry but you must be of level 40 or above to serve God as a warrior.";
+close;
+L_WRONGJOB:
+mes "[Crusader]";
+mes "I admire your wishes, however we are in need of those who master the Swordsmen's abilities, your will not do.";
+close;
+L_SKILLPOINTS:
+mes "[Crusader]"
+mes "You need to use up all your skill points!";
+close;
+L_QUESTACTIVE:
+check QUEST_1 = 1,L_Q1,L_Q2;
+L_Q1:
+mes "[Crusader]";
+mes "Welcome back, so lets see what you have brought me.";
+next;
+checkitem 957,10,-,L_NAIL;
+checkitem 1094,10,-,L_HAIR;
+checkitem 959,10,-,L_SCALES;
+checkitem 1099,10,-,L_UNIFORM;
+mes "[Crusader]";
+mes "Very well done, now the next test of Faith awaits!!!! A test of patience and endurance!";
+next;
+delitem 957,10;
+delitem 1094,10;
+delitem 959,10;
+delitem 1099,10;
+mes "[Crusader]";
+mes "Your next mission takes you to the prisons of this castle, go there and a former heathen will guide you to the test";
+set TEST1COMPLETE = 1;
+close;
+L_Q2:
+mes "[Crusader]";
+mes "Welcome back, so lets see you what you have brought me.";
+next;
+checkitem 932,10,-,L_BONE;
+checkitem 1043,10,-,L_ORCNAIL;
+checkitem 1098,10,-,L_HANDCUFFS; 
+checkitem 1094,10,-,L_HAIR;
+mes "[Crusader]";
+mes "Very well done, now the next test of Faith awaits!!!! A test of patience and endurance!";
+next;
+delitem 932,10;
+delitem 1043,10;
+delitem 1098,10;
+delitem 1094,10;
+mes "[Crusader]";
+mes "Your next mission takes you to the prisons of this castle, go there and a former heathen will guide you to the test";
+set TEST1COMPLETE = 1;
+close;
+L_NAIL:
+mes "[Crusader]";
+mes "You do not have 10 Deceased Nails as I asked.";
+close;
+L_HAIR:
+mes "[Crusader]";
+mes "You do not have 10 Daenggies as I asked.";
+close;
+L_SCALES:
+mes "[Crusader]";
+mes "You do not have 10 Rotten Scales as I asked.";
+close;
+L_UNIFORM:
+mes "[Crusader]";
+mes "You do not have 10 Worn-Out Prisoner's Uniforms as I asked.";
+close;
+L_BONE:
+mes "[Crusader]";
+mes "You do not have 10 Skel Bones as I asked.";
+close;
+L_ORCNAIL:
+mes "[Crusader]";
+mes "You do not have 10 Nail of Orc as I asked.";
+close;
+L_HANDCUFFS:
+mes "[Crusader]";
+mes "You do not have 10 Manacles as I asked.";
+close;
+L_DONE:
+mes "[Crusader]";
+mes "You've already completed this test, please go to the second test!";
+close;
+L_COMPLETION:
+mes "[Crusader]";
+mes "Welcome to our ranks brother $charaname !";
+next;  
+jobchange 14;
+close;
+}
+
+
+// By KyuubiKitsune 2-06-04 modified by icbob
+prt_castle.gat,163,31,4 script "Old Heathen" 777,{
+mes "[Former Heathen]";
+mes "Whats going on.... I can't see very well... I was told someone was going to be tested, I help out by using my before-heathen magic to warp people to the testing grounds for God's Forgiveness.";
+next;
+check Job = 14,L_CRUSADER,-;
+check TEST1COMPLETE = 1,-,L_NO;
+mes "[Former Heathen]";
+mes "Thank God... really.... ";
+next;
+mes "[Former Heathen]";
+mes "Your mission is to get through a tough crowd and talk to my associate across the hall. Very Simple";
+next;
+mes "[Former Heathen]";
+mes "However at this time I cannot send you, so well just say you passed";
+next;
+mes "[Former Heathen]";
+mes "Lemme see if you got a rosary on you, you should always at least carry one around! Please make it non-slotted as god frowns on monster cards.";
+next;
+checkitem 2608,1,-,L_ROSARY;
+mes "[Former Heathen]";
+mes "Very well.. thank you brother $charaname ";
+set TEST2COMPLETE = 1;
+next;
+mes "[Former Heathen]";
+mes "The next test is in the cathedral, its about knowledge of Crusaders and Undead Know-How. You a servant of god shall do well.";
+close;
+L_NO:
+mes "[Former Heathen]";
+mes "I dont know who you are... please leave me in peace.";
+close;
+L_ROSARY:
+mes "[Former Heathen]";
+mes "....................... Please belive in god...";
+close;
+L_CRUSADER:
+mes "[Former Heathen]";
+mes "Welcome brother $charaname ";
+}
+
+// By KyuubiKitsune 2-06-04 modified by icbob
+prt_church.gat,109,97,9 script "Cathedral Knight" 751,{
+mes "[Cathedral Knight]";
+mes "Hello, may I help you?";
+next;
+check TEST3COMPLETE = 1,L_CRUSADER,-;
+check TEST2COMPLETE = 1,-,L_NO2;
+check Job = 14,L_CRUSADER,-;
+mes "[Cathedral Knight]";
+mes "Okay, its time to test your knowledge on Crusaders and Undead, dependant on your score, you will fail or pass";
+next;
+mes "[Cathedral Knight]";
+mes "Here's how you are being graded.  You start with 10 points, for each question you miss you lose 1 point, new entrants must score 90% or Better.";
+next;
+mes "[Cathedral Knight]";
+mes "If you happen to fail, you may try again and even with a lowered bar of 80% needed to pass";
+next;
+mes "[Cathedral Knight]";
+mes "Ready for the challange?;
+next;
+menu "Yes I Am",L_TEST,"No I need to Study First",L_STUDY;
+L_STUDY:
+mes "[Cathedral Knight]";
+mes "Yes Indeed you are truely wise, I will be waiting for you";
+close;
+L_TEST:
+mes "[Cathedral Knight]";
+mes "The test is multiple choice, there are 10 questions, Good Luck";
+next;
+set @testpoints = 10;
+goto L_QUESTION1;
+L_QUESTION1:
+mes "[Cathedral Knight]";
+mes "Question 1: At Level 5 What SP amount does Grand Cross Utilize?";
+menu "5",L_WRONG1,"35",L_WRONG1,"0",L_WRONG1,"100",L_CORRECT1;
+L_WRONG1:
+mes "[Cathedral Knight]";
+mes "Wrong... Im sorry the Answer is 100.";
+next;
+set @testpoints -= 1;
+goto L_QUESTION2;
+L_CORRECT1:
+mes "[Cathedral Knight]";
+mes "Very Good Im glad you know.";
+next;
+L_QUESTION2:
+mes "[Cathedral Knight]";
+mes "Question 2: What does devotion/faith give a crusader?";
+menu "SP",L_WRONG2,"HP",L_CORRECT2,"STR",L_WRONG2,"VIT",L_WRONG2;
+L_WRONG2:
+mes "[Cathedral Knight]";
+mes "Wrong... Im sorry the Answer is HP.";
+next;
+set @testpoints -= 1;
+goto L_QUESTION3;
+L_CORRECT2:
+mes "[Cathedral Knight]";
+mes "Very Good, your doing well so far.";
+next;
+L_QUESTION3:
+mes "[Cathedral Knight]";
+mes "How many Levels of Undead Attribute are there?";
+menu "4",L_CORRECT3,"2",L_WRONG3,"10",L_WRONG3,"6",L_WRONG3;
+L_WRONG3:
+mes "[Cathedral Knight]";
+mes "Wrong... Im sorry the Answer is 4";
+next;
+set @testpoints -= 1;
+goto L_QUESTION4;
+L_CORRECT3:
+mes "[Cathedral Knight]";
+mes "Good Good, lets go on.";
+next;
+L_QUESTION4:
+mes "[Cathedral Knight]";
+mes "What spell can be particularly harmfull to the Undead, that woulden't be so great against a Fire Type? Choose worst spell to use on the Fire-Type.";
+menu "Demon Bane",L_WRONG4,"Holy Cross",L_WRONG4,"Fire Bolt",L_WRONG4,"Heal",L_CORRECT4;
+L_WRONG4:
+mes "[Cathedral Knight]";
+mes "I said the worst spell to use against the Flame Type..  In this case heal HEALS it. Negative damage.";
+next;
+set @testpoints -= 1;
+goto L_QUESTION5;
+L_CORRECT4:
+mes "[Cathedral Knight]";
+mes "Im impressed, very well.. onto the next question.";
+next;
+L_QUESTION5:
+mes "[Cathedral Knight]";
+mes "Faith/Devotion LVL 7.....Holy Cross Level 6, this creates what?";
+menu "Demon Bane",L_WRONG5,"Grand Cross",L_CORRECT5,"Providence",L_WRONG5,"Shield Charge",L_WRONG5;
+L_WRONG5:
+mes "[Cathedral Knight]";
+mes "Sorry the Answer is Grand Cross";
+next;
+set @testpoints -= 1;
+goto L_QUESTION6;
+L_CORRECT5:
+mes "[Cathedral Knight]";
+mes "Alright good. Next Question";
+next;
+L_QUESTION6:
+mes "[Cathedral Knight]";
+mes "Divine Protection decreases an Undead's damage by how many percent? At Level 10";
+menu "80",L_WRONG6,"30",L_CORRECT6,"50",L_WRONG6,"It Decreases by 40 Damage not Percent.",L_WRONG6;
+L_WRONG6:
+mes "[Cathedral Knight]";
+mes "Sorry the Answer 30 Percent, nice try though.";
+next;
+set @testpoints -= 1;
+goto L_QUESTION7;
+L_CORRECT6:
+mes "[Cathedral Knight]";
+mes "Excellent. Next Question";
+next;
+L_QUESTION7:
+mes "[Cathedral Knight]";
+mes "True or False, Divine Protection is good for tanking very strong Undeads with Sacrifice";
+menu "True",L_WRONG7,"False",L_CORRECT7
+L_WRONG7:
+mes "[Cathedral Knight]";
+mes "Sorry the Answer is False";
+next;
+set @testpoints -= 1;
+goto L_QUESTION8;
+L_CORRECT7:
+mes "[Cathedral Knight]";
+mes "Next Question";
+next;
+L_QUESTION8:
+mes "[Cathedral Knight]";
+mes "Which great evil is the best for Crusaders to target first upon reaching great power?";
+menu "Baphomet",L_WRONG8,"Mistress",L_WRONG8,"Osiris",L_CORRECT8,"Moonlight Flower",L_WRONG8;
+L_WRONG8:
+mes "[Cathedral Knight]";
+mes "Sorry the Answer is Osiris";
+next;
+set @testpoints -= 1;
+goto L_QUESTION9;
+L_CORRECT8:
+mes "[Cathedral Knight]";
+mes "Almost Done.";
+next;
+L_QUESTION9:
+mes "[Cathedral Knight]";
+mes "Undead Level 4 Gets how much % damage from Holy?";
+menu "150",L_WRONG9,"175",L_WRONG9,"100",L_WRONG9,"200",L_CORRECT9;
+L_WRONG9:
+mes "[Cathedral Knight]";
+mes "Sorry the Answer is 200 Percent";
+next;
+set @testpoints -= 1;
+goto L_QUESTION0;
+L_CORRECT9:
+mes "[Cathedral Knight]";
+mes "Wonderful, Last Question";
+next;
+L_QUESTION0:
+mes "[Cathedral Knight]";
+mes "Undead Element is Immune to this Assasination Method";
+menu "Poison",L_CORRECT0,"Holy",L_WRONG0,"Spiritual",L_WRONG0,"Fire",L_WRONG0;
+L_WRONG0:
+mes "[Cathedral Knight]";
+mes "Sorry the Answer is Poison";
+next;
+set @testpoints -= 1;
+goto L_COMPLETE;
+L_CORRECT0:
+mes "[Cathedral Knight]";
+mes "Finnaly, your done, lets see how well you did.";
+next;
+L_COMPLETE:
+mes "[Cathedral Knight]";
+mes "Your score is $[@testpoints] out of 10.";
+next;
+set @testpoints *= 10;
+mes "[Cathedral Knight]";
+mes "You Scored $[@testpoints] percent.";
+next;
+check @testpoints >= 90,L_PASS,-;
+check RETAKE = 1,-,L_FAILURE;
+check @testpoints >= 80,L_PASS,-
+L_FAILURE:
+mes "[Cathedral Knight]";
+mes "Im sorry to tell you this, but you have failed. Try Harder next time.";
+set RETAKE = 1;
+close;
+L_PASS:
+mes "[Cathedral Knight]";
+mes "Congratulations you have passed the Exam!!.";
+next;
+set TEST3COMPLETE = 1;
+mes "[Cathedral Knight]";
+mes "Your final mission takes you back to the castle where you are purified of sins! Speak to brother Renalds.";
+close;
+L_NO2:
+mes "[Cathedral Knight]";
+mes "Welcome to the House of God, please mind your manners";
+close;
+L_CRUSADER:
+mes "[Cathedral Knight]";
+mes "Hello brother $charaname , come to praise the lord?";
+close;
+}
+ 
+// By KyuubiKitsune 2-06-04 modified by icbob
+prt_castle.gat,80,49,3 script "Renalds" 751,{
+mes "[Rendalds]";
+mes "Welcome, may I help you?";
+menu "Yes",L_MENU1,"No Thanks",L_MENU2;
+L_MENU2:
+mes "[Rendalds]";
+mes "Alright, please be careful and mind yourself; for god is watching.";
+close;
+L_MENU1:
+mes "[Rendalds]";
+mes "So you are here for the completion of the examination?.";
+next;
+mes "[Rendalds]";
+mes "Let me check your qualifications.";
+next;
+check TEST3COMPLETE = 1,-,L_FAIL;
+check TEST4COMPLETE = 1,L_CRUSADER,-;
+mes "[Rendalds]";
+mes "Okay so lets get things started shall we?";
+next;
+mes "[Rendalds]";
+mes "Alright, ill just need to see your cross and for now I can accept you.";
+next;
+checkitem 2608,1,L_COMPLETE,L_FAIL;
+close;
+L_COMPLETE:
+mes "[Rendalds]";
+mes "Congratulations you have completed the Crusader Examination, go talk to our leader who you've taken the items to in the beggining.";
+set TEST4COMPLETE = 1;
+close;
+L_FAIL:
+mes "[Renalds]";
+mes "You do not qualify for this yet.";
+close;
+L_CRUSADER:
+mes "[Renalds]";
+mes "Hey brother $charaname , how is everything today? Well I hope.";
+close;
+}

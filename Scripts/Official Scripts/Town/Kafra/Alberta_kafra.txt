@@ -1,0 +1,667 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Alberta Kafra Employees - Non Player Character Locations
+//
+// - Kafra Employee -> alberta: 28,229
+//   Save, Storage, Teleport, Rent Cart, Kafra Pass and More services.
+//
+// - Kafra Employee -> alberta: 113,60
+//   Save, Storage, Teleport, Rent Cart, Kafra Pass and More services.
+//
+// - Kafra Employee -> alb2trea: 59,69
+//   Storage, Teleport, Rent Cart, Kafra Pass and More services.
+//
+//========================================================================================
+
+alberta.gat,28,229,0 script "Kafra Employee" 116,{
+		set @Kafra_PASS = 0;
+		cutin "Kafra_02",2;
+	mes "[Kafra Employee]";
+	mes "Welcome to Kafra Corporation.";
+	mes "The Kafra Services is always by your side.";
+	next;
+L_START_1:
+		check @Kafra_PASS = 1,-,L_SUB_0_1;
+	mes "[Kafra Employee]";
+	mes "How may I help you?";
+	next;
+L_SUB_0_1:
+	menu "Save",L_MENU_1,"Use Storage",L_MENU_2,"Use Teleport Service",L_MENU_3,"Rent a Cart",L_MENU_4,"Use Kafra Pass",L_MENU_5,"Check Other Information",L_MENU_6,"Cancel",L_MENU_7;
+L_MENU_1:
+	menu "Save outside town",-,"Save inside town",L_MENU_1_3;
+		save "pay_fild03",387,76;
+	goto L_SUB_1_1;
+L_MENU_1_3:
+		save "alberta",31,231;
+L_SUB_1_1:
+	mes "[Kafra Employee]";
+	mes "Your position has been saved.";
+		check @Kafra_Pass = 0,-,L_SUB_1_2;
+		mes "Thank you for using Kafra Services.";
+		emotion 15;
+	goto L_EXIT;
+L_SUB_1_2:
+			next;
+			goto L_START_1;
+L_MENU_2:
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_2_1,-;
+	mes "[Kafra Employee]";
+	mes "You need to have at least Novice";
+	mes "skill level 6 to use the storage.";
+		check @Kafra_PASS = 0,-,L_ROOT_2_1;
+	goto L_EXIT;
+L_ROOT_2_1:
+	next;
+	goto L_START_1;
+L_SUB_2_1:
+		check @Kafra_PASS = 0,-,L_SUB_2_2;
+		check Zeny < 50,-,L_ROOT_2_2;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "The storage usage fee is 50 Zeny.";
+	goto L_EXIT;
+L_ROOT_2_2:
+		set Zeny -= 50,0;
+		set KF_PIT += 5;
+		store;
+	goto L_EXIT;
+L_SUB_2_2:
+		store;
+	goto L_EXIT;
+L_MENU_3:
+	mes "[Kafra Employee]";
+	mes "Please pick your destination.";
+	next;
+	menu "Comodo -> 2400 z",L_MENU_3_1,"Morroc -> 2200 z",L_MENU_3_2,"Payon -> 1300 z",L_MENU_3_3,"Prontera -> 2100 z",L_MENU_3_4,"Cancel",L_MENU_3_5;
+L_MENU_3_1:
+		check @Kafra_Pass = 0,-,L_SUB_3_1;
+		check Zeny < 2400,-,L_ROOT_3_1;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_1:
+		set Zeny -= 2400,0;
+		set KF_PIT += 240;
+L_SUB_3_1:
+		warp "comodo",209,143;
+L_MENU_3_2:
+		check @Kafra_Pass = 0,-,L_SUB_3_2;
+		check Zeny < 2200,-,L_ROOT_3_2;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_2:
+		set Zeny -= 2200,0;
+		set KF_PIT += 220;
+L_SUB_3_2:
+	warp "morocc",156,46;
+L_MENU_3_3:
+		check @Kafra_Pass = 0,-,L_SUB_3_3;
+		check Zeny < 1300,-,L_ROOT_3_3;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_3:
+		set Zeny -= 1300,0;
+		set KF_PIT += 130;
+L_SUB_3_3:
+		warp "payon",179,97;
+L_MENU_3_4:
+		check @Kafra_Pass = 0,-,L_SUB_3_4;
+		check Zeny < 2100,-,L_ROOT_3_4;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_4:
+		set Zeny -= 2100,0;
+		set KF_PIT += 210;
+L_SUB_3_4:
+		warp "prontera",116,72;
+L_MENU_3_5:
+		check @Kafra_Pass = 0,-,L_START_1;
+	mes "[Kafra Employee]";
+	mes "Thank you.";
+	mes "Please come again.";
+	goto L_EXIT;
+L_MENU_4:
+		check Job != 5,-,L_SUB_4_1;
+		check Job != 10,-,L_SUB_4_1;
+		check Job != 18,-,L_SUB_4_1;
+		check Job != 29,-,L_SUB_4_1;
+		check Job != 34,-,L_SUB_4_1;
+		check Job != 42,-,L_SUB_4_1;
+	mes "[Kafra Employee]";
+	mes "Sorry, but the cart service is only";
+		emotion 17;
+	mes "available to Merchants, High Merchants, Blacksmiths, Whitesmiths,";
+	mes "Alchemists and Creators.";
+		check @Kafra_PASS = 0,-,L_ROOT_4_1;
+	goto L_EXIT;
+L_ROOT_4_1:
+	next;
+	goto L_START_1;
+L_SUB_4_1:
+	check @Kafra_PASS = 0,-,L_SUB_4_2;
+	mes "[Kafra Employee]";
+	mes "The Cart Fee is 850 Zeny.";
+	mes "To rent a cart";
+	next;
+   	menu "Rent a Cart.",L_MENU_4_1,"Cancel",L_MENU_4_2;
+L_MENU_4_1:
+		getskilllevel 39,@skilllv_pushcart; 
+		check @skilllv_pushcart => 1,-,L_skill;
+		check Zeny < 850,-,L_ROOT_4_2; 
+      mes "[Kafra Employee]";
+      mes "Dear. you don't have enough Money.";
+	mes "The Cart Fee is 850 Zeny.";
+	goto L_EXIT;
+L_skill:
+	mes "You do not have the skill PushCart.";
+	mes "You can't get a cart without that."
+	goto L_EXIT;
+L_ROOT_4_2:
+		set Zeny -= 850,0;
+		set KF_PIT += 85;
+		check option == 0,-,L_MENU_4_3;
+	option 0,1;
+	goto L_EXIT;
+L_MENU_4_2:
+	mes "[Kafra Employee]";
+  	mes "Thank you.";
+		emotion 15;
+   	mes "Please come again.";
+	goto L_EXIT;
+L_MENU_4_3:
+	mes "[Kafra Employee]";
+	mes "Sorry you already have a cart.";
+		emotion 17;
+	next;
+	goto L_EXIT;
+L_SUB_4_2:
+		check option == 0,-,L_MENU_4_3;
+		option 0,1;
+	goto L_START_1;
+L_MENU_5:
+		check @Kafra_PASS = 1,-,L_ROOT_5_1;
+	mes "[Kafra Employee]";
+	mes "You are now using a Kafra Pass.";
+	next;
+	goto L_START_1;
+L_ROOT_5_1:
+		checkitem 1084,1,L_SUB_5_1,-;
+	mes "[Kafra Employee]";
+	mes "You need a Kafra Pass.";
+	goto L_EXIT;
+L_SUB_5_1:
+		delitem 1084,1;
+		set @Kafra_PASS= 1;
+	mes "[Kafra Employee]";
+	mes "You have used your Kafra Pass.";
+	next;
+	goto L_START_1;
+L_MENU_6:
+	menu "Check Special Reserve Points",L_SUB_6_1,"Kafra Location Information",L_SUB_6_2,"Cancel",L_EXIT;
+L_SUB_6_1:
+		check KF_PIT > 0,-,L_SUB_6_1_1;
+	mes "[Kafra Employee]";
+  	mes "$charaname has $[KF_PIT] special reserve";
+  	mes "points.";
+	next;
+	mes "[Kafra Employee]";
+  	mes "You can exchange special reserve";
+  	mes "points for other goods at the Kafra";
+	mes "Main Office.";
+  	mes "Please use our convenient services";
+	mes "while getting rewards as well~";
+	goto L_EXIT;
+L_SUB_6_1_1:
+	mes "[Kafra Employee]";
+  	mes "$charaname has 0 special reserve";
+  	mes "points.";
+	next;
+	mes "[Kafra Employee]";
+  	mes "You can exchange special reserve";
+  	mes "points for other goods at the Kafra";
+	mes "Main Office.";
+  	mes "Please use our convenient services";
+	mes "while getting rewards as well~";
+	goto L_EXIT;
+L_SUB_6_2:
+		check @COMPASS_CHECK = 0,-,L_SUB_6_3_1;
+	mes "[Kafra Employee]";
+	mes "Would you like to mark the locations on your mini map?";
+	next;
+	menu "Yes",-,"No",L_SUB_6_3_1;
+		set @COMPASS_CHECK = 1;
+L_SUB_6_3_1:
+	mes "[Kafra Employee]";
+	mes "Kafra Employees are located at";
+	mes "the red indications on your mini map.";
+		check @COMPASS_CHECK = 1,-,L_SUB_6_3_2;
+		viewpoint 1,28,229,1,0x0000FF;
+		viewpoint 1,113,60,2,0x0000FF;
+	goto L_SUB_6_3_3;
+L_SUB_6_3_2:
+		viewpoint 2,28,229,1,0x0000FF;
+		viewpoint 2,113,60,2,0x0000FF;
+L_SUB_6_3_3:
+		check @Kafra_PASS = 0,-,L_SUB_6_3_4;
+	goto L_EXIT;
+L_SUB_6_3_4:
+	next;
+	goto L_START_1;
+L_MENU_7:
+	mes "[Kafra Employee]";
+	mes "We here at Kafra Corporation, are";
+	mes "trying our best to provide you with.";
+	mes "top quality service. We are.";
+	mes "putting our greates effor into";
+	mes "providing our customers with";
+	mes "services that are reliable and.";
+	mes "convenient through strict";
+	mes "organization and management.";
+	mes "Thank you for using Kafra.";
+	mes "Corporation's services.";
+		emotion 15;
+ L_EXIT:
+		cutin "Kafra_02",255;
+	close;
+}
+
+alberta.gat,113,60,6 script "Kafra Employee" 112,{
+		set @Kafra_PASS = 0;
+		cutin "Kafra_06",2;
+	mes "[Kafra Employee]";
+	mes "Welcome to Kafra Corporation.";
+	mes "The Kafra Services is always by your side.";
+	next;
+L_START_1:
+		check @Kafra_PASS = 1,-,L_SUB_0_1;
+	mes "[Kafra Employee]";
+	mes "How may I help you?";
+	next;
+L_SUB_0_1:
+	menu "Save",L_MENU_1,"Use Storage",L_MENU_2,"Use Teleport Service",L_MENU_3,"Rent a Cart",L_MENU_4,"Use Kafra Pass",L_MENU_5,"Check Other Information",L_MENU_6,"Cancel",L_MENU_7;
+L_MENU_1:
+		save "alberta",117,56;
+	mes "[Kafra Employee]";
+	mes "Your position has been saved.";
+		check @Kafra_Pass = 0,-,L_SUB_1_2;
+	mes "Thank you for using Kafra Services.";
+		emotion 15;
+	goto L_EXIT;
+L_SUB_1_2:
+	next;
+	goto L_START_1;
+L_MENU_2:
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_2_1,-;
+	mes "[Kafra Employee]";
+	mes "You need to have at least Novice";
+	mes "skill level 6 to use the storage.";
+		check @Kafra_PASS = 0,-,L_ROOT_2_1;
+	goto L_EXIT;
+L_ROOT_2_1:
+	next;
+	goto L_START_1;
+L_SUB_2_1:
+		check @Kafra_PASS = 0,-,L_SUB_2_2;
+		check Zeny < 50,-,L_ROOT_2_2;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "The storage usage fee is 50 Zeny.";
+	goto L_EXIT;
+L_ROOT_2_2:
+		set Zeny -= 50,0;
+		set KF_PIT += 5;
+		store;
+	goto L_EXIT;
+L_SUB_2_2:
+		store;
+	goto L_EXIT;
+L_MENU_3:
+	mes "[Kafra Employee]";
+	mes "Please pick your destination.";
+	next;
+	menu "Comodo -> 2400 z",L_MENU_3_1,"Morroc -> 2200 z",L_MENU_3_2,"Payon -> 1300 z",L_MENU_3_3,"Prontera -> 2100 z",L_MENU_3_4,"Cancel",L_MENU_3_5;
+L_MENU_3_1:
+		check @Kafra_Pass = 0,-,L_SUB_3_1;
+		check Zeny < 2400,-,L_ROOT_3_1;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_1:
+		set Zeny -= 2400,0;
+		set KF_PIT += 240;
+L_SUB_3_1:
+		warp "comodo",209,143;
+L_MENU_3_2:
+		check @Kafra_Pass = 0,-,L_SUB_3_2;
+		check Zeny < 2200,-,L_ROOT_3_2;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_2:
+		set Zeny -= 2200,0;
+		set KF_PIT += 220;
+L_SUB_3_2:
+	warp "morocc",156,46;
+L_MENU_3_3:
+		check @Kafra_Pass = 0,-,L_SUB_3_3;
+		check Zeny < 1300,-,L_ROOT_3_3;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_3:
+		set Zeny -= 1300,0;
+		set KF_PIT += 130;
+L_SUB_3_3:
+		warp "payon",179,97;
+L_MENU_3_4:
+		check @Kafra_Pass = 0,-,L_SUB_3_4;
+		check Zeny < 2100,-,L_ROOT_3_4;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "Please verify the amount of money you have.";
+	goto L_EXIT;
+L_ROOT_3_4:
+		set Zeny -= 2100,0;
+		set KF_PIT += 210;
+L_SUB_3_4:
+		warp "prontera",116,72;
+L_MENU_3_5:
+		check @Kafra_Pass = 0,-,L_START_1;
+	mes "[Kafra Employee]";
+	mes "Thank you.";
+	mes "Please come again.";
+	goto L_EXIT;
+L_MENU_4:
+		check Job != 5,-,L_SUB_4_1;
+		check Job != 10,-,L_SUB_4_1;
+		check Job != 18,-,L_SUB_4_1;
+		check Job != 29,-,L_SUB_4_1;
+		check Job != 34,-,L_SUB_4_1;
+		check Job != 42,-,L_SUB_4_1;
+	mes "[Kafra Employee]";
+	mes "Sorry, but the cart service is only";
+		emotion 17;
+	mes "available to Merchants, High Merchants, Blacksmiths, Whitesmiths,";
+	mes "Alchemists and Creators.";
+		check @Kafra_PASS = 0,-,L_ROOT_4_1;
+	goto L_EXIT;
+L_ROOT_4_1:
+	next;
+	goto L_START_1;
+L_SUB_4_1:
+	check @Kafra_PASS = 0,-,L_SUB_4_2;
+	mes "[Kafra Employee]";
+	mes "The Cart Fee is 850 Zeny.";
+	mes "To rent a cart";
+	next;
+   	menu "Rent a Cart.",L_MENU_4_1,"Cancel",L_MENU_4_2;
+L_MENU_4_1:
+		getskilllevel 39,@skilllv_pushcart; 
+		check @skilllv_pushcart => 1,-,L_skill;
+		check Zeny < 850,-,L_ROOT_4_2; 
+      mes "[Kafra Employee]";
+      mes "Dear. you don't have enough Money.";
+	mes "The Cart Fee is 850 Zeny.";
+	goto L_EXIT;
+L_skill:
+	mes "You do not have the skill PushCart.";
+	mes "You can't get a cart without that."
+	goto L_EXIT;
+L_ROOT_4_2:
+		set Zeny -= 850,0;
+		set KF_PIT += 85;
+		check option == 0,-,L_MENU_4_3;
+	option 0,1;
+	goto L_EXIT;
+L_MENU_4_2:
+	mes "[Kafra Employee]";
+  	mes "Thank you.";
+		emotion 15;
+   	mes "Please come again.";
+	goto L_EXIT;
+L_MENU_4_3:
+	mes "[Kafra Employee]";
+	mes "Sorry you already have a cart.";
+		emotion 17;
+	next;
+	goto L_EXIT;
+L_SUB_4_2:
+		check option == 0,-,L_MENU_4_3;
+		option 0,1;
+	goto L_START_1;
+L_MENU_5:
+		check @Kafra_PASS = 1,-,L_ROOT_5_1;
+	mes "[Kafra Employee]";
+	mes "You are now using a Kafra Pass.";
+	next;
+	goto L_START_1;
+L_ROOT_5_1:
+		checkitem 1084,1,L_SUB_5_1,-;
+	mes "[Kafra Employee]";
+	mes "You need a Kafra Pass.";
+	goto L_EXIT;
+L_SUB_5_1:
+		delitem 1084,1;
+		set @Kafra_PASS= 1;
+	mes "[Kafra Employee]";
+	mes "You have used your Kafra Pass.";
+	next;
+	goto L_START_1;
+L_MENU_6:
+	menu "Check Special Reserve Points",L_SUB_6_1,"Kafra Location Information",L_SUB_6_2,"Cancel",L_EXIT;
+L_SUB_6_1:
+		check KF_PIT > 0,-,L_SUB_6_1_1;
+	mes "[Kafra Employee]";
+  	mes "$charaname has $[KF_PIT] special reserve";
+  	mes "points.";
+	next;
+	mes "[Kafra Employee]";
+  	mes "You can exchange special reserve";
+  	mes "points for other goods at the Kafra";
+	mes "Main Office.";
+  	mes "Please use our convenient services";
+	mes "while getting rewards as well~";
+	goto L_EXIT;
+L_SUB_6_1_1:
+	mes "[Kafra Employee]";
+  	mes "$charaname has 0 special reserve";
+  	mes "points.";
+	next;
+	mes "[Kafra Employee]";
+  	mes "You can exchange special reserve";
+  	mes "points for other goods at the Kafra";
+	mes "Main Office.";
+  	mes "Please use our convenient services";
+	mes "while getting rewards as well~";
+	goto L_EXIT;
+L_SUB_6_2:
+		check @COMPASS_CHECK = 0,-,L_SUB_6_3_1;
+	mes "[Kafra Employee]";
+	mes "Would you like to mark the locations on your mini map?";
+	next;
+	menu "Yes",-,"No",L_SUB_6_3_1;
+		set @COMPASS_CHECK = 1;
+L_SUB_6_3_1:
+	mes "[Kafra Employee]";
+	mes "Kafra Employees are located at";
+	mes "the red indications on your mini map.";
+		check @COMPASS_CHECK = 1,-,L_SUB_6_3_2;
+		viewpoint 1,28,229,1,0x0000FF;
+		viewpoint 1,113,60,2,0x0000FF;
+	goto L_SUB_6_3_3;
+L_SUB_6_3_2:
+		viewpoint 2,28,229,1,0x0000FF;
+		viewpoint 2,113,60,2,0x0000FF;
+L_SUB_6_3_3:
+		check @Kafra_PASS = 0,-,L_SUB_6_3_4;
+	goto L_EXIT;
+L_SUB_6_3_4:
+	next;
+	goto L_START_1;
+L_MENU_7:
+	mes "[Kafra Employee]";
+	mes "We here at Kafra Corporation, are";
+	mes "trying our best to provide you with.";
+	mes "top quality service. We are.";
+	mes "putting our greates effor into";
+	mes "providing our customers with";
+	mes "services that are reliable and.";
+	mes "convenient through strict";
+	mes "organization and management.";
+	mes "Thank you for using Kafra.";
+	mes "Corporation's services.";
+		emotion 15;
+ L_EXIT:
+		cutin "Kafra_06",255;
+	close;
+}
+
+alb2trea.gat,59,69,6 script "Kafra Employee" 117,{
+		set @Kafra_PASS = 0;
+		cutin "Kafra_01",2;
+	mes "[Kafra Employee]";
+	mes "Welcome to Kafra Corporation.";
+	mes "The Kafra Services is always by your side.";
+	next;
+L_START_1:
+		check @Kafra_PASS = 1,-,L_SUB_0_1;
+	mes "[Kafra Employee]";
+	mes "How may I help you?";
+	next;
+L_SUB_0_1:
+	menu "Use Storage",L_MENU_2,"Rent a Cart",L_MENU_4,"Use Kafra Pass",L_MENU_5,"Cancel",L_MENU_7;
+L_MENU_2:
+		getskilllevel 1,@storagecheck;
+		check @storagecheck >= 6,L_SUB_2_1,-;
+	mes "[Kafra Employee]";
+	mes "You need to have at least Novice";
+	mes "skill level 6 to use the storage.";
+		check @Kafra_PASS = 0,-,L_ROOT_2_1;
+	goto L_EXIT;
+L_ROOT_2_1:
+	next;
+	goto L_START_1;
+L_SUB_2_1:
+		check @Kafra_PASS = 0,-,L_SUB_2_2;
+		check Zeny < 120,-,L_ROOT_2_2;
+	mes "[Kafra Employee]";
+	mes "You don't have enough money.";
+	mes "The storage usage fee is 40 Zeny.";
+	goto L_EXIT;
+L_ROOT_2_2:
+		set Zeny -= 120,0;
+		set KF_PIT += 12;
+		store;
+	goto L_EXIT;
+L_SUB_2_2:
+		store;
+	goto L_EXIT;
+L_MENU_4:
+		check Job != 5,-,L_SUB_4_1;
+		check Job != 10,-,L_SUB_4_1;
+		check Job != 18,-,L_SUB_4_1;
+		check Job != 29,-,L_SUB_4_1;
+		check Job != 34,-,L_SUB_4_1;
+		check Job != 42,-,L_SUB_4_1;
+	mes "[Kafra Employee]";
+	mes "Sorry, but the cart service is only";
+		emotion 17;
+	mes "available to Merchants, High Merchants, Blacksmiths, Whitesmiths,";
+	mes "Alchemists and Creators.";
+		check @Kafra_PASS = 0,-,L_ROOT_4_1;
+	goto L_EXIT;
+L_ROOT_4_1:
+	next;
+	goto L_START_1;
+L_SUB_4_1:
+	check @Kafra_PASS = 0,-,L_SUB_4_2;
+	mes "[Kafra Employee]";
+	mes "The Cart Fee is 1200 Zeny.";
+	mes "To rent a cart";
+	next;
+   	menu "Rent a Cart.",L_MENU_4_1,"Cancel",L_MENU_4_2;
+L_MENU_4_1:
+		getskilllevel 39,@skilllv_pushcart; 
+		check @skilllv_pushcart => 1,-,L_skill;
+		check Zeny < 1200,-,L_ROOT_4_2; 
+      mes "[Kafra Employee]";
+      mes "Dear. you don't have enough Money.";
+	mes "The Cart Fee is 1200 Zeny.";
+	goto L_EXIT;
+L_skill:
+	mes "You do not have the skill PushCart.";
+	mes "You can't get a cart without that."
+	goto L_EXIT;
+L_ROOT_4_2:
+		set Zeny -= 1200,0;
+		set KF_PIT += 120;
+		check option == 0,-,L_MENU_4_3;
+	option 0,1;
+	goto L_EXIT;
+L_MENU_4_2:
+	mes "[Kafra Employee]";
+  	mes "Thank you.";
+		emotion 15;
+   	mes "Please come again.";
+	goto L_EXIT;
+L_MENU_4_3:
+	mes "[Kafra Employee]";
+	mes "Sorry you already have a cart.";
+		emotion 17;
+	next;
+	goto L_EXIT;
+L_SUB_4_2:
+		check option == 0,-,L_MENU_4_3;
+		option 0,1;
+	goto L_START_1;
+L_MENU_5:
+		check @Kafra_PASS = 1,-,L_ROOT_5_1;
+	mes "[Kafra Employee]";
+	mes "You are now using a Kafra Pass.";
+	next;
+	goto L_START_1;
+L_ROOT_5_1:
+		checkitem 1084,1,L_SUB_5_1,-;
+	mes "[Kafra Employee]";
+	mes "You need a Kafra Pass.";
+	goto L_EXIT;
+L_SUB_5_1:
+		delitem 1084,1;
+		set @Kafra_PASS= 1;
+	mes "[Kafra Employee]";
+	mes "You have used your Kafra Pass.";
+	next;
+	goto L_START_1;
+L_MENU_7:
+	mes "[Kafra Employee]";
+	mes "We here at Kafra Corporation, are";
+	mes "trying our best to provide you with.";
+	mes "top quality service. We are.";
+	mes "putting our greates effor into";
+	mes "providing our customers with";
+	mes "services that are reliable and.";
+	mes "convenient through strict";
+	mes "organization and management.";
+	mes "Thank you for using Kafra.";
+	mes "Corporation's services.";
+		emotion 15;
+ L_EXIT:
+		cutin "Kafra_01",255;
+	close;
+}

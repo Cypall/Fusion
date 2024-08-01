@@ -1,0 +1,521 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Niflheim Town - Non Player Character Locations
+// Official NPCs translated and re-edited by Celest
+// 
+// - Traveler -> prontera: 164,161
+//   can warp ypu to nifhiem.
+//
+// - Kurtz -> nifhiem: 152,174
+//   Just a small chat.
+//
+// - Spirit -> nifhiem: xx,xxx
+//   Just a small chat.(Spread over the map)
+//
+// Piano Quest not Fully working in this version.
+//
+//========================================================================================
+
+prontera.gat,164,161,4 script "Traveler" 68,{
+	mes "[Traveler]";
+	mes "I've come across some strange things in my time. Things you'd have to see to belive. Have you heard of Niffleheim, the City of the Dead?";
+	next;
+	menu "Show me, please...",M_show,"Sounds scarey...Nevermind...",-;
+	mes "[Traveler]";
+	mes "A wise choice by any means...";
+	close;
+M_show:
+	warp "niflheim",202,171;
+	close;
+}
+
+niflheim.gat,52,174,3 script "Kirz" 796,{
+	mes "[Kirz]";
+	mes "Humans are not allowed here!";
+	mes "Living things-! are not";
+	mes "allowed to pass!";
+	close;
+}
+
+niflheim.gat,213,221,0 script "Spirit" 802,{
+		scriptlabel Spirits;
+	mes "[Spirit]";
+	mes "Welcome to my world...";
+	mes "This land we call....";
+	mes "Niflheim....";
+		percentdamage 85,85;
+	close;
+}
+
+niflheim.gat,39,146,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,95,61,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,313,187,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,212,264,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,247,72,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,130,176,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,173,110,0	script "Spirit" 802,{
+	script Spirits;
+}
+niflheim.gat,182,167,0	script "Spirit" 802,{
+	script Spirits;
+}
+
+niflheim.gat,184,199,5 script "Little Girl" 793,{
+	mes "[Sairin]";
+		check niflheimlost2 = 1,L_thanks,-;
+		check niflheimlost = 1,L_foundhim,-;
+		check lostgirl = 1,L_sure2,-;
+	mes "Sir, will you please help me?";
+		check Job = 0,L_Novice,-;
+	next;
+	menu "Yes",-,"No",M_no;
+	mes "[Sairin]";
+	mes "My friend and I went for a hike and ended up wandering into a strange field.";
+	next;
+	mes "[Sairin]";
+	mes "Suddenly, I found a doll. I picked it up, and it turned into a ghost!";
+	next;
+	mes "[Sairin]";
+	mes "I screamed and ran as fast as I could. When I stopped running, I ended up in this strange town..";
+	next;
+	mes "[Sairin]";
+	mes "No one here will help me, and there are ghosts everywhere! Could you help me find my friend?";
+	next;
+	menu "Sure",-,"No",M_no;
+L_sure2:
+		set lostgirl = 1;
+	mes "Please find him and tell him where I am! I saw him last in Niflheim Field, the first one...";
+	close;
+L_Novice:
+	mes "[Sairin]";
+	mes "Oh... you are lost, too...";
+	close;
+L_foundhim:
+	mes "You found him?";
+	mes "Oh thank you!";
+	mes "Please, take this as a token of my appreciation.";
+		additem 642,1;
+		set niflheimlost2 = 1;
+	close;
+L_thanks:
+	mes "Thanks again!";
+M_no:
+	close;
+}
+
+nif_fild01.gat,213,268,5 script "Little Boy" 797,{
+	mes "[Marius]";
+		check niflheimlost = 1,L_alreadydone,-;
+		check lostgirl = 1,L_sure2,-;
+	mes "Sairin...where are you?";
+	close;
+L_alreadydone:
+	mes "Thank you for helping us!";
+	close;
+L_sure2:
+	mes "Who are you?";
+	mes "...";
+	mes "You found Sairin?";
+	mes "She ran to Niflheim?";
+	next;
+		set niflheimlost = 1;
+	mes "[Marius]";
+	mes "Could you tell her that I am on my way?";
+	mes "I am a little slow, and its very important that she knows.";
+	menu "Yes",L_alreadydone,"No",-;
+	close;
+}
+
+niflheim.gat,195,211,5 script "Gigantia" 796,{
+	mes "[Gigantia]";
+	mes "The Lord of Death sees everything...";
+	close;
+}
+
+niflheim.gat,153,215,3 script	"Feline" 794,{
+	mes "[Feline]";
+	mes "Why are you in this dangerous village?";
+	mes "Better go back fast...";
+	close;
+}
+
+nif_in.gat,16,27,1 script "Dead Cock" 800,{
+	mes "[Dead Cock]";
+	mes "I was eaten by humans when alive,";
+	mes "now it's my turn to eat you! Gugugugu~";
+	mes "Aaah, i can't believe there's such a world after death, gugugu";
+		percentdamage 5,0;
+	close;
+}
+
+nif_in.gat,16,30,4 script "Vampire Bat" 799,{
+	mes "[Vampire Bat]";
+	mes "Alive or dead, human blood";
+	mes "is always the tastiest!";
+	mes "What? You want your blood";
+	mes "to be sucked by me? Nice nice-!";
+		percentdamage 5,0;
+	close;
+}
+
+nif_in.gat,156,93,5 script "Child" 793,{
+	mes "[Anne]";
+	mes "Where, is this place? I just woke up";
+	mes "and found myself here... mommy...";
+	mes "have you seen my mommy, hmm? ... sob...";
+	mes "I want to go home...";
+	next;
+	menu "About the witch...",L_Wizard,"About the curse...",L_Curse,"Stop conversation",L_end;
+L_Wizard:
+	mes "[Anne]";
+	mes "A witch? I don't know any witches...";
+	mes "although i read about them in storybooks,";
+	mes "but i don't know if they're real or not,";
+	mes "must be really scary if she is real...";
+	next;
+	mes "[Anne]";
+	mes "But why is it so cold?";
+	   check Gender = 1,-,L_Male;
+	mes "Aren't you cold, brother? Wierd... Hu~";
+	goto L_Continue;
+L_Male: 
+	mes "Aren't you cold, sister? Wierd... Hu~";
+L_Continue:
+	mes "I miss my warm home,";
+	mes "Can you help me please? Hmmm? Hmmm?";
+	close;
+L_Curse:
+	mes "[Anne]";
+	mes "Curse... My grandma told me";
+	mes "she has a way to avoid any curse";
+	mes "unlifteable by holy blessings...";
+	next;
+	mes "[Anne]";
+	mes "Klaatu...";
+	mes "Verata.....";
+	mes "And... something... something... what was it?";
+	mes "I can't remember the last one.";
+	next;
+	mes "[Anne]";
+	mes "She said if you can pronounce these magic words";
+	mes "to escape a cursed fate.";
+	mes "Now i can't remember what she said was important...";
+	mes "looks like i forgot them too.";
+	close;
+L_end:
+	mes "[Anne]";
+	mes "So cold... so cold... i wish i could";
+	mes "go home... if you can please take me with you...";
+	mes "it's too scary here...";
+	mes "please.... help me....";
+	close;
+}
+
+niflheim.gat,350,258,5 script "Cursed Soul" 802,{
+     		reseteventmob niflheim,nifmob;
+	mes "[Aesop Bruce]";
+	mes "I feel a strong curse on youaaaahhhhh";
+	mes "I shall deny your existanceahhhhhhh";
+	mes "Turn back or you will dieeeaaaahhhh";
+	mes "Don't touch my boookkssaaaahhhh";
+	next;
+	menu "Pick up 1st book",L_book1,"Pick up 2nd book",L_book2,"Pick up 3rd book",L_book3,"Leave silently",L_back;
+L_book1:
+	mes "[Aesop]";
+	mes "Don't you touch my bookssssahhh!!";
+	mes "Ahahaha, i curse you for being bitten, torn and clawed at!!";
+	mes "Forever binded to this curse!!";
+      	callmob niflheim,350,258,"Rideword" 1478,1,nifmob;  
+	close;
+L_book2:
+	mes "[Aesop Bruce]";
+	mes "I said don't touch my booksssahhh...";
+	mes "Get lost....";
+	mes "Don't disrupt my restingggaaahh!!";
+		warp "niflheim",34,162;
+L_book3:
+		set @nif_t = 0;
+		random @nif_random1 10;
+	mes "[Aesop Bruce]";
+	mes "Ahahaha.... i see you are brave!!";
+	mes "Start reading your prayersahahahah!!";
+	next;
+L_MENU1:
+	menu "Clover.",L_MENU2,"Klaatu.",-,"Kleitos.",L_MENU2;
+		set @nif_t += 10;
+L_MENU2:
+	menu "Verit.",L_MENU3,"Veritas.",L_MENU3,"Verata.",-;
+		set @nif_t += 10;
+L_MENU3:
+	menu "Necktie.",L_score,"Necklace.",L_score,"Nero.",L_score,"^FFFFFFNictu.^000000",-;
+		set @nif_t += 10;
+L_score:
+		check @nif_t = 30,L_sucess1,-;
+	mes "[Aesop Bruce]";
+	mes "Hahahaha!! Your prayers were wrong!!";
+	mes "Time to face deathohohohoho,";
+	mes "May you be cured forevahahahaha!!";
+      	callmob niflheim,349,256,"Orc Skeleton" 1478,1,nifmob;  
+      	callmob niflheim,347,258,"Orc Skeleton" 1478,1,nifmob;  
+      	callmob niflheim,347,254,"Orc Skeleton" 1478,1,nifmob;  
+      	callmob niflheim,350,252,"Orc Skeleton" 1478,1,nifmob;  
+      	callmob niflheim,344,253,"Orc Skeleton" 1478,1,nifmob;  
+      	callmob niflheim,348,252,"Orc Skeleton" 1478,1,nifmob;  
+      	callmob niflheim,347,259,"Orc Skeleton" 1478,1,nifmob;  
+	close;
+L_sucess1:
+		check @nif_random1 == 10,L_sucess2,-;
+	mes "[Aesop Bruce]";
+	mes "Your prayers were correctaaahhhh...";
+	mes "but your curse still remainsaaahhhh!!";
+	mes "Haahahahaha.....!!!";
+	close;
+L_sucess2:
+       mes "[Aesop Bruce]";
+       mes "Hahahaha!! Your curse has been lifted!!";
+       mes "Gahahahaha.....!!!";
+       close;
+L_back:
+	mes "[Aesop Bruce]";
+	mes "Ahahahaha! Not bad thinking at alllhhhaahaaa...";
+	mes "I shall pray that you live to returnahhhh....";
+	close;
+}
+
+niflheim.gat,224,243,3 script "Alager" 795,{
+	mes "[Alager]";
+	mes "Muahaha, i love to eat meat...";
+	mes "You look... delicious!";
+	next;
+	mes "[Alager]";
+	mes "I'm going to eat you...";
+	next;
+	mes "-Chomp bite slurp-";
+		check nif_quest1 = 1,L_end,-;
+		check nif_q_done = 1,L_end,-;
+		percentdamage 60,0;
+	next;
+	mes "[Alager]";
+	mes "Ahhh, it's been some time since i had such delicious meat!";
+	mes "as an ex-barbeque chef, my favourite meat";
+	mes "would be like preparing beef fillet,";
+	mes "crossed and grilled to perfection";
+	mes "that would be really delicious... ";
+	next;
+	mes "[Alager]";
+	mes "Ah, let me thank you with this,";
+	mes "I found it on the ground, hoho~";
+		additem 7184,1;
+		set nif_quest1 = 1;
+	close;
+L_end:
+	percentdamage 30,0;
+ 	close;
+}
+
+nif_in.gat,105,81,3 script "Grey" 794,{
+	mes "[Grey]";
+	mes "Ah, there was this poem...";
+	mes "in which author and time of writing was unknown,";
+	mes "and has been circulating since long ago...";
+	next;
+	mes "[Grey]";
+	mes "^FF0000When the sun sets in the western hills,^000000";
+	mes "^FF0000Where points the velvet gloom of dawn,^000000";
+	mes "^FF0000The beautiful melody surrounding thy soul,^000000";
+	mes "^FF0000Is the key from Lord Death's wrath.^000000";
+	next;
+		check nif_quest2 = 1,L_end,-;	
+		check nif_q_done = 1,L_end,-;
+		//random number 0 to 3 (4 total)
+		random @nif_random 4;
+		//going from 0-3 to 1-4 for logic
+		set @nif_random + 1;
+	mes "[Grey]";
+	mes "Heh, let me give you a little exam!";
+	mes "Repeat line no. ' $[@nif_random] ' of the poem";
+	mes "that you have just heard to me!";
+	next;
+		inputstr $@input;
+		check @nif_random = 1,L_RAN_1,-;
+		check @nif_random = 2,L_RAN_2,-;
+		check @nif_random = 3,L_RAN_3,L_RAN_4;
+L_RAN_1:
+		checkstr $@input = "When the sun sets in the western hills,",L_RAN_SC,L_Pay;
+L_RAN_2:
+		checkstr $@input = "Where points the velvet gloom of dawn,",L_RAN_SC,L_Pay;
+L_RAN_3:
+		checkstr $@input = "The beautiful melody surrounding thy soul,",L_RAN_SC,L_Pay;
+L_RAN_4:
+		checkstr $@input = "Is the key from Lord Death's wrath.",L_RAN_SC,L_Pay;
+L_Pay:
+	mes "[Grey]";
+	mes "Aih... If you had paid more attention,";
+	mes "you would have known the correct answer!";
+	mes "Come back for the challenge again,";
+	mes "when you have thought over it!";
+	close;
+L_RAN_SC:
+	mes "[Grey]";
+	mes "Hoho... I see you have paid attention!";
+	mes "I am Grey, a wandering poet of yore,";
+	mes "you are the best audience i have had so far,";
+	mes "here, take this as a reward.";
+		additem 7184,1;
+		set nif_quest2 = 1;
+	next;
+	mes "[Grey]";
+	mes "I hope you will treat other poets";
+	mes "as well as you treated me, farewell.";
+	close;
+L_end:
+	mes "[Grey]";
+	mes "I wonder what does it mean...";
+	mes "If you read it carefully,";
+	mes "it seems to have a deep meaning,";
+	mes "as if there is a myterious secret";
+	mes "hidden within these words...";
+	close;
+}
+
+nif_in.gat,31,20,3 script "Kurtz" 794,{
+	mes "[Kurtz]";
+	mes "Business nowadays is really bad...";
+	mes "Back when i used to be alive,";
+	mes "my business was this bad too~!";
+		check nif_quest3 = 1,L_Close,-;
+		check nif_q_done = 1,L_Close,-;
+	next;
+	mes "[Kurtz]";
+	mes "Hey! You there! Dump this for me";
+	mes "on the way out will you!";
+		additem 7184,1;
+		set nif_quest3 = 1;
+	next;
+	mes "[Kurtz]";
+	mes "Why is business so bad lately...";
+	mes "(mumble mumble)";
+	close;
+L_Close:
+	close;
+}
+
+niflheim.gat,169,71,5 script "#1" 111,2,2,{
+		check nif_q_done = 1,L_end,-;
+		check nif_quest4 = 1,L_end,-;
+	mes "- In the nearby tombs -";
+	mes "- you see something -";
+	mes "- half buried in the ground -";
+	mes "- What is it? -";
+	mes "- Looks like it broke off something -";
+	next;
+	mes "- Pick it up? -";
+	menu "Yes",-,"No",L_end;
+		additem 7184,1;
+		set nif_quest4 = 1;
+L_end:
+	close;
+}
+
+niflheim.gat,208,103,5 script "#2" 111,2,2,{
+		check nif_q_done = 1,L_end,-;
+		check nif_quest5 = 1,L_key2,-;
+		check nif_quest5 >= 2,L_end,-;
+	mes "- In the nearby tombs -";
+	mes "- you see something -";
+	mes "- half buried in the ground -";
+	mes "- What is it? -";
+	mes "- Looks like it broke off something -";
+	next;
+	mes "- Pick it up? -";
+	menu "Yes",-,"No",L_end;
+		additem 7184,1;
+		set nif_quest5 = 1;
+	close;
+L_key2:
+	mes "- In the hole you have dug -";
+	mes "- there is something else -";
+	mes "- buried deep in the ground -";
+	mes "- Looks like its another fragment -";
+	next;
+	mes "- Pick it up? -";
+	menu "Yes",-,"No",L_end;
+		additem 7184,1;
+		set nif_quest5 = 2;
+L_end:
+	close;
+}
+
+nif_in.gat,115,181,5 script "#4" 111,3,3,{
+	mes "- You see a huge old piano -";
+		check nif_q_done = 0,-,L_Check2; 
+	mes "- with a few keys missing  -";
+L_Check2:
+		check nif_q_done =1,-,L_Check3;
+	mes "- with one key missing -";
+L_Check3:
+		check nif_q_done == 0,-,L_Close; 
+		checkitem 7184,5,L_event,-;
+	close;
+L_event:
+		delitem 7184,6;
+		set nif_quest_done = 1;
+		set nif_quest1 = 0;
+		set nif_quest2 = 0;
+		set nif_quest3 = 0;
+		set nif_quest4 = 0;
+		set nif_quest5 = 0;
+		set @nif_random = 0;
+		set @nif_random1 = 0;
+	mes "- You slide the 6 piano keys one -";
+	mes "- by one into the missing slots  -";
+	mes "- on the piano, but you realise  -";
+	mes "- the left-most side seems to be -";
+	mes "- missing one more key. -";
+L_Close:
+	close;
+}
+
+nif_in.gat,118,151,5 script "#5" 111,3,3,{
+		check nif_q_done != 1,L_Close,-;
+	mes "- The very moment the long shadow -";
+	mes "- of your body falls on the piano -";
+	next;
+	mes "- You suddenly seem to feel lighter -";
+	mes "- and your vision starts to blur... -";
+	next;
+		warp "nif_in",179,163;
+L_Close:
+	close;
+}
+
+nif_in.gat,188,168,3 script "Witch" 792,{
+	mes "[Kilgana]";
+	mes "Hmm?... Aren't you a living human?";
+	mes "Must have took you some effort";
+	mes "to get to this place...";
+	mes "Whatever reason though, this is not a place";
+	mes "the living shall belong...";
+	next;
+	mes "[Kilgana]";
+	mes "I shall use my powers to send you back";
+	mes "but you should not return in the future.";
+		warp "umbala",138,208;
+}
+

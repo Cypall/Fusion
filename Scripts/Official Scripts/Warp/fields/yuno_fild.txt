@@ -1,0 +1,49 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Juno Field Warps - Warp Portal Locations
+//
+//========================================================================================
+
+yuno.gat,158,14,0			warp	junofieldwarp001	1,1,yuno_fild04.gat,231,284
+yuno_fild04.gat,231,288,0	warp	junofieldwarp002	1,1,yuno.gat,158,17
+aldebaran.gat,140,244,0		warp	junofieldwarp003	1,1,yuno_fild01.gat,209,22
+yuno_fild01.gat,209,17,0	warp	junofieldwarp004	1,1,aldebaran.gat,140,239
+yuno_fild04.gat,43,368,0	warp	junofieldwarp005	1,1,yuno_fild05.gat,63,34
+yuno_fild05.gat,61,29,0		warp	junofieldwarp006	1,1,yuno_fild04.gat,43,364
+yuno_fild12.gat,371,241,0	warp	junofieldwarp007	1,1,yuno_fild01.gat,32,251
+yuno_fild01.gat,28,251,0	warp	junofieldwarp008	1,1,yuno_fild12.gat,367,243
+yuno_fild12.gat,23,337,0	warp	junofieldwarp009	1,1,yuno_fild11.gat,365,356
+yuno_fild11.gat,368,359,0	warp	junofieldwarp010	1,1,yuno_fild12.gat,27,334
+yuno_fild12.gat,26,231,0	warp	junofieldwarp011	1,1,yuno_fild11.gat,361,218
+yuno_fild11.gat,365,218,0	warp	junofieldwarp012	1,1,yuno_fild12.gat,29,234
+yuno_fild12.gat,193,372,0	warp	junofieldwarp013	2,2,yuno_fild08.gat,138,24
+yuno_fild08.gat,143,21,0	warp	junofieldwarp014	1,1,yuno_fild12.gat,198,370
+yuno_fild07.gat,354,290,0	warp	junofieldwarp015	1,1,yuno_fild08.gat,23,276
+yuno_fild08.gat,20,278,0	warp	junofieldwarp016	1,1,yuno_fild07.gat,349,287
+yuno_fild07.gat,361,71,0	warp	junofieldwarp017	1,1,yuno_fild08.gat,34,59
+yuno_fild08.gat,31,57,0		warp	junofieldwarp018	1,1,yuno_fild07.gat,356,74
+yuno_fild07.gat,92,15,0		warp	junofieldwarp019	1,1,yuno_fild11.gat,91,367
+yuno_fild11.gat,91,371,0	warp	junofieldwarp020	1,1,yuno_fild07.gat,92,19
+yuno_fild08.gat,376,194,0	warp	junofieldwarp021	1,1,yuno_fild09.gat,23,192
+yuno_fild09.gat,19,193,0	warp	junofieldwarp022	1,1,yuno_fild08.gat,372,194
+yuno_fild01.gat,71,376,0	warp	junofieldwarp023	1,1,yuno_fild09.gat,73,22
+yuno_fild09.gat,71,17,0		warp	junofieldwarp024	1,1,yuno_fild01.gat,71,371
+yuno_fild01.gat,287,366,0	warp	junofieldwarp025	1,1,yuno_fild09.gat,280,32
+yuno_fild09.gat,280,28,0	warp	junofieldwarp026	1,1,yuno_fild01.gat,287,361
+yuno_fild07.gat,179,354,0	warp	junofieldwarp027	1,1,yuno_fild03.gat,180,19
+yuno_fild03.gat,180,15,0	warp	junofieldwarp028	1,1,yuno_fild07.gat,179,350
+yuno_fild02.gat,21,337,0	warp	junofieldwarp029	1,1,yuno_fild03.gat,373,327
+yuno_fild03.gat,380,331,0	warp	junofieldwarp030	1,1,yuno_fild02.gat,26,337
+yuno_fild03.gat,23,162,0	warp	junofieldwarp031	1,1,yuno_fild04.gat,369,146
+yuno_fild04.gat,374,150,0	warp	junofieldwarp032	1,1,yuno_fild03.gat,28,162
+yuno_fild03.gat,32,139,0	warp	junofieldwarp033	1,1,mag_dun01.gat,126,69
+yuno_fild03.gat,22,79,0		warp	junofieldwarp034	1,1,yuno_fild04.gat,366,80
+yuno_fild04.gat,373,83,0	warp	junofieldwarp035	1,1,yuno_fild03.gat,27,79
+yuno_fild08.gat,74,376,0	warp	junofieldwarp036	1,1,yuno_fild02.gat,69,30
+yuno_fild02.gat,69,25,0		warp	junofieldwarp037	1,1,yuno_fild08.gat,76,372
+yuno_fild08.gat,285,385,0	warp	junofieldwarp038	1,1,yuno_fild02.gat,291,20
+yuno_fild02.gat,288,17,0	warp	junofieldwarp039	1,1,yuno_fild08.gat,285,381

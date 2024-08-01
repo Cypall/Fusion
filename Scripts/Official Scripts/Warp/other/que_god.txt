@@ -1,0 +1,26 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//  
+// Que_God - Warp Portals Location
+//
+//========================================================================================
+
+que_god01.gat,12,116,0	warp	que_god01-warp001	2,2,que_god01.gat,16,92
+que_god01.gat,16,95,0	warp	que_god01-warp002	2,2,que_god01.gat,12,119
+que_god01.gat,62,116,0	warp	que_god01-warp003	2,2,que_god01.gat,46,92
+que_god01.gat,46,95,0	warp	que_god01-warp004	2,2,que_god01.gat,62,119
+que_god01.gat,16,80,0	warp	que_god01-warp005	2,2,que_god01.gat,12,52
+que_god01.gat,12,55,0	warp	que_god01-warp006	2,2,que_god01.gat,16,83
+que_god01.gat,46,80,0	warp	que_god01-warp007	2,2,que_god01.gat,50,52
+que_god01.gat,50,55,0	warp	que_god01-warp008	2,2,que_god01.gat,46,83
+que_god01.gat,63,89,0	warp	que_god01-warp009	2,2,que_god01.gat,87,93
+que_god01.gat,84,93,0	warp	que_god01-warp010	2,2,que_god01.gat,60,89
+
+//======================== Temp warps ====================================================
+yuno.gat,134,84,0	warp	que_god01-warp009	2,2,que_god01.gat,98,83
+que_god01.gat,98,80,0	warp	que_god01-warp010	2,2,yuno.gat,137,84
+//========================================================================================
+

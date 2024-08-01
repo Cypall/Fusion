@@ -1,0 +1,458 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Bard Quest - Non Player Character Locations
+// 	-Written by nestor_zulueta
+// 	-Finished on 06-08-2004
+//
+// - Roaming Bard -> comodo: 226,123
+//   Gives quest and jobchange.
+//
+//========================================================================================
+
+comodo.gat,226,123,5	script "Roaming Bard" 741,{
+	check bard_quest = 1,bq1,-;
+	check bard_quest = 2,bq2,-;
+	check bard_quest = 3,singing,-;
+	check bard_quest = 4,bq4,-;
+	check bard_quest = 5,finalgift,-;
+	check Job = 3,archer,-;
+	mes "[Lalo]";
+	mes "Its a fine day to sing eh.";
+	close;	
+archer:
+	mes "[Lalo]";
+	mes "Hi! Delightful Archer.";
+	mes "How can a wanderer like me help";
+	mes "you?";
+	next;
+	menu "You have a nice voice.",L0,"Could you sing for me, please?",L1,"Nothing",L2;
+L0:
+	mes "[Lalo]";
+	mes "Hoho, your voice is rather nice as";
+	mes "well?";
+	mes "Ever think about singing?";
+	next;
+	menu "Of course!",ofc,"I can't quite possibly...",icant;
+ofc:
+	mes "[Lalo]";
+	mes "Haha, nice attitude. You have to be";
+	mes "like that to become a Bard.";
+	mes "I'll help you become a Bard then.";
+	next;
+	check JobLevel >= 40,gonow,-;
+	mes "[Lalo]";
+	mes "But before that... you need to be";
+	mes "atleast base 40 to be a Bard.";
+	next;
+	mes "[Lalo]";
+	mes "Just come back again ok.";
+	close;	
+gonow:
+	mes "[Lalo]";
+	mes "But before that... do you think you";
+	mes "can bring me a Flower?";
+	mes "I need to smell the scent of a";
+	mes "Flower to feel like teaching.";
+	next;
+	mes "[Lalo]"; 
+	mes "It doesn't really matter which";
+	mes "Flower, but try to bring one that I";
+	mes "like.";
+	mes "And don't just buy any random";
+	mes "Flower,ok?";
+	set bard_quest = 1;
+	close;
+icant:
+	mes "[Lalo]";
+	mes "Haha, what a timid one.";
+	mes "Don't think so little of yourself.";
+	next;
+	mes "[Lalo]";
+	mes "You have plenty of talent.";
+	mes "Come again if you change your";
+	mes "mind.";
+	close;
+L1:
+	mes "[Lalo]";
+	mes "A song... let's see.";
+	mes "Ok, I got one...";
+	next;
+	mes "[Lalo]";
+	mes "I'll sing... Drums of War.";
+	mes "*ehem...*cough...gag...mememememe...";
+	mes "1, 2, 3, 4...";
+	next;
+	mes "[Lalo]";
+	mes "The sound of the horses galloping over";
+	mes "the horizon";
+	mes "The dust that covers the distant";
+	mes "sun.";
+	mes "Where thousands of eyes open in the";
+	mes "night sky";
+	mes "The castle's fire will burn with";
+	mes "power.";
+	next;
+	mes "[Lalo]";
+	mes "I can hear... the beating of my";
+	mes "heart.";
+	mes "I can feel... the blood rushing";
+	mes "through my veins.";
+	mes "... and the weight of my armor.";
+	mes "I can see... my enemies.";
+	next;
+	mes "[Lalo]";
+	mes "Louder, louder louder...";
+	mes "Give strength to the warriors!";
+	mes "Higher, higher, higher...";
+	mes "This day will never come again!";
+	next;
+	mes "[Lalo]";
+	mes "Shake the sky and roar the through the";
+	mes "land.";
+	mes "Make my heart pound again!";
+	mes "Let the trumpets sound, and castle";
+	mes "walls ring.";
+	mes "This moment will never come again!";
+	next;
+	mes "[Lalo]";
+	mes "Hmm.. that's always a good song to";
+	mes "sing.";
+	mes "How it was it? Dont you think it's a";
+	mes "nice song?";
+	next;
+	menu "Yes, it was really nice",yes1,"No, not really...",no1;
+yes1:
+	mes "[Lalo]";
+	mes "Thanks! If you enjoyed my song, it";
+	mes "makes me happy, too.";
+	next;
+	mes "[Lalo]";
+	mes "It would be nice if more people";
+	mes "went around and sang...";
+	mes "Well, its quite ok as it is now...";
+	mes "hmmhmmm.";
+	close;
+no1:
+	mes "[Lalo]";
+	mes "Hmmm... Did i loose my senses I'll ";
+	mes "have to try harder.";
+	mes "Anyways... Thanks for listening.";
+	close;
+L2:
+	mes "[Lalo]";
+	mes "Oh not requesting a song when you";
+	mes "run into a Bard isn't very polite.";
+	mes "Well...can't help it since you";
+	mes "look like you're in a hurry";
+	mes "anyways.";
+	next;
+	mes "[Lalo]";
+	mes "Hunting is good... but you can't";
+	mes "forget to relax once in a while.";
+	mes "Youth is short and wont come again";
+	mes "once it passes by..";
+	close;
+bq1:
+	mes "[Lalo]";
+	mes "Welcome! Archer friend.";
+	mes "Did you bring a Flower? Let me";
+	mes "see.";
+	next;
+	checkitem 520,1,flower1,-;
+	checkitem 521,1,flower2,-;
+	checkitem 708,1,flower3,-;
+	checkitem 709,1,flower4,-;
+	checkitem 710,1,flower5,-;
+	checkitem 748,1,flower6,-;
+	checkitem 749,1,flower7,-;
+	mes "[Lalo]";
+	mes "Eh? This is just a normal flower.";
+	mes "I like it... but it's not enough.";
+	mes "Please bring me a different";
+	mes "flower.";
+	close;
+flower1:
+	mes "[Lalo]";
+	mes "Can i have that Hinalle?";
+	menu "Yes",bring1,"No",nohave;
+bring1:
+	delitem 520,1;
+	goto good;
+flower2:
+	mes "[Lalo]";
+	mes "Can i have that Aloe?";
+	menu "Yes",bring2,"No",nohave;
+bring2:
+	delitem 521,1;
+	goto good;	
+flower3:
+	mes "[Lalo]";
+	mes "Can i have that Ment?";
+	menu "Yes",bring3,"No",nohave;
+bring3:
+	delitem 708,1;
+	goto good;	
+flower4:
+	mes "[Lalo]";
+	mes "Can i have that Izidor?";
+	menu "Yes",bring4,"No",nohave;
+bring4:
+	delitem 709,1;
+	goto good;	
+flower5:
+	mes "[Lalo]";
+	mes "Can i have that Illusion Flower?";
+	menu "Yes",bring5,"No",nohave;
+bring5:
+	delitem 710,1;
+	goto good;	
+flower6:
+	mes "[Lalo]";
+	mes "Can i have that Witherless_Rose?";
+	menu "Yes",bring6,"No",nohave;
+bring6:
+	delitem 748,1;
+	goto good;
+flower7:
+	mes "[Lalo]";
+	mes "Can i have that Frozen_Rose?";
+	menu "Yes",bring7,"No",nohave;
+bring7:
+	delitem 749,1;
+	goto good;
+nohave:
+	mes "[Lalo]";
+	mes "Well suit your self.";
+	mes "I dont like that flower";
+	mes "anyway.";
+	close;
+good:
+	set bard_quest = 3;
+	mes "[Lalo]";
+	mes "It doesn't have a scent but it's a";
+	mes "very moderate cute flower.";
+	mes "The leaves gave me strength when I";
+	mes "used to fall.";
+	mes "I really like this flower, thank";
+	mes "you.";
+	next;
+	mes "[Lalo]";
+	mes "As I promised, I'll help you become";
+	mes "a Bard.";
+	mes "But it's not easy my friend. Haha!";
+	next;
+	mes "[Lalo]";
+	mes "It is important to get to know";
+	mes "lot of people to learn how to";
+	mes "sing";
+	mes "You must also keep up with all the";
+	mes "things going on different";
+	mes "villages...";
+	next;
+	mes "[Lalo]";
+	mes "There's a talking snowman in a";
+	mes "town called Lutie.";
+	mes "Go there and bring back a present.";
+	next;
+	mes "[Lalo]";
+	mes "If you become friends with Jack";
+	mes "Frost, you will receive something.";
+	mes "And also talk to townspeople";
+	mes "while you're at it...";
+	set bard_quest = 2;
+	close;
+bq2:
+	check lutie_quest = 1,bq3,-;
+	mes "[Lalo]";
+	mes "I'm waiting for the good news.";
+	mes "For now go to Lutie and make";
+	mes "friends with Jack Frost";
+	close;
+bq3:
+	mes "[Lalo]";
+	mes "How was the trip? Did you meet a";
+	mes "lot of people?";
+	mes "You should have more important than a";
+	mes "gift.";
+	next;
+singing:
+	mes "[Lalo]";
+	mes "Then, do you want to try";
+	mes "singing...?";
+	mes "I'll sing a short melody...";
+	mes "and you try after.";
+	next;
+	mes "[Lalo]";
+	mes "Here I go.";
+	mes "Ehem *clears throat*";
+	mes "1, 2, 3, 4";
+	next;
+//this should text input
+	mes "All Gods never age.";
+	mes "The ever so beautiful Goddess";
+	mes "Eden,";
+	mes "Beatuful and graceful Goddess";
+	mes "Eden,";
+	mes "Odin's daugther-in-law and Bragis";
+	mes "wife";
+	mes "Her sweet apples in here basket,";
+	mes "All thanks to her sweet apples.";
+	set @scored = 0;
+	next;
+	menu "All Gods never age.",s1,"All Gods never age?",s2;
+s1:
+	set @scored + 10;
+	goto cont1;
+s2:
+cont1:
+	menu "The ever so beautiful Goddess",s3,"The ever so beautiful Goddess.",s4;
+s3:
+	set @scored + 10;
+	goto cont2;
+s4:	
+cont2:
+	menu "Odin,",s5,"Eden,",s6;
+s5:
+	goto cont3;
+s6:
+	set @scored + 10;
+cont3:
+	menu "Beatuful and graceful Goddess",s7,"Beatuful and the graceful Goddess",s8;
+s7:
+	set @scored + 10;
+	goto cont4;
+s8:
+cont4:
+	menu "Odin,",s9,"Eden,",s10;
+s9:
+	goto cont5;
+s10:
+	set @scored + 10;
+cont5:
+	menu "Odin's daugther-in-law and Bragis",s11,"Odin's daugther-in-law and Brags",s12;
+s11:
+	set @scored + 10;
+	goto cont6;
+s12:
+cont6:
+	menu "wifes",s13,"wife",s14;
+s13:
+	goto cont6;
+s14:
+	set @scored + 10;
+cont6:
+	menu "Her sweet apple in here basket,",s15,"Her sweet apples in here basket,",s16;
+s15:
+	goto cont6;
+s16:
+	set @scored + 10;
+cont7:
+	menu "All thanks to her sweet apples.",s17,"All thanks to her sweet apples!",s18;
+s17:
+	set @scored + 10;
+	goto cscore;
+s18:
+cscore:
+	check @score = 90,goodjob,-;
+	mes "[Lalo]";
+	mes "Oy, You got the lyrics wrong!";
+	mes "Can't you even sing along...?";
+	next;
+	mes "[Lalo]";
+	mes "Your pronunciation is very";
+	mes "unclear.";
+	mes "Do a better job next time.";
+	close;
+goodjob:
+	set bard_quest = 4;
+	mes "[Lalo]";
+	mes "Wonderful! Finish it in one try!";
+	mes "You can become a great Bard.";
+	next;
+	mes "Do you want to just change jobs";
+	mes "now?";
+	mes "Or do you want a present";
+	menu "Just change my job please.",jobpls,"I'd be thankful for a present.",presentpls;
+jobpls:
+	check skillpoint = 0,-,skillleft;
+	jobchange 19;
+	mes "[Lalo]";
+	mes "See you next time!";
+	close;
+presentpls:
+	mes "[Lalo]";
+	mes "Hmmm...very well, bring some";
+	mes "trunks.";
+	mes "It doesn't matter what kind, as";
+	mes "long they are 60 of the same";
+	mes "kind...";
+	next;
+	mes "[Lalo]";
+	mes "I will give you a gift once you";
+	mes "bring them";
+	mes "have a safe trip.";
+	close;
+skillleft:
+	mes "[Lalo]";
+	mes "Hmmm... you seems to have some";
+	mes "skill left.";
+	mes "Use them all and come back to me";
+	mes "again.";
+	close;
+bq4:
+	checkitem 1066,60,gift1,-;
+	checkitem 1067,60,gift2,-;
+	checkitem 1068,60,gift3,-;
+	checkitem 1019,60,gift4,-;
+	mes "[Lalo]";
+	mes "Mmm? Seems like you haven't";
+	mes "prepared all trunks yet?";
+	mes "Do you want to just change jobs";
+	mes "anyways?";	
+	menu "Yes",jobyes,"Wait not yet",jobno;
+jobyes:
+	check skillpoint = 0,-,skillleft;
+	jobchange 19;	
+	mes "[Lalo]";
+	mes "See you next time!";
+	close;
+jobno:
+	mes "Ok i just wait here.";
+	close;	
+gift1:
+	delitem 1066,60;	
+	goto finalgift;
+gift2:
+	delitem 1067,60;
+	goto finalgift;
+gift3:
+	delitem 1068,60;
+	goto finalgift;
+gift4:
+	delitem 1019,60;
+finalgift:
+	set bard_quest = 5; 
+	check skillpoint = 0,-,skillleft;
+	jobchange 19;
+	mes "[Lalo]";
+	mes "Good job. I will make you a";
+	mes "job change with this souvenir.";
+	mes "Wait just a moment.";
+	next;
+	mes "Scrape Scrape Tang Tang";
+	mes "Squeak Squeak Scratch Scratch";
+	next;
+	additem 1903,1;
+	mes "[Lalo]";
+	mes "Here you go, a souvenir. It is";
+	mes "useful when you sing.";
+	mes "Hope you sing happy songs.";
+	next;
+	mes "[Lalo]";
+	mes "See you next time!";
+	close;
+}

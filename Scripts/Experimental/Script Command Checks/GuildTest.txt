@@ -1,0 +1,165 @@
+// Add this to territory_db --> prt_are01,"Test Script Site"
+
+prt_are01.gat,150,195,0,0	monster	"Emperium" 1288,1,0,0,1
+
+prt_are01.gat,147,152,5	script	"Guild and Guild Castle"	811,{
+	guildreg "prt_are01";
+	mes "If you are seeing this, this means MES and GUILDREG work, if it continues then NEXT works.";
+	next;
+	mes "This NPC contain commands relative to guilds.";
+	check guildid != 0,-,Fail;
+	check ismyguild != 0,Continue,-;
+	Fail:
+	mes "Please be in a guild, have approval, and attack the emperium north of this location";
+	close;
+	Continue:
+	mes "Please have guardian research for the guardian section";
+	mes "and have kafra contract for it's section";
+	next;
+	mes "This script includes:";
+	mes "1:mes";
+	mes "2:next";
+	mes "3:close";
+	mes "4:menu";
+	mes "5:goto";
+	mes "15:check";
+	mes "15:check kafra";
+	mes "15:check guildid";
+	mes "15:check ismyguild";
+	mes "48:guildreg";
+	mes "49:getgskilllevel";
+	mes "50:getguardstatus";
+	mes "51:setguildkafra";
+	mes "52:setguardstatus";
+	mes "53:callguard";
+	mes "55:resetguild";
+	next;
+	LaMenu:
+	menu "Guardian Stuff",-,"Kafra",KAFRA,"Leave the castle(?)",leave,"CANCEL!!",cancel;
+		mes "I will now check for a guardian research (skill id 10002) with GETGSKILLLEVEL";
+		next;
+		getgskilllevel 10002,@gcheck;
+		check @gcheck == 1,-,NoGSkill;
+		mes "Now I will check which guardians are active using GETGUARDSTATUS";
+		next;
+		getguardstatus 0,@Sol1;
+		getguardstatus 1,@Sol2;
+		getguardstatus 2,@Sol3;
+		getguardstatus 3,@Arc1;
+		getguardstatus 4,@Arc2;
+		getguardstatus 5,@Kni1;
+		getguardstatus 6,@Kni2;
+		getguardstatus 7,@Kni3;
+		mes "0 means disabled, 1 means active";
+		mes "Soldier 1: $[@Sol1] ";
+		mes "Soldier 2: $[@Sol2] ";
+		mes "Soldier 3: $[@Sol3] ";
+		mes "Archer 1: $[@Arc1] ";
+		mes "Archer 2: $[@Arc2] ";
+		mes "Knight 1: $[@Kni1] ";
+		mes "Knight 2: $[@Kni2] ";
+		mes "Knight 3: $[@Kni3] ";
+		next;
+		mes "I will reset all of these to disabled";
+		next;
+		set @GD = 0;
+		startadding:
+			setguardstatus @GD,0;
+			set @GD +=1;
+			check @GD = 8,-,startadding;
+		getguardstatus 0,@Sol1;
+		getguardstatus 1,@Sol2;
+		getguardstatus 2,@Sol3;
+		getguardstatus 3,@Arc1;
+		getguardstatus 4,@Arc2;
+		getguardstatus 5,@Kni1;
+		getguardstatus 6,@Kni2;
+		getguardstatus 7,@Kni3;
+		mes "STATUS";
+		mes "Soldier 1: $[@Sol1] ";
+		mes "Soldier 2: $[@Sol2] ";
+		mes "Soldier 3: $[@Sol3] ";
+		mes "Archer 1: $[@Arc1] ";
+		mes "Archer 2: $[@Arc2] ";
+		mes "Knight 1: $[@Kni1] ";
+		mes "Knight 2: $[@Kni2] ";
+		mes "Knight 3: $[@Kni3] ";
+		next;
+		mes "I will now set all to active";
+		next;
+		set @GD = 0;
+		startadding2:
+			setguardstatus @GD,1;
+			set @GD +=1;
+			check @GD = 8,-,startadding2;
+		getguardstatus 0,@Sol1;
+		getguardstatus 1,@Sol2;
+		getguardstatus 2,@Sol3;
+		getguardstatus 3,@Arc1;
+		getguardstatus 4,@Arc2;
+		getguardstatus 5,@Kni1;
+		getguardstatus 6,@Kni2;
+		getguardstatus 7,@Kni3;
+		mes "STATUS";
+		mes "Soldier 1: $[@Sol1] ";
+		mes "Soldier 2: $[@Sol2] ";
+		mes "Soldier 3: $[@Sol3] ";
+		mes "Archer 1: $[@Arc1] ";
+		mes "Archer 2: $[@Arc2] ";
+		mes "Knight 1: $[@Kni1] ";
+		mes "Knight 2: $[@Kni2] ";
+		mes "Knight 3: $[@Kni3] ";
+		next;
+		mes "I will now summon all these guardians";
+		next;
+		set @GD = 0
+		startcall:
+			callguard @GD;
+			set @GD += 1;
+			check @GD = 8,-,startcall;
+		mes "Done";
+		mes "I will now use a GOTO back to the menu";
+		mes "You may stop the script there";
+		next;
+		goto LaMenu;
+	NoGSkill:
+		mes "You need the guardian guild skill";
+		close;
+	KAFRA:
+		mes "I will test you for having the kafra contract";
+		getgskilllevel 10001,@gcheck;
+		check @gcheck == 1,-,NoKSkill;
+		mes "I will now set kafra as active";
+		mes "I believe that it is a bug that a castle with the kafra, will show her before the castle is taken";
+		mes "I cannot confirm";
+		next;
+		setguildkafra 1;
+		mes "Kafra is now available";
+		next;
+		MiniMenu:
+		menu "Return to root menu",LaMenu,"Disband Kafra",-,"Check Kafra Status",Kchecker,"Close",cancel;
+		setguildkafra  0;
+		mes "Kafra has been fired";
+		mes "Returning you to the last menu..."
+		next;
+		goto MiniMenu;
+	Kchecker:
+		mes "This will check if the status of kafra";
+		next;
+		check guildkafra == 0,NotAvailable,-;
+			mes "Kafra is hired";
+			mes "Returning you to the last menu..."
+			goto MiniMenu;
+		NotAvailable:
+			mes "Kafra is not hired";
+			mes "Returning you to the last menu..."
+			goto MiniMenu;
+	NoKSkill:
+		mes "You need the kafra contract guild skill";
+		close;
+	cancel:
+		close;
+	leave:
+		resetguild;
+		close;
+}

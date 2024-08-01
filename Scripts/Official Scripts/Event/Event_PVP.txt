@@ -1,0 +1,3650 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Event PVP - Non Player Character Locations
+// - Original Created by Nestor zulueta 
+// - 02-05-2004 added missing alberta npc's [Muad_Dib]
+//
+// - Usher 31~40 -> pvp_y_room: 30,85
+//   Sends you to the pvp area.
+//
+// - Usher 41~50 -> pvp_y_room: 38,85
+//   Sends you to the pvp area.
+//
+// - Usher 51~60 -> pvp_y_room: 46,85
+//   Send syou to the pvp area.
+//
+// - Usher 61~70 -> pvp_y_room: 54,85
+//   Send syou to the pvp area.
+//
+// - Usher 71~80 -> pvp_y_room: 62,85
+//   Send syou to the pvp area.
+//
+// - Usher 81~90 -> pvp_y_room: 70,85
+//   Sends you to the pvp area.
+//
+// - Usher 91~Higher -> pvp_y_room: 78,85
+//   Sends you to the pvp area.
+//
+// - Usher All Levels -> pvp_y_room: 86,85
+//   Send you to the pvp area.
+//
+// - Usher 31~40 -> pvp_n_room: 30,85
+//   Sends you to the pvp area.
+//
+// - Usher 41~50 -> pvp_n_room: 38,85
+//   Sends you to the pvp area.
+//
+// - Usher 51~60 -> pvp_n_room: 46,85
+//   Send syou to the pvp area.
+//
+// - Usher 61~70 -> pvp_n_room:. 54,85
+//   Send syou to the pvp area
+//
+// - Usher 71~80 -> pvp_n_room: 62,85
+//   Send syou to the pvp area.
+//
+// - Usher 81~90 -> pvp_n_room: 70,85
+//   Sends you to the pvp area.
+//
+// - Usher 91~Higher -> pvp_n_room: 78,85
+//   Sends you to the pvp area.
+//
+// - Usher All Levels -> pvp_n_room: 86,85
+//   Send you to the pvp area.
+//
+// - PVP Guide -> prt_in: 56,140
+//   Gives you PVP Arena information.
+//
+// - PVP Doorman -> prt_in: 52,140
+//   Warps you to one of the waitingrooms.
+//
+// - PVP Guide -> payon_in01: 10,54
+//   Gives you PVP Arena information.
+//
+// - PVP Doorman -> payon_in01: 6,55
+//   Warps you to one of the waitingrooms.
+//
+// - PVP Guide -> geffen_in: 67,67
+//   Gives you PVP Arena information.
+//
+// - PVP Doorman -> geffen_in: 67,64
+//   Warps you to one of the waitingrooms.
+//
+// - PVP Guide -> morocc_in: 144,137
+//   Gives you PVP Arena information.
+//
+// - PVP Doorman -> morocc_in: 144,142
+//   Warps you to on eof the waitingrooms.
+//
+// - PVP Guide -> alberta_in: 26,146
+//   Gives you PVP Arena information.
+//
+// - PVP Doorman -> alberta_in: 22,146
+//   Warps you to on eof the waitingrooms.
+//
+//========================================================================================
+
+pvp_y_room.gat,30,85,4 script	"Usher 31~40" 105,{
+	getmapusers "pvp_y_1-1",@prt;
+	getmapusers "pvp_y_1-2",@izl;
+	getmapusers "pvp_y_1-3",@pay;
+	getmapusers "pvp_y_1-4",@alb;
+	getmapusers "pvp_y_1-5",@mor;
+	check BaseLevel < 31,noenter,-;
+	check BaseLevel > 40,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_1-1",156,42;
+A0:
+	warp "pvp_y_1-1",238,43;
+A1:
+	warp "pvp_y_1-1",57,59;
+A2:
+	warp "pvp_y_1-1",39,204;
+A3:
+	warp "pvp_y_1-1",56,334;
+A4:
+	warp "pvp_y_1-1",156,324;
+A5:
+	warp "pvp_y_1-1",230,310;
+A6:
+	warp "pvp_y_1-1",271,203;
+A7:
+	warp "pvp_y_1-1",155,219
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_1-2",128,93;
+b0:
+	warp "pvp_y_1-2",53,73;
+b1:
+	warp "pvp_y_1-2",95,99;
+b2:
+	warp "pvp_y_1-2",159,95;
+b3:
+	warp "pvp_y_1-2",209,129;
+b4:
+	warp "pvp_y_1-2",174,181;
+b5:
+	warp "pvp_y_1-2",128,217;
+b6:
+	warp "pvp_y_1-2",79,174;
+b7:
+	warp "pvp_y_1-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_1-3",179,97;
+c0:
+	warp "pvp_y_1-3",88,176;
+c1:
+	warp "pvp_y_1-3",111,100;
+c2:
+	warp "pvp_y_1-3",95,58;
+c3:
+	warp "pvp_y_1-3",114,156;
+c4:
+	warp "pvp_y_1-3",170,165;
+c5:
+	warp "pvp_y_1-3",170,220;
+c6:
+	warp "pvp_y_1-3",220,210;
+c7:
+	warp "pvp_y_1-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_1-4",117,56;
+d0:
+	warp "pvp_y_1-4",25,235;
+d1:
+	warp "pvp_y_1-4",218,45;
+d2:
+	warp "pvp_y_1-4",223,102;
+d3:
+	warp "pvp_y_1-4",193,167;
+d4:
+	warp "pvp_y_1-4",108,223;
+d5:
+	warp "pvp_y_1-4",53,42;
+d6:
+	warp "pvp_y_1-4",53,152;
+d7:
+	warp "pvp_y_1-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_1-5",156,46;
+e0:
+	warp "pvp_y_1-5",55,56;
+e1:
+	warp "pvp_y_1-5",34,166;
+e2:
+	warp "pvp_y_1-5",34,283;
+e3:
+	warp "pvp_y_1-5",160,283;
+e4:
+	warp "pvp_y_1-5",260,270;
+e5:
+	warp "pvp_y_1-5",288,203;
+e6:
+	warp "pvp_y_1-5",247,61;
+e7:
+	warp "pvp_y_1-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 31 and 40 are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 31 ~ LV 40",1;
+	return;
+}
+
+pvp_y_room.gat,38,85,4	script "Usher 41~50" 105,{
+	getmapusers "pvp_y_2-1",@prt;
+	getmapusers "pvp_y_2-2",@izl;
+	getmapusers "pvp_y_2-3",@pay;
+	getmapusers "pvp_y_2-4",@alb;
+	getmapusers "pvp_y_2-5",@mor;
+	check BaseLevel < 41,noenter,-;
+	check BaseLevel > 50,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_2-1",156,42;
+A0:
+	warp "pvp_y_2-1",238,43;
+A1:
+	warp "pvp_y_2-1",57,59;
+A2:
+	warp "pvp_y_2-1",39,204;
+A3:
+	warp "pvp_y_2-1",56,334;
+A4:
+	warp "pvp_y_2-1",156,324;
+A5:
+	warp "pvp_y_2-1",230,310;
+A6:
+	warp "pvp_y_2-1",271,203;
+A7:
+	warp "pvp_y_2-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_2-2",128,93;
+b0:
+	warp "pvp_y_2-2",53,73;
+b1:
+	warp "pvp_y_2-2",95,99;
+b2:
+	warp "pvp_y_2-2",159,95;
+b3:
+	warp "pvp_y_2-2",209,129;
+b4:
+	warp "pvp_y_2-2",174,181;
+b5:
+	warp "pvp_y_2-2",128,217;
+b6:
+	warp "pvp_y_2-2",79,174;
+b7:
+	warp "pvp_y_2-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_2-3",179,97;
+c0:
+	warp "pvp_y_2-3",88,176;
+c1:
+	warp "pvp_y_2-3",111,100;
+c2:
+	warp "pvp_y_2-3",95,58;
+c3:
+	warp "pvp_y_2-3",114,156;
+c4:
+	warp "pvp_y_2-3",170,165;
+c5:
+	warp "pvp_y_2-3",170,220;
+c6:
+	warp "pvp_y_2-3",220,210;
+c7:
+	warp "pvp_y_2-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_2-4",117,56;
+d0:
+	warp "pvp_y_2-4",25,235;
+d1:
+	warp "pvp_y_2-4",218,45;
+d2:
+	warp "pvp_y_2-4",223,102;
+d3:
+	warp "pvp_y_2-4",193,167;
+d4:
+	warp "pvp_y_2-4",108,223;
+d5:
+	warp "pvp_y_2-4",53,42;
+d6:
+	warp "pvp_y_2-4",53,152;
+d7:
+	warp "pvp_y_2-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_2-5",156,46;
+e0:
+	warp "pvp_y_2-5",55,56;
+e1:
+	warp "pvp_y_2-5",34,166;
+e2:
+	warp "pvp_y_2-5",34,283;
+e3:
+	warp "pvp_y_2-5",160,283;
+e4:
+	warp "pvp_y_2-5",260,270;
+e5:
+	warp "pvp_y_2-5",288,203;
+e6:
+	warp "pvp_y_2-5",247,61;
+e7:
+	warp "pvp_y_2-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 41 and 50 are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 41 ~ LV 50",1;
+	return;
+}
+
+pvp_y_room.gat,46,85,4 script "Usher 51~60" 105,{
+	getmapusers "pvp_y_3-1",@prt;
+	getmapusers "pvp_y_3-2",@izl;
+	getmapusers "pvp_y_3-3",@pay;
+	getmapusers "pvp_y_3-4",@alb;
+	getmapusers "pvp_y_3-5",@mor;
+	check BaseLevel < 51,noenter,-;
+	check BaseLevel > 60,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_3-1",156,42;
+A0:
+	warp "pvp_y_3-1",238,43;
+A1:
+	warp "pvp_y_3-1",57,59;
+A2:
+	warp "pvp_y_3-1",39,204;
+A3:
+	warp "pvp_y_3-1",56,334;
+A4:
+	warp "pvp_y_3-1",156,324;
+A5:
+	warp "pvp_y_3-1",230,310;
+A6:
+	warp "pvp_y_3-1",271,203;
+A7:
+	warp "pvp_y_3-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_3-2",128,93;
+b0:
+	warp "pvp_y_3-2",53,73;
+b1:
+	warp "pvp_y_3-2",95,99;
+b2:
+	warp "pvp_y_3-2",159,95;
+b3:
+	warp "pvp_y_3-2",209,129;
+b4:
+	warp "pvp_y_3-2",174,181;
+b5:
+	warp "pvp_y_3-2",128,217;
+b6:
+	warp "pvp_y_3-2",79,174;
+b7:
+	warp "pvp_y_3-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_3-3",179,97;
+c0:
+	warp "pvp_y_3-3",88,176;
+c1:
+	warp "pvp_y_3-3",111,100;
+c2:
+	warp "pvp_y_3-3",95,58;
+c3:
+	warp "pvp_y_3-3",114,156;
+c4:
+	warp "pvp_y_3-3",170,165;
+c5:
+	warp "pvp_y_3-3",170,220;
+c6:
+	warp "pvp_y_3-3",220,210;
+c7:
+	warp "pvp_y_3-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_3-4",117,56;
+d0:
+	warp "pvp_y_3-4",25,235;
+d1:
+	warp "pvp_y_3-4",218,45;
+d2:
+	warp "pvp_y_3-4",223,102;
+d3:
+	warp "pvp_y_3-4",193,167;
+d4:
+	warp "pvp_y_3-4",108,223;
+d5:
+	warp "pvp_y_3-4",53,42;
+d6:
+	warp "pvp_y_3-4",53,152;
+d7:
+	warp "pvp_y_3-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_3-5",156,46;
+e0:
+	warp "pvp_y_3-5",55,56;
+e1:
+	warp "pvp_y_3-5",34,166;
+e2:
+	warp "pvp_y_3-5",34,283;
+e3:
+	warp "pvp_y_3-5",160,283;
+e4:
+	warp "pvp_y_3-5",260,270;
+e5:
+	warp "pvp_y_3-5",288,203;
+e6:
+	warp "pvp_y_3-5",247,61;
+e7:
+	warp "pvp_y_3-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 51 and 60 are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 51 ~ LV 60",1;
+	return;
+}
+
+pvp_y_room.gat,54,85,4	script	"Usher 61~70"	105,{
+	getmapusers "pvp_y_4-1",@prt;
+	getmapusers "pvp_y_4-2",@izl;
+	getmapusers "pvp_y_4-3",@pay;
+	getmapusers "pvp_y_4-4",@alb;
+	getmapusers "pvp_y_4-5",@mor;
+	check BaseLevel < 61,noenter,-;
+	check BaseLevel > 70,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_4-1",156,42;
+A0:
+	warp "pvp_y_4-1",238,43;
+A1:
+	warp "pvp_y_4-1",57,59;
+A2:
+	warp "pvp_y_4-1",39,204;
+A3:
+	warp "pvp_y_4-1",56,334;
+A4:
+	warp "pvp_y_4-1",156,324;
+A5:
+	warp "pvp_y_4-1",230,310;
+A6:
+	warp "pvp_y_4-1",271,203;
+A7:
+	warp "pvp_y_4-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_4-2",128,93;
+b0:
+	warp "pvp_y_4-2",53,73;
+b1:
+	warp "pvp_y_4-2",95,99;
+b2:
+	warp "pvp_y_4-2",159,95;
+b3:
+	warp "pvp_y_4-2",209,129;
+b4:
+	warp "pvp_y_4-2",174,181;
+b5:
+	warp "pvp_y_4-2",128,217;
+b6:
+	warp "pvp_y_4-2",79,174;
+b7:
+	warp "pvp_y_4-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_4-3",179,97;
+c0:
+	warp "pvp_y_4-3",88,176;
+c1:
+	warp "pvp_y_4-3",111,100;
+c2:
+	warp "pvp_y_4-3",95,58;
+c3:
+	warp "pvp_y_4-3",114,156;
+c4:
+	warp "pvp_y_4-3",170,165;
+c5:
+	warp "pvp_y_4-3",170,220;
+c6:
+	warp "pvp_y_4-3",220,210;
+c7:
+	warp "pvp_y_4-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_4-4",117,56;
+d0:
+	warp "pvp_y_4-4",25,235;
+d1:
+	warp "pvp_y_4-4",218,45;
+d2:
+	warp "pvp_y_4-4",223,102;
+d3:
+	warp "pvp_y_4-4",193,167;
+d4:
+	warp "pvp_y_4-4",108,223;
+d5:
+	warp "pvp_y_4-4",53,42;
+d6:
+	warp "pvp_y_4-4",53,152;
+d7:
+	warp "pvp_y_4-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_4-5",156,46;
+e0:
+	warp "pvp_y_4-5",55,56;
+e1:
+	warp "pvp_y_4-5",34,166;
+e2:
+	warp "pvp_y_4-5",34,283;
+e3:
+	warp "pvp_y_4-5",160,283;
+e4:
+	warp "pvp_y_4-5",260,270;
+e5:
+	warp "pvp_y_4-5",288,203;
+e6:
+	warp "pvp_y_4-5",247,61;
+e7:
+	warp "pvp_y_4-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 61 and 70 are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 61 ~ LV 70",1;
+	return;
+}
+
+pvp_y_room.gat,62,85,4	script	"Usher 71~80"	105,{
+	getmapusers "pvp_y_5-1",@prt;
+	getmapusers "pvp_y_5-2",@izl;
+	getmapusers "pvp_y_5-3",@pay;
+	getmapusers "pvp_y_5-4",@alb;
+	getmapusers "pvp_y_5-5",@mor;
+	check BaseLevel < 71,noenter,-;
+	check BaseLevel > 80,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_5-1",156,42;
+A0:
+	warp "pvp_y_5-1",238,43;
+A1:
+	warp "pvp_y_5-1",57,59;
+A2:
+	warp "pvp_y_5-1",39,204;
+A3:
+	warp "pvp_y_5-1",56,334;
+A4:
+	warp "pvp_y_5-1",156,324;
+A5:
+	warp "pvp_y_5-1",230,310;
+A6:
+	warp "pvp_y_5-1",271,203;
+A7:
+	warp "pvp_y_5-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_5-2",128,93;
+b0:
+	warp "pvp_y_5-2",53,73;
+b1:
+	warp "pvp_y_5-2",95,99;
+b2:
+	warp "pvp_y_5-2",159,95;
+b3:
+	warp "pvp_y_5-2",209,129;
+b4:
+	warp "pvp_y_5-2",174,181;
+b5:
+	warp "pvp_y_5-2",128,217;
+b6:
+	warp "pvp_y_5-2",79,174;
+b7:
+	warp "pvp_y_5-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_5-3",179,97;
+c0:
+	warp "pvp_y_5-3",88,176;
+c1:
+	warp "pvp_y_5-3",111,100;
+c2:
+	warp "pvp_y_5-3",95,58;
+c3:
+	warp "pvp_y_5-3",114,156;
+c4:
+	warp "pvp_y_5-3",170,165;
+c5:
+	warp "pvp_y_5-3",170,220;
+c6:
+	warp "pvp_y_5-3",220,210;
+c7:
+	warp "pvp_y_5-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_5-4",117,56;
+d0:
+	warp "pvp_y_5-4",25,235;
+d1:
+	warp "pvp_y_5-4",218,45;
+d2:
+	warp "pvp_y_5-4",223,102;
+d3:
+	warp "pvp_y_5-4",193,167;
+d4:
+	warp "pvp_y_5-4",108,223;
+d5:
+	warp "pvp_y_5-4",53,42;
+d6:
+	warp "pvp_y_5-4",53,152;
+d7:
+	warp "pvp_y_5-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_5-5",156,46;
+e0:
+	warp "pvp_y_5-5",55,56;
+e1:
+	warp "pvp_y_5-5",34,166;
+e2:
+	warp "pvp_y_5-5",34,283;
+e3:
+	warp "pvp_y_5-5",160,283;
+e4:
+	warp "pvp_y_5-5",260,270;
+e5:
+	warp "pvp_y_5-5",288,203;
+e6:
+	warp "pvp_y_5-5",247,61;
+e7:
+	warp "pvp_y_5-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 71 and 80 are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 71 ~ LV 80",1;
+	return;
+}
+
+pvp_y_room.gat,70,85,4	script	"Usher 81~90"	105,{
+	getmapusers "pvp_y_6-1",@prt;
+	getmapusers "pvp_y_6-2",@izl;
+	getmapusers "pvp_y_6-3",@pay;
+	getmapusers "pvp_y_6-4",@alb;
+	getmapusers "pvp_y_6-5",@mor;
+	check BaseLevel < 81,noenter,-;
+	check BaseLevel > 90,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_6-1",156,42;
+A0:
+	warp "pvp_y_6-1",238,43;
+A1:
+	warp "pvp_y_6-1",57,59;
+A2:
+	warp "pvp_y_6-1",39,204;
+A3:
+	warp "pvp_y_6-1",56,334;
+A4:
+	warp "pvp_y_6-1",156,324;
+A5:
+	warp "pvp_y_6-1",230,310;
+A6:
+	warp "pvp_y_6-1",271,203;
+A7:
+	warp "pvp_y_6-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_6-2",128,93;
+b0:
+	warp "pvp_y_6-2",53,73;
+b1:
+	warp "pvp_y_6-2",95,99;
+b2:
+	warp "pvp_y_6-2",159,95;
+b3:
+	warp "pvp_y_6-2",209,129;
+b4:
+	warp "pvp_y_6-2",174,181;
+b5:
+	warp "pvp_y_6-2",128,217;
+b6:
+	warp "pvp_y_6-2",79,174;
+b7:
+	warp "pvp_y_6-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_6-3",179,97;
+c0:
+	warp "pvp_y_6-3",88,176;
+c1:
+	warp "pvp_y_6-3",111,100;
+c2:
+	warp "pvp_y_6-3",95,58;
+c3:
+	warp "pvp_y_6-3",114,156;
+c4:
+	warp "pvp_y_6-3",170,165;
+c5:
+	warp "pvp_y_6-3",170,220;
+c6:
+	warp "pvp_y_6-3",220,210;
+c7:
+	warp "pvp_y_6-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_6-4",117,56;
+d0:
+	warp "pvp_y_6-4",25,235;
+d1:
+	warp "pvp_y_6-4",218,45;
+d2:
+	warp "pvp_y_6-4",223,102;
+d3:
+	warp "pvp_y_6-4",193,167;
+d4:
+	warp "pvp_y_6-4",108,223;
+d5:
+	warp "pvp_y_6-4",53,42;
+d6:
+	warp "pvp_y_6-4",53,152;
+d7:
+	warp "pvp_y_6-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_6-5",156,46;
+e0:
+	warp "pvp_y_6-5",55,56;
+e1:
+	warp "pvp_y_6-5",34,166;
+e2:
+	warp "pvp_y_6-5",34,283;
+e3:
+	warp "pvp_y_6-5",160,283;
+e4:
+	warp "pvp_y_6-5",260,270;
+e5:
+	warp "pvp_y_6-5",288,203;
+e6:
+	warp "pvp_y_6-5",247,61;
+e7:
+	warp "pvp_y_6-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 81 and 90 are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 81 ~ LV 90",1;
+	return;
+}
+
+pvp_y_room.gat,78,85,4	script	"Usher 91~Higher"	105,{
+	getmapusers "pvp_y_7-1",@prt;
+	getmapusers "pvp_y_7-2",@izl;
+	getmapusers "pvp_y_7-3",@pay;
+	getmapusers "pvp_y_7-4",@alb;
+	getmapusers "pvp_y_7-5",@mor;
+	check BaseLevel < 91,noenter,-;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_7-1",156,42;
+A0:
+	warp "pvp_y_7-1",238,43;
+A1:
+	warp "pvp_y_7-1",57,59;
+A2:
+	warp "pvp_y_7-1",39,204;
+A3:
+	warp "pvp_y_7-1",56,334;
+A4:
+	warp "pvp_y_7-1",156,324;
+A5:
+	warp "pvp_y_7-1",230,310;
+A6:
+	warp "pvp_y_7-1",271,203;
+A7:
+	warp "pvp_y_7-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num,9;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_7-2",128,93;
+b0:
+	warp "pvp_y_7-2",53,73;
+b1:
+	warp "pvp_y_7-2",95,99;
+b2:
+	warp "pvp_y_7-2",159,95;
+b3:
+	warp "pvp_y_7-2",209,129;
+b4:
+	warp "pvp_y_7-2",174,181;
+b5:
+	warp "pvp_y_7-2",128,217;
+b6:
+	warp "pvp_y_7-2",79,174;
+b7:
+	warp "pvp_y_7-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num,9;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_7-3",179,97;
+c0:
+	warp "pvp_y_7-3",88,176;
+c1:
+	warp "pvp_y_7-3",111,100;
+c2:
+	warp "pvp_y_7-3",95,58;
+c3:
+	warp "pvp_y_7-3",114,156;
+c4:
+	warp "pvp_y_7-3",170,165;
+c5:
+	warp "pvp_y_7-3",170,220;
+c6:
+	warp "pvp_y_7-3",220,210;
+c7:
+	warp "pvp_y_7-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_7-4",117,56;
+d0:
+	warp "pvp_y_7-4",25,235;
+d1:
+	warp "pvp_y_7-4",218,45;
+d2:
+	warp "pvp_y_7-4",223,102;
+d3:
+	warp "pvp_y_7-4",193,167;
+d4:
+	warp "pvp_y_7-4",108,223;
+d5:
+	warp "pvp_y_7-4",53,42;
+d6:
+	warp "pvp_y_7-4",53,152;
+d7:
+	warp "pvp_y_7-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_7-5",156,46;
+e0:
+	warp "pvp_y_7-5",55,56;
+e1:
+	warp "pvp_y_7-5",34,166;
+e2:
+	warp "pvp_y_7-5",34,283;
+e3:
+	warp "pvp_y_7-5",160,283;
+e4:
+	warp "pvp_y_7-5",260,270;
+e5:
+	warp "pvp_y_7-5",288,203;
+e6:
+	warp "pvp_y_7-5",247,61;
+e7:
+	warp "pvp_y_7-5",160,159;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 91 and higher are permitted to enter this arena.";
+	close;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "LV 91 ~ Higher",1;
+	return;
+}
+
+pvp_y_room.gat,86,85,4	script	"Usher All Levels"	105,{
+	getmapusers "pvp_y_8-1",@prt;
+	getmapusers "pvp_y_8-2",@izl;
+	getmapusers "pvp_y_8-3",@pay;
+	getmapusers "pvp_y_8-4",@alb;
+	getmapusers "pvp_y_8-5",@mor;
+	set @nprt = @prt;
+	set @nizl = @izl;
+	set @npay = @pay;
+	set @nalb = @alb;
+	set @nmor = @mor;
+	mes "Prontera Arena [$[@nprt] / 128]";
+	mes "Izlude Arena [$[@nizl] / 128]";
+	mes "Payon Arena [$[@npay] / 128]";
+	mes "Alberta Arena [$[@nalb] / 128]";
+	mes "Morocc Arena [$[@nmor] / 128]";
+	next;
+	menu "Prontera Arena",loadprt,"Izlude Arena",loadizl,"Payon Arena",loadpay,"Alberta Arena",loadalb,"Morocc Arena",loadmor;
+loadprt:
+	check @nprt >= 128,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_y_8-1",156,42;
+A0:
+	warp "pvp_y_8-1",238,43;
+A1:
+	warp "pvp_y_8-1",57,59;
+A2:
+	warp "pvp_y_8-1",39,204;
+A3:
+	warp "pvp_y_8-1",56,334;
+A4:
+	warp "pvp_y_8-1",156,324;
+A5:
+	warp "pvp_y_8-1",230,310;
+A6:
+	warp "pvp_y_8-1",271,203;
+A7:
+	warp "pvp_y_8-1",155,219;
+loadizl:
+	check @nizl >= 128,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_y_8-2",128,93;
+b0:
+	warp "pvp_y_8-2",53,73;
+b1:
+	warp "pvp_y_8-2",95,99;
+b2:
+	warp "pvp_y_8-2",159,95;
+b3:
+	warp "pvp_y_8-2",209,129;
+b4:
+	warp "pvp_y_8-2",174,181;
+b5:
+	warp "pvp_y_8-2",128,217;
+b6:
+	warp "pvp_y_8-2",79,174;
+b7:
+	warp "pvp_y_8-2",52,134;
+loadpay:
+	check @npay >= 128,full,-;
+	random @num,9;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_y_8-3",179,97;
+c0:
+	warp "pvp_y_8-3",88,176;
+c1:
+	warp "pvp_y_8-3",111,100;
+c2:
+	warp "pvp_y_8-3",95,58;
+c3:
+	warp "pvp_y_8-3",114,156;
+c4:
+	warp "pvp_y_8-3",170,165;
+c5:
+	warp "pvp_y_8-3",170,220;
+c6:
+	warp "pvp_y_8-3",220,210;
+c7:
+	warp "pvp_y_8-3",165,67;
+loadalb:
+	check @nalb >= 128,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_y_8-4",117,56;
+d0:
+	warp "pvp_y_8-4",25,235;
+d1:
+	warp "pvp_y_8-4",218,45;
+d2:
+	warp "pvp_y_8-4",223,102;
+d3:
+	warp "pvp_y_8-4",193,167;
+d4:
+	warp "pvp_y_8-4",108,223;
+d5:
+	warp "pvp_y_8-4",53,42;
+d6:
+	warp "pvp_y_8-4",53,152;
+d7:
+	warp "pvp_y_8-4",128,138;
+loadmor:
+	check @nmor >= 128,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_y_8-5",156,46;
+e0:
+	warp "pvp_y_8-5",55,56;
+e1:
+	warp "pvp_y_8-5",34,166;
+e2:
+	warp "pvp_y_8-5",34,283;
+e3:
+	warp "pvp_y_8-5",160,283;
+e4:
+	warp "pvp_y_8-5",260,270;
+e5:
+	warp "pvp_y_8-5",288,203;
+e6:
+	warp "pvp_y_8-5",247,61;
+e7:
+	warp "pvp_y_8-5",160,159;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "All Levels",1;
+	return;
+}
+
+pvp_n_room.gat,30,85,4	script	"Usher 31~40"	105,{
+	getmapusers "pvp_n_1-1",@sand;
+	getmapusers "pvp_n_1-2",@rock;
+	getmapusers "pvp_n_1-3",@four;
+	getmapusers "pvp_n_1-4",@cross;
+	getmapusers "pvp_n_1-5",@copas;
+	check BaseLevel < 31,noenter,-;
+	check BaseLevel > 40,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_1-1",100,26;
+A0:
+	warp "pvp_n_1-1",119,56;
+A1:
+	warp "pvp_n_1-1",88,48;
+A2:
+	warp "pvp_n_1-1",74,31;
+A3:
+	warp "pvp_n_1-1",106,100;
+A4:
+	warp "pvp_n_1-1",117,146;
+A5:
+	warp "pvp_n_1-1",88,152;
+A6:
+	warp "pvp_n_1-1",66,159;
+A7:
+	warp "pvp_n_1-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_1-2",99,63;
+b0:
+	warp "pvp_n_1-2",134,63;
+b1:
+	warp "pvp_n_1-2",64,63;
+b2:
+	warp "pvp_n_1-2",64,98;
+b3:
+	warp "pvp_n_1-2",64,135;
+b4:
+	warp "pvp_n_1-2",100,135;
+b5:
+	warp "pvp_n_1-2",135,135;
+b6:
+	warp "pvp_n_1-2",135,98;
+b7:
+	warp "pvp_n_1-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_1-3",106,96;
+c0:
+	warp "pvp_n_1-3",100,59;
+c1:
+	warp "pvp_n_1-3",88,90;
+c2:
+	warp "pvp_n_1-3",110,88;
+c3:
+	warp "pvp_n_1-3",140,100;
+c4:
+	warp "pvp_n_1-3",60,100;
+c5:
+	warp "pvp_n_1-3",91,111;
+c6:
+	warp "pvp_n_1-3",111,111;
+c7:
+	warp "pvp_n_1-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_1-4",110,126;
+d0:
+	warp "pvp_n_1-4",155,122;
+d1:
+	warp "pvp_n_1-4",99,18;
+d2:
+	warp "pvp_n_1-4",100,59;
+d3:
+	warp "pvp_n_1-4",99,103;
+d4:
+	warp "pvp_n_1-4",45,121;
+d5:
+	warp "pvp_n_1-4",90,122;
+d6:
+	warp "pvp_n_1-4",100,137;
+d7:
+	warp "pvp_n_1-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_1-5",102,97;
+e0:
+	warp "pvp_n_1-5",110,87;
+e1:
+	warp "pvp_n_1-5",99,66;
+e2:
+	warp "pvp_n_1-5",88,87;
+e3:
+	warp "pvp_n_1-5",66,99;
+e4:
+	warp "pvp_n_1-5",88,113;
+e5:
+	warp "pvp_n_1-5",99,133;
+e6:
+	warp "pvp_n_1-5",112,112;
+e7:
+	warp "pvp_n_1-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 31 and 40 are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 31 ~ LV 40",1;
+	return;
+}
+
+pvp_n_room.gat,38,85,4	script	"Usher 41~50"	105,{
+	getmapusers "pvp_n_2-1",@sand;
+	getmapusers "pvp_n_2-2",@rock;
+	getmapusers "pvp_n_2-3",@four;
+	getmapusers "pvp_n_2-4",@cross;
+	getmapusers "pvp_n_2-5",@copas;
+	check BaseLevel < 41,noenter,-;
+	check BaseLevel > 50,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_2-1",100,26;
+A0:
+	warp "pvp_n_2-1",119,56;
+A1:
+	warp "pvp_n_2-1",88,48;
+A2:
+	warp "pvp_n_2-1",74,31;
+A3:
+	warp "pvp_n_2-1",106,100;
+A4:
+	warp "pvp_n_2-1",117,146;
+A5:
+	warp "pvp_n_2-1",88,152;
+A6:
+	warp "pvp_n_2-1",66,159;
+A7:
+	warp "pvp_n_2-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_2-2",99,63;
+b0:
+	warp "pvp_n_2-2",134,63;
+b1:
+	warp "pvp_n_2-2",64,63;
+b2:
+	warp "pvp_n_2-2",64,98;
+b3:
+	warp "pvp_n_2-2",64,135;
+b4:
+	warp "pvp_n_2-2",100,135;
+b5:
+	warp "pvp_n_2-2",135,135;
+b6:
+	warp "pvp_n_2-2",135,98;
+b7:
+	warp "pvp_n_2-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_2-3",106,96;
+c0:
+	warp "pvp_n_2-3",100,59;
+c1:
+	warp "pvp_n_2-3",88,90;
+c2:
+	warp "pvp_n_2-3",110,88;
+c3:
+	warp "pvp_n_2-3",140,100;
+c4:
+	warp "pvp_n_2-3",60,100;
+c5:
+	warp "pvp_n_2-3",91,111;
+c6:
+	warp "pvp_n_2-3",111,111;
+c7:
+	warp "pvp_n_2-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_2-4",110,126;
+d0:
+	warp "pvp_n_2-4",155,122;
+d1:
+	warp "pvp_n_2-4",99,18;
+d2:
+	warp "pvp_n_2-4",100,59;
+d3:
+	warp "pvp_n_2-4",99,103;
+d4:
+	warp "pvp_n_2-4",45,121;
+d5:
+	warp "pvp_n_2-4",90,122;
+d6:
+	warp "pvp_n_2-4",100,137;
+d7:
+	warp "pvp_n_2-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_2-5",102,97;
+e0:
+	warp "pvp_n_2-5",110,87;
+e1:
+	warp "pvp_n_2-5",99,66;
+e2:
+	warp "pvp_n_2-5",88,87;
+e3:
+	warp "pvp_n_2-5",66,99;
+e4:
+	warp "pvp_n_2-5",88,113;
+e5:
+	warp "pvp_n_2-5",99,133;
+e6:
+	warp "pvp_n_2-5",112,112;
+e7:
+	warp "pvp_n_2-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 41 and 50 are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 41 ~ LV 50",1;
+	return;
+}
+
+pvp_n_room.gat,46,85,4	script	"Usher 51~60"	105,{
+	getmapusers "pvp_n_3-1",@sand;
+	getmapusers "pvp_n_3-2",@rock;
+	getmapusers "pvp_n_3-3",@four;
+	getmapusers "pvp_n_3-4",@cross;
+	getmapusers "pvp_n_3-5",@copas;
+	check BaseLevel < 51,noenter,-;
+	check BaseLevel > 60,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_3-1",100,26;
+A0:
+	warp "pvp_n_3-1",119,56;
+A1:
+	warp "pvp_n_3-1",88,48;
+A2:
+	warp "pvp_n_3-1",74,31;
+A3:
+	warp "pvp_n_3-1",106,100;
+A4:
+	warp "pvp_n_3-1",117,146;
+A5:
+	warp "pvp_n_3-1",88,152;
+A6:
+	warp "pvp_n_3-1",66,159;
+A7:
+	warp "pvp_n_3-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_3-2",99,63;
+b0:
+	warp "pvp_n_3-2",134,63;
+b1:
+	warp "pvp_n_3-2",64,63;
+b2:
+	warp "pvp_n_3-2",64,98;
+b3:
+	warp "pvp_n_3-2",64,135;
+b4:
+	warp "pvp_n_3-2",100,135;
+b5:
+	warp "pvp_n_3-2",135,135;
+b6:
+	warp "pvp_n_3-2",135,98;
+b7:
+	warp "pvp_n_3-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_3-3",106,96;
+c0:
+	warp "pvp_n_3-3",100,59;
+c1:
+	warp "pvp_n_3-3",88,90;
+c2:
+	warp "pvp_n_3-3",110,88;
+c3:
+	warp "pvp_n_3-3",140,100;
+c4:
+	warp "pvp_n_3-3",60,100;
+c5:
+	warp "pvp_n_3-3",91,111;
+c6:
+	warp "pvp_n_3-3",111,111;
+c7:
+	warp "pvp_n_3-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_3-4",110,126;
+d0:
+	warp "pvp_n_3-4",155,122;
+d1:
+	warp "pvp_n_3-4",99,18;
+d2:
+	warp "pvp_n_3-4",100,59;
+d3:
+	warp "pvp_n_3-4",99,103;
+d4:
+	warp "pvp_n_3-4",45,121;
+d5:
+	warp "pvp_n_3-4",90,122;
+d6:
+	warp "pvp_n_3-4",100,137;
+d7:
+	warp "pvp_n_3-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_3-5",102,97;
+e0:
+	warp "pvp_n_3-5",110,87;
+e1:
+	warp "pvp_n_3-5",99,66;
+e2:
+	warp "pvp_n_3-5",88,87;
+e3:
+	warp "pvp_n_3-5",66,99;
+e4:
+	warp "pvp_n_3-5",88,113;
+e5:
+	warp "pvp_n_3-5",99,133;
+e6:
+	warp "pvp_n_3-5",112,112;
+e7:
+	warp "pvp_n_3-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 51 and 60 are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 51 ~ LV 60",1;
+	return;
+}
+
+pvp_n_room.gat,54,85,4	script	"Usher 61~70"	105,{
+	getmapusers "pvp_n_4-1",@sand;
+	getmapusers "pvp_n_4-2",@rock;
+	getmapusers "pvp_n_4-3",@four;
+	getmapusers "pvp_n_4-4",@cross;
+	getmapusers "pvp_n_4-5",@copas;
+	check BaseLevel < 61,noenter,-;
+	check BaseLevel > 70,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_4-1",100,26;
+A0:
+	warp "pvp_n_4-1",119,56;
+A1:
+	warp "pvp_n_4-1",88,48;
+A2:
+	warp "pvp_n_4-1",74,31;
+A3:
+	warp "pvp_n_4-1",106,100;
+A4:
+	warp "pvp_n_4-1",117,146;
+A5:
+	warp "pvp_n_4-1",88,152;
+A6:
+	warp "pvp_n_4-1",66,159;
+A7:
+	warp "pvp_n_4-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_4-2",99,63;
+b0:
+	warp "pvp_n_4-2",134,63;
+b1:
+	warp "pvp_n_4-2",64,63;
+b2:
+	warp "pvp_n_4-2",64,98;
+b3:
+	warp "pvp_n_4-2",64,135;
+b4:
+	warp "pvp_n_4-2",100,135;
+b5:
+	warp "pvp_n_4-2",135,135;
+b6:
+	warp "pvp_n_4-2",135,98;
+b7:
+	warp "pvp_n_4-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_4-3",106,96;
+c0:
+	warp "pvp_n_4-3",100,59;
+c1:
+	warp "pvp_n_4-3",88,90;
+c2:
+	warp "pvp_n_4-3",110,88;
+c3:
+	warp "pvp_n_4-3",140,100;
+c4:
+	warp "pvp_n_4-3",60,100;
+c5:
+	warp "pvp_n_4-3",91,111;
+c6:
+	warp "pvp_n_4-3",111,111;
+c7:
+	warp "pvp_n_4-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_4-4",110,126;
+d0:
+	warp "pvp_n_4-4",155,122;
+d1:
+	warp "pvp_n_4-4",99,18;
+d2:
+	warp "pvp_n_4-4",100,59;
+d3:
+	warp "pvp_n_4-4",99,103;
+d4:
+	warp "pvp_n_4-4",45,121;
+d5:
+	warp "pvp_n_4-4",90,122;
+d6:
+	warp "pvp_n_4-4",100,137;
+d7:
+	warp "pvp_n_4-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_4-5",102,97;
+e0:
+	warp "pvp_n_4-5",110,87;
+e1:
+	warp "pvp_n_4-5",99,66;
+e2:
+	warp "pvp_n_4-5",88,87;
+e3:
+	warp "pvp_n_4-5",66,99;
+e4:
+	warp "pvp_n_4-5",88,113;
+e5:
+	warp "pvp_n_4-5",99,133;
+e6:
+	warp "pvp_n_4-5",112,112;
+e7:
+	warp "pvp_n_4-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 61 and 70 are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 61 ~ LV 70",1;
+	return;
+}
+
+pvp_n_room.gat,62,85,4	script	"Usher 71~80"	105,{
+	getmapusers "pvp_n_5-1",@sand;
+	getmapusers "pvp_n_5-2",@rock;
+	getmapusers "pvp_n_5-3",@four;
+	getmapusers "pvp_n_5-4",@cross;
+	getmapusers "pvp_n_5-5",@copas;
+	check BaseLevel < 71,noenter,-;
+	check BaseLevel > 80,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_5-1",100,26;
+A0:
+	warp "pvp_n_5-1",119,56;
+A1:
+	warp "pvp_n_5-1",88,48;
+A2:
+	warp "pvp_n_5-1",74,31;
+A3:
+	warp "pvp_n_5-1",106,100;
+A4:
+	warp "pvp_n_5-1",117,146;
+A5:
+	warp "pvp_n_5-1",88,152;
+A6:
+	warp "pvp_n_5-1",66,159;
+A7:
+	warp "pvp_n_5-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_5-2",99,63;
+b0:
+	warp "pvp_n_5-2",134,63;
+b1:
+	warp "pvp_n_5-2",64,63;
+b2:
+	warp "pvp_n_5-2",64,98;
+b3:
+	warp "pvp_n_5-2",64,135;
+b4:
+	warp "pvp_n_5-2",100,135;
+b5:
+	warp "pvp_n_5-2",135,135;
+b6:
+	warp "pvp_n_5-2",135,98;
+b7:
+	warp "pvp_n_5-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_5-3",106,96;
+c0:
+	warp "pvp_n_5-3",100,59;
+c1:
+	warp "pvp_n_5-3",88,90;
+c2:
+	warp "pvp_n_5-3",110,88;
+c3:
+	warp "pvp_n_5-3",140,100;
+c4:
+	warp "pvp_n_5-3",60,100;
+c5:
+	warp "pvp_n_5-3",91,111;
+c6:
+	warp "pvp_n_5-3",111,111;
+c7:
+	warp "pvp_n_5-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_5-4",110,126;
+d0:
+	warp "pvp_n_5-4",155,122;
+d1:
+	warp "pvp_n_5-4",99,18;
+d2:
+	warp "pvp_n_5-4",100,59;
+d3:
+	warp "pvp_n_5-4",99,103;
+d4:
+	warp "pvp_n_5-4",45,121;
+d5:
+	warp "pvp_n_5-4",90,122;
+d6:
+	warp "pvp_n_5-4",100,137;
+d7:
+	warp "pvp_n_5-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_5-5",102,97;
+e0:
+	warp "pvp_n_5-5",110,87;
+e1:
+	warp "pvp_n_5-5",99,66;
+e2:
+	warp "pvp_n_5-5",88,87;
+e3:
+	warp "pvp_n_5-5",66,99;
+e4:
+	warp "pvp_n_5-5",88,113;
+e5:
+	warp "pvp_n_5-5",99,133;
+e6:
+	warp "pvp_n_5-5",112,112;
+e7:
+	warp "pvp_n_5-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 71 and 80 are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 71 ~ LV 80",1;
+	return;
+}
+
+pvp_n_room.gat,70,85,4	script	"Usher 81~90"	105,{
+	getmapusers "pvp_n_6-1",@sand;
+	getmapusers "pvp_n_6-2",@rock;
+	getmapusers "pvp_n_6-3",@four;
+	getmapusers "pvp_n_6-4",@cross;
+	getmapusers "pvp_n_6-5",@copas;
+	check BaseLevel < 81,noenter,-;
+	check BaseLevel > 90,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_6-1",100,26;
+A0:
+	warp "pvp_n_6-1",119,56;
+A1:
+	warp "pvp_n_6-1",88,48;
+A2:
+	warp "pvp_n_6-1",74,31;
+A3:
+	warp "pvp_n_6-1",106,100;
+A4:
+	warp "pvp_n_6-1",117,146;
+A5:
+	warp "pvp_n_6-1",88,152;
+A6:
+	warp "pvp_n_6-1",66,159;
+A7:
+	warp "pvp_n_6-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_6-2",99,63;
+b0:
+	warp "pvp_n_6-2",134,63;
+b1:
+	warp "pvp_n_6-2",64,63;
+b2:
+	warp "pvp_n_6-2",64,98;
+b3:
+	warp "pvp_n_6-2",64,135;
+b4:
+	warp "pvp_n_6-2",100,135;
+b5:
+	warp "pvp_n_6-2",135,135;
+b6:
+	warp "pvp_n_6-2",135,98;
+b7:
+	warp "pvp_n_6-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_6-3",106,96;
+c0:
+	warp "pvp_n_6-3",100,59;
+c1:
+	warp "pvp_n_6-3",88,90;
+c2:
+	warp "pvp_n_6-3",110,88;
+c3:
+	warp "pvp_n_6-3",140,100;
+c4:
+	warp "pvp_n_6-3",60,100;
+c5:
+	warp "pvp_n_6-3",91,111;
+c6:
+	warp "pvp_n_6-3",111,111;
+c7:
+	warp "pvp_n_6-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_6-4",110,126;
+d0:
+	warp "pvp_n_6-4",155,122;
+d1:
+	warp "pvp_n_6-4",99,18;
+d2:
+	warp "pvp_n_6-4",100,59;
+d3:
+	warp "pvp_n_6-4",99,103;
+d4:
+	warp "pvp_n_6-4",45,121;
+d5:
+	warp "pvp_n_6-4",90,122;
+d6:
+	warp "pvp_n_6-4",100,137;
+d7:
+	warp "pvp_n_6-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_6-5",102,97;
+e0:
+	warp "pvp_n_6-5",110,87;
+e1:
+	warp "pvp_n_6-5",99,66;
+e2:
+	warp "pvp_n_6-5",88,87;
+e3:
+	warp "pvp_n_6-5",66,99;
+e4:
+	warp "pvp_n_6-5",88,113;
+e5:
+	warp "pvp_n_6-5",99,133;
+e6:
+	warp "pvp_n_6-5",112,112;
+e7:
+	warp "pvp_n_6-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 81 and 90 are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 81 ~ LV 90",1;
+	return;
+}
+
+pvp_n_room.gat,78,85,4	script	"Usher 91~Higher"	105,{
+	getmapusers "pvp_n_7-1",@sand;
+	getmapusers "pvp_n_7-2",@rock;
+	getmapusers "pvp_n_7-3",@four;
+	getmapusers "pvp_n_7-4",@cross;
+	getmapusers "pvp_n_7-5",@copas;
+	check BaseLevel < 91,noenter,-;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+loadsandw:
+check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_7-1",100,26;
+A0:
+	warp "pvp_n_7-1",119,56;
+A1:
+	warp "pvp_n_7-1",88,48;
+A2:
+	warp "pvp_n_7-1",74,31;
+A3:
+	warp "pvp_n_7-1",106,100;
+A4:
+	warp "pvp_n_7-1",117,146;
+A5:
+	warp "pvp_n_7-1",88,152;
+A6:
+	warp "pvp_n_7-1",66,159;
+A7:
+	warp "pvp_n_7-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_7-2",99,63;
+b0:
+	warp "pvp_n_7-2",134,63;
+b1:
+	warp "pvp_n_7-2",64,63;
+b2:
+	warp "pvp_n_7-2",64,98;
+b3:
+	warp "pvp_n_7-2",64,135;
+b4:
+	warp "pvp_n_7-2",100,135;
+b5:
+	warp "pvp_n_7-2",135,135;
+b6:
+	warp "pvp_n_7-2",135,98;
+b7:
+	warp "pvp_n_7-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_7-3",106,96;
+c0:
+	warp "pvp_n_7-3",100,59;
+c1:
+	warp "pvp_n_7-3",88,90;
+c2:
+	warp "pvp_n_7-3",110,88;
+c3:
+	warp "pvp_n_7-3",140,100;
+c4:
+	warp "pvp_n_7-3",60,100;
+c5:
+	warp "pvp_n_7-3",91,111;
+c6:
+	warp "pvp_n_7-3",111,111;
+c7:
+	warp "pvp_n_7-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_7-4",110,126;
+d0:
+	warp "pvp_n_7-4",155,122;
+d1:
+	warp "pvp_n_7-4",99,18;
+d2:
+	warp "pvp_n_7-4",100,59;
+d3:
+	warp "pvp_n_7-4",99,103;
+d4:
+	warp "pvp_n_7-4",45,121;
+d5:
+	warp "pvp_n_7-4",90,122;
+d6:
+	warp "pvp_n_7-4",100,137;
+d7:
+	warp "pvp_n_7-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_7-5",102,97;
+e0:
+	warp "pvp_n_7-5",110,87;
+e1:
+	warp "pvp_n_7-5",99,66;
+e2:
+	warp "pvp_n_7-5",88,87;
+e3:
+	warp "pvp_n_7-5",66,99;
+e4:
+	warp "pvp_n_7-5",88,113;
+e5:
+	warp "pvp_n_7-5",99,133;
+e6:
+	warp "pvp_n_7-5",112,112;
+e7:
+	warp "pvp_n_7-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+noenter:
+	mes "[PVP Usher]";
+	mes "I am sorry, only players between level 91 and higher are permitted to enter this arena.";
+	close;
+OnInit:
+	waitingroom "LV 91 ~ Higher",1;
+	return;
+}
+
+pvp_n_room.gat,86,85,4	script	"Usher All Levels"	105,{
+	getmapusers "pvp_n_8-1",@sand;
+	getmapusers "pvp_n_8-2",@rock;
+	getmapusers "pvp_n_8-3",@four;
+	getmapusers "pvp_n_8-4",@cross;
+	getmapusers "pvp_n_8-5",@copas;
+	set @nsand = @sand;
+	set @nrock = @rock;
+	set @nfour = @four;
+	set @ncross = @cross;
+	set @ncopas = @copas;
+	mes "Sandwich Arena [$[@nsand] / 64]";
+	mes "Lock On Arena [$[@nrock] / 32]";
+	mes "Four Room Arena [$[@nfour] / 32]";
+	mes "Under Cross Arena [$[@ncross] / 32]";
+	mes "Compass Room Arena [$[@ncopas] / 32]";
+	next;
+	menu "Sandwich Arena",loadsandw,"Lock On Arena",loadlocon,"Four Room Arena",loadfour,"Under Cross Arena",loadunder,"Compass Room Arena",loadcomp;
+loadsandw:
+	check @nsand >= 64,full,-;
+	random @num 8;
+	check @num = 0,A0,-;
+	check @num = 1,A1,-;
+	check @num = 2,A2,-;
+	check @num = 3,A3,-;
+	check @num = 4,A4,-;
+	check @num = 5,A5,-;
+	check @num = 6,A6,-;
+	check @num = 7,A7,-;
+	warp "pvp_n_8-1",100,26;
+A0:
+	warp "pvp_n_8-1",119,56;
+A1:
+	warp "pvp_n_8-1",88,48;
+A2:
+	warp "pvp_n_8-1",74,31;
+A3:
+	warp "pvp_n_8-1",106,100;
+A4:
+	warp "pvp_n_8-1",117,146;
+A5:
+	warp "pvp_n_8-1",88,152;
+A6:
+	warp "pvp_n_8-1",66,159;
+A7:
+	warp "pvp_n_8-1",96,175;
+loadlocon:
+	check @nrock >= 32,full,-;
+	random @num 8;
+	check @num = 0,b0,-;
+	check @num = 1,b1,-;
+	check @num = 2,b2,-;
+	check @num = 3,b3,-;
+	check @num = 4,b4,-;
+	check @num = 5,b5,-;
+	check @num = 6,b6,-;
+	check @num = 7,b7,-;
+	warp "pvp_n_8-2",99,63;
+b0:
+	warp "pvp_n_8-2",134,63;
+b1:
+	warp "pvp_n_8-2",64,63;
+b2:
+	warp "pvp_n_8-2",64,98;
+b3:
+	warp "pvp_n_8-2",64,135;
+b4:
+	warp "pvp_n_8-2",100,135;
+b5:
+	warp "pvp_n_8-2",135,135;
+b6:
+	warp "pvp_n_8-2",135,98;
+b7:
+	warp "pvp_n_8-2",100,100;
+loadfour:
+	check @nfour >= 32,full,-;
+	random @num 8;
+	check @num = 0,c0,-;
+	check @num = 1,c1,-;
+	check @num = 2,c2,-;
+	check @num = 3,c3,-;
+	check @num = 4,c4,-;
+	check @num = 5,c5,-;
+	check @num = 6,c6,-;
+	check @num = 7,c7,-;
+	warp "pvp_n_8-3",106,96;
+c0:
+	warp "pvp_n_8-3",100,59;
+c1:
+	warp "pvp_n_8-3",88,90;
+c2:
+	warp "pvp_n_8-3",110,88;
+c3:
+	warp "pvp_n_8-3",140,100;
+c4:
+	warp "pvp_n_8-3",60,100;
+c5:
+	warp "pvp_n_8-3",91,111;
+c6:
+	warp "pvp_n_8-3",111,111;
+c7:
+	warp "pvp_n_8-3",100,139;
+loadunder:
+	check @ncross >= 32,full,-;
+	random @num 8;
+	check @num = 0,d0,-;
+	check @num = 1,d1,-;
+	check @num = 2,d2,-;
+	check @num = 3,d3,-;
+	check @num = 4,d4,-;
+	check @num = 5,d5,-;
+	check @num = 6,d6,-;
+	check @num = 7,d7,-;
+	warp "pvp_n_8-4",110,126;
+d0:
+	warp "pvp_n_8-4",155,122;
+d1:
+	warp "pvp_n_8-4",99,18;
+d2:
+	warp "pvp_n_8-4",100,59;
+d3:
+	warp "pvp_n_8-4",99,103;
+d4:
+	warp "pvp_n_8-4",45,121;
+d5:
+	warp "pvp_n_8-4",90,122;
+d6:
+	warp "pvp_n_8-4",100,137;
+d7:
+	warp "pvp_n_8-4",100,173;
+loadcomp:
+	check @ncopas >= 32,full,-;
+	random @num 8;
+	check @num = 0,e0,-;
+	check @num = 1,e1,-;
+	check @num = 2,e2,-;
+	check @num = 3,e3,-;
+	check @num = 4,e4,-;
+	check @num = 5,e5,-;
+	check @num = 6,e6,-;
+	check @num = 7,e7,-;
+	warp "pvp_n_8-5",102,97;
+e0:
+	warp "pvp_n_8-5",110,87;
+e1:
+	warp "pvp_n_8-5",99,66;
+e2:
+	warp "pvp_n_8-5",88,87;
+e3:
+	warp "pvp_n_8-5",66,99;
+e4:
+	warp "pvp_n_8-5",88,113;
+e5:
+	warp "pvp_n_8-5",99,133;
+e6:
+	warp "pvp_n_8-5",112,112;
+e7:
+	warp "pvp_n_8-5",133,99;
+full:
+	mes "[PVP Usher]";
+	mes "This Arena is Full.";
+	close;
+OnInit:
+	waitingroom "All Levels",1;
+	return;
+}
+
+//pvp warpers and info npc
+prt_in.gat,56,140,5	script	"PVP Guide"	84,{
+	mes "[PVP Guide]";
+	mes "I will guide you through PVP Mode!";
+	mes "If you have any question about"; 
+	mes "PVP MODE, come and see me.";
+	next;
+	menu  "^3355FFPVP Mode?^000000",pvpi,"What is PvP exactly?",pvpwhat,"Save",pvpsave,"End conversation",pvpcancel;
+pvpi:
+	mes "[PVP Guide]";
+	mes "PVP Mode stands for";
+	mes "' Player VS Player Mode '";
+	mes "Where players are given the opportunities";
+	mes "to battle against each other.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you would like to try PvP mode,";
+	mes "Just talk to the^3355FfPVP Doorman^000000 standing next to me";
+	mes "and he will lead you to the arena.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please be careful";
+	mes "and please enjoy the fun.";
+	mes "On a related topic,";
+	mes "Players are required to";
+	mes "be level 31 or higher to participate.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you do meet the level requirements,";
+	mes "feel free to select one";
+	mes "of the two PvP modes.";
+	mes "They are: Nightmare Mode";
+	mes "and Yoyo Mode";
+	next;
+	mes "[PVP Guide]";
+	mes "In Nightmare Mode,";
+	mes "Players will loose";
+	mes "experiences and possibly";
+	mes "an item upon death.";
+	mes "So choose wisely";
+	mes "to avoid any possible disputes.";
+	close;
+pvpwhat:
+	mes "[PVP Guide]";
+	mes "Through the Gatekeeper next to me,";
+	mes "you will be able gain access to the arena.";
+	mes "After a 500 zeny fee of course.";
+	next;
+	mes "[PVP Guide]";
+	mes "There are two different PvP modes,";
+	mes "one is Yoyo Mode";
+	mes "and the other is Nightmare Mode";
+	mes "In both of these";
+	mes "PvP modes,";
+	next;
+	mes "[PVP Guide]";
+	mes "Also, participants of PvP will be";
+	mes "divided every 10 levels and";
+	mes "will have access to 5 different";
+	mes "PvP arenas.";
+	next;
+	mes "[PVP Guide]";
+	mes "You will be able to know the different level";
+	mes "restrictions through the windows ";
+	mes "on top of each Guides.";
+	mes "The Guides will also provide information on";
+	mes "number players in each arena and PvP rules.";
+	next;
+	mes "[PVP Guide]";
+	mes "Every PvP zones also have restrictions on the maximum";
+	mes "amount of players fighting at the same time.";
+	mes "Therefore, a window will show";
+	mes "'Current #s of Players / Maximum #s of Players'";
+	next;
+	mes "[PVP Guide]";
+	mes "Lastly,";
+	mes "Players will be";
+	mes "unable to save positions";
+	mes "during battles.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please keep this in mind.";
+	close;
+pvpsave:
+	mes "[PVP Guide]";
+	mes "Your respawn point has saved. Thank you.";
+	save "prt_in",53,135;
+	close;
+pvpcancel:
+	mes "[PVP Guide]";
+	mes "Alright, see you later";
+	close;
+}
+
+prt_in.gat,52,140,5	script	"PVP Doorman"	83,{
+	mes "[PVP Doorman]";
+	mes "I am the PVP waiting room warper.";
+	mes "Please ask my friend 'PVP Guide'";
+	mes "if you are curious about PVP Mode.";
+	mes "You can get description and advice.";
+	next;
+        menu "^FF5533PVP Nightmare Mode^000000 'waiting room'",nightmare,"^3355FFPVP Yoyo Mode^000000 'waiting room'",yoyo,"End conversation",pcancel;
+nightmare:
+	mes "[PVP Doorman]"
+	mes "Nightmare Mode"
+	mes "Players will loose"
+	mes "experience and possibly"
+	mes "an item upon death"
+	next;
+	mes "[PVP Doorman]"
+	mes "The fee to participate is"
+	mes "500 zeny."
+	mes "Do you wish to go to"
+	mes "PvP Nightmare Mode Arena now?"
+	next;
+	menu "Yes",yes,"Cancel",no;
+yes:
+	check zeny < 500,noenter,-;                   
+	check BaseLevel < 31,noenter,-;
+	set zeny - 500;
+	warp "pvp_n_room",51,23;
+noenter:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+yoyo:
+	mes "[PVP Doorman]";
+	mes "The fee to participate is";
+	mes "500 zeny.";
+	mes "Do you wish to go to";
+	mes "PvP Yoyo Mode Arena now?";
+	next;
+	menu "Yes",yes2,"Cancel",no2;
+yes2:
+	check zeny < 500,noenter2,-;                   
+	check BaseLevel < 31,noenter2,-;
+	set zeny - 500;
+	warp "pvp_y_room",51,23;
+noenter2:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no2:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+pcancel:
+	mes "[PVP Doorman]";
+	mes "Thank you, come again.";
+	close;
+}
+
+payon_in01.gat,10,54,5	script	"PVP Guide"	84,{
+	mes "[PVP Guide]";
+	mes "I will guide you through PVP Mode!";
+	mes "If you have any question about"; 
+	mes "PVP MODE, come and see me.";
+	next;
+	menu  "PVP Mode?",pvpi,"What is PvP exactly?",pvpwhat,"Save",pvpsave,"End conversation",pvpcancel;
+pvpi:
+	mes "[PVP Guide]";
+	mes "PVP Mode stands for";
+	mes "' Player VS Player Mode '";
+	mes "Where players are given the opportunities";
+	mes "to battle against each other.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you would like to try PvP mode,";
+	mes "Just talk to the^3355FfPVP Doorman^000000 standing next to me";
+	mes "and he will lead you to the arena.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please be careful";
+	mes "and please enjoy the fun.";
+	mes "On a related topic,";
+	mes "Players are required to";
+	mes "be level 31 or higher to participate.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you do meet the level requirements,";
+	mes "feel free to select one";
+	mes "of the two PvP modes.";
+	mes "They are: Nightmare Mode";
+	mes "and Yoyo Mode";
+	next;
+	mes "[PVP Guide]";
+	mes "In Nightmare Mode,";
+	mes "Players will loose";
+	mes "experiences and possibly";
+	mes "an item upon death.";
+	mes "So choose wisely";
+	mes "to avoid any possible disputes.";
+	close;
+pvpwhat:
+	mes "[PVP Guide]";
+	mes "Through the Gatekeeper next to me,";
+	mes "you will be able gain access to the arena.";
+	mes "After a 500 zeny fee of course.";
+	next;
+	mes "[PVP Guide]";
+	mes "There are two different PvP modes,";
+	mes "one is Yoyo Mode";
+	mes "and the other is Nightmare Mode";
+	mes "In both of these";
+	mes "PvP modes,";
+	next;
+	mes "[PVP Guide]";
+	mes "Also, participants of PvP will be";
+	mes "divided every 10 levels and";
+	mes "will have access to 5 different";
+	mes "PvP arenas.";
+	next;
+	mes "[PVP Guide]";
+	mes "You will be able to know the different level";
+	mes "restrictions through the windows ";
+	mes "on top of each Guides.";
+	mes "The Guides will also provide information on";
+	mes "number players in each arena and PvP rules.";
+	next;
+	mes "[PVP Guide]";
+	mes "Every PvP zones also have restrictions on the maximum";
+	mes "amount of players fighting at the same time.";
+	mes "Therefore, a window will show";
+	mes "'Current #s of Players / Maximum #s of Players'";
+	next;
+	mes "[PVP Guide]";
+	mes "Lastly,";
+	mes "Players will be";
+	mes "unable to save positions";
+	mes "during battles.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please keep this in mind.";
+	close;
+pvpsave:
+	mes "[PVP Guide]";
+	mes "Your respawn point has saved. Thank you.";
+	save "payon_in01",172,106;
+	close;
+pvpcancel:
+	mes "[PVP Guide]";
+	mes "Alright, see you later";
+	close;
+}
+
+payon_in01.gat,6,55,5	script	"PVP Doorman"	83,{
+	mes "[PVP Doorman]";
+	mes "I am the PVP waiting room warper.";
+	mes "Please ask my friend 'PVP Guide'";
+	mes "if you are curious about PVP Mode.";
+	mes "You can get description and advice.";
+	next;
+        menu "^FF5533PVP Nightmare Mode^000000 'waiting room'",nightmare,"^3355FFPVP Yoyo Mode^000000 'waiting room'",yoyo,"End conversation",pcancel;
+nightmare:
+	mes "[PVP Doorman]"
+	mes "Nightmare Mode"
+	mes "Players will loose"
+	mes "experience and possibly"
+	mes "an item upon death"
+	next;
+	mes "[PVP Doorman]"
+	mes "The fee to participate is"
+	mes "500 zeny."
+	mes "Do you wish to go to"
+	mes "PvP Nightmare Mode Arena now?"
+	next;
+	menu "Yes",yes,"Cancel",no;
+yes:
+	check zeny < 500,noenter,-;                   
+	check BaseLevel < 31,noenter,-;
+	set zeny - 500;
+	warp "pvp_n_room",51,23;
+noenter:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+yoyo:
+	mes "[PVP Doorman]";
+	mes "The fee to participate is";
+	mes "500 zeny.";
+	mes "Do you wish to go to";
+	mes "PvP Yoyo Mode Arena now?";
+	next;
+	menu "Yes",yes2,"Cancel",no2;
+yes2:
+	check zeny < 500,noenter2,-;                   
+	check BaseLevel < 31,noenter2,-;
+	set zeny - 500;
+	warp "pvp_y_room",51,23;
+noenter2:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no2:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+pcancel:
+	mes "[PVP Doorman]";
+	mes "Thank you, come again.";
+	close;
+}
+
+geffen_in.gat,67,67,1	script	"PVP Guide"	84,{
+	mes "[PVP Guide]";
+	mes "I will guide you through PVP Mode!";
+	mes "If you have any question about"; 
+	mes "PVP MODE, come and see me.";
+	next;
+	menu  "PVP Mode?",pvpi,"What is PvP exactly?",pvpwhat,"Save",pvpsave,"End conversation",pvpcancel;
+pvpi:
+	mes "[PVP Guide]";
+	mes "PVP Mode stands for";
+	mes "' Player VS Player Mode '";
+	mes "Where players are given the opportunities";
+	mes "to battle against each other.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you would like to try PvP mode,";
+	mes "Just talk to the^3355FfPVP Doorman^000000 standing next to me";
+	mes "and he will lead you to the arena.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please be careful";
+	mes "and please enjoy the fun.";
+	mes "On a related topic,";
+	mes "Players are required to";
+	mes "be level 31 or higher to participate.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you do meet the level requirements,";
+	mes "feel free to select one";
+	mes "of the two PvP modes.";
+	mes "They are: Nightmare Mode";
+	mes "and Yoyo Mode";
+	next;
+	mes "[PVP Guide]";
+	mes "In Nightmare Mode,";
+	mes "Players will loose";
+	mes "experiences and possibly";
+	mes "an item upon death.";
+	mes "So choose wisely";
+	mes "to avoid any possible disputes.";
+	close;
+pvpwhat:
+	mes "[PVP Guide]";
+	mes "Through the Gatekeeper next to me,";
+	mes "you will be able gain access to the arena.";
+	mes "After a 500 zeny fee of course.";
+	next;
+	mes "[PVP Guide]";
+	mes "There are two different PvP modes,";
+	mes "one is Yoyo Mode";
+	mes "and the other is Nightmare Mode";
+	mes "In both of these";
+	mes "PvP modes,";
+	next;
+	mes "[PVP Guide]";
+	mes "Also, participants of PvP will be";
+	mes "divided every 10 levels and";
+	mes "will have access to 5 different";
+	mes "PvP arenas.";
+	next;
+	mes "[PVP Guide]";
+	mes "You will be able to know the different level";
+	mes "restrictions through the windows ";
+	mes "on top of each Guides.";
+	mes "The Guides will also provide information on";
+	mes "number players in each arena and PvP rules.";
+	next;
+	mes "[PVP Guide]";
+	mes "Every PvP zones also have restrictions on the maximum";
+	mes "amount of players fighting at the same time.";
+	mes "Therefore, a window will show";
+	mes "'Current #s of Players / Maximum #s of Players'";
+	next;
+	mes "[PVP Guide]";
+	mes "Lastly,";
+	mes "Players will be";
+	mes "unable to save positions";
+	mes "during battles.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please keep this in mind.";
+	close;
+pvpsave:
+	mes "[PVP Guide]";
+	mes "Your respawn point has saved. Thank you.";
+	save "geffen_in",75,64;
+	close;
+pvpcancel:
+	mes "[PVP Guide]";
+	mes "Alright, see you later";
+	close;
+}
+
+geffen_in.gat,67,64,5	script	"PVP Doorman"	83,{
+	mes "[PVP Doorman]";
+	mes "I am the PVP waiting room warper.";
+	mes "Please ask my friend 'PVP Guide'";
+	mes "if you are curious about PVP Mode.";
+	mes "You can get description and advice.";
+	next;
+        menu "^FF5533PVP Nightmare Mode^000000 'waiting room'",nightmare,"^3355FFPVP Yoyo Mode^000000 'waiting room'",yoyo,"End conversation",pcancel;
+nightmare:
+	mes "[PVP Doorman]"
+	mes "Nightmare Mode"
+	mes "Players will loose"
+	mes "experience and possibly"
+	mes "an item upon death"
+	next;
+	mes "[PVP Doorman]"
+	mes "The fee to participate is"
+	mes "500 zeny."
+	mes "Do you wish to go to"
+	mes "PvP Nightmare Mode Arena now?"
+	next;
+	menu "Yes",yes,"Cancel",no;
+yes:
+	check zeny < 500,noenter,-;                   
+	check BaseLevel < 31,noenter,-;
+	set zeny - 500;
+	warp "pvp_n_room",51,23;
+noenter:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+yoyo:
+	mes "[PVP Doorman]";
+	mes "The fee to participate is";
+	mes "500 zeny.";
+	mes "Do you wish to go to";
+	mes "PvP Yoyo Mode Arena now?";
+	next;
+	menu "Yes",yes2,"Cancel",no2;
+yes2:
+	check zeny < 500,noenter2,-;                   
+	check BaseLevel < 31,noenter2,-;
+	set zeny - 500;
+	warp "pvp_y_room",51,23;
+noenter2:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no2:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+pcancel:
+	mes "[PVP Doorman]";
+	mes "Thank you, come again.";
+	close;
+}
+
+morocc_in.gat,144,137,5	script	"PVP Guide"	84,{
+	mes "[PVP Guide]";
+	mes "I will guide you through PVP Mode!";
+	mes "If you have any question about"; 
+	mes "PVP MODE, come and see me.";
+	next;
+	menu  "PVP Mode?",pvpi,"What is PvP exactly?",pvpwhat,"Save",pvpsave,"End conversation",pvpcancel;
+pvpi:
+	mes "[PVP Guide]";
+	mes "PVP Mode stands for";
+	mes "' Player VS Player Mode '";
+	mes "Where players are given the opportunities";
+	mes "to battle against each other.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you would like to try PvP mode,";
+	mes "Just talk to the^3355FfPVP Doorman^000000 standing next to me";
+	mes "and he will lead you to the arena.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please be careful";
+	mes "and please enjoy the fun.";
+	mes "On a related topic,";
+	mes "Players are required to";
+	mes "be level 31 or higher to participate.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you do meet the level requirements,";
+	mes "feel free to select one";
+	mes "of the two PvP modes.";
+	mes "They are: Nightmare Mode";
+	mes "and Yoyo Mode";
+	next;
+	mes "[PVP Guide]";
+	mes "In Nightmare Mode,";
+	mes "Players will loose";
+	mes "experiences and possibly";
+	mes "an item upon death.";
+	mes "So choose wisely";
+	mes "to avoid any possible disputes.";
+	close;
+pvpwhat:
+	mes "[PVP Guide]";
+	mes "Through the Gatekeeper next to me,";
+	mes "you will be able gain access to the arena.";
+	mes "After a 500 zeny fee of course.";
+	next;
+	mes "[PVP Guide]";
+	mes "There are two different PvP modes,";
+	mes "one is Yoyo Mode";
+	mes "and the other is Nightmare Mode";
+	mes "In both of these";
+	mes "PvP modes,";
+	next;
+	mes "[PVP Guide]";
+	mes "Also, participants of PvP will be";
+	mes "divided every 10 levels and";
+	mes "will have access to 5 different";
+	mes "PvP arenas.";
+	next;
+	mes "[PVP Guide]";
+	mes "You will be able to know the different level";
+	mes "restrictions through the windows ";
+	mes "on top of each Guides.";
+	mes "The Guides will also provide information on";
+	mes "number players in each arena and PvP rules.";
+	next;
+	mes "[PVP Guide]";
+	mes "Every PvP zones also have restrictions on the maximum";
+	mes "amount of players fighting at the same time.";
+	mes "Therefore, a window will show";
+	mes "'Current #s of Players / Maximum #s of Players'";
+	next;
+	mes "[PVP Guide]";
+	mes "Lastly,";
+	mes "Players will be";
+	mes "unable to save positions";
+	mes "during battles.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please keep this in mind.";
+	close;
+pvpsave:
+	mes "[PVP Guide]";
+	mes "Your respawn point has saved. Thank you.";
+	save "morocc_in",140,142;
+	close;
+pvpcancel:
+	mes "[PVP Guide]";
+	mes "Alright, see you later";
+	close;
+}
+
+morocc_in.gat,144,142,5	script	"PVP Doorman"	83,{
+	mes "[PVP Doorman]";
+	mes "I am the PVP waiting room warper.";
+	mes "Please ask my friend 'PVP Guide'";
+	mes "if you are curious about PVP Mode.";
+	mes "You can get description and advice.";
+	next;
+        menu "^FF5533PVP Nightmare Mode^000000 'waiting room'",nightmare,"^3355FFPVP Yoyo Mode^000000 'waiting room'",yoyo,"End conversation",pcancel;
+nightmare:
+	mes "[PVP Doorman]"
+	mes "Nightmare Mode"
+	mes "Players will loose"
+	mes "experience and possibly"
+	mes "an item upon death"
+	next;
+	mes "[PVP Doorman]"
+	mes "The fee to participate is"
+	mes "500 zeny."
+	mes "Do you wish to go to"
+	mes "PvP Nightmare Mode Arena now?"
+	next;
+	menu "Yes",yes,"Cancel",no;
+yes:
+	check zeny < 500,noenter,-;                   
+	check BaseLevel < 31,noenter,-;
+	set zeny - 500;
+	warp "pvp_n_room",51,23;
+noenter:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+yoyo:
+	mes "[PVP Doorman]";
+	mes "The fee to participate is";
+	mes "500 zeny.";
+	mes "Do you wish to go to";
+	mes "PvP Yoyo Mode Arena now?";
+	next;
+	menu "Yes",yes2,"Cancel",no2;
+yes2:
+	check zeny < 500,noenter2,-;                   
+	check BaseLevel < 31,noenter2,-;
+	set zeny - 500;
+	warp "pvp_y_room",51,23;
+noenter2:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no2:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+pcancel:
+	mes "[PVP Doorman]";
+	mes "Thank you, come again.";
+	close;
+}
+alberta_in.gat,26,146,4	script "PVP Guide" 84,{
+	mes "[PVP Guide]";
+	mes "I will guide you through PVP Mode!";
+	mes "If you have any question about"; 
+	mes "PVP MODE, come and see me.";
+	next;
+	menu  "PVP Mode?",pvpi,"What is PvP exactly?",pvpwhat,"Save",pvpsave,"End conversation",pvpcancel;
+pvpi:
+	mes "[PVP Guide]";
+	mes "PVP Mode stands for";
+	mes "' Player VS Player Mode '";
+	mes "Where players are given the opportunities";
+	mes "to battle against each other.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you would like to try PvP mode,";
+	mes "Just talk to the^3355FfPVP Doorman^000000 standing next to me";
+	mes "and he will lead you to the arena.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please be careful";
+	mes "and please enjoy the fun.";
+	mes "On a related topic,";
+	mes "Players are required to";
+	mes "be level 31 or higher to participate.";
+	next;
+	mes "[PVP Guide]";
+	mes "If you do meet the level requirements,";
+	mes "feel free to select one";
+	mes "of the two PvP modes.";
+	mes "They are: Nightmare Mode";
+	mes "and Yoyo Mode";
+	next;
+	mes "[PVP Guide]";
+	mes "In Nightmare Mode,";
+	mes "Players will loose";
+	mes "experiences and possibly";
+	mes "an item upon death.";
+	mes "So choose wisely";
+	mes "to avoid any possible disputes.";
+	close;
+pvpwhat:
+	mes "[PVP Guide]";
+	mes "Through the Gatekeeper next to me,";
+	mes "you will be able gain access to the arena.";
+	mes "After a 500 zeny fee of course.";
+	next;
+	mes "[PVP Guide]";
+	mes "There are two different PvP modes,";
+	mes "one is Yoyo Mode";
+	mes "and the other is Nightmare Mode";
+	mes "In both of these";
+	mes "PvP modes,";
+	next;
+	mes "[PVP Guide]";
+	mes "Also, participants of PvP will be";
+	mes "divided every 10 levels and";
+	mes "will have access to 5 different";
+	mes "PvP arenas.";
+	next;
+	mes "[PVP Guide]";
+	mes "You will be able to know the different level";
+	mes "restrictions through the windows ";
+	mes "on top of each Guides.";
+	mes "The Guides will also provide information on";
+	mes "number players in each arena and PvP rules.";
+	next;
+	mes "[PVP Guide]";
+	mes "Every PvP zones also have restrictions on the maximum";
+	mes "amount of players fighting at the same time.";
+	mes "Therefore, a window will show";
+	mes "'Current #s of Players / Maximum #s of Players'";
+	next;
+	mes "[PVP Guide]";
+	mes "Lastly,";
+	mes "Players will be";
+	mes "unable to save positions";
+	mes "during battles.";
+	next;
+	mes "[PVP Guide]";
+	mes "Please keep this in mind.";
+	close;
+pvpsave:
+	mes "[PVP Guide]";
+	mes "Your respawn point has saved. Thank you.";
+	save "alberta_in",26,143;
+      close;
+pvpcancel:
+	mes "[PVP Guide]";
+	mes "Alright, see you later";
+	close;
+}
+
+alberta_in.gat,22,146,4	script "PVP Doorman" 83,{
+	mes "[PVP Doorman]";
+	mes "I am the PVP waiting room warper.";
+	mes "Please ask my friend 'PVP Guide'";
+	mes "if you are curious about PVP Mode.";
+	mes "You can get description and advice.";
+	next;
+        menu "^FF5533PVP Nightmare Mode^000000 'waiting room'",nightmare,"^3355FFPVP Yoyo Mode^000000 'waiting room'",yoyo,"End conversation",pcancel;
+nightmare:
+	mes "[PVP Doorman]"
+	mes "Nightmare Mode"
+	mes "Players will loose"
+	mes "experience and possibly"
+	mes "an item upon death"
+	next;
+	mes "[PVP Doorman]"
+	mes "The fee to participate is"
+	mes "500 zeny."
+	mes "Do you wish to go to"
+	mes "PvP Nightmare Mode Arena now?"
+	next;
+	menu "Yes",yes,"Cancel",no;
+yes:
+	check zeny < 500,noenter,-;                   
+	check BaseLevel < 31,noenter,-;
+	set zeny - 500;
+	warp "pvp_n_room",51,23;
+noenter:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+yoyo:
+	mes "[PVP Doorman]";
+	mes "The fee to participate is";
+	mes "500 zeny.";
+	mes "Do you wish to go to";
+	mes "PvP Yoyo Mode Arena now?";
+	next;
+	menu "Yes",yes2,"Cancel",no2;
+yes2:
+	check zeny < 500,noenter2,-;                   
+	check BaseLevel < 31,noenter2,-;
+	set zeny - 500;
+	warp "pvp_y_room",51,23;
+noenter2:
+	mes "[PVP Doorman]";
+	mes "Excuse me,";
+	mes "but please pay 500 zeny";
+	mes "or make sure your base level";
+	mes "is 31 or higher."
+	close;
+no2:
+	mes "[PVP Doorman]";
+	mes "Alright, see you again soon";
+	close;
+pcancel:
+	mes "[PVP Doorman]";
+	mes "Thank you, come again.";
+	close;
+}

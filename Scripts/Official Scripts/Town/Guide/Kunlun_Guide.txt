@@ -1,0 +1,65 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Kunlun Guides - Non Player Character Locations
+//
+// - Kunlun Guide-> gonryun: 163,60
+//   Shows you the way arround kunlun.
+//
+//========================================================================================
+
+gonryun.gat,163,60,4 script "Kunlun Guide" 780,{ 
+      mes "[Ha Wonch]"; 
+      mes "Welcome to Kunlun!"; 
+      mes "A thriving place"; 
+      mes "which is always full of people!"; 
+next; 
+      mes "[Ha Wonch]"; 
+      mes "It is my job to show you travellers around."; 
+      mes "If there is anything you wish to know,"; 
+      mes "please do not hesitate to ask."; 
+      next; 
+      menu "Village Elder's House",L1,"Item Shop",L2,"Weapon Shop",L3,"Armor Shop",L4,"Inn",L5,"Nevermind",L_End;
+L1: 
+      	viewpoint 1,109,131,0,0xff3355; 
+      mes "[Ha Wonch]"; 
+      mes "The Village Elder's House"; 
+      mes "is located here ^ff3355+^000000"; 
+      mes "on the minimap."; 
+      goto L_End; 
+L2: 
+      	viewpoint 1,147,84,1,0xce6300; 
+      mes "[Ha Wonch]"; 
+      mes "The Item Shop"; 
+      mes "is located here ^ce6300+^000000"; 
+      mes "on the minimap."; 
+      goto L_End; 
+L3: 
+      	viewpoint 1,174,101,2,0x55ff33; 
+      mes "[Ha Wonch]"; 
+      mes "The Weapon Shop"; 
+      mes "is located here ^55ff33+^000000"; 
+      mes "on the minimap."; 
+      goto L_End; 
+L4: 
+      	viewpoint 1,173,84,3,0x3355ff; 
+      mes "[Ha Wonch]"; 
+      mes "The Armor Shop"; 
+      mes "is located here ^3355ff+^000000"; 
+      mes "on the minimap."; 
+      goto L_End; 
+L5:
+      	viewpoint 1,215,114,4,0xffffff; 
+      mes "[Ha Wonch]"; 
+      mes "The Inn is";
+      mes "located here ^ffffff+^000000";
+      mes "on the minimap."; 
+      goto L_End; 
+L_End: 
+	mes "Kunlun is a great place to";
+	mes "relax.  Stay as long as you like!";
+	close;
+}

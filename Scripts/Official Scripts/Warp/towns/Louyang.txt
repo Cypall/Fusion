@@ -1,0 +1,43 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Louyang Town Warps - Warp Locations
+// - Credits to Sarachin for doing some of the warps.
+//
+//========================================================================================
+
+louyang.gat,218,255,0	warp  louyangwarp001	2,1,lou_in01.gat,101,123
+lou_in01.gat,101,118,0	warp	louyangwarp002	1,1,louyang.gat,218,249
+lou_in01.gat,125,140,0	warp	louyangwarp003	2,1,lou_in01.gat,156,140
+lou_in01.gat,152,140,0	warp	louyangwarp004	1,1,lou_in01.gat,120,140
+lou_in01.gat,78,140,0	warp	louyangwarp005	2,1,lou_in01.gat,45,140
+lou_in01.gat,51,140,0	warp	louyangwarp006	1,1,lou_in01.gat,83,140
+louyang.gat,122,148,0	warp	louyangwarp007	1,1,lou_in02.gat,246,58
+lou_in02.gat,242,58,0	warp	louyangwarp008	1,1,louyang.gat,122,152
+louyang.gat,135,96,0	warp	louyangwarp009	1,1,lou_in02.gat,250,174
+lou_in02.gat,253,177,0	warp	louyangwarp010	1,1,louyang.gat,140,101
+louyang.gat,125,121,0	warp	louyangwarp011	1,1,lou_in02.gat,197,162
+lou_in02.gat,197,158,0	warp	louyangwarp012	1,1,louyang.gat,125,118
+louyang.gat,129,121,0	warp	louyangwarp013	1,1,lou_in02.gat,203,162
+lou_in02.gat,203,158,0	warp	louyangwarp014	1,1,louyang.gat,129,118
+louyang.gat,145,175,0	warp	louyangwarp015	1,1,lou_in02.gat,125,167
+lou_in02.gat,125,164,0	warp	louyangwarp016	1,1,louyang.gat,145,171
+louyang.gat,279,168,0	warp	louyangwarp017	1,1,lou_in02.gat,57,174
+lou_in02.gat,57,170,0	warp	louyangwarp018	1,1,louyang.gat,279,165
+lou_in02.gat,34,190,0	warp	louyangwarp019	1,1,lou_in02.gat,37,138
+lou_in02.gat,43,138,0	warp	louyangwarp020	1,1,lou_in02.gat,38,190
+lou_in02.gat,81,190,0	warp	louyangwarp021	1,1,lou_in02.gat,78,140
+lou_in02.gat,72,140,0	warp	louyangwarp022	1,1,lou_in02.gat,76,190
+louyang.gat,309,81,0	warp	louyangwarp023	1,1,lou_in02.gat,189,78
+lou_in02.gat,189,74,0	warp	louyangwarp024	1,1,louyang.gat,309,77
+lou_in02.gat,200,94,0	warp	louyangwarp025	1,1,lou_in02.gat,170,45
+lou_in02.gat,176,45,0	warp	louyangwarp026	1,1,lou_in02.gat,206,93
+louyang.gat,130,63,0	warp	louyangwarp027	1,1,lou_in02.gat,71,32
+lou_in02.gat,71,28,0	warp	louyangwarp028	1,1,louyang.gat,130,60
+louyang.gat,317,177,0	warp	louyangwarp029	1,1,lou_in02.gat,121,32
+lou_in02.gat,121,28,0	warp	louyangwarp030	1,1,louyang.gat,317,175
+
+

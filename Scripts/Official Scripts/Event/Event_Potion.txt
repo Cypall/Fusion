@@ -1,0 +1,460 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Potions Quests - Non Player Character Locations
+// - Credit to kobra_k88
+//
+// - Housewife Marianne -> prt_in: 49,172
+//   Mother who's saying her lil boy don't eat much.
+//
+// - Morrison -> prt_in: 47,173
+//   The little boy who don't eat much.
+//
+// - Mark Hanson -> payon_in01: 5,48
+//   Juice Maker, he transforms raw items into Fruity Juices.
+//
+// - Grampa Pharmacist -> alberta_in: 16,28
+//   Transform raw items into Potions.
+//
+// - Milk Merchant -> prontera: 73,140
+//   Transform empty bottle + 15z into Milk.
+//
+//========================================================================================
+
+prt_in.gat,49,172,2 script "Housewife Marianne" 53,{
+		check MORRISON == 1,L_GaveMeat,-;
+		check MORRISON == 2,L_Juice,-;
+	mes "[Housewife Marianne]";
+	mes "Morrison!! Please eat some fruit will ya? Fruit~!";
+	mes "*Sob*~!! Like father like son...";
+	next;
+	menu "Talk",L_Talk,"Cancel",L_Cancel;
+	close;	
+L_Talk:
+	mes "[Housewife Marianne]";
+	mes "(~Sigh~)...This is Morrison... My one and only son.";
+	mes "He's going through some kinda phase and doesn't want to eat any ^0000ffFruits^000000 or vegetables.  Look at his face, it turns sour just hearing about ^0000fffFruit^000000...";
+	next;
+	mes "[Housewife Marianne]";
+	mes "All he wants to eat is but ^ff0000Meat^000000... (sigh)...he needs ^0000ffFruits^000000 and vegetables for a proper diet.";
+	next;
+	close;
+L_Cancel:
+	mes "[Housewife Marianne]";
+	mes "Morrison!! I will get mad at you if you keep doing this!";
+	close;
+L_GaveMeat:
+		set MORRISON = 0;
+	mes "[Housewife Marianne]";
+	mes "Oh MY GOD!!... Oh lord...";
+	next;
+	mes "[Housewife Marianne]";
+	mes "WHAT ARE YOU DOING!! HOW DARE YOU feed my son!! And ^ff0000MEAT^000000 of all things!!!";
+	next;
+	mes "[Housewife Marianne]";
+	mes "Arrrgh~~!! Get Lost right now!!!!!!";
+	close;
+L_Juice:
+		set MORRISON = 0;
+		set MARIANNE = 1;
+	mes "[Housewife Marianne]";
+	mes "Thank you for not giving my son any meat.  I'm trying to feed him ^0000ffFruits^000000 and vegetables, but this child doesn't want to eat anything except Meat...";
+	next;
+	mes "[Housewife Marianne]";
+	mes "What if I could turn ^0000ffFruits^000000 into a ^0000ffJuice^000000... for example...Orange juice... Would my child like it?";
+	next;
+	mes "[Housewife Marianne]";
+	mes "Ah! Now I remember..There is a town where you can get a variety of ^0000ffFruit^000000 turned into ^0000ffFruit Juices^000000.";
+	next;
+	mes "[Housewife Marianne]";
+	mes "... Was is it...^ff0000Payon^000000...or ^ff0000Morroc^000000...?";
+	next;
+	close;
+}
+
+prt_in.gat,47,173,2 script "Morrison" 97,{
+		check MEAT > 10,L_Candy,-;
+		check MARIANNE == 10,L_GoAway,-;
+	mes "[Little Morrison]";
+	mes "Wahhhhh!!! Wahh... NO more! NO more!";
+	mes "I won't... eat anymore stupid ^0000ffFruit^000000 things!!";
+	next;
+	menu "Talk",L_Talk,"Cancel",L_End;
+L_Talk:
+		checkitem 517,1,L_Meat,-;
+	mes "[Little Morrison]";
+	mes "Arhhggg!! I'VE HAD ENOUGH!!! I can't eat anymore ^0000ffFruits^000000!";
+	mes "They taste so SOUR..... I have to PEEL them before I can eat them.....they feel sticky and squishy...... it's really ANNOYING!!!!";
+	next;
+	mes "[LIttle Morrison]";
+	mes "I just HATE FRUIT! I can't even get full off of the stuff.(~sigh~)";
+	mes "Give me something more edible..... give me some...... ^ff0000MEAT^000000!!!";
+	close;
+L_Meat:
+	mes "[Little Morrison]";
+	mes "...(sniff)....(sniff)(sniff).... Oh! Is that ^ff0000Meat^000000???";
+	next;
+	mes "[Little Morrison]";
+	mes "Do you have some ^ff0000Meat^000000?!!!~(drools)~";
+	mes "Umm... that yummy smell is making me SOOO HUNGRYYYY!!!l";
+	next;
+	mes "[Little Morrison]";
+	mes "... Umm... excuse me..... could you give me some of that meat PLEEAASSSE?";
+	next;
+	menu "Give him some",L_Sub_Give,"Ignore him",L_Sub_Ignore;
+L_Sub_Give:
+		set MORRISON = 1;
+		set MEAT + 1;
+		delitem 517,1;
+	mes "[Little Morrison]";
+	mes "Whoah~!!! It's real Meat, Meat!";
+	mes "Mmmm! It makes my mouth water.";
+	mes "Oh thank you. Now I feel happy. Yum Yum...";
+			close;
+L_Sub_Ignore:
+		set MORRISON = 2;
+	mes "[Little Morrison]";
+	mes "Boo...";
+	mes "Boo... Fine... Alright, Alright~!!! Selfish meanie!";
+	close;
+L_End:
+	mes "[Little Morrison]";
+	mes "Wahhhhh!!! No matter how hard I try, I just can't eat Vegetables or ^0000ffFruit^000000! They're plain disgusting!!";
+	close;
+L_GoAway:
+	mes "[Little Morrison]";
+	mes "Pffff... Leave me alone! You DON'T CARE about me! I'm gonna DIE because of these stupid Veggies and Fuits so MIND your own business!";
+	close;
+L_Candy:
+	mes "[Little Morrison]";
+	mes "Ah..I am full now.";
+	mes "You don't have to feed me any more. I think I am gonna BURST if i keep eating more.";
+	next;
+	mes "[Little Morrison]";
+	mes "And... um... Take this.";
+	next;
+		additem 529,3;
+		additem 530,1;
+		set MEAT = 0;
+	mes "[Little Morrison]";
+	mes "It is from my secret stash of Candy that I hide from my Mom.  Since you gave me some Meat, I will give you some candy." ;
+	close;
+}
+
+payon_in01.gat,5,48,3 script "Mark Hanson" 86,{
+	mes "[Mark Hanson]";
+		check MARIANNE == 1,L_Juice,-;
+	mes "Welcome to my shop. What brings you here?";
+	next;
+	menu "Conversation",L_Conversation,"I am just looking around",L_Looking;
+L_Conversation:
+	mes "[Mark Hanson]";
+	mes "In the earliest years of humanity, fruits were the only substanace available for people to eat.";
+	mes "Fruits were vital for survival and without them people faced a certain death.";
+	mes "During that time Mother Nature was worshiped for her generous offerering.";
+	next;
+	mes "[Mark Hanson]";
+	mes "Nowadays food is plentifull and it comes in a variety of flavors and forms.";
+	mes "With so many other things to eat, fruits aren't consumed as much as they used to be.";
+	mes "This is especially true among kids who'd rather eat pizza and candy.";
+	next;
+	mes "[Mark Hanson]";
+	mes "Because of this I wanted to find a way to make young people realize the importance of fuit.";
+	mes "I found that when fruits were turned into juices, they became more digestive and even tasty enough for kids.";
+	close;
+L_Looking:
+	mes "[Mark Hanson]";
+	mes "Ok then.";
+	close;
+L_Juice:
+	mes "Welcome to my shop. Do you come here to process Fruits like the rest?";
+	next;
+	menu "Yes, I do.",L_Yes,"How do you make fruit juice?",L_How,"No, I don't.",L_End;
+L_Yes:
+	mes "[Mark Hanson]";
+	mes "So what kind of fruit juice would you like to process?";
+	next;
+	menu "Apple Juice",L_Apple,"Banana Juice",L_Banana,"Grape Juice",L_Grape,"Carrot Juice",L_Carrot,"Nope, I'm fine.",L_End;
+L_Apple:
+		set @BUY_ID = 512;
+		set @GET_ID = 531;
+	goto L_Make;
+L_Banana:
+		set @BUY_ID = 513;
+		set @GET_ID = 532;
+	goto L_Make;
+L_Grape:
+		set @BUY_ID = 514;
+		set @GET_ID = 534;
+	goto L_Make;
+L_Carrot:
+		set @BUY_ID = 515;
+		set @GET_ID = 533;
+	goto L_Make;
+L_Make:
+		getitemamount @BUY_ID,@FRUIT;
+		getitemamount 713,@BOTTLE;
+		set @BUY_NUM = @FRUIT;
+		check @BUY_NUM > @BOTTLE,-,L_Check;
+		set @BUY_NUM = @BOTTLE;
+L_Check:
+		check @BUY_NUM == 0,L_Error1,-;
+	mes "[Mark Hanson]";
+	mes "How much do you want?";
+	next;
+	menu "Exchange all",L_Exchange,"Set number",-,"End",L_End;
+	mes "[Mark Hanson]";
+	mes "How many bottles would you like?  Enter 0 if you don't want any.";
+	mes "You may choose no more than $[@BUY_NUM].";
+	next;
+		input @BUY_NUM;
+		check @BUY_NUM == 0,L_NextT,-;
+L_Exchange:
+		set @BUY_ZENY = @BUY_NUM;
+		set @BUY_ZENY *= 3;
+		checkitem @BUY_ID,@BUY_NUM,-,L_Error1;
+		checkitem 713,@BUY_NUM,-,L_Error1;
+		checkadditem @GET_ID,@BUY_NUM,-,L_Error2;
+		check Zeny >= @BUY_ZENY,-,L_Error3;
+		delitem @BUY_ID,@BUY_NUM;
+		delitem 713,@BUY_NUM;
+		set Zeny -= @BUY_ZENY,0;
+		additem @GET_ID,@BUY_NUM;
+	mes "[Mark Hanson]";
+	mes "Here you are. Take it.";
+	close;
+L_Error1:
+	mes "[Mark Hanson]";
+	mes "You do not have enough fruit to produce this juice.";
+	close;
+L_Error2:
+	mes "[Mark Hanson]";
+	mes "You will exceed your weight limit if you exchange for the fruit juice.";
+	close;
+L_Error3:
+	mes "[Mark Hanson]";
+	mes "You don't have enough zeny.";
+	close;
+L_NextT:
+	mes "[Mark Hanson]";
+	mes "Oh well... see you next time.";
+	close;
+L_How:
+	mes "[Mark Hanson]";
+	mes "# Fruit Juices Info #";
+	mes "Apple Juice - Apple x 3 ea, Empty Bottle x 1 ea, 3 zeny.";
+	mes "Banane Juice - Banana x 3 ea, Empty Bottle x 1 ea, 3 zeny.";
+	mes "Carrot Juice - Carrot x 3 ea, Empty Bottle x 1 ea, 3 zeny.";
+	mes "Grape Juice - Grape x 3 ea, Empty Bottle x 1 ea, 3 zeny.";
+	close;
+L_End:
+	close;
+}
+
+alberta_in.gat,16,28,4 script "Grampa Pharmacist" 61,{
+	mes "[Grampa Pharmacist]";
+	mes "Yes? What brings you here?";
+	next;
+	menu "Make potion.",-,Speak.",L_MENU_2,"Ingredients.",L_MENU_3,"Nothing. (End)",L_MENU_4;
+	mes "[Grampa Pharmacist]";
+	mes "How would you like to use your materials in potions?";
+	next;
+	menu "Red potion.",L_MENU_1_1,"Orange potion.",L_MENU_1_2,"Yellow potion.",L_MENU_1_3,"White potion.",L_MENU_1_4,"Blue potion.",L_MENU_1_5,"Green potion.",L_MENU_1_6,"Nothing. (End)",L_MENU_1_7;
+L_MENU_1_1:
+		set @BUY_ID1 = 507;
+		set @BUY_NEED1 = 2;
+		set @BUY_ID2 = 0;
+		set @BUY_NEED2 = 0;
+		set @GET_ID = 501;
+		set @BUY_PRICE = 3;
+	goto L_SUB_1_1;
+L_MENU_1_2:
+		set @BUY_ID1 = 507;
+		set @BUY_NEED1 = 1;
+		set @BUY_ID2 = 508;
+		set @BUY_NEED2 = 1;
+		set @GET_ID = 502;
+		set @BUY_PRICE = 5;
+	goto L_SUB_1_1;
+L_MENU_1_3:
+		set @BUY_ID1 = 508;
+		set @BUY_NEED1 = 2;
+		set @BUY_ID2 = 0;
+		set @BUY_NEED2 = 0;
+		set @GET_ID = 503;
+		set @BUY_PRICE = 10;
+	goto L_SUB_1_1;
+L_MENU_1_4:
+		set @BUY_ID1 = 509;
+		set @BUY_NEED1 = 2;
+		set @BUY_ID2 = 0;
+		set @BUY_NEED2 = 0;
+		set @GET_ID = 504;
+		set @BUY_PRICE = 20;
+	goto L_SUB_1_1;
+L_MENU_1_5:
+		set @BUY_ID1 = 510;
+		set @BUY_NEED1 = 2;
+		set @BUY_ID2 = 0;
+		set @BUY_NEED2 = 0;
+		set @GET_ID = 505;
+		set @BUY_PRICE = 30;
+	goto L_SUB_1_1;
+L_MENU_1_6:
+		set @BUY_ID1 = 511;
+		set @BUY_NEED1 = 2;
+		set @BUY_ID2 = 0;
+		set @BUY_NEED2 = 0;
+		set @GET_ID = 506;
+		set @BUY_PRICE = 3;
+L_SUB_1_1:
+		getitemamount @BUY_ID1,@POTION1;
+		set @POTION1 /= @BUY_NEED1;
+		check @BUY_ID2 > 0,-,L_SUB_1_2;
+		getitemamount @BUY_ID2,@POTION2;
+		set @POTION2 /= @BUY_NEED2;
+L_SUB_1_2:
+		getitemamount 713,@BOTTLE;
+		set @BUY_NUM = @POTION1;
+		check @BUY_ID2 > 0,-,L_SUB_1_3;
+		check @BUY_NUM > @POTION2,-,L_SUB_1_3;
+		set @BUY_NUM = @POTION2;
+		check @BUY_NUM > @BOTTLE,-,L_SUB_1_3;
+		set @BUY_NUM = @BOTTLE;
+L_SUB_1_3:
+		check @BUY_NUM == 0,L_ROOT_1_1,-;
+	mes "[Grampa Pharmacist]";
+	mes "How much do you want?";
+	next;
+	menu "Exchange all.",L_SUB_1_4,"Select an amount.",-,"Nothing. (End)",L_MENU_1_7;
+	mes "[Grampa Pharmacist]";
+	mes "Choose a number no more than 100 no less than 1.";
+	mes "You may not exchange more than $[@BUY_NUM].";
+	next;
+		input @BUY_NUM;
+		check @BUY_NUM == 0,L_MENU_1_7,-;
+L_SUB_1_4:
+		set @BUY_ZENY = @BUY_NUM;
+		set @BUY_ZENY *= @BUY_PRICE;
+		set @BUY_NUM1 = @BUY_NUM;
+		set @BUY_NUM1 *= @BUY_NEED1;
+		checkitem @BUY_ID1,@BUY_NUM1,-,L_ROOT_1_1;
+		check @BUY_ID2 > 0,-,L_SUB_1_5;
+		set @BUY_NUM2 = @BUY_NUM;
+		set @BUY_NUM2 *= @BUY_NEED2;
+		checkitem @BUY_ID2,@BUY_NUM2,-,L_ROOT_1_1;
+L_SUB_1_5:
+		checkitem 713,@BUY_NUM,-,L_ROOT_1_1;
+		checkadditem @GET_ID,@BUY_NUM,-,L_ROOT_1_3;
+		check Zeny >= @BUY_ZENY,-,L_ROOT_1_2;
+		delitem @BUY_ID1,@BUY_NUM1;
+		check @BUY_ID2 > 0,-,L_SUB_1_6;
+		delitem @BUY_ID2,@BUY_NUM2;
+L_SUB_1_6:
+		delitem 713,@BUY_NUM;
+		set Zeny -= @BUY_ZENY,0;
+		additem @GET_ID,@BUY_NUM;
+	goto L_START_2;
+L_ROOT_1_1:
+	mes "[Grampa Pharmacist]";
+	mes "Do you know its' a bad habit to leave materials behind?";
+	mes "Return with the proper materials!";
+	close;
+L_ROOT_1_2:
+	mes "[Grampa Pharmacist]";
+	mes "Do you know its' a bad habit to leave your Zeny behind?";
+	mes "Return with the proper materials!";
+	close;
+L_ROOT_1_3:
+	mes "[Grampa Pharmacist]";
+	mes "You will exceed the weight limit.";
+	mes "Return with a lower carry weight!";
+	close;
+L_START_2:
+	mes "[Grampa Pharmacist]";
+	mes "Pay attention!";
+	mes "Using too much medicine is bad for the body!";
+	close;
+L_MENU_1_7:
+	mes "[Grampa Pharmacist]";
+	mes "What? This makes no sense.";
+	close;
+L_MENU_2:
+	mes "[Grampa Pharmacist]";
+	mes "Medicine greatly expands the healing speed of the body.";
+	mes "When you grow older, you will experience that.";
+	mes "In anycase, make sure you use the right amount of medicine.";
+	close;
+L_MENU_3:
+	mes "[Grampa Pharmacist]";
+	mes "You should always pay attention to the label on any medicine.";
+	next;
+	mes "[Grampa Pharmacist]";
+	mes "Making herbs into a potion makes the herbs much more effective.";
+	next;
+	mes "[Grampa Pharmacist]";
+	mes "But making it is not as easy as it seems. I have tried many times, and now I have mastered the skill.";
+	next;
+	mes "[Grampa Pharmacist]";
+	mes "Red potion - ^0098E5 Red Herb x2, Empty Bottle x1, 3 Zeny.^000000";
+	mes "Orange Potion - ^0098E5 Red herb x1, Yellow Herb x1, Empty Bottle x1, 5 Zeny.^000000";
+	mes "Yellow Potion - ^0098E5 Yellow herb x2, Empty Bottle x1, 10 Zeny.^000000";
+	next;
+	mes "[Grampa Pharmacist]";
+	mes "White Potion - ^0098E5 White Herb x2, Empty Bottle x1, 20 Zeny.^000000";
+	mes "Blue Potion - ^0098E5 Blue Herb x2, Empty Bottle x1, 30 Zeny.^000000";
+	mes "Green Potion - ^0098E5 Green Herb x2, Empty Bottle x1, 3 Zeny.^000000";
+	close;
+L_MENU_4:
+	mes "[Grampa Pharmacist]";
+	mes "What? What I am speaking is clear and loud!";
+	close;
+}
+
+prontera.gat,73,140,0 script "Milk Merchant" 86,{
+	mes "[Milk Merchant]";
+	mes "If you have an empty bottle, you may pay 15z and exchange it for a bottle of milk!";
+	next;
+	menu "Exchange all empty bottles.",-,"Set a number.",L_MENU_1,"End",L_MENU_2;
+		getitemamount 713,@CHANGE_NUM;
+		checkitem 713,1,L_ROOT_1,-;
+	mes "[Milk Merchant]";
+	mes "No, I need an empty bottle!";
+	mes ".....I need one to fill it up with milk.";
+	close;
+L_MENU_1:
+	mes "[Milk Merchant]";
+	mes "How much do you wish to exchange?";
+	next;
+		input @CHANGE_NUM;
+		check @CHANGE_NUM == 0,L_MENU_2,-;
+L_ROOT_1:
+		set @CHANGE_ZENY = @CHANGE_NUM;
+		set @CHANGE_ZENY *= 15;
+		checkitem 713,@CHANGE_NUM,L_ROOT_2,-;
+	mes "[Milk Merchant]";
+	mes "Sorry, there is not enough bottles to exchange.";
+	close;
+L_ROOT_2:
+		check Zeny < @CHANGE_ZENY,-,L_ROOT_3;
+	mes "[Milk Merchant]";
+	mes "There is enough bottles but not enough Zeny.";
+	mes "You need to have $[@CHANGE_ZENY] Zeny.";
+	close;
+L_ROOT_3:
+		checkadditem 519,@CHANGE_NUM,L_ROOT_4,-;
+	mes "[Milk Merchant]";
+	mes "Sorry, if I refill those you will exceed your weight limit.";
+	close;
+L_ROOT_4:
+		delitem 713,@CHANGE_NUM;
+		set Zeny -= @CHANGE_ZENY,0;
+		additem 519,@CHANGE_NUM;
+	mes "[Milk Merchant]";
+	mes "Thank you.";
+L_MENU_2:
+	close;
+}

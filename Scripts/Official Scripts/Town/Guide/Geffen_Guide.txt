@@ -1,0 +1,126 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Geffen Guides - Non Player Character Locations
+//
+// - Guide-> geffen: 203,116
+//   Shows you the way arround prontera.
+//
+// - Guide-> geffen: 118,62
+//   Shows you the way arround prontera.
+//
+//========================================================================================
+
+geffen.gat,203,116,0 script "Guide" 705,{
+		scriptlabel GuideGeffen;
+		cutin "gef_soldier",2;
+	mes "[Geffen Squad]";
+	mes "Welcome to Geffen, the City of Magic.";
+	mes "We will help you when you take the Wrong way, Feel free to inquire at us anytime.";
+	mes "Please Choose a menu `Notice' if you are a beginner of Ragnarok.";
+L_START_1:
+	next;
+	menu "View Buildings",L_MENU_1,"Wipe all Indications on Mini-Map",L_MENU_2,"Notice",L_MENU_3,"Cancel",L_MENU_4;
+L_MENU_1:
+		check @COMPASS_CHECK == 0,-,L_MENU_1_ROOT;
+	mes "[Geffen Squad]";
+	mes "Please choose a Menu first.";
+	mes "Do you want me to leave indications on the Mini-Map?";
+	next;
+	menu "Yes",-,"No",L_MENU_1_ROOT;
+		set @COMPASS_CHECK = 1;
+L_MENU_1_ROOT:
+	mes "[Geffen Squad]";
+	mes "Please select your destination.";
+L_SUB_1:
+	next;
+	menu "^FF0000Magic Acadamy^000000",L_MENU_1_1,"Forge",L_MENU_1_2,"Armory",L_MENU_1_3,"Kit Shop",L_MENU_1_4,"Pub",L_MENU_1_5,"Inn",L_MENU_1_6,"Cancel",L_MENU_1_7;
+L_MENU_1_1:
+	mes "[Geffen Squad]";
+	mes "'Magic Acadamy' is the Building in charge of Every Magical Theory.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,61,180,1,0xFF0000;
+	goto L_SUB_1;
+L_MENU_1_2:
+	mes "[Geffen Squad]";
+	mes "'Forge' is located at Southeast around the Tower of Magic.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,182,59,2,0x00FF00;
+	goto L_SUB_1;
+L_MENU_1_3:
+	mes "[Geffen Squad]";
+	mes "'Armory' is located at Northwest oround the Tower of Magic.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,99,140,3,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_4:
+	mes "[Geffen Squad]";
+	mes "'Kit Shop' is located at Southwest arround the Tower of Magic.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,44,86,4,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_5:
+	mes "[Geffen Squad]";
+	mes "'Pub' is located at Northeast around the Tower of Magic.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,138,138,5,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_6:
+	mes "[Geffen Squad]";
+	mes "'Inn' is located at Northeast around the Tower of Magic.";
+		check @COMPASS_CHECK == 1,-,L_SUB_1;
+		viewpoint 1,172,174,6,0xFF00FF;
+	goto L_SUB_1;
+L_MENU_1_7:
+	mes "[Geffen Squad]";
+	mes "If you want to remove location marks, Please choose 'Wipe all Indications on Mini-Map'.";
+	goto L_START_1;
+L_MENU_2:
+	mes "[Geffen Squad]";
+	mes "All Map indications have been removed.";
+		viewpoint 2,61,180,1,0xFF0000;
+		viewpoint 2,182,59,2,0x00FF00;
+		viewpoint 2,99,140,3,0xFF00FF;
+		viewpoint 2,44,86,4,0xFF00FF;
+		viewpoint 2,138,138,5,0xFF00FF;
+		viewpoint 2,172,174,6,0xFF00FF;
+		set @COMPASS_CHECK = 0;
+	goto L_START_1;
+L_MENU_3:
+mes "[Geffen Squad]";
+	mes "We altered the";
+	mes "Location Guide into";
+	mes "the Newest Digital Style,";
+	mes "out of the";
+	mes "former Analog One.";
+	next;
+	mes "[Geffen Squad]";
+	mes "Don't forget to refer to";
+	mes "the Mini-Map";
+	mes "on the Upper-Right";
+	mes "of your the Screen.";
+	next;
+	mes "[Geffen Squad]";
+	mes "If you can't see the Mini-Map,";
+	mes " just use Shortcut 'ctrl+tab'";
+	mes " or Click 'map' button on the Basic Information Window.";
+	next;
+	mes "[Geffen Squad]";
+	mes "After that, Click";
+	mes "^3355FF -  ^000000button on the Mini-Map";
+	mes "until whole buildings";
+	mes "are shown on it.";
+	goto L_START_1;
+L_MENU_4:
+	mes "[Geffen Squad]";
+	mes "Good Bye.";
+		cutin "gef_soldier",255;
+	close;
+}
+
+geffen.gat,118,62,0 script "Guide" 705,{
+		script GuideGeffen;
+}

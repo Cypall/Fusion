@@ -1,0 +1,1334 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// - Custom New Hats Maker -> prontera 150 324
+// 	Custom New Hats Maker for the hats of the 525 patch.
+//
+//========================================================================================
+
+prontera.gat,150,324,3 script "Custom New Hats Maker" 69,{
+	check HEROHELM = 0,-,L_HQUEST_ONE;
+	mes "[Custom New Hats Maker]";
+	mes "Hi, $charaname!";
+	mes "I guess you're  looking for the new hats, so... I can help you with that.";
+	next;
+	mes "[Custom New Hats Maker]";
+	mes "New hats were sorted alphabetically, so choose the section of the hat you want.";
+	next;
+	menu "A - H Hats",L_ATOHHAT,"I - P Hats",L_ITOPHAT,"Q - Z Hats",L_QTOZHAT;
+		L_ATOHHAT:
+			menu "Back Ribbon",L_DEEPRED,"Bandage",L_BANDAID,"Bear Hat",L_BEARHAT,"Black Cat Hairband",L_BLACKCAT,"Blue Fish Hat",L_FISHHAT,"Burning Blood Bandana",L_BBBAND,"Cowboy Hat",L_COWBOY,"Crown of Ancient Queen",L_AQUEEN,"Crown of Mistress",L_CMISTRESS,"Drooping Hat",L_DROOPHAT,"Ears of the Angel",L_EARANGEL,"Ears of the Devil",L_EARDEVIL,"Flower Hairpin",L_FLOWERH,"Flurry Hat",L_WOOLHAT,"Fox Mask",L_FOXMASK,"Nothing",L_ERRNOTHING;
+		L_ITOPHAT:
+			menu "Indian Hairband",L_INDIANHAIR,"Large Goldenbell",L_GOLDENBELL,"Mask of Alarm",L_MASKALARM,"Mushroom Hairband",L_MUSHHAIR,"Orc Hero Helm",L_HEROHELM,"Nothing",L_ERRNOTHING;
+		L_QTOZHAT:
+			menu "Pointy Cap",L_POINTYCAP,"Posture Fix Hat",L_TEACHERS,"Raccoon Hat",L_RACCHAT,"Sea Otter Hat",L_OTTERHAT,"Sombrero",L_SOMBRERO,"Straw Hat",L_STRAWHAT,"Transformation Leaf",L_TRANSLEAF,"Tulip Hairpin",L_TULIPHAIR,"X-Shaped Hairpin",L_XHAIRPIN,"Nothing",L_ERRNOTHING;
+			L_DEEPRED:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Red Back Ribbon?";
+				next;
+				menu "Requirements",-,"Make it",L_DEEPRED_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Well the requirements are:";
+					mes " ";
+					mes "1 Big Ribbon";
+					mes "1 Slotted Ribbon";
+					mes "1 Silk Ribbon";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So, what will you want?";
+					next;
+					menu "I want it!",L_DEEPRED_MAKE,"Nothing",L_ERRNOTHING;
+				L_DEEPRED_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Yes, yes... I can make it for you, let's check if you have all the ingredients.";
+					next;
+					checkitem 2244,1,-,L_DEEPRED_BIGR;
+					checkitem 10007,1,-,L_DEEPRED_SILKR;
+					checkitem 2209,1,-,L_DEEPRED_SLOTR;
+					mes "[Custom New Hats Maker]";
+					mes "Ah! You do have all the ingredients!";
+					mes " ";
+					mes "I'll make it right away.";
+					next;
+					delitem 2244,1;
+					delitem 2209,1;
+					delitem 10007,1;
+					additem 5083,1;
+					goto L_OKENJOY;
+				L_DEEPRED_BIGR:
+					mes "[Custom New Hats Maker]";
+					mes "You're missing the Big Ribbon, come back when you have it.";
+					close;
+				L_DEEPRED_SLOTR:
+					mes "[Custom New Hats Maker]";
+					mes "You're missing the Slotted Ribbon, come back when you have it.";
+					close;
+				L_DEEPRED_SILKR:
+					mes "[Custom New Hats Maker]";
+					mes "You're missing the Silk Ribbon, come back when you have it.";
+					close;
+			L_BANDAID:
+				mes "[Custom New Hats Maker]";
+				mes "Ah! So do you want to know more about the Band-aid...";
+				mes "Allright! What do you want about it?";
+				next;
+				menu "Requirements",-,"Make it for me",L_BAND_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "So do you want to know how to get one of those?";
+					mes "I'll tell you, remember, I'm the one making it, nobody else knows... *grin*";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "You need:";
+					mes "1 Alchol";
+					mes "500 Rotten Bandage";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So? What do you say?";
+					mes "You want me to make it or what?";
+					next;
+					menu "Yes, make it for me",L_BAND_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_BAND_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "So you think you have all that's necesary for it?";
+					mes "Let's see!";
+					next;
+					checkitem 930,500,-,L_BAND_ROTT;
+					checkitem 970,1,-,L_BAND_ALCH;
+					mes "[Custom New Hats Maker]";
+					mes "Amazing! You really have all the ingredients!";
+					mes "I'll make it right away";
+					next;
+					delitem 930,500;
+					delitem 970,1;
+					additem 5063,1;
+					goto L_OKENJOY;
+				L_BAND_ROTT:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you are missing Rotten Bandage...";
+					mes "Remember, you need 500 of them, come back when you have them.";
+					close;
+				L_BAND_ALCH:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you're missing the Alchol.";
+					mes "You need 1 of that to make the Bandage.";
+					mes "Come back when you have all the materials.";
+					close;
+			L_BEARHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Bear Hat?";
+				next;
+				menu "Requirements",-,"Make it for me",L_BEAR_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Ah, that's right. The ingredients are:";
+					mes " ";
+					mes "1 Panda Hat";
+					mes "100 Needle Pouch";
+					mes "100 Reel";
+					mes "300 Bear Fur";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "What do you want to do now?";
+					next;
+					menu "Make it for me",L_BEAR_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_BEAR_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check for the ingredients first...";
+					next;
+					checkitem 5030,1,-,L_BEAR_PANDA;
+					checkitem 7213,100,-,L_BEAR_POUCH;
+					checkitem 7013,100,-,L_BEAR_REEL;
+					checkitem 7161,300,-,L_BEAR_FUR;
+					mes "[Custom New Hats Maker]";
+					mes "You passed the ingredients check. So now it's time for me to make it...";
+					next;
+					delitem 5030,1;
+					delitem 7213,100;
+					delitem 7013,100;
+					delitem 7161,300;
+					additem 5059,1;
+					goto L_OKENJOY;
+				L_BEAR_PANDA:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Panda Hat, come back when you have it.";
+					close;
+				L_BEAR_POUCH:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 100 Needle Pouch, come back when you have them.";
+					close;
+				L_BEAR_REEL:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 100 Reel, come back when you have them.";
+					close;
+				L_BEAR_FUR:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Bear Fur, come back when you have them.";
+					close;
+			L_BLACKCAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want know about the Black Cat Hairband hairband?";
+				next;
+				menu "Requirements",-,"Make it for me",L_BCAT_MAKE,"Nothing, thanks",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Ah, yes... The ingredients:";
+					mes " ";
+					mes "1 Cat Hairband";
+					mes "200 Soft Feather";
+					mes "1 Black Dye";
+					mes "10,000 Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Well, now that you now the ingredients, what do you want?";
+					next;
+					menu "Make it for me.",L_BCAT_MAKE,"Nothing, thanks",L_ERRNOTHING;
+					close;
+				L_BCAT_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Ah, let's see if you have all the ingredients...";
+					next;
+					checkitem 2213,1,-,L_BCAT_CATH;
+					checkitem 7063,200,-,L_BCAT_SOFT;
+					checkitem 983,1,-,L_BCAT_BLACKDYE;
+					check Zeny >= 10000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Ah, you have everything, I'll make it in a moment...";
+					next;
+					delitem 2213,1;
+					delitem 7063,200;
+					delitem 983,1;
+					set Zeny - 10000;
+					additem 5057,1;
+					goto L_OKENJOY;
+				L_BCAT_CATH:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the Cat Hairband. Come back when you have it.";
+					close;
+				L_BCAT_SOFT:
+					mes "[Custom New Hats Maker]";
+					mes "You are missing the 200 Soft Feathers. Come back when you have them.";
+					close;
+				L_BCAT_BLACKDYE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the Black Dye. Come back when you have it.";
+					close;
+			L_FISHHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Blue Fish Hat?";
+				next;
+				menu "Requirements",-,"Make it for me.",L_FISH_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, yes... The ingredients:";
+					mes " ";
+					mes "1 Rotten Fish";
+					mes "300 Rotten Scale";
+					mes "50 Sashimi";
+					mes "1 Fish Tail";
+					mes "100 Sticky Mucus";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you now the requirements, what do you want?";
+					next;
+					menu "Make it for me",L_FISH_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_FISH_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "First, let's see if you have all the ingredients...";
+					next;
+					checkitem 624,1,-,L_FISH_ROTTEN;
+					checkitem 959,300,-,L_FISH_SCALE;
+					checkitem 1023,1,-,L_FISH_TAIL;
+					checkitem 938,100,-,L_FISH_MUCUS;
+					mes "[Custom New Hats Maker]";
+					mes "Ah, you have everything, I'll make it in a moment...";
+					next;
+					delitem 624,1;
+					delitem 959,300;
+					delitem 1023,1;
+					delitem 938,100;
+					additem 5065,1;
+					goto L_OKENJOY;
+				L_FISH_ROTTEN:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the Rotten Fish, come back when you have it.";
+					close;
+				L_FISH_SCALE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the 300 Rotten Scale, come back when you have them.";
+					close;
+				L_FISH_TAIL:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the Fish Tail, come back when you have them.";
+					close;
+				L_FISH_MUCUS:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the 100 Sticky Mucus, come back when you have them.";
+					close;
+			L_BBBAND:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Burning Blood Bandana?";
+				next;
+				menu "Requirements",-,"Make it for me",L_BBB_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Bandana";
+					mes "1 White Dye";
+					mes "300 Red Muffler";
+					mes "300 Burning Heart";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_BBB_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_BBB_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 2211,1,-,L_BBB_BAND;
+					checkitem 982,1,-,L_BBB_WDYE;
+					checkitem 10019,300,-,L_BBB_REDM;
+					checkitem 7097,300,-,L_BBB_HEART;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 2211,1;
+					delitem 982,1;
+					delitem 10019,300;
+					delitem 7097,300;
+					additem 5070,1;
+					goto L_OKENJOY;
+				L_BBB_BAND:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Bandana, come back when you have it.";
+					close;
+				L_BBB_WDYE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the White Dye, come back when you have it.";
+					close;
+				L_BBB_REDM:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Red Muffler, come back when you have them.";
+					close;
+				L_BBB_HEART:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Burning Heart, come back when you have them.";
+					close;
+			L_COWBOY:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Cowbow Hat?";
+				next;
+				menu "Requirements",-,"Make it for me",L_COWBOY_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Ah! The ingredients...";
+					mes " ";
+					mes "1 Western Grace";
+					mes "108 Claw of the Desert Wolf";
+					mes "108 Soft Leaf";
+					mes "4 Burning Horseshoe";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now what do you want to do?";
+					next;
+					menu "Make it for me",L_COWBOY_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_COWBOY_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "First, I will check the ingredients...";
+					next;
+					checkitem 2248,1,-,L_COWBOY_GRACE;
+					checkitem 7030,108,-,L_COWBOY_CLAW;
+					checkitem 7166,108,-,L_COWBOY_LEAF;
+					checkitem 7120,4,-,L_COWBOY_BURN;
+					mes "[Custom New Hats Maker]";
+					mes "Looks you have them all, give me a moment to make it...";
+					next;
+					delitem 2248,1;
+					delitem 7030,108;
+					delitem 7166,108;
+					delitem 7120,4;
+					additem 5075,1;
+					goto L_OKENJOY;
+				L_COWBOY_GRACE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Western Grace, come back when you have it.";
+					close;
+				L_COWBOY_CLAW:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 108 Claw of Desert Wolf, come back when you have them.";
+					close;
+				L_COWBOY_LEAF:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 108 Soft Leaf, come back when you have them.";
+					close;
+				L_COWBOY_BURN:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 4 Burning Horseshoe, come back when you have them.";
+					close;
+			L_AQUEEN:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Crown of the Mistress?";
+				next;
+				menu "Requirements",-,"Make it for me",L_AQUEEN_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Queen Hair Ornament";
+					mes "1 Emperium";
+					mes "3 Gold";
+					mes "and you'll need to bring some Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_AQUEEN_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_AQUEEN_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 10006,1,-,L_AQUEEN_ORNAMENT;
+					checkitem 714,1,-,L_AQUEEN_EMPER;
+					checkitem 969,3,-,L_AQUEEN_GOLD;
+					check Zeny >= 5000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 10006,1;
+					delitem 714,1;
+					delitem 969,3;
+					set Zeny - 5000;
+					additem 5080,1;
+					goto L_OKENJOY;
+				L_AQUEEN_ORNAMENT:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Queen Hair Ornament, come back when you have it.";
+					close;
+				L_AQUEEN_EMPER:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Emperium, come back when you have it.";
+					close;
+				L_AQUEEN_GOLD:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 3 Gold, come back when you have them.";
+					close;
+			L_CMISTRESS:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Crown of the Mistress?";
+				next;
+				menu "Requirements",-,"Make it for me",L_CMIST_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Coronet";
+					mes "1 Emperium";
+					mes "3 Gold";
+					mes "and you'll need to bring some Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_CMIST_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_CMIST_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 2249,1,-,L_CMIST_CORONET;
+					checkitem 714,1,-,L_CMIST_EMPER;
+					checkitem 969,3,-,L_CMIST_GOLD;
+					check Zeny >= 5000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 2249,1;
+					delitem 714,1;
+					delitem 969,3;
+					set Zeny - 5000;
+					additem 5081,1;
+					goto L_OKENJOY;
+				L_CMIST_CORONET:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Coronet, come back when you have it.";
+					close;
+				L_CMIST_EMPER:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Emperium, come back when you have it.";
+					close;
+				L_CMIST_GOLD:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 3 Gold, come back when you have them.";
+					close;
+			L_DROOPHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Drooping Hat?";
+				next;
+				menu "Requirements",-,"Make it for me.",L_DROOP_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Of course, the requirements are:";
+					mes " ";
+					mes "1 Slotted Circlet";
+					mes "1 Black Dye";
+					mes "300 Cat Doll";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you now the requirements, what do you want?";
+					next;
+					menu "Make it for me",L_DROOP_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_DROOP_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "First, let's see if you have all the ingredients...";
+					next;
+					checkitem 2233,1,-,L_DROOP_CIRC;
+					checkitem 983,1,-,L_DROOP_BDYE;
+					checkitem 7206,300,-,L_DROOP_CDOLL;
+					mes "[Custom New Hats Maker]";
+					mes "Ah, you have everything, I'll make it in a moment...";
+					next;
+					delitem 2233,1;
+					delitem 983,1;
+					delitem 7206,300;
+					additem 5058,1;
+					goto L_OKENJOY;
+				L_DROOP_CIRC:
+					mes "[Custom New Hats Maker]";
+					mes "You are missing the Slotted Circlet, come back when you have it.";
+					close;
+				L_DROOP_BDYE:
+					mes "[Custom New Hats Maker]";
+					mes "You are missing the Black Dye, come back when you have it.";
+					close;
+				L_DROOP_CDOLL:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Cat Doll, come back when you have them.";
+					close;
+			L_EARANGEL:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Ears of the Angel?";
+				next;
+				menu "Requirements",-,"Make it for me",L_EANG_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Angel Hearband";
+					mes "1 Elven Ears";
+					mes "20,000 Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_EANG_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_EANG_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 2254,1,-,L_EANG_ANGEL;
+					checkitem 2286,1,-,L_EANG_ELVEN;
+					check Zeny >= 20000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 2254,1;
+					delitem 2286,1;
+					set Zeny - 20000;
+					additem 5068,1;
+					goto L_OKENJOY;
+				L_EANG_ANGEL:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Angel Hearband, come back when you have it.";
+					close;
+				L_EANG_ELVEN:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Elven Ears, come back when you have it.";
+					close;
+			L_EARDEVIL:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Ears of the Devil?";
+				next;
+				menu "Requirements",-,"Make it for me",L_EDEV_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Evil Hearband";
+					mes "1 Elven Ears";
+					mes "20,000 Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_EDEV_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_EDEV_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 2255,1,-,L_EDEV_EVIL;
+					checkitem 2286,1,-,L_EDEV_ELVEN;
+					check Zeny >= 20000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 2255,1;
+					delitem 2286,1;
+					set Zeny - 20000;
+					additem 5068,1;
+					goto L_OKENJOY;
+				L_EDEV_EVIL:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Evil Hearband, come back when you have it.";
+					close;
+				L_EDEV_ELVEN:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Elven Ears, come back when you have it.";
+					close;
+			L_FLOWERH:
+				mes "[Custom New Hats Maker]";
+				mes "Ah! So do you want to know more about the Flower Hairpin...";
+				mes "Allright! What do you want about it?";
+				next;
+				menu "Requirements",-,"Make it for me",L_FH_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "So do you want to know how to get one of those?";
+					mes "I'll tell you, remember, I'm the one making it, nobody else knows... *grin*";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "You need:";
+					mes "1 Romantic Leaf";
+					mes "10 Steel";
+					mes "And also need 20,000 zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So? What do you say?";
+					mes "You want me to make it or what?";
+					next;
+					menu "Yes, make it for me",L_FH_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_FH_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "So you think you have all that's necesary for it?";
+					mes "Let's see!";
+					next;
+					checkitem 999,10,-,L_FH_STEEL;
+					checkitem 2270,1,-,L_FH_ROMANT;
+					check Zeny >= 20000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Amazing! You really have all the ingredients!";
+					mes "I'll make it right away";
+					next;
+					delitem 999,10;
+					delitem 2270,1;
+					set Zeny - 20000;
+					additem 5061,1;
+					goto L_OKENJOY;
+				L_FH_STEEL:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you are missing Steel...";
+					mes "Remember, you need 10 of them, come back when you have them.";
+					close;
+				L_FH_ROMANT:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you're missing the Romantic Leaf.";
+					mes "You need 1 of that to make the Flower Hairpin.";
+					mes "Come back when you have all the materials.";
+					close;
+			L_WOOLHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Wool Hat?";
+				next;
+				menu "Requirements",-,"Make it for me",L_WOOL_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Cap";
+					mes "500 Fur of Goat";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_WOOL_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_WOOL_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 2226,1,-,L_WOOL_CAP;
+					checkitem 7107,500,-,L_WOOL_FUR;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 2226,1;
+					delitem 7107,500;
+					additem 5076,1;
+					goto L_OKENJOY;
+				L_WOOL_CAP:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Cap, come back when you have it.";
+					close;
+				L_WOOL_FUR:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 500 Fur of Goat, come back when you have them.";
+					close;
+			L_FOXMASK:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Fox Mask?";
+				next;
+				menu "Requirements",-,"Make it for me.",L_FOXMASK_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Of course, the required ingredients are:";
+					mes " ";
+					mes "999 Fox's Tail";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Well, now that you now the ingredients, what do you want?";
+					next;
+					menu "Make it for me.",L_FOXMASK_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_FOXMASK_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check the ingredients.";
+					next;
+					checkitem 1022,999,-,L_FOXMASK_TAIL;
+					mes "[Custom New Hats Maker]";
+					mes "Nice, you have them.";
+					mes "I'll make it right away.";
+					next;
+					delitem 1022,999;
+					additem 5069,1;
+					goto L_OKENJOY;
+				L_FOXMASK_TAIL:
+					mes "[Custom New Hats Maker]";
+					mes "You are missing the only ingredient, 999 Fox Tails.";
+					mes "Come back when you have it.";
+					close;
+			L_INDIANHAIR:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Indian Hairband?";
+				next;
+				menu "Requirements",-,"Make it for me",L_IHAIR_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Native Hairband";
+					mes "1 Striped Bandana";
+					mes "10 Peco's Feather";
+					mes "and 10,000 Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_IHAIR_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_IHAIR_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 5010,1,-,L_IHAIR_NATIVE;
+					checkitem 5049,1,-,L_IHAIR_STRIPED;
+					checkitem 7101,10,-,L_IHAIR_WING;
+					check Zeny >= 10000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 5010,1;
+					delitem 5049,1;
+					delitem 7101,10;
+					set Zeny - 10000;
+					additem 5071,1;
+					goto L_OKENJOY;
+				L_IHAIR_NATIVE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Native Hairband, come back when you have it.";
+					close;
+				L_IHAIR_STRIPED:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Stripped Hairband, come back when you have it.";
+					close;
+				L_IHAIR_WING:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 10 Peco's Feather, come back when you have them.";
+					close;
+			L_GOLDENBELL:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Large Goldenbell?";
+				next;
+				menu "Requirements",-,"Make it for me",L_GBELL_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Goldenbell";
+					mes "1 Emperium";
+					mes "3 Gold";
+					mes "and you'll need to bring some Zeny";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_GBELL_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_GBELL_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 10016,1,-,L_GBELL_BELL;
+					checkitem 714,1,-,L_GBELL_EMPER;
+					checkitem 969,3,-,L_GBELL_GOLD;
+					check Zeny >= 5000,-,L_ERRZENY;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 10016,1;
+					delitem 714,1;
+					delitem 969,3;
+					set Zeny - 5000;
+					additem 5091,1;
+					goto L_OKENJOY;
+				L_GBELL_BELL:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Goldenbell, come back when you have it.";
+					close;
+				L_GBELL_EMPER:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Emperium, come back when you have it.";
+					close;
+				L_GBELL_GOLD:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 3 Gold, come back when you have them.";
+					close;
+			L_MASKALARM:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Mask of Alarm?";
+				next;
+				menu "Requirements",-,"Make it for me",L_MALARM_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Scratch Mask";
+					mes "300 Needle of Alarm";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me",L_MALARM_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_MALARM_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 1095,300,-,L_MALARM_NEEDLE;
+					checkitem 2297,1,-,L_MALARM_SCRATCH;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. I'll make it in a moment...";
+					next;
+					delitem 2297,1;
+					delitem 1095,300;
+					additem 5086,1;
+					goto L_OKENJOY;
+				L_MALARM_NEEDLE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Needle of Alarm, come back when you have them.";
+					close;
+				L_MALARM_SCRATCH:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Scratch Mask, come back when you have it.";
+					close;
+			L_MUSHHAIR:
+				mes "[Custom New Hats Maker]";
+				mes "Ah! So do you want to know more about the Mushroom Hairband...";
+				mes "Allright! What do you want about it?";
+				next;
+				menu "Requirements",-,"Make it for me",L_MHAIR_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "So do you want to know how to get one of those?";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "You need:";
+					mes "300 Mushroom Spore";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So? What do you say?";
+					mes "You want me to make it or what?";
+					next;
+					menu "Yes, make it for me",L_MHAIR_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_MHAIR_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "So you think you have all that's necesary for it?";
+					mes "Let's see!";
+					next;
+					checkitem 921,300,-,L_MHAIR_SPORE;
+					mes "[Custom New Hats Maker]";
+					mes "Amazing! You really have all the ingredients!";
+					mes "I'll make it right away";
+					next;
+					delitem 921,300;
+					additem 5082,1;
+					goto L_OKENJOY;
+				L_MHAIR_SPORE:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you are missing the only ingredient Mushroom Spore...";
+					mes "Remember, you need 300 of them, come back when you have them.";
+					close;
+			L_HEROHELM:
+				mes "[Custom New Hats Maker]";
+				mes "What?! Are you sure you want to sign up on que Orc Hero Helm quest?";
+				next;
+				menu "Yes",-,"No",L_ERRNOTHING;
+					set HEROHELM = 1;
+					set JELLOPY = 0;
+					set VOUCHER = 0;
+					set HQUEST_THREE = 0;
+					set HQUEST_FIVE = 0;
+					set HQUEST_FINAL = 0;
+					mes "[Custom New Hats Maker]";
+					mes "Oh, you sure have a lot of time to spend in this.";
+					next;
+					goto L_HQUEST_ONE;
+				L_HQUEST_ONE:
+					check JELLOPY < 10000,-,L_HQUEST_TWO;
+					checkitem 909,2000,-,L_HQUEST_JELL;
+					delitem 909,2000;
+					set JELLOPY + 2000;
+					mes "[Custom New Hats Maker]";
+					mes "Nice, you have $[JELLOPY] Jellopies already, come on! Bring more!";
+					close;
+				L_HQUEST_JELL:
+					mes "[Custom New Hats Maker]";
+					mes "Bring me 10,000 Jellopy.";
+					mes "I'll check for 2,000 each time, since you can't carry 10,000 at once.";
+					close;
+				L_HQUEST_TWO:
+					check HQUEST_THREE = 0,-,L_HQUEST_THREE;
+					checkitem 931,100,-,L_HQUEST_ERRVOUCH;
+					delitem 931,100;
+					set HQUEST_THREE = 1;
+					goto L_HQUEST_THREE;
+				L_HQUEST_THREE:
+					check VOUCHER < 10000,-,L_HQUEST_FOUR;
+					checkitem 931,2000,-,L_HQUEST_VQUEST;
+					delitem 931,2000;
+					set VOUCHER + 2000;
+					mes "[Custom New Hats Maker]";
+					mes "Nice, you have $[VOUCHER] Orcish Voucher already, come on! Bring more!";
+					close;
+				L_HQUEST_VQUEST:
+					mes "[Custom New Hats Maker]";
+					mes "Bring me 10,000 Orcish Voucher. I'll check for 2,000 each time.";
+					close;
+				L_HQUEST_FOUR:
+					check HQUEST_FIVE = 0,-,L_HQUEST_FIVE;
+					additem 968,1;
+					additem 2299,1;
+					SET HQUEST_FIVE = 1;
+					goto L_HQUEST_FIVE;
+				L_HQUEST_FIVE:
+					check HQUEST_FINAL = 0,-,L_HQUEST_FINAL;
+					mes "[Custom New Hats Maker]";
+					mes "Now for the final part, I want you to bring me...";
+					mes " ";
+					mes "1 Orc Helm";
+					mes "100 Heroic Emblem";
+					next;
+					set HQUEST_FINAL = 1;
+					mes "[Custom New Hats Maker]";
+					mes "When you bring me those, I'll make you the Orc Hero Helm.";
+					close;
+				L_HQUEST_FINAL:
+					checkitem 2299,1,-,L_HQUEST_ERRHELM;
+					checkitem 968,100,-,L_HQUEST_ERREMBLEM;
+					mes "[Custom New Hats Maker]";
+					mes "Congratulations! You have fulfilled all the steps to make the Orc Hero Helm, so I'll make it for you in a moment.";
+					next;
+					delitem 968,1;
+					delitem 2299,100;
+					additem 5094,1;
+					set HQUEST_FINAL = 0;
+					set HQUEST_FIVE = 0;
+					set HQUEST_THREE = 0;
+					set JELLOPY = 0;
+					set HEROHELM = 0;
+					set VOUCHER = 0;
+					goto L_OKENJOY;
+				L_HQUEST_ERRHELM:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Orc Helm, come back when you have it.";
+					close;
+				L_HQUEST_ERREMBLEM:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 100 Heroic Emblem, come back when you have them.";
+					close;
+				L_HQUEST_ERRVOUCH:
+					mes "[Custom New Hats Maker]";
+					mes "Now bring me 100 Orcish Voucher.";
+					close;
+			L_POINTYCAP:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Pointy Cap?";
+				next;
+				menu "Requirements",-,"Make it for me",L_POINTY_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "1 Santa Hat";
+					mes "100 Waxed Paper";
+					mes "100 Oily Paper";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So, what do you want to do now?";
+					next;
+					menu "Make it for me",L_POINTY_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_POINTY_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "I have to check the ingredients first...";
+					next;
+					checkitem 2236,1,-,L_POINTY_SANTA;
+					checkitem 7111,100,-,L_POINTY_WAXED;
+					checkitem 7151,100,-,L_POINTY_OILY;
+					mes "[Custom New Hats Maker]";
+					mes "Looks you have everything. I will make it in a moment...";
+					next;
+					delitem 2236,1;
+					delitem 7111,100;
+					delitem 7151,100;
+					additem 5060,1;
+					goto L_OKENJOY;
+				L_POINTY_SANTA:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Santa Hat, come back when you have it.";
+					close;
+				L_POINTY_WAXED:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 100 Waxed Paper, come back when you have them.";
+					close;
+				L_POINTY_OILY:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 100 Oily Paper, come back when you have them.";
+					close;
+			L_TEACHERS:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Posture Fix Hat?";
+				next;
+				menu "Requirements",-,"Make it for me.",L_TEACH_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, yes... the ingredients:";
+					mes " ";
+					mes "1 Apple of Archer";
+					mes "1 Book";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the ingredients, what do you want?";
+					next;
+					menu "Make it for me.",L_TEACH_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_TEACH_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Before doing anything, let's check the ingredients...";
+					next;
+					checkitem 2285,1,-,L_TEACH_APPLE;
+					checkitem 1550,1,-,L_TEACH_BOOK;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything, I'll make it in a moment...";
+					next;
+					delitem 2285,1;
+					delitem 1550,1;
+					additem 5073,1;
+					goto L_OKENJOY;
+				L_TEACH_APPLE:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Apple of Archer, come back when you have it.";
+					close;
+				L_TEACH_BOOK:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Book, come back when you have it.";
+					close;
+			L_RACCHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Raccoon Hat?";
+				next;
+				menu "Requirements",-,"Make it for me.",L_RACC_MAKE,"Nothing, thanks",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "I almost missed that, the requirements:";
+					mes " ";
+					mes "1000 Acorn";
+					mes "100 Sea Otter Fur";
+					mes "10 Raccoon Leaf";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "What do you want know that you know the ingredients?";
+					next;
+					menu "Make it for me.",L_RACC_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_RACC_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check if you have everything...";
+					next;
+					checkitem 1026,1000,-,L_RACC_ACORN;
+					checkitem 7065,100,-,L_RACC_OTTER;
+					checkitem 945,10,-,L_RACC_LEAF;
+					mes "[Custom New Hats Maker]";
+					mes "Good, I'll make it now...";
+					next;
+					delitem 1026,1000;
+					delitem 7065,100;
+					delitem 945,10;
+					additem 5084,1;
+					goto L_OKENJOY;
+				L_RACC_ACORN:
+					mes "[Custom New Hats Maker]";
+					mes "You missed the 1000 Acorns, come back when you have them.";
+					close;
+				L_RACC_OTTER:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot the 100 Sea Otter Fur, come back when you have them.";
+					close;
+				L_RACC_LEAF:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to get the 10 Raccoon Leaf, come back when you have them.";
+					close;
+			L_OTTERHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Sea Otter Hat?";
+				next;
+				menu "Requirements",-,"Make it for me",L_OTTER_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, yes... The ingredients:";
+					mes " ";
+					mes "1 Raccoon Hat";
+					mes "1 Transform Leaf Hat";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So, what do you want to do now?";
+					next;
+					menu "Make it for me",L_OTTER_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_OTTER_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "First, I have to check for the ingredients...";
+					next;
+					checkitem 5084,1,-,L_OTTER_RACC;
+					checkitem 5064,1,-,L_OTTER_TRANS;
+					mes "[Custom New Hats Maker]";
+					mes "You have everything, I will make it in just a moment...";
+					next;
+					delitem 5084,1;
+					delitem 5064,1;
+					additem 5078,1;
+					goto L_OKENJOY;
+				L_OTTER_RACC:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Raccoon Hat, come back when you have it.";
+					close;
+				L_OTTER_TRANS:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Transform Leaf Hat, come back when you have it.";
+					close;
+			L_SOMBRERO:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Sombrero?";
+				next;
+				menu "Requirements",-,"Make it for me",L_SOMB_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Of course, the ingredients...";
+					mes " ";
+					mes "1 Straw Hat";
+					mes "1 Guitar";
+					mes "50 Cactus Needle";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "What do you want to do, now that you know the ingredients?";
+					next;
+					menu "Make it for me",L_SOMB_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_SOMB_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Ah, let's check for the ingredients first...";
+					next;
+					checkitem 5062,1,-,L_SOMB_STRAW;
+					checkitem 1907,1,-,L_SOMB_GUITAR;
+					checkitem 952,50,-,L_SOMB_CACTUS;
+					mes "[Custom New Hats Maker]";
+					mes "Good, you have everything. Give me a moment...";
+					next;
+					delitem 5062,1;
+					delitem 1907,1;
+					delitem 952,50;
+					additem 5067,1;
+					goto L_OKENJOY;
+				L_SOMB_STRAW:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Straw Hat, come back when you have it.";
+					close;
+				L_SOMB_GUITAR:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Guitar, come back when you have it.";
+					close;
+				L_SOMB_CACTUS:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 50 Cactus Needle, come back when you have them.";
+					close;
+			L_STRAWHAT:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want about the Straw Hat?";
+				next;
+				menu "Requirements",-,"Make it for me",L_STRAW_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Of course, the ingredients...";
+					mes " ";
+					mes "1 Sakkat";
+					mes "300 Heart of the Woods";
+					mes "300 Bamboo Sculpture";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know the requirements, what do you want?";
+					next;
+					menu "Make it for me",L_STRAW_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_STRAW_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Yes, let me check for the ingredients first...";
+					next;
+					checkitem 2280,1,-,L_STRAW_SAKK;
+					checkitem 7189,300,-,L_STRAW_WOOD;
+					checkitem 7150,300,-,L_STRAW_BAMBOO;
+					mes "[Custom New Hats Maker]";
+					mes "Looks you have everything, I will make it in just a moment...";
+					next;
+					delitem 2280,1;
+					delitem 7189,300;
+					delitem 7150,300;
+					additem 5062,1;
+					goto L_OKENJOY;
+				L_STRAW_SAKK:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the Sakkat, come back when you have it.";
+					close;
+				L_STRAW_WOOD:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Heart of the Wood, come back when you have them.";
+					close;
+				L_STRAW_BAMBOO:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the 300 Bamboo Sculpture, come back when you have them.";
+					close;
+			L_TRANSLEAF:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Transform Leaf Hat?";
+				next;
+				menu "Requirements",-,"Make it please",L_TRANS_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Yes, the ingredients...";
+					mes " ";
+					mes "300 Raccoon Leaf";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Now that you know, what do you want?";
+					next;
+					menu "Make it, please",L_TRANS_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_TRANS_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Let's check first if you have everything...";
+					next;
+					checkitem 945,300,-,L_TRANS_LEAF;
+					mes "[Custom New Hats Maker]";
+					mes "Allright! You have everything...";
+					mes "I will make it in a moment.";
+					next;
+					delitem 945,300;
+					additem 5064,1;
+					goto L_OKENJOY;
+				L_TRANS_LEAF:
+					mes "[Custom New Hats Maker]";
+					mes "You forgot to bring the only ingredient, 300 Raccoon Leaf...";
+					mes "Come back when you have it.";
+					close;
+			L_TULIPHAIR:
+				mes "[Custom New Hats Maker]";
+				mes "What do you want to know about the Tulip Hairband?";
+				next;
+				menu "Requirements",-,"Make it for me",L_TULIP_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "Ah! Of course, in order to make it, you need to know the ingredients...";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "Well, here they are:";
+					mes " ";
+					mes "1 Mr Smilie";
+					mes "1 Scarlet Dye";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "As you can see, there are few ingredients and they are not hard to get...";
+					mes " ";
+					mes "Do you want me to make it?";
+					next;
+					menu "Yes, please",L_TULIP_MAKE,"No, thanks",L_ERRNOTHING;
+				L_TULIP_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "Good choice, you will not regret it.";
+					mes "Let's see if you have all the requirements so I can make it...";
+					next;
+					checkitem 2278,1,-,L_TH_SMILIE;
+					checkitem 975,1,-,L_TH_REDDYE;
+					mes "[Custom New Hats Maker]";
+					mes "So you have all the necessary ingredients...";
+					mes "Very good, I'll make for you in just a moment.";
+					next;
+					delitem 2278,1;
+					delitem 975,1;
+					additem 5077,1;
+					goto L_OKENJOY;
+				L_TH_SMILIE:
+					mes "[Custom New Hats Maker]";
+					mes "You are missing the Mr Smilie...";
+					mes "Come back when you have it.";
+					close;
+				L_TH_REDDYE:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you forgot to bring the Scarlet Dye...";
+					mes "We'll see again when you have it.";
+					close;
+			L_XHAIRPIN:
+				mes "[Custom New Hats Maker]";
+				mes "Ah! So do you want to know more about the uncommon X Shaped Hairpin...";
+				mes "Allright! What do you want about it?";
+				next;
+				menu "Requirements",-,"Make it for me",L_XH_MAKE,"Nothing",L_ERRNOTHING;
+					mes "[Custom New Hats Maker]";
+					mes "So do you want to know how to get one of those?";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "You need:";
+					mes " ";
+					mes "1 Stellar";
+					mes "400 Ectoplasm";
+					next;
+					mes "[Custom New Hats Maker]";
+					mes "So? What do you say?";
+					mes "You want me to make it or what?";
+					next;
+					menu "Yes, make it for me",L_XH_MAKE,"Nothing, thanks",L_ERRNOTHING;
+				L_XH_MAKE:
+					mes "[Custom New Hats Maker]";
+					mes "So you think you have all that's necesary for it?";
+					mes "Let's see!";
+					next;
+					checkitem 7220,400,-,L_XH_ECTO;
+					checkitem 2294,1,-,L_XH_STEL;
+					mes "[Custom New Hats Maker]";
+					mes "Amazing! You really have all the ingredients!";
+					mes "I'll make it right away";
+					next;
+					delitem 7220,400;
+					delitem 2294,1;
+					additem 5079,1;
+					goto L_OKENJOY;
+				L_XH_ECTO:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you are missing Ectoplasm...";	
+					mes "Remember, you need 400 of them, come back when you have them.";
+					close;
+				L_XH_STEL:
+					mes "[Custom New Hats Maker]";
+					mes "Heh, you're missing the Stellar.";
+					mes "You need 1 of that to make the X Hairpin.";
+					mes "Come back when you have all the materials.";
+					close;
+	L_OKENJOY:
+		mes "[Custom New Hats Maker]";
+		mes "There you go.";
+		mes "Enjoy it, $charaname. ^_^";
+		close;
+	L_ERRZENY:
+		mes "[Custom New Hats Maker]";
+		mes "Hey! You didnt bring the money!";
+		mes "Come back when you have it.";
+		close;
+	L_ERRNOTHING:
+		mes "[Custom New Hats Maker]";
+		mes "You could decide yourself...";
+		mes "Well, come back when you have it more clearly. ^_^";
+		mes "See you!";
+		close;
+}

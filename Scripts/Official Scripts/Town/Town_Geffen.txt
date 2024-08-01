@@ -1,0 +1,830 @@
+geffen.gat,59,143,0 script "Lady" 91,{
+	mes "[Kind Woman]";
+	mes "Oh, you must be a stranger here. Welcome to Geffen, the city of magic. You must be very tired, aren't you? Why don't you eat some Honey? It will relieve you of your fatigue~";
+	mes "Hornets, the Bee family living in Grassland, gather Honey at the queen bee's Command, for Their entire life. Honey is very sweet and of high nutritive value, so it is the one of high-priced articles.";
+	next;
+	mes "[Kind Woman]"
+	mes "But it doesn't mean Honey is the best of bee products.";
+	mes "A rumor has it that is nothing compare with the 'Royal Jelly' from the Queen bee.";
+	mes "Ah~thinking of Royal Jelly makes my mouth water~";
+	close;
+}
+
+geffen.gat,156,190,0 script "Researcher" 82,{
+	mes "[Researcher]";
+	mes "Hmm... Interesting.  Hmm... It is Very interesting....";
+	next;
+	mes "[Researcher]";
+	mes "Oh, you've come at just the right time.  Let me tell you about something I just discovered.";
+	next;
+	mes "[Researcher]";
+	mes "You see, I found this Mysterious Scroll when I was researching Magic.  In the scroll there is a description of a tree named ^008800Yggdrasill^000000.";
+	mes "It says that the leaves, seeds, and fruits of this tree are somehow connected to the creation and preservation of life in this world.";
+	next;
+	mes "[Researcher]";
+	mes "I've never actually come across the leaves, seeds, or fruits of the Yggdrasill, let alone the tree itself..... but.....";
+	next;
+	mes "[Researcher]";
+	mes "The idea of a tree of life is quite amazing! Don't you think so?";
+	close;
+
+}
+
+geffen_in.gat,164,109,0	script "Dark Wizard" 64,{
+	mes "[Dark Wizard]";
+	mes "Oh...I can feel fresh and mighty spirits. Oh...Is that you? You seem to use magic as well.";
+	mes "Magic...the power of magic is controlled by the rule of cause and effect...";
+	next;
+	mes "[Dark Wizard]";
+	mes "That is, if you use magic for the purpose of doing harm to others, or against the rule of mother nature,then the reaction will be back to you. Remember you reap what you sow.";
+	next;
+	mes "[Dark Wizard]";
+	mes "But, if it's an item that protects the caster from the reaction, you can use magic safely with it. Those kind of items are the shining stones known as Gemstones.";
+	mes "Gemstone...Keep in mind of this item.";
+	close;
+}
+
+geffen.gat,147,26,0 script "Young man" 97,{
+	mes "[Young Man]";
+	mes "I heard that somewhere in this world, there is a rare staff which transforms its owner's psychic power into phisycal powers, and endows with destructive force also...";
+	mes "With this, everybody could be as strong as Hercules, despite their lack of muscles. Haw haw...I will take it.";
+	next;
+	mes "[Young Man]";
+	mes "Good heavens! You, since when were you behind me?";
+	mes "Did you happen to hear what I said? Ha ma...Muhaha. I didn't say anything. If you heard anything from me, just forget~Forget about it~";
+	mes "Yay~ veggie is cheap today~come on!!";
+	close;
+}
+
+geffen.gat,111,48,0 script "Kind Woman" 101,{
+	mes "[Kind Woman]";
+	mes "Good Day, adventurer? Have you ever happened to see Orcs, the demi-human tribe?";
+	mes "When you go down to the Southward from here, in the deep forest, you will meet Orcs.";
+	next;
+	mes "[Kind Woman]";
+	mes "They have, as Human, their own language and culture by hearsay.";
+	mes "What I wonder is...Would they whisper sweet nothings and fool around? Hmm...I am so curious.";
+	close;
+}
+
+geffen_in.gat,34,170,0 script "Young man" 47,{
+	mes "[Young Man]";
+	mes "Hello? Isn't it wonderful, today? I am a promising young Mage. Ahem.";
+	mes "Nowadays, my mental anguish about magic things keeps me awake every night..sigh...Especially, about the weak point of magic, you know.";
+	next;
+	mes "[Young Man]";
+	mes "Darn! It was really annoying when I encountered that long-ranged enemy last time. It disrupted magic casting.";
+	mes "After all I realised I need a weapon to counter Such a long-ranged attack from an enemy....But geez..It is not easy to make such a weapon I wish.";
+	next;
+	mes "There should be another way.....Should be.....";
+	mes "Any ideas for me?";
+	close;
+}
+
+geffen_in.gat,110,172,0	script "Christopher" 63,{
+	mes "[Christopher Guillenrow]";
+	mes "Welcome to Christopher's Workshop.";
+	mes "You can get every item to forge here.";
+	mes "My dear...What business brings you to me?";
+	next;
+	menu "Purchase Anvil",L_MENU_1,"Purchase Forging Item",L_MENU_2,"Purchase Metal",L_MENU_3,"Purify Rough Ores",L_MENU_4,"Cancel",L_MENU_5;
+L_MENU_1:
+	mes "[Christopher Guillenrow]";
+	mes "A better Anvil gives you more chances to make better weapons, you know.";
+	mes "But it will cost you more money than the common one.";
+	mes "Just get off your chest and choose the best one for your convenience.";
+	next;
+	menu "Anvil - 30,000 Zeny",L_MENU_1A,"Oridecon Anvil - 120,000 Zeny",L_MENU_1B,"Golden Anvil - 300,000 Zeny",L_MENU_1C,"Better Anvil than others.",L_MENU_1D,"Cancel",L_MENU_1E;
+L_MENU_1A:
+	   check Zeny >= 30000,-,L_MENU_1A_1;
+	   checkadditem 986,1,-,L_MENU_1A_2;
+	   set Zeny -= 30000,0;
+	   additem 986,1;
+	mes "[Christopher Guillenrow]";
+	mes "This is the cheapest one but efficient to forge.";
+	mes "Thank you for shopping at my workshop. Feel free to come anytime, whenever you need.";
+	close;
+L_MENU_1A_1:
+	mes "[Christopher Guillenrow]";
+	mes "I don't think I can let you have this...at lower price. I can't lose my money because of you.";
+	close;
+L_MENU_1A_2:
+	mes "[Christopher Guillenrow]";
+	mes "Overweight...";
+	close;
+L_MENU_1B:
+	   check Zeny >= 120000,-,L_MENU_1A_1;
+	   checkadditem 987,1,-,L_MENU_1A_2;
+	   set Zeny -= 120000,0;
+	   additem 987,1;
+	mes "[Christopher Guillenrow]";
+	mes "Oh, buddy you have an eye for anvils. This must be the proper anvil for a Blacksmith, right?";
+	mes "Thank you for shopping at my workshop. Feel free to come anytime, whenever you need.";
+	close;
+L_MENU_1C:
+	   check Zeny >= 300000,-,L_MENU_1A_1;
+	   checkadditem 988,1,-,L_MENU_1A_2;
+	   set Zeny -= 300000,0;
+	   additem 988,1;
+	mes "[Christopher Guillenrow]";
+	mes "This one is the best among Anvils in my workshop!";
+	mes "With this, you could rule the Blacksmith world!";
+	mes "Thank you for shopping at my workshop. Feel free to come anytime, whenever you need.";
+	close;
+L_MENU_1D:
+	mes "[Christopher Guillenrow]";
+	mes "Well sorry but I don't have anvils harder than a golden anvil.";
+	mes "Maybe 'Ringgel' the legendary Anvil maker would have one...But I don't think you can find him somewhere in this world.";
+	close;
+L_MENU_1E:
+	mes "[Christopher Guillenrow]";
+	mes "Ok, feel free to come anytime, whenever you need. Farewell.";
+	close;
+L_MENU_2:
+	mes "[Christopher Guillenrow]";
+	mes "A respectable blacksmith uses fine tools!";
+	mes "You will become one with my Anvils.";
+	mes "Choose anything you want.";
+	next;
+	menu "Mini-Furnace - 150 Zeny",L_MENU_2A,"Iron Hammer - 1,000 Zeny",L_MENU_2B,"Golden Hammer- 3,000 Zeny",L_MENU_2C,"Oridecon Hammer - 5,000 Zeny",L_MENU_2D,"Cancel",L_MENU_2E;
+L_MENU_2A:
+	mes "[Christopher Guillenrow]";
+	mes "It's a tool requisite for Metal refining!!";
+	next;
+	   set @BUY_PRICE = 150;
+	   set @BUY_ID = 612;
+	goto L_SUB_2;
+L_MENU_2B:
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 613;
+	goto L_SUB_2;
+L_MENU_2C:
+	   set @BUY_PRICE = 3000;
+	   set @BUY_ID = 614;
+	goto L_SUB_2;
+L_MENU_2D:
+	   set @BUY_PRICE = 5000;
+	   set @BUY_ID = 615;
+L_SUB_2:
+	mes "[Christopher Guillenrow]";
+	mes "So, how many do you wish to buy? If you want to quit, please note the number as '0'.";
+	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM == 0,L_MENU_2E,-;
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_ROOT_2_1;
+	   checkadditem @BUY_ID,@BUY_NUM,-,L_ROOT_2_2;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+	mes "[Christopher Guillenrow]";
+	mes "Thank you for shopping at my workshop. Feel free to come anytime, whenever you need.";
+	close;
+L_ROOT_2_1:
+	mes "[Christopher Guillenrow]";
+	mes "I don't think I can let you have this...at lower price. I can't lose my money because of you.";
+	close;
+L_ROOT_2_2:
+	mes "[Christopher Guillenrow]";
+	mes "You...look pale. Please adjust the Inventory and come back before purchasing.";
+	close;
+L_MENU_2E:
+	mes "[Christopher Guillenrow]";
+	mes "Thank you for shopping at my workshop. Feel free to come anytime, whenever you need.";
+	close;
+L_MENU_3:
+	mes "[Christopher Guillenrow]";
+	mes "I prepare every metal, only high quality ones.";
+	mes "Now then. Which one do you want?";
+	next;
+	menu "Phracon",L_MENU_3A,"Emveretarcon",L_MENU_3B,"Cancel",L_MENU_3C;
+L_MENU_3A:
+	 mes "[Christopher Guillenrow]";
+ 	mes "Phracon costs 200 zeny per piece.";
+	   set @BUY_PRICE = 200;
+	   set @BUY_ID = 1010;
+	goto L_SUB_3;
+L_MENU_3B:
+	mes "1000 zeny per piece";
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 1011;
+L_SUB_3:
+	mes "So, how many do you wish to buy? If you want to quit, please note the number as '0'.";
+ 	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM == 0,L_MENU_2E,-;
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_ROOT_2_1;
+	   checkadditem 1010,@BUY_NUM,-,L_ROOT_2_2;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+	mes "[Christopher Guillenrow]";
+	mes "Thank you for shopping at my workshop. Feel free to come anytime, whenever you need.";
+	close;
+L_MENU_3C:
+	 mes "[Christopher Guillenrow]";
+ 	mes "Feel free to come anytime, whenever you need. Farewell.";
+ 	close;
+L_MENU_4:
+	mes "[Christopher Guillenrow]";
+	mes "I can purify Oridecon and Elunium.";
+	mes "I can make a cutting Ore out of 5 each rough ones.";
+	mes "Well..Which one do you want to make?";
+	next;
+	menu "Make Oridecon",L_MENU_4A,"Make Elunium",L_MENU_4B,"Cancel",L_MENU_4C;
+L_MENU_4A:
+	   checkitem 756,5,-,L_SUB_4A_1;
+	   delitem 756,5;
+	   additem 984,1;
+	mes "[Christopher Guillenrow]";
+	mes "Here, this is a Oridecon for you. You will be always welcome here, please come again.";
+	close;
+L_SUB_4A_1:
+	mes "[Christopher Guillenrow]";
+	mes "I told you I need 5 rough Oridecons for one Oridecon.";
+	close;
+L_MENU_4B:
+	   checkitem 757,5,-,L_SUB_4B_1;
+	   delitem 757,5;
+	   additem 985,1;
+	mes "[Christopher Guillenrow]";
+	mes "Here, this is Elunium for you. You will be always welcome here, please come again";
+	close;
+L_SUB_4B_1:
+	mes "[Christopher Guillenrow]";
+	mes "I told you I need 5 rough Eluniums for one Elunium.";
+	close;
+L_MENU_4C:
+	mes "[Christopher Guillenrow]";
+	mes "Feel free to come anytime whenever you need, farewell.";
+	close;
+L_MENU_5:
+	mes "[Christopher Guillenrow]";
+	mes "Feel free to come anytime whenever you need, farewell.";
+	close;
+}
+
+geffen.gat,116,58,0 script "Geffen Bulletin" 111,{
+	mes "^993333- The Geffen Bulletin Reads -^000000";
+	mes "Remember Wizard's...It;s not how";
+	mes "many skills you know, it;s the";
+      mes "magic that counts!";
+      close;
+}
+
+geffen.gat,113,104,0 script "Billboard" 111,{
+	mes "^993333- The Geffen Billboard Reads -^000000";
+	mes "Selling: Brand new Chon Chon Doll!";
+	mes "what a great gift to a";
+      mes "loved one, contact me now!";
+	mes "- Name seems to be smeared -";
+	mes " ";
+      mes "Buying: Manteau!";
+	mes "I,m freezing and I have no zeny,";
+	mes "please help me!";
+      mes "Contact Edionyus";
+      close;
+}
+
+geffen.gat,168,175,0 script "Sign" 111,{
+	mes "^993333- The Sign Reads -^000000";
+      mes "'Your always welcomed in Geffen'";
+      close;
+}
+
+geffen.gat,120,189,0 script "Sign Post" 111,{
+	mes "^993333- The Sign Post Reads -^000000";
+      mes "North to Geffen Fields";
+      mes "Northeast to Al De Baran";
+      mes "Northwest to Glastheim";
+      mes "East to Geffen Fields";
+      mes "South to Morroc";
+      mes "Southeast to Alberta";
+      mes "Southwest to Comodo";
+      mes "West to Geffen Fields";
+      close;
+}
+
+geffen.gat,61,74,0 script "Sign" 111,{
+	mes "^993333- The Sign Reads -^000000";
+      mes "- Seems to be written in a language";
+      mes "unfamiliar to you -";
+      close;
+}
+
+geffen_in.gat,70,67,5 script "Waitress" 80,{
+	mes "[Waitress]";
+	mes "Ugh!! SO annoying! Why would you drink here when you could drink at the pub!? This is an Inn, not a pub!!";
+	mes "That man!... everytime he drinks... he gets like that! Ugh!!";
+	   emotion 6;
+	next;
+	mes "[Waitress]";
+	mes "(~yells to the man~)'Hey mister! I TOLD you... THIS.. IS.. AN INN, NOT A BAR!!'";
+	   emotion 32;
+	next;
+	mes "[Waitress]";
+	mes "(~sighs~) That old man in the front corner there gives me a headache.";
+	mes "My younger sister, who works at the pub, told me that there is someone just like him at the Pub.";
+	next;
+	mes "[Waitress]";
+	mes "To think that there are 2 of them in one city... It's JUST ABSURD!!";
+	   emotion 32;
+	next;
+	mes "[Waitress]";
+	mes "(~mumbles~)... I wish they would both just leave this town and be forgotten forever... that would be nice....";
+L_Menu:
+	next;
+	menu "May I have a drink?",L_Menu_1,"Has there been anything interesting lately?",L_Menu_2,"End Conversation",L_End;
+L_Menu_1:
+	mes "[Waitress]";
+	mes "Oh my, I'm sorry but that DRUNKARD swallowed up every last drop of liquior we have.";
+	mes "Everyday it's the same thing... as soon as the Inn opens he comes in and gulps down drink after drink.";
+	next;
+	mes "[Waitress]";
+	mes "It's amazing he hasn't died yet.  Maybe if you came by some other time we'll be restocked... oh who am I kidding....";
+	goto L_Menu;
+L_Menu_2:
+	mes "[Waitress]";
+	mes "Well... of all of the people who have stopped by latelty, there are a group of merchants that have caught my attention.";
+	mes "I could tell right away that they were from out of town.  My younger sister tells me they are from Schubaltzwald...";
+	next;
+	mes "[Waitress]";
+	mes "It really doesn't matter who they are or where they're from, afterall business is business.  They could be from Schuschu Chocolate Land for all I care....";
+	next;
+	mes "[Waitress]";
+	mes "I just wish the amount of local customers would start increasing again, since they are the bulk of my customers.";
+	goto L_Menu;
+L_End:
+	mes "[Waitress]";
+	mes "Have a nice day!";
+	close;
+}
+
+geffen_in.gat,79,75,2 script "Merchant Daven" 61,{
+	mes "[Merchant Daven]";
+	mes "Back in the day when I frist came to Geffen, the town was a very boring place to live in.";
+	next;
+	mes "[Merchant Daven]";
+	mes "But now there are noble Mages and a flourishing community of Blacksmiths, that make Geffen.......";
+	next;
+	mes "[Merchant Daven]";
+	mes ".... still.... a very BORING place to be.... Bleh! I'm really bored here!!!";
+L_Menu:
+	next;
+	menu "-Mages?",L_Menu_0,"-Blacksmiths?",L_Menu_1,"-Who are you?",L_Menu_2,"-End Conversation.",L_End;
+L_Menu_0:
+	mes "[Merchant Daven]";
+	mes "Mages and Wizards love to carry books around with them wherever they go.  That's just how they are.";
+	next;
+	mes "[Merchant Daven]";
+	mes "Mages like to gather at the ^5555FFMagic Academey^000000 where they study the basics of magic use.";
+	next;
+	mes "[Merchant Daven]";
+	mes "After much study and with enough experience, Mages can become Wizards.  Wizards can use much more powerfull magical spells.";
+	mes "You can find them at the top floor of the ^5555FFGeffen Tower^000000.";
+	goto L_Menu;
+L_Menu_1:
+	mes "[Merchant Daven]";
+	mes "Blaksmiths are difficult people.  They are also a dirty bunch, whose faces are often covered with black soot.";
+	mes "No matter where they are or what they do, they always smell of iron and soot.";
+	next;
+	mes "[Merchant Daven]";
+	mes "However, that is something that can't be helped.  Blacksmiths are always hard at work, refining ores, and tempering equipment.";
+	mes "It's just not possible to be a Blacksmith and not be dirty and smelly.  Unfortunately it's part of the job.";
+	next;
+	mes "[Merchant Daven]";
+	mes "Weapons forged by Blacksmiths can be much more unique then those sold in Armories.";
+	mes "The actual ores and stones used by the Blacksmiths are of a much higher quality and are often scarce.";
+	mes "This can give their weapons special qualities that are very benificial to a character.";
+	goto L_Menu;
+L_Menu_2:
+	mes "[Merchant Daven]";
+	mes "Me?.... Oh I'm the world's PRETTIEST street merchant!!..... teh he he...";
+	   emotion 30;
+	next;
+	menu "..... I'm gonna puke....",L_Sub_0,".... SLAPP him upside his head!!!",L_Sub_1;		
+L_Sub_0:
+	mes "[Merchant Daven]";
+	mes "Hehehe.... it was a joke.... a joke ok..... hehehe....";
+	   emotion 18;
+	goto L_Menu;
+L_Sub_1:
+	mes "~^FF8000!!!^FF0000THWAAACCCKKK^FF8000!!!^000000~";
+	next;
+	mes "[Merchant Daven]";
+	mes "OW!! Ok! Ok! I was just kidding.... sheesh....";
+	   emotion 16;
+	goto L_Menu;
+L_End:
+	close;
+}
+
+geffen_in.gat,59,62,2 script "Drunkard" 120,{
+	mes "[Drunkard]";
+	mes "Hmm... You're Joshua's friend too??";
+	next;
+	menu "-Nope.",L_Menu_0,"-Who's that??",L_Menu_1,"-I have no friends.(~sob~)",L_Menu_2;
+L_Menu_0:
+	mes "[Drunkard]";
+	mes "Hmf. Yeah... that dork has no reason to have any friends.  Forget I even asked.";
+	close;
+L_Menu_1:
+	mes "[Drunkard]";
+	mes "Uh... well if you go down this hall to the room on the left... you'll find this dork.";
+	mes "All day long, he just stays in that dark room tempering steel.... who the hell knows what he's making....";
+	next;
+	mes "[Drunkard]";
+	mes "If you're interested you should go talk to him.  From the looks of it, you two would probably get along really well... HAHAHA!";
+	   emotion 18;
+	close;
+L_Menu_2:
+	mes "[Drunkard]";
+	mes "Oh... I see, I see. My appologies.  You seem to be sensative about this.  To think that you have no friends....";
+	mes "Ya know, you remind me of my younger self! Heck... you might end up just like me... heh heh.";
+	next;
+	mes "[Drunkard]";
+	mes "(~sob~sob~).... oh what happened to my life!!!....(~baaaahhhh~)";
+	   emotion 28;
+	next;
+	mes "[Waitress]";
+	mes "ARGH!! STOP being so noisey!";
+	close;
+}
+
+geffen_in.gat,113,73,4 script "Schubaltzwald Merchant" 709,{
+	mes "[Schubaltzwald Merchant]";
+	mes "How are you, Rune-Midgard young'un? I am Schubaltzwald's one and only Hans Hadenhiem.";
+	next;
+	mes "[Schubaltzwald Merchant]";
+	mes "My business associates and I plan to do business, both here in Geffen, and at home in Schubaltzwald.";
+	next;
+	mes "[Schubaltzwald Merchant]";
+	mes "Although Rune-Midgard doesn't seem to have any exciting places to go sight-seeing, it does have a lot of interesting merchandise.";
+	mes "Because of their uniqueness, these items have become quite valuable in my city.";
+	next;
+	mes "[Schubaltzwald Merchant]";
+	mes "Something may be plentifull here, but scarce somewhere else, an item may be popular there but not here....";
+	mes "That is what makes being a merchant so interesting, the variety of items to buy and sell between different places.";
+	next;
+	mes "[Schubaltzwald Merchant]";
+	mes "Of course it would be ideal if a merchant could have a widespread distribution of the same items in different cities.";
+	next;
+	mes "[Schubaltzwald Merchant]";
+	mes "If you're not satisfied with the merchandise, just wait, and some other day what you're looking for may be in stock.";
+	mes "It's a merchant's duty to make the customer happy with the quality of the items being sold!";
+	close;
+}
+
+geffen_in.gat,164,109,2	script "Dark Wizard	64,{
+	check Job = 2,L_Magic,-;
+	check Job = 9,L_Magic,-;
+	mes "[Dark Wizard]";
+	mes "Hmf.  I only speak to those with magic abilities....";
+	close;
+L_Magic:
+	mes "[Dark Wizard]";
+	mes "Oh... I can feel the mighty spirits stirring around me.";
+	next;
+	mes "[Dark Wizard]";
+	mes "You there, I sense that you too use magic.";
+	next;
+	mes "[Dark Wizard]";
+	mes "Magic... a great power which is dictated by cause and effect.  If it is used for good then in turn positive reactions will occur.";
+	mes "However, if it is used for evil, then negative reactions will occur instead.  When using magic you truly reap what you sew.";
+	next;
+	mes "[Dark Wizard]";
+	mes "Have you ever heard of ^0000ddGemstones^000000? Some magic spells are so powerfull that they require the use of a Gemstone.";
+	mes "These stones amplify a magic users power and allow them to cast high level spells.  They can be bought at the magic store in town.";
+	next;
+	mes "[Dark Wizard]";
+	mes "Always remeber that magic should only be used for the bennefit of people, not to do them harm.";
+	close;
+}
+
+geffen_in.gat,28,134,4 script	"Waitress" 69,{
+	mes "[Waitress]";
+	mes "Meh! ALWAYS drinking and ALWAYS fighting..... HEY Mister! This is a place of BUSINESS!!";
+	   emotion 6;
+	next;
+	mes "[Waitress]";
+	mes "That man gives me a headache.  My sister at the Inn says that there is another IDIOT just LIKE HIM there!";
+	mes "I CAN'T BELIEEEEVE that there is more that one IDIOT like him in this world..... I wish they would just... just... DISAPPEAR!!";
+	next;
+	mes "[Waitress]";
+	mes "(~sighs~)";
+	   emotion 32;
+L_Menu:
+	next;
+	menu "Could I get drink?",L_Menu_0,"Anything interesting goin on lately?",L_Menu_1,"End Conversation",L_End;
+L_Menu_0:
+	mes "[Waitress]";
+	mes "Jeez, I'm real sorry but we ran out of liquior. THAT DRUNKARD chugged down every last drop we had....";
+	mes "As soon as we open he's in here downing drink after drink! I'm surprised he's still alive.";
+	next;
+	mes "[Waitress]";
+	mes "Maybe if you stopped by later.... but then again, the way HE'S been drinking.... you might have better luck else where....";
+	goto L_Menu;
+L_Menu_1:
+	mes "[Waitress]";
+	mes "Hmm... there really hasn't been anything new going on lately.... there haven't been any rumors from the customers either....";
+	mes "Come to think of it.... you yourself are a person of few words....";
+	next;
+	mes "[Waitress]";
+	mes "I'm sure there's a reason why there has been such a lull as of late....";
+	mes "It's just we working girls tend to get REALLLYYY BORED.... so if anything exciting happens let me know okay?";
+	goto L_Menu;
+L_End:
+	mes "[Waitress]";
+	mes "You have a nice day now!";
+	close;
+}
+
+geffen_in.gat,21,125,5 script "Drunkard" 52,{
+	mes "[Drunkard]";
+	mes "You want to be an idiotic magician? Is that why you came here??";
+	   emotion 1;
+	close;
+}
+
+geffen_in.gat,37,124,5 script "Friend of Youth"	704,{
+	   set @temp = 0;
+	mes "[Friend of Youth]";
+	mes "Welcome young one! Are you worrying about something? Tell me all your troubles and I will tell you your fortune with my silver ball of mystery!";
+L_Menu:
+	next;
+	   random @temp 5;
+	menu "-Life!",L_0,"-Love!",L_1,"-Fortune!",L_2,"-Grades!",L_3,"-Future!",L_4,"-Fashion!",L_5,"-End.",L_End;
+L_0:
+	   check @temp == 1,L0_1,-;
+	   check @temp == 2,L0_2,-;
+	   check @temp == 3,L0_3,-;
+	   check @temp == 4,L0_4,-;
+L_0:
+	mes "[Friend of Youth]";
+	mes "It seems that you've had to deal with many problems recently... but don't despair.";
+	mes "Although you may have to endure some hardships now, the road ahead of you is clear.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Being tossed out in the desert, naked, and chased by a Peco Peco really isn't that bad.";
+	mes "If you maintain your composure and perservere, you will be able to enjoy the sweet taste of acomplishment.";
+	next;
+	mes "[Friend of Youth]";
+	mes "So keep your head up and endure for a bit longer!";
+	next;
+	goto L_End;
+L0_1:
+	mes "[Friend of Youth]";
+	mes "It looks as though you have chosen an obscure path for yourself.  You may feel as though you may have made a mistake.";
+	mes "This uncertainty about your choices affects you even now.  Try to take a break and relax.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Re-organize yourself to better handle the situation that surrounds you.";
+	mes "Rearrange your items and equipment to give yourself a 'fresh' start.";
+	next;
+	goto L0_End;
+L0_2:
+	mes "[Friend of Youth]";
+	mes "The evil forces that evny your fortune and good health are always watching you.";
+	mes "They are jealous of what you have and are eagerly waiting for you to make mistakes.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Therefore you must be more careful with your actions.  Proceed with caution, especially in dangerous sitiuations.";
+	mes "Remain calm however, and continue to prepapre for the days to come.";
+	next;
+	goto L0_End;
+L0_3:
+	mes "[Friend of Youth]";
+	mes "Some recent turmoil between you and someone you know still looms over your head.";
+	mes "There is no way to avoid the problems... you must face them head on.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Try to resolve the issues in a calm, peaceful, and friendly manner.  Think about the relationship you have with this person.";
+	next;
+	goto L0_End;
+L0_4:
+	mes "[Friend of Youth]";
+	mes "Lately you have been living in the darkness of the monsters.";
+	mes "The power of the dark is too strong and you must pull away from it.";
+	next;
+	mes "[Friend of Youth]";
+	mes "In order to do that you must be physically strong and mentally able.  Give it all you have and make good use of your training!";
+	next;
+L0_End:
+	mes "[Friend of Youth]";
+	mes "Now, have the questions about your life been answered? Feel free to ask me again.  I am always on your side friend!";
+	   emotion 21;
+	goto L_Menu;
+L_1:
+	   check @temp == 1,L1_1,-;
+	   check @temp == 2,L1_2,-;
+	   check @temp == 3,L1_3,-;
+L1_0:
+	mes "[Friend of Youth]";
+	mes "Tsk tsk.... Are you looking for another love?";
+	   emotion 1;
+	next;
+	mes "[Friend of Youth]";
+	mes "So you're not satisfied with the relationship your in now.... you want one that is new, better, more exciting.......";
+	next;
+	mes "[Friend of Youth]";
+	mes "Don't be a fool!! Treasure the love you have now! You never no where a wandering heart will lead you....";
+   	   emotion 0;
+	next;
+	goto L1_End;
+L1_1:
+	mes "[Friend of Youth]";
+	mes "Everybody says that love is wonderful.  THAT IS, until things go WRONG, then it's not so easy to say that love is wonderful.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Maybe your not quite ready for love right now.  Build up some more confidence in yourself then go after that special someone with all your heart.";
+	next;
+	mes "[Friend of Youth]";
+	mes "With that confidence and a little bit of luck, you're sure to find love.  Always!!";
+	   emotion 21;
+	next;
+	goto L1_End;
+L1_2:
+	mes "[Friend of Youth]";
+	mes "Oh ho! To be in love is a wonderful existance!";
+	mes "Love can be as exciting as running through a forest filled with porings while wildly swinging your sword around!!";
+	next;
+	mes "[Friend of Youth]";
+	mes "So BRANDISH your sword in the name of LOVE!!";
+	   emotion 21;
+	next;
+	goto L1_End;
+L1_3:
+	mes "[Friend of Youth]";
+	mes "Well now... You're so happy, you don't know what to do!! No matter how hard you try, you can't hide the fact that you're in love!";
+	next;
+	mes "[Friend of Youth]";
+	mes "Heh, I guess there's nothing for me to tell you.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Now if I could only find someone to love.......";
+	   emotion 20;
+	next;
+	goto L1_End;
+L1_End:
+	mes "[Friend of Youth]";
+	mes "Even in this bleek world, love is all around you! Love can be fun so treasure the heart and come back for another reading!";
+	   emotion 22;
+	goto L_Menu;
+L_2:
+	   check @temp == 1,L2_1,-;
+	   check @temp == 2,L2_2,-;
+	   check @temp == 3,L2_3,-;
+	   check @temp == 4,L2_4,-;
+L2_0:
+	mes "[Friend of Youth]";
+	mes "For a young one such as yourself, money should not be the most important thing in your life.";
+	mes "Don't worry about money too much, just live your life to the fullest! Only then can something wonderfull can happen to you.";
+	goto L_Menu;
+L2_1:
+	mes "[Friend of Youth]";
+	mes "Let me tell you something, DON'T become obsessed with materialistic things!";
+	next;
+	mes "[Friend of Youth]";
+	mes "Although you need money to get by in this world, if aquiring wealth is your sole purpose in life....";
+	mes "you will ultimately find yourself dissapointed and empty.";
+	goto L_Menu;
+L2_2:
+	mes "[Friend of Youth]";
+	mes "Are you envious of someones else's items?? DON'T BE!!";
+	mes "You are better then that! Seek that which makes you a better person";
+	goto L_Menu;
+L2_3:
+	mes "[Friend of Youth]";
+	mes "Saving money is important.  Don't get into the habbit of buying cheap things you can afford right away.";
+	mes "It's better to wait untill you have enough for something that is of high quality.  That way you spend less money overall.";
+	goto L_Menu;
+L2_4:
+	mes "[Friend of Youth]";
+	mes "It's a very interesting thing.  To be honest, money just might be the REAL MONSTER in this world....";
+	next;
+	mes "[Friend of Youth]";
+	mes "One man's trash is another man's treasure! Go out and gather everything you can find! Don't be embarressed about it!";
+	goto L_Menu;
+L_3:
+	   check @temp == 1,L3_1,-;
+	   check @temp == 2,L3_End,-;
+L3_0:
+	mes "[Friend of Youth]";
+	mes "It's good to be worried about your grades.  You will have a bright future if you study hard and get good grades.";
+	mes "It can be difficult to do, but that is how life is.  The difficult things in life are the ones worth doing.";
+	next;
+	goto L3_End;
+L3_1:
+	mes "[Friend of Youth]";
+	mes "Worrying about your grades can be a hassle.  And sometimes it's hard to be confident that you will get good grades.";
+	mes "But stay positive and keep your head up! With hard work and preseverance you'll surely achieve your goals.";
+	next;
+	goto L3_End;
+L3_End:
+	mes "[Friend of Youth]";
+	mes "Concentrating on studies is difficult.  Come back anytime to ask questions regarding your studies! I'll be waiting.";
+	goto L_Menu;
+L_4:
+	   check @temp == 1,L4_1,-;
+	   check @temp == 2,L4_2,-;
+	   check @temp == 3,L4_3,-;
+L4_0:
+	mes "[Friend of Youth]";
+	mes "A person who worries about the future is one who is ill prepared for it.";
+	mes "And yet a person who prepares for the future is also one who worries about it.";
+	next;
+	goto L4_End;
+L4_1:
+	mes "[Friend of Youth]";
+	mes "Hmm... Don't you think you're worrying too much about the future?? Try focusing more on the present.";
+	mes "Obsessing over the future will eventually cause problems for you in the hear and now.";
+	next;
+	goto L4_End;
+L4_2:
+	mes "[Friend of Youth]";
+	mes "If all you do is play and you don't plan ahead for your future, you may have to re-think your approach to life.";
+	next;
+	mes "[Friend of Youth]";
+	mes "There is an old story about the Thief Bug who was happy and full during the winter months,....";
+	mes "while the Rocker was starving and cold...The Thief Bug planned ahead and gathered enough food for winter,.....";
+	mes "where as the Rocker had spent all his time playing and did not have enough food for the winter.";
+	next;
+	mes "[Friend of Youth]";
+	mes "The person who treasures his/her life prepares for the future.  So treasure your life and plan for the future!!";
+	next;
+	goto L4_End;
+L4_3:
+	mes "[Friend of Youth]";
+	mes "You have the ability to leap towards the future! But the past has a hold of your ankle and wont let go.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Break free and move towards the future and be prepapred to face what lies ahead!";	
+	   emotion 21;
+	next;
+	goto L4_End;
+L4_End:
+	mes "[Friend of Youth]";
+	mes "There are many reasons to look forward to the future.  So untill you find one for yourself, keep searching for it.";
+	mes "And feel free to come back for another reading any time okay?";
+	goto L_Menu;
+L_5:
+	   check @temp == 1,L5_1_1,-;
+L5_1_2:
+	   check @temp == 2,L5_2,-;
+	   check @temp == 3,L5_3,-;
+	   check @temp == 4,L5_4,-;
+L5_0:
+	mes "[Friend of Youth]";
+	mes "Equipping basic items that provide you with exactly what you need is important.";
+	mes "But isn't there a way to make equipment more stylish?";
+	next;
+	goto L5_End;
+L5_1_1:
+	   checkitem 2280,1,-,L5_1_2;
+L5_1:
+	mes "[Friend of Youth]";
+	mes "Wah! A Sakkat hat with that type of outfit is a bad idea!!";
+	   emotion 23;
+	next;
+	mes "[Friend of Youth]";
+	mes "Wow, now that I think about it, it's unbearable!!";
+	next;
+	goto L5_End;
+L5_2:
+	mes "[Friend of Youth]";
+	mes "A Mr. Smile mask and an Orc Helmet look cute when used together.  But a Mr. Smile cap by itself is just plain scary!";
+	next;
+	mes "[Friend of Youth]";
+	mes "Why is that??";
+	   emotion 1;
+	next;
+	goto L5_End;
+L5_3:
+	mes "[Friend of Youth]";
+	mes "An Adventurer's Suit is so cool! Especially when a guy wears it.  It just seems to add to his charm!";
+	next;
+	mes "[Friend of Youth]";
+	mes "But wear a pair of Red Sandals with it.... and that becomes just TOOOO much to bear!!";
+	   emotion 19;
+	next;
+	goto L5_End;
+L5_4:
+	mes "[Friend of Youth]";
+	mes "It's nice to wear expensive headgear.  It's nice to wear fancy clothing too!";
+	mes "But remember to make everything match or you'll look like a fool!";
+	mes "You can't just wear everything that you think is fancy.";
+	next;
+	mes "[Friend of Youth]";
+	mes "Make sure the things you wear go with each other and compliment one another.";
+	next;
+	goto L5_End;
+L5_End:
+	mes "[Friend of Youth]";
+	mes "Hmm... this has nothing to do with fortune telling... but still... I like talking about fashion.";
+	goto L_Menu;
+L_End:
+	close;
+}
+
+

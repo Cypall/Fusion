@@ -1,0 +1,302 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://fusion.cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Arena Test Quest - Non Player Character Locations
+//
+// - Receptionist -> prt_are_in: 97,30
+//   Enable the Arena Test.
+//
+// - Guide -> force_map1: 99,20
+//   Enable Mobs with timers.
+//
+// - Advancer -> force_map1: 10,56
+//   Enable Mobs with timers.
+//
+// - area1 -> force_map1: 0,0
+//   Say text when area1 is clear.
+//
+// - area2 -> force_map1: 0,0
+//   Say text when area2 is clear.
+//
+// - area3 -> force_map1: 0,0
+//   Say text when area3 is clear.
+//
+// - area4 -> force_map1: 0,0
+//   Say text when area4 is clear.
+//
+// - area5 -> force_map1: 0,0
+//   Say text when area5 is clear.
+//
+// - area6 -> force_map1: 0,0
+//   Say text when area6 is clear.
+//
+// - area7 -> force_map1: 0,0
+//   Say text when area7 is clear.
+//
+// - area8 -> force_map1: 0,0
+//   Say text when area8 is clear.
+//
+//========================================================================================
+
+prt_are_in.gat,97,30,4	script	"Receptionist"	124,{
+	return;
+ OnInit:
+	waitingroom "Time Attack!(1P)",2;
+	check \@START_ARENA = 0,L_START_1,-;
+	return;
+ L_START_1:
+	enablenpc "force_map1","Guidance staff",0;
+	set \@START_ARENA = 1;
+	set \@AREA1_MOB = 0;
+	set \@AREA2_MOB = 0;
+	set \@AREA3_MOB = 0;
+	set \@AREA5_MOB = 0;
+	set \@AREA6_MOB = 0;
+	set \@AREA7_MOB = 0;
+	set \@AREA8_MOB = 0;
+	enablenpc "force_map1","warp9001",0;
+	enablenpc "force_map1","warp0127",0;
+	enablenpc "force_map1","warp0123",0;
+	enablenpc "force_map1","warp0119",0;
+	enablenpc "force_map1","warp0130",0;
+	enablenpc "force_map1","warp0132",0;
+	enablenpc "force_map1","warp0120",0;
+	enablenpc "force_map1","warp0121",0;
+	enablenpc "force_map1","warp0133",0;
+	enablenpc "force_map1","warp0134",0;
+	enablenpc "force_map1","warp0122",0;
+	enablenpc "force_map1","warp0124",0;
+	enablenpc "force_map1","warp0126",0;
+	enablenpc "force_map1","warp0128",0;
+	enablenpc "force_map1","warp0135",0;
+	enablenpc "force_map1","warp0131",0;
+	enablenpc "force_map1","warp0125",0;
+	enablenpc "force_map1","warp0129",0;
+	enablenpc "force_map1","Advancer",0;
+	resetmymob "force_map1";
+	warpallpc "force_map1",99,12,2;
+	enablenpc "force_map1","Guide",1;
+	return;
+}
+
+force_map1.gat,99,20,4	script	"Guide"	124,{
+	return;
+ OnInit:
+	check \@START_ARENA = 1,L_START_1,-;
+	return;
+ L_START_1:
+	npctimer 1;
+	return;
+ OnTimer2000:
+	broadcast "A time attack starts after this.";
+	return;
+ OnTimer5000:
+	broadcast "You have 2 mins to defeat the enemy.";
+	return;
+ OnTimer8000:
+	broadcast "Then, let's begin!";
+	enablenpc "force_map1","warp0125",1;
+	enablenpc "force_map1","warp0129",1;
+	return;
+ OnTimer10000:
+	npctimer 0;
+	callmob "force_map1",25,25,"AREA1",1002,0,"area1";
+	callmob "force_map1",25,31,"AREA1",1007,0,"area1";
+	callmob "force_map1",27,29,"AREA1",1008,0,"area1";
+	callmob "force_map1",23,29,"AREA1",1063,0,"area1";
+	callmob "force_map1",29,33,"AREA1",1010,0,"area1";
+	callmob "force_map1",176,26,"AREA2",1011,0,"area2";
+	callmob "force_map1",178,28,"AREA2",1007,0,"area2";
+	callmob "force_map1",174,32,"AREA2",1012,0,"area2";
+	callmob "force_map1",180,34,"AREA2",1048,0,"area2";
+	callmob "force_map1",25,104,"AREA3",1049,0,"area3";
+	callmob "force_map1",27,102,"AREA3",1049,0,"area3";
+	callmob "force_map1",23,108,"AREA3",1049,0,"area3";
+	callmob "force_map1",29,100,"AREA3",1049,0,"area3";
+	callmob "force_map1",99,100,"BOSS",1087,0,"area4";
+	callmob "force_map1",173,104,"AREA5",1009,0,"area5";
+	callmob "force_map1",175,102,"AREA5",1051,0,"area5";
+	callmob "force_map1",171,108,"AREA5",1004,0,"area5";
+	callmob "force_map1",177,100,"AREA5",1005,0,"area5";
+	callmob "force_map1",25,174,"AREA6",1052,0,"area6";
+	callmob "force_map1",27,172,"AREA6",1009,0,"area6";
+	callmob "force_map1",23,178,"AREA6",1070,0,"area6";
+	callmob "force_map1",29,170,"AREA6",1013,0,"area6";
+	callmob "force_map1",99,174,"AREA7",1019,0,"area7";
+	callmob "force_map1",97,176,"AREA7",1050,0,"area7";
+	callmob "force_map1",103,172,"AREA7",1005,0,"area7";
+	callmob "force_map1",93,178,"AREA7",1005,0,"area7";
+	callmob "force_map1",173,174,"AREA8",1018,0,"area8";
+	callmob "force_map1",175,172,"AREA8",1004,0,"area8";
+	callmob "force_map1",171,178,"AREA8",1070,0,"area8";
+	callmob "force_map1",177,168,"AREA8",1004,0,"area8";
+	set \@START_ARENA = 2;
+	enablenpc "force_map1","Advancer",1;
+	return;
+}
+force_map1.gat,10,56,4	script	"Advancer"	111,{
+	return;
+ OnInit:
+	check \@START_ARENA = 2,L_START_1,-;
+	return;
+ L_START_1:
+	enablenpc "force_map1","Guide",0;
+	npctimer 1;
+	return;
+ OnTimer30000:
+	broadcast "90 Seconds remaining",100;
+	getmapusers "force_map1",@USER_NUM;
+	check @USER_NUM = 0,OnTimer122000,-;
+	return;
+ OnTimer60000:
+	broadcast "60 Seconds remaining",100;
+	getmapusers "force_map1",@USER_NUM;
+	check @USER_NUM = 0,OnTimer122000,-;
+	return;
+ OnTimer90000:
+	broadcast "30 Seconds remaining",100;
+	getmapusers "force_map1",@USER_NUM;
+	check @USER_NUM = 0,OnTimer122000,-;
+	return;
+ OnTimer110000:
+	broadcast "10 Seconds remaining",100;
+	getmapusers "force_map1",@USER_NUM;
+	check @USER_NUM = 0,OnTimer122000,-;
+	return;
+ OnTimer120000:
+	broadcast "Time's Up!",100;
+	return;
+ OnTimer122000:
+	npctimer 0;
+	set \@START_ARENA = 0;
+	warpallpc "prt_are_in",97,14,0;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area1"	-1,{
+	set \@AREA1_MOB += 1;
+	check \@AREA1_MOB < 5,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA1 Clear!",10;
+	enablenpc "force_map1","warp0123",1;
+	enablenpc "force_map1","warp0119",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area2"	-1,{
+	set \@AREA2_MOB += 1;
+	check \@AREA2_MOB < 4,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA2 Clear!",10;
+	enablenpc "force_map1","warp0130",1;
+	enablenpc "force_map1","warp0132",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area3"	-1,{
+	set \@AREA3_MOB += 1;
+	check \@AREA3_MOB < 4,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA3 Clear! Bonus of 7 seconds",10;
+	addnpctimer "Advancer",-7000;
+	enablenpc "force_map1","warp0120",1;
+	enablenpc "force_map1","warp0121",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area4"	-1,{
+	enablenpc "force_map1","Advancer",0;
+	set \@START_ARENA = 0;
+	broadcast "All clearance! Congratulations",10;
+	enablenpc "force_map1","warp9001",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area5"	-1,{
+	set \@AREA5_MOB += 1;
+	check \@AREA5_MOB < 4,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA5 Clear! Bonus of 10 seconds",10;
+	addnpctimer "Advancer",1110000;
+	enablenpc "force_map1","warp0133",1;
+	enablenpc "force_map1","warp0134",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area6"	-1,{
+	set \@AREA6_MOB += 1;
+	check \@AREA6_MOB < 4,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA6 Clear! Bonus of 14 seconds",10;
+	addnpctimer "Advancer",1114000;
+	enablenpc "force_map1","warp0122",1;
+	enablenpc "force_map1","warp0124",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area7"	-1,{
+	set \@AREA7_MOB += 1;
+	check \@AREA7_MOB < 4,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA7 Clear! Bonus of 12 seconds",10;
+	addnpctimer "Advancer",1112000;
+	enablenpc "force_map1","warp0126",1;
+	enablenpc "force_map1","warp0128",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}
+
+force_map1.gat,0,0,4	script	"area8"	-1,{
+	set \@AREA8_MOB += 1;
+	check \@AREA8_MOB < 4,-,L_START_1;
+	return;
+ L_START_1:
+	set \@START_ARENA += 1;
+	broadcast "AREA8 Clear! Bonus of 15 seconds",10;
+	addnpctimer "Advancer",1115000;
+	enablenpc "force_map1","warp0135",1;
+	enablenpc "force_map1","warp0131",1;
+	check \@START_ARENA = 9,-,L_START_2;
+	return;
+ L_START_2:
+	enablenpc "force_map1","warp0127",1;
+	return;
+}

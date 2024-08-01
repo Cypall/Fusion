@@ -1,0 +1,7 @@
+//aldebaran.gat,35,140,0	warp	warp1792	1,1,alde_gld.gat,280,160
+//alde_gld.gat,284,160,0	warp	warp1793	1,1,aldebaran.gat,39,140
+//alde_gld.gat,48,79,0	warp	warp1794	1,1,aldeg_cas01.gat,34,248
+//alde_gld.gat,95,253,0	warp	warp1795	1,1,aldeg_cas02.gat,88,163
+//alde_gld.gat,142,81,0	warp	warp1796	1,1,aldeg_cas03.gat,114,286
+//alde_gld.gat,243,242,0	warp	warp1797	1,1,aldeg_cas04.gat,149,17
+//alde_gld.gat,259,90,0	warp	warp1798	1,1,aldeg_cas05.gat,216,103

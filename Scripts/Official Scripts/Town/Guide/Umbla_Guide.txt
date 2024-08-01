@@ -1,0 +1,92 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Umbla Guides - Non Player Character Locations
+//
+// - Explorer -> umbala: 128,94
+//   Shows you the way arround Umbla.
+//
+//========================================================================================
+
+umbala.gat,128,94,4 script "Explorer" 702,{
+	mes "[Explorer]";
+	mes "This uncivilized area is";
+	mes "really strange.";
+	next;
+	mes "[Explorer]";
+	mes "I've been checking this place out";
+	mes "for a number of months now, so if";
+	mes "you want information about the village.";
+	mes "I'm your man.";
+	next;
+	menu "I want to know about the village",-,"Get rid of my minimap marks",L2,"Nothing",L_End;
+	mes "[Explorer]";
+	mes "What would you like to know more about?";
+	next;
+	menu "Chief's house",-,"Shaman's House",L1_2,"Weapon shop",L1_3,"Tool shop",L1_4,"Bungy Jumping Area",L1_5,"Forget it",L1_6;
+	mes "[Explorer]";
+	mes "Alright.  I've marked it with a^FF3355+^000000";
+	mes "on your minimap.  The Chief is the only link";
+	mes "the village has to the outside world.  You";
+	mes "ought to speak with him first.";
+	  	 viewpoint 1,66,250,2,0xFF3355;
+	close;
+L1_2:
+	mes "[Explorer]";
+	mes "The shaman's power is mysterious.";
+      mes "It's said that the shaman can manipulate the";
+      mes "very fabric of nature itself.";
+      mes "The shaman's house is marked with a^CE6300+^000000";
+	mes "on your minimap.";
+	  	 viewpoint 1,217,186,3,0xCE6300;
+	close;
+L1_3:
+	mes "[Explorer]";
+	mes "The weapon shop is marked with a ^55FF33+^000000 on";
+	mes "your minimap.  Enemies love to invade this";
+	mes "town, so there are always some weapons on hand.";
+	  	 viewpoint 1,126,154,4,0x55FF33;
+	close;
+L1_4:
+	mes "[Explorer]";
+	mes "The tool shop is marked with a ^55FF33+^000000 on";
+	mes "your minimap.  Stop by before you go.  You";
+	mes "never know when you'll get another chance.";
+	  	 viewpoint 1,136,127,5,0x3355FF;
+	close;
+L1_5:
+	mes "[Explorer]";
+	mes "Umbara has an interesting diversion";
+	mes "called 'Bungy Jumping', not found in";
+	mes "other areas.  Just go to the place on your";
+	mes "minimap marked with a ^00FF00+^000000";
+	mes "and give it a try, if you have the";
+	mes "balls.";
+	   	viewpoint 1,139,198,6,0x00FF00;
+	close;
+L1_6:
+	mes "[Explorer]";
+	mes "If you want to remove the marks from your";
+	mes "minimap, please choose 'Get rid of";
+	mes "my minimap marks'.";
+	close;
+L2:
+	   	viewpoint 2,66,250,2,0x00FF00;
+	   	viewpoint 2,217,186,3,0x00FF00;
+	   	viewpoint 2,126,154,4,0x00FF00;
+	   	viewpoint 2,136,127,5,0x00FF00;
+		viewpoint 2,139,198,6,0x00FF00;
+	mes "[Explorer]";
+	mes "All the marks have been removed from";
+	mes "your minimap.  Please talk to me again";
+	mes "if you need them restored.";
+	close;
+L_End:
+	mes "[Explorer]";
+	mes "It's interesting to observe interesting people";
+	mes "going about their business, don't you think?";
+	close;
+}

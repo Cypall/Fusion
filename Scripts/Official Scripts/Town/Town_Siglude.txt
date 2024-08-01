@@ -1,0 +1,2454 @@
+//========================================================================================
+// »» The Fusion Project ««
+// Copyright (c) 2004, Cobax Information Systems
+// http://cobax.net/
+// ---------------------------------------------------------------------------------------
+//
+// Refiner and providers - Non Player Character Locations
+//
+// Dietrich -> prt_in: 63,69
+// Transform Rough Elunium/Oridecon into Pures.
+//
+// Vurewell -> prt_in: 56,68
+// Proved Phracon and Emveretarcon.
+//
+// Hollgrehenn -> prt_in: 63,60
+// Refine equipments using Elunium/Oridecon.
+//
+// Abdul -> morocc_in: 72,32
+// Transform Rough Elunium/Oridecon into Pures.
+//
+// Sade -> morocc_in: 63,32
+// Proved Phracon and Emveretarcon.
+//
+// Aragham -> morocc_in: 73,38
+// Refine equipments using Elunium/Oridecon.
+//
+// Hakhim -> payon: 137,178
+// Transform Rough Elunium/Oridecon into Pures.
+//
+// Begnahd -> payon: 145,178
+// Proved Phracon and Emveretarcon.
+//
+// Antonio -> payon: 144,173
+// Refine equipments using Elunium/Oridecon.
+//
+// Xenophon -> alberta_in: 21,63
+// Transform Rough Elunium/Oridecon into Pures.
+//
+// Kahlamanlith -> alberta_in: 13,71
+// Proved Phracon and Emveretarcon.
+//
+// Fredrik -> alberta_in: 28,58
+// Refine equipments using Elunium/Oridecon.
+//
+// Dillemat -> yuno_in01: 171,21
+// Transform Rough Elunium/Oridecon into Pures.
+//
+// Disturb -> yuno_in01: 164,26
+// Refine equipments using Elunium/Oridecon.
+//
+// Delayt -> yuno_in01: 171,26
+// Proved Phracon and Emveretarcon.
+//
+//========================================================================================
+
+prt_in.gat,63,69,4 script "Dietrich" 84,{
+	mes "[Dietrich]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",-,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+	   checkitem 756,5,-,L_START_1;
+	   delitem 756,5;
+	   additem 984,1;
+	mes "[Dietrich]";
+	mes "As promised, here's your oridecon.";
+	mes "Come back again anytime.";
+	close;
+L_START_1:
+	mes "[Dietrich]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an oridecon unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_1:
+	   checkitem 757,5,-,L_START_2;
+	   delitem 757,5;
+	   additem 985,1;
+	mes "[Dietrich]";
+	mes "As promised, here's your elunium.";
+	mes "Come back again anytime.";
+	close;
+L_START_2:
+	mes "[Dietrich]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an elunium unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_2:
+	mes "[Dietrich]";
+	mes "Enchanted stones, huh ....";
+	mes "Well, in 20 years of my life as a";
+	mes "stonesmith I've heard of it many";
+	mes "times...though I've never seen it before.";
+	mes "What I heard is this: there are";
+	mes "enchanted stones out there which";
+	mes "possesses different elemental";
+	mes "properties - Water, Earth, Fire, Wind.";
+	next;
+	mes "[Dietrich]";
+	mes "If someone combines an Enchanted Stone";
+	mes "with a weapon while smithing, that weapon";
+	mes "will possess the same property as the stone.";
+	mes "Of course, that person needs to be skillful";
+	mes "enough to work on it.";
+	close;
+}
+
+prt_in.gat,56,68,4 script "Vurewell" 86,{
+	mes "[Vurewell]";
+	mes "I,the Honest and Diligent Merchant";
+	mes "sell 2 kinds of Metal for tempering";
+	mes "weaponry of iron or steel.";
+	mes "I have ^007777Phracon^000000 for Lv 1";
+	mes "Weaponry... and ^007777Emveretarcon^000000";
+	mes "for Lv 2 Weaponry. I got many,";
+	mes "many of them... Haha.";
+	next;
+	menu "Phracon - 200z",-,"Emveretarcon - 1000z",L_MENU_1,"Ask wheter he has other Stones.",L_MENU_2;
+	mes "[Vurewell]";
+	mes "^007777Phracon^000000 are 200 Zeny each...";
+	   set @BUY_PRICE = 200;
+	   set @BUY_ID = 1010;
+	goto L_START_1;
+L_MENU_1:
+	mes "[Vurewell]";
+ 	mes "^007777Emveretarcon^000000 are 1000z each...";
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 1011;
+	goto L_START_1;
+L_MENU_2:
+	mes "[Vurewell]";
+	mes "Ahhh!!! You need the Metal for";
+	mes "higher Leveled Weapons.";
+	mes "But you know,Oridecon or Elunim is";
+	mes "very very rare... so difficult to find...";
+	close;
+L_START_1:
+	mes "How many do you wish to Buy? If you";
+	mes "quit, please note the number as 'o'.";
+	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM <= 500,-,L_START_5;
+	   check @BUY_NUM == 0,-,L_START_2;
+	mes "[Vurewell]";
+	mes "Deal has canceled.";
+	close;
+L_START_2:
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_START_3;
+	   checkadditem @BUY_ID,@BUY_NUM,-,L_START_4;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+      mes "[Vurewell]";
+	mes "Here you are, thank you for shopping at my shop.";
+	close;
+L_START_3:
+	mes "[Vurewell]";
+	mes "Err...you don't have enough Money now.";
+	mes "Well, I am sorry but that's Below cost.";
+	close;
+L_START_4:
+	mes "[Vurewell]";
+	mes "You can't wear that many, don't you think?";
+	mes "Reorder your inventory before retrying.";
+	close;
+L_START_5:
+	mes "[Vurewell]";
+	mes "You can buy 500 or less.";
+	next;
+	mes "[Vurewell]";
+      goto L_START_1;
+}
+
+prt_in.gat,63,60,4 script "Hollgrehenn" 85,{
+	   lockitem 1;
+	mes "[Hollgrehenn]";
+	mes "I am the Armsmith and I can refine any weapon and armor.";
+	mes "Tell me which equipment you wish to refine.";
+	next;
+	   equipmenu @POSITION,@WEAPONLEVEL,@REFINELEVEL;
+	   check @POSITION == 0,L_LOOT_7,-;
+	   check @POSITION == 7,L_LOOT_0,-;
+	   check @POSITION == 8,L_LOOT_0,-;
+	   check @POSITION == 9,L_LOOT_0,-;
+	   check @POSITION == 10,L_LOOT_0,-;
+	   check @WEAPONLEVEL == 99,-,L_START_1;
+	   check @POSITION == 1,-,L_LOOT_1;
+	mes "[Hollgrehenn]";
+	mes "You want me to refine that dumb brain of yours?";
+	goto L_EXIT;
+L_LOOT_0:
+	mes "[Hollgrehenn]";
+	mes "I don't think I can work on this item...";
+	goto L_EXIT;
+L_LOOT_1:
+	   check @POSITION == 2,-,L_LOOT_2;
+	mes "[Hollgrehenn]";
+	mes "Let me melt your body with my heat!";
+	goto L_EXIT;
+L_LOOT_2:
+	   check @POSITION == 3,-,L_LOOT_3;
+	mes "[Hollgrehenn]";
+	mes "I can't make your left hand into some super weapon.";
+	goto L_EXIT;
+L_LOOT_3:
+	   check @POSITION == 4,-,L_LOOT_4;
+	mes "[Hollgrehenn]";
+	mes "Even with modern science, I can't make your right hand into a drill.";
+	goto L_EXIT;
+L_LOOT_4:
+	   check @POSITION == 5,-,L_LOOT_5;
+	mes "[Hollgrehenn]";
+	mes "You're not wearing any robe!";
+	goto L_EXIT;
+L_LOOT_5:
+	   check @POSITION == 6,-,L_LOOT_6;
+	mes "[Hollgrehenn]";
+	mes "Your feet sure stinks!";
+	goto L_EXIT;
+L_LOOT_6:
+	   check @POSITION <= 8,-,L_LOOT_7;
+	mes "[Hollgrehenn]";
+	mes "So where's this accesory of yours?";
+	goto L_EXIT;
+L_LOOT_7:
+	mes "[Hollgrehenn]";
+	mes "What did you say you want to refine?";
+	mes "It's some other item, right?";
+	goto L_EXIT;
+L_START_1:
+	   check @REFINELEVEL == 99,-,L_START_2;
+	mes "[Hollgrehenn]";
+	mes "That item can't be refined.";
+	goto L_EXIT;
+L_START_2:
+	   check @REFINELEVEL == 10,-,L_START_3;
+	mes "[Hollgrehenn]";
+	mes "I can't refine that item anymore.";
+	goto L_EXIT;
+L_START_3:
+	   check @WEAPONLEVEL == 0,-,L_START_4;
+	mes "[Hollgrehenn]";
+	mes "To refine that, I'll need an";
+	mes "^ff9999Elunium^000000 and";
+	mes "a service fee of 5000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_3_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_3_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_3_0;
+L_LOOT_3_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_3_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_3_0;
+L_LOOT_3_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_3_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_3_0;
+L_LOOT_3_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_3_0:
+	mes "[Hollgrehenn]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_3_1,"No",-;
+	mes "[Hollgrehenn]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_3_1:
+	   checkitem 985,1,-,L_SUB_3_2;
+	   check Zeny >= 5000,-,L_SUB_3_2;
+	   delitem 985,1;
+	   set Zeny -= 5000,0;
+	goto L_START_8;
+L_SUB_3_2:
+	mes "[Hollgrehenn]";
+	mes "Is that all you've got?";
+	mes "Sorry, but it's not enough to cover";
+	mes "the cost of the materials.";
+	mes "I can't just do this for free, you know.";
+	goto L_EXIT;
+L_MENU_3_1:
+	mes "[Hollgrehenn]";
+	mes "If you don't want to, that's fine ...";
+	goto L_EXIT;
+L_START_4:
+	   check @WEAPONLEVEL == 1,-,L_START_5;
+	mes "[Hollgrehenn]";
+	mes "You want to refine a Level 1 weapon?";
+	mes "To refine that, I'll need a ^ff9999Phracon^000000";
+	mes "and a service fee of 50 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 7,-,L_SUB_4_1;
+	   check @REFINELEVEL == 7,-,L_LOOT_4_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_4_0;
+L_LOOT_4_1:
+	   check @REFINELEVEL == 8,-,L_LOOT_4_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_4_0;
+L_LOOT_4_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_4_0:
+	mes "[Hollgrehenn]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_4_1,"No",-;
+	mes "[Hollgrehenn]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_4_1:
+	   checkitem 1010,1,-,L_SUB_3_2;
+	   check Zeny >= 50,-,L_SUB_3_2;
+	   delitem 1010,1;
+	   set Zeny -= 50,0;
+	goto L_START_8;
+L_START_5:
+	   check @WEAPONLEVEL == 2,-,L_START_6;
+	mes "[Hollgrehenn]";
+	mes "You want to refine a Level 2 weapon?";
+	mes "To refine that, I'll need a ^ff9999Emveretarcon^000000";
+	mes "and a service fee of 200 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 6,-,L_SUB_5_1;
+	   check @REFINELEVEL == 6,-,L_LOOT_5_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_5_0;
+L_LOOT_5_1:
+	   check @REFINELEVEL == 7,-,L_LOOT_5_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_5_0;
+L_LOOT_5_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_5_0:
+	mes "[Hollgrehenn]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_5_1,"No",-;
+	mes "[Hollgrehenn]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_5_1:
+	   checkitem 1011,1,-,L_SUB_3_2;
+	   check Zeny >= 200,-,L_SUB_3_2;
+	   delitem 1011,1;
+	   set Zeny -= 200,0;
+	goto L_START_8;
+L_START_6:
+	   check @WEAPONLEVEL == 3,-,L_START_7;
+	mes "[Hollgrehenn]";
+	mes "You want to refine a Level 3 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 2000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 5,-,L_SUB_6_1;
+	   check @REFINELEVEL == 5,-,L_LOOT_6_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_6_0;
+L_LOOT_6_1:
+	   check @REFINELEVEL == 6,-,L_LOOT_6_2;
+	   set @REF_SUCCESS = 50;
+	goto L_SUB_6_0;
+L_LOOT_6_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_6_0:
+	mes "[Hollgrehenn]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Hollgrehenn]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_6_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 2000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 2000,0;
+	goto L_START_8;
+L_START_7:
+	mes "[Hollgrehenn]";
+	mes "You want to refine a Level 4 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 20000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	set @REF_SUCCESS = 100;
+	check @REFINELEVEL >= 4,-,L_SUB_7_1;
+	check @REFINELEVEL == 4,-,L_LOOT_7_1;
+	set @REF_SUCCESS = 60;
+	goto L_SUB_7_0;
+L_LOOT_7_1:
+		check @REFINELEVEL <= 6,-,L_LOOT_7_2;
+		set @REF_SUCCESS = 40;
+		goto L_SUB_7_0;
+L_LOOT_7_2:
+		check @REFINELEVEL <= 8,-,L_LOOT_7_3;
+		set @REF_SUCCESS = 20;
+		goto L_SUB_7_0;
+L_LOOT_7_3:
+		set @REF_SUCCESS = 10;
+L_SUB_7_0:
+		mes "[Hollgrehenn]";
+		mes "Hold it there! It appears that this has been";
+		mes "refined too many times... It could be";
+		mes "destroyed if it's refined further.";
+		mes "If it's destroyed, it will be rendered useless...";
+		mes "Do you still wish to refine it?";
+		next;
+		menu "Yes",L_SUB_6_1,"No",-;
+		mes "[Hollgrehenn]";
+		mes "Good decision.";
+		mes "I don't feel good destroying another";
+		mes "person's weapons with my hands....";
+		goto L_EXIT;
+L_SUB_7_1:
+		checkitem 984,1,-,L_SUB_3_2;
+		check Zeny >= 20000,-,L_SUB_3_2;
+		delitem 984,1;
+		set Zeny -= 20000,0;
+L_START_8:
+	mes "[Hollgrehenn]";
+	mes "Clang! Clang! Clang!!";
+	next;
+	   random @REF_RAND,100;
+	   getskilllevel 107,@BS_ADD;
+	   set @REF_SUCCESS += @BS_ADD;
+	   check @REF_RAND < @REF_SUCCESS,-,L_START_9;
+	   set @REFINELEVEL += 1;
+	   refinery @POSITION,0,@REFINELEVEL;
+	   emotion 21;
+	mes "[Hollgrehenn]";
+	mes "There you go!";
+	mes "It's been awhile since I've attained such perfection.";
+	mes "Aren't you happy now that your weapon is stronger?";
+	goto L_EXIT;
+L_START_9:
+	   refinery @POSITION,1,0;
+	   emotion 23;
+	mes "[Hollgrehenn]";
+	mes "Oh noooooo......";
+	next;
+	mes "[Hollgrehenn]";
+	mes "Sorry!";
+	mes "Your weapon broke during the refining process...";
+	mes "See! Didn't I say earlier not to force me to do it?";
+L_EXIT:
+	   lockitem 0;
+	close;
+}
+
+morocc_in.gat,72,32,4 script "Abdul" 99,{
+	mes "[Abdul]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each";
+	next;
+	menu "Make Oridecon",-,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+	   checkitem 756,5,-,L_START_1;
+	   delitem 756,5;
+	   additem 984,1;
+	mes "[Abdul]";
+	mes "As promised, here's your oridecon.";
+	mes "Come back again anytime.";
+	close;
+L_START_1:
+	mes "[Abdul]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an oridecon unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_1:
+	   checkitem 757,5,-,L_START_2;
+	   delitem 757,5;
+	   additem 985,1;
+	mes "[Abdul]";
+	mes "As promised, here's your elunium.";
+	mes "Come back again anytime.";
+	close;
+L_START_2:
+	mes "[Abdul]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an elunium unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_2:
+	mes "[Abdul]";
+	mes "Enchanted stones, huh ....";
+	mes "Well, in 20 years of my life as a";
+	mes "stonesmith I've heard of it many";
+	mes "times...though I've never seen it before.";
+	mes "What I heard is this: there are";
+	mes "enchanted stones out there which";
+	mes "possesses different elemental";
+	mes "properties - Water, Earth, Fire, Wind.";
+	next;
+	mes "[Abdul]";
+	mes "If someone combines an Enchanted Stone";
+	mes "with a weapon while smithing, that weapon";
+	mes "will possess the same property as the stone.";
+	mes "Of course, that person needs to be skillful";
+	mes "enough to work on it.";
+	close;
+}
+
+morocc_in.gat,63,32,4 script "Sade"	99,{
+	mes "[Sade]";
+	mes "I,the Honest and Diligent Merchant";
+	mes "sell 2 kinds of Metal for tempering";
+	mes "weaponry of iron or steel.";
+	mes "I have ^007777Phracon^000000 for Lv 1";
+	mes "Weaponry... and ^007777Emveretarcon^000000";
+	mes "for Lv 2 Weaponry. I got many,";
+	mes "many of them... Haha.";
+	next;
+	menu "Phracon - 200z",-,"Emveretarcon - 1000z",L_MENU_1,"Ask wheter he has other Stones.",L_MENU_2;
+	mes "[Sade]";
+	mes "^007777Phracon^000000 are 200 Zeny each...";
+	   set @BUY_PRICE = 200;
+	   set @BUY_ID = 1010;
+	goto L_START_1;
+L_MENU_1:
+	mes "[Sade]";
+ 	mes "^007777Emveretarcon^000000 are 1000z each...";
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 1011;
+	goto L_START_1;
+L_MENU_2:
+	mes "[Sade]";
+	mes "Ahhh!!! You need the Metal for";
+	mes "higher Leveled Weapons.";
+	mes "But you know,Oridecon or Elunim is";
+	mes "very very rare... so difficult to find...";
+	close;
+L_START_1:
+	mes "How many do you wish to Buy? If you";
+	mes "quit, please note the number as 'o'.";
+	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM <= 500,-,L_START_5;
+	   check @BUY_NUM == 0,-,L_START_2;
+	mes "[Sade]";
+	mes "Deal has canceled.";
+	close;
+L_START_2:
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_START_3;
+	   checkadditem @BUY_ID,@BUY_NUM,-,L_START_4;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+	mes "[Sade]";
+	mes "Here you are, thank you for shopping at my shop.";
+	close;
+L_START_3:
+	mes "[Sade]";
+	mes "Err...you don't have enough Money now.";
+	mes "Well, I am sorry but that's Below cost.";
+	close;
+L_START_4:
+	mes "[Sade]";
+	mes "You can't wear that many, don't you think?";
+	mes "Reorder your inventory before retrying.";
+	close;
+L_START_5:
+	mes "[Sade]";
+	mes "You can buy 500 or less.";
+	next;
+	mes "[Sade]";
+	goto L_START_1;
+}
+
+morocc_in.gat,73,38,4 script "Aragham" 99,{
+	   lockitem 1;
+	mes "[Aragham]";
+	mes "I am the Armsmith and I can refine any weapon and armor.";
+	mes "Tell me which equipment you wish to refine.";
+	next;
+	   equipmenu @POSITION,@WEAPONLEVEL,@REFINELEVEL;
+	   check @POSITION == 0,L_LOOT_7,-;
+	   check @POSITION == 7,L_LOOT_0,-;
+	   check @POSITION == 8,L_LOOT_0,-;
+	   check @POSITION == 9,L_LOOT_0,-;
+	   check @POSITION == 10,L_LOOT_0,-;
+	   check @WEAPONLEVEL == 99,-,L_START_1;
+	   check @POSITION == 1,-,L_LOOT_1;
+	   mes "[Aragham]";
+	   mes "You want me to refine that dumb brain of yours?";
+	goto L_EXIT;
+L_LOOT_0:
+	mes "[Aragham]";
+	mes "I don't think I can work on this item...";
+	goto L_EXIT;
+L_LOOT_1:
+	   check @POSITION == 2,-,L_LOOT_2;
+	mes "[Aragham]";
+	mes "Let me melt your body with my heat!";
+	goto L_EXIT;
+L_LOOT_2:
+	   check @POSITION == 3,-,L_LOOT_3;
+	mes "[Aragham]";
+	mes "I can't make your left hand into some super weapon.";
+	goto L_EXIT;
+L_LOOT_3:
+	   check @POSITION == 4,-,L_LOOT_4;
+	mes "[Aragham]";
+	mes "Even with modern science, I can't make your right hand into a drill.";
+	goto L_EXIT;
+L_LOOT_4:
+	   check @POSITION == 5,-,L_LOOT_5;
+	mes "[Aragham]";
+	mes "You're not wearing any robe!";
+	goto L_EXIT;
+L_LOOT_5:
+	   check @POSITION == 6,-,L_LOOT_6;
+	mes "[Aragham]";
+	mes "Your feet sure stinks!";
+	goto L_EXIT;
+L_LOOT_6:
+	   check @POSITION <= 8,-,L_LOOT_7;
+	mes "[Aragham]";
+	mes "So where's this accesory of yours?";
+	goto L_EXIT;
+L_LOOT_7:
+	mes "[Aragham]";
+	mes "What did you say you want to refine?";
+	mes "It's some other item, right?";
+	goto L_EXIT;
+L_START_1:
+	   check @REFINELEVEL == 99,-,L_START_2;
+	mes "[Aragham]";
+	mes "That item can't be refined.";
+	goto L_EXIT;
+L_START_2:
+	   check @REFINELEVEL == 10,-,L_START_3;
+	mes "[Aragham]";
+	mes "I can't refine that item anymore.";
+	goto L_EXIT;
+L_START_3:
+	   check @WEAPONLEVEL == 0,-,L_START_4;
+	mes "[Aragham]";
+	mes "To refine that, I'll need an";
+	mes "^ff9999Elunium^000000 and";
+	mes "a service fee of 5000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_3_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_3_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_3_0;
+L_LOOT_3_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_3_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_3_0;
+L_LOOT_3_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_3_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_3_0;
+L_LOOT_3_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_3_0:
+	mes "[Aragham]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_3_1,"No",-;
+	mes "[Aragham]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_3_1:
+	   checkitem 985,1,-,L_SUB_3_2;
+	   check Zeny >= 5000,-,L_SUB_3_2;
+	   delitem 985,1;
+	   set Zeny -= 5000,0;
+	goto L_START_8;
+L_SUB_3_2:
+	mes "[Aragham]";
+	mes "Is that all you've got?";
+	mes "Sorry, but it's not enough to cover";
+	mes "the cost of the materials.";
+	mes "I can't just do this for free, you know.";
+	goto L_EXIT;
+L_MENU_3_1:
+	mes "[Aragham]";
+	mes "If you don't want to, that's fine ...";
+	goto L_EXIT;
+L_START_4:
+	   check @WEAPONLEVEL == 1,-,L_START_5;
+	mes "[Aragham]";
+	mes "You want to refine a Level 1 weapon?";
+	mes "To refine that, I'll need a ^ff9999Phracon^000000";
+	mes "and a service fee of 50 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 7,-,L_SUB_4_1;
+	   check @REFINELEVEL == 7,-,L_LOOT_4_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_4_0;
+L_LOOT_4_1:
+	   check @REFINELEVEL == 8,-,L_LOOT_4_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_4_0;
+L_LOOT_4_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_4_0:
+	mes "[Aragham]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_4_1,"No",-;
+	mes "[Aragham]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_4_1:
+	   checkitem 1010,1,-,L_SUB_3_2;
+	   check Zeny >= 50,-,L_SUB_3_2;
+	   delitem 1010,1;
+	   set Zeny -= 50,0;
+	goto L_START_8;
+L_START_5:
+	   check @WEAPONLEVEL == 2,-,L_START_6;
+	mes "[Aragham]";
+	mes "You want to refine a Level 2 weapon?";
+	mes "To refine that, I'll need a ^ff9999Emveretarcon^000000";
+	mes "and a service fee of 200 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 6,-,L_SUB_5_1;
+	   check @REFINELEVEL == 6,-,L_LOOT_5_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_5_0;
+L_LOOT_5_1:
+	   check @REFINELEVEL == 7,-,L_LOOT_5_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_5_0;
+L_LOOT_5_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_5_0:
+	mes "[Aragham]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_5_1,"No",-;
+	mes "[Aragham]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_5_1:
+	   checkitem 1011,1,-,L_SUB_3_2;
+	   check Zeny >= 200,-,L_SUB_3_2;
+	  delitem 1011,1;
+	   set Zeny -= 200,0;
+	goto L_START_8;
+L_START_6:
+	   check @WEAPONLEVEL == 3,-,L_START_7;
+	mes "[Aragham]";
+	mes "You want to refine a Level 3 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 2000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	  set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 5,-,L_SUB_6_1;
+	   check @REFINELEVEL == 5,-,L_LOOT_6_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_6_0;
+L_LOOT_6_1:
+	   check @REFINELEVEL == 6,-,L_LOOT_6_2;
+	   set @REF_SUCCESS = 50;
+	goto L_SUB_6_0;
+L_LOOT_6_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_6_0:
+	mes "[Aragham]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Aragham]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_6_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 2000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 2000,0;
+	goto L_START_8;
+L_START_7:
+	mes "[Aragham]";
+	mes "You want to refine a Level 4 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 20000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_7_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_7_1;
+	  set @REF_SUCCESS = 60;
+	goto L_SUB_7_0;
+L_LOOT_7_1:
+	  check @REFINELEVEL <= 6,-,L_LOOT_7_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_7_0;
+L_LOOT_7_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_7_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_7_0;
+L_LOOT_7_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_7_0:
+	mes "[Aragham]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Aragham]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_7_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 20000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 20000,0;
+L_START_8:
+	mes "[Aragham]";
+	mes "Clang! Clang! Clang!!";
+	next;
+	   random @REF_RAND,100;
+	   getskilllevel 107,@BS_ADD;
+	   set @REF_SUCCESS += @BS_ADD;
+	   check @REF_RAND < @REF_SUCCESS,-,L_START_9;
+	   set @REFINELEVEL += 1;
+	   refinery @POSITION,0,@REFINELEVEL;
+	   emotion 30;
+	mes "[Aragham]";
+	mes "There you go!";
+	mes "It's been awhile since I've attained such perfection.";
+	mes "Aren't you happy now that your weapon is stronger?";
+	goto L_EXIT;
+L_START_9:
+	   refinery @POSITION,1,0;
+	   emotion 31;
+	mes "[Aragham]";
+	mes "Oh noooooo......";
+	next;
+	mes "[Aragham]";
+	mes "Sorry!";
+	mes "Your weapon broke during the refining process...";
+	mes "See! Didn't I say earlier not to force me to do it?";
+L_EXIT:
+	   lockitem 0;
+	close;
+}
+
+payon.gat,140,178,5 script	"Hakhim" 88,{
+	mes "[Hakhim]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each";
+	next;
+	menu "Make Oridecon",-,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+	   checkitem 756,5,-,L_START_1;
+	   delitem 756,5;
+	   additem 984,1;
+	mes "[Hakhim]";
+	mes "As promised, here's your oridecon.";
+	mes "Come back again anytime.";
+	close;
+L_START_1:
+	mes "[Hakhim]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an oridecon unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_1:
+	   checkitem 757,5,-,L_START_2;
+	   delitem 757,5;
+	   additem 985,1;
+	mes "[Hakhim]";
+	mes "As promised, here's your elunium.";
+	mes "Come back again anytime.";
+	close;
+L_START_2:
+	mes "[Dietrich]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an elunium unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_2:
+	mes "[Hakhim]";
+	mes "Enchanted stones, huh ....";
+	mes "Well, in 20 years of my life as a";
+	mes "stonesmith I've heard of it many";
+	mes "times...though I've never seen it before.";
+	mes "What I heard is this: there are";
+	mes "enchanted stones out there which";
+	mes "possesses different elemental";
+	mes "properties - Water, Earth, Fire, Wind.";
+	next;
+	mes "[Hakhim]";
+	mes "If someone combines an Enchanted Stone";
+	mes "with a weapon while smithing, that weapon";
+	mes "will possess the same property as the stone.";
+	mes "Of course, that person needs to be skillful";
+	mes "enough to work on it.";
+	close;
+}
+
+payon.gat,145,178,3 script	"Begnahd" 88,{
+	mes "[Begnahd]";
+	mes "I,the Honest and Diligent Merchant";
+	mes "sell 2 kinds of Metal for tempering";
+	mes "weaponry of iron or steel.";
+	mes "I have ^007777Phracon^000000 for Lv 1";
+	mes "Weaponry... and ^007777Emveretarcon^000000";
+	mes "for Lv 2 Weaponry. I got many,";
+	mes "many of them... Haha.";
+	next;
+	menu "Phracon - 200z",-,"Emveretarcon - 1000z",L_MENU_1,"Ask wheter he has other Stones.",L_MENU_2;
+	mes "[Begnahd]";
+	mes "^007777Phracon^000000 are 200 Zeny each...";
+	   set @BUY_PRICE = 200;
+	   set @BUY_ID = 1010;
+	goto L_START_1;
+L_MENU_1:
+	mes "[Begnahd]";
+ 	mes "^007777Emveretarcon^000000 are 1000z each...";
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 1011;
+	goto L_START_1;
+L_MENU_2:
+	mes "[Begnahd]";
+	mes "Ahhh!!! You need the Metal for";
+	mes "higher Leveled Weapons.";
+	mes "But you know,Oridecon or Elunim is";
+	mes "very very rare... so difficult to find...";
+	close;
+L_START_1:
+	mes "How many do you wish to Buy? If you";
+	mes "quit, please note the number as 'o'.";
+	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM <= 500,-,L_START_5;
+	   check @BUY_NUM == 0,-,L_START_2;
+	mes "[Begnahd]";
+	mes "Deal has canceled.";
+	close;
+L_START_2:
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_START_3;
+	   checkadditem @BUY_ID,@BUY_NUM,-,L_START_4;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+	mes "[Begnahd]";
+	mes "Here you are, thank you for shopping at my shop.";
+	close;
+L_START_3:
+	mes "[Begnahd]";
+	mes "Err...you don't have enough Money now.";
+	mes "Well, I am sorry but that's Below cost.";
+	close;
+L_START_4:
+	mes "[Begnahd]";
+	mes "You can't wear that many, don't you think?";
+	mes "Reorder your inventory before retrying.";
+	close;
+L_START_5:
+	mes "[Begnahd]";
+	mes "You can buy 500 or less.";
+	next;
+	mes "[Begnahd]";
+	goto L_START_1;
+}
+
+payon.gat,144,173,5 script	"Antonio" 88,{
+	   lockitem 1;
+	mes "[Antonio]";
+	mes "I am the Armsmith and I can refine any weapon and armor.";
+	mes "Tell me which equipment you wish to refine.";
+	next;
+	   equipmenu @POSITION,@WEAPONLEVEL,@REFINELEVEL;
+	   check @POSITION == 0,L_LOOT_7,-;
+	   check @POSITION == 7,L_LOOT_0,-;
+	   check @POSITION == 8,L_LOOT_0,-;
+	   check @POSITION == 9,L_LOOT_0,-;
+	   check @POSITION == 10,L_LOOT_0,-;
+	   check @WEAPONLEVEL == 99,-,L_START_1;
+	   check @POSITION == 1,-,L_LOOT_1;
+	mes "[Antonio]";
+	mes "You want me to refine that dumb brain of yours?";
+	goto L_EXIT;
+L_LOOT_0:
+	mes "[Antonio]";
+	mes "I don't think I can work on this item...";
+	goto L_EXIT;
+L_LOOT_1:
+	   check @POSITION == 2,-,L_LOOT_2;
+	mes "[Antonio]";
+	mes "Let me melt your body with my heat!";
+	goto L_EXIT;
+L_LOOT_2:
+	   check @POSITION == 3,-,L_LOOT_3;
+	mes "[Antonio]";
+	mes "I can't make your left hand into some super weapon.";
+	goto L_EXIT;
+L_LOOT_3:
+	   check @POSITION == 4,-,L_LOOT_4;
+	mes "[Antonio]";
+	mes "Even with modern science, I can't make your right hand into a drill.";
+	goto L_EXIT;
+L_LOOT_4:
+	   check @POSITION == 5,-,L_LOOT_5;
+	mes "[Antonio]";
+	mes "You're not wearing any robe!";
+	goto L_EXIT;
+L_LOOT_5:
+	   check @POSITION == 6,-,L_LOOT_6;
+	mes "[Antonio]";
+	mes "Your feet sure stinks!";
+	goto L_EXIT;
+L_LOOT_6:
+	   check @POSITION <= 8,-,L_LOOT_7;
+	mes "[Antonio]";
+	mes "So where's this accesory of yours?";
+	goto L_EXIT;
+L_LOOT_7:
+	mes "[Antonio]";
+	mes "What did you say you want to refine?";
+	mes "It's some other item, right?";
+	goto L_EXIT;
+L_START_1:
+	   check @REFINELEVEL == 99,-,L_START_2;
+	mes "[Antonio]";
+	mes "That item can't be refined.";
+	goto L_EXIT;
+L_START_2:
+	   check @REFINELEVEL == 10,-,L_START_3;
+	mes "[Antonio]";
+	mes "I can't refine that item anymore.";
+	goto L_EXIT;
+L_START_3:
+	   check @WEAPONLEVEL == 0,-,L_START_4;
+	mes "[Antonio]";
+	mes "To refine that, I'll need an";
+	mes "^ff9999Elunium^000000 and";
+	mes "a service fee of 5000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_3_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_3_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_3_0;
+L_LOOT_3_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_3_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_3_0;
+L_LOOT_3_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_3_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_3_0;
+L_LOOT_3_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_3_0:
+	mes "[Antonio]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_3_1,"No",-;
+	mes "[Antonio]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_3_1:
+	   checkitem 985,1,-,L_SUB_3_2;
+	   check Zeny >= 5000,-,L_SUB_3_2;
+	   delitem 985,1;
+	   set Zeny -= 5000,0;
+	goto L_START_8;
+L_SUB_3_2:
+	mes "[Antonio]";
+	mes "Is that all you've got?";
+	mes "Sorry, but it's not enough to cover";
+	mes "the cost of the materials.";
+	mes "I can't just do this for free, you know.";
+	goto L_EXIT;
+L_MENU_3_1:
+	mes "[Antonio]";
+	mes "If you don't want to, that's fine ...";
+	goto L_EXIT;
+L_START_4:
+	   check @WEAPONLEVEL == 1,-,L_START_5;
+	mes "[Antonio]";
+	mes "You want to refine a Level 1 weapon?";
+	mes "To refine that, I'll need a ^ff9999Phracon^000000";
+	mes "and a service fee of 50 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 7,-,L_SUB_4_1;
+	   check @REFINELEVEL == 7,-,L_LOOT_4_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_4_0;
+L_LOOT_4_1:
+	   check @REFINELEVEL == 8,-,L_LOOT_4_2;
+	  set @REF_SUCCESS = 40;
+	goto L_SUB_4_0;
+L_LOOT_4_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_4_0:
+	mes "[Antonio]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_4_1,"No",-;
+	mes "[Antonio]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_4_1:
+	   checkitem 1010,1,-,L_SUB_3_2;
+	   check Zeny >= 50,-,L_SUB_3_2;
+	   delitem 1010,1;
+	   set Zeny -= 50,0;
+	goto L_START_8;
+L_START_5:
+	   check @WEAPONLEVEL == 2,-,L_START_6;
+	mes "[Antonio]";
+	mes "You want to refine a Level 2 weapon?";
+	mes "To refine that, I'll need a ^ff9999Emveretarcon^000000";
+	mes "and a service fee of 200 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 6,-,L_SUB_5_1;
+	   check @REFINELEVEL == 6,-,L_LOOT_5_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_5_0;
+L_LOOT_5_1:
+	   check @REFINELEVEL == 7,-,L_LOOT_5_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_5_0;
+L_LOOT_5_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_5_0:
+	mes "[Antonio]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_5_1,"No",-;
+	mes "[Antonio]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_5_1:
+	   checkitem 1011,1,-,L_SUB_3_2;
+	   check Zeny >= 200,-,L_SUB_3_2;
+	   delitem 1011,1;
+	   set Zeny -= 200,0;
+	goto L_START_8;
+L_START_6:
+	check @WEAPONLEVEL == 3,-,L_START_7;
+	mes "[Antonio]";
+	mes "You want to refine a Level 3 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 2000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 5,-,L_SUB_6_1;
+	   check @REFINELEVEL == 5,-,L_LOOT_6_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_6_0;
+L_LOOT_6_1:
+	   check @REFINELEVEL == 6,-,L_LOOT_6_2;
+	   set @REF_SUCCESS = 50;
+	goto L_SUB_6_0;
+L_LOOT_6_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_6_0:
+	mes "[Antonio]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Antonio]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_6_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 2000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 2000,0;
+	goto L_START_8;
+L_START_7:
+	mes "[Antonio]";
+	mes "You want to refine a Level 4 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 20000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_7_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_7_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_7_0;
+L_LOOT_7_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_7_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_7_0;
+L_LOOT_7_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_7_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_7_0;
+L_LOOT_7_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_7_0:
+	mes "[Antonio]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Antonio]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_7_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 20000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 20000,0;
+L_START_8:
+	mes "[Antonio]";
+	mes "Clang! Clang! Clang!!";
+	next;
+	   random @REF_RAND,100;
+	   getskilllevel 107,@BS_ADD;
+	   set @REF_SUCCESS += @BS_ADD;
+	   check @REF_RAND < @REF_SUCCESS,-,L_START_9;
+	   set @REFINELEVEL += 1;
+	   refinery @POSITION,0,@REFINELEVEL;
+	   emotion 0;
+	mes "[Antonio]";
+	mes "There you go!";
+	mes "It's been awhile since I've attained such perfection.";
+	mes "Aren't you happy now that your weapon is stronger?";
+	goto L_EXIT;
+L_START_9:
+	   refinery @POSITION,1,0;
+	   emotion 32;
+	mes "[Antonio]";
+	mes "Oh noooooo......";
+	next;
+	mes "[Antonio]";
+	mes "Sorry!";
+	mes "Your weapon broke during the refining process...";
+	mes "See! Didn't I say earlier not to force me to do it?";
+L_EXIT:
+	   lockitem 0;
+	close;
+}
+
+alberta_in.gat,21,63,5 script	"Xenophon" 84,{
+	mes "[Xenophon Zolotas]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each";
+	next;
+	menu "Make Oridecon",-,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+	   checkitem 756,5,-,L_START_1;
+	   delitem 756,5;
+	   additem 984,1;
+	mes "[Xenophon Zolotas]";
+	mes "As promised, here's your oridecon.";
+	mes "Come back again anytime.";
+	close;
+L_START_1:
+	mes "[Xenophon Zolotas]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an oridecon unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_1:
+	   checkitem 757,5,-,L_START_2;
+	   delitem 757,5;
+	   additem 985,1;
+	mes "[Xenophon Zolotas]";
+	mes "As promised, here's your elunium.";
+	mes "Come back again anytime.";
+	close;
+L_START_2:
+	mes "[Xenophon Zolotas]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an elunium unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_2:
+	mes "[Xenophon Zolotas]";
+	mes "Enchanted stones, huh ....";
+	mes "Well, in 20 years of my life as a";
+	mes "stonesmith I've heard of it many";
+	mes "times...though I've never seen it before.";
+	mes "What I heard is this: there are";
+	mes "enchanted stones out there which";
+	mes "possesses different elemental";
+	mes "properties - Water, Earth, Fire, Wind.";
+	next;
+	mes "[Xenophon Zolotas]";
+	mes "If someone combines an Enchanted Stone";
+	mes "with a weapon while smithing, that weapon";
+	mes "will possess the same property as the stone.";
+	mes "Of course, that person needs to be skillful";
+	mes "enough to work on it.";
+	close;
+}
+
+alberta_in.gat,13,71,4 script	"Kahlamanlith" 86,{
+	mes "[Kahlamanlith]";
+	mes "I,the Honest and Diligent Merchant";
+	mes "sell 2 kinds of Metal for tempering";
+	mes "weaponry of iron or steel.";
+	mes "I have ^007777Phracon^000000 for Lv 1";
+	mes "Weaponry... and ^007777Emveretarcon^000000";
+	mes "for Lv 2 Weaponry. I got many,";
+	mes "many of them... Haha.";
+	next;
+	menu "Phracon - 200z",-,"Emveretarcon - 1000z",L_MENU_1,"Ask wheter he has other Stones.",L_MENU_2;
+	mes "[Kahlamanlith]";
+	mes "^007777Phracon^000000 are 200 Zeny each...";
+	   set @BUY_PRICE = 200;
+	   set @BUY_ID = 1010;
+	goto L_START_1;
+L_MENU_1:
+	mes "[Kahlamanlith]";
+ 	mes "^007777Emveretarcon^000000 are 1000z each...";
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 1011;
+	goto L_START_1;
+L_MENU_2:
+	mes "[Kahlamanlith]";
+	mes "Ahhh!!! You need the Metal for";
+	mes "higher Leveled Weapons.";
+	mes "But you know,Oridecon or Elunim is";
+	mes "very very rare... so difficult to find...";
+	close;
+L_START_1:
+	mes "How many do you wish to Buy? If you";
+	mes "quit, please note the number as 'o'.";
+	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM <= 500,-,L_START_5;
+	   check @BUY_NUM == 0,-,L_START_2;
+	mes "[Kahlamanlith]";
+	mes "Deal has canceled.";
+	close;
+L_START_2:
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_START_3;
+	   checkadditem @BUY_ID,@BUY_NUM,-,L_START_4;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+	mes "[Kahlamanlith]";
+	mes "Here you are, thank you for shopping at my shop.";
+	close;
+L_START_3:
+	mes "[Kahlamanlith]";
+	mes "Err...you don't have enough Money now.";
+	mes "Well, I am sorry but that's Below cost.";
+	close;
+L_START_4:
+	mes "[Kahlamanlith]";
+	mes "You can't wear that many, don't you think?";
+	mes "Reorder your inventory before retrying.";
+	close;
+L_START_5:
+	mes "[Kahlamanlith]";
+	mes "You can buy 500 or less.";
+	next;
+	mes "[Kahlamanlith]";
+	goto L_START_1;
+}
+
+alberta_in.gat,28,58,4 script	"Fredrik" 85,{
+	   lockitem 1;
+	mes "[Fredrik]";
+	mes "I am the Armsmith and I can refine any weapon and armor.";
+	mes "Tell me which equipment you wish to refine.";
+	next;
+	   equipmenu @POSITION,@WEAPONLEVEL,@REFINELEVEL;
+	   check @POSITION == 0,L_LOOT_7,-;
+	   check @POSITION == 7,L_LOOT_0,-;
+	   check @POSITION == 8,L_LOOT_0,-;
+	   check @POSITION == 9,L_LOOT_0,-;
+	   check @POSITION == 10,L_LOOT_0,-;
+	   check @WEAPONLEVEL == 99,-,L_START_1;
+	   check @POSITION == 1,-,L_LOOT_1;
+	mes "[Fredrik]";
+	mes "You want me to refine that dumb brain of yours?";
+	goto L_EXIT;
+L_LOOT_0:
+	mes "[Fredrik]";
+	mes "I don't think I can work on this item...";
+	goto L_EXIT;
+L_LOOT_1:
+	   check @POSITION == 2,-,L_LOOT_2;
+	mes "[Fredrik]";
+	mes "Let me melt your body with my heat!";
+	goto L_EXIT;
+L_LOOT_2:
+	   check @POSITION == 3,-,L_LOOT_3;
+	mes "[Fredrik]";
+	mes "I can't make your left hand into some super weapon.";
+	goto L_EXIT;
+L_LOOT_3:
+	   check @POSITION == 4,-,L_LOOT_4;
+	mes "[Fredrik]";
+	mes "Even with modern science, I can't make your right hand into a drill.";
+	goto L_EXIT;
+L_LOOT_4:
+	   check @POSITION == 5,-,L_LOOT_5;
+	mes "[Fredrik]";
+	mes "You're not wearing any robe!";
+	goto L_EXIT;
+L_LOOT_5:
+	   check @POSITION == 6,-,L_LOOT_6;
+	mes "[Fredrik]";
+	mes "Your feet sure stinks!";
+	goto L_EXIT;
+L_LOOT_6:
+	   check @POSITION <= 8,-,L_LOOT_7;
+	mes "[Fredrik]";
+	mes "So where's this accesory of yours?";
+	goto L_EXIT;
+L_LOOT_7:
+	mes "[Fredrik]";
+	mes "What did you say you want to refine?";
+	mes "It's some other item, right?";
+	goto L_EXIT;
+L_START_1:
+	   check @REFINELEVEL == 99,-,L_START_2;
+	mes "[Fredrik]";
+	mes "That item can't be refined.";
+	goto L_EXIT;
+L_START_2:
+	   check @REFINELEVEL == 10,-,L_START_3;
+	mes "[Fredrik]";
+	mes "I can't refine that item anymore.";
+	goto L_EXIT;
+L_START_3:
+	   check @WEAPONLEVEL == 0,-,L_START_4;
+	mes "[Fredrik]";
+	mes "To refine that, I'll need an";
+	mes "^ff9999Elunium^000000 and";
+	mes "a service fee of 5000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_3_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_3_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_3_0;
+L_LOOT_3_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_3_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_3_0;
+L_LOOT_3_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_3_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_3_0;
+L_LOOT_3_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_3_0:
+	mes "[Fredrik]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_3_1,"No",-;
+	mes "[Fredrik]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_3_1:
+	   checkitem 985,1,-,L_SUB_3_2;
+	   check Zeny >= 5000,-,L_SUB_3_2;
+	   delitem 985,1;
+	   set Zeny -= 5000,0;
+	goto L_START_8;
+L_SUB_3_2:
+	mes "[Fredrik]";
+	mes "Is that all you've got?";
+	mes "Sorry, but it's not enough to cover";
+	mes "the cost of the materials.";
+	mes "I can't just do this for free, you know.";
+	goto L_EXIT;
+L_MENU_3_1:
+	mes "[Fredrik]";
+	mes "If you don't want to, that's fine ...";
+	goto L_EXIT;
+L_START_4:
+	   check @WEAPONLEVEL == 1,-,L_START_5;
+	mes "[Fredrik]";
+	mes "You want to refine a Level 1 weapon?";
+	mes "To refine that, I'll need a ^ff9999Phracon^000000";
+	mes "and a service fee of 50 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 7,-,L_SUB_4_1;
+	   check @REFINELEVEL == 7,-,L_LOOT_4_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_4_0;
+L_LOOT_4_1:
+	   check @REFINELEVEL == 8,-,L_LOOT_4_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_4_0;
+L_LOOT_4_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_4_0:
+	mes "[Fredrik]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_4_1,"No",-;
+	mes "[Fredrik]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_4_1:
+	   checkitem 1010,1,-,L_SUB_3_2;
+	   check Zeny >= 50,-,L_SUB_3_2;
+	   delitem 1010,1;
+	   set Zeny -= 50,0;
+	goto L_START_8;
+L_START_5:
+	   check @WEAPONLEVEL == 2,-,L_START_6;
+	mes "[Fredrik]";
+	mes "You want to refine a Level 2 weapon?";
+	mes "To refine that, I'll need a ^ff9999Emveretarcon^000000";
+	mes "and a service fee of 200 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 6,-,L_SUB_5_1;
+	   check @REFINELEVEL == 6,-,L_LOOT_5_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_5_0;
+L_LOOT_5_1:
+	   check @REFINELEVEL == 7,-,L_LOOT_5_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_5_0;
+L_LOOT_5_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_5_0:
+	mes "[Fredrik]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_5_1,"No",-;
+	mes "[Fredrik]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_5_1:
+	   checkitem 1011,1,-,L_SUB_3_2;
+	   check Zeny >= 200,-,L_SUB_3_2;
+	   delitem 1011,1;
+	   set Zeny -= 200,0;
+	goto L_START_8;
+L_START_6:
+	   check @WEAPONLEVEL == 3,-,L_START_7;
+	mes "[Fredrik]";
+	mes "You want to refine a Level 3 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 2000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 5,-,L_SUB_6_1;
+	   check @REFINELEVEL == 5,-,L_LOOT_6_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_6_0;
+L_LOOT_6_1:
+	   check @REFINELEVEL == 6,-,L_LOOT_6_2;
+	   set @REF_SUCCESS = 50;
+	goto L_SUB_6_0;
+L_LOOT_6_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_6_0:
+	mes "[Fredrik]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Fredrik]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_6_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 2000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 2000,0;
+	goto L_START_8;
+L_START_7:
+	mes "[Fredrik]";
+	mes "You want to refine a Level 4 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 20000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_7_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_7_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_7_0;
+L_LOOT_7_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_7_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_7_0;
+L_LOOT_7_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_7_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_7_0;
+L_LOOT_7_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_7_0:
+	mes "[Fredrik]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Fredrik]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_7_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 20000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 20000,0;
+L_START_8:
+	mes "[Fredrik]";
+	mes "Clang! Clang! Clang!!";
+	next;
+	   random @REF_RAND,100;
+	   getskilllevel 107,@BS_ADD;
+	   set @REF_SUCCESS += @BS_ADD;
+	   check @REF_RAND < @REF_SUCCESS,-,L_START_9;
+	   set @REFINELEVEL += 1;
+	   refinery @POSITION,0,@REFINELEVEL;
+	   emotion 18;
+	mes "[Fredrik]";
+	mes "There you go!";
+	mes "It's been awhile since I've attained such perfection.";
+	mes "Aren't you happy now that your weapon is stronger?";
+	goto L_EXIT;
+L_START_9:
+	   refinery @POSITION,1,0;
+	   emotion 4;
+	mes "[Fredrik]";
+	mes "Oh noooooo......";
+	next;
+	mes "[Fredrik]";
+	mes "Sorry!";
+	mes "Your weapon broke during the refining process...";
+	mes "See! Didn't I say earlier not to force me to do it?";
+L_EXIT:
+	   lockitem 0;
+	close;
+}
+
+yuno_in01.gat,164,26,4 script	"Disturb" 88,{
+	   lockitem 1;
+	mes "[Disturb]";
+	mes "I am the Armsmith and I can refine any weapon and armor.";
+	mes "Tell me which equipment you wish to refine.";
+	next;
+	   equipmenu @POSITION,@WEAPONLEVEL,@REFINELEVEL;
+	   check @POSITION == 0,L_LOOT_7,-;
+	   check @POSITION == 7,L_LOOT_0,-;
+	   check @POSITION == 8,L_LOOT_0,-;
+	   check @POSITION == 9,L_LOOT_0,-;
+	   check @POSITION == 10,L_LOOT_0,-;
+	   check @WEAPONLEVEL == 99,-,L_START_1;
+	   check @POSITION == 1,-,L_LOOT_1;
+	mes "[Disturb]";
+	mes "You want me to refine that dumb brain of yours?";
+	goto L_EXIT;
+L_LOOT_0:
+	mes "[Disturb]";
+	mes "I don't think I can work on this item...";
+	goto L_EXIT;
+L_LOOT_1:
+	   check @POSITION == 2,-,L_LOOT_2;
+	mes "[Disturb]";
+	mes "Let me melt your body with my heat!";
+	goto L_EXIT;
+L_LOOT_2:
+	   check @POSITION == 3,-,L_LOOT_3;
+	mes "[Disturb]";
+	mes "I can't make your left hand into some super weapon.";
+	goto L_EXIT;
+L_LOOT_3:
+	   check @POSITION == 4,-,L_LOOT_4;
+	mes "[Disturb]";
+	mes "Even with modern science, I can't make your right hand into a drill.";
+	goto L_EXIT;
+L_LOOT_4:
+	   check @POSITION == 5,-,L_LOOT_5;
+	mes "[Disturb]";
+	mes "You're not wearing any robe!";
+	goto L_EXIT;
+L_LOOT_5:
+	   check @POSITION == 6,-,L_LOOT_6;
+	mes "[Disturb]";
+	mes "Your feet sure stinks!";
+	goto L_EXIT;
+L_LOOT_6:
+	   check @POSITION <= 8,-,L_LOOT_7;
+	mes "[Disturb]";
+	mes "So where's this accesory of yours?";
+	goto L_EXIT;
+L_LOOT_7:
+	mes "[Disturb]";
+	mes "What did you say you want to refine?";
+	mes "It's some other item, right?";
+	goto L_EXIT;
+L_START_1:
+	   check @REFINELEVEL == 99,-,L_START_2;
+	mes "[Disturb]";
+	mes "That item can't be refined.";
+	goto L_EXIT;
+L_START_2:
+	   check @REFINELEVEL == 10,-,L_START_3;
+	mes "[Disturb]";
+	mes "I can't refine that item anymore.";
+	goto L_EXIT;
+L_START_3:
+	   check @WEAPONLEVEL == 0,-,L_START_4;
+	mes "[Disturb]";
+	mes "To refine that, I'll need an";
+	mes "^ff9999Elunium^000000 and";
+	mes "a service fee of 5000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_3_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_3_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_3_0;
+L_LOOT_3_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_3_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_3_0;
+L_LOOT_3_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_3_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_3_0;
+L_LOOT_3_3:
+	set @REF_SUCCESS = 10;
+L_SUB_3_0:
+	mes "[Disturb]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_3_1,"No",-;
+	mes "[Disturb]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_3_1:
+	   checkitem 985,1,-,L_SUB_3_2;
+	   check Zeny >= 5000,-,L_SUB_3_2;
+	   delitem 985,1;
+	   set Zeny -= 5000,0;
+	goto L_START_8;
+L_SUB_3_2:
+	mes "[Disturb]";
+	mes "Is that all you've got?";
+	mes "Sorry, but it's not enough to cover";
+	mes "the cost of the materials.";
+	mes "I can't just do this for free, you know.";
+	goto L_EXIT;
+L_MENU_3_1:
+	mes "[Disturb]";
+	mes "If you don't want to, that's fine ...";
+	goto L_EXIT;
+L_START_4:
+	   check @WEAPONLEVEL == 1,-,L_START_5;
+	mes "[Disturb]";
+	mes "You want to refine a Level 1 weapon?";
+	mes "To refine that, I'll need a ^ff9999Phracon^000000";
+	mes "and a service fee of 50 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 7,-,L_SUB_4_1;
+	   check @REFINELEVEL == 7,-,L_LOOT_4_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_4_0;
+L_LOOT_4_1:
+	   check @REFINELEVEL == 8,-,L_LOOT_4_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_4_0;
+L_LOOT_4_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_4_0:
+	mes "[Disturb]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_4_1,"No",-;
+	mes "[Disturb]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_4_1:
+	   checkitem 1010,1,-,L_SUB_3_2;
+	   check Zeny >= 50,-,L_SUB_3_2;
+	   delitem 1010,1;
+	   set Zeny -= 50,0;
+	goto L_START_8;
+L_START_5:
+	   check @WEAPONLEVEL == 2,-,L_START_6;
+	mes "[Disturb]";
+	mes "You want to refine a Level 2 weapon?";
+	mes "To refine that, I'll need a ^ff9999Emveretarcon^000000";
+	mes "and a service fee of 200 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 6,-,L_SUB_5_1;
+	   check @REFINELEVEL == 6,-,L_LOOT_5_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_5_0;
+L_LOOT_5_1:
+	   check @REFINELEVEL == 7,-,L_LOOT_5_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_5_0;
+L_LOOT_5_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_5_0:
+	mes "[Disturb]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_5_1,"No",-;
+	mes "[Disturb]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_5_1:
+	   checkitem 1011,1,-,L_SUB_3_2;
+	   check Zeny >= 200,-,L_SUB_3_2;
+	   delitem 1011,1;
+	   set Zeny -= 200,0;
+	goto L_START_8;
+L_START_6:
+	   check @WEAPONLEVEL == 3,-,L_START_7;
+	mes "[Disturb]";
+	mes "You want to refine a Level 3 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 2000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 5,-,L_SUB_6_1;
+	   check @REFINELEVEL == 5,-,L_LOOT_6_1;
+	   set @REF_SUCCESS = 60;
+	   goto L_SUB_6_0;
+L_LOOT_6_1:
+	   check @REFINELEVEL == 6,-,L_LOOT_6_2;
+	   set @REF_SUCCESS = 50;
+	goto L_SUB_6_0;
+L_LOOT_6_2:
+	   set @REF_SUCCESS = 20;
+L_SUB_6_0:
+	mes "[Disturb]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Disturb]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_6_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 2000,-,L_SUB_3_2;
+	   delitem 984,1;
+	   set Zeny -= 2000,0;
+	goto L_START_8;
+L_START_7:
+	mes "[Disturb]";
+	mes "You want to refine a Level 4 weapon?";
+	mes "To refine that, I'll need a ^ff9999Oridecon^000000";
+	mes "and a service fee of 20000 zeny.";
+	mes "Do you wish to proceed?";
+	next;
+	menu "Yes",-,"No",L_MENU_3_1;
+	   set @REF_SUCCESS = 100;
+	   check @REFINELEVEL >= 4,-,L_SUB_7_1;
+	   check @REFINELEVEL == 4,-,L_LOOT_7_1;
+	   set @REF_SUCCESS = 60;
+	goto L_SUB_7_0;
+L_LOOT_7_1:
+	   check @REFINELEVEL <= 6,-,L_LOOT_7_2;
+	   set @REF_SUCCESS = 40;
+	goto L_SUB_7_0;
+L_LOOT_7_2:
+	   check @REFINELEVEL <= 8,-,L_LOOT_7_3;
+	   set @REF_SUCCESS = 20;
+	goto L_SUB_7_0;
+L_LOOT_7_3:
+	   set @REF_SUCCESS = 10;
+L_SUB_7_0:
+	mes "[Disturb]";
+	mes "Hold it there! It appears that this has been";
+	mes "refined too many times... It could be";
+	mes "destroyed if it's refined further.";
+	mes "If it's destroyed, it will be rendered useless...";
+	mes "Do you still wish to refine it?";
+	next;
+	menu "Yes",L_SUB_6_1,"No",-;
+	mes "[Disturb]";
+	mes "Good decision.";
+	mes "I don't feel good destroying another";
+	mes "person's weapons with my hands....";
+	goto L_EXIT;
+L_SUB_7_1:
+	   checkitem 984,1,-,L_SUB_3_2;
+	   check Zeny >= 20000,-,L_SUB_3_2;
+	   delitem 984,1;
+	    set Zeny -= 20000,0;
+L_START_8:
+	mes "[Disturb]";
+	mes "Clang! Clang! Clang!!";
+	next;
+	   random @REF_RAND,100;
+	   getskilllevel 107,@BS_ADD;
+	   set @REF_SUCCESS += @BS_ADD;
+	   check @REF_RAND < @REF_SUCCESS,-,L_START_9;
+	   set @REFINELEVEL += 1;
+	   refinery @POSITION,0,@REFINELEVEL;
+	   emotion 9;
+	mes "[Disturb]";
+	mes "There you go!";
+	mes "It's been awhile since I've attained such perfection.";
+	mes "Aren't you happy now that your weapon is stronger?";
+	goto L_EXIT;
+L_START_9:
+	   refinery @POSITION,1,0;
+	   emotion 0;
+	mes "[Disturb]";
+	mes "Oh noooooo......";
+	next;
+	mes "[Disturb]";
+	mes "Sorry!";
+	mes "Your weapon broke during the refining process...";
+	mes "See! Didn't I say earlier not to force me to do it?";
+L_EXIT:
+	   lockitem 0;
+	close;
+}
+
+yuno_in01.gat,171,21,4 script	"Dillemat" 88,{
+	mes "[Dillemat]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",-,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+	   checkitem 756,5,-,L_START_1;
+	   delitem 756,5;
+	   additem 984,1;
+	mes "[Dillemat]";
+	mes "As promised, here's your oridecon.";
+	mes "Come back again anytime.";
+	close;
+L_START_1:
+	mes "[Dillemat]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an oridecon unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_1:
+	   checkitem 757,5,-,L_START_2;
+	   delitem 757,5;
+	   additem 985,1;
+	mes "[Dillemat]";
+	mes "As promised, here's your elunium.";
+	mes "Come back again anytime.";
+	close;
+L_START_2:
+	mes "[Dillemat]";
+	mes "Huh? You're kidding, right?";
+	mes "Didn't I say I can't make you";
+	mes "an elunium unless you bring me";
+	mes "5 rough ones.";
+	close;
+L_MENU_2:
+	mes "[Dillemat]";
+	mes "Enchanted stones, huh ....";
+	mes "Well, in 20 years of my life as a";
+	mes "stonesmith I've heard of it many";
+	mes "times...though I've never seen it before.";
+	mes "What I heard is this: there are";
+	mes "enchanted stones out there which";
+	mes "possesses different elemental";
+	mes "properties - Water, Earth, Fire, Wind.";
+	next;
+	mes "[Dillemat]";
+	mes "If someone combines an Enchanted Stone";
+	mes "with a weapon while smithing, that weapon";
+	mes "will possess the same property as the stone.";
+	mes "Of course, that person needs to be skillful";
+	mes "enough to work on it.";
+	close;
+}
+
+yuno_in01.gat,171,26,4 script	"Delayt" 88,{
+	mes "[Delayt]";
+	mes "I,the Honest and Diligent Merchant";
+	mes "sell 2 kinds of Metal for tempering";
+	mes "weaponry of iron or steel.";
+	mes "I have ^007777Phracon^000000 for Lv 1";
+	mes "Weaponry... and ^007777Emveretarcon^000000";
+	mes "for Lv 2 Weaponry. I got many,";
+	mes "many of them... Haha.";
+	next;
+	menu "Phracon - 200z",-,"Emveretarcon - 1000z",L_MENU_1,"Ask wheter he has other Stones.",L_MENU_2;
+	mes "[Delayt]";
+	mes "^007777Phracon^000000 are 200 Zeny each...";
+	   set @BUY_PRICE = 200;
+	   set @BUY_ID = 1010;
+	goto L_START_1;
+L_MENU_1:
+	mes "[Delayt]";
+ 	mes "^007777Emveretarcon^000000 are 1000z each...";
+	   set @BUY_PRICE = 1000;
+	   set @BUY_ID = 1011;
+	goto L_START_1;
+L_MENU_2:
+	mes "[Delayt]";
+	mes "Ahhh!!! You need the Metal for";
+	mes "higher Leveled Weapons.";
+	mes "But you know,Oridecon or Elunim is";
+	mes "very very rare... so difficult to find...";
+	close;
+L_START_1:
+	mes "How many do you wish to Buy? If you";
+	mes "quit, please note the number as 'o'.";
+	next;
+	   input @BUY_NUM;
+	   check @BUY_NUM <= 500,-,L_START_5;
+	   check @BUY_NUM == 0,-,L_START_2;
+	mes "[Delayt]";
+	mes "Deal has canceled.";
+	close;
+L_START_2:
+	   set @BUY_ZENY = @BUY_NUM;
+	   set @BUY_ZENY *= @BUY_PRICE;
+	   check Zeny >= @BUY_ZENY,-,L_START_3;
+	   checkadditem @BUY_ID,@BUY_NUM,-,L_START_4;
+	   set Zeny -= @BUY_ZENY,0;
+	   additem @BUY_ID,@BUY_NUM;
+	mes "[Delayt]";
+	mes "Here you are, thank you for shopping at my shop.";
+	close;
+L_START_3:
+	mes "[Delayt]";
+	mes "Err...you don't have enough Money now.";
+	mes "Well, I am sorry but that's Below cost.";
+	close;
+L_START_4:
+	mes "[Delayt]";
+	mes "You can't wear that many, don't you think?";
+	mes "Reorder your inventory before retrying.";
+	close;
+L_START_5:
+	mes "[Delayt]";
+	mes "You can buy 500 or less.";
+	next;
+	mes "[Delayt]";
+	goto L_START_1;
+}
+
+//========================================================================================
+//
+// - Added Future Weapon and armor Repair npc's.
+//
+//========================================================================================
+
+yuno_in01.gat,167,23,4 script	"Repairman" 88,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+
+payon.gat,143,165,5 script "Repairman" 88,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+
+prt_in.gat,62,54,2 script "Repairman" 86,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+
+morocc_in.gat,71,40,2 script	"Repairman" 99,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+
+alberta_in.gat,31,65,4 script	"Repairman" 86,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+
+geffen_in.gat,20,175,4 script	"Repairman" 86,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+
+aldeba_in.gat,35,60,4 script	"Repairman" 89,{
+	mes "[Repairman]";
+	mes "Hey traveler! Do you want to repair";
+	mes "any items?";
+	mes "you can count on me for item";
+	mes "repairs!";
+	next;
+	menu "Actually, I do have some items...",L_Got,"None at the moment.",L_None;
+L_None:
+	mes "[Repairman]";
+	mes "Hohoho... You don't have any";
+	mes "business with me";
+	mes "if you don't have any items to repair.";
+	close;
+//L_Got:
+//	mes "[Repairman]";
+//	mes "Oh, wow. This is incredible!";
+//	mes "You must tkae very good care of your";
+//	mes "things.";
+//	mes "None of your items are damaged?";
+//	mes "if everyone is like you, I'm going";
+//	mes "to be unemployed soon!! Haha.";
+//	close;
+L_Got:
+	mes "[Repairman]";
+	mes "This service is currently not available.";
+	close;
+}
+

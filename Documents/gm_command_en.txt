@@ -1,0 +1,56 @@
+#save - Saves position.
+#return - Return to save position.
+#die - Kill yourself.
+#alive - Revive yourself.
+#auto - Will automatically kill/pick up items. Works like a bot. Works sometimes - not always. Not sure of the conditions.
+
+#hcolor <0-8> - Changes hair color 
+#ccolor <0-77> - Changes clothing color 
+#hstyle <0-18> - Changes hair style 
+
+#kill <player name> - Kills the named player.
+#goto <player name> - Warps you to the named player.
+#summon <player name> - Summons player to you.
+#warp <mapname> <x> <y> - Warps your player. Place the map name in lowercase.
+#banish <player name> <map> <x> <y> - Warps player to given location.
+
+#job 1 - 20 - Changes job. 19 = Bard; 20 = Dancer.
+#blevel <1-199> - Changes base level. (ONLY WORKS FOR YOUR CHARACTER.)
+#jlevel <1-50> - Change job level. (ONLY WORKS FOR YOUR CHARACTER.)
+#changestat <0-5> <0-99> - Changes character stat. (First stat [STR] starts at 0.)
+#skillpoint <0-1000> - Changes your skill points.
+#skillall - Gives all skills.
+#statall - Changes all stats to 99 and adds 1000 stat points.
+#zeny <0-all you want> - Adds that amount to your current total.
+#changeskill <skill id> <level> - Changes level of specified skill. 
+#item <quantity> - Create item using item ID.
+#monster <MONSTER_NAME> <Quantity> - Spawn <quantity> of MONSTER 
+#speed <20-200> - Changes your default walking speed. (Known to crash when using a high number.)
+#whois - Prints user statistics to server log window.
+#option <peko|cart|falcon|sight> - Changes specified options. Peko can ONLY be used as KNIGHT or CRUSADER. 
+#raw - Send raw command to server, not sure how to use it. 
+#unit - Unsure.
+#stat - Unsure.
+#refine <0-10> - Upgrade your currently equipped items. (0 starts with slot one.)
+
+/b <Text> - Normal broadcast. (Shows:= GM Name: Hello! This is a broadcast.)
+/nb <Text> - Anonymous broadcast. (Shows:= Hello! This is a broadcast.)
+/bb <Text> - Blue broadcast. Tricky to use at first. *
+/hide - GM Hide. Makes you invisible to players. (To yourself, as well.)
+/resetstate - Reset stat points distributed.
+/resetskill - Reset skill points distributed.
+
+/monster MONSTER_NAME - spawns a monster
+/item item_name - must be typed just as it is in itemdb.spawns items in inventory.
+#changestat 0-5 1-99 - 0-str,1-vit,etc. etc.
+#ban username or charaname (2nd time unbans)
+#kick charaname
+#pvpon/#pvpoff - pvp on or off.
+#gpvpon/#gpvpoff - guild pvp on or off.
+#server - broadcast's the server's emulator information 
+
+
+* = For some reason, this command ignores the first three letters. To use it properly, please do the following: /bb aaa This is the message you want to broadcast in blue.
+
+จาก The Fusion Project 
+http://fusion.cobax.net/index.php?showtopic=1131&hl=command
