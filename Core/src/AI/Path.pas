@@ -88,16 +88,16 @@ begin
 	ZeroMemory(@aa, sizeof(aa));
 	aa[1].x := x1;
 	aa[1].y := y1;
-	aa[1].mx := 15;
-	aa[1].my := 15;
+	aa[1].mx := 30;
+	aa[1].my := 30;
 	aa[1].cost2 := 0;
 	aa[1].cost1 := 1;
 	//aa[1].dir := 0;
 	aa[1].pcnt := 0;
 	n := 1;
 	ZeroMemory(@mm, sizeof(mm));
-	mm[15][15].cost := 1;
-	mm[15][15].addr := 1;
+	mm[30][30].cost := 1;
+	mm[30][30].addr := 1;
 
         while (n <> 0) and ((aa[1].x <> x2) or (aa[1].y <> y2)) do begin
                 rh := aa[1];
@@ -541,9 +541,9 @@ var
 	cost:word;
 begin
 	x := rh.mx + dx;
-	if (x < 0) or (x > 30) then exit;
+	if (x < 0) or (x > 60) then exit;
 	y := rh.my + dy;
-	if (y < 0) or (y > 30) then exit;
+	if (y < 0) or (y > 60) then exit;
 	cost := rh.cost2 + dist + (abs(x2 - (rh.x + dx)) + abs(y2 - (rh.y + dy))) * 10;
 	if mm[x][y].cost <> 0 then begin
 		//ç°Ç‹Ç≈Ç…ìØÇ∂ì_Ç™Ç†Ç¡ÇΩÇ»ÇÁcostÇî‰ärÇµè¨Ç≥Ç¢Ç»ÇÁêVÇµÇ¢pathÇ≈ÇªÇÃì_Ççƒìoò^

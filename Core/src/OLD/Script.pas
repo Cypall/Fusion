@@ -5,7 +5,7 @@ unit Script;
 interface
 
 uses
-	Windows, Types, SysUtils, Common, MMSystem, Classes;
+	Windows, Types, SysUtils, Common, MMSystem, Classes, Globals;
 
 //==============================================================================
 // 関数定義
@@ -341,12 +341,14 @@ begin
 						if j > tc.Item[k].Amount then j := tc.Item[k].Amount;
 						//装備中なら装備解除
 						if tc.Item[k].Equip <> 0 then begin
+                        	reset_skill_effects(tc);
 							WFIFOW(0, $00ac);
 							WFIFOW(2, k);
 							WFIFOW(4, tc.Item[k].Equip);
 							tc.Item[k].Equip := 0;
 							WFIFOB(6, 1);
 							tc.Socket.SendBuf(buf, 7);
+                            remove_equipcard_skills(tc, k);
 							CalcStat(tc);
 							SendCStat(tc);
 						end;
@@ -371,10 +373,10 @@ begin
 {NPCイベント追加ココまで}
 					k := SearchCInventory(tc, i, false);
 					if (k <> 0) and (tc.Item[k].Amount >= j) then begin
-						//DebugOut.Lines.Add(Format('s-checkitem: %d %d = 1', [i, j]));
+						//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('s-checkitem: %d %d = 1', [i, j]));
 						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[0];
 					end else begin
-						//DebugOut.Lines.Add(Format('s-checkitem: %d %d = 0', [i, j]));
+						//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('s-checkitem: %d %d = 0', [i, j]));
 						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[1];
 					end;
 				end;
@@ -417,12 +419,12 @@ begin
 					5: flag := boolean(i <  j);
 					else
 						begin
-							//DebugOut.Lines.Add(Format('s-check: invalid formula "%s"', [tn.Script[tc.ScriptStep].Data1[2]]));
+							//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('s-check: invalid formula "%s"', [tn.Script[tc.ScriptStep].Data1[2]]));
 							tc.ScriptStep := $FFFF;
 							break;
 						end;
 					end;
-					//DebugOut.Lines.Add(Format('s-check: %s %s(%d) %s = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data3[2], tn.Script[tc.ScriptStep].Data1[1], byte(flag)]));
+					//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('s-check: %s %s(%d) %s = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data3[2], tn.Script[tc.ScriptStep].Data1[1], byte(flag)]));
 					if flag then begin
 						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[0];
 					end else begin
@@ -463,12 +465,14 @@ begin
 					        end else
                                                 if tc.Item[i].Equip <> 0 then
                                                 begin
+                            		reset_skill_effects(tc);
 					                WFIFOW(0, $00ac);
 					                WFIFOW(2, i);
 					                WFIFOW(4, tc.Item[i].Equip);
 					                tc.Item[i].Equip := 0;
 					                WFIFOB(6, 1);
 					                tc.Socket.SendBuf(buf, 7);
+                                    remove_equipcard_skills(tc, i);
 					        end;
 					end;
 
@@ -627,7 +631,7 @@ begin
 					i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0], true);
 {NPCイベント追加ココまで}
 					//色変更
-					if (i >= 0) and (i <= 77) then begin
+					if (i >= 0) then begin
 						CalcStat(tc);
 						tc.ClothesColor := i;
             UpdateLook(tc.MData, tc, 7, i, 0, true);
@@ -712,23 +716,23 @@ begin
 				end; //S144 addend
 {追加:スクリプト144ココまで}
 {精錬NPC機能追加}
-			29: //refinery
+			29: //refinery <-- Turned a few jap comments to what they should mean [Tsusai]
 				begin
 {NPCイベント追加}
 					j := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
 					k := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[1]);
 {NPCイベント追加ココまで}
 					case j of
-						1:  l := $100; //頭上段
-						2:  l := $10;  //鎧
-						3:  l := $20;  //左手
-						4:  l := $2;   //右手
-						5:  l := $4;   //肩
-						6:  l := $40;  //靴
-						7:  l := $8;   //アクセ1
-						8:  l := $80;  //アクセ2
-						9:  l := $200; //頭上段
-						10: l := $1;   //頭下段
+						1:  l := $100; //Head
+						2:  l := $10;  //Body
+						3:  l := $20;  //Left Hand
+						4:  l := $2;   //Right Hand
+						5:  l := $4;   //Robe
+						6:  l := $40;  //Foot
+						7:  l := $8;   //Acc1
+						8:  l := $80;  //Acc2
+						9:  l := $200; //Head2
+						10: l := $1;   //Head
 						else l := 0;
 					end;
 {NPCイベント追加}
@@ -740,12 +744,14 @@ begin
 							if (tc.Item[i].ID <> 0) and (tc.Item[i].Amount <> 0) and tc.Item[i].Data.IEquip and
 								 ((tc.Item[i].Equip and l) = l) and (tc.Item[i].Refine < 10) then begin
 								//装備解除
+                                reset_skill_effects(tc);
 								WFIFOW(0, $00ac);
 								WFIFOW(2, i);
 								WFIFOW(4, tc.Item[i].Equip);
 								WFIFOB(6, 1);
            			tc.Socket.SendBuf(buf, 7);
-								//精錬成功
+                                remove_equipcard_skills(tc, i);
+								//Refine sucess
 								if k = 0 then begin
 									tc.Item[i].Refine := j;
 									//エフェクト
@@ -760,7 +766,7 @@ begin
 									WFIFOW(4, tc.Item[i].Equip);
 									WFIFOB(6, 1);
 									tc.Socket.SendBuf(buf, 7);
-								//精錬失敗
+								//Refine failure, kiss weapon goodbye
 								end else begin
 									tc.Item[i].Refine := 0;
 									tc.Item[i].Equip := 0;
@@ -948,7 +954,7 @@ begin
 {NPCイベント追加}
 					i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0], true);
 {NPCイベント追加ココまで}
-					if (i >= 0) and (i <= 8) then begin
+					if (i >= 0) then begin
 						tc.HairColor := i;
             UpdateLook(tc.MData, tc, 6, i, 0, true);
 					end;
@@ -1111,7 +1117,7 @@ begin
 					if (i = 0) then begin
 						//タイマーOFF
 						if (j <> -1) then begin
-							//DebugOut.Lines.Add(Format('NPC Timer(%d) was deleted / Remaining Timer(%d)', [tn.ID,tm.TimerAct.Count-1]));
+							//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('NPC Timer(%d) was deleted / Remaining Timer(%d)', [tn.ID,tm.TimerAct.Count-1]));
 							tm.TimerAct.Delete(tm.TimerAct.IndexOf(tn.ID));
 						end;
 					end else if (i = 1) then begin
@@ -1126,7 +1132,7 @@ begin
 									tr.Done[k] := 0;
 								end;
 								tm.TimerAct.AddObject(tn.ID, tr);
-								//DebugOut.Lines.Add(Format('NPC Timer(%d) was started / Starting Timer(%d)', [tn.ID,tm.TimerAct.Count]));
+								//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('NPC Timer(%d) was started / Starting Timer(%d)', [tn.ID,tm.TimerAct.Count]));
 							end;
 						end else begin
 							//再スタート
@@ -1135,7 +1141,7 @@ begin
 							for k := 0 to tr.Cnt - 1 do begin
 								tr.Done[k] := 0;
 							end;
-							//DebugOut.Lines.Add(Format('NPC Timer(%d) was re-started / Starting Timer(%d)', [tn.ID,tm.TimerAct.Count]));
+							//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('NPC Timer(%d) was re-started / Starting Timer(%d)', [tn.ID,tm.TimerAct.Count]));
 						end;
 					end;
 					Inc(tc.ScriptStep);
@@ -1167,7 +1173,7 @@ begin
 									tr.Done[k] := 1;
 								end;
 							end;
-							//DebugOut.Lines.Add(Format('NPC Timer(%d) was added (%d)ms', [tn.ID,i]));
+							//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('NPC Timer(%d) was added (%d)ms', [tn.ID,i]));
 						end;
 					end;
 					Inc(tc.ScriptStep);
@@ -1239,7 +1245,7 @@ begin
 
 						tn.ChatRoomID := tcr.ID;
 						ChatRoomList.AddObject(tcr.ID, tcr);
-						//DebugOut.Lines.Add(Format('ChatRoomTitle = %s : OwnerID = %d : OwnerName = %s', [tcr.Title, tcr.MemberID[0], tcr.MemberName[0]]));
+						//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('ChatRoomTitle = %s : OwnerID = %d : OwnerName = %s', [tcr.Title, tcr.MemberID[0], tcr.MemberName[0]]));
 
 						//周辺にパケ送信
 						w := Length(tcr.Title);
@@ -1272,7 +1278,7 @@ begin
 						end;
 						if (tn1.ScriptInitS <> -1) then begin
 							//OnInitラベルを実行
-							//DebugOut.Lines.Add(Format('OnInit Event(%d)', [tn1.ID]));
+							//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('OnInit Event(%d)', [tn1.ID]));
 							tc1 := TChara.Create;
 							tc1.TalkNPCID := tn1.ID;
 							tc1.ScriptStep := tn1.ScriptInitS;
@@ -1310,7 +1316,7 @@ begin
 							tn1.Enable := false;
 							l := tm.TimerAct.IndexOf(tn1.ID);
 							if (l <> -1) then begin
-								//DebugOut.Lines.Add(Format('NPC Timer(%d) was deleted / Remaining Timer(%d)', [tn.ID,tm.TimerAct.Count-1]));
+								//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('NPC Timer(%d) was deleted / Remaining Timer(%d)', [tn.ID,tm.TimerAct.Count-1]));
 								tm.TimerAct.Delete(tm.TimerAct.IndexOf(tn1.ID));
 							end;
 							for j := tn1.Point.Y div 8 - 2 to tn1.Point.Y div 8 + 2 do begin
@@ -1458,7 +1464,7 @@ begin
       47: //hstyle
 				begin
 					i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0], true);
-					if (i >= 0) and (i <= 19) then begin
+					if (i >= 0) then begin
               j := tc.HairColor;
 						  tc.Hair := i;
 
@@ -1482,8 +1488,8 @@ begin
           tg := GuildList.Objects[j] as TGuild;
 					//i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
           i := StrToInt(tn.Script[tc.ScriptStep].Data1[0]);
-          //DebugOut.Lines.Add(tn.Script[tc.ScriptStep].Data1[0]);
-          //DebugOut.Lines.Add(tn.Script[tc.ScriptStep].Data1[1]);
+          //debugout.lines.add('[' + TimeToStr(Now) + '] ' + tn.Script[tc.ScriptStep].Data1[0]);
+          //debugout.lines.add('[' + TimeToStr(Now) + '] ' + tn.Script[tc.ScriptStep].Data1[1]);
 					if (Copy(tn.Script[tc.ScriptStep].Data1[0], 1, 1) <> '\') then begin
 						if i = 0 then begin
 							tc.Flag.Values[tn.Script[tc.ScriptStep].Data1[0]] := '0';
@@ -1510,9 +1516,9 @@ begin
 					i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
           //i := StrToInt(tn.Script[tc.ScriptStep].Data1[0]);
           //i := i - 1;
-          //DebugOut.Lines.Add(IntToStr(tgc.GuardStatus[i]));
-          //DebugOut.Lines.Add(tn.Script[tc.ScriptStep].Data1[0]);
-          //DebugOut.Lines.Add(tn.Script[tc.ScriptStep].Data1[1]);
+          //debugout.lines.add('[' + TimeToStr(Now) + '] ' + IntToStr(tgc.GuardStatus[i]));
+          //debugout.lines.add('[' + TimeToStr(Now) + '] ' + tn.Script[tc.ScriptStep].Data1[0]);
+          //debugout.lines.add('[' + TimeToStr(Now) + '] ' + tn.Script[tc.ScriptStep].Data1[1]);
 					if (Copy(tn.Script[tc.ScriptStep].Data1[0], 1, 1) <> '\') then begin
 						if i = 0 then begin
 							tc.Flag.Values[tn.Script[tc.ScriptStep].Data1[0]] := '0';
@@ -1598,7 +1604,7 @@ begin
         end;
       60: //agitregist
         begin
-          //DebugOut.Lines.Add(Format('Agit now %s', [tn.Script[tc.ScriptStep].Data1[0]]));
+          //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Agit now %s', [tn.Script[tc.ScriptStep].Data1[0]]));
           tn.Agit := tn.Script[tc.ScriptStep].Data1[0];
 					Inc(tc.ScriptStep);        
         end;
@@ -1616,12 +1622,14 @@ begin
               WFIFOW(2, 0);
               tc.Socket.SendBuf(buf, 4);
             end else if tc.Item[j].Equip <> 0 then begin
+            	reset_skill_effects(tc);
               WFIFOW(0, $00ac);
               WFIFOW(2, j);
               WFIFOW(4, tc.Item[j].Equip);
               tc.Item[j].Equip := 0;
               WFIFOB(6, 1);
               tc.Socket.SendBuf(buf, 7);
+              remove_equipcard_skills(tc, j);
             end;
           end;
           Inc(tc.ScriptStep);
@@ -1633,8 +1641,11 @@ begin
           end;
           tc.BaseLV := 1;
           tc.BaseEXP := 0;
+          CalcStat(tc);
           SendCStat(tc);
-
+          SendCStat1(tc, 0, $000b, tc.BaseLV);
+          SendCStat1(tc, 0, $0009, tc.StatusPoint);
+          SendCStat1(tc, 1, $0001, tc.BaseEXP);
           Inc(tc.ScriptStep);
         end;
       65: //Global Variable
@@ -1717,12 +1728,12 @@ begin
 					5: flag := boolean(i <  j);
 					else
 						begin
-							//DebugOut.Lines.Add(Format('s-check: invalid formula "%s"', [tn.Script[tc.ScriptStep].Data1[2]]));
+							//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('s-check: invalid formula "%s"', [tn.Script[tc.ScriptStep].Data1[2]]));
 							tc.ScriptStep := $FFFF;
 							break;
 						end;
 					end;
-					//DebugOut.Lines.Add(Format('s-check: %s %s(%d) %s = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data3[2], tn.Script[tc.ScriptStep].Data1[1], byte(flag)]));
+					//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('s-check: %s %s(%d) %s = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data3[2], tn.Script[tc.ScriptStep].Data1[1], byte(flag)]));
 					if flag then begin
 						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[0];
 					end else begin
@@ -1772,13 +1783,13 @@ begin
 						end;
 					end else if (tc.Login = 2) then begin
 						//キャラクターフラグ
-						//DebugOut.Lines.Add(Format('str-check: %s', [tc.Flag.Values[tn.Script[tc.ScriptStep].Data1[0]]]));
+						//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('str-check: %s', [tc.Flag.Values[tn.Script[tc.ScriptStep].Data1[0]]]));
 						if (tc.Flag.Values[tn.Script[tc.ScriptStep].Data1[0]] = str) then begin
 							flag := true;
 						end;
 					end;
 
-					//DebugOut.Lines.Add(Format('str-check: %s %s %s(%s) = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data1[1], str, byte(flag)]));
+					//debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('str-check: %s %s %s(%s) = %d', [tn.Script[tc.ScriptStep].Data1[0], tn.Script[tc.ScriptStep].Data1[2], tn.Script[tc.ScriptStep].Data1[1], str, byte(flag)]));
 					if ((j = 0) and (flag = true)) or ((j = 1) and (flag = false)) then begin
 						tc.ScriptStep := tn.Script[tc.ScriptStep].Data3[0];
 					end else begin
@@ -1802,14 +1813,124 @@ begin
             SendCStat(tc);
             Inc(tc.ScriptStep);
         end;
+    70:   {NPC Emotions}
+    // emotion <emotion #>;
+      begin
+            i := ConvFlagValue(tc, tn.Script[tc.ScriptStep].Data1[0]);
+            tm := tc.MData;
+            WFIFOW(0, $00c0);
+            WFIFOL(2, tn.ID);
+            WFIFOB(6, i);
+            SendBCmd(tm, tn.Point, 7);
+            Inc(tc.ScriptStep);
+      end;
+    71: //donpcevent <npcname>,<event>;
+        begin
+            i := -1;
+            for k := 0 to tm.NPC.Count - 1 do begin
+                tn1 := tm.NPC.Objects[k] as TNPC;
+                if (tn1.Name = tn.Script[tc.ScriptStep].Data1[0]) then begin
+                    i := 0;
+                    break;
+                end;
+            end;
+
+            if (tn1.ScriptInitS <> -1) then begin
+            //OnInitラベルを実行
+            //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('OnInit Event(%d)', [tn1.ID]));
+                tc1 := TChara.Create;
+                tc1.TalkNPCID := tn1.ID;
+                tc1.ScriptStep := tn1.ScriptInitS;
+                tc1.AMode := 3;
+                tc1.AData := tn1;
+                tc1.Login := 0;
+                NPCScript(tc1,0,1);
+                tn.ScriptInitD := true;
+                tc1.Free;
+            end;
+
+            if i = 0 then begin
+                DebugOut.Lines.Add('Need to call the NPC ' + tn1.Name + ' and goto label ' + tn.Script[tc.ScriptStep].Data1[1]);
+                //tc.ScriptStep := tn1.Script[tc.ScriptStep].Data3[0];
+            end;
+
+            Inc(tc.ScriptStep);
+        end;
+        72: //percentheal
+        {   usage: percentheal HPpercent,SPpercent;
+            the percent of healing is based upon total HP and SP }
+                begin
+                    Inc(tc.HP, tn.Script[tc.ScriptStep].Data3[0]);
+                    //Healing
+                    j := tc.MAXHP * tn.Script[tc.ScriptStep].Data3[0] div 100;
+                    tc.HP := tc.HP + j;
+                    if tc.HP > tc.MAXHP then tc.HP := tc.MAXHP;
+                    //SP Increasing
+					Inc(tc.SP, tn.Script[tc.ScriptStep].Data3[1]);
+                    i := tc.MAXSP * tn.Script[tc.ScriptStep].Data3[1] div 100;
+                    tc.SP := tc.SP + i;
+					if tc.SP > tc.MAXSP then tc.SP := tc.MAXSP;
+					//パケ送信
+					WFIFOW( 0, $011a);
+					WFIFOW( 2, 28);
+					WFIFOW( 4, j);
+					WFIFOL( 6, tc.ID);
+					WFIFOL(10, tn.ID);
+					WFIFOB(14, 1);
+					SendBCmd(tc.MData, tn.Point, 15);
+					{
+					WFIFOW( 0, $013d);
+					WFIFOW( 2, $0007);
+					WFIFOW( 4, tn.Script[tc.ScriptStep].Data3[1]);
+					tc.Socket.SendBuf(buf, 6);
+					}
+					SendCStat1(tc, 0, 5, tc.HP);
+					SendCStat1(tc, 0, 7, tc.SP);
+
+					Inc(tc.ScriptStep);
+				end;
+
+        73: //percentheal2
+        {   usage: percentheal2 HPpercent,SPpercent;
+            the percent of healing is based upon
+            the difference of MAX and remaining HP and SP }
+                begin
+                    Inc(tc.HP, tn.Script[tc.ScriptStep].Data3[0]);
+                    //Healing
+                    j := (tc.MAXHP - tc.HP) * tn.Script[tc.ScriptStep].Data3[0] div 100;
+                    tc.HP := tc.HP + j;
+                    if tc.HP > tc.MAXHP then tc.HP := tc.MAXHP;
+                    //SP Increasing
+					Inc(tc.SP, tn.Script[tc.ScriptStep].Data3[1]);
+                    i := (tc.MAXSP - tc.SP) * tn.Script[tc.ScriptStep].Data3[1] div 100;
+                    tc.SP := tc.SP + i;
+					if tc.SP > tc.MAXSP then tc.SP := tc.MAXSP;
+					//パケ送信
+					WFIFOW( 0, $011a);
+					WFIFOW( 2, 28);
+					WFIFOW( 4, j);
+					WFIFOL( 6, tc.ID);
+					WFIFOL(10, tn.ID);
+					WFIFOB(14, 1);
+					SendBCmd(tc.MData, tn.Point, 15);
+					{
+					WFIFOW( 0, $013d);
+					WFIFOW( 2, $0007);
+					WFIFOW( 4, tn.Script[tc.ScriptStep].Data3[1]);
+					tc.Socket.SendBuf(buf, 6);
+					}
+					SendCStat1(tc, 0, 5, tc.HP);
+					SendCStat1(tc, 0, 7, tc.SP);
+
+					Inc(tc.ScriptStep);
+				end;
 
 
-{NPCイベント追加ココまで}
 			end;
     Inc(cnt);
 		end;
 		if cnt >= 100 then begin
-			//DebugOut.Lines.Add('script error!!! : infinity loop founded');
+			//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'script error!!! : infinity loop founded');
 		end;
 		if (tc.ScriptStep >= tn.ScriptCnt) or (cnt >= 100) then begin
 			//スクリプト終了

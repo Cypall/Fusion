@@ -4,7 +4,6 @@ program Weiss;
 
 uses
   madExcept,
-  madLinkDisAsm,
   Forms,
   Main in 'Main.pas' {frmMain},
   List32 in '..\lib\List32.pas',
@@ -14,7 +13,10 @@ uses
   CharaSel in 'CharaSel.pas',
   Game in 'Game.pas',
   Database in 'Database.pas',
-  Script in 'Script.pas';
+  Script in 'Script.pas',
+  Skills in 'Skills.pas',
+  WeissINI in 'WeissINI.pas',
+  JCon in 'JCon.pas';
 
 {$R *.res}
 

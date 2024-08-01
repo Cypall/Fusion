@@ -95,7 +95,7 @@ begin
     try
       SQLConnection.Connected := True;
 		except		
-		  DebugOut.Lines.Add('*** Error on MySQL Connect.');
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Error on MySQL Connect.');
       Exit;
 		end;
 	end;
@@ -115,7 +115,7 @@ begin
 	  try
       SQLDataSet.ExecSQL;
 		except
-		  DebugOut.Lines.Add( Format( '*** Execute SQL Error: %s', [sqlcmd] ) );
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format( '*** Execute SQL Error: %s', [sqlcmd] ) );
 			exit;
 		end;
 		Result := True;
@@ -124,10 +124,10 @@ begin
 	try
 	  SQLDataSet.Open;
 	except
-		DebugOut.Lines.Add( Format( '*** Open SQL Data Error: %s', [sqlcmd] ) );
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format( '*** Open SQL Data Error: %s', [sqlcmd] ) );
 		exit;
 	end;
-//	DebugOut.Lines.Add(sqlcmd);
+//	debugout.lines.add('[' + TimeToStr(Now) + '] ' + sqlcmd);
 	Result := True;
 end;
 
@@ -136,14 +136,14 @@ end;
 //------------------------------------------------------------------------------
 procedure SQLDataLoad();
 var
-	i,j,k :integer;
-	i1  :integer;
+	i,j :integer;
+//	i1  :integer;
 	sl  :TStringList;
-	tpa	:TParty;
+//	tpa	:TParty;
   tgc :TCastle;
-	tg  :TGuild;
-	tgb :TGBan;
-	tgl :TGRel;
+//	tg  :TGuild;
+//	tgb :TGBan;
+//	tgl :TGRel;
 	txt :TextFile;
 	str :string;
 begin
@@ -158,7 +158,7 @@ begin
 		Writeln(txt, '0');
 		CloseFile(txt);
 	end else begin
-		DebugOut.Lines.Add('Server Flag loading...');
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Server Flag loading...');
 		Application.ProcessMessages;
 		AssignFile(txt, AppPath + 'status.txt');
 		Reset(txt);
@@ -169,7 +169,7 @@ begin
 		j := StrToInt(sl.Strings[0]);
 		for i := 1 to j do ServerFlag.Add('\' + sl.Strings[i]);
 		CloseFile(txt);
-		DebugOut.Lines.Add(Format('*** Total %d Server Flag loaded.', [ServerFlag.Count]));
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Server Flag loaded.', [ServerFlag.Count]));
 		Application.ProcessMessages;
 	end;
 
@@ -182,7 +182,7 @@ begin
         end;
 
   {读取工会城资料}
-	DebugOut.Lines.Add('Castle data loading from SQL...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Castle data loading from SQL...');
 	Application.ProcessMessages;
 
 	if ExecuteSqlCmd('SELECT * FROM guild_castle') then
@@ -214,14 +214,14 @@ begin
 	    SQLDataSet.Next;
 	  end;
 	end else begin
-	  DebugOut.Lines.Add('Castle data loading error...');
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Castle data loading error...');
 		Exit;
 	end;
-	DebugOut.Lines.Add(Format('*** Total %d Castle(s) data loaded.', [CastleList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Castle(s) data loaded.', [CastleList.Count]));
 	Application.ProcessMessages;
 
   {读取组队资料}
-	{DebugOut.Lines.Add('Party data loading from SQL...');
+	{debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Party data loading from SQL...');
 	Application.ProcessMessages;
 
 	if ExecuteSqlCmd('SELECT * FROM party') then
@@ -248,19 +248,19 @@ begin
       end;
 
       PartyNameList.AddObject(tpa.Name, tpa);
-			DebugOut.Lines.Add(Format('Add Party Name : %s.', [tpa.Name]));
+			debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Add Party Name : %s.', [tpa.Name]));
 	    SQLDataSet.Next;
 	  end;
 	end else begin
-	  DebugOut.Lines.Add('Party data loading error...');
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Party data loading error...');
 		Exit;
 	end;
 
-	DebugOut.Lines.Add(Format('*** Total %d Party(s) data loaded.', [PartyNameList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Party(s) data loaded.', [PartyNameList.Count]));
 	Application.ProcessMessages;}
 
   {读取工会资料}
-	{DebugOut.Lines.Add('Guild data loading from SQL...');
+	{debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild data loading from SQL...');
 	Application.ProcessMessages;
 
   if ExecuteSqlCmd('SELECT * FROM guild_info') then
@@ -317,7 +317,7 @@ begin
 	    SQLDataSet.Next;
 	  end;
 	end else begin
-	  DebugOut.Lines.Add('Guild data loading error...');
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild data loading error...');
 		Exit;
 	end;
 
@@ -404,7 +404,7 @@ begin
 		end;
 	end;
 
-	DebugOut.Lines.Add(Format('*** Total %d Guild(s) data loaded.', [GuildList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Guild(s) data loaded.', [GuildList.Count]));
 	Application.ProcessMessages;}
 
         Preload_GuildMembers();
@@ -444,7 +444,7 @@ begin
         with tp do begin
 
                 if not ExecuteSqlCmd(Format('REPLACE INTO accounts (AID,ID,passwd,Gender,Mail,Banned) VALUES (''%d'',''%s'',''%s'',''%d'',''%s'',''%d'')', [ID, addslashes(Name), addslashes(Pass), Gender, addslashes(Mail), Banned])) then begin
-                    DebugOut.Lines.Add('*** Save Player Account data error.');
+                    debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Player Account data error.');
                 end;
 
                 for j := 1 to 100 do begin
@@ -464,7 +464,7 @@ begin
                 end;
 
             if not ExecuteSqlCmd(Format('REPLACE INTO storage (AID,storeitem) VALUES (''%d'',''%s'')', [ID, bindata])) then begin
-                DebugOut.Lines.Add('*** Save Player Kafra data error.');
+                debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Player Kafra data error.');
             end;
         end;
     end;
@@ -526,7 +526,7 @@ begin
         end;
 				if not ExecuteSqlCmd(Format('REPLACE INTO guild_castle (Name,GDID,GName,GMName,GKafra,EDegree,ETrigger,DDegree,DTrigger,GuardStatus0,GuardStatus1,GuardStatus2,GuardStatus3,GuardStatus4,GuardStatus5,GuardStatus6,GuardStatus7) VALUES (%s)', [bindata])) then
 				begin
-				  DebugOut.Lines.Add('*** Save Castle data error.');
+				  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Castle data error.');
 				end;
       end;
     end;
@@ -535,26 +535,26 @@ begin
 	Application.ProcessMessages;
 
 	{保存组队资料 --需要优化下}
-  if PartyNameList.Count <> 0 then
+	if PartyNameList.Count <> 0 then
 	begin
-	  for i := 0 to PartyNameList.Count - 1 do
-    begin
-      tpa := PartyNameList.Objects[i] as TParty;
-      with tpa do
-      begin
-			  bindata := IntToStr(i + 1);
-			  bindata := bindata + ' ,''' + addslashes(Name) + '''';
-			  bindata := bindata + ' ,' + IntToStr(EXPShare);
-			  bindata := bindata + ' ,' + IntToStr(ITEMShare);
-			  for j := 0 to 11 do begin
-			    bindata := bindata + ' ,' + IntToStr(MemberID[j]);
-			  end;
-			  if not ExecuteSqlCmd(Format('REPLACE INTO party (GRID,Name,EXPShare,ITEMShare,MemberID0,MemberID1,MemberID2,MemberID3,MemberID4,MemberID5,MemberID6,MemberID7,MemberID8,MemberID9,MemberID10,MemberID11) VALUES (%s)', [bindata])) then
-				begin
-				  DebugOut.Lines.Add('*** Save Party data error.');
+		for i := 0 to PartyNameList.Count - 1 do
+		begin
+			tpa := PartyNameList.Objects[i] as TParty;
+			with tpa do
+			begin
+				bindata := IntToStr(i + 1);
+				bindata := bindata + ' ,''' + addslashes(Name) + '''';
+				bindata := bindata + ' ,' + IntToStr(Integer(EXPShare));
+				bindata := bindata + ' ,' + IntToStr(Integer(ITEMShare));
+				for j := 0 to 11 do begin
+					bindata := bindata + ' ,' + IntToStr(MemberID[j]);
 				end;
-      end;
-    end;
+				if not ExecuteSqlCmd(Format('REPLACE INTO party (GRID,Name,EXPShare,ITEMShare,MemberID0,MemberID1,MemberID2,MemberID3,MemberID4,MemberID5,MemberID6,MemberID7,MemberID8,MemberID9,MemberID10,MemberID11) VALUES (%s)', [bindata])) then
+				begin
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Party data error.');
+				end;
+			end;
+		end;
 	end;
 
 	Application.ProcessMessages;
@@ -580,7 +580,7 @@ begin
 
 			  if not ExecuteSqlCmd(Format('REPLACE INTO guild_info (GDID,Name,LV,EXP,GSkillPoint,Subject,Notice,Agit,Emblem,present,DisposFV,DisposRW,skill) VALUES (''%d'',''%s'',''%d'',''%d'',''%d'',''%s'',''%s'',''%s'',''%d'',''%d'',''%d'',''%d'',''%s'')', [ID, addslashes(Name), LV, EXP, GSkillPoint, addslashes(Notice[0]), addslashes(Notice[1]), addslashes(Agit), Emblem, present, DisposFV, DisposRW, bindata])) then
 				begin
-				  DebugOut.Lines.Add('*** Save Guild data error.');
+				  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Guild data error.');
 				end;
 
 				{保存工会成员资料}
@@ -589,7 +589,7 @@ begin
 					begin
 					  if not ExecuteSqlCmd(Format('REPLACE INTO guild_members (GDID,GID,MemberExp,PositionID) VALUES (''%d'',''%d'',''%d'',''%d'')', [ID, MemberID[j], MemberEXP[j], MemberPos[j]])) then
 				    begin
-				      DebugOut.Lines.Add('*** Save Guild Member data error.');
+				      debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Guild Member data error.');
 				    end;
 					end;
 			  end;
@@ -655,7 +655,7 @@ end;
 function GetPlayerData(userid : String; AID: cardinal = 0) : Boolean;
 var
   tp  :TPlayer;
-	i,j,k : Integer;
+	i,j : Integer;
   sl  :TStringList;
 begin
   Result := False;
@@ -671,10 +671,10 @@ begin
 				Exit;
 			end;
 		end;
-		DebugOut.Lines.Add(format('Load User Data From MySQL: userid = %s', [userid]));
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Load User Data From MySQL: userid = %s', [userid]));
 
 		if not ExecuteSqlCmd(format('SELECT L.AID,L.ID,L.passwd,L.Gender,L.Mail,L.Banned,I.storeitem,I.money FROM accounts AS L LEFT JOIN storage AS I ON I.AID=L.AID WHERE L.ID=''%s'' LIMIT 1', [addslashes(userid)])) then begin
-			DebugOut.Lines.Add(format('Load User Data From MySQL Error: %s', [userid]));
+			debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Load User Data From MySQL Error: %s', [userid]));
 			Exit;
 		end
 	end else begin
@@ -685,10 +685,10 @@ begin
 				Exit;
 			end;
 		end;
-		DebugOut.Lines.Add(format('Load User Data From MySQL: AID = %d', [AID]));
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Load User Data From MySQL: AID = %d', [AID]));
 
 		if not ExecuteSqlCmd(format('SELECT L.AID,L.ID,L.passwd,L.Gender,L.Mail,L.Banned,I.storeitem,I.money FROM accounts AS L LEFT JOIN storage AS I ON I.AID=L.AID WHERE L.AID=''%d'' LIMIT 1', [AID])) then begin
-			DebugOut.Lines.Add(format('Load User Data From MySQL Error: %d', [AID]));
+			debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Load User Data From MySQL Error: %d', [AID]));
 			Exit;
 		end
 	end;}
@@ -777,13 +777,13 @@ end;
 //------------------------------------------------------------------------------
 function GetCharaData(GID: cardinal) : Boolean;
 var
-  i,j,k,tmp  : Integer;
-	tc : TChara;
-	ta : TMapList;
-	tp  :TPlayer;
-	tpa :TParty;
-	sl  :TStringList;
-    str :string;
+	i,j : Integer;
+	tc  : TChara;
+	ta  : TMapList;
+	tp  : TPlayer;
+	tpa : TParty;
+	sl  : TStringList;
+	str : string;
 begin
 	sl := TStringList.Create;
 	sl.QuoteChar := '"';
@@ -791,7 +791,7 @@ begin
 
   Result := False;
 
-	DebugOut.Lines.Add(format('Load Character Data From MySQL: CharaID = %d', [GID]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Load Character Data From MySQL: CharaID = %d', [GID]));
 
 	if ExecuteSqlCmd('SELECT C.*, M.*, S.skillInfo, I.equipItem, T.cartitem, V.flagdata FROM characters AS C ' + format('LEFT JOIN warpmemo AS M ON (C.GID=M.GID) LEFT JOIN skills AS S ON (C.GID=S.GID) LEFT JOIN inventory AS I ON (I.GID=C.GID) LEFT JOIN cart AS T ON (T.GID=C.GID) LEFT JOIN character_flags AS V ON (V.GID=C.GID) WHERE C.GID=''%d'' LIMIT 1', [GID])) then
 	begin
@@ -876,14 +876,14 @@ begin
 					MemoPoint[i].Y := StrToInt(SQLDataSet.FieldValues['yPos' + IntToStr(i)]);
 
 					if (MemoMap[i] <> '') and (MapList.IndexOf(MemoMap[i]) = -1) then begin
-						DebugOut.Lines.Add(Format('%s : Invalid MemoMap%d "%s"', [Name, i, MemoMap[i]]));
+						debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid MemoMap%d "%s"', [Name, i, MemoMap[i]]));
 						MemoMap[i] := '';
 						MemoPoint[i].X := 0;
 						MemoPoint[i].Y := 0;
 					end else if MemoMap[i] <> '' then begin
 						ta := MapList.Objects[MapList.IndexOf(MemoMap[i])] as TMapList;
                         if (MemoPoint[i].X < 0) or (MemoPoint[i].X >= ta.Size.X) or (MemoPoint[i].Y < 0) or (MemoPoint[i].Y >= ta.Size.Y) then begin
-							DebugOut.Lines.Add(Format('%s : Invalid MemoMap%d Point "%s"[%dx%d] (%d,%d)', [Name, i, MemoMap[i], ta.Size.X, ta.Size.Y, MemoPoint[i].X, MemoPoint[i].Y]));
+							debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid MemoMap%d Point "%s"[%dx%d] (%d,%d)', [Name, i, MemoMap[i], ta.Size.X, ta.Size.Y, MemoPoint[i].X, MemoPoint[i].Y]));
 							MemoMap[i] := '';
 							MemoPoint[i].X := 0;
 							MemoPoint[i].Y := 0;
@@ -895,7 +895,7 @@ begin
 
 				{检查地图是否存在}
 				if MapList.IndexOf(Map) = -1 then begin
-				  DebugOut.Lines.Add(Format('%s : Invalid Map "%s"', [Name, Map]));
+				  debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid Map "%s"', [Name, Map]));
 				  Map := 'prontera';
 				  Point.X := 158;
 				  Point.Y := 189;
@@ -903,14 +903,14 @@ begin
 				{检查地图坐标是否有效}
 				ta := MapList.Objects[MapList.IndexOf(Map)] as TMapList;
 				if (Point.X < 0) or (Point.X >= ta.Size.X) or (Point.Y < 0) or (Point.Y >= ta.Size.Y) then begin
-					DebugOut.Lines.Add(Format('%s : Invalid Map Point "%s"[%dx%d] (%d,%d)',[Name, Map, ta.Size.X, ta.Size.Y, Point.X, Point.Y]));
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid Map Point "%s"[%dx%d] (%d,%d)',[Name, Map, ta.Size.X, ta.Size.Y, Point.X, Point.Y]));
 					Map := 'prontera';
 					Point.X := 158;
 					Point.Y := 189;
 				end;
 				{检查人物记录点地图是否有效}
 				if MapList.IndexOf(SaveMap) = -1 then begin
-					DebugOut.Lines.Add(Format('%s : Invalid SaveMap "%s"', [Name, SaveMap]));
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid SaveMap "%s"', [Name, SaveMap]));
 					SaveMap := 'prontera';
 					SavePoint.X := 158;
 					SavePoint.Y := 189;
@@ -918,7 +918,7 @@ begin
 				{检查人物记录点地图坐标是否有效}
 				ta := MapList.Objects[MapList.IndexOf(SaveMap)] as TMapList;
 				if (SavePoint.X < 0) or (SavePoint.X >= ta.Size.X) or (SavePoint.Y < 0) or (SavePoint.Y >= ta.Size.Y) then begin
-					DebugOut.Lines.Add(Format('%s : Invalid SaveMap Point "%s"[%dx%d] (%d,%d)', [Name, SaveMap, ta.Size.X, ta.Size.Y, SavePoint.X, SavePoint.Y]));
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid SaveMap Point "%s"[%dx%d] (%d,%d)', [Name, SaveMap, ta.Size.X, ta.Size.Y, SavePoint.X, SavePoint.Y]));
 					SaveMap := 'prontera';
 					SavePoint.X := 158;
 					SavePoint.Y := 189;
@@ -1018,7 +1018,7 @@ begin
 //	    SQLDataSet.Next;
 	  end;
 	end else begin
-	  DebugOut.Lines.Add(format('Get Character data from MySQL Error: %d', [GID]));
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Get Character data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
 
@@ -1032,41 +1032,41 @@ function DeleteChar(GID: cardinal) : Boolean;
 begin
   Result := False;
 
-	DebugOut.Lines.Add(format('Delete Character data from MySQL: %d', [GID]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Character data from MySQL: %d', [GID]));
 
   {删除人物资料}
 	if not ExecuteSqlCmd(format('DELETE FROM characters WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete Character data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Character data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
   {删除人物技能资料}
 	if not ExecuteSqlCmd(format('DELETE FROM skills WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete Character skill data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Character skill data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
   {删除人物物品资料}
 	if not ExecuteSqlCmd(format('DELETE FROM inventory WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete Character item data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Character item data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
   {删除人物手推车资料}
 	if not ExecuteSqlCmd(format('DELETE FROM cart WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete Character cartItem data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Character cartItem data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
   {删除人物所在工会成员资料}
 	if not ExecuteSqlCmd(format('DELETE FROM guild_members WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete guildMinfo data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete guildMinfo data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
   {删除人物MEMO记录点资料}
 	if not ExecuteSqlCmd(format('DELETE FROM warpmemo WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete warpInfo data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete warpInfo data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
 
 	if not ExecuteSqlCmd(format('DELETE FROM character_flags WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete character_flag data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete character_flag data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
 
@@ -1081,7 +1081,7 @@ begin
   Result := False;
 
   if not ExecuteSqlCmd(format('SELECT count(GID) as count FROM characters WHERE Name=''%s'' LIMIT 1', [addslashes(userid)])) then begin
-    DebugOut.Lines.Add(format('Get character data from MySQL Error: %s', [userid]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Get character data from MySQL Error: %s', [userid]));
 		Result := True;
 		Exit;
 	end;
@@ -1103,7 +1103,7 @@ var
 begin
   Result := False;
 
-	DebugOut.Lines.Add(format('Load Character''s Pet Data From MySQL: PlayerID = %d', [AID]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Load Character''s Pet Data From MySQL: PlayerID = %d', [AID]));
 
 	if ExecuteSqlCmd(Format('SELECT * FROM pet WHERE PlayerID=''%d''', [AID])) then begin
 	  while not SQLDataSet.Eof do
@@ -1173,7 +1173,7 @@ begin
 			SQLDataSet.Next;
 		end;
 	end else begin
-	  DebugOut.Lines.Add('Pet data loading error...');
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Pet data loading error...');
 		Exit;
 	end;
 end;
@@ -1258,7 +1258,7 @@ begin
 
   if not ExecuteSqlCmd(Format('REPLACE INTO pet (PID,PlayerID,CharaID,Cart,PIndex,Incubated,JID,Name,Renamed,LV,Relation,Fullness,Accessory) VALUES (''%d'',''%d'',''%d'',''%d'',''%d'',''%d'',''%d'',''%s'',''%d'',''%d'',''%d'',''%d'',''%d'')', [tpe.PetID, tpe.PlayerID, CharaID, Cart, PIndex, Incubated, tpe.JID, addslashes(tpe.Name), tpe.Renamed, tpe.LV, tpe.Relation, tpe.Fullness, tpe.Accessory])) then
   begin
-    DebugOut.Lines.Add('*** Save Pet data error.');
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Pet data error.');
 		Exit;
   end;
 
@@ -1276,7 +1276,7 @@ begin
 	ExecuteSqlCmd(Format('DELETE FROM guild_positions WHERE GDID=''%d'' AND Grade=''%d'' LIMIT 1', [GDID, Grade]));
   if not ExecuteSqlCmd(Format('INSERT INTO guild_positions (GDID,Grade,PosName,PosInvite,PosPunish,PosEXP) VALUES (''%d'',''%d'',''%s'',''%s'',''%s'',''%d'')', [GDID, Grade, addslashes(PosName), BoolToStr(PosInvite), BoolToStr(PosPunish), PosEXP])) then
 	begin
-	  DebugOut.Lines.Add('*** Save Guild Position data error.');
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Guild Position data error.');
 	  Exit;
 	end;
 
@@ -1336,13 +1336,13 @@ begin
 	
 	if mtype = 2 then begin
 	  if not ExecuteSqlCmd(format('INSERT INTO guild_banish (GDID,MemberName,MemberAccount,Reason) VALUES (''%d'',''%s'',''%s'',''%s'')', [GDID, addslashes(tgb.Name), addslashes(tgb.AccName), addslashes(tgb.Reason)])) then begin
-      DebugOut.Lines.Add(format('INSERT guild_banish data to MySQL Error: %d', [GID]));
+      debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('INSERT guild_banish data to MySQL Error: %d', [GID]));
 //		  Exit;
 	  end;
 	end;
 
 	if not ExecuteSqlCmd(format('DELETE FROM guild_members WHERE GID=''%d'' LIMIT 1', [GID])) then begin
-    DebugOut.Lines.Add(format('Delete guild_members data from MySQL Error: %d', [GID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete guild_members data from MySQL Error: %d', [GID]));
 		Exit;
 	end;
 
@@ -1357,7 +1357,7 @@ begin
   Result := False;
 	
 	if not ExecuteSqlCmd(format('DELETE FROM party WHERE Name=''%s'' LIMIT 1', [addslashes(Name)])) then begin
-    DebugOut.Lines.Add(format('Delete party data from MySQL Error: %s', [Name]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete party data from MySQL Error: %s', [Name]));
 		Exit;
 	end;
 
@@ -1373,7 +1373,7 @@ begin
 
   if not ExecuteSqlCmd(Format('INSERT INTO guild_allies (GDID,GuildName,Relation) VALUES (''%d'',''%s'',''%d'')', [GDID, addslashes(GuildName), mtype])) then
 	begin
-	  DebugOut.Lines.Add('*** Save Guild AllyInfo data error.');
+	  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Guild AllyInfo data error.');
 		exit;
 	end;
 
@@ -1388,7 +1388,7 @@ begin
   Result := False;
 	
 	if not ExecuteSqlCmd(format('DELETE FROM guild_allies WHERE GDID=''%d'' AND Name=''%s'' AND Relation=''%d'' LIMIT 1', [GDID, addslashes(GuildName), mtype])) then begin
-    DebugOut.Lines.Add(format('Delete guild_allies data from MySQL Error: %s', [GuildName]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete guild_allies data from MySQL Error: %s', [GuildName]));
 		Exit;
 	end;
 
@@ -1402,31 +1402,31 @@ function  DeleteGuildInfo(GDID: cardinal) : Boolean;
 begin
   Result := False;
 
-	DebugOut.Lines.Add(format('Delete Guild data from MySQL: %d', [GDID]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Guild data from MySQL: %d', [GDID]));
 
   {删除工会资料}
 	if not ExecuteSqlCmd(format('DELETE FROM guild_info WHERE GDID=''%d'' LIMIT 1', [GDID])) then begin
-    DebugOut.Lines.Add(format('Delete Guild data from MySQL Error: %d', [GDID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Guild data from MySQL Error: %d', [GDID]));
 		Exit;
 	end;
   {删除工会成员资料}
 	if not ExecuteSqlCmd(format('DELETE FROM guild_members WHERE GDID=''%d'' LIMIT 36', [GDID])) then begin
-    DebugOut.Lines.Add(format('Delete Guild Member data from MySQL Error: %d', [GDID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Guild Member data from MySQL Error: %d', [GDID]));
 		Exit;
 	end;
   {删除工会头衔资料}
 	if not ExecuteSqlCmd(format('DELETE FROM guild_positions WHERE GDID=''%d'' LIMIT 20', [GDID])) then begin
-    DebugOut.Lines.Add(format('Delete Guild Position data from MySQL Error: %d', [GDID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Guild Position data from MySQL Error: %d', [GDID]));
 		Exit;
 	end;
   {删除工会开除成员记录资料}
 	if not ExecuteSqlCmd(format('DELETE FROM guild_banish WHERE GDID=''%d''', [GDID])) then begin
-    DebugOut.Lines.Add(format('Delete Guild BanishInfo data from MySQL Error: %d', [GDID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Guild BanishInfo data from MySQL Error: %d', [GDID]));
 		Exit;
 	end;
   {删除工会同盟、敌对资料}
 	if not ExecuteSqlCmd(format('DELETE FROM guild_allies WHERE GDID=''%d''', [GDID])) then begin
-    DebugOut.Lines.Add(format('Delete Guild AllyInfo data from MySQL Error: %d', [GDID]));
+    debugout.lines.add('[' + TimeToStr(Now) + '] ' + format('Delete Guild AllyInfo data from MySQL Error: %d', [GDID]));
 		Exit;
 	end;
 
@@ -1517,9 +1517,9 @@ end;
 //------------------------------------------------------------------------------
 function  SaveCharaData(tc : TChara) : Boolean;
 var
-  bindata : String;
-	j :integer;
-    sl :TStringList;
+	bindata : String;
+	j  : Integer;
+	sl : TStringList;
 begin
         if (tc.ID <> 0) then begin
 	sl := TStringList.Create;
@@ -1581,7 +1581,7 @@ begin
     bindata := bindata + ' ,' + IntToStr(ID);
     bindata := bindata + ')';
 	  if not ExecuteSqlCmd(Format('REPLACE INTO characters %s', [bindata])) then begin
-		  DebugOut.Lines.Add('*** Save Character data error.');
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Character data error.');
 			Exit;
 		end;
 
@@ -1596,7 +1596,7 @@ begin
 	    end;
 
 	  if not ExecuteSqlCmd(Format('REPLACE INTO skills (GID,skillInfo) VALUES (''%d'',''%s'')', [CID, bindata])) then begin
-		  DebugOut.Lines.Add('*** Save Character Skill data error.');
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Character Skill data error.');
 			Exit;
 		end;
 
@@ -1619,7 +1619,7 @@ begin
 		end;
 
 	  if not ExecuteSqlCmd(Format('REPLACE INTO inventory (GID,equipItem) VALUES (''%d'',''%s'')', [CID, bindata])) then begin
-		  DebugOut.Lines.Add('*** Save Character Item data error.');
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Character Item data error.');
 			Exit;
 		end;
 
@@ -1643,13 +1643,13 @@ begin
 		end;
 
 	    if not ExecuteSqlCmd(Format('REPLACE INTO cart (GID,cartitem) VALUES (''%d'',''%s'')', [CID, bindata])) then begin
-            DebugOut.Lines.Add('*** Save Character CartItem data error.');
+            debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Character CartItem data error.');
 			Exit;
 		end;
 
 		{保存人物MEMO记录点资料}
 		if not ExecuteSqlCmd(Format('REPLACE INTO warpmemo (GID,mapName0,xPos0,yPos0,mapName1,xPos1,yPos1,mapName2,xPos2,yPos2) VALUES (''%d'',''%s'',''%d'',''%d'',''%s'',''%d'',''%d'',''%s'',''%d'',''%d'')', [CID, addslashes(MemoMap[0]), MemoPoint[0].X, MemoPoint[0].Y, addslashes(MemoMap[1]), MemoPoint[1].X, MemoPoint[1].Y, addslashes(MemoMap[2]), MemoPoint[2].X, MemoPoint[2].Y])) then begin
-		  DebugOut.Lines.Add('*** Save Character Warp Memo data error.');
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Character Warp Memo data error.');
 			Exit;
 		end;
 
@@ -1661,7 +1661,7 @@ begin
         end;
 
 		if not ExecuteSqlCmd(Format('REPLACE INTO character_flags (GID,flagdata) VALUES (''%d'',''%s'')', [CID, sl.DelimitedText])) then begin
-		  DebugOut.Lines.Add('*** Save Character Flags data error.');
+		  debugout.lines.add('[' + TimeToStr(Now) + '] ' + '*** Save Character Flags data error.');
 			Exit;
 		end;
 	end;

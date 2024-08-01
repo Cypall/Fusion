@@ -1,4 +1,4 @@
-// NAME,MAP,X,Y,COST...
+// NAME,MAP,X,Y,COST...  Example Database by Ancyker
 save,save,0,0,100
 return,save,0,0,100
 home,save,0,0,100

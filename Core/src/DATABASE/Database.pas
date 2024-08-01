@@ -11,133 +11,466 @@ uses
 // 関数定義
 		procedure DatabaseLoad(Handle:HWND);
 		procedure DataLoad();
-        procedure PlayerDataLoad();
-		procedure DataSave();
+		procedure PlayerDataLoad();
+		procedure DataSave(forced : Boolean = False);
 //==============================================================================
 
 
-
-
-
-
-
-
-
+	//Files partitioned out of DatabaseLoad
+	Function  DataBaseFilesExist : Boolean;
+	Procedure LoadSummonLists;
+	Procedure LoadPetData;
 
 implementation
 
 uses
-	Common, GlobalLists, Zip;
+	Common, Game_Master, GlobalLists, Zip;
+
+
+(*-----------------------------------------------------------------------------*
+DataBaseFilesExist
+
+Returns a True value if ALL files needed in the Database folder exist,
+else returns false.
+(Optional DB files are checked for individually)
+
+Called by:
+	DatabaseLoad
+
+Pre:
+	None.
+Post:
+	Returns a True or False value
+
+Revisions:
+--
+2004/05/04 - ChrstphrR - Initial breakout from DatabaseLoad - 11 required files
+2004/05/04 - " - Checked again, and Required Files checked now 21
+
+Question:
+The following files were not checked for here - are they really just optional?
+	special_db.txt
+	mapinfo_db.txt
+
+2004/05/29 - AlexKreuz added gm_access.txt to the required list.
+*-----------------------------------------------------------------------------*)
+Function  DataBaseFilesExist : Boolean;
+Begin
+	Result := True; // Assume True.
+
+	if NOT (
+		FileExists(AppPath + 'database\item_db.txt') AND
+		FileExists(AppPath + 'database\summon_item.txt') AND
+		FileExists(AppPath + 'database\summon_mob.txt') AND
+		FileExists(AppPath + 'database\summon_mobID.txt') AND
+		FileExists(AppPath + 'database\metalprocess_db.txt') AND
+
+		FileExists(AppPath + 'database\pet_db.txt' ) AND
+		FileExists(AppPath + 'database\mob_db.txt') AND
+		FileExists(AppPath + 'database\skill_db.txt') AND
+		FileExists(AppPath + 'database\skill_guild_db.txt') AND
+		FileExists(AppPath + 'database\exp_guild_db.txt') AND
+
+		FileExists(AppPath + 'database\exp_db.txt') AND
+		FileExists(AppPath + 'database\Monster_AI.txt') AND
+		FileExists(AppPath + 'database\territory_db.txt') AND
+		FileExists(AppPath + 'database\summon_slave.txt') AND
+		FileExists(AppPath + 'database\make_arrow.txt') AND
+
+		FileExists(AppPath + 'database\id_table.txt') AND
+		FileExists(AppPath + 'database\gm_access.txt') AND
+
+		FileExists(AppPath + 'database\job_db1.txt') AND
+		FileExists(AppPath + 'database\job_db2.txt') AND
+		FileExists(AppPath + 'database\wp_db.txt') AND
+		FileExists(AppPath + 'database\warp_db.txt') AND
+
+		FileExists(AppPath + 'database\ele_db.txt')
+	) then begin
+		Result := FALSE;
+	end;
+End;(* Func DataBaseFilesExist (LocalUnitProc)
+*-----------------------------------------------------------------------------*)
+
+
+(*-----------------------------------------------------------------------------*
+LoadSummonLists
+
+This is a Local Procedure to Database unit. Must be declared ahead of the
+DatabaseLoad procedure.
+
+Loads all Summon* Lists from the proper database files. Broken out to make the
+original routine more readable -- each group of files loaded in it's own logical
+section.
+
+Called by:
+	DatabaseLoad
+
+Pre:
+	DataBaseFilesExist returns True (summmon_*.txt files exist)
+Post:
+	The following lists will have Zero or more entries:
+	SummonMobList    (summon_mobID.txt)
+	SummonMobListMVP (summon_mob.txt -- currently empty for this list)
+	SummonIOBList    (summon_item.txt)
+	SummonIOVList    (summon_item.txt)
+	SummonICAList    (summon_item.txt)
+	SummonIGBList    (summon_item.txt)
+	SummonIOWBList   (summon_item.txt)
+
+Revisions:
+--
+2004/05/04 - ChrstphrR - Initial breakout from DatabaseLoad
+2004/05/04 - ChrstphrR - Bug fix #827 - fixed for that, and ALL box summon lists
+*-----------------------------------------------------------------------------*)
+Procedure LoadSummonLists;
+Var
+	Idx     : Integer;
+	Counter : Integer; //Tallies entries into a list for display when done
+	Weight  : Integer; //Weighting number or "chance" item has to be chosen.
+
+	Txt     : TextFile;
+	Str     : string;      //Holds each line read
+	SL      : TStringList; //Parses Str into text tokens.
+Begin
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Summon Monster List loading...');
+	{ChrstphrR 2004/04/19 - New SummonMobList code... created and loaded here}
+
+	//Creates and loads data from the file all in one step
+	SummonMobList := TSummonMobList.Create(AppPath + 'database\summon_mobID.txt');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Summon Monster List loaded.', [SummonMobList.Count]));
+	{ChrstphrR 2004/04/19 - yes, that's all to see here - the rest is in the
+	TSummonMobList code}
+
+	{ChrstphrR 2004/05/23 - cleaned up last of the summon???lists here.
+	}
+	Application.ProcessMessages;
+	AssignFile(Txt, AppPath + 'database\summon_mob.txt');
+	Reset(Txt);
+	SL := TStringList.Create;
+	while not eof(Txt) do begin
+		Readln(txt, str);
+		SL.Delimiter     := ',';
+		SL.DelimitedText := Str;
+		if (SL[0] = 'MVP') AND (SL.Count >= 3) then begin
+			if (MobDBName.IndexOf(SL[1]) = -1) then begin
+				{Warn of invalid container in the line, handle gracefully}
+				debugout.lines.add('[' + TimeToStr(Now) + '] ' + 
+					'*** summon_item.txt Error handled (1). Please report this Item: ' + str
+				);
+			end else begin
+				Weight := StrToIntDef(SL[2],1);
+				for Idx := 1 to Weight do begin
+					SummonMobListMVP.Add(SL[1]);
+				end;
+			end;
+		end;
+	end;
+	CloseFile(txt);
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 
+		Format( '-> Total %d Summon MVP Monster List loaded.',
+		[SummonMobListMVP.Count] )
+	);
+	//-- End of SummonMobList / SummonMobListMVP Load
+
+
+	//Summon Box Lists
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Summon Item List loading...');
+	Application.ProcessMessages;
+	AssignFile(Txt, AppPath + 'database\summon_item.txt');
+	Reset(Txt);
+	SL.Clear;
+	while not eof(Txt) do begin
+		Readln(txt, str);
+		SL.DelimitedText := Str;
+		if SL.Count < 3 then Continue; //safety check against bad line.
+
+		{ChrstphrR 2004/05/04 - code-side fix for bug #827 -- Checking entries
+		in summon_item.txt against ItemDB before adding to list.
+		We know that ItemDB is populated about 400 lines ahead, so checking is safe,
+		so we're checking the ItemDBName list to make sure the Box items ARE there.}
+
+		{ChrstphrR 2004/05/04 - StrToIntDef ensures that at least, the
+		weighting of this choice will be 1, if not defined, or 0 or less.}
+		Weight := StrToIntDef(SL[2],1);
+
+		if (ItemDBName.IndexOf(SL[0]) = -1) then begin
+			{Warn of invalid container in the line, handle gracefully}
+			debugout.lines.add('[' + TimeToStr(Now) + '] ' + 
+				'*** summon_item.txt Error handled (1). Please report this Item: ' + str
+			);
+			Continue;
+		end;
+		if (ItemDBName.IndexOf(SL[1]) = -1) then begin
+			{ChrstphrR - well, the item in the summon_item.txt doesn't exist if we
+			branch here, output a message to let the user know, so they can post a
+			bug report to get the DB file corrected.}
+			debugout.lines.add('[' + TimeToStr(Now) + '] ' + 
+				'*** summon_item.txt Error handled (2). Please report this Item: ' + Str
+			);
+			Continue;
+		end;//if ItemDBName Check
+
+		//ChrstphrR -- Poor algorithm choice, will convert "later" to
+		//algorithm TSummonMobList uses.
+		for Idx := 1 to Weight do begin
+			if (SL[0] = 'Old_Blue_Box') then
+				SummonIOBList.Add(SL[1])
+			else if (SL[0] = 'Old_Violet_Box') then
+				SummonIOVList.Add(SL[1])
+			else if (SL[0] = 'Old_Card_Album') then
+				SummonICAList.Add(SL[1])
+			else if (SL[0] = 'Gift_Box') then
+				SummonIGBList.Add(SL[1])
+			else if (SL[0] = 'Old_Weapon_Box') then
+				SummonIOWBList.Add(SL[1]);
+		end;
+
+	end;//while
+	CloseFile(Txt);
+	SL.Free;
+
+	Counter := SummonIOBList.Count + SummonIOVList.Count + SummonICAList.Count +
+		SummonIGBList.Count + SummonIOWBList.Count;
+
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Summon Item List loaded.', [Counter]));
+	Application.ProcessMessages;
+End;(* Proc LoadSummonLists
+*-----------------------------------------------------------------------------*)
+
+
+(*-----------------------------------------------------------------------------*
+LoadPetData
+
+This is a Local Procedure to Database unit. Must be declared ahead of the
+DatabaseLoad procedure.
+
+Loads all Pet Lists from the proper database files. Broken out to make the
+original routine more readable -- and to allow future work to safeguard against
+bad data in the pet data files, before they're loaded into the internal lists.
+
+Called by:
+	DatabaseLoad
+
+Pre:
+	DataBaseFilesExist returns True (summmon_*.txt files exist)
+Post:
+	The following lists will have Zero or more entries:
+//	SummonMobList    (summon_mobID.txt)
+
+Revisions:
+--
+2004/05/26 - ChrstphrR - Initial breakout from DatabaseLoad
+2004/05/26 - ChrstphrR - Variable renaming for clarity.
+*-----------------------------------------------------------------------------*)
+Procedure LoadPetData;
+Var
+	ID_Idx    : Integer;
+	LineCount : Integer;
+	PetErrors : Boolean;
+
+	Str       : string; //temp storage for read line.
+	Txt       : TextFile;
+	PDB       : TPetDB;
+	PetDBrow  : TStringList;
+
+Begin
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' +  'Pet database loading...' );
+
+	AssignFile(Txt, AppPath + 'database\pet_db.txt' );
+	Reset(Txt);
+	Readln(Txt, Str);//Read comment line at top of pet_db
+	PetDBRow := TStringList.Create;
+
+	PetErrors := FALSE;
+	LineCount := 1;
+
+	while NOT eof(Txt) do begin
+		PetDBrow.Clear;
+		Readln(txt, Str);
+		Inc(LineCount);
+		PetDBrow.DelimitedText := str;
+
+		//Does the row have 14 entries?
+		//Does the first field have an ID number in it? -1 = invalid ID
+		if (PetDBrow.Count = 14) then
+			ID_Idx := StrToIntDef( PetDBrow[ 0], -1)
+		else
+			ID_IDx := -2;
+
+		//Look up ID found in PetDB - only procede if there's an entry.
+		if MobDB.IndexOf(ID_Idx) > -1 then begin
+		//ChrstphrR 2004/05/26 -- No typechecking done here - unsafe.
+		// -- no dupe entry checks either - first entry in always used.
+			PDB := TPetDB.Create;
+			try
+				with PDB do begin
+					MobID       := StrToInt( PetDBrow[ 0] );
+					ItemID      := StrToInt( PetDBrow[ 1] );
+					EggID       := StrToInt( PetDBrow[ 2] );
+					AcceID      := StrToInt( PetDBrow[ 3] );
+					FoodID      := StrToInt( PetDBrow[ 4] );
+					Fullness    := StrToInt( PetDBrow[ 5] );
+					HungryDelay := StrToInt( PetDBrow[ 6] );
+					Hungry      := StrToInt( PetDBrow[ 7] );
+					Full        := StrToInt( PetDBrow[ 8] );
+					Reserved    := StrToInt( PetDBrow[ 9] );
+					Die         := StrToInt( PetDBrow[10] );
+					Capture     := StrToInt( PetDBrow[11] );
+					// 12th is the Species name - not stored.
+					SkillTime   := StrToInt( PetDBrow[13] );
+				end;
+				PetDB.AddObject( PDB.MobID, PDB );
+			except
+				on EConvertError do begin
+					//No number where a number should be...
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format(
+						'pet_db.txt Error handled : Incorrect/missing field on line %d : %s', [LineCount, Str]
+					) );
+					PetErrors := TRUE;
+					if Assigned(PDB) then
+						PDB.Free;
+				end;
+			end;//try-e
+		end else begin
+			// No match for MobID in mobdb, or line wasn't up to 14 parts.
+			case ID_Idx of
+			-1 : begin
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format(
+						'pet_db.txt Error handled : Invalid MobID on line %d : %s',
+						[LineCount, Str]
+					) );
+					PetErrors := TRUE;
+				end;
+			-2 : begin
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format(
+						'pet_db.txt Error handled : Line %d has less than 14 fields',
+						[LineCount]
+					) );
+					PetErrors := TRUE;
+				end;
+				else begin
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format(
+						'pet_db.txt Error handled : Invalid MobID on line %d : %s',
+						[LineCount, Str]
+					) );
+					PetErrors := TRUE;
+				end;
+			end;//case
+		end;
+	end;
+	CloseFile(txt);
+
+	if PetErrors then begin
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format(
+			'*** Error(s) in %sdatabase\pet_db.txt found.',
+			[AppPath]
+		) );
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' +  '	This may affect game play. Please repair this file.' );
+	end;
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format( '-> Total %d pet(s) database loaded.', [PetDB.Count] ) );
+	Application.ProcessMessages;
+
+End;(* Proc LoadPetData
+*-----------------------------------------------------------------------------*)
+
+
+
+
 //==============================================================================
 // データベース読み込み
 procedure DatabaseLoad(Handle:HWND);
 var
-	i,j,k,l :integer;
-	w		:word;
-	xy	:TPoint;
-	str :string;
-	txt :TextFile;
-  // Variables for creating the new AI list
-  txt2:TextFile;
-  str1:string;
+	i   : Integer;
+	j   : Integer;
+	k   : Integer;
+	l   : Integer;
+	w   : Word;
+	xy  : TPoint;
+	str : string;
+	txt : TextFile;
+	// Variables for creating the new AI list
+	txt2: TextFile;
+	str1: string;
 
-	sl  :TStringList;
-	sl1 :TStringList;
-	ta	:TMapList;
-	td  :TItemDB;
+	SL  : TStringList;
+	SL1 : TStringList;
+	ta  : TMapList;
+	td  : TItemDB;
 {追加}
-	wj  :Int64;
+	wj  : Int64;
 {追加ココまで}
 {アイテム製造追加}
-	tma	:TMaterialDB;
+	tma : TMaterialDB;
 {アイテム製造追加ココまで}
 {氏{箱追加}
-	tsmn	:TSummon;
-  tss   :TSlaveDB;
-  tid   :TIDTbl;
-  ma    :TMArrowDB;
+	tss : TSlaveDB;
+	tid : TIDTbl;
+    tGM : TGM_Table;
+
+	ma  : TMArrowDB;
 {氏{箱追加ココまで}
 {キューペット}
-        tp      :TPetDB;
+	tp  : TPetDB;
 {キューペットここまで}
 {NPCイベント追加}
-	mi  :MapTbl;
+	mi  : MapTbl;
 {NPCイベント追加ココまで}
-	tb  :TMobDB;
-  ts  :TMobDB;
-	tsAI :TMobAIDB;
-  tsAI2 :TMobAIDBFusion;
-  twp :TWarpDatabase;
-  tGlobal:TGlobalVars;
 
-      //  tPharm  :TPharmacyDB;  {Pharmacy's Database}
-  tt  :TTerritoryDB;
-	tl	:TSkillDB;
-	sr	:TSearchRec;
-	dat :TFileStream;
-	jf	:array[0..MAX_JOB_NUMBER] of boolean;
+	tb   : TMobDB;
+	ts   : TMobDB;
+	tsAI    : TMobAIDB;
+	tsAI2   : TMobAIDBFusion;
+	twp     : TWarpDatabase;
+	tGlobal : TGlobalVars;
 
-        afm_compressed :TZip;
-        afm :textfile;
+	tt  : TTerritoryDB;
+	tl  : TSkillDB;
+	sr  : TSearchRec;
+	dat : TFileStream;
+	jf  : array[0..MAX_JOB_NUMBER] of Boolean;
+
+	afm_compressed : TZip;
+	afm            : Textfile;
 
 begin
-	sl := TStringList.Create;
-	sl1 := TStringList.Create;
-	//sl.QuoteChar := '"';
-	//sl.Delimiter := ',';
 
-	//各種データファイルの存在をチェック
-	if not (FileExists(AppPath + 'database\item_db.txt') and
-{氏{箱追加ココまで}
-					FileExists(AppPath + 'database\summon_item.txt') and
-          //FileExists(AppPath + 'database\summon_slave.txt') and
-					FileExists(AppPath + 'database\summon_mob.txt') and
-          //FileExists(AppPath + 'database\make_arrow.txt') and
-{氏{箱追加ココまで}
-{アイテム製造追加}
-					FileExists(AppPath + 'database\metalprocess_db.txt') and
-{アイテム製造追加ココまで}
-{キューペット}
-          FileExists( AppPath + 'database\pet_db.txt' ) and
-{キューペットここまで}
-					FileExists(AppPath + 'database\mob_db.txt') and
-					FileExists(AppPath + 'database\skill_db.txt') and
-{ギルド機能追加}
-					FileExists(AppPath + 'database\skill_guild_db.txt') and
-					FileExists(AppPath + 'database\exp_guild_db.txt') and
-{ギルド機能追加ココまで}
-					FileExists(AppPath + 'database\exp_db.txt')) then begin
-		MessageBox(Handle, 'You have missing files. Go to the Fusion Download Center to get them.', 'Fusion', MB_OK or MB_ICONSTOP);
+	if NOT DataBaseFilesExist then begin
+		MessageBox(
+			Handle,
+			'You have missing files. Go to the Fusion Download Center to get them.',
+			'Fusion',
+			MB_OK or MB_ICONSTOP
+		);
 		Application.Terminate;
-		exit;
+		Exit;
 	end;
 
 	//gatファイルの存在をチェック
-	DebugOut.Lines.Add('Map data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Map data loading...');
 	Application.ProcessMessages;
 
-        if FindFirst(AppPath + 'map\*.af2', $27, sr) = 0 then begin
+	if FindFirst(AppPath + 'map\*.af2', $27, sr) = 0 then begin
 		repeat
+			CreateDir('map\tmpFiles');
+			afm_compressed := tzip.create(afm_compressed);
+			afm_compressed.Filename := AppPath+'map\'+sr.Name;
+			afm_compressed.ExtractPath := AppPath+'map\tmpFiles';
+			afm_compressed.Extract;
 
-                        CreateDir('map\tmpFiles');
-                        afm_compressed := tzip.create(afm_compressed);
-                        afm_compressed.Filename := AppPath+'map\'+sr.Name;
-                        afm_compressed.ExtractPath := AppPath+'map\tmpFiles';
-                        afm_compressed.Extract;
-
-                        sr.Name := StringReplace(sr.Name, '.af2', '.out',
-                          [rfReplaceAll, rfIgnoreCase]);
+			sr.Name := StringReplace(sr.Name, '.af2', '.out',
+				[rfReplaceAll, rfIgnoreCase]);
 
 			assignfile(afm,AppPath + 'map\tmpFiles\' + sr.Name);
 			Reset(afm);
-			
+
 			ReadLn(afm,str);
 			if (str <> 'ADVANCED FUSION MAP') then begin
-                                MessageBox(Handle, PChar('Map Format Error : ' + sr.Name), 'Fusion', MB_OK or MB_ICONSTOP);
-                                Application.Terminate;
-                                exit;
-                        end;
-                        
+				MessageBox(Handle, PChar('Map Format Error : ' + sr.Name), 'Fusion', MB_OK or MB_ICONSTOP);
+				Application.Terminate;
+				exit;
+			end;
+
 			ReadLn(afm,str);
 			ReadLn(afm,xy.X,xy.Y);
 			CloseFile(afm);
@@ -151,29 +484,29 @@ begin
 			//Application.ProcessMessages;
 			ta := TMapList.Create;
 			ta.Name := LowerCase(ChangeFileExt(sr.Name, ''));
-                        ta.Ext := 'af2';
+			ta.Ext := 'af2';
 			ta.Size := xy;
 			ta.Mode := 0;
 			MapList.AddObject(ta.Name, ta);
 
 		until FindNext(sr) <> 0;
 		FindClose(sr);
-                afm_compressed.Free;
-        end;
+		afm_compressed.Free;
+	end;
 
-        if FindFirst(AppPath + 'map\*.afm', $27, sr) = 0 then begin
+	if FindFirst(AppPath + 'map\*.afm', $27, sr) = 0 then begin
 		repeat
 
-                        assignfile(afm,AppPath + 'map\' + sr.Name);
+			assignfile(afm,AppPath + 'map\' + sr.Name);
 			Reset(afm);
-			
+
 			ReadLn(afm,str);
 			if (str <> 'ADVANCED FUSION MAP') then begin
-                                MessageBox(Handle, PChar('Map Format Error : ' + sr.Name), 'Fusion', MB_OK or MB_ICONSTOP);
-                                Application.Terminate;
-                                exit;
-                        end;
-                        
+				MessageBox(Handle, PChar('Map Format Error : ' + sr.Name), 'Fusion', MB_OK or MB_ICONSTOP);
+				Application.Terminate;
+				exit;
+			end;
+
 			ReadLn(afm,str);
 			ReadLn(afm,xy.X,xy.Y);
 			CloseFile(afm);
@@ -187,25 +520,25 @@ begin
 			//Application.ProcessMessages;
 			ta := TMapList.Create;
 			ta.Name := LowerCase(ChangeFileExt(sr.Name, ''));
-                        ta.Ext := 'afm';
+			ta.Ext := 'afm';
 			ta.Size := xy;
 			ta.Mode := 0;
 			MapList.AddObject(ta.Name, ta);
 
 		until FindNext(sr) <> 0;
 		FindClose(sr);
-        end;
+	end;
 
-        if FindFirst(AppPath + 'map\*.gat', $27, sr) = 0 then begin
+	if FindFirst(AppPath + 'map\*.gat', $27, sr) = 0 then begin
 		repeat
 			dat := TFileStream.Create(AppPath + 'map\' + sr.Name, fmOpenRead, fmShareDenyWrite);
 
 			SetLength(str, 4);
-                        dat.Read(str[1], 4);
-                        if str <> 'GRAT' then begin
-                                MessageBox(Handle, PChar('Map Format Error : ' + sr.Name), 'Fusion', MB_OK or MB_ICONSTOP);
-                                Application.Terminate;
-                                exit;
+			dat.Read(str[1], 4);
+			if str <> 'GRAT' then begin
+				MessageBox(Handle, PChar('Map Format Error : ' + sr.Name), 'Fusion', MB_OK or MB_ICONSTOP);
+				Application.Terminate;
+				exit;
 			end;
 
 			dat.Read(w, 2);
@@ -221,25 +554,29 @@ begin
 			//Application.ProcessMessages;
 			ta := TMapList.Create;
 			ta.Name := LowerCase(ChangeFileExt(sr.Name, ''));
-                        ta.Ext := 'gat';
+												ta.Ext := 'gat';
 			ta.Size := xy;
 			ta.Mode := 0;
 			MapList.AddObject(ta.Name, ta);
 		until FindNext(sr) <> 0;
 		FindClose(sr);
 	end;
-        
+
 	if MapList.IndexOf('prontera') = -1 then begin
 		//最低限、prontera.gatがないと起動しない
 		MessageBox(Handle, 'prontera map file missing', 'Fusion', MB_OK or MB_ICONSTOP);
 		Application.Terminate;
 		exit;
 	end;
-	DebugOut.Lines.Add(Format('-> Total %d map(s) loaded.', [MapList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d map(s) loaded.', [MapList.Count]));
 	Application.ProcessMessages;
 
+	{ChrstphrR 2004/05/24 -- Moved so that early exits aren't memory leaks too}
+	SL  := TStringList.Create;
+	SL1 := TStringList.Create;
+
 	//アイテムデータロード
-	DebugOut.Lines.Add('Item database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Item database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\item_db.txt');
 	Reset(txt);
@@ -288,52 +625,52 @@ begin
 			Job := StrToInt64(sl.Strings[24]); 
          if Job <> 0 then begin
             //Bit recombination
-            for i := 0 to LOWER_JOB_END do begin
-               jf[i] := boolean((Job and (1 shl i)) <> 0);
-               if (i < (LOWER_JOB_END - 1)) and (jf[i]) then begin
-                  jf[i + LOWER_JOB_END + 1] := true;
-               end;
-            end;
-            //             Novice                     swordsman                mage                        archer 
-            Job :=       Int64(jf[ 0]) * $0001 + Int64(jf[ 1]) * $0002 + Int64(jf[ 2]) * $0004 + Int64(jf[ 3]) * $0008; 
-            //              aco                           merchant                    thief                          knight 
-            Job := Job + Int64(jf[ 4]) * $0010 + Int64(jf[ 5]) * $0020 + Int64(jf[ 6]) * $0040 + Int64(jf[ 7]) * $0080; 
-            //              priest                          Wizard                       blacksmith                  hunter 
-            Job := Job + Int64(jf[10]) * $0100 + Int64(jf[ 8]) * $0200 + Int64(jf[ 11]) * $0400 + Int64(jf[ 9]) * $0800; 
-            //          Asassin 
-            Job := Job + Int64(jf[12]) * $1000; 
-            //暫定 
-            Job := Job or Int64(jf[14]) * $004000;  //Crusader 
-            Job := Job or Int64(jf[15]) * $008000;  //Monk 
-            Job := Job or Int64(jf[16]) * $010000;  //Sage 
-            Job := Job or Int64(jf[17]) * $020000;  //Rogue
-            Job := Job or Int64(jf[18]) * $040000;  //Alchemist
-            Job := Job or Int64(jf[19]) * $080000;  //Bard
-            Job := Job or Int64(jf[20]) * $100000;  //Dancer
+						for i := 0 to LOWER_JOB_END do begin
+							 jf[i] := boolean((Job and (1 shl i)) <> 0);
+							 if (i < (LOWER_JOB_END - 1)) and (jf[i]) then begin
+									jf[i + LOWER_JOB_END + 1] := true;
+							 end;
+						end;
+						//             Novice                     swordsman                mage                        archer
+						Job :=       Int64(jf[ 0]) * $0001 + Int64(jf[ 1]) * $0002 + Int64(jf[ 2]) * $0004 + Int64(jf[ 3]) * $0008;
+						//              aco                           merchant                    thief                          knight
+						Job := Job + Int64(jf[ 4]) * $0010 + Int64(jf[ 5]) * $0020 + Int64(jf[ 6]) * $0040 + Int64(jf[ 7]) * $0080;
+						//              priest                          Wizard                       blacksmith                  hunter
+						Job := Job + Int64(jf[10]) * $0100 + Int64(jf[ 8]) * $0200 + Int64(jf[ 11]) * $0400 + Int64(jf[ 9]) * $0800;
+						//          Asassin
+						Job := Job + Int64(jf[12]) * $1000;
+						//暫定
+						Job := Job or Int64(jf[14]) * $004000;  //Crusader
+						Job := Job or Int64(jf[15]) * $008000;  //Monk
+						Job := Job or Int64(jf[16]) * $010000;  //Sage
+						Job := Job or Int64(jf[17]) * $020000;  //Rogue
+						Job := Job or Int64(jf[18]) * $040000;  //Alchemist
+						Job := Job or Int64(jf[19]) * $080000;  //Bard
+						Job := Job or Int64(jf[20]) * $100000;  //Dancer
 
-            // $200000: Groom, $400000: Bride...
-            Job := Job or Int64(jf[23]) * $800000;  //Super Novice
+						// $200000: Groom, $400000: Bride...
+						Job := Job or Int64(jf[23]) * $800000;  //Super Novice
 
-            //Crusader Same as a swordsman and knight
-            if Boolean(Job and $0002) or Boolean(Job and $0080) then Job := Job or $4000;
+						//Crusader Same as a swordsman and knight
+						if Boolean(Job and $0002) or Boolean(Job and $0080) then Job := Job or $4000;
 
-            // Super Novices get all Novice equipments.
-            if Boolean(Job and $0001) then Job := Job or $800000;
+						// Super Novices get all Novice equipments.
+						if Boolean(Job and $0001) then Job := Job or $800000;
 
-            //Monk
-            if IType = 5 then begin //Same as aco 
-               if Boolean(Job and $0010) or Boolean(Job and $0100) then Job := Job or $8000;
-            end else if IType = 4 then begin //weapons same as aco, knuckle system 
-               if Boolean(Job and $0010) then Job := Job or $8000; 
-               if View = 12 then Job := Job or $8000; 
-            end; 
-            //Sage Same attribute as mage 
-            if Boolean(Job and $0004) or Boolean(Job and $0200) then Job := Job or $10000; 
-               //Possible equiptment 
-            if (IType = 4) and (View = 15) then Job := Job or $10000; 
-            //Rogue same as hunter. uses bow 
-            if Boolean(Job and $0040) then Job := Job or $20000; 
-            //Alchemist Same as Blacksmith 
+						//Monk
+						if IType = 5 then begin //Same as aco
+							 if Boolean(Job and $0010) or Boolean(Job and $0100) then Job := Job or $8000;
+						end else if IType = 4 then begin //weapons same as aco, knuckle system
+							 if Boolean(Job and $0010) then Job := Job or $8000;
+							 if View = 12 then Job := Job or $8000;
+						end;
+						//Sage Same attribute as mage
+						if Boolean(Job and $0004) or Boolean(Job and $0200) then Job := Job or $10000;
+							 //Possible equiptment
+						if (IType = 4) and (View = 15) then Job := Job or $10000;
+						//Rogue same as hunter. uses bow
+						if Boolean(Job and $0040) then Job := Job or $20000;
+						//Alchemist Same as Blacksmith
             if Boolean(Job and $0020) or Boolean(Job and $0400) then Job := Job or $40000; 
             //Bard 
             //Dancer
@@ -345,7 +682,7 @@ begin
                if View = 14 then Job := Job or $100000; //Whip 
                if View = 11 then begin //Bows equip for both? 
                   if Boolean(Job and $0008) or Boolean(Job and $0800) then Job := Job or $180000; 
-                  if Boolean(Job and $0001) then Job := Job or $180000  end;
+									if Boolean(Job and $0001) then Job := Job or $180000  end;
             end;
 
             // Colus, 20040304: Kludged method of porting the reqs to upper jobs
@@ -368,7 +705,7 @@ begin
 				DamageFixR[i] := 0;
 				DamageFixE[i] := 0;
 			end;
-      //if ID > 4000 then DebugOut.Lines.Add(Format('ID = %d', [ID]));
+			//if ID > 4000 then debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('ID = %d', [ID]));
 			DamageFixR[StrToInt(sl.Strings[36])] := StrToInt(sl.Strings[37]);
 			DamageFixE[StrToInt(sl.Strings[38])] := StrToInt(sl.Strings[39]);
 			i := StrToInt(sl.Strings[40]);
@@ -382,131 +719,131 @@ begin
 			for i := 0 to MAX_SKILL_NUMBER do AddSkill[i] := 0;
 			AddSkill[StrToInt(sl.Strings[42])] := StrToInt(sl.Strings[43]);
 			case td.Effect of
-          202:  {Monster Knockback}
-            begin
-              SpecialAttack := 1; {Knockback}
-            end;
-          203:  {Splash Damage}
-            begin
-              SplashAttack := true;
-            end;
-          204:  {Splash + Knockback}
-            begin
-              SplashAttack := true; {Splash}
-              SpecialAttack := 1; {Knockback}
-            end;
-          205:  {Fatal Blow}
-            begin
-              SpecialAttack := 2; {Fatal Blow}
-            end;
-          end;
-				case ID of
-				        4115:
-                                                begin
-					                DrainFix[0] := 3; // Hunter Fly Card
-					                DrainPer[0] := 15;
-                                                end;
-
-				        4082:	DamageFixS[0] := 15; // Desert Wolf Card
-				        4092:	DamageFixS[1] := 15; // Skel Worker Card
-				        4126:	DamageFixS[2] := 15; // Minorous Card
-
-				        4125: // Deviace Card (changed from Deviruchi, 5->7% bonus
-					begin
-						DamageFixR[2] := 7;
-						DamageFixR[3] := 7;
-						DamageFixR[4] := 7;
-						DamageFixR[7] := 7;
-					end;
-                                1131:   {Ice Falchion}
-                                        begin
-                                                WeaponID := 1131;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 14;
-                                                SkillWeapon := true;
-                                        end;
-                                1133:   {Firebrand}
-                                        begin
-                                                WeaponID := 1133;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 19;
-                                                SkillWeapon := true;
-                                        end;
-                                1167:   {Schweizersabel}
-                                        begin
-                                                WeaponID := 1167;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 20;
-                                                SkillWeapon := true;
-                                        end;
-                                1413:   {Gungnir}
-                                        begin
-                                                GungnirEquipped := true;
-                                        end;
-                                1468:   {Zephyrus}
-                                        begin
-                                                WeaponID := 1468;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 21;
-                                                SkillWeapon := true;
-                                        end;
-                                1470:   {Brionic}
-                                        begin
-                                                WeaponID := 1470;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 13;
-                                                SkillWeapon := true;
-                                        end;
-                                1471:   {Hell Fire}
-                                        begin
-                                                WeaponID := 1471;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 17;
-                                                SkillWeapon := true;
-                                        end;
-                                1528:   {Grand Cross}
-                                        begin
-                                                WeaponID := 1528;
-                                                WeaponSkillLv := 3;
-                                                WeaponSkill := 77;
-                                                SkillWeapon := true;
-                                        end;
-
-                                1164:   LVL4WeaponASPD := true; {Muramasa}
-                                1165:   LVL4WeaponASPD := true; {Masamune}
-                                1363:   FastWalk := true;       {Blood Axe}
-                                1530:   DoppelgagnerASPD := true;{Mjolnir}
-                                1814:   DoppelgagnerASPD := true; {Berserk Knuckle}
-
-                                { Oat says this makes you invincible when it shouldn't. Commented out Temporarily. }
-                                //4047:   GhostArmor := true;     {Ghostring Card}
-
-                                4077:   NoCastInterrupt := true;{Phen Card}
-				4147:	SplashAttack := true;   {Baphomet Card}
-                                4123:   UnlimitedEndure := true;{Eddgar Card}
-                                4128:   NoTarget := true;       {Gold Thief Bug Card}
-                                4131:   FastWalk := true;       {Moonlight Card}
-                                4132:   NoJamstone := true;     {Mistress Card}
-                                4144:   FullRecover := true;    {Osiris Card}
-                                4148:   LessSP := true;         {Pharoh Card}
-                                4135:   OrcReflect := true;     {Orc Lord Card}
-                                4142:   DoppelgagnerASPD := true;{Doppleganger Card}
-                                4164:   AnolianReflect := true; {Anolian Card}
-                                4146:   MagicReflect := true;   {Maya Card}
-                                4137:   PerfectDamage := true;  {Drake Card}
-
+			202:  {Monster Knockback}
+				begin
+					SpecialAttack := 1; {Knockback}
+				end;
+			203:  {Splash Damage}
+				begin
+					SplashAttack := true;
+				end;
+			204:  {Splash + Knockback}
+				begin
+					SplashAttack := true; {Splash}
+					SpecialAttack := 1; {Knockback}
+				end;
+			205:  {Fatal Blow}
+				begin
+					SpecialAttack := 2; {Fatal Blow}
+				end;
 			end;
+			case ID of
+			4115:
+				begin
+					DrainFix[0] := 3; // Hunter Fly Card
+					DrainPer[0] := 15;
+				end;
+
+			4082: DamageFixS[0] := 15; // Desert Wolf Card
+			4092: DamageFixS[1] := 15; // Skel Worker Card
+			4126: DamageFixS[2] := 15; // Minorous Card
+
+			4125: // Deviace Card (changed from Deviruchi, 5->7% bonus
+				begin
+					DamageFixR[2] := 7;
+					DamageFixR[3] := 7;
+					DamageFixR[4] := 7;
+					DamageFixR[7] := 7;
+				end;
+			1131:   {Ice Falchion}
+				begin
+					WeaponID := 1131;
+					WeaponSkillLv := 3;
+					WeaponSkill := 14;
+					SkillWeapon := true;
+				end;
+			1133:   {Firebrand}
+				begin
+					WeaponID := 1133;
+					WeaponSkillLv := 3;
+					WeaponSkill := 19;
+					SkillWeapon := true;
+				end;
+			1167:   {Schweizersabel}
+				begin
+					WeaponID := 1167;
+					WeaponSkillLv := 3;
+					WeaponSkill := 20;
+					SkillWeapon := true;
+				end;
+			1413:   {Gungnir}
+				begin
+					GungnirEquipped := true;
+				end;
+			1468:   {Zephyrus}
+				begin
+					WeaponID := 1468;
+					WeaponSkillLv := 3;
+					WeaponSkill := 21;
+					SkillWeapon := true;
+				end;
+			1470:   {Brionic}
+				begin
+					WeaponID := 1470;
+					WeaponSkillLv := 3;
+					WeaponSkill := 13;
+					SkillWeapon := true;
+				end;
+			1471:   {Hell Fire}
+				begin
+					WeaponID := 1471;
+					WeaponSkillLv := 3;
+					WeaponSkill := 17;
+					SkillWeapon := true;
+				end;
+			1528:   {Grand Cross}
+				begin
+					WeaponID := 1528;
+					WeaponSkillLv := 3;
+					WeaponSkill := 77;
+					SkillWeapon := true;
+				end;
+
+			1164:   LVL4WeaponASPD := true; {Muramasa}
+			1165:   LVL4WeaponASPD := true; {Masamune}
+			1363:   FastWalk := true;       {Blood Axe}
+			1530:   DoppelgagnerASPD := true;{Mjolnir}
+			1814:   DoppelgagnerASPD := true; {Berserk Knuckle}
+
+			{ Oat says this makes you invincible when it shouldn't. Commented out Temporarily. }
+			//4047:   GhostArmor := true;     {Ghostring Card}
+
+			4077:   NoCastInterrupt := true;{Phen Card}
+			4147:   SplashAttack := true;   {Baphomet Card}
+			4123:   UnlimitedEndure := true;{Eddgar Card}
+			4128:   NoTarget := true;       {Gold Thief Bug Card}
+			4131:   FastWalk := true;       {Moonlight Card}
+			4132:   NoJamstone := true;     {Mistress Card}
+			4144:   FullRecover := true;    {Osiris Card}
+			4148:   LessSP := true;         {Pharoh Card}
+			4135:   OrcReflect := true;     {Orc Lord Card}
+			4142:   DoppelgagnerASPD := true;{Doppleganger Card}
+			4164:   AnolianReflect := true; {Anolian Card}
+			4146:   MagicReflect := true;   {Maya Card}
+			4137:   PerfectDamage := true;  {Drake Card}
+
+			end;//case
 
 		end;
 		ItemDB.AddObject(td.ID, td);
 		ItemDBName.AddObject(td.Name, td);
 	end;
-        CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d item(s) database loaded.', [ItemDB.Count]));
+	CloseFile(txt);
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d item(s) database loaded.', [ItemDB.Count]));
 	Application.ProcessMessages;
 {追加}
 	//アイテム特殊定義
-	DebugOut.Lines.Add('Special database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Special database loading...');
 	Application.ProcessMessages;
 	if FileExists(AppPath + 'database\special_db.txt') then begin
 		AssignFile(txt, AppPath + 'database\special_db.txt');
@@ -532,29 +869,29 @@ begin
 						end else begin
 							//X = 1:種族 2:属性 3:サイズ
 							case ( w div 1000 ) of
-									//種族 Y = 0:無形 1:不死 2:動物 3:植物 4:昆虫 5:水棲 6:悪魔 7:人間 8:天使 9:竜族
-								1: DamageFixR[( w mod 1000 ) div 100] := w mod 100;
-									//属性 Y = 0:無, 1:水, 2:地, 3:火, 4:風, 5:毒, 6:聖, 7:闇, 8:念, 9:不死
-								2: DamageFixE[( w mod 1000 ) div 100] := w mod 100;
-									//サイズ Y = 0:小, 1:中, 2:大
-								3: DamageFixS[( w mod 1000 ) div 100] := w mod 100;
-									//状態1 Y = 01:石化 02:凍結 03:スタン 04:睡眠 05:LexA? 06:石化前の移行状態
-								4: SFixPer1[( w mod 1000 ) div 100 -1] := w mod 100;
-									//状態2 Y = 01:毒 02:呪い 03:沈黙 04:混乱？ 05:暗闇
-								5: SFixPer2[( w mod 1000 ) div 100 -1 ] := w mod 100;
+								//種族 Y = 0:無形 1:不死 2:動物 3:植物 4:昆虫 5:水棲 6:悪魔 7:人間 8:天使 9:竜族
+							1: DamageFixR[( w mod 1000 ) div 100] := w mod 100;
+								//属性 Y = 0:無, 1:水, 2:地, 3:火, 4:風, 5:毒, 6:聖, 7:闇, 8:念, 9:不死
+							2: DamageFixE[( w mod 1000 ) div 100] := w mod 100;
+								//サイズ Y = 0:小, 1:中, 2:大
+							3: DamageFixS[( w mod 1000 ) div 100] := w mod 100;
+								//状態1 Y = 01:石化 02:凍結 03:スタン 04:睡眠 05:LexA? 06:石化前の移行状態
+							4: SFixPer1[( w mod 1000 ) div 100 -1] := w mod 100;
+								//状態2 Y = 01:毒 02:呪い 03:沈黙 04:混乱？ 05:暗闇
+							5: SFixPer2[( w mod 1000 ) div 100 -1 ] := w mod 100;
 
-								6: begin //HP吸収 XYYZ YY:吸収量 Z:吸収確率
-										DrainFix[0] := w mod 10;
-										DrainPer[0] := ( w mod 1000 ) div 10;
-									end;
-								7: begin //SP吸収 XYYZ YY:吸収量 Z:吸収確率
-										DrainFix[1] := w mod 10;
-										DrainPer[1] := ( w mod 1000 ) div 10;
-									end;
-								8: begin	//その他
+							6: begin //HP吸収 XYYZ YY:吸収量 Z:吸収確率
+									DrainFix[0] := w mod 10;
+									DrainPer[0] := ( w mod 1000 ) div 10;
+								end;
+							7: begin //SP吸収 XYYZ YY:吸収量 Z:吸収確率
+									DrainFix[1] := w mod 10;
+									DrainPer[1] := ( w mod 1000 ) div 10;
+								end;
+							8: begin	//その他
 									case ( ( w mod 1000 ) div 100 ) of
 										0: SplashAttack := True;
-							 			1: NoJamstone := True;
+										1: NoJamstone := True;
 										else //何もしない
 									end;
 								end;
@@ -567,16 +904,16 @@ begin
 			Inc(k);
 		end;
 		CloseFile(txt);
-		DebugOut.Lines.Add(Format('-> Total %d item(s) database change.', [k]));
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d item(s) database change.', [k]));
 		Application.ProcessMessages;
 	end else begin
-		DebugOut.Lines.Add('-> Special database Not Find.');
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Special database Not Find.');
 		Application.ProcessMessages;
 	end;
 {追加ココまで}
 {アイテム製造追加}
 	//アイテム製造データベース読み込み
-	DebugOut.Lines.Add('MetalProcess database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'MetalProcess database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\metalprocess_db.txt');
 	Reset(txt);
@@ -603,12 +940,12 @@ begin
 		MaterialDB.AddObject(tma.ID, tma);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d metalprocess(s) database loaded.', [MaterialDB.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d metalprocess(s) database loaded.', [MaterialDB.Count]));
 	Application.ProcessMessages;
 {アイテム製造追加ココまで}
 
 	//モンスターデータベース読み込み
-	DebugOut.Lines.Add('Monster database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Monster database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\mob_db.txt');
 	Reset(txt);
@@ -678,7 +1015,7 @@ begin
 			end;
 
 			HIT := LV + Param[4];
-			FLEE := Lv + Param[2];
+			FLEE := LV + Param[1];
 			isDontMove := boolean((Mode and 1) = 0);
 			isActive := boolean(((Mode and 4) <> 0) and not DisableMonsterActive);
 			isLoot := boolean((Mode and 2) <> 0);
@@ -690,77 +1027,19 @@ begin
 		MobDBName.AddObject(tb.Name, tb);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d monster(s) database loaded.', [MobDB.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d monster(s) database loaded.', [MobDB.Count]));
 	Application.ProcessMessages;
 
 {氏{箱追加}
 	//枝データベース読み込み
 {Colus, 20040130: Since we put the pharmacy entires in the metalprocess we don't
  need this here any more...}
- {
-DebugOut.Lines.Add('Pharmacy database loading...');
-	Application.ProcessMessages;
-        AssignFile(txt, AppPath + 'database\PharmacyDB.txt');
-        Reset(txt);
-	Readln(txt, str);
-        while not eof(txt) do begin
-		sl.Clear;
-		Readln(txt, str);
-		sl.DelimitedText := str;
+{ChrstphrR - removed TPharmacyDB class and related code entirely, that Colus
+ was referring to}
 
-                tPharm := TPharmacyDB.Create;
-//ID,BookNeededID,Material1ID,Material2ID,Material3ID,Material4ID,Material5ID,Material1Amount,Material2Amount,
-        //Material3Amount,Material4Amount,Material5Amount
+	{Aegis Monster Skills Load}
 
-
-		with tPharm do begin
-                        ID := StrToInt(sl.Strings[0]);
-                        BookNeededID  := StrToInt(sl.Strings[1]);
-                        for j := 1 to 5 do begin
-                                MaterialID[j] := StrToInt(sl.Strings[1 + j]);
-                                MaterialAmount[j] := StrToInt(sl.Strings[6 + j]);
-                        end;
-		end;
-
-                PharmacyDB.AddObject(tPharm.ID, tPharm);
-	end;
-	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Pharmacy entries loaded.', [PharmacyDB.Count]));
-	Application.ProcessMessages;
- }
-  {DebugOut.Lines.Add('Monster AI database loading...');
-	Application.ProcessMessages;
-	AssignFile(txt, AppPath + 'database\mob_ai_db.txt');
-	Reset(txt);
-	Readln(txt, str);
-	while not eof(txt) do begin
-		sl.Clear;
-		Readln(txt, str);
-		sl.DelimitedText := str;
-
-                tsAI := TMobAIDb.Create;
-//ID   Skill1	Skill2	Skill3	Skill4	Level1	Level2	Level3	Level4	Percent1	Percent2	Percent3	Percent4
-
-
-		with tsAI do begin
-                        ID := StrToInt(sl.Strings[0]);
-                        for j := 0 to 7 do begin
-			        Skill[j] := StrToInt(sl.Strings[1 + j]);
-                                SkillLV[j] := StrToInt(sl.Strings[9 + j]);
-                                PercentChance[j] := StrToInt(sl.Strings[17 + j]);
-                                //SkillType[j] := StrToInt(sl.Strings[13 + j]);
-                        end;
-		end;
-
-                MobAIDB.AddObject(tsAI.ID, tsAI);
-	end;
-	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d monster(s) skills loaded.', [MobAIDB.Count]));
-	Application.ProcessMessages;}
-
-  {Aegis Monster Skills Load}
-
-  DebugOut.Lines.Add('Fusion Monster AI database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Fusion Monster AI database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\Monster_AI.txt');
 	Reset(txt);
@@ -804,7 +1083,7 @@ DebugOut.Lines.Add('Pharmacy database loading...');
         tsAI2.IfCond := sl.Strings[9];
       end;
       j := j + 1;
-      //DebugOut.Lines.Add(Format('%d', [j]));
+      //debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%d', [j]));
       //Data Converting
       {
       if MobDBName.IndexOf(tsAI2.Name) <> -1 then begin
@@ -824,7 +1103,7 @@ DebugOut.Lines.Add('Pharmacy database loading...');
     end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Fusion monster(s) skills loaded.', [MobAIDBFusion.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Fusion monster(s) skills loaded.', [MobAIDBFusion.Count]));
 	Application.ProcessMessages;
 
   {Global Variables Load}
@@ -834,7 +1113,7 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		Writeln(txt, '// Variable, Value');
 		CloseFile(txt);
 	end;
-  DebugOut.Lines.Add('Global Variables loading...');
+  debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Global Variables loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'Global_Vars.txt');
 	Reset(txt);
@@ -855,124 +1134,23 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 
       GlobalVars.AddObject(tGlobal.Variable, tGlobal);
       end;
-    end;
-	end;
-	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Global Variables loaded.', [GlobalVars.Count]));
-	Application.ProcessMessages;
-
-	{Summon Monster List}
-	DebugOut.Lines.Add('Summon Monster List loading...');
-	{ChrstphrR 2004/04/19 - New SummonMobList code... created and loaded here}
-
-	//Creates and loads data from the file all in one step
-	SummonMobList := TSummonMobList.Create(AppPath + 'database\summon_mobID.txt');
-	DebugOut.Lines.Add(Format('-> Total %d Summon Monster List loaded.', [SummonMobList.Count]));
-	{ChrstphrR 2004/04/19 - yes, that's all to see here - the rest is in the
-	TSummonMobList code}
-
-	{ChrstphrR 2004/04/19 - editing some of the code here, so it properly loads
-	the old style SummonMobListMVP, and comments out the old SummonMobList calls
-	P.S. -- SummonMobListMVP is always empty, no data is defined... I'm just
-	Covering My Tracks and keeping the code as it was, for now.
-	P.P.S. -- *Every* one of these StrToInt calls are unsafe, if a DB dev or,
-	more likely, a user corrupts the files, a non numeric input into StrToInt
-	will stop the server dead in it's tracks.
-	}
-	Application.ProcessMessages;
-	AssignFile(txt, AppPath + 'database\summon_mob.txt');
-	Reset(txt);
-	j := 0;
-	SL.Clear;
-	while not eof(txt) do begin
-		Readln(txt, str);
-		SL.Delimiter := ',';
-		SL.DelimitedText := str;
-		if (SL[0] = 'MVP') AND (SL.Count >= 3) then begin
-			k := StrToInt(SL[2]);
-			tsmn := TSummon.Create;
-			tsmn.Name := sl.Strings[1];
-			for i := 1 to k do begin
-				SummonMobListMVP.AddObject(j, tsmn);
-				j := j + 1;
-			end;
 		end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Summon MVP Monster List loaded.', [j]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Global Variables loaded.', [GlobalVars.Count]));
 	Application.ProcessMessages;
-	//-- End of SummonMobList / SummonMobListMVP Load
 
-	//箱データベース読み込み
-	DebugOut.Lines.Add('Summon Item List loading...');
-	Application.ProcessMessages;
-	AssignFile(txt, AppPath + 'database\summon_item.txt');
-	Reset(txt);
-	sl.Clear;
-	while not eof(txt) do begin
-		Readln(txt, str);
-		sl.DelimitedText := str;
-		if SL.Count < 3 then Continue; //safety check against bad line.
-		k := StrToIntDef(sl.Strings[2],1);
-		if (ItemDBName.IndexOf(sl.Strings[0]) = -1) or
-			(ItemDBName.IndexOf(sl.Strings[1]) = -1) or (k = 0) then continue;
-		//tsmn := TSummon.Create;
-		//tsmn.Name := SL[1];
-		for i := 1 to k do begin
-			if (SL[0] = 'Old_Blue_Box') then
-				SummonIOBList.Add(SL[1])
-			else if (SL[0] = 'Old_Violet_Box') then
-				SummonIOVList.Add(SL[1])
-			else if (SL[0] = 'Old_Card_Album') then
-				SummonICAList.Add(SL[1])
-			else if (SL[0] = 'Gift_Box') then
-				SummonIGBList.Add(SL[1])
-			else if (SL[0] = 'Old_Weapon_Box') then
-				SummonIOWBList.Add(SL[1]);
-		end;
-	end;
-	CloseFile(txt);
-	j := SummonIOBList.Count + SummonIOVList.Count + SummonICAList.Count + SummonIGBList.Count + SummonIOWBList.Count;
-	DebugOut.Lines.Add(Format('-> Total %d Summon Item List loaded.', [j]));
-	Application.ProcessMessages;
+
+	LoadSummonLists;
 {氏{箱追加ココまで}
+
 {キューペット}
-        DebugOut.Lines.Add( 'Pet database loading...' );
-        Application.ProcessMessages;
-        AssignFile(txt, AppPath + 'database\pet_db.txt' );
-        Reset(txt);
-        Readln( txt, str );
-        while not eof(txt) do begin
-                sl.Clear;
-                Readln(txt, str);
-                sl.DelimitedText := str;
-
-                tp := TPetDB.Create;
-
-                with tp do begin
-                        MobID := StrToInt( sl.Strings[0] );
-                        ItemID := StrToInt( sl.Strings[1] );
-                        EggID := StrToInt( sl.Strings[2] );
-                        AcceID := StrToInt( sl.Strings[3] );
-                        FoodID := StrToInt( sl.Strings[4] );
-                        Fullness := StrToInt( sl.Strings[5] );
-                        HungryDelay := StrToInt( sl.Strings[6] );
-                        Hungry  := StrToInt( sl.Strings[7] );
-                        Full := StrToInt( sl.Strings[8] );
-                        Reserved := StrToInt( sl.Strings[9] );
-                        Die := StrToInt( sl.Strings[10] );
-                        Capture := StrToInt( sl.Strings[11] );
-                        tp.SkillTime := StrToInt( sl.Strings[13] );
-                end;
-                PetDB.AddObject( tp.MobID, tp );
-        end;
-        CloseFile(txt);
-        DebugOut.Lines.Add( Format( '-> Total %d pet(s) database loaded.', [PetDB.Count] ) );
-        Application.ProcessMessages;
+	LoadPetData;
 {キューペットここまで}
+
 {NPCイベント追加}
 	//mapinfo_db読み込み
-	DebugOut.Lines.Add('Mapinfo database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Mapinfo database loading...');
 	Application.ProcessMessages;
 	if FileExists(AppPath + 'database\mapinfo_db.txt') then begin
 		AssignFile(txt, AppPath + 'database\mapinfo_db.txt');
@@ -1004,16 +1182,17 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 				else if (sl[i] = 'noskill') then mi.noSkill := true
 				else if (sl[i] = 'noitem') then mi.noItem := true
 				else if (sl[i] = 'agit') then mi.Agit := true
-                                else if (sl[i] = 'pvp') then mi.PvP := true
-                                else if (sl[i] = 'pvpg') then mi.PvPG := true
-                                else if (sl[i] = 'noday') then mi.noday := true;
+				else if (sl[i] = 'pvp') then mi.PvP := true
+				else if (sl[i] = 'pvpg') then mi.PvPG := true
+				else if (sl[i] = 'noday') then mi.noday := true
+				else if (sl[i] = 'ctf') then mi.ctf := true;
 
-                                if (Option_PVP = false) then begin
-                                        mi.PvP := false;
-                                        mi.PvPG := false;
-                                end;
+				if (Option_PVP = false) then begin
+					mi.PvP  := false;
+					mi.PvPG := false;
+				end;
 
-                                {アジト機能追加ココまで}
+				{アジト機能追加ココまで}
 			end;
 			if (j = 1) then begin
 				MapInfo.AddObject(sl[0], mi);
@@ -1021,15 +1200,15 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 			Inc(k);
 		end;
 		CloseFile(txt);
-		DebugOut.Lines.Add(Format('-> Total %d MapInfo database loaded.', [k]));
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d MapInfo database loaded.', [k]));
 		Application.ProcessMessages;
 	end else begin
-		DebugOut.Lines.Add('-> Mapinfo database Not Find.');
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Mapinfo database Not Find.');
 		Application.ProcessMessages;
 	end;
 {NPCイベント追加ココまで}
 	//スキルデータベース読み込み
-	DebugOut.Lines.Add('Skill database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Skill database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\skill_db.txt');
 	Reset(txt);
@@ -1072,11 +1251,11 @@ DebugOut.Lines.Add('Pharmacy database loading...');
         if (i < (LOWER_JOB_END - 1)) and (Job1[i]) then begin
           Job1[i + LOWER_JOB_END + 1] := true;
         end;
-        //if (Job1[i + LOWER_JOB_END + 1]) then DebugOut.Lines.Add(Format('Job1[%d] set',[i+LOWER_JOB_END+1]));
+        //if (Job1[i + LOWER_JOB_END + 1]) then debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Job1[%d] set',[i+LOWER_JOB_END+1]));
 			end;
       {for i := 0 to MAX_JOB_NUMBER do begin
         if (Job1[i]) and (ID = 394) then
-          DebugOut.Lines.Add(Format('Skill %d, job %d is set',[tl.ID, i]));
+          debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Skill %d, job %d is set',[tl.ID, i]));
       end;}
 			for i := 0 to 4 do begin
 				ReqSkill1[i] := StrToInt(sl.Strings[45+i*2]);
@@ -1097,13 +1276,13 @@ DebugOut.Lines.Add('Pharmacy database loading...');
     SkillDBName.AddObject(tl.IDC, tl);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d skill(s) database loaded.', [SkillDB.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d skill(s) database loaded.', [SkillDB.Count]));
 	Application.ProcessMessages;
 
 	//経験値テーブル読み込み
 {ギルド機能追加}
 	//ギルドスキルデータベース読み込み
-	DebugOut.Lines.Add('Guild Skill database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild Skill database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\skill_guild_db.txt');
 	Reset(txt);
@@ -1155,11 +1334,11 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		GSkillDB.AddObject(tl.ID, tl);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d guild skill(s) database loaded.', [GSkillDB.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d guild skill(s) database loaded.', [GSkillDB.Count]));
 	Application.ProcessMessages;
 
   // Colus, 20040130: Adding territory name DB.
-  DebugOut.Lines.Add('Guild Territory database loading...');
+  debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild Territory database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\territory_db.txt');
 	Reset(txt);
@@ -1168,26 +1347,26 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		sl.Clear;
 		Readln(txt, str);
 		sl.DelimitedText := str;
-    if (sl.Count = 2) then begin
-  		tt := TTerritoryDB.Create;
-  		with tt do begin
-        MapName := sl.Strings[0];
-        TerritoryName := sl.Strings[1];
-  		end;
-  		TerritoryList.AddObject(tt.MapName, tt);
-  	end;
-  end;
- 	CloseFile(txt);
- 	DebugOut.Lines.Add(Format('-> Total %d guild territories loaded.', [TerritoryList.Count]));
- 	Application.ProcessMessages;
+		if (sl.Count = 2) then begin
+			tt := TTerritoryDB.Create;
+			with tt do begin
+				MapName := sl.Strings[0];
+				TerritoryName := sl.Strings[1];
+			end;
+			TerritoryList.AddObject(tt.MapName, tt);
+		end;
+	end;
+	CloseFile(txt);
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d guild territories loaded.', [TerritoryList.Count]));
+	Application.ProcessMessages;
 
 
-  DebugOut.Lines.Add('Slave Summon Mobs List loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Slave Summon Mobs List loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\summon_slave.txt');
 	Reset(txt);
-  Readln(txt, str);
-		while not eof(txt) do begin
+	Readln(txt, str);
+	while not eof(txt) do begin
 		sl.Clear;
 		Readln(txt, str);
 		sl.DelimitedText := str;
@@ -1195,35 +1374,35 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 			//sl.Add('0');
 		//for i := 0 to 6 do
 			//if (i <> 0) and (sl.Strings[i] = '') then sl.Strings[i] := '0';
-    if (sl.Count = 7) then begin
+		if (sl.Count = 7) then begin
 		tss := TSlaveDB.Create;
 		with tss do begin
 			Name := sl.Strings[0];
-      Slaves[0] := MobDBName.IndexOf(sl.Strings[1]);
-      Slaves[1] := MobDBName.IndexOf(sl.Strings[2]);
-      Slaves[2] := MobDBName.IndexOf(sl.Strings[3]);
-      Slaves[3] := MobDBName.IndexOf(sl.Strings[4]);
-      Slaves[4] := MobDBName.IndexOf(sl.Strings[5]);
-      TotalSlaves := StrToInt(sl.Strings[6]);
-    end;
+			Slaves[0] := MobDBName.IndexOf(sl.Strings[1]);
+			Slaves[1] := MobDBName.IndexOf(sl.Strings[2]);
+			Slaves[2] := MobDBName.IndexOf(sl.Strings[3]);
+			Slaves[3] := MobDBName.IndexOf(sl.Strings[4]);
+			Slaves[4] := MobDBName.IndexOf(sl.Strings[5]);
+			TotalSlaves := StrToInt(sl.Strings[6]);
+		end;
 		SlaveDBName.AddObject(tss.Name,tss);
-    end;
-    end;
+		end;
+	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Slave Summon Mobs List loaded.', [j]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Slave Summon Mobs List loaded.', [j]));
 	Application.ProcessMessages;
 
-  DebugOut.Lines.Add('Make Arrow List loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Make Arrow List loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\make_arrow.txt');
 	Reset(txt);
-  Readln(txt, str);
-		while not eof(txt) do begin
+	Readln(txt, str);
+	while not eof(txt) do begin
 		sl.Clear;
 		Readln(txt, str);
 		sl.DelimitedText := str;
 
-    for i := sl.Count to 7 do
+		for i := sl.Count to 7 do
 			sl.Add('0');
 		for i := 0 to 7 do
 			if (i <> 1) and (i <> 2) and (sl.Strings[i] = '') then sl.Strings[i] := '0';
@@ -1231,31 +1410,31 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		ma := TMArrowDB.Create;
 		with ma do begin
 			ID := StrToInt(sl.Strings[0]);
-      if (sl.Strings[1] <> '') then CID[0] := StrToInt(sl.Strings[1]);
-      if (sl.Strings[2] <> '') then CNum[0] := StrToInt(sl.Strings[2]);
-      if (sl.Strings[3] <> '') then CID[1] := StrToInt(sl.Strings[3]);
-      if (sl.Strings[4] <> '') then CNum[1] := StrToInt(sl.Strings[4]);
-      if (sl.Strings[5] <> '') then CID[2] := StrToInt(sl.Strings[5]);
-      if (sl.Strings[6] <> '') then CNum[2] := StrToInt(sl.Strings[6]);
-    end;
+			if (sl.Strings[1] <> '') then CID[0] := StrToInt(sl.Strings[1]);
+			if (sl.Strings[2] <> '') then CNum[0] := StrToInt(sl.Strings[2]);
+			if (sl.Strings[3] <> '') then CID[1] := StrToInt(sl.Strings[3]);
+			if (sl.Strings[4] <> '') then CNum[1] := StrToInt(sl.Strings[4]);
+			if (sl.Strings[5] <> '') then CID[2] := StrToInt(sl.Strings[5]);
+			if (sl.Strings[6] <> '') then CNum[2] := StrToInt(sl.Strings[6]);
+		end;
 		MArrowDB.AddObject(ma.ID,ma);
-    end;
+	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Make Arrow List loaded.', [j]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Make Arrow List loaded.', [j]));
 	Application.ProcessMessages;
 
 
-  DebugOut.Lines.Add('ID Table List loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'ID Table List loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\id_table.txt');
 	Reset(txt);
-  Readln(txt, str);
-		while not eof(txt) do begin
+	Readln(txt, str);
+	while not eof(txt) do begin
 		sl.Clear;
 		Readln(txt, str);
 		sl.DelimitedText := str;
 
-    for i := sl.Count to 16 do
+		for i := sl.Count to 16 do
 			sl.Add('0');
 		for i := 0 to 16 do
 			if (i <> 1) and (i <> 2) and (sl.Strings[i] = '') then sl.Strings[i] := '0';
@@ -1263,34 +1442,55 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		tid := TIDTbl.Create;
 		with tid do begin
 			ID := StrToInt(sl.Strings[0]);
-      if (sl.Strings[1] <> '') then BroadCast := StrToInt(sl.Strings[1]);
-      if (sl.Strings[2] <> '') then ItemSummon := StrToInt(sl.Strings[2]);
-      if (sl.Strings[3] <> '') then MonsterSummon := StrToInt(sl.Strings[3]);
-      if (sl.Strings[4] <> '') then ChangeStatSkill := StrToInt(sl.Strings[4]);
-      if (sl.Strings[5] <> '') then ChangeOption := StrToInt(sl.Strings[5]);
-      if (sl.Strings[6] <> '') then SaveReturn := StrToInt(sl.Strings[6]);
-      if (sl.Strings[7] <> '') then ChangeLevel := StrToInt(sl.Strings[7]);
-      if (sl.Strings[8] <> '') then Warp := StrToInt(sl.Strings[8]);
-      if (sl.Strings[9] <> '') then Whois := StrToInt(sl.Strings[9]);
-      if (sl.Strings[10] <> '') then GotoSummonBanish := StrToInt(sl.Strings[10]);
-      if (sl.Strings[11] <> '') then KillDieAlive := StrToInt(sl.Strings[11]);
-      if (sl.Strings[12] <> '') then ChangeJob := StrToInt(sl.Strings[12]);
-      if (sl.Strings[13] <> '') then ChangeColorStyle := StrToInt(sl.Strings[13]);
-      if (sl.Strings[14] <> '') then AutoRawUnit := StrToInt(sl.Strings[14]);
-      if (sl.Strings[15] <> '') then Refine := StrToInt(sl.Strings[15]);
-      if (sl.Strings[16] <> '') then PVPControl := StrToInt(sl.Strings[16]);
-      if (sl.Strings[17] <> '') then UserControl := StrToInt(sl.Strings[17]);
-    end;
+			if (sl.Strings[1] <> '') then BroadCast := StrToInt(sl.Strings[1]);
+			if (sl.Strings[2] <> '') then ItemSummon := StrToInt(sl.Strings[2]);
+			if (sl.Strings[3] <> '') then MonsterSummon := StrToInt(sl.Strings[3]);
+			if (sl.Strings[4] <> '') then ChangeStatSkill := StrToInt(sl.Strings[4]);
+			if (sl.Strings[5] <> '') then ChangeOption := StrToInt(sl.Strings[5]);
+			if (sl.Strings[6] <> '') then SaveReturn := StrToInt(sl.Strings[6]);
+			if (sl.Strings[7] <> '') then ChangeLevel := StrToInt(sl.Strings[7]);
+			if (sl.Strings[8] <> '') then Warp := StrToInt(sl.Strings[8]);
+			if (sl.Strings[9] <> '') then Whois := StrToInt(sl.Strings[9]);
+			if (sl.Strings[10] <> '') then GotoSummonBanish := StrToInt(sl.Strings[10]);
+			if (sl.Strings[11] <> '') then KillDieAlive := StrToInt(sl.Strings[11]);
+			if (sl.Strings[12] <> '') then ChangeJob := StrToInt(sl.Strings[12]);
+			if (sl.Strings[13] <> '') then ChangeColorStyle := StrToInt(sl.Strings[13]);
+			if (sl.Strings[14] <> '') then AutoRawUnit := StrToInt(sl.Strings[14]);
+			if (sl.Strings[15] <> '') then Refine := StrToInt(sl.Strings[15]);
+			if (sl.Strings[16] <> '') then PVPControl := StrToInt(sl.Strings[16]);
+			if (sl.Strings[17] <> '') then UserControl := StrToInt(sl.Strings[17]);
+		end;
 		IDTableDB.AddObject(tid.ID,tid);
-    end;
+	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d ID Table List loaded.', [j]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d ID Table List loaded.', [j]));
 	Application.ProcessMessages;
 
 
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'GM Access List loading...');
+	Application.ProcessMessages;
+	AssignFile(txt, AppPath + 'database\gm_access.txt');
+	Reset(txt);
+	Readln(txt, str);
+	while not eof(txt) do begin
+		sl.Clear;
+		Readln(txt, str);
+		sl.DelimitedText := str;
+
+		tGM := TGM_Table.Create;
+		with tGM do begin
+			ID := StrToInt(sl.Strings[0]);
+            Level := StrToInt(sl.Strings[1]);
+		end;
+        GM_Access_DB.AddObject(tGM.ID, tGM);
+	end;
+	CloseFile(txt);
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d GM Access List loaded.', [j]));
+	Application.ProcessMessages;
+
 
 	//ギルド経験値テーブル読み込み
-	DebugOut.Lines.Add('Guild EXP database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild EXP database loading...');
 	Application.ProcessMessages;
 	for i := 1 to 50 do GExpTable[i] := 1999999999;
 	AssignFile(txt, AppPath + 'database\exp_guild_db.txt');
@@ -1307,20 +1507,20 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add('-> Guild EXP database loaded.');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Guild EXP database loaded.');
 	Application.ProcessMessages;
 
-	//エンブレム格納ディレクトリ
+	//Check for Emblem directory...
 	if not DirectoryExists(AppPath + 'emblem') then begin
 		if not CreateDir(AppPath + 'emblem') then begin
-			MessageBox(Handle, 'エンブレム格納ディレクトリが作成できません。', 'Weiss', MB_OK or MB_ICONSTOP);
+			MessageBox(Handle, 'The \emblem directory was not found.', 'Weiss', MB_OK or MB_ICONSTOP);
 			Application.Terminate;
-			exit;
+			Exit;
 		end;
 	end;
 {ギルド機能追加ココまで}
 
-	DebugOut.Lines.Add('EXP database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'EXP database loading...');
 	Application.ProcessMessages;
 	for j := 0 to 3 do ExpTable[j][0] := 1;
 	for i := 1 to 255 do begin
@@ -1340,11 +1540,11 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add('-> EXP database loaded.');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> EXP database loaded.');
 	Application.ProcessMessages;
 {修正}
 	//ジョブデータテーブル1読み込み
-	DebugOut.Lines.Add('Job database 1 loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Job database 1 loading...');
 	Application.ProcessMessages;
 	for i := 0 to MAX_JOB_NUMBER do begin
 		WeightTable[i] := 0;
@@ -1373,11 +1573,11 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add('-> Job database 1 loaded.');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Job database 1 loaded.');
 	Application.ProcessMessages;
 
 	//ジョブデータテーブル2読み込み
-	DebugOut.Lines.Add('Job database 2 loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Job database 2 loading...');
 	Application.ProcessMessages;
 	for i := 0 to MAX_JOB_NUMBER do begin
 		for j := 1 to 255 do JobBonusTable[i][j] := 0;
@@ -1391,11 +1591,11 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		for j := 1 to sl.Count do JobBonusTable[i][j] := StrToInt(sl.Strings[j-1]);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add('-> Job database 2 loaded.');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Job database 2 loaded.');
 	Application.ProcessMessages;
 {修正ココまで}
 	//武器ダメージ修正テーブル読み込み
-	DebugOut.Lines.Add('Weapon database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Weapon database loading...');
 	Application.ProcessMessages;
 	for i := 0 to 2 do begin
 		for j := 0 to 16 do WeaponTypeTable[i][j] := 100;
@@ -1409,45 +1609,45 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		for j := 0 to 16 do WeaponTypeTable[i][j] := StrToInt(sl.Strings[j]);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add('-> Weapon database loaded.');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Weapon database loaded.');
 	Application.ProcessMessages;
 
-  {April 4, 2004: Warp Database - Darkhelmet
-    It works like this, a Game Master can define in warp_db.txt what places any user
-    can warp to without having to get to a kafra.  I.E. -warp prontera.  This will
-    warp the user to prontera with the coordinates the Game Master Defines.  It also
-    allows you to set a cost for the warp.  Lastly, a Game Master can define that
-    a player needs item X to warp, but the item is not consumed on warp as of yet.
-  }
-  if WarpEnabled = true then begin
-  DebugOut.Lines.Add('Warping database loading...');
+	{April 4, 2004: Warp Database - Darkhelmet
+		It works like this, a Game Master can define in warp_db.txt what places any user
+		can warp to without having to get to a kafra.  I.E. -warp prontera.  This will
+		warp the user to prontera with the coordinates the Game Master Defines.  It also
+		allows you to set a cost for the warp.  Lastly, a Game Master can define that
+		a player needs item X to warp, but the item is not consumed on warp as of yet.
+	}
+	if WarpEnabled = true then begin
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Warping database loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'database\warp_db.txt');
 	Reset(txt);
 	Readln(txt, str);
-  while not eof(txt) do begin
-    if (sl.Strings[0] <> '//') then begin
-    twp := TWarpDatabase.Create;
-    sl.Clear;
-    Readln(txt, str);
-    sl.DelimitedText := str;
-    twp.NAME := sl.Strings[0];
-    twp.MAP := sl.Strings[1];
-    twp.X := StrToInt(sl.Strings[2]);
-    twp.Y := StrToInt(sl.Strings[3]);
-    twp.Cost := StrToInt(sl.Strings[4]);
-    WarpDatabase.AddObject(twp.NAME, twp);
-    end;
-  end;
-  CloseFile(txt);
-	DebugOut.Lines.Add(Format('-> Total %d Warps loaded.', [WarpDatabase.Count]));
+	while not eof(txt) do begin
+		if (sl.Strings[0] <> '//') then begin
+		twp := TWarpDatabase.Create;
+		sl.Clear;
+		Readln(txt, str);
+		sl.DelimitedText := str;
+		twp.NAME := sl.Strings[0];
+		twp.MAP := sl.Strings[1];
+		twp.X := StrToInt(sl.Strings[2]);
+		twp.Y := StrToInt(sl.Strings[3]);
+		twp.Cost := StrToInt(sl.Strings[4]);
+		WarpDatabase.AddObject(twp.NAME, twp);
+		end;
+	end;
+	CloseFile(txt);
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('-> Total %d Warps loaded.', [WarpDatabase.Count]));
 	Application.ProcessMessages;
-  end;
+	end;
 
 
 
 	//属性テーブル読み込み
-	DebugOut.Lines.Add('Element database loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Element database loading...');
 	Application.ProcessMessages;
 	for i := 0 to 9 do begin
 		for j := 0 to 99 do ElementTable[i][j] := 100;
@@ -1486,11 +1686,11 @@ DebugOut.Lines.Add('Pharmacy database loading...');
 		for j := 0 to 19 do ElementTable[i][j+80] := StrToInt(sl.Strings[j]);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add('-> Element database loaded.');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + '-> Element database loaded.');
 	Application.ProcessMessages;
 
 	//スクリプトファイルのリストを作成
-	DebugOut.Lines.Add('Making script list...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Making script list...');
 	Application.ProcessMessages;
 	sl.Clear;
 	sl1.Clear;
@@ -1529,29 +1729,15 @@ end;//proc DatabaseLoad()
 // データ読み込み
 procedure PlayerDataLoad();
 var
-	i,j,k :integer;
-	i1  :integer;
-	ver :integer;
-	str :string;
-	txt :TextFile;
-	sl  :TStringList;
-	ta	:TMapList;
-	tp  :TPlayer;
-	tc  :TChara;
-{パーティー機能追加}
-	tpa	:TParty;
-  tgc :TCastle;
-{パーティー機能追加ココまで}
-{キューペット}
-				tpe     :TPet;
-				tpd     :TPetDB;
-				tmd     :TMobDB;
-{キューペットここまで}
-{ギルド機能追加}
-	tg  :TGuild;
-	tgb :TGBan;
-	tgl :TGRel;
-{ギルド機能追加ココまで}
+	i   : Integer;
+	j   : Integer;
+	k   : Integer;
+	i1  : Integer;
+	ver : Integer;
+	str : string;
+	txt : TextFile;
+	sl  : TStringList;
+	tp  : TPlayer;
 begin
 	sl := TStringList.Create;
 	sl.QuoteChar := '"';
@@ -1569,7 +1755,7 @@ begin
 		CloseFile(txt);
 	end;
 
-  DebugOut.Lines.Add('Player data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Player data loading...');
 	Application.ProcessMessages;
 	ver := 0;
 	AssignFile(txt, AppPath + 'player.txt');
@@ -1658,16 +1844,16 @@ begin
 		end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('*** Total %d player(s) data loaded.', [PlayerName.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d player(s) data loaded.', [PlayerName.Count]));
 	Application.ProcessMessages;
 
-  if (PlayerName.Count <= 0) then Exit;
+	if (PlayerName.Count <= 0) then Exit;
 
-  for i := 0 to PlayerName.Count - 1 do begin
+	for i := 0 to PlayerName.Count - 1 do begin
 		tp := PlayerName.Objects[i] as TPlayer;
-                tp.ver2 := 9;
-                if tp.ver2 = 9 then i1 := 8
-	        else i1 := 2;
+		tp.ver2 := 9;
+		if tp.ver2 = 9 then i1 := 8
+		else i1 := 2;
 
 		for j := 0 to i1 do begin
 			if tp.CName[j] <> '' then begin
@@ -1685,9 +1871,9 @@ begin
 		end;
 	end;
 
-  sl.Free;
+	sl.Free;
 
-  end;
+end;
 //------------------------------------------------------------------------------
 // データ読み込み
 procedure DataLoad();
@@ -1703,7 +1889,7 @@ var
 	tc  :TChara;
 {パーティー機能追加}
 	tpa	:TParty;
-  tgc :TCastle;
+	tgc :TCastle;
 {パーティー機能追加ココまで}
 {キューペット}
 				tpe     :TPet;
@@ -1722,9 +1908,9 @@ begin
 
 	if not FileExists(AppPath + 'addplayer.txt') then begin
 		AssignFile(txt, AppPath + 'addplayer.txt');
-        rewrite(txt);
-        closefile(txt);
-    end;
+				rewrite(txt);
+				closefile(txt);
+		end;
 
 	//player.txt,chara.txtチェック
 	if not FileExists(AppPath + 'player.txt') then begin
@@ -1755,14 +1941,14 @@ begin
 	if not FileExists(AppPath + 'pet.txt') then begin
 		AssignFile(txt, AppPath + 'pet.txt');
 		Rewrite(txt);
-                Writeln( txt, '##Weiss.PetData.0x0002' );
+								Writeln( txt, '##Weiss.PetData.0x0002' );
 		CloseFile(txt);
 	end;
 
-  if not FileExists(AppPath + 'gcastle.txt') then begin
+	if not FileExists(AppPath + 'gcastle.txt') then begin
 		AssignFile(txt, AppPath + 'gcastle.txt');
 		Rewrite(txt);
-    Writeln( txt, '##Weiss.GCastleData.0x0002' );
+		Writeln( txt, '##Weiss.GCastleData.0x0002' );
 		CloseFile(txt);
 	end;
 {キューペットここまで}
@@ -1776,7 +1962,7 @@ begin
 		CloseFile(txt);
 	end else begin
 		//サーバ共有フラグ読込
-		DebugOut.Lines.Add('Server Flag loading...');
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Server Flag loading...');
 		Application.ProcessMessages;
 		AssignFile(txt, AppPath + 'status.txt');
 		Reset(txt);
@@ -1787,7 +1973,7 @@ begin
 		j := StrToInt(sl.Strings[0]);
 		for i := 1 to j do ServerFlag.Add('\' + sl.Strings[i]);
 		CloseFile(txt);
-		DebugOut.Lines.Add(Format('*** Total %d Server Flag loaded.', [ServerFlag.Count]));
+		debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Server Flag loaded.', [ServerFlag.Count]));
 		Application.ProcessMessages;
 	end;
 {NPCイベント追加ココまで}
@@ -1800,7 +1986,7 @@ begin
 	end;
 {ギルド機能追加ココまで}
 	//アカウント情報ロード
-	DebugOut.Lines.Add('Player data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Player data loading...');
 	Application.ProcessMessages;
 	ver := 0;
 	AssignFile(txt, AppPath + 'player.txt');
@@ -1889,11 +2075,11 @@ begin
 		end;
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('*** Total %d player(s) data loaded.', [PlayerName.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d player(s) data loaded.', [PlayerName.Count]));
 	Application.ProcessMessages;
 
 	//キャラ情報ロード
-	DebugOut.Lines.Add('Character data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Character data loading...');
 	Application.ProcessMessages;
 	ver := 0;
 	AssignFile(txt, AppPath + 'chara.txt');
@@ -1922,8 +2108,8 @@ begin
 			CID           := StrToInt(sl.Strings[ 0]);
 			Name          :=          sl.Strings[ 1];
 			JID           := StrToInt(sl.Strings[ 2]);
-      // Colus, 20040305: JID becomes the 'proper' value.
-      if (JID > LOWER_JOB_END) then JID := JID - LOWER_JOB_END + UPPER_JOB_BEGIN;
+			// Colus, 20040305: JID becomes the 'proper' value.
+			if (JID > LOWER_JOB_END) then JID := JID - LOWER_JOB_END + UPPER_JOB_BEGIN;
 			BaseLV        := StrToInt(sl.Strings[ 3]);
 			BaseEXP       := StrToInt(sl.Strings[ 4]);
 			StatusPoint   := StrToInt(sl.Strings[ 5]);
@@ -1937,17 +2123,17 @@ begin
 {修正ココまで}
 			Option        := StrToInt(sl.Strings[12]);
 
-      // AlexKreuz: Added to reset hide status on load.
-      if (Option and 6 <> 0) then Option := Option and $FFF9;
+			// AlexKreuz: Added to reset hide status on load.
+			if (Option and 6 <> 0) then Option := Option and $FFF9;
 
 			Karma         := StrToInt(sl.Strings[13]);
 			Manner        := StrToInt(sl.Strings[14]);
 
 			HP            := StrToInt(sl.Strings[15]);
 
-                        if (HP < 0) then begin
-                                HP := 0;
-                        end;
+			if (HP < 0) then begin
+				HP := 0;
+			end;
 
 			SP            := StrToInt(sl.Strings[16]);
 			DefaultSpeed  := StrToInt(sl.Strings[17]);
@@ -1973,14 +2159,14 @@ begin
 			SavePoint.X   := StrToInt(sl.Strings[39]);
 			SavePoint.Y   := StrToInt(sl.Strings[40]);
 
-      if (sl.Count = 52) then begin
-      Plag := StrToInt(sl.Strings[50]);
-      PLv := StrToInt(sl.Strings[51]);
-      end;
-      if (sl.Count = 53) then begin
-      Plag := StrToInt(sl.Strings[51]);
-      PLv := StrToInt(sl.Strings[52]);
-      end;
+			if (sl.Count = 52) then begin
+				Plag := StrToInt(sl.Strings[50]);
+				PLv := StrToInt(sl.Strings[51]);
+			end;
+			if (sl.Count = 53) then begin
+				Plag := StrToInt(sl.Strings[51]);
+				PLv := StrToInt(sl.Strings[52]);
+			end;
 
 			if ver >= 1 then begin
 				for i := 0 to 2 do begin
@@ -2003,7 +2189,7 @@ begin
 
 			//マップ存在チェック
 			if MapList.IndexOf(Map) = -1 then begin
-				DebugOut.Lines.Add(Format('%s : Invalid Map "%s"', [Name, Map]));
+				debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid Map "%s"', [Name, Map]));
 				Map := 'prontera';
 				Point.X := 158;
 				Point.Y := 189;
@@ -2011,7 +2197,7 @@ begin
 			//座標チェック
 			ta := MapList.Objects[MapList.IndexOf(Map)] as TMapList;
 			if (Point.X < 0) or (Point.X >= ta.Size.X) or (Point.Y < 0) or (Point.Y >= ta.Size.Y) then begin
-				DebugOut.Lines.Add(Format('%s : Invalid Map Point "%s"[%dx%d] (%d,%d)',[Name, Map, ta.Size.X, ta.Size.Y, Point.X, Point.Y]));
+				debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid Map Point "%s"[%dx%d] (%d,%d)',[Name, Map, ta.Size.X, ta.Size.Y, Point.X, Point.Y]));
 				Map := 'prontera';
 				Point.X := 158;
 				Point.Y := 189;
@@ -2019,7 +2205,7 @@ begin
 
 			//マップ存在チェック
 			if MapList.IndexOf(SaveMap) = -1 then begin
-				DebugOut.Lines.Add(Format('%s : Invalid SaveMap "%s"', [Name, SaveMap]));
+				debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid SaveMap "%s"', [Name, SaveMap]));
 				SaveMap := 'prontera';
 				SavePoint.X := 158;
 				SavePoint.Y := 189;
@@ -2027,7 +2213,7 @@ begin
 			//座標チェック
 			ta := MapList.Objects[MapList.IndexOf(SaveMap)] as TMapList;
 			if (SavePoint.X < 0) or (SavePoint.X >= ta.Size.X) or (SavePoint.Y < 0) or (SavePoint.Y >= ta.Size.Y) then begin
-				DebugOut.Lines.Add(Format('%s : Invalid SaveMap Point "%s"[%dx%d] (%d,%d)', [Name, SaveMap, ta.Size.X, ta.Size.Y, SavePoint.X, SavePoint.Y]));
+				debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid SaveMap Point "%s"[%dx%d] (%d,%d)', [Name, SaveMap, ta.Size.X, ta.Size.Y, SavePoint.X, SavePoint.Y]));
 				SaveMap := 'prontera';
 				SavePoint.X := 158;
 				SavePoint.Y := 189;
@@ -2036,7 +2222,7 @@ begin
 			for i := 0 to 2 do begin
 				//マップ存在チェック
 				if (MemoMap[i] <> '') and (MapList.IndexOf(MemoMap[i]) = -1) then begin
-					DebugOut.Lines.Add(Format('%s : Invalid MemoMap%d "%s"', [Name, i, MemoMap[i]]));
+					debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid MemoMap%d "%s"', [Name, i, MemoMap[i]]));
 					MemoMap[i] := '';
 					MemoPoint[i].X := 0;
 					MemoPoint[i].Y := 0;
@@ -2045,7 +2231,7 @@ begin
 					ta := MapList.Objects[MapList.IndexOf(MemoMap[i])] as TMapList;
 					if (MemoPoint[i].X < 0) or (MemoPoint[i].X >= ta.Size.X) or
 						 (MemoPoint[i].Y < 0) or (MemoPoint[i].Y >= ta.Size.Y) then begin
-						DebugOut.Lines.Add(Format('%s : Invalid MemoMap%d Point "%s"[%dx%d] (%d,%d)', [Name, i, MemoMap[i], ta.Size.X, ta.Size.Y, MemoPoint[i].X, MemoPoint[i].Y]));
+						debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('%s : Invalid MemoMap%d Point "%s"[%dx%d] (%d,%d)', [Name, i, MemoMap[i], ta.Size.X, ta.Size.Y, MemoPoint[i].X, MemoPoint[i].Y]));
 						MemoMap[i] := '';
 						MemoPoint[i].X := 0;
 						MemoPoint[i].Y := 0;
@@ -2059,9 +2245,9 @@ begin
 				tc.Skill[i].Data := SkillDB.IndexOfObject(i) as TSkillDB;
 			end;
 		end;
-    if (tc.Plag <> 0) then begin
-    tc.Skill[tc.Plag].Plag := true;
-    end;
+		if (tc.Plag <> 0) then begin
+		tc.Skill[tc.Plag].Plag := true;
+		end;
 
 		sl.Clear;
 		Readln(txt, str);
@@ -2072,7 +2258,7 @@ begin
 				k := StrToInt(sl.Strings[(i-1)*2+1]);
 				tc.Skill[k].Lv := StrToInt(sl.Strings[(i-1)*2+2]);
 				tc.Skill[k].Card := false;
-        tc.Skill[k].Plag := false;
+				tc.Skill[k].Plag := false;
 			end;
 		end;
 		//アイテムロード
@@ -2103,7 +2289,8 @@ begin
 {カート機能追加}
 			//カート内のアイテム総数
 			tc.Cart.Count := j;
-{カート機能追加ココまで}			for i := 1 to j do begin
+{カート機能追加ココまで}
+			for i := 1 to j do begin
 				if ItemDB.IndexOf(StrToInt(sl.Strings[(i-1)*10+1])) <> -1 then begin
 					tc.Cart.Item[i].ID := StrToInt(sl.Strings[(i-1)*10+1]);
 					tc.Cart.Item[i].Amount := StrToInt(sl.Strings[(i-1)*10+2]);
@@ -2128,18 +2315,18 @@ begin
 		Chara.AddObject(tc.CID, tc);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('*** Total %d character(s) data loaded.', [CharaName.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d character(s) data loaded.', [CharaName.Count]));
 	Application.ProcessMessages;
 
 	//キャラ情報&プレイヤー情報のリンク
 {修正}
 	for i := 0 to PlayerName.Count - 1 do begin
 		tp := PlayerName.Objects[i] as TPlayer;
-                tp.ver2 := 9;
-                if tp.ver2 = 9 then i1 := 8
-	        else i1 := 2;
+		tp.ver2 := 9;
+		if tp.ver2 = 9 then i1 := 8
+		else i1 := 2;
 
-                for j := 0 to i1 do begin
+		for j := 0 to i1 do begin
 			if tp.CName[j] <> '' then begin
 				k := CharaName.IndexOf(tp.CName[j]);
 				if k <> -1 then begin
@@ -2157,7 +2344,7 @@ begin
 {修正ココまで}
 
 {パーティー機能追加}
-  DebugOut.Lines.Add('Castle data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Castle data loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'gcastle.txt');
 	Reset(txt);
@@ -2178,27 +2365,27 @@ begin
 		tgc := TCastle.Create;
 		with tgc do begin
 			Name := sl.Strings[0];
-      GID  := StrToInt(sl.Strings[1]);
-      GName:= sl.Strings[2];
-      GMName:=sl.Strings[3];
-      GKafra:=StrToInt(sl.Strings[4]);
-      EDegree:=StrToInt(sl.Strings[5]);
-      ETrigger:=StrToInt(sl.Strings[6]);
-      DDegree:=StrToInt(sl.Strings[7]);
-      DTrigger:=StrToInt(sl.Strings[8]);
-      for i := 0 to 7 do begin
-      GuardStatus[i] := StrToInt(sl.Strings[i+9]);
-      end;
+			GID  := StrToInt(sl.Strings[1]);
+			GName:= sl.Strings[2];
+			GMName:=sl.Strings[3];
+			GKafra:=StrToInt(sl.Strings[4]);
+			EDegree:=StrToInt(sl.Strings[5]);
+			ETrigger:=StrToInt(sl.Strings[6]);
+			DDegree:=StrToInt(sl.Strings[7]);
+			DTrigger:=StrToInt(sl.Strings[8]);
+			for i := 0 to 7 do begin
+			GuardStatus[i] := StrToInt(sl.Strings[i+9]);
+			end;
 		end;
 		CastleList.AddObject(tgc.Name, tgc);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('*** Total %d Castle(s) data loaded.', [CastleList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Castle(s) data loaded.', [CastleList.Count]));
 	Application.ProcessMessages;
 
 
 	//パーティー情報ロード
-	DebugOut.Lines.Add('Party data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Party data loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'party.txt');
 	Reset(txt);
@@ -2222,13 +2409,13 @@ begin
 			for i := 0 to 11 do begin
 				MemberID[i] := StrToInt(sl.Strings[i+1]);
 			end;
-			EXPShare := 0;
+			EXPShare := False;
 		end;
 		PartyNameList.AddObject(tpa.Name, tpa);
-		// DebugOut.Lines.Add(Format('Name : %s.', [tpa.Name]));
+		// debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('Name : %s.', [tpa.Name]));
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('*** Total %d Party(s) data loaded.', [PartyNameList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Party(s) data loaded.', [PartyNameList.Count]));
 	Application.ProcessMessages;
 
 	//IDとプレイヤー情報のリンク
@@ -2249,7 +2436,7 @@ begin
 
 {ギルド機能追加}
 	//ギルド情報ロード
-	DebugOut.Lines.Add('Guild data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild data loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'guild.txt');
 	Reset(txt);
@@ -2369,7 +2556,7 @@ begin
 		GuildList.AddObject(tg.ID, tg);
 	end;
 	CloseFile(txt);
-	DebugOut.Lines.Add(Format('*** Total %d Guild(s) data loaded.', [GuildList.Count]));
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + Format('*** Total %d Guild(s) data loaded.', [GuildList.Count]));
 	Application.ProcessMessages;
 
 	//IDとプレイヤー情報のリンク
@@ -2397,163 +2584,163 @@ begin
 
 {キューペット}
 
-	DebugOut.Lines.Add('Pet data loading...');
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Pet data loading...');
 	Application.ProcessMessages;
 	AssignFile(txt, AppPath + 'pet.txt');
 	Reset(txt);
 	Readln(txt, str);
 
-        ver := 0;
-				if str = '##Weiss.PetData.0x0001' then begin
-                ver := 1;
-        end else if str = '##Weiss.PetData.0x0002' then begin
-                ver := 2;
-        end else begin
-                Reset( txt );
-        end;
+	ver := 0;
+	if str = '##Weiss.PetData.0x0001' then begin
+		ver := 1;
+	end else if str = '##Weiss.PetData.0x0002' then begin
+		ver := 2;
+	end else begin
+		Reset( txt );
+	end;
 
 	while not eof(txt) do begin
 		sl.Clear;
 		Readln(txt, str);
 		sl.DelimitedText := str;
 
-                if ver >= 1 then begin
-                        tpe := TPet.Create;
+		if ver >= 1 then begin
+			tpe := TPet.Create;
 
-                        if ver = 1 then begin
-                                if sl.Count <> 11 then continue;
+			if ver = 1 then begin
+			if sl.Count <> 11 then continue;
 
-                                with tpe do begin
-                                        PlayerID    := StrToInt( sl.Strings[ 0] );
-                                        CharaID     := StrToInt( sl.Strings[ 1] );
-                                        Cart        := StrToInt( sl.Strings[ 2] );
-                                        Index       := StrToInt( sl.Strings[ 3] );
-                                        Incubated   := StrToInt( sl.Strings[ 4] );
-                                        PetID       := StrToInt( sl.Strings[ 5] );
-                                        Name        :=           sl.Strings[ 6];
-                                        Renamed     := StrToInt( sl.Strings[ 7] );
-																				Relation    := StrToInt( sl.Strings[ 8] );
-                                        Fullness    := StrToInt( sl.Strings[ 9] );
-                                        Accessory   := StrToInt( sl.Strings[10] );
+			with tpe do begin
+				PlayerID    := StrToInt( sl.Strings[ 0] );
+				CharaID     := StrToInt( sl.Strings[ 1] );
+				Cart        := StrToInt( sl.Strings[ 2] );
+				Index       := StrToInt( sl.Strings[ 3] );
+				Incubated   := StrToInt( sl.Strings[ 4] );
+				PetID       := StrToInt( sl.Strings[ 5] );
+				Name        :=           sl.Strings[ 6];
+				Renamed     := StrToInt( sl.Strings[ 7] );
+				Relation    := StrToInt( sl.Strings[ 8] );
+				Fullness    := StrToInt( sl.Strings[ 9] );
+				Accessory   := StrToInt( sl.Strings[10] );
+			end;
+
+		end else if ver = 2 then begin
+			if sl.Count <> 13 then continue;
+
+			i := PetDB.IndexOf( StrToInt( sl.Strings[6] ) );
+			if i <> -1 then begin
+				tpe := TPet.Create;
+				with tpe do begin
+					PlayerID    := StrToInt( SL[ 0] );
+					CharaID     := StrToInt( SL[ 1] );
+					Cart        := StrToInt( SL[ 2] );
+					Index       := StrToInt( SL[ 3] );
+					Incubated   := StrToInt( SL[ 4] );
+					PetID       := StrToInt( SL[ 5] );
+					JID         := StrToInt( SL[ 6] );
+					Name        :=           SL[ 7];
+					Renamed     := StrToInt( SL[ 8] );
+					LV          := StrToInt( SL[ 9] );
+					Relation    := StrToInt( SL[10] );
+					Fullness    := StrToInt( SL[11] );
+					Accessory   := StrToInt( SL[12] );
+
+					Data        := PetDB.Objects[i] as TPetDB;
+				end;
+			end;
 		end;
 
-                        end else if ver = 2 then begin
-                                if sl.Count <> 13 then continue;
-
-                                i := PetDB.IndexOf( StrToInt( sl.Strings[6] ) );
-                                if i <> -1 then begin
-                                        tpe := TPet.Create;
-                                        with tpe do begin
-                                                PlayerID    := StrToInt( sl.Strings[ 0] );
-                                                CharaID     := StrToInt( sl.Strings[ 1] );
-                                                Cart        := StrToInt( sl.Strings[ 2] );
-                                                Index       := StrToInt( sl.Strings[ 3] );
-                                                Incubated   := StrToInt( sl.Strings[ 4] );
-                                                PetID       := StrToInt( sl.Strings[ 5] );
-                                                JID         := StrToInt( sl.Strings[ 6] );
-                                                Name        :=           sl.Strings[ 7];
-                                                Renamed     := StrToInt( sl.Strings[ 8] );
-                                                LV          := StrToInt( sl.Strings[ 9] );
-																								Relation    := StrToInt( sl.Strings[10] );
-                                                Fullness    := StrToInt( sl.Strings[11] );
-                                                Accessory   := StrToInt( sl.Strings[12] );
-
-                                                Data        := PetDB.Objects[i] as TPetDB;
-                                        end;
-                                end;
-                        end;
-
-                        PetList.AddObject( tpe.PetID, tpe );
+		PetList.AddObject( tpe.PetID, tpe );
+		end;
 	end;
-      end;
 
 	CloseFile(txt);
 
-      for i := 0 to PetList.Count - 1 do begin
+	for i := 0 to PetList.Count - 1 do begin
 
-                tpe := PetList.Objects[i] as TPet;
+		tpe := PetList.Objects[i] as TPet;
 
-                if tpe.PlayerID = 0 then continue;
+		if tpe.PlayerID = 0 then continue;
 
-                if tpe.CharaID = 0 then begin
-                        tp := Player.IndexofObject( tpe.PlayerID ) as TPlayer;
-                        with tp.Kafra.Item[ tpe.Index ] do begin
-                                Attr    := 0;
-                                Card[0] := $FF00;
-                                Card[2] := tpe.PetID mod $10000;
-                                Card[3] := tpe.PetID div $10000;
+		if tpe.CharaID = 0 then begin
+			tp := Player.IndexofObject( tpe.PlayerID ) as TPlayer;
+			with tp.Kafra.Item[ tpe.Index ] do begin
+				Attr    := 0;
+				Card[0] := $FF00;
+				Card[2] := tpe.PetID mod $10000;
+				Card[3] := tpe.PetID div $10000;
 
-                                if ver = 1 then begin
-                                        for j := 0 to PetDB.Count - 1 do begin
-                                                tpd := PetDB.Objects[j] as TPetDB;
-                                                if tpd.EggID = ID then begin
-                                                        tpe.JID := tpd.MobID;
-                                                        k := MobDB.IndexOf( tpd.MobID );
-                                                        if k <> -1 then begin
-                                                                tmd := MobDB.Objects[k] as TMobDB;
-                                                                tpe.LV := tmd.LV;
-                                                        end;
-                                                        tpe.Data := tpd;
-                                                        break;
-                                                end;
-                                        end;
-                                end;
-                        end;
-                end else begin
-                        tc := Chara.IndexOfObject( tpe.CharaID ) as TChara;
-                        if tpe.Cart = 0 then begin
-                                with tc.Item[ tpe.Index ] do begin
-                                        Attr    := tpe.Incubated;
-                                        Card[0] := $FF00;
-                                        Card[2] := tpe.PetID mod $10000;
-                                        Card[3] := tpe.PetID div $10000;
+				if ver = 1 then begin
+					for j := 0 to PetDB.Count - 1 do begin
+						tpd := PetDB.Objects[j] as TPetDB;
+						if tpd.EggID = ID then begin
+							tpe.JID := tpd.MobID;
+							k := MobDB.IndexOf( tpd.MobID );
+							if k <> -1 then begin
+								tmd := MobDB.Objects[k] as TMobDB;
+								tpe.LV := tmd.LV;
+							end;
+							tpe.Data := tpd;
+							break;
+						end;
+					end;
+				end;
+			end;
+		end else begin
+			tc := Chara.IndexOfObject( tpe.CharaID ) as TChara;
+			if tpe.Cart = 0 then begin
+				with tc.Item[ tpe.Index ] do begin
+					Attr    := tpe.Incubated;
+					Card[0] := $FF00;
+					Card[2] := tpe.PetID mod $10000;
+					Card[3] := tpe.PetID div $10000;
 
-                                        if ver = 1 then begin
-                                                for j := 0 to PetDB.Count - 1 do begin
-                                                        tpd := PetDB.Objects[j] as TPetDB;
-                                                        if tpd.EggID = ID then begin
-                                                                tpe.JID := tpd.MobID;
-                                                                k := MobDB.IndexOf( tpd.MobID );
-                                                                if k <> -1 then begin
-                                                                        tmd := MobDB.Objects[k] as TMobDB;
-                                                                        tpe.LV := tmd.LV;
-                                                                end;
-                                                                tpe.Data := tpd;
-                                                                break;
-                                                        end;
-                                                end;
-                                        end;
-                                end;
-                        end else begin
-                                with tc.Cart.Item[ tpe.Index ] do begin
-                                        Attr    := 0;
-                                        Card[0] := $FF00;
-                                        Card[2] := tpe.PetID mod $10000;
-                                        Card[3] := tpe.PetID div $10000;
+					if ver = 1 then begin
+						for j := 0 to PetDB.Count - 1 do begin
+							tpd := PetDB.Objects[j] as TPetDB;
+							if tpd.EggID = ID then begin
+								tpe.JID := tpd.MobID;
+								k := MobDB.IndexOf( tpd.MobID );
+								if k <> -1 then begin
+									tmd := MobDB.Objects[k] as TMobDB;
+									tpe.LV := tmd.LV;
+								end;
+								tpe.Data := tpd;
+								break;
+							end;
+						end;
+					end;
+				end;
+			end else begin
+				with tc.Cart.Item[ tpe.Index ] do begin
+					Attr    := 0;
+					Card[0] := $FF00;
+					Card[2] := tpe.PetID mod $10000;
+					Card[3] := tpe.PetID div $10000;
 
-                                        if ver = 1 then begin
-                                                for j := 0 to PetDB.Count - 1 do begin
-                                                        tpd := PetDB.Objects[j] as TPetDB;
-                                                        if tpd.EggID = ID then begin
-                                                                tpe.JID := tpd.MobID;
-                                                                k := MobDB.IndexOf( tpd.MobID );
-                                                                if k <> -1 then begin
-                                                                        tmd := MobDB.Objects[k] as TMobDB;
-                                                                        tpe.LV := tmd.LV;
-                                                                end;
-                                                                tpe.Data := tpd;
-                                                                break;
-                                                        end;
-                                                end;
-                                        end;
-                                end;
-                        end;
-                end;
+					if ver = 1 then begin
+						for j := 0 to PetDB.Count - 1 do begin
+							tpd := PetDB.Objects[j] as TPetDB;
+							if tpd.EggID = ID then begin
+								tpe.JID := tpd.MobID;
+								k := MobDB.IndexOf( tpd.MobID );
+								if k <> -1 then begin
+									tmd := MobDB.Objects[k] as TMobDB;
+									tpe.LV := tmd.LV;
+								end;
+								tpe.Data := tpd;
+								break;
+							end;
+						end;
+					end;
+				end;
+			end;
+		end;
 
-                if NowPetID <= tpe.PetID then NowPetID := tpe.PetID + 1;
-         end;
+		if NowPetID <= tpe.PetID then NowPetID := tpe.PetID + 1;
+	end;
 
-        DebugOut.Lines.Add( Format( '*** Total %d Pet(s) data loaded.', [PetList.Count] ) );
+	debugout.lines.add('[' + TimeToStr(Now) + '] ' +  Format( '*** Total %d Pet(s) data loaded.', [PetList.Count] ) );
 	Application.ProcessMessages;
 
 {キューペットここまで}
@@ -2561,26 +2748,29 @@ begin
 end;
 //------------------------------------------------------------------------------
 // データ保存
-procedure DataSave();
+procedure DataSave(forced : Boolean = False);
 var
-	i,j,m,z :integer;
-	cnt :integer;
-	txt :TextFile;
-	sl  :TStringList;
-	tp  :TPlayer;
-	tc  :TChara;
+	i   : Integer;
+	j   : Integer;
+	m   : Integer;
+	z   : Integer;
+	cnt : Integer;
+	txt : TextFile;
+	sl  : TStringList;
+	tp  : TPlayer;
+	tc  : TChara;
 {パーティー機能追加}
-	tpa	:TParty;
-  tgc :TCastle;
+	tpa : TParty;
+	tgc : TCastle;
 {パーティー機能追加ココまで}
 {キューペット}
-        tpe :TPet;
-        k:integer;
+	tpe : TPet;
+	k   : Integer;
 {キューペットここまで}
 {ギルド機能追加}
-	tg  :TGuild;
-	tgb :TGBan;
-	tgl :TGRel;
+	tg  : TGuild;
+	tgb : TGBan;
+	tgl : TGRel;
 {ギルド機能追加ココまで}
 begin
 
@@ -2588,43 +2778,43 @@ begin
 	sl.QuoteChar := '"';
 	sl.Delimiter := ',';
 
-  for i := 0 to PlayerName.Count - 1 do begin
-    tp := PlayerName.Objects[i] as TPlayer;
-    tp.Saved := 0;
-  end;
-	if PlayerName.Count <> 0 then begin
+	for i := 0 to PlayerName.Count - 1 do begin
+		tp := PlayerName.Objects[i] as TPlayer;
+		tp.Saved := 0;
+	end;
+	if (PlayerName.Count > 0) or (forced) then begin
 		AssignFile(txt, AppPath + 'player.txt');
 		Rewrite(txt);
 		Writeln(txt, '##Weiss.PlayerData.0x0003');
 		for i := 0 to PlayerName.Count - 1 do begin
 			tp := PlayerName.Objects[i] as TPlayer;
 			sl.Clear;
-      if tp.Saved = 0 then begin
-			with tp do begin
-				sl.Add(IntToStr(ID));
-				sl.Add(Name);
-				sl.Add(Pass);
-				sl.Add(IntToStr(Gender));
-				sl.Add(Mail);
-				sl.Add(IntToStr(Banned));
-				sl.Add(CName[0]);
-				sl.Add(CName[1]);
-				sl.Add(CName[2]);
-				sl.Add(CName[3]);
-				sl.Add(CName[4]);
-				sl.Add(CName[5]);
-				sl.Add(CName[6]);
-				sl.Add(CName[7]);
-				sl.Add(CName[8]);
-        Saved := 1;
-			end;
-			writeln(txt, sl.DelimitedText);
-			//アイテムデータ保存
-			sl.Clear;
-			sl.Add('0');
-			cnt := 0;
-			for j := 1 to 100 do begin
-				if tp.Kafra.Item[j].ID <> 0 then begin
+			if tp.Saved = 0 then begin
+				with tp do begin
+					sl.Add(IntToStr(ID));
+					sl.Add(Name);
+					sl.Add(Pass);
+					sl.Add(IntToStr(Gender));
+					sl.Add(Mail);
+					sl.Add(IntToStr(Banned));
+					sl.Add(CName[0]);
+					sl.Add(CName[1]);
+					sl.Add(CName[2]);
+					sl.Add(CName[3]);
+					sl.Add(CName[4]);
+					sl.Add(CName[5]);
+					sl.Add(CName[6]);
+					sl.Add(CName[7]);
+					sl.Add(CName[8]);
+					Saved := 1;
+				end;
+				WriteLn(txt, sl.DelimitedText);
+				//アイテムデータ保存
+				sl.Clear;
+				sl.Add('0');
+				cnt := 0;
+				for j := 1 to 100 do begin
+					if tp.Kafra.Item[j].ID <> 0 then begin
 					sl.Add(IntToStr(tp.Kafra.Item[j].ID));
 					sl.Add(IntToStr(tp.Kafra.Item[j].Amount));
 					sl.Add(IntToStr(tp.Kafra.Item[j].Equip));
@@ -2640,13 +2830,13 @@ begin
 			end;
 			sl.Strings[0] := IntToStr(cnt);
 			writeln(txt, sl.DelimitedText);
-      end;
+			end;
 		end;
 		CloseFile(txt);
 	end;
-  //DebugOut.Lines.add('Player Saved');
+	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Player Saved');
 
-	if CharaName.Count <> 0 then begin
+	if (CharaName.Count <> 0) or (forced) then begin
 		AssignFile(txt, AppPath + 'chara.txt');
 		Rewrite(txt);
 		Writeln(txt, '##Weiss.CharaData.0x0002');
@@ -2656,9 +2846,9 @@ begin
 			with tc do begin
 				sl.Add(IntToStr(CID));
 				sl.Add(Name);
-        // Colus, 20040305: JID becomes the 'proper' value.
-        j := JID;
-        if (JID > UPPER_JOB_BEGIN) then j := JID - UPPER_JOB_BEGIN + LOWER_JOB_END;
+				// Colus, 20040305: JID becomes the 'proper' value.
+				j := JID;
+				if (JID > UPPER_JOB_BEGIN) then j := JID - UPPER_JOB_BEGIN + LOWER_JOB_END;
 				sl.Add(IntToStr(j));
 				sl.Add(IntToStr(BaseLV));
 				sl.Add(IntToStr(BaseEXP));
@@ -2672,17 +2862,17 @@ begin
 				sl.Add(IntToStr(Stat2));
 {修正ココまで}
 
-        // AlexKreuz: Added to prevent saving of Hide.
-        // Colus, 20040204: Generalized it further.
-        sl.Add(IntToStr(Option and $FFF9));
+				// AlexKreuz: Added to prevent saving of Hide.
+				// Colus, 20040204: Generalized it further.
+				sl.Add(IntToStr(Option and $FFF9));
 
 
 				sl.Add(IntToStr(Karma));
 				sl.Add(IntToStr(Manner));
 
-                                if (HP < 0) then begin
-                                        HP := 0;
-                                end;
+				if (HP < 0) then begin
+					HP := 0;
+				end;
 
 				sl.Add(IntToStr(HP));
 				sl.Add(IntToStr(SP));
@@ -2714,8 +2904,8 @@ begin
 					sl.Add(IntToStr(MemoPoint[j].X));
 					sl.Add(IntToStr(MemoPoint[j].Y));
 				end;
-        sl.Add(IntToStr(Plag));
-        sl.Add(IntToStr(PLv));
+				sl.Add(IntToStr(Plag));
+				sl.Add(IntToStr(PLv));
 			end;
 			writeln(txt, sl.DelimitedText);
 			//スキルデータ保存
@@ -2723,11 +2913,15 @@ begin
 			sl.Add('0');
 			cnt := 0;
 			for j := 1 to MAX_SKILL_NUMBER do begin
-				if tc.Skill[j].Lv <> 0 then begin
-					sl.Add(IntToStr(j));
-					sl.Add(IntToStr(tc.Skill[j].Lv));
-					Inc(cnt);
-				end;
+            	try
+					if (tc.Skill[j].Lv <> 0) and (not tc.Skill[j].Card) then begin
+						sl.Add(IntToStr(j));
+						sl.Add(IntToStr(tc.Skill[j].Lv));
+						Inc(cnt);
+					end;
+                except
+                	//debugout.lines.add(tc.name + ' skill ' + inttostr(j) + ' failure.');
+                end;
 			end;
 			sl.Strings[0] := IntToStr(cnt);
 			writeln(txt, sl.DelimitedText);
@@ -2791,382 +2985,296 @@ begin
 		end;
 		CloseFile(txt);
 	end;
-  //DebugOut.Lines.add('Chara Saved');
+  //debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Chara Saved');
 
 {NPCイベント追加}
 	//サーバ共有フラグ保存
-	AssignFile(txt, AppPath + 'status.txt');
-	Rewrite(txt);
-	Writeln(txt, '##Weiss.StatusData.0x0002');
-	sl.Clear;
-	sl.Add('0');
-	cnt := 0;
-	for j := 0 to ServerFlag.Count - 1 do begin
-		if (Copy(ServerFlag[j], 1, 1) = '\') then begin
-			ServerFlag[j] := Copy(ServerFlag[j], 2, Length(ServerFlag[j]) - 1);
-			if ((Copy(ServerFlag[j], 1, 1) <> '@') and (Copy(ServerFlag[j], 1, 2) <> '$@'))
-			and ((ServerFlag.Values[ServerFlag.Names[j]] <> '') and (ServerFlag.Values[ServerFlag.Names[j]] <> '0')) then begin
-				sl.Add(ServerFlag[j]);
-				Inc(cnt);
-			end;
-		end;
-	end;
-	sl.Strings[0] := IntToStr(cnt);
-	writeln(txt, sl.DelimitedText);
-	CloseFile(txt);
-  //DebugOut.Lines.add('Status Saved');
+
+  if (ServerFlag.Count <> 0) or (forced) then begin
+  	AssignFile(txt, AppPath + 'status.txt');
+	  Rewrite(txt);
+  	Writeln(txt, '##Weiss.StatusData.0x0002');
+	  sl.Clear;
+  	sl.Add('0');
+	  cnt := 0;
+  	for j := 0 to ServerFlag.Count - 1 do begin
+	  	if (Copy(ServerFlag[j], 1, 1) = '\') then begin
+
+        	{ Alex: Ok, crack control again. Putting this line here ensures that any temporary
+            variables stop working because the '\' in front is permanently removed. Bad coding. }
+            //ServerFlag[j] := Copy(ServerFlag[j], 2, Length(ServerFlag[j]) - 1);
+
+		  	if ( copy(serverflag[j],2,1) <> '@' )
+  			and ((ServerFlag.Values[ServerFlag.Names[j]] <> '') and (ServerFlag.Values[ServerFlag.Names[j]] <> '0')) then begin
+	  			sl.Add(Copy(ServerFlag[j], 2, Length(ServerFlag[j]) - 1));
+		  		Inc(cnt);
+			  end;
+  		end;
+	  end;
+  	sl.Strings[0] := IntToStr(cnt);
+	  writeln(txt, sl.DelimitedText);
+  	CloseFile(txt);
+  end;
+	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Status Saved');
 {NPCイベント追加ココまで}
 
 {パーティー機能追加}
-  AssignFile(txt, AppPath + 'gcastle.txt');
-	Rewrite(txt);
-	Writeln(txt, '##Weiss.GCastleData.0x0002');
-	for i := 0 to CastleList.Count - 1 do begin
-		tgc := CastleList.Objects[i] as TCastle;
-		sl.Clear;
-		with tgc do begin
-			sl.Add(Name);
-			sl.Add(IntToStr(GID));
-      sl.Add(GName);
-      sl.Add(GMName);
-      sl.Add(IntToStr(GKafra));
-      sl.Add(IntToStr(EDegree));
-      sl.Add(IntToStr(ETrigger));
-      sl.Add(IntToStr(DDegree));
-      sl.Add(IntToStr(DTrigger));
-      for j := 0 to 7 do begin
-      sl.Add(IntToStr(GuardStatus[j]));
-      end;
-		end;
-		writeln(txt, sl.DelimitedText);
-	end;
-	CloseFile(txt);
-  //DebugOut.Lines.add('Castle Saved');
+  	if (CastleList.Count <> 0) or (forced) then begin
+    	AssignFile(txt, AppPath + 'gcastle.txt');
+    	Rewrite(txt);
+    	Writeln(txt, '##Weiss.GCastleData.0x0002');
+    	for i := 0 to CastleList.Count - 1 do begin
+    		tgc := CastleList.Objects[i] as TCastle;
+    		sl.Clear;
+    		with tgc do begin
+    			sl.Add(Name);
+    			sl.Add(IntToStr(GID));
+    			sl.Add(GName);
+    			sl.Add(GMName);
+    			sl.Add(IntToStr(GKafra));
+    			sl.Add(IntToStr(EDegree));
+    			sl.Add(IntToStr(ETrigger));
+    			sl.Add(IntToStr(DDegree));
+    			sl.Add(IntToStr(DTrigger));
+    			for j := 0 to 7 do begin
+    			sl.Add(IntToStr(GuardStatus[j]));
+    			end;
+    		end;
+    		writeln(txt, sl.DelimitedText);
+    	end;
+    	CloseFile(txt);
+    end;
+	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Castle Saved');
 
-	AssignFile(txt, AppPath + 'party.txt');
-	Rewrite(txt);
-	Writeln(txt, '##Weiss.PartyData.0x0002');
-	for i := 0 to PartyNameList.Count - 1 do begin
-		tpa := PartyNameList.Objects[i] as TParty;
-		sl.Clear;
-		with tpa do begin
-			sl.Add(Name);
-			for j := 0 to 11 do begin
-				sl.Add(IntToStr(MemberID[j]));
-			end;
-		end;
-		writeln(txt, sl.DelimitedText);
-	end;
-	CloseFile(txt);
-  //DebugOut.Lines.add('Guild Saved');
+    if (partynamelist.Count <> 0) or (forced) then begin
+    	AssignFile(txt, AppPath + 'party.txt');
+    	Rewrite(txt);
+    	Writeln(txt, '##Weiss.PartyData.0x0002');
+    	for i := 0 to PartyNameList.Count - 1 do begin
+    		tpa := PartyNameList.Objects[i] as TParty;
+    		sl.Clear;
+    		with tpa do begin
+    			sl.Add(Name);
+    			for j := 0 to 11 do begin
+    				sl.Add(IntToStr(MemberID[j]));
+    			end;
+    		end;
+    		writeln(txt, sl.DelimitedText);
+    	end;
+    	CloseFile(txt);
+    end;
+	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild Saved');
 {パーティー機能追加ココまで}
 
 {ギルド機能追加}
-	AssignFile(txt, AppPath + 'guild.txt');
-	Rewrite(txt);
-	Writeln(txt, '##Weiss.GuildData.0x0002');
-	for i := 0 to GuildList.Count - 1 do begin
-		tg := GuildList.Objects[i] as TGuild;
-		with tg do begin
-			//基本情報
-			sl.Clear;
-			sl.Add(IntToStr(ID));
-			sl.Add(Name);
-			sl.Add(IntToStr(LV));
-			sl.Add(IntToStr(EXP));
-			sl.Add(IntToStr(GSkillPoint));
-			sl.Add(Notice[0]);
-			sl.Add(Notice[1]);
-			sl.Add(Agit);
-			sl.Add(IntToStr(Emblem));
-			sl.Add(IntToStr(Present));
-			sl.Add(IntToStr(DisposFV));
-			sl.Add(IntToStr(DisposRW));
-			writeln(txt, sl.DelimitedText);
-			//メンバー情報
-			sl.Clear;
-			for j := 0 to 35 do begin
-				sl.Add(IntToStr(MemberID[j]));
-				sl.Add(IntToStr(MemberPos[j]));
-				sl.Add(IntToStr(MemberEXP[j]));
-			end;
-			writeln(txt, sl.DelimitedText);
-			//職位情報
-			sl.Clear;
-			for j := 0 to 19 do begin
-				sl.Add(PosName[j]);
-				if (PosInvite[j] = true) then sl.Add('1') else sl.Add('0');
-				if (PosPunish[j] = true) then sl.Add('1') else sl.Add('0');
-				sl.Add(IntToStr(PosEXP[j]));
-			end;
-			writeln(txt, sl.DelimitedText);
-			//スキル情報
-			sl.Clear;
-			sl.Add('0');
-			cnt := 0;
-			for j := 10000 to 10004 do begin
-				if GSkill[j].Lv <> 0 then begin
-					sl.Add(IntToStr(j));
-					sl.Add(IntToStr(GSkill[j].Lv));
-					Inc(cnt);
-				end;
-			end;
-			sl.Strings[0] := IntToStr(cnt);
-			writeln(txt, sl.DelimitedText);
-			//追放者リスト、同盟・敵対リスト
-			sl.Clear;
-			sl.Add(IntToStr(GuildBanList.Count));
-			sl.Add(IntToStr(RelAlliance.Count));
-			sl.Add(IntToStr(RelHostility.Count));
-			for j := 0 to GuildBanList.Count - 1 do begin
-				tgb := GuildBanList.Objects[j] as TGBan;
-				sl.Add(tgb.Name);
-				sl.Add(tgb.AccName);
-				sl.Add(tgb.Reason);
-			end;
-			for j := 0 to RelAlliance.Count - 1 do begin
-				tgl := RelAlliance.Objects[j] as TGRel;
-				sl.Add(IntToStr(tgl.ID));
-				sl.Add(tgl.GuildName);
-			end;
-			for j := 0 to RelHostility.Count - 1 do begin
-				tgl := RelHostility.Objects[j] as TGRel;
-				sl.Add(IntToStr(tgl.ID));
-				sl.Add(tgl.GuildName);
-			end;
-			writeln(txt, sl.DelimitedText);
-		end;
-	end;
-	CloseFile(txt);
-  //DebugOut.Lines.add('Guild Saved');
+	if (guildlist.Count <> 0) or (forced) then begin
+    	AssignFile(txt, AppPath + 'guild.txt');
+    	Rewrite(txt);
+    	Writeln(txt, '##Weiss.GuildData.0x0002');
+    	for i := 0 to GuildList.Count - 1 do begin
+    		tg := GuildList.Objects[i] as TGuild;
+    		with tg do begin
+    			//基本情報
+    			sl.Clear;
+    			sl.Add(IntToStr(ID));
+    			sl.Add(Name);
+    			sl.Add(IntToStr(LV));
+    			sl.Add(IntToStr(EXP));
+    			sl.Add(IntToStr(GSkillPoint));
+    			sl.Add(Notice[0]);
+    			sl.Add(Notice[1]);
+    			sl.Add(Agit);
+    			sl.Add(IntToStr(Emblem));
+    			sl.Add(IntToStr(Present));
+    			sl.Add(IntToStr(DisposFV));
+    			sl.Add(IntToStr(DisposRW));
+    			writeln(txt, sl.DelimitedText);
+    			//メンバー情報
+    			sl.Clear;
+    			for j := 0 to 35 do begin
+    				sl.Add(IntToStr(MemberID[j]));
+    				sl.Add(IntToStr(MemberPos[j]));
+    				sl.Add(IntToStr(MemberEXP[j]));
+    			end;
+    			writeln(txt, sl.DelimitedText);
+    			//職位情報
+    			sl.Clear;
+    			for j := 0 to 19 do begin
+    				sl.Add(PosName[j]);
+    				if (PosInvite[j] = true) then sl.Add('1') else sl.Add('0');
+    				if (PosPunish[j] = true) then sl.Add('1') else sl.Add('0');
+    				sl.Add(IntToStr(PosEXP[j]));
+    			end;
+    			writeln(txt, sl.DelimitedText);
+    			//スキル情報
+    			sl.Clear;
+    			sl.Add('0');
+    			cnt := 0;
+    			for j := 10000 to 10004 do begin
+    				if GSkill[j].Lv <> 0 then begin
+    					sl.Add(IntToStr(j));
+    					sl.Add(IntToStr(GSkill[j].Lv));
+    					Inc(cnt);
+    				end;
+    			end;
+    			sl.Strings[0] := IntToStr(cnt);
+    			writeln(txt, sl.DelimitedText);
+    			//追放者リスト、同盟・敵対リスト
+    			sl.Clear;
+    			sl.Add(IntToStr(GuildBanList.Count));
+    			sl.Add(IntToStr(RelAlliance.Count));
+    			sl.Add(IntToStr(RelHostility.Count));
+    			for j := 0 to GuildBanList.Count - 1 do begin
+    				tgb := GuildBanList.Objects[j] as TGBan;
+    				sl.Add(tgb.Name);
+    				sl.Add(tgb.AccName);
+    				sl.Add(tgb.Reason);
+    			end;
+    			for j := 0 to RelAlliance.Count - 1 do begin
+    				tgl := RelAlliance.Objects[j] as TGRel;
+    				sl.Add(IntToStr(tgl.ID));
+    				sl.Add(tgl.GuildName);
+    			end;
+    			for j := 0 to RelHostility.Count - 1 do begin
+    				tgl := RelHostility.Objects[j] as TGRel;
+    				sl.Add(IntToStr(tgl.ID));
+    				sl.Add(tgl.GuildName);
+    			end;
+    			writeln(txt, sl.DelimitedText);
+    		end;
+    	end;
+    	CloseFile(txt);
+    end;
+	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Guild Saved');
 {ギルド機能追加ココまで}
 
-{キューペット}
-	AssignFile(txt, AppPath + 'pet.txt');
-	Rewrite(txt);
-        Writeln( txt, '##Weiss.PetData.0x0002' );
-        z := 0;
-        //Reset Pet Saves to prevent Dupes
-        for i := 0 to PetList.Count - 1 do begin
-          tpe := PetList.Objects[i] as TPet;
-          tpe.Saved := 0;
+//Cute Pet Load Start
+	if (petlist.Count <> 0) or (forced) then begin
+    	AssignFile(txt, AppPath + 'pet.txt');
+    	Rewrite(txt);
+    	Writeln( txt, '##Weiss.PetData.0x0002' );
+    	z := 0;
+    	//Reset Pet Saves to prevent Dupes
+    	for i := 0 to PetList.Count - 1 do begin
+    		tpe := PetList.Objects[i] as TPet;
+    		tpe.Saved := 0;
+    	end;
+    
+    	for i := 0 to Player.Count - 1 do begin
+    		tp := Player.Objects[i] as TPlayer;
+    
+    		for j := 1 to 100 do begin
+    			with tp.Kafra.Item[j] do begin
+    				if ( ID <> 0 ) and ( Amount > 0 ) and ( Card[0] = $FF00 ) then begin
+    					for k := 0 to PetList.Count - 1 do begin
+    						//k := Card[2] + Card[3] * $10000;
+    						if (PetList.IndexOf( k ) <> -1)  then begin
+    							tpe := PetList.IndexOfObject( k ) as TPet;
+    							if tpe.Saved = 0 then begin
+    								sl.Clear;
+    								sl.Add( IntToStr( tpe.PlayerID ) );
+    								sl.Add( IntToStr( tpe.CharaID ) );
+    								sl.Add( IntToStr( tpe.Cart ) ); // Cart
+    								sl.Add( IntToStr( tpe.Index ) ); // Index
+    								sl.Add( IntToStr( tpe.Incubated ) );
+    								sl.Add( IntToStr( tpe.PetID ) ); // PetID
+    								sl.Add( IntToStr( tpe.JID ) );
+    								sl.Add( tpe.Name );
+    								sl.Add( IntToStr( tpe.Renamed ) );
+    								sl.Add( IntToStr( tpe.LV ) );
+    								sl.Add( IntToStr( tpe.Relation  ) );
+    								sl.Add( IntToStr( tpe.Fullness  ) );
+    								sl.Add( IntToStr( tpe.Accessory ) );
+    								tpe.Saved := 1;
+    								z := j;
+    								Writeln( txt, sl.DelimitedText );
+    							end;
+    						end;
+    					end;
+    				end;
+    			end;
+    		end;
+    
+    		for m := 0 to 8 do begin;
+    			if tp.CData[m] <> nil then begin
+    			//for i := 0 to Chara.Count - 1 do begin
+    				//tc := Chara.Objects[i] as TChara;
+    				tc := tp.CData[m];
+    				for j := 1 to 100 do begin
+    					with tc.Item[j] do begin
+    						if ( ID <> 0 ) and ( Amount > 0 ) and ( Card[0] = $FF00 ) then begin
+    							//k := Card[2] + Card[3] * $10000;
+    							for k := 0 to PetList.Count - 1 do begin
+    								if (PetList.IndexOf( k ) <> -1) then begin
+    									tpe := PetList.IndexOfObject( k ) as TPet;
+    										if tpe.Saved = 0 then begin
+    											sl.Clear;
+    											sl.Add( IntToStr( tpe.PlayerID ) );
+    											sl.Add( IntToStr( tpe.CharaID ) );
+    											sl.Add( IntToStr( tpe.Cart ) ); // Cart
+    											sl.Add( IntToStr( tpe.Index ) ); // Index
+    											sl.Add( IntToStr( tpe.Incubated ) );
+    											sl.Add( IntToStr( tpe.PetID ) ); // PetID
+    											sl.Add( IntToStr( tpe.JID ) );
+    											sl.Add( tpe.Name );
+    											sl.Add( IntToStr( tpe.Renamed ) );
+    											sl.Add( IntToStr( tpe.LV ) );
+    											sl.Add( IntToStr( tpe.Relation  ) );
+    											sl.Add( IntToStr( tpe.Fullness  ) );
+    											sl.Add( IntToStr( tpe.Accessory ) );
+    											Writeln(txt, sl.DelimitedText);
+    											tpe.Saved := 1;
+    											z := j;
+    										end;
+    									end;
+    								end;
+    							end;
+    						end;
+    
+    
+    					//for j := 1 to 100 do begin
+    						with tc.Cart.Item[j] do begin
+    							if ( ID <> 0 ) and ( Amount > 0 ) and ( Card[0] = $FF00 ) then begin
+    								//k := Card[2] + Card[3] * $10000;
+    								for k := 0 to PetList.Count - 1 do begin
+    									if (PetList.IndexOf( k ) <> -1) then begin
+    										if tpe.Saved = 0 then begin
+    											tpe := PetList.IndexOfObject( k ) as TPet;
+    											sl.Clear;
+    											sl.Add( IntToStr( tpe.PlayerID ) );
+    											sl.Add( IntToStr( tpe.CharaID ) );
+    											sl.Add( IntToStr( tpe.Cart ) ); // Cart
+    											sl.Add( IntToStr( tpe.Index ) ); // Index
+    											sl.Add( IntToStr( tpe.Incubated ) );
+    											sl.Add( IntToStr( tpe.PetID ) ); // PetID
+    											sl.Add( IntToStr( tpe.JID ) );
+    											sl.Add( tpe.Name );
+    											sl.Add( IntToStr( tpe.Renamed ) );
+    											sl.Add( IntToStr( tpe.LV ) );
+    											sl.Add( IntToStr( tpe.Relation  ) );
+    											sl.Add( IntToStr( tpe.Fullness  ) );
+    											sl.Add( IntToStr( tpe.Accessory ) );
+    											tpe.Saved := 1;
+    											z := j;
+    											Writeln( txt, sl.DelimitedText );
+    										end;
+    									end;
+    								end;
+    							end;
+    						end;
+    					end;
+    				end;
+    			end;
+    		end;
+    		CloseFile(txt);
         end;
 
-        {
-        PlayerID    := StrToInt( sl.Strings[ 0] );
-                                        CharaID     := StrToInt( sl.Strings[ 1] );
-                                        Cart        := StrToInt( sl.Strings[ 2] );
-                                        Index       := StrToInt( sl.Strings[ 3] );
-                                        Incubated   := StrToInt( sl.Strings[ 4] );
-                                        PetID       := StrToInt( sl.Strings[ 5] );
-                                        Name        :=           sl.Strings[ 6];
-                                        Renamed     := StrToInt( sl.Strings[ 7] );
-																				Relation    := StrToInt( sl.Strings[ 8] );
-                                        Fullness    := StrToInt( sl.Strings[ 9] );
-                                        Accessory   := StrToInt( sl.Strings[10] );
-        }
-        {for i := 0 to PetList.Count - 1 do begin
-          tpe := PetList.Objects[i] as TPet;
-          sl.Clear;
-          sl.Add( IntToStr( tpe.PlayerID ) );
-          sl.Add( IntToStr( tpe.CharaID ) );
-          sl.Add( IntToStr( tpe.Cart ) ); // Cart
-          sl.Add( IntToStr( tpe.Index ) ); // Index
-          sl.Add( IntToStr( tpe.Incubated ) );
-          sl.Add( IntToStr( tpe.PetID ) ); // PetID
-          sl.Add( IntToStr( tpe.JID ) );
-          sl.Add( tpe.Name );
-          sl.Add( IntToStr( tpe.Renamed ) );
-          sl.Add( IntToStr( tpe.LV ) );
-          sl.Add( IntToStr( tpe.Relation  ) );
-          sl.Add( IntToStr( tpe.Fullness  ) );
-          sl.Add( IntToStr( tpe.Accessory ) );
-          writeln(txt, sl.DelimitedText);
-          tpe.Saved := 1;
-        end;}
-
-        for i := 0 to Player.Count - 1 do begin
-                tp := Player.Objects[i] as TPlayer;
-
-                for j := 1 to 100 do begin
-                        with tp.Kafra.Item[j] do begin
-                                if ( ID <> 0 ) and ( Amount > 0 ) and ( Card[0] = $FF00 ) then begin
-                                        for k := 0 to PetList.Count - 1 do begin
-                                        //k := Card[2] + Card[3] * $10000;
-                                        if (PetList.IndexOf( k ) <> -1)  then begin
-                                                tpe := PetList.IndexOfObject( k ) as TPet;
-                                          if tpe.Saved = 0 then begin
-                                                sl.Clear;
-                                                {sl.Add( IntToStr( tpe.PlayerID ) );
-                                                sl.Add( IntToStr( tpe.CharaID ) );
-                                                sl.Add( '0' ); // Cart
-                                                sl.Add( IntToStr( j ) ); // Index
-                                                sl.Add( '0' ); // Incubated
-                                                sl.Add( IntToStr( k ) ); // PetID
-                                                sl.Add( IntToStr( tpe.JID ) );
-                                                sl.Add( tpe.Name );
-                                                sl.Add( IntToStr( tpe.Renamed ) );
-                                                sl.Add( IntToStr( tpe.LV ) );
-                                                sl.Add( IntToStr( tpe.Relation  ) );
-                                                sl.Add( IntToStr( tpe.Fullness  ) );
-                                                sl.Add( IntToStr( tpe.Accessory ) ); }
-                                                sl.Add( IntToStr( tpe.PlayerID ) );
-          sl.Add( IntToStr( tpe.CharaID ) );
-          sl.Add( IntToStr( tpe.Cart ) ); // Cart
-          sl.Add( IntToStr( tpe.Index ) ); // Index
-          sl.Add( IntToStr( tpe.Incubated ) );
-          sl.Add( IntToStr( tpe.PetID ) ); // PetID
-          sl.Add( IntToStr( tpe.JID ) );
-          sl.Add( tpe.Name );
-          sl.Add( IntToStr( tpe.Renamed ) );
-          sl.Add( IntToStr( tpe.LV ) );
-          sl.Add( IntToStr( tpe.Relation  ) );
-          sl.Add( IntToStr( tpe.Fullness  ) );
-          sl.Add( IntToStr( tpe.Accessory ) );
-                                                tpe.Saved := 1;
-                                                z := j;
-                                                Writeln( txt, sl.DelimitedText );
-                                          end;
-		                                    end;
-                                        end;
-                                end;
-                        end;
-                end;
-
-        for m := 0 to 8 do begin;
-         if tp.CData[m] <> nil then begin
-        //for i := 0 to Chara.Count - 1 do begin
-                //tc := Chara.Objects[i] as TChara;
-            tc := tp.CData[m];
-                for j := 1 to 100 do begin
-                        with tc.Item[j] do begin
-                                if ( ID <> 0 ) and ( Amount > 0 ) and ( Card[0] = $FF00 ) then begin
-                                        //k := Card[2] + Card[3] * $10000;
-                                    for k := 0 to PetList.Count - 1 do begin
-                                        if (PetList.IndexOf( k ) <> -1) then begin
-                                                tpe := PetList.IndexOfObject( k ) as TPet;
-                                                if tpe.Saved = 0 then begin
-                                                sl.Clear;
-                                                {sl.Add( IntToStr( tpe.PlayerID ) );
-                                                sl.Add( IntToStr( 0 ) );
-                                                sl.Add( '0' ); // Cart
-                                                sl.Add( IntToStr( j ) ); // Index
-                                                sl.Add( IntToStr( Attr ) );
-                                                sl.Add( IntToStr( k ) ); // PetID
-                                                sl.Add( IntToStr( tpe.JID ) );
-                                                sl.Add( tpe.Name );
-                                                sl.Add( IntToStr( tpe.Renamed ) );
-                                                sl.Add( IntToStr( tpe.LV ) );
-                                                sl.Add( IntToStr( tpe.Relation  ) );
-                                                sl.Add( IntToStr( tpe.Fullness  ) );
-                                                sl.Add( IntToStr( tpe.Accessory ) );
-		                                            writeln(txt, sl.DelimitedText); }
-                                                sl.Add( IntToStr( tpe.PlayerID ) );
-                                                sl.Add( IntToStr( tpe.CharaID ) );
-                                                sl.Add( IntToStr( tpe.Cart ) ); // Cart
-                                                sl.Add( IntToStr( tpe.Index ) ); // Index
-                                                sl.Add( IntToStr( tpe.Incubated ) );
-                                                sl.Add( IntToStr( tpe.PetID ) ); // PetID
-                                                sl.Add( IntToStr( tpe.JID ) );
-                                                sl.Add( tpe.Name );
-                                                sl.Add( IntToStr( tpe.Renamed ) );
-                                                sl.Add( IntToStr( tpe.LV ) );
-                                                sl.Add( IntToStr( tpe.Relation  ) );
-                                                sl.Add( IntToStr( tpe.Fullness  ) );
-                                                sl.Add( IntToStr( tpe.Accessory ) );
-                                                Writeln(txt, sl.DelimitedText);
-                                                tpe.Saved := 1;
-                                                z := j;
-                                                end;
-	                                      end;
-                                    end;
-                                end;
-                        end;
-
-
-                //for j := 1 to 100 do begin
-                        with tc.Cart.Item[j] do begin
-                                if ( ID <> 0 ) and ( Amount > 0 ) and ( Card[0] = $FF00 ) then begin
-                                        //k := Card[2] + Card[3] * $10000;
-                                        for k := 0 to PetList.Count - 1 do begin
-                                        if (PetList.IndexOf( k ) <> -1) then begin
-                                          if tpe.Saved = 0 then begin
-                                                tpe := PetList.IndexOfObject( k ) as TPet;
-                                                sl.Clear;
-                                                {sl.Add( IntToStr( tpe.PlayerID ) );
-                                                sl.Add( IntToStr( tpe.CharaID ) );
-                                                sl.Add( '1' ); // Cart
-                                                sl.Add( IntToStr( j ) ); // Index
-                                                sl.Add( '0' ); // Incubated
-                                                sl.Add( IntToStr( k ) ); // PetID
-                                                sl.Add( IntToStr( tpe.JID ) );
-                                                sl.Add( tpe.Name );
-                                                sl.Add( IntToStr( tpe.Renamed ) );
-                                                sl.Add( IntToStr( tpe.LV ) );
-                                                sl.Add( IntToStr( tpe.Relation  ) );
-                                                sl.Add( IntToStr( tpe.Fullness  ) );
-                                                sl.Add( IntToStr( tpe.Accessory ) );
-                                                }
-                                                sl.Add( IntToStr( tpe.PlayerID ) );
-          sl.Add( IntToStr( tpe.CharaID ) );
-          sl.Add( IntToStr( tpe.Cart ) ); // Cart
-          sl.Add( IntToStr( tpe.Index ) ); // Index
-          sl.Add( IntToStr( tpe.Incubated ) );
-          sl.Add( IntToStr( tpe.PetID ) ); // PetID
-          sl.Add( IntToStr( tpe.JID ) );
-          sl.Add( tpe.Name );
-          sl.Add( IntToStr( tpe.Renamed ) );
-          sl.Add( IntToStr( tpe.LV ) );
-          sl.Add( IntToStr( tpe.Relation  ) );
-          sl.Add( IntToStr( tpe.Fullness  ) );
-          sl.Add( IntToStr( tpe.Accessory ) );
-                                                tpe.Saved := 1;
-                                                z := j;
-                                                Writeln( txt, sl.DelimitedText );
-                                                end;
-                                        end;
-                                        end;
-                                end;
-                        end;
-                end;
-          end;
-        end;
-        end;
-	CloseFile(txt);
-
-  //DebugOut.Lines.add('Pet Saved');
-{キューペットここまで}
-
-  { Ugh I'll fix this ... hmm
-  Mitch 01-31-2004 : mapinfo_db.txt save! 
-  AssignFile(txt, AppPath + '\database\mapinfo_db.txt');
-  Rewrite(txt);
-  WriteLn(txt, 'MapName,Memo,Save,Teleport,PVP,GuildPVP');
-  for i := 0 to MapInfo.Count - 1 do begin
-    mi := MapInfo.Objects[i] as MapTbl;
-    sl.Clear;
-    sl.Add(MapInfo.Strings[i] + '.gat');
-    with mi do begin
-      if noMemo then sl.Add('nomemo');
-      if noSave then sl.Add('nosave');
-      if noPortal then sl.Add('noportal');
-      if nofly then sl.Add('nofly');
-      if nobfly then sl.Add('nobutterfly');
-      if noTele then sl.Add('noteleport');
-      if noBranch then sl.Add('nobranch');
-      if noSkill then sl.Add('noskill');
-      if noItem then sl.Add('noitem');
-      if Agit then sl.Add('agit');
-      if dbPvP then sl.Add('pvp');
-      if dbPvPG then sl.Add('pvpg');
-      if noday then sl.Add('noday');
-    end;
-    writeln(txt, sl.DelimitedText);
-  end;
-  CloseFile(txt);}
+	//debugout.lines.add('[' + TimeToStr(Now) + '] ' + 'Pet Saved');
+//Cute Pet Load End
 
 	sl.Free;
 end;
 //------------------------------------------------------------------------------
+
 
 end.

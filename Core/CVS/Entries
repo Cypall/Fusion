@@ -1,10 +1,11 @@
+D/directMySQL////
 D/obj////
 D/src////
-/Changelog.txt/1.435/Mon May 29 11:58:38 2006//TFusion_1211
-/MySQL.sql/1.6/Sat Mar  6 12:00:46 2004//TFusion_1211
-/UnzDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFusion_1211
-/Upcoming MySQL Changes.sql/1.1/Wed Feb 25 14:31:51 2004//TFusion_1211
-/ZipDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFusion_1211
-/client_packet_en.txt/1.12/Mon May 29 11:58:38 2006/-kb/TFusion_1211
-/dbexpmysql.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFusion_1211
-/libmySQL.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFusion_1211
+/Changelog.txt/1.637/Mon May 29 11:57:52 2006//TFUSION_1212
+/MySQL.sql/1.6/Sat Mar  6 12:00:46 2004//TFUSION_1212
+/UnzDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212
+/Upcoming MySQL Changes.sql/1.1/Wed Feb 25 14:31:51 2004//TFUSION_1212
+/ZipDll.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212
+/client_packet_en.txt/1.14/Mon May 29 11:57:52 2006/-kb/TFUSION_1212
+/dbexpmysql.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212
+/libmySQL.dll/1.1/Tue Feb 10 21:33:51 2004/-kb/TFUSION_1212

@@ -35,6 +35,11 @@ Version History:
             also added a few extra effects at some point.  Based on
             client_packet.txt of 2004/04/20.
 
+2004/06/25: Lots of additions (note especially the first packets over
+            x200.)  Definitely compare to the last version to see
+            what's been added.  Based on client_packet.txt of
+	    2004/06/21.
+
 Credits:
 
 - The Japanese Athena dev team, for providing the original list.
@@ -92,9 +97,10 @@ Contact me in the Weiss IRC channel.
 #0x01C0
     2, 14, 10, -1, 22, 22,  4,  2, 13, 97,  0,  9,  9, 29,  6, 28,
     8, 14, 10, 35,  6,  8,  4, 11, 54, 53, 60,  2, -1, 47, 33,  6,
-    0,  8,  0,  0,  0,  0,  0,  0, 28,  0,  0,  0,  0,  0, -1, -1,
-   -1,  0,  0,  0,  7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-
+   30,  8, 34, 14,  2,  6, 26,  2, 28, 81,  6, 10, 26,  2, -1, -1,
+   -1, -1, 20, 10, 32,  9, 34, 14,  2,  6, 48, 56, -1,  4,  5, 10,
+#0x200
+   26,  0,  0,  0, 18,  0,  0,  0,  0,  0,  0, 19,
 
 S クライアントから見て送信
 R クライアントから見て受信
@@ -1410,8 +1416,10 @@ R 011f <dst ID>.l <src ID>.l <X>.w <Y>.w <type>.B <fail>.B
 	b2: Pink Warp Portal (active)
 	b3: Small floating cross (Gospel)
 	b4: 5x5 square of light (Basilica)
-	b6: Fog wall
-	b5-bf: No resource
+	b5: No effect?
+	b6: Fog wall (X-shaped dark effect)
+	b7: Spider Web
+	b8-: No resource?
 	Ground info request ?.81b is unkhown.	
 
 R 0120 <ID>.l
@@ -1644,21 +1652,13 @@ R 0148 <ID>.l
 
 	In beta 1, this chooses a target for Resurrection.
 
-S 0149 <ID>.l <type>.B
-	IDにマナーポイントを与える。type=00 プラス type=01 マイナス
-
-	Give manner points to the chosen ID.  type=00 adds, type=01 subtracts.
-
-(NOTE: What is this doing here?  Is it a replacement for the manner-point packet?  It appears
- in the packets that came post-Comodo.)
 S 0149 <ID>.l <type>.B <time>.w
-	GM用右クリックメニュー「チャット禁止時間を下げる（解ける）」使用 → type=00
-	GM用右クリックメニュー「チャット禁止時間を上げる（掛ける）」使用 → type=01
-	timeは分単位です（確か
 
-	GM right-click menu "Decrease time of prohibition on chat creation." -> type=00
-	GM right-click menu "Increase time of prohibition on chat creation." -> type=01
-	time is duration of the block in minutes (maybe).
+	IDにチャット禁止時間を付加 type=0 マイナス type=1 プラス
+	tymeは分単位
+
+	The given ID is prohibited from chat for the given time .  type=00 adds, type=01 subtracts.
+	Time is in minutes.
 
 R 014a <fail>.l
 	マナーポイントを与えた結果。fail=0 成功 fail=1 失敗
@@ -2502,6 +2502,12 @@ R 01c9 <dst ID>.l <src ID>.l <X>.w <Y>.w <type>.B <fail>.B ?.81b
 	0xAF ピンクのスプリング、0xB0 表示無し
 	0xB0 グラフィティ,
 	0xB1 デモンストレーション、0xB2～0xBF 表示無し
+	0xB2 ピンクのワープポータル風
+	0xB3 小さな十字架がふよふよ
+	0xB4 バジリカ、0xB5 エフェクトなし？
+	0xB6 黒い×が立体的に浮かび上がる
+	0xB7 クモの巣、0xB8～ エフェクトなし？
+
 	他情報求む
 	?.81bは謎。
 
@@ -2562,7 +2568,10 @@ R 01c9 <dst ID>.l <src ID>.l <X>.w <Y>.w <type>.B <fail>.B ?.81b
 	b2: Pink Warp Portal (active)
 	b3: Small floating cross (Gospel)
 	b4: 5x5 square of light (Basilica)
-	b5-bf: No resource
+	b5: No effect?
+	b6: Fog wall (X-shaped dark effect)
+	b7: Spider Web
+	b8-: No resource?
 
 	Ground info request ?.81b is unkhown.
 
@@ -2603,6 +2612,16 @@ R 01d2 <id>.l <delay>.l
 	Monk's combo delay (in milliseconds).
 	Triple Blows and Quadruple Blows have a base delay of 1000(+300),
 	Way of the Dragon has a base delay of 700(+300).
+
+R 01d4 <ID>.l
+	文字列入力窓表示(IDはNPCのIDが入る)
+
+	Character string input window indicated (ID is the ID of the NPC that sent it).
+
+S 01d5 <len>.w <ID>.l <input>.?B 00
+	文字列入力内容送信(IDはNPCのIDが入る)
+
+	Sending text written in the string input window (ID is the ID of the NPC that sent it).
 
 R 01d7 <ID>.l <equip point>.b <item id1>.w <item id2>.w
 	装備グラフィック <equip point> は 02手と09足のみ確認。id2は左手
@@ -2681,6 +2700,17 @@ R 01e1 <ID>.l <num>.w
 
 	<num> : Number of Spirit Spheres (not level) - Once displayed, whatever <num> comes is disregarded. (???)
 
+R 01e6 <partner name>.24B
+	結婚スキルあなたに逢いたい使用時の叫び声
+
+	Cry given when using the wedding skill "I Want To See You!" (prompt for allowing the warp?)
+
+S 01e7
+	スパノビで/doridoriしたら飛んでくる。SPR回復量2倍フラグを立てるパケット
+
+	Sent when a Super Novice does /doridori like crazy (the head-turning pose).
+	This packet sets a flag to double regeneration through the SP Recovery skill.
+
 S 01e8 <party name>.24B <item1>B <item2>B
 	<item1>アイテム収集方法。0で個人別、1でパーティ公有
 	<item2>アイテム分配方法。0で個人別、1でパーティに均等分配
@@ -2689,6 +2719,20 @@ S 01e8 <party name>.24B <item1>B <item2>B
 	Information about party item sharing.  (00f9's improved version)
 	<item> covers item loot rights.  0 means every man for himself, 1 is party can loot.
 	<item2> covers item sharing.  0 means every man for himself, 1 divides equally among the party.
+
+R 01ea <ID>.l
+	結婚エフェクト(音楽、紙吹雪)
+	IDは新婦のものが入る？
+
+	Wedding effects (music, confetti)
+	ID is the bride when she arrives (?) (after the ceremony?  That kind of makes sense. :))
+
+S 01ed
+	スパノビが爆裂波動になるフラグを立てるパケット
+
+	This flag is sent when the Super Novice goes into Critical Explosion mode (!)
+	(Note: Happens when you die with 99% XP--you don't die, instead you get the effect.
+	You have to have spheres first through the Super Novice plea trick.)
 
 R 01ee <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B <card>.4w}.18B*
 	所有消耗品&収集品リスト
@@ -2712,3 +2756,36 @@ R 01f0 <len>.w {<index>.w <item ID>.w <type>.B <identify flag>.B <amount>.w ?.2B
 
 	Information about consumable and collectible items in Kapra's storage.
 	(Changed from 00a5)
+
+R 01f4 <name>.24B <trade id?>.L <LV>.w
+	先方から取引要請
+	00e5から変更
+
+	Receive a trade request from <name>.  Changed from 00e5.
+	(NOTE the additions: Unique trade ID (?) and level of trader (?))
+
+R 01f5 <result>.B <trade id?>.L <LV>.w
+	こちらからの取引要請に対する反応
+	00e7から変更
+
+	Response to trade initiation request (changed from 00e7):
+	(NOTE the additions: Unique trade ID (?) and level of trader (?))
+	result=00 Too far away to trade.
+	result=03 Accepted, begin trade.
+	result=04 Trade cancelled.
+
+S 0200 <login name>.24B
+	ragexeに/accountオプションをつけて起動するとログイン要求に付加されるパケット
+
+	If you use the /account parameter with ragexe, this sends that parameter as an additional packet to the login server.
+
+S 0204 <?>.16B
+	ログイン要求に付加されるパケット。16バイトは固定？
+
+	Additional packet sent at login request time.  The 16 bytes are a fixed length?
+
+S 020B <?>.17B
+	キャラクタサーバ接続要求0065に付加されるパケット。1+0204の16バイトで17バイト？
+
+	Additional packet sent when sending 0065 connection request to the character server.
+	1 + 0204's 16 bytes = 17 bytes?

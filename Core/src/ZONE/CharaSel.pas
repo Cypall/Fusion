@@ -163,7 +163,7 @@ begin
                                     begin
                                       if (tp.CData[count] <> nil)and(tp.CData[count].Login <> 0) then
                                       begin
-                                        //DebugOut.Lines.Add('2重ログインされました。');
+                                        //debugout.lines.add('[' + TimeToStr(Now) + '] ' + '2重ログインされました。');
                                         //2重ログイン
 			        	      WFIFOW( 0, $0081);
 			       	              WFIFOB( 2, 08);
