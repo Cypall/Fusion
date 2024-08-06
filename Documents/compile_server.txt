@@ -1,0 +1,32 @@
+ก่อนอื่นสิ่งที่ต้องมี
+Fusion Source code
+Delphi 7 Download ที่นี่!!
+Mad Collection Download Here!!
+แล้วก็ ไฟล์ dclsockets70
+ต้องมี 3 สิ่งนี้ก่อน
+แต่ถ้า เป็น Promethues โหลด Indy นี่ ไปลงด้วย
+ขั้นต้อนแรกลง Delphi7 ก่อนเลย 
+ลงเสร็จ Register ให้เรียบร้อยแล้ว ลง Package 
+ลงเสร็จแล้วเข้าโปรแกรม Delphi7 แล้วคลิกที่เมนู Component -> Install Packages 
+คลิก Add แล้วเลือกไฟล์ dclsockets70.bpl อยู่ในโฟลเดอร์ Borland\Delphi7\Bin\ 
+(เช่นของผมก็เข้าไปที่ "C:\Program Files\Borland\Delphi7\Bin\dclsockets70.bpl")
+**รู้สึกว่าใน Delphi7 ที่โหลด จากเว็บ Promethues จะไม่มีไฟล์นี้**
+แล้วคลิก Open แล้วลง Madcollection เลือกลงมันทั้ง Collection เลยแล้ว
+**Mad Collection รุ่นใหม่ๆ รู้สึกว่า Mad Except มีให้เลือก 2 เวอร์ชั่นให้ลง เวอร์ชั่น 2 นะ เวอร์ชั่น 3 นะไม่งั้นจะคอมไพล์ไม่ได้อ่ะ**
+แล้วลง Indy แล้วก็
+เปิด Src ของ Fusion กด F9 เลย แค่เนี้ยก็ Compile เสร็จแล้ว 
+**ไฟล์ weiss ไม่รู้ทำไม nod32 เจอไวรัสไม่ยู้ไม่รู้ว่า Virus Scanner ตัวอื่นจะเจอป่ะนะ
+อัพเดทแล้วสำหรับคนทำ Promethues 
+
+-----------------
+Delphi 7
+http://prometheus-emu.net/files/Delphi7_Personal.zip
+
+Mad Collection
+http://madshi.net/madCollection.exe
+
+dclsockets70
+http://prometheus-emu.net/files/dclsockets70.rar
+
+Indy 
+http://downloads.atozedsoftware.com/indy/indy9.0.19_d7.exe
